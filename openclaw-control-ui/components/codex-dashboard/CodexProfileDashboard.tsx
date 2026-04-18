@@ -144,6 +144,8 @@ export function CodexProfileDashboard({
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null)
   const [editDisplayName, setEditDisplayName] = useState('')
   const [editNote, setEditNote] = useState('')
+  const [authDisplayName, setAuthDisplayName] = useState('')
+  const [authNote, setAuthNote] = useState('')
   const [callbackValue, setCallbackValue] = useState('')
   const [settingsDraft, setSettingsDraft] = useState({
     routingThreshold: initialStatus.settings.routingThreshold,
@@ -207,12 +209,29 @@ export function CodexProfileDashboard({
   }, [loadData, status.settings.autoRefreshSeconds])
 
   useEffect(() => {
+    if (authSession?.sessionId) {
+      setAuthDisplayName(authSession.displayName || '')
+      setAuthNote(authSession.note || '')
+    }
+  }, [authSession?.sessionId])
+
+  useEffect(() => {
     if (!authSession?.sessionId) return
 
     if (authSession.status === 'completed') {
-      pushToast('Auth tamamlandı, yeni profil listede görünmeli', 'success')
+      pushToast(
+        authSession.profileId
+          ? `Profil kaydedildi: ${authSession.displayName || authSession.profileId}`
+          : 'Auth tamamlandı, profil güncellendi',
+        'success',
+      )
+      if (authSession.profileId) {
+        setFocusedProfileId(authSession.profileId)
+      }
       setAuthSession(null)
       setCallbackValue('')
+      setAuthDisplayName('')
+      setAuthNote('')
       loadData(true)
       return
     }
@@ -228,6 +247,7 @@ export function CodexProfileDashboard({
     if (authSession.status === 'cancelled') {
       pushToast('Auth session iptal edildi', 'info')
       setAuthSession(null)
+      setCallbackValue('')
       return
     }
 
@@ -433,6 +453,8 @@ export function CodexProfileDashboard({
         body: JSON.stringify({
           sessionId: authSession.sessionId,
           callbackValue,
+          displayName: authDisplayName,
+          note: authNote,
         }),
       })
       setStatus((current) => ({ ...current, profiles: response.profiles }))
@@ -686,8 +708,10 @@ export function CodexProfileDashboard({
             <ol>
               <li>Auth link üret.</li>
               <li>Linki kendi cihazındaki tarayıcıda aç.</li>
+              <li>İstersen bu profile bir isim ve kısa not gir.</li>
               <li>Dönen callback URL veya code değerini buraya yapıştır.</li>
             </ol>
+            <p className={styles.summaryNote}>Aynı OpenAI hesabını tekrar auth edersen yeni satır açılmayabilir, mevcut profil güncellenir.</p>
           </div>
 
           <div className={styles.inlineActionRow}>
@@ -706,6 +730,16 @@ export function CodexProfileDashboard({
                   <button className={styles.secondaryButton} onClick={() => navigator.clipboard.writeText(authSession.authUrl).then(() => pushToast('Auth link kopyalandı', 'success'))}>Kopyala</button>
                 </div>
               </label>
+              <div className={styles.formRow}>
+                <label className={styles.fieldBlock}>
+                  <span>Profil adı</span>
+                  <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: kişisel hesap, yedek hesap, müşteri-1" />
+                </label>
+                <label className={styles.fieldBlock}>
+                  <span>Kısa not</span>
+                  <input value={authNote} onChange={(event) => setAuthNote(event.target.value)} placeholder="Örn: haftalık limiti yüksek, ekip hesabı" />
+                </label>
+              </div>
               <label className={styles.fieldBlock}>
                 <span>Callback URL / code</span>
                 <textarea rows={4} value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} placeholder="Tarayıcıdan dönen callback URL veya code değerini buraya yapıştır" />

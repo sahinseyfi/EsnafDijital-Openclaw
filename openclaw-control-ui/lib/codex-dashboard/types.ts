@@ -44,6 +44,9 @@ export interface AuthSessionState {
   status?: 'starting' | 'running' | 'awaiting_callback' | 'verifying' | 'completed' | 'error' | 'cancelled'
   error?: string | null
   result?: string | null
+  profileId?: string | null
+  displayName?: string | null
+  note?: string | null
 }
 
 export interface DashboardSettings {

@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const sessionId = typeof body.sessionId === 'string' ? body.sessionId : ''
   const callbackValue = typeof body.callbackValue === 'string' ? body.callbackValue.trim() : ''
+  const displayName = typeof body.displayName === 'string' ? body.displayName.trim() : ''
+  const note = typeof body.note === 'string' ? body.note.trim() : ''
 
   if (!sessionId || !callbackValue) {
     return NextResponse.json({ ok: false, message: 'sessionId ve callback/code zorunlu' }, { status: 400 })
@@ -48,12 +50,14 @@ export async function POST(request: NextRequest) {
       status: helper.status || 'verifying',
       error: helper.error || null,
       result: helper.result || null,
+      displayName: displayName || state.authSession?.displayName || null,
+      note: note || state.authSession?.note || null,
     },
   }))
 
   return NextResponse.json({
     ok: true,
-    message: 'Auth doğrulaması başlatıldı. Birkaç saniye sürebilir.',
+    message: 'Auth doğrulaması başlatıldı. Aynı hesap varsa mevcut profil güncellenir, yeni satır açılmayabilir.',
     authSession: nextState.authSession,
     profiles: nextState.profiles,
   })
