@@ -23,13 +23,14 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `admin.esnafdijital.com.tr` altında gerçek Next.js admin uygulamasını yayına alma
 - `/codex-profilleri` ekranı ile çoklu OpenClaw/Codex auth profili yönetimini canlıya alma
 - aynı email altında ayrı business/workspace auth profili açma mantığını geri getirme
+- `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
 - `businesses`, `audits`, `offers`, `delivery_projects` şemaları
-- Project OS ekranı
-- Context Center ekranı
-- GPT Pro Consultation Center v1
+- Project OS ekranını gerçek veri modeliyle bağlama
+- Context Center ekranını dosya/veritabanı ayrımı karar yüzeyine çevirme
+- GPT Pro Consultation Center v1 akışını prompt üretimiyle bağlama
 - codex panelindeki profil/limit mantığını daha gerçek usage verileriyle iyileştirme
 - workspace bazlı auth profillerinde kullanım/veri ayrımını daha görünür hale getirme
 
