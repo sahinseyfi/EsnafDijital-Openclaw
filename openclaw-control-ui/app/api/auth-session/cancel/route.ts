@@ -1,0 +1,35 @@
+import { execFile } from 'child_process'
+import { promisify } from 'util'
+import { NextRequest, NextResponse } from 'next/server'
+import { updateDashboardState } from '@/lib/codex-dashboard/store'
+
+const execFileAsync = promisify(execFile)
+const AUTH_HELPER = '/usr/local/bin/esnafdijital-openclaw-auth'
+
+export async function POST(request: NextRequest) {
+  const body = await request.json().catch(() => ({}))
+  const sessionId = typeof body.sessionId === 'string' ? body.sessionId : ''
+
+  const nextState = await updateDashboardState(async (state) => {
+    if (sessionId && state.authSession && state.authSession.sessionId !== sessionId) {
+      throw new Error('Farklı auth session aktif')
+    }
+    if (state.authSession?.sessionId) {
+      try {
+        await execFileAsync(AUTH_HELPER, ['cancel', state.authSession.sessionId])
+      } catch {
+        // best effort
+      }
+    }
+    return {
+      ...state,
+      authSession: null,
+    }
+  }).catch((error: Error) => error)
+
+  if (nextState instanceof Error) {
+    return NextResponse.json({ ok: false, message: nextState.message }, { status: 400 })
+  }
+
+  return NextResponse.json({ ok: true, message: 'Auth session iptal edildi', authSession: nextState.authSession })
+}

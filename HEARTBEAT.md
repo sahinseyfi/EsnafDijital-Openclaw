@@ -13,13 +13,15 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 2. admin paneli iş akışına göre toparlamak
 3. operasyonel veri modelini başlatmak
 4. Project OS + Context Center + Consultation Center ekranlarını tanımlamak
+5. canlı admin panelini gerçek operasyon ekranlarıyla genişletmek
 
 ## Aktif Yapılanlar
 - yaşayan proje dosyalarını standardize etme
 - admin panel bilgi mimarisini netleştirme
 - audit -> teklif -> teslimat akışını görünür hale getirme
 - eski canlı siteyi yayından alıp yeniden kurulum için zemini temizleme
-- admin alt domain için korumalı ilk sayfayı sunucu tarafında hazırlama
+- `admin.esnafdijital.com.tr` altında gerçek Next.js admin uygulamasını yayına alma
+- `/codex-profilleri` ekranı ile çoklu OpenClaw/Codex auth profili yönetimini canlıya alma
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
@@ -27,13 +29,13 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - Project OS ekranı
 - Context Center ekranı
 - GPT Pro Consultation Center v1
+- codex panelindeki profil/limit mantığını daha gerçek usage verileriyle iyileştirme
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detayları tam keskin değil
 - operasyonel kayıtlar henüz tam veritabanına taşınmadı
 - hangi bilgilerin dosyada, hangilerinin veritabanında tutulacağı netleşme aşamasında
 - yeni web vitrini henüz kurulmadığı için ana domain şu an placeholder modunda
-- `admin.esnafdijital.com.tr` için DNS A kaydı olmadığı için alt domain dışarıdan açılamıyor
 
 ## Dikkat Edilecek Riskler
 - MVP'nin genel CRM'e kayması

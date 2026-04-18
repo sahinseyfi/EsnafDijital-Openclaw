@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+import base64
+import json
+import os
+from pathlib import Path
+
+ROOT = Path('/root/.openclaw')
+config_path = ROOT / 'openclaw.json'
+device_auth_path = ROOT / 'identity' / 'device-auth.json'
+agents_root = ROOT / 'agents'
+
+
+def decode_jwt_payload(token: str):
+  try:
+    parts = token.split('.')
+    if len(parts) != 3:
+      return None
+    payload = parts[1]
+    payload += '=' * (-len(payload) % 4)
+    decoded = base64.urlsafe_b64decode(payload.encode('utf-8'))
+    return json.loads(decoded.decode('utf-8'))
+  except Exception:
+    return None
+
+
+result = {
+  'codexCliInstalled': os.path.exists('/usr/bin/codex'),
+  'config': None,
+  'deviceAuth': {'hasOperatorToken': False, 'deviceId': None, 'updatedAtMs': None},
+  'agents': [],
+  'authProfiles': [],
+  'authState': {},
+}
+
+if config_path.exists():
+  cfg = json.loads(config_path.read_text())
+  result['config'] = {
+    'agents': cfg.get('agents', {}),
+    'gateway': cfg.get('gateway', {}),
+    'tools': cfg.get('tools', {}),
+    'meta': cfg.get('meta', {}),
+    'auth': cfg.get('auth', {}),
+  }
+
+if device_auth_path.exists():
+  auth = json.loads(device_auth_path.read_text())
+  operator = (((auth or {}).get('tokens') or {}).get('operator') or {})
+  result['deviceAuth'] = {
+    'hasOperatorToken': bool(operator.get('token')),
+    'deviceId': auth.get('deviceId'),
+    'updatedAtMs': operator.get('updatedAtMs'),
+  }
+
+agent_list = []
+if result['config']:
+  raw_agents = ((result['config'].get('agents') or {}).get('list') or [])
+  if raw_agents:
+    agent_list = raw_agents
+
+if not agent_list:
+  agent_list = [{'id': 'main'}]
+
+for agent in agent_list:
+  agent_id = agent.get('id', 'main')
+  agent_root = agents_root / agent_id / 'agent'
+  models_path = agent_root / 'models.json'
+  auth_profiles_path = agent_root / 'auth-profiles.json'
+  auth_state_path = agent_root / 'auth-state.json'
+  sessions_dir = agents_root / agent_id / 'sessions'
+  models = None
+  if models_path.exists():
+    models = json.loads(models_path.read_text())
+  provider = (((models or {}).get('providers') or {}).get('codex') or {}) if models else {}
+  session_count = 0
+  latest_ts = None
+  if sessions_dir.exists():
+    items = list(sessions_dir.iterdir())
+    session_count = len(items)
+    if items:
+      latest_ts = max(x.stat().st_mtime for x in items)
+  if models_path.exists():
+    mtime = models_path.stat().st_mtime
+    latest_ts = max(filter(None, [latest_ts, mtime])) if latest_ts else mtime
+  result['agents'].append({
+    'id': agent_id,
+    'workspace': agent.get('workspace') or (((result['config'] or {}).get('agents') or {}).get('defaults') or {}).get('workspace'),
+    'hasModels': bool(models),
+    'codexProvider': bool(provider),
+    'providerApiKey': provider.get('apiKey'),
+    'firstModelId': (provider.get('models') or [{}])[0].get('id'),
+    'sessionCount': session_count,
+    'latestAt': latest_ts,
+  })
+
+  if auth_state_path.exists():
+    try:
+      auth_state = json.loads(auth_state_path.read_text())
+      for key, value in ((auth_state.get('usageStats') or {}).items()):
+        result['authState'][f'{agent_id}:{key}'] = value
+    except Exception:
+      pass
+
+  if auth_profiles_path.exists():
+    try:
+      auth_profiles = json.loads(auth_profiles_path.read_text())
+      updated_at_ms = int(auth_profiles_path.stat().st_mtime * 1000)
+      for profile_id, value in ((auth_profiles.get('profiles') or {}).items()):
+        access = value.get('access') or ''
+        payload = decode_jwt_payload(access) if access else None
+        auth_claim = ((payload or {}).get('https://api.openai.com/auth') or {})
+        profile_claim = ((payload or {}).get('https://api.openai.com/profile') or {})
+        result['authProfiles'].append({
+          'agentId': agent_id,
+          'profileId': profile_id,
+          'provider': value.get('provider'),
+          'mode': value.get('mode') or value.get('type'),
+          'email': value.get('email') or profile_claim.get('email'),
+          'accountId': auth_claim.get('chatgpt_account_id'),
+          'planType': auth_claim.get('chatgpt_plan_type'),
+          'updatedAtMs': updated_at_ms,
+        })
+    except Exception:
+      pass
+
+print(json.dumps(result))

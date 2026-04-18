@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+import json
+import os
+import pty
+import re
+import select
+import signal
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+BASE = Path('/opt/esnafdijital/data/openclaw-auth')
+ANSI_RE = re.compile(r'\x1b\[[0-9;?]*[A-Za-z]')
+URL_RE = re.compile(r'https://auth\.openai\.com/oauth/authorize\S+')
+
+
+def session_dir(session_id: str) -> Path:
+    return BASE / session_id
+
+
+def status_path(session_id: str) -> Path:
+    return session_dir(session_id) / 'status.json'
+
+
+def read_status(session_id: str):
+    p = status_path(session_id)
+    if not p.exists():
+        return None
+    return json.loads(p.read_text())
+
+
+def write_status(session_id: str, payload):
+    d = session_dir(session_id)
+    d.mkdir(parents=True, exist_ok=True)
+    tmp = d / 'status.json.tmp'
+    tmp.write_text(json.dumps(payload))
+    tmp.replace(d / 'status.json')
+
+
+def strip_ansi(text: str) -> str:
+    return ANSI_RE.sub('', text)
+
+
+def start():
+    session_id = f"auth_{int(time.time()*1000):x}"
+    d = session_dir(session_id)
+    d.mkdir(parents=True, exist_ok=True)
+    meta = {
+        'sessionId': session_id,
+        'startedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+        'status': 'starting',
+        'authUrl': None,
+        'pid': None,
+        'exitCode': None,
+        'result': None,
+        'error': None,
+    }
+    write_status(session_id, meta)
+    subprocess.Popen([sys.executable, __file__, 'run', session_id], start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    deadline = time.time() + 25
+    while time.time() < deadline:
+        st = read_status(session_id)
+        if st and st.get('authUrl'):
+            print(json.dumps(st))
+            return 0
+        if st and st.get('status') == 'error':
+            print(json.dumps(st))
+            return 1
+        time.sleep(0.2)
+    st = read_status(session_id) or meta
+    st['status'] = 'error'
+    st['error'] = st.get('error') or 'Auth URL zamanında üretilemedi'
+    write_status(session_id, st)
+    print(json.dumps(st))
+    return 1
+
+
+def run(session_id: str):
+    d = session_dir(session_id)
+    log_path = d / 'raw.log'
+    submit_path = d / 'submit.txt'
+    cancel_path = d / 'cancel'
+    master, slave = pty.openpty()
+    proc = subprocess.Popen(
+        ['openclaw', 'models', 'auth', 'login', '--provider', 'openai-codex'],
+        stdin=slave,
+        stdout=slave,
+        stderr=slave,
+        start_new_session=True,
+        cwd='/root',
+        env={**os.environ, 'HOME': '/root', 'TERM': 'xterm-256color'}
+    )
+    os.close(slave)
+    status = read_status(session_id) or {'sessionId': session_id}
+    status.update({'pid': proc.pid, 'status': 'running'})
+    write_status(session_id, status)
+    buffer = ''
+    sent_submit = False
+    submitted_at = None
+
+    try:
+        while True:
+            ready, _, _ = select.select([master], [], [], 0.25)
+            if master in ready:
+                data = os.read(master, 4096)
+                if not data:
+                    break
+                text = data.decode('utf-8', errors='ignore')
+                with log_path.open('a', encoding='utf-8', errors='ignore') as fh:
+                    fh.write(text)
+                buffer += strip_ansi(text)
+                if len(buffer) > 20000:
+                    buffer = buffer[-20000:]
+                if not status.get('authUrl'):
+                    m = URL_RE.search(buffer)
+                    if m:
+                        status['authUrl'] = m.group(0)
+                        status['status'] = 'awaiting_callback'
+                        write_status(session_id, status)
+                if 'code->token failed' in buffer or 'Token exchange failed' in buffer:
+                    status['status'] = 'error'
+                    status['error'] = 'OpenAI token exchange failed. Callback linki geçersiz veya süresi dolmuş olabilir.'
+                    status['result'] = buffer[-2000:]
+                    try:
+                        os.killpg(proc.pid, signal.SIGTERM)
+                    except Exception:
+                        proc.terminate()
+                    write_status(session_id, status)
+                    break
+            if cancel_path.exists():
+                status['status'] = 'cancelled'
+                try:
+                    os.killpg(proc.pid, signal.SIGTERM)
+                except Exception:
+                    proc.terminate()
+                break
+            if submit_path.exists() and not sent_submit:
+                callback = submit_path.read_text(encoding='utf-8', errors='ignore').strip()
+                for ch in callback:
+                    os.write(master, ch.encode('utf-8', errors='ignore'))
+                    time.sleep(0.003)
+                time.sleep(0.05)
+                os.write(master, b'\r')
+                submit_path.unlink(missing_ok=True)
+                sent_submit = True
+                submitted_at = time.time()
+                status['status'] = 'verifying'
+                write_status(session_id, status)
+            if sent_submit and submitted_at and proc.poll() is None and (time.time() - submitted_at) > 45:
+                status['status'] = 'error'
+                status['error'] = 'Auth callback gönderildi ama OpenClaw süresi içinde tamamlamadı'
+                try:
+                    os.killpg(proc.pid, signal.SIGTERM)
+                except Exception:
+                    proc.terminate()
+                write_status(session_id, status)
+                break
+            if proc.poll() is not None:
+                break
+
+        rc = proc.wait(timeout=5)
+        tail = ''
+        if log_path.exists():
+            raw = log_path.read_text(encoding='utf-8', errors='ignore')
+            tail = strip_ansi(raw[-5000:])
+        status['exitCode'] = rc
+        status['result'] = tail
+        if status.get('status') == 'cancelled':
+            pass
+        elif rc == 0 and status.get('status') != 'error':
+            status['status'] = 'completed'
+        elif status.get('status') != 'error':
+            status['status'] = 'error'
+            status['error'] = tail[-1000:] or f'openclaw auth exit code {rc}'
+        write_status(session_id, status)
+        return 0
+    finally:
+        try:
+            os.close(master)
+        except Exception:
+            pass
+
+
+def submit(session_id: str, callback: str):
+    d = session_dir(session_id)
+    if not d.exists():
+        print(json.dumps({'ok': False, 'message': 'Auth session bulunamadı'}))
+        return 1
+    st = read_status(session_id) or {'sessionId': session_id}
+    st['status'] = 'verifying'
+    st['error'] = None
+    write_status(session_id, st)
+    (d / 'submit.txt').write_text(callback)
+    print(json.dumps(read_status(session_id) or st))
+    return 0
+
+
+def status(session_id: str):
+    st = read_status(session_id)
+    if not st:
+        print(json.dumps({'ok': False, 'message': 'Auth session bulunamadı'}))
+        return 1
+    print(json.dumps(st))
+    return 0
+
+
+def cancel(session_id: str):
+    d = session_dir(session_id)
+    if not d.exists():
+        print(json.dumps({'ok': True, 'message': 'Session zaten yok'}))
+        return 0
+    (d / 'cancel').write_text('1')
+    deadline = time.time() + 10
+    while time.time() < deadline:
+        st = read_status(session_id)
+        if st and st.get('status') in ('cancelled', 'error', 'completed'):
+            print(json.dumps(st))
+            return 0
+        time.sleep(0.2)
+    st = read_status(session_id) or {'sessionId': session_id, 'status': 'cancelled'}
+    print(json.dumps(st))
+    return 0
+
+
+def main():
+    BASE.mkdir(parents=True, exist_ok=True)
+    if len(sys.argv) < 2:
+        print('usage: esnafdijital-openclaw-auth start|run|submit|cancel ...', file=sys.stderr)
+        return 1
+    cmd = sys.argv[1]
+    if cmd == 'start':
+        return start()
+    if cmd == 'run' and len(sys.argv) >= 3:
+        return run(sys.argv[2])
+    if cmd == 'submit' and len(sys.argv) >= 4:
+        return submit(sys.argv[2], sys.argv[3])
+    if cmd == 'status' and len(sys.argv) >= 3:
+        return status(sys.argv[2])
+    if cmd == 'cancel' and len(sys.argv) >= 3:
+        return cancel(sys.argv[2])
+    print('invalid args', file=sys.stderr)
+    return 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
