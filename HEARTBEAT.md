@@ -18,6 +18,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - yaşayan proje dosyalarını standardize etme
 - admin panel bilgi mimarisini netleştirme
 - audit -> teklif -> teslimat akışını görünür hale getirme
+- eski canlı siteyi yayından alıp yeniden kurulum için zemini temizleme
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
@@ -30,6 +31,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - ilk teklif paketinin detayları tam keskin değil
 - operasyonel kayıtlar henüz tam veritabanına taşınmadı
 - hangi bilgilerin dosyada, hangilerinin veritabanında tutulacağı netleşme aşamasında
+- yeni web vitrini henüz kurulmadığı için ana domain şu an placeholder modunda
 
 ## Dikkat Edilecek Riskler
 - MVP'nin genel CRM'e kayması
