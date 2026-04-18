@@ -317,14 +317,35 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
     })
   }
 
+  const discoveredProfileMap = new Map(profiles.map((profile) => [profile.profileId, profile]))
+
   const computed = uniqueProfiles([...profiles, ...(overlay.managedProfiles || [])])
-    .map((profile) => ({
-      ...profile,
-      displayName: overlay.profileMeta[profile.profileId]?.displayName || profile.displayName,
-      note: overlay.profileMeta[profile.profileId]?.note ?? profile.note,
-      isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
-      health: deriveHealth(profile, settings.routingThreshold),
-    }))
+    .map((profile) => {
+      const sourceProfile = profile.kind === 'managed' && profile.sourceProfileId
+        ? discoveredProfileMap.get(profile.sourceProfileId)
+        : null
+
+      const mergedProfile: CodexProfile = sourceProfile
+        ? {
+            ...sourceProfile,
+            ...profile,
+            profileId: profile.profileId,
+            kind: 'managed',
+            sourceProfileId: profile.sourceProfileId,
+            workspace: profile.workspace,
+            displayName: profile.displayName,
+            note: profile.note,
+          }
+        : profile
+
+      return {
+        ...mergedProfile,
+        displayName: overlay.profileMeta[profile.profileId]?.displayName || mergedProfile.displayName,
+        note: overlay.profileMeta[profile.profileId]?.note ?? mergedProfile.note,
+        isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
+        health: deriveHealth(mergedProfile, settings.routingThreshold),
+      }
+    })
 
   const accountCounts = computed.reduce<Record<string, number>>((acc, profile) => {
     if (profile.accountId && profile.accountId !== 'bilinmiyor' && profile.accountId !== profile.agentId) {

@@ -27,6 +27,7 @@ export interface CodexProfile {
   provider: string | null
   mode: string | null
   kind: ProfileKind
+  sourceProfileId?: string | null
   recentSessionCount: number
   lastUsedAt: string | null
   usage: CodexUsage
@@ -47,6 +48,7 @@ export interface AuthSessionState {
   profileId?: string | null
   displayName?: string | null
   note?: string | null
+  workspace?: string | null
 }
 
 export interface DashboardSettings {

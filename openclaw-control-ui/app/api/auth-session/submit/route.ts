@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
   const callbackValue = typeof body.callbackValue === 'string' ? body.callbackValue.trim() : ''
   const displayName = typeof body.displayName === 'string' ? body.displayName.trim() : ''
   const note = typeof body.note === 'string' ? body.note.trim() : ''
+  const workspace = typeof body.workspace === 'string' ? body.workspace.trim() : ''
 
   if (!sessionId || !callbackValue) {
     return NextResponse.json({ ok: false, message: 'sessionId ve callback/code zorunlu' }, { status: 400 })
@@ -52,6 +53,7 @@ export async function POST(request: NextRequest) {
       result: helper.result || null,
       displayName: displayName || state.authSession?.displayName || null,
       note: note || state.authSession?.note || null,
+      workspace: workspace || state.authSession?.workspace || null,
     },
   }))
 
