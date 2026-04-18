@@ -216,6 +216,13 @@ function deriveHealth(profile: CodexProfile, threshold: number): HealthLevel {
   return 'ok'
 }
 
+function normalizeProfileWorkspace(value?: string | null) {
+  const normalized = typeof value === 'string' ? value.trim() : ''
+  if (!normalized) return null
+  if (normalized.startsWith('/')) return null
+  return normalized
+}
+
 function uniqueProfiles(profiles: CodexProfile[]) {
   const merged = new Map<string, CodexProfile>()
   for (const profile of profiles) {
@@ -313,7 +320,7 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
       accountId: entry.accountId || 'bilinmiyor',
       planType: realUsage?.plan || entry.planType || (entry.mode === 'oauth' ? 'OAuth' : entry.mode || 'Auth Profile'),
       agentId: entry.agentId,
-      workspace: meta.workspace || agent?.workspace || null,
+      workspace: normalizeProfileWorkspace(meta.workspace),
       provider: entry.provider,
       mode: entry.mode || null,
       kind: 'authProfile',
@@ -363,7 +370,9 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
         ...mergedProfile,
         displayName: overlay.profileMeta[profile.profileId]?.displayName || mergedProfile.displayName,
         note: overlay.profileMeta[profile.profileId]?.note ?? mergedProfile.note,
-        workspace: overlay.profileMeta[profile.profileId]?.workspace ?? mergedProfile.workspace,
+        workspace: profile.kind === 'authProfile'
+          ? normalizeProfileWorkspace(overlay.profileMeta[profile.profileId]?.workspace) ?? mergedProfile.workspace
+          : overlay.profileMeta[profile.profileId]?.workspace ?? mergedProfile.workspace,
         isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
         health: deriveHealth(mergedProfile, settings.routingThreshold),
       }
@@ -410,8 +419,15 @@ export async function readDashboardState(): Promise<DashboardState> {
     globalProfileId: overlay.settings.globalProfileId ?? null,
   }
 
-  const profiles = await discoverProfiles(overlay, settings)
   const liveCurrentProfileId = await readCurrentSessionProfileId(settings.activeAgentId)
+  const alwaysVisibleProfileIds = new Set<string>(liveCurrentProfileId ? [liveCurrentProfileId] : [settings.activeAgentId])
+  const profiles = await discoverProfiles(
+    {
+      ...overlay,
+      hiddenProfileIds: (overlay.hiddenProfileIds || []).filter((profileId) => !alwaysVisibleProfileIds.has(profileId)),
+    },
+    settings,
+  )
 
   if (liveCurrentProfileId && profiles.some((profile) => profile.profileId === liveCurrentProfileId)) {
     settings.currentSessionProfileId = liveCurrentProfileId
@@ -419,6 +435,11 @@ export async function readDashboardState(): Promise<DashboardState> {
     settings.currentSessionProfileId = settings.activeAgentId
   } else if (!profiles.some((profile) => profile.profileId === settings.currentSessionProfileId)) {
     settings.currentSessionProfileId = profiles[0]?.profileId || null
+  }
+
+  const resolvedCurrentProfile = profiles.find((profile) => profile.profileId === settings.currentSessionProfileId)
+  if (resolvedCurrentProfile?.workspace) {
+    settings.workspace = resolvedCurrentProfile.workspace
   }
 
   return {
