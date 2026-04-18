@@ -14,5 +14,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: nextState.message }, { status: 400 })
   }
 
-  return NextResponse.json({ ok: true, message: 'Profil listeden gizlendi', profiles: nextState.profiles, settings: nextState.settings })
+  return NextResponse.json({ ok: true, message: 'Profil listeden kaldırıldı', profiles: nextState.profiles, settings: nextState.settings })
 }

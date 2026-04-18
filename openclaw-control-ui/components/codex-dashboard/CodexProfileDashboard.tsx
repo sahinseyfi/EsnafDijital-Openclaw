@@ -163,7 +163,7 @@ function ProfileCard({
           {isEditing ? 'Düzenlemeyi kapat' : 'Ad / not düzenle'}
         </button>
         <button className={styles.ghostDangerButton} disabled={busyKey === `hide:${profile.profileId}`} onClick={() => onHide(profile.profileId)}>
-          Gizle
+          Sil
         </button>
       </div>
 
@@ -427,7 +427,7 @@ export function CodexProfileDashboard({
       await refreshDashboard(false)
       showFlash(payload.message, 'info')
     } catch (error: any) {
-      const message = error?.message || 'Profil gizlenemedi'
+      const message = error?.message || 'Profil kaldırılamadı'
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
