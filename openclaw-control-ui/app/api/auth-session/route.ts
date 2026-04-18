@@ -2,7 +2,7 @@ import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { NextResponse } from 'next/server'
 import { buildUniqueWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
-import { clearDiscoveryCache, readDashboardState, updateDashboardState } from '@/lib/codex-dashboard/store'
+import { clearDiscoveryCache, hideProfiles, readDashboardState, updateDashboardState } from '@/lib/codex-dashboard/store'
 import type { AuthSessionState, CodexProfile } from '@/lib/codex-dashboard/types'
 
 const execFileAsync = promisify(execFile)
@@ -81,6 +81,8 @@ export async function GET() {
 
   const terminal = merged.status === 'completed' || merged.status === 'error' || merged.status === 'cancelled'
   if (terminal) {
+    let autoHideProfileId: string | null = null
+
     await updateDashboardState(async (current) => {
       let nextProfiles = current.profiles
       let nextCurrentProfileId = current.settings.currentSessionProfileId
@@ -108,8 +110,9 @@ export async function GET() {
             targetProfileId: workspaceProfileId,
           })
           clearDiscoveryCache()
+          autoHideProfileId = profileId !== workspaceProfileId ? profileId : null
           nextProfiles = [
-            ...current.profiles.filter((profile) => profile.profileId !== workspaceProfileId),
+            ...current.profiles.filter((profile) => profile.profileId !== workspaceProfileId && profile.profileId !== profileId),
             {
               ...(sourceProfile || buildFallbackProfile({
                 profileId: workspaceProfileId,
@@ -164,6 +167,10 @@ export async function GET() {
         profiles: nextProfiles,
       }
     })
+
+    if (autoHideProfileId) {
+      await hideProfiles([autoHideProfileId])
+    }
   }
 
   return NextResponse.json({ authSession: merged, terminal })

@@ -553,9 +553,15 @@ export async function updateDashboardState(mutator: (state: DashboardState) => D
 }
 
 export async function hideProfile(profileId: string) {
+  return hideProfiles([profileId])
+}
+
+export async function hideProfiles(profileIds: string[]) {
   const overlay = await loadOverlay()
   const hidden = new Set(overlay.hiddenProfileIds || [])
-  hidden.add(profileId)
+  for (const profileId of profileIds) {
+    if (profileId) hidden.add(profileId)
+  }
   await writeJson(OVERLAY_FILE, {
     ...overlay,
     hiddenProfileIds: [...hidden],
