@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EsnafDigital Admin</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b1020;
+        --panel: rgba(18, 25, 46, 0.88);
+        --line: rgba(148, 163, 184, 0.22);
+        --text: #e5eefc;
+        --muted: #94a3b8;
+        --accent: #3b82f6;
+        --accent-2: #22c55e;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 32%),
+          linear-gradient(180deg, #0b1020 0%, #09111a 100%);
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(760px, 100%);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(10px);
+      }
+      .eyebrow {
+        display: inline-flex;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(59, 130, 246, 0.12);
+        border: 1px solid rgba(59, 130, 246, 0.22);
+        color: #bfdbfe;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .02em;
+      }
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.04;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.65;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-top: 28px;
+      }
+      .item {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        background: rgba(255,255,255,0.02);
+      }
+      .item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+      .item span {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .status {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #bbf7d0;
+        font-weight: 600;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent-2);
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.12);
+      }
+      .footer {
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+      code {
+        color: #bfdbfe;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="eyebrow">EsnafDigital Admin</div>
+      <h1>Yönetim alanı hazır.</h1>
+      <p>
+        Bu ilk sürüm, güvenli erişim için sunucu seviyesinde kullanıcı adı ve şifre korumasıyla açıldı.
+        İç operasyon ekranları bu alanın üzerine kurulacak.
+      </p>
+
+      <section class="grid">
+        <article class="item">
+          <strong>Giriş koruması</strong>
+          <span>HTTP Basic Auth aktif. Tarayıcı giriş penceresiyle korunuyor.</span>
+        </article>
+        <article class="item">
+          <strong>Alan adı</strong>
+          <span><code>admin.esnafdijital.com.tr</code></span>
+        </article>
+        <article class="item">
+          <strong>Sıradaki iş</strong>
+          <span>Login sonrası gerçek admin dashboard iskeletini kurmak.</span>
+        </article>
+      </section>
+
+      <div class="status">
+        <span class="dot"></span>
+        <span>Erişim doğrulandıktan sonra bu sayfa gösterilir.</span>
+      </div>
+
+      <div class="footer">
+        Şimdilik en küçük çalışan çözüm yayında. Sonraki adım, gerçek admin akışını burada inşa etmek.
+      </div>
+    </main>
+  </body>
+</html>
