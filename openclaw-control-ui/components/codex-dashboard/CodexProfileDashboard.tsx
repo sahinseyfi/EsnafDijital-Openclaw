@@ -206,11 +206,6 @@ export function CodexProfileDashboard({
   const [authNote, setAuthNote] = useState(initialAuthSession?.note || '')
   const [authWorkspace, setAuthWorkspace] = useState(initialAuthSession?.workspace || '')
 
-  const [createSourceProfileId, setCreateSourceProfileId] = useState('')
-  const [createWorkspace, setCreateWorkspace] = useState('')
-  const [createDisplayName, setCreateDisplayName] = useState('')
-  const [createNote, setCreateNote] = useState('')
-
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null)
   const [editDisplayName, setEditDisplayName] = useState('')
   const [editNote, setEditNote] = useState('')
@@ -218,11 +213,6 @@ export function CodexProfileDashboard({
   const showFlash = useCallback((text: string, tone: FlashTone = 'info') => {
     setFlash({ text, tone })
   }, [])
-
-  const authProfiles = useMemo(
-    () => status.profiles.filter((profile) => profile.kind === 'authProfile'),
-    [status.profiles],
-  )
 
   const orderedProfiles = useMemo(() => {
     return [...status.profiles].sort((a, b) => {
@@ -249,9 +239,6 @@ export function CodexProfileDashboard({
       const nextStatus = await request<DashboardStatusResponse>('/api/status')
       setAuthSession(authPayload.authSession)
       setStatus(nextStatus)
-      if (!createSourceProfileId && nextStatus.profiles.find((profile) => profile.kind === 'authProfile')?.profileId) {
-        setCreateSourceProfileId(nextStatus.profiles.find((profile) => profile.kind === 'authProfile')?.profileId || '')
-      }
       if (announce) showFlash('Sayfa yenilendi', 'success')
     } catch (error: any) {
       const message = error?.message || 'Veriler alınamadı'
@@ -260,13 +247,7 @@ export function CodexProfileDashboard({
     } finally {
       setBusyKey((current) => (current === 'refresh' ? null : current))
     }
-  }, [createSourceProfileId, showFlash])
-
-  useEffect(() => {
-    if (!createSourceProfileId && authProfiles[0]?.profileId) {
-      setCreateSourceProfileId(authProfiles[0].profileId)
-    }
-  }, [authProfiles, createSourceProfileId])
+  }, [showFlash])
 
   useEffect(() => {
     if (!authSession?.sessionId) return
@@ -277,7 +258,7 @@ export function CodexProfileDashboard({
         setAuthSession(payload.authSession)
 
         if (payload.authSession?.status === 'completed') {
-          showFlash(payload.authSession.profileId ? `Profil hazır: ${payload.authSession.profileId}` : 'Auth tamamlandı', 'success')
+          showFlash(payload.authSession.displayName || payload.authSession.profileId ? `Profil kaydedildi: ${payload.authSession.displayName || payload.authSession.profileId}` : 'Profil kaydedildi', 'success')
           setCallbackValue('')
           setAuthDisplayName('')
           setAuthNote('')
@@ -324,6 +305,12 @@ export function CodexProfileDashboard({
 
   const submitAuth = useCallback(async () => {
     if (!authSession?.sessionId) return
+    if (!authDisplayName.trim() && !authWorkspace.trim()) {
+      const message = 'Profil adı zorunlu'
+      setErrorText(message)
+      showFlash(message, 'error')
+      return
+    }
     setBusyKey('submit-auth')
     setErrorText(null)
     try {
@@ -367,33 +354,6 @@ export function CodexProfileDashboard({
       setBusyKey(null)
     }
   }, [authSession?.sessionId, showFlash])
-
-  const createSeparateProfile = useCallback(async () => {
-    setBusyKey('create-profile')
-    setErrorText(null)
-    try {
-      const payload = await request<{ ok: true; message: string }>('/api/profile-create', {
-        method: 'POST',
-        body: JSON.stringify({
-          sourceProfileId: createSourceProfileId,
-          workspace: createWorkspace,
-          displayName: createDisplayName,
-          note: createNote,
-        }),
-      })
-      setCreateWorkspace('')
-      setCreateDisplayName('')
-      setCreateNote('')
-      await refreshDashboard(false)
-      showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Ayrı profil oluşturulamadı'
-      setErrorText(message)
-      showFlash(message, 'error')
-    } finally {
-      setBusyKey(null)
-    }
-  }, [createDisplayName, createNote, createSourceProfileId, createWorkspace, refreshDashboard, showFlash])
 
   const switchCurrent = useCallback(async (profileId: string) => {
     setBusyKey(`current:${profileId}`)
@@ -504,8 +464,8 @@ export function CodexProfileDashboard({
       <section className={styles.panel}>
         <div className={styles.sectionHeader}>
           <div>
-            <h2>1. Gerçek auth başlat</h2>
-            <p>OpenClaw `openai-codex` auth akışını başlatır. İstersen tamamlanınca görünen ad, not ve workspace de kaydedilir.</p>
+            <h2>1. Yeni profil ekle</h2>
+            <p>Tek akış bu. Auth linkini aç, giriş yap, dönen linki buraya yapıştır, profil adını ve notunu yaz, kaydet.</p>
           </div>
           <button className={styles.secondaryButton} disabled={busyKey === 'refresh'} onClick={() => refreshDashboard(true)}>
             Yenile
@@ -514,9 +474,9 @@ export function CodexProfileDashboard({
 
         {!authSession ? (
           <div className={styles.emptyBox}>
-            <p>Şu an aktif auth akışı yok.</p>
+            <p>Yeni bir profil eklemek için auth başlat.</p>
             <button className={styles.primaryButton} disabled={busyKey === 'start-auth'} onClick={startAuth}>
-              Auth linki üret
+              Yeni auth linki üret
             </button>
           </div>
         ) : (
@@ -537,12 +497,12 @@ export function CodexProfileDashboard({
 
             <div className={styles.formGrid}>
               <label className={styles.fieldBlock}>
-                <span>Görünen ad</span>
-                <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: Ana hesap" />
+                <span>Profil adı</span>
+                <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: ChatGptBusiness" />
               </label>
               <label className={styles.fieldBlock}>
-                <span>Workspace</span>
-                <input value={authWorkspace} onChange={(event) => setAuthWorkspace(event.target.value)} placeholder="Boş bırakırsan mevcut profile işler" />
+                <span>Kısa kod / workspace (opsiyonel)</span>
+                <input value={authWorkspace} onChange={(event) => setAuthWorkspace(event.target.value)} placeholder="İstersen ayrıca yaz" />
               </label>
             </div>
 
@@ -553,12 +513,12 @@ export function CodexProfileDashboard({
 
             <label className={styles.fieldBlock}>
               <span>Callback URL veya code</span>
-              <textarea value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} placeholder="Callback URL ya da tek başına code yapıştır" />
+              <textarea value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} placeholder="Auth sonrası dönen linki ya da code'u yapıştır" />
             </label>
 
             <div className={styles.cardActions}>
               <button className={styles.primaryButton} disabled={busyKey === 'submit-auth'} onClick={submitAuth}>
-                Doğrulamayı başlat
+                Profili kaydet
               </button>
               <button className={styles.secondaryButton} disabled={busyKey === 'cancel-auth'} onClick={cancelAuth}>
                 İptal et
@@ -571,49 +531,8 @@ export function CodexProfileDashboard({
       <section className={styles.panel}>
         <div className={styles.sectionHeader}>
           <div>
-            <h2>2. Aynı auth’tan ayrı workspace profili aç</h2>
-            <p>Bu akış ikinci istediğindi. Mevcut gerçek auth credential’ını ayrı profile id ile yeni bir workspace profili gibi kaydeder.</p>
-          </div>
-        </div>
-
-        <div className={styles.formGrid}>
-          <label className={styles.fieldBlock}>
-            <span>Kaynak auth profili</span>
-            <select value={createSourceProfileId} onChange={(event) => setCreateSourceProfileId(event.target.value)}>
-              {authProfiles.map((profile) => (
-                <option key={profile.profileId} value={profile.profileId}>
-                  {profile.displayName} ({profile.email || profile.profileId})
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className={styles.fieldBlock}>
-            <span>Workspace adı</span>
-            <input value={createWorkspace} onChange={(event) => setCreateWorkspace(event.target.value)} placeholder="Örn: faceym-ws" />
-          </label>
-          <label className={styles.fieldBlock}>
-            <span>Görünen ad</span>
-            <input value={createDisplayName} onChange={(event) => setCreateDisplayName(event.target.value)} placeholder="Örn: Faceym Business" />
-          </label>
-        </div>
-
-        <label className={styles.fieldBlock}>
-          <span>Not</span>
-          <textarea value={createNote} onChange={(event) => setCreateNote(event.target.value)} placeholder="Bu workspace için kısa not" />
-        </label>
-
-        <div className={styles.cardActions}>
-          <button className={styles.primaryButton} disabled={busyKey === 'create-profile'} onClick={createSeparateProfile}>
-            Ayrı profil oluştur
-          </button>
-        </div>
-      </section>
-
-      <section className={styles.panel}>
-        <div className={styles.sectionHeader}>
-          <div>
-            <h2>3. Profiller</h2>
-            <p>Liste görünümüne çevirdim. Şu an kayıtlı profil sayısı {status.summary.totalProfiles}, current profil de {currentProfile?.displayName || 'yok'}.</p>
+            <h2>2. Profiller</h2>
+            <p>Şu an kayıtlı profil sayısı {status.summary.totalProfiles}, current profil de {currentProfile?.displayName || 'yok'}.</p>
           </div>
         </div>
 

@@ -21,6 +21,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: 'sessionId ve callback/code zorunlu' }, { status: 400 })
   }
 
+  if (!displayName && !workspace) {
+    return NextResponse.json({ ok: false, message: 'Profil adı zorunlu. İstersen kısa kod/workspace da ekleyebilirsin.' }, { status: 400 })
+  }
+
   const current = await readDashboardState().catch((error: Error) => error)
   if (current instanceof Error) {
     return NextResponse.json({ ok: false, message: current.message }, { status: 400 })
@@ -59,9 +63,9 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: workspace
-      ? 'Auth doğrulaması başlatıldı. Bu doğrulama tamamlanınca workspace için ayrı auth profili açılacak.'
-      : 'Auth doğrulaması başlatıldı. Workspace girmezsen mevcut auth profili güncellenir.',
+    message: displayName || workspace
+      ? 'Auth doğrulaması başlatıldı. Tamamlanınca bu bilgiyle ayrı profil kaydedilecek.'
+      : 'Auth doğrulaması başlatıldı. İsim verirsen ayrı profil olarak kaydedilir.',
     authSession: nextState.authSession,
     profiles: nextState.profiles,
   })

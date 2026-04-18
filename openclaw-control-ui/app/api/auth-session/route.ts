@@ -53,8 +53,10 @@ export async function GET() {
         const sourceProfile = current.profiles.find((profile) => profile.profileId === profileId)
 
         if (sourceProfile) {
-          if (workspace) {
-            const workspaceProfileId = buildWorkspaceAuthProfileId(profileId, workspace, displayName || sourceProfile.displayName)
+          const cloneKey = workspace || displayName
+
+          if (cloneKey) {
+            const workspaceProfileId = buildWorkspaceAuthProfileId(profileId, cloneKey, displayName || sourceProfile.displayName)
             await cloneAuthProfile({
               agentId: sourceProfile.agentId,
               sourceProfileId: profileId,
@@ -66,7 +68,7 @@ export async function GET() {
               {
                 ...sourceProfile,
                 profileId: workspaceProfileId,
-                workspace,
+                workspace: workspace || displayName || sourceProfile.workspace,
                 displayName: displayName || workspace || sourceProfile.displayName,
                 note: note || sourceProfile.note,
                 isCurrentProfile: true,
