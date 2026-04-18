@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import errno
 import json
 import os
 import pty
@@ -40,6 +41,40 @@ def write_status(session_id: str, payload):
 
 def strip_ansi(text: str) -> str:
     return ANSI_RE.sub('', text)
+
+
+def process_alive(pid):
+    if not pid:
+        return False
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def infer_terminal_status(session_id: str, status):
+    if status.get('status') in ('completed', 'error', 'cancelled'):
+        return status
+
+    log_path = session_dir(session_id) / 'raw.log'
+    if not log_path.exists():
+        return status
+
+    raw = log_path.read_text(encoding='utf-8', errors='ignore')
+    tail = strip_ansi(raw[-5000:])
+    if 'Auth profile:' in tail or 'Updated ~/.openclaw/openclaw.json' in tail:
+        status['status'] = 'completed'
+        status['exitCode'] = status.get('exitCode', 0) or 0
+        status['result'] = tail
+        status['error'] = None
+        return status
+    if 'code->token failed' in tail or 'Token exchange failed' in tail:
+        status['status'] = 'error'
+        status['result'] = tail
+        status['error'] = 'OpenAI token exchange failed. Callback linki geçersiz veya süresi dolmuş olabilir.'
+        return status
+    return status
 
 
 def start():
@@ -103,7 +138,12 @@ def run(session_id: str):
         while True:
             ready, _, _ = select.select([master], [], [], 0.25)
             if master in ready:
-                data = os.read(master, 4096)
+                try:
+                    data = os.read(master, 4096)
+                except OSError as error:
+                    if error.errno == errno.EIO:
+                        break
+                    raise
                 if not data:
                     break
                 text = data.decode('utf-8', errors='ignore')
@@ -201,6 +241,12 @@ def status(session_id: str):
     if not st:
         print(json.dumps({'ok': False, 'message': 'Auth session bulunamadı'}))
         return 1
+    if st.get('status') not in ('completed', 'error', 'cancelled') and not process_alive(st.get('pid')):
+        st = infer_terminal_status(session_id, st)
+        if st.get('status') not in ('completed', 'error', 'cancelled'):
+            st['status'] = 'error'
+            st['error'] = st.get('error') or 'Auth process bitti ama sonuç okunamadı'
+        write_status(session_id, st)
     print(json.dumps(st))
     return 0
 
