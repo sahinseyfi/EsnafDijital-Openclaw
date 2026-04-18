@@ -16,6 +16,7 @@ import { fetchRealCodexUsage } from '@/lib/codex-dashboard/usage'
 
 const execFileAsync = promisify(execFile)
 const DATA_DIR = '/opt/esnafdijital/data'
+const OPENCLAW_STATE_DIR = '/root/.openclaw'
 const OVERLAY_FILE = path.join(DATA_DIR, 'codex-dashboard-overlay.json')
 const DISCOVERY_HELPER = '/usr/local/bin/esnafdijital-openclaw-discovery'
 const DISCOVERY_TTL_MS = 2000
@@ -44,6 +45,10 @@ type OverlayState = {
   managedProfiles: CodexProfile[]
   profileMeta: Record<string, { displayName?: string; note?: string; workspace?: string | null }>
   hiddenProfileIds: string[]
+}
+
+type SessionStoreEntry = {
+  authProfileOverride?: string | null
 }
 
 type DiscoveryResult = {
@@ -163,6 +168,14 @@ function emptyDiscoveryResult(): DiscoveryResult {
     authProfiles: [],
     authState: {},
   }
+}
+
+async function readCurrentSessionProfileId(agentId: string) {
+  const storePath = path.join(OPENCLAW_STATE_DIR, 'agents', agentId, 'sessions', 'sessions.json')
+  const sessionKey = `agent:${agentId}:${agentId}`
+  const store = await readJson<Record<string, SessionStoreEntry>>(storePath)
+  const value = store?.[sessionKey]?.authProfileOverride
+  return typeof value === 'string' && value.trim() ? value.trim() : null
 }
 
 async function runDiscovery(): Promise<DiscoveryResult> {
@@ -398,7 +411,13 @@ export async function readDashboardState(): Promise<DashboardState> {
   }
 
   const profiles = await discoverProfiles(overlay, settings)
-  if (!profiles.some((profile) => profile.profileId === settings.currentSessionProfileId)) {
+  const liveCurrentProfileId = await readCurrentSessionProfileId(settings.activeAgentId)
+
+  if (liveCurrentProfileId && profiles.some((profile) => profile.profileId === liveCurrentProfileId)) {
+    settings.currentSessionProfileId = liveCurrentProfileId
+  } else if (profiles.some((profile) => profile.profileId === settings.activeAgentId)) {
+    settings.currentSessionProfileId = settings.activeAgentId
+  } else if (!profiles.some((profile) => profile.profileId === settings.currentSessionProfileId)) {
     settings.currentSessionProfileId = profiles[0]?.profileId || null
   }
 

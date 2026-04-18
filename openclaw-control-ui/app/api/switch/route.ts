@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { updateDashboardState } from '@/lib/codex-dashboard/store'
 
 const execFileAsync = promisify(execFile)
+const CURRENT_SESSION_SWITCH_HELPER = '/usr/local/bin/esnafdijital-openclaw-session-switch'
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -33,6 +34,18 @@ export async function POST(request: NextRequest) {
       await execFileAsync('openclaw', ['models', 'auth', 'order', 'set', '--agent', selected.agentId, '--provider', 'openai-codex', ...profileOrder])
     }
 
+    if (scope === 'current-session') {
+      const sessionKey = `agent:${selected.agentId}:${selected.agentId}`
+
+      if (selected.kind === 'authProfile' && selected.provider === 'openai-codex') {
+        await execFileAsync(CURRENT_SESSION_SWITCH_HELPER, [selected.agentId, selected.profileId, sessionKey])
+      } else if (selected.kind === 'agent') {
+        await execFileAsync(CURRENT_SESSION_SWITCH_HELPER, [selected.agentId, '--clear', sessionKey])
+      } else {
+        throw new Error('Bu oturumda sadece agent veya gerçek openai-codex auth profili seçilebilir')
+      }
+    }
+
     return {
       ...state,
       settings: {
@@ -51,7 +64,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: scope === 'all-sessions' ? 'Gerçek auth sıra önceliği agent üzerinde güncellendi' : 'Bu panel için current profil değiştirildi',
+    message: scope === 'all-sessions' ? 'Gerçek auth sıra önceliği agent üzerinde güncellendi' : 'Bu oturumun gerçek auth profili değiştirildi',
     settings: nextState.settings,
     profiles: nextState.profiles,
   })

@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+import path from 'node:path'
+import process from 'node:process'
+import { applyModelOverrideToSessionEntry } from '/usr/lib/node_modules/openclaw/dist/plugin-sdk/config-runtime.js'
+import { updateSessionStoreEntry } from '/usr/lib/node_modules/openclaw/dist/store.runtime-Cz_llyv3.js'
+
+function fail(message) {
+  process.stderr.write(`${message}\n`)
+  process.exit(1)
+}
+
+const [, , agentId, profileArg, sessionKeyArg] = process.argv
+
+if (!agentId) fail('agentId zorunlu')
+if (!profileArg) fail('profileId veya --clear zorunlu')
+
+const sessionKey = sessionKeyArg || `agent:${agentId}:${agentId}`
+const storePath = path.join('/root/.openclaw', 'agents', agentId, 'sessions', 'sessions.json')
+const profileOverride = profileArg === '--clear' ? undefined : profileArg
+
+const entry = await updateSessionStoreEntry({
+  storePath,
+  sessionKey,
+  update(existing) {
+    const next = { ...existing }
+    applyModelOverrideToSessionEntry({
+      entry: next,
+      selection: {
+        provider: 'openai-codex',
+        model: 'openai-codex/gpt-5.4',
+        isDefault: true,
+      },
+      profileOverride,
+      profileOverrideSource: 'user',
+    })
+
+    return {
+      authProfileOverride: next.authProfileOverride,
+      authProfileOverrideSource: next.authProfileOverrideSource,
+      authProfileOverrideCompactionCount: next.authProfileOverrideCompactionCount,
+      providerOverride: next.providerOverride,
+      modelOverride: next.modelOverride,
+      modelOverrideSource: next.modelOverrideSource,
+      liveModelSwitchPending: next.liveModelSwitchPending,
+      updatedAt: next.updatedAt,
+    }
+  },
+})
+
+if (!entry) fail(`Session bulunamadı: ${sessionKey}`)
+
+process.stdout.write(JSON.stringify({
+  ok: true,
+  agentId,
+  sessionKey,
+  authProfileOverride: entry.authProfileOverride ?? null,
+  authProfileOverrideSource: entry.authProfileOverrideSource ?? null,
+}) + '\n')
