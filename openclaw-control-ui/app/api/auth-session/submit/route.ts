@@ -59,7 +59,9 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: 'Auth doğrulaması başlatıldı. Aynı hesap varsa mevcut profil güncellenir, yeni satır açılmayabilir.',
+    message: workspace
+      ? 'Auth doğrulaması başlatıldı. Bu doğrulama tamamlanınca workspace için ayrı auth profili açılacak.'
+      : 'Auth doğrulaması başlatıldı. Workspace girmezsen mevcut auth profili güncellenir.',
     authSession: nextState.authSession,
     profiles: nextState.profiles,
   })

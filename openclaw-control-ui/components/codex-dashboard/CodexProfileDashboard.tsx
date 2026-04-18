@@ -537,7 +537,7 @@ export function CodexProfileDashboard({
       setNewProfileNote('')
       pushToast(response.message, 'success')
     } catch (error: any) {
-      const message = error?.message || 'Business profil oluşturulamadı'
+      const message = error?.message || 'Ayrı auth profili oluşturulamadı'
       setErrorText(message)
       pushToast(message, 'error')
     } finally {
@@ -552,7 +552,7 @@ export function CodexProfileDashboard({
           <p className={styles.eyebrow}>Operator Console</p>
           <h1>Codex Profilleri</h1>
           <p className={styles.lead}>
-            Gerçek OpenClaw openai-codex auth helper akışıyla çoklu hesap, profil ve workspace durumunu tek ekranda yönet.
+            Gerçek OpenClaw openai-codex auth helper akışıyla çoklu hesap, çoklu workspace ve ayrı auth profillerini tek ekranda yönet.
           </p>
         </div>
         <div className={styles.heroMeta}>
@@ -818,8 +818,8 @@ export function CodexProfileDashboard({
         <article className={styles.panel}>
           <div className={styles.sectionHeader}>
             <div>
-              <h2>Mevcut auth'tan business profil oluştur</h2>
-              <p>Aynı hesabı farklı işletme/workspace profillerine ayır.</p>
+              <h2>Mevcut auth'tan ayrı workspace auth profili oluştur</h2>
+              <p>Aynı mail altındaki farklı business/workspace'leri ayrı auth kaydı olarak çoğalt.</p>
             </div>
           </div>
           <div className={styles.formRow}>
@@ -846,9 +846,9 @@ export function CodexProfileDashboard({
           </div>
           <div className={styles.inlineActionRow}>
             <button className={styles.primaryButton} onClick={createManagedProfile} disabled={busyKey === 'profile-create' || !authProfileOptions.length || !newProfileWorkspace.trim()}>
-              {busyKey === 'profile-create' ? 'Kaydediliyor...' : 'Business profil oluştur'}
+              {busyKey === 'profile-create' ? 'Kaydediliyor...' : 'Ayrı auth profili oluştur'}
             </button>
-            <span className={styles.summaryNote}>Bu işlem yeni auth açmaz, mevcut hesabın üstüne ayrı business/workspace profili ekler.</span>
+            <span className={styles.summaryNote}>Bu işlem mevcut auth credential'ını ayrı bir workspace auth profili olarak kaydeder.</span>
           </div>
         </article>
 

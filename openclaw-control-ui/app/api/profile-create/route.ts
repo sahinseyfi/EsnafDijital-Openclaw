@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import type { CodexProfile } from '@/lib/codex-dashboard/types'
-import { updateDashboardState } from '@/lib/codex-dashboard/store'
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 48) || 'workspace'
-}
-
-function buildManagedProfileId(sourceProfileId: string, workspace: string, displayName?: string | null) {
-  return `managed:${sourceProfileId}:${slugify(workspace || displayName || 'workspace')}`
-}
+import { cloneAuthProfile, buildWorkspaceAuthProfileId } from '@/lib/codex-dashboard/auth-store'
+import { clearDiscoveryCache, updateDashboardState } from '@/lib/codex-dashboard/store'
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -25,32 +13,39 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: 'sourceProfileId ve workspace zorunlu' }, { status: 400 })
   }
 
-  const nextState = await updateDashboardState((state) => {
+  const nextState = await updateDashboardState(async (state) => {
     const sourceProfile = state.profiles.find((profile) => profile.profileId === sourceProfileId)
-    if (!sourceProfile) {
-      throw new Error('Kaynak auth profili bulunamadı')
+    if (!sourceProfile || sourceProfile.kind !== 'authProfile') {
+      throw new Error('Kaynak gerçek auth profili bulunamadı')
     }
 
-    const managedProfileId = buildManagedProfileId(sourceProfileId, workspace, displayName || sourceProfile.displayName)
-    const managedProfile: CodexProfile = {
-      ...sourceProfile,
-      profileId: managedProfileId,
-      kind: 'managed',
+    const targetProfileId = buildWorkspaceAuthProfileId(sourceProfileId, workspace, displayName || sourceProfile.displayName)
+
+    await cloneAuthProfile({
+      agentId: sourceProfile.agentId,
       sourceProfileId,
-      workspace,
-      displayName: displayName || workspace || sourceProfile.displayName,
-      note: note || sourceProfile.note,
-      recommended: false,
-      isCurrentProfile: true,
-    }
+      targetProfileId,
+    })
+    clearDiscoveryCache()
 
     return {
       ...state,
       settings: {
         ...state.settings,
-        currentSessionProfileId: managedProfileId,
+        currentSessionProfileId: targetProfileId,
       },
-      profiles: [...state.profiles.filter((profile) => profile.profileId !== managedProfileId), managedProfile],
+      profiles: [
+        ...state.profiles.filter((profile) => profile.profileId !== targetProfileId),
+        {
+          ...sourceProfile,
+          profileId: targetProfileId,
+          workspace,
+          displayName: displayName || workspace || sourceProfile.displayName,
+          note: note || sourceProfile.note,
+          isCurrentProfile: true,
+          recommended: false,
+        },
+      ],
     }
   }).catch((error: Error) => error)
 
@@ -60,7 +55,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: 'Business/workspace profili kaydedildi',
+    message: 'Ayrı auth profili kaydedildi',
     settings: nextState.settings,
     profiles: nextState.profiles,
   })

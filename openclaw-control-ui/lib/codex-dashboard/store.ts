@@ -29,11 +29,19 @@ let discoveryCache: {
   inflight: null,
 }
 
+export function clearDiscoveryCache() {
+  discoveryCache = {
+    value: null,
+    expiresAt: 0,
+    inflight: null,
+  }
+}
+
 type OverlayState = {
   settings: Partial<DashboardSettings>
   authSession: AuthSessionState | null
   managedProfiles: CodexProfile[]
-  profileMeta: Record<string, { displayName?: string; note?: string }>
+  profileMeta: Record<string, { displayName?: string; note?: string; workspace?: string | null }>
   hiddenProfileIds: string[]
 }
 
@@ -243,7 +251,7 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
         accountId: agent.id,
         planType: agent.codexProvider ? 'Agent + Codex' : 'Agent',
         agentId: agent.id,
-        workspace: agent.workspace,
+        workspace: meta.workspace || agent.workspace,
         provider: agent.codexProvider ? 'openai-codex' : null,
         mode: 'agent',
         kind: 'agent',
@@ -292,7 +300,7 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
       accountId: entry.accountId || 'bilinmiyor',
       planType: entry.planType || (entry.mode === 'oauth' ? 'OAuth' : entry.mode || 'Auth Profile'),
       agentId: entry.agentId,
-      workspace: agent?.workspace || null,
+      workspace: meta.workspace || agent?.workspace || null,
       provider: entry.provider,
       mode: entry.mode || null,
       kind: 'authProfile',
@@ -342,6 +350,7 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
         ...mergedProfile,
         displayName: overlay.profileMeta[profile.profileId]?.displayName || mergedProfile.displayName,
         note: overlay.profileMeta[profile.profileId]?.note ?? mergedProfile.note,
+        workspace: overlay.profileMeta[profile.profileId]?.workspace ?? mergedProfile.workspace,
         isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
         health: deriveHealth(mergedProfile, settings.routingThreshold),
       }
@@ -428,7 +437,7 @@ async function persistOverlay(state: DashboardState) {
     managedProfiles: state.profiles.filter((profile) => !discoveredIds.has(profile.profileId)),
     profileMeta: {
       ...overlay.profileMeta,
-      ...Object.fromEntries(state.profiles.map((profile) => [profile.profileId, { displayName: profile.displayName, note: profile.note }])),
+      ...Object.fromEntries(state.profiles.map((profile) => [profile.profileId, { displayName: profile.displayName, note: profile.note, workspace: profile.workspace }])),
     },
     hiddenProfileIds: overlay.hiddenProfileIds || [],
   }
