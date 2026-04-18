@@ -7,7 +7,6 @@
 .hero,
 .panel,
 .summaryCard,
-.profileCard,
 .flash,
 .errorBanner {
   border: 1px solid rgba(148, 163, 184, 0.18);
@@ -18,12 +17,12 @@
 .hero,
 .panel,
 .summaryCard,
-.profileCard,
 .flash,
 .errorBanner,
 .emptyBox,
 .noteBox,
-.inlineEditor {
+.inlineEditor,
+.profileList {
   border-radius: 20px;
 }
 
@@ -228,18 +227,16 @@
   padding: 18px;
 }
 
-.formGrid,
-.profileGrid {
+.formGrid {
   display: grid;
   gap: 14px;
-}
-
-.formGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.profileGrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.profileList {
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.52);
 }
 
 .fieldBlock {
@@ -322,23 +319,30 @@
   transform: none;
 }
 
-.profileCard {
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.profileRow {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(15, 23, 42, 0.62);
 }
 
-.profileCardCurrent {
-  border-color: rgba(59, 130, 246, 0.38);
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.18);
+.profileRow:last-child {
+  border-bottom: 0;
 }
 
-.profileHeader {
+.profileRowCurrent {
+  background: rgba(30, 64, 175, 0.18);
+}
+
+.profileRowMain {
   display: flex;
   justify-content: space-between;
-  gap: 14px;
+  gap: 18px;
   align-items: flex-start;
+}
+
+.profileIdentity {
+  min-width: 0;
+  flex: 1;
 }
 
 .profileTitleRow {
@@ -348,9 +352,9 @@
   flex-wrap: wrap;
 }
 
-.profileTitleRow h3 {
-  margin: 0;
-  font-size: 20px;
+.profileName {
+  font-size: 18px;
+  line-height: 1.3;
 }
 
 .profileSubline {
@@ -359,54 +363,72 @@
   word-break: break-word;
 }
 
-.detailsGrid {
-  margin: 0;
+.profileStats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 10px;
 }
 
-.detailsGrid div {
-  padding: 12px;
+.statItem {
+  min-width: 90px;
+  padding: 10px 12px;
   border-radius: 14px;
   background: rgba(15, 23, 42, 0.55);
   border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
-.detailsGrid dt {
+.statItem span {
+  display: block;
   color: #94a3b8;
   font-size: 12px;
   margin-bottom: 6px;
 }
 
-.detailsGrid dd {
-  margin: 0;
+.statItem strong {
   color: #e2e8f0;
-  font-weight: 600;
+  font-size: 14px;
 }
 
-.noteBox,
+.rowNote,
 .inlineEditor {
   padding: 14px;
   color: #cbd5e1;
 }
 
-.noteBox {
-  margin: 0;
+.rowNote {
+  margin: 12px 0 0;
   line-height: 1.6;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.profileRowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .inlineEditor {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: 12px;
 }
 
 @media (max-width: 1100px) {
   .summaryGrid,
-  .profileGrid,
   .formGrid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .profileRowMain {
+    flex-direction: column;
+  }
+
+  .profileStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -419,9 +441,8 @@
   }
 
   .summaryGrid,
-  .profileGrid,
   .formGrid,
-  .detailsGrid {
+  .profileStats {
     grid-template-columns: 1fr;
   }
 }

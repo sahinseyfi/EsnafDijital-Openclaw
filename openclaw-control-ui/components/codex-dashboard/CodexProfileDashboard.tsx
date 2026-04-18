@@ -110,48 +110,46 @@ function ProfileCard({
   setEditNote: (value: string) => void
 }) {
   return (
-    <article className={classNames(styles.profileCard, profile.isCurrentProfile && styles.profileCardCurrent)}>
-      <div className={styles.profileHeader}>
-        <div>
+    <article className={classNames(styles.profileRow, profile.isCurrentProfile && styles.profileRowCurrent)}>
+      <div className={styles.profileRowMain}>
+        <div className={styles.profileIdentity}>
           <div className={styles.profileTitleRow}>
-            <h3>{profile.displayName || profile.profileId}</h3>
+            <strong className={styles.profileName}>{profile.displayName || profile.profileId}</strong>
             {profile.isCurrentProfile ? <span className={styles.currentBadge}>Current</span> : null}
             {profile.recommended ? <span className={styles.recommendBadge}>Önerilen</span> : null}
+            <span className={classNames(styles.healthBadge, styles[`health_${profile.health || 'idle'}`])}>{healthText(profile.health)}</span>
           </div>
           <p className={styles.profileSubline}>{profile.email || profile.profileId}</p>
+          <div className={styles.metaRow}>
+            <span className={styles.metaChip}>{profile.kind === 'authProfile' ? 'Gerçek auth' : 'Agent'}</span>
+            {profile.workspace ? <span className={styles.metaChip}>{profile.workspace}</span> : null}
+            {profile.planType ? <span className={styles.metaChip}>{profile.planType}</span> : null}
+          </div>
         </div>
-        <span className={classNames(styles.healthBadge, styles[`health_${profile.health || 'idle'}`])}>{healthText(profile.health)}</span>
+
+        <div className={styles.profileStats}>
+          <div className={styles.statItem}>
+            <span>Agent</span>
+            <strong>{profile.agentId || 'Yok'}</strong>
+          </div>
+          <div className={styles.statItem}>
+            <span>Son kullanım</span>
+            <strong>{timeAgo(profile.lastUsedAt)}</strong>
+          </div>
+          <div className={styles.statItem}>
+            <span>5 saat</span>
+            <strong>%{profile.usage.fiveHourPct}</strong>
+          </div>
+          <div className={styles.statItem}>
+            <span>Hafta</span>
+            <strong>%{profile.usage.weekPct}</strong>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.metaRow}>
-        <span className={styles.metaChip}>{profile.kind === 'authProfile' ? 'Gerçek auth' : 'Agent'}</span>
-        {profile.provider ? <span className={styles.metaChip}>{profile.provider}</span> : null}
-        {profile.workspace ? <span className={styles.metaChip}>Workspace: {profile.workspace}</span> : null}
-        {profile.planType ? <span className={styles.metaChip}>Plan: {profile.planType}</span> : null}
-      </div>
+      {profile.note ? <p className={styles.rowNote}>{profile.note}</p> : null}
 
-      <dl className={styles.detailsGrid}>
-        <div>
-          <dt>Son kullanım</dt>
-          <dd>{timeAgo(profile.lastUsedAt)}</dd>
-        </div>
-        <div>
-          <dt>Agent</dt>
-          <dd>{profile.agentId || 'Yok'}</dd>
-        </div>
-        <div>
-          <dt>5 saat kullanım</dt>
-          <dd>%{profile.usage.fiveHourPct}</dd>
-        </div>
-        <div>
-          <dt>Haftalık kullanım</dt>
-          <dd>%{profile.usage.weekPct}</dd>
-        </div>
-      </dl>
-
-      {profile.note ? <p className={styles.noteBox}>{profile.note}</p> : null}
-
-      <div className={styles.cardActions}>
+      <div className={styles.profileRowActions}>
         <button className={styles.primaryButton} disabled={busyKey === `current:${profile.profileId}`} onClick={() => onSwitchCurrent(profile.profileId)}>
           Bu oturumda kullan
         </button>
@@ -615,11 +613,11 @@ export function CodexProfileDashboard({
         <div className={styles.sectionHeader}>
           <div>
             <h2>3. Profiller</h2>
-            <p>Current seç, varsayılan yap, ad/not düzenle veya gerekirse listeden gizle.</p>
+            <p>Liste görünümüne çevirdim. Şu an kayıtlı profil sayısı {status.summary.totalProfiles}, current profil de {currentProfile?.displayName || 'yok'}.</p>
           </div>
         </div>
 
-        <div className={styles.profileGrid}>
+        <div className={styles.profileList}>
           {orderedProfiles.map((profile) => (
             <ProfileCard
               key={profile.profileId}
