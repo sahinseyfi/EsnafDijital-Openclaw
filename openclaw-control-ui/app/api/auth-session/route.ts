@@ -3,7 +3,7 @@ import { promisify } from 'util'
 import { NextResponse } from 'next/server'
 import { buildWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
 import { clearDiscoveryCache, readDashboardState, updateDashboardState } from '@/lib/codex-dashboard/store'
-import type { AuthSessionState } from '@/lib/codex-dashboard/types'
+import type { AuthSessionState, CodexProfile } from '@/lib/codex-dashboard/types'
 
 const execFileAsync = promisify(execFile)
 const AUTH_HELPER = '/usr/local/bin/esnafdijital-openclaw-auth'
@@ -20,6 +20,45 @@ async function readHelperStatus(sessionId: string) {
     return JSON.parse(stdout) as Partial<AuthSessionState>
   } catch {
     return null
+  }
+}
+
+function buildFallbackProfile(params: {
+  profileId: string
+  agentId: string
+  displayName: string
+  note: string
+  workspace?: string | null
+}): CodexProfile {
+  return {
+    profileId: params.profileId,
+    displayName: params.displayName,
+    note: params.note,
+    email: '—',
+    accountId: 'bilinmiyor',
+    planType: 'OAuth',
+    agentId: params.agentId,
+    workspace: params.workspace || null,
+    provider: 'openai-codex',
+    mode: 'oauth',
+    kind: 'authProfile',
+    recentSessionCount: 0,
+    lastUsedAt: null,
+    usage: {
+      fiveHourPct: 0,
+      weekPct: 0,
+      fiveHourResetAt: null,
+      weekResetAt: null,
+    },
+    probe: {
+      status: 'idle',
+      lastOkAt: null,
+      lastError: null,
+    },
+    duplicateAccount: false,
+    recommended: false,
+    isCurrentProfile: false,
+    health: 'idle',
   }
 }
 
@@ -51,44 +90,62 @@ export async function GET() {
         const note = merged.note?.trim() || ''
         const workspace = merged.workspace?.trim() || ''
         const sourceProfile = current.profiles.find((profile) => profile.profileId === profileId)
+        const sourceAgentId = sourceProfile?.agentId || current.settings.activeAgentId || 'main'
+        const sourceDisplayName = sourceProfile?.displayName || displayName || workspace || profileId
+        const sourceNote = sourceProfile?.note || note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
+        const cloneKey = workspace || displayName
 
-        if (sourceProfile) {
-          const cloneKey = workspace || displayName
-
-          if (cloneKey) {
-            const workspaceProfileId = buildWorkspaceAuthProfileId(profileId, cloneKey, displayName || sourceProfile.displayName)
-            await cloneAuthProfile({
-              agentId: sourceProfile.agentId,
-              sourceProfileId: profileId,
-              targetProfileId: workspaceProfileId,
-            })
-            clearDiscoveryCache()
-            nextProfiles = [
-              ...current.profiles.filter((profile) => profile.profileId !== workspaceProfileId),
-              {
-                ...sourceProfile,
+        if (cloneKey) {
+          const workspaceProfileId = buildWorkspaceAuthProfileId(profileId, cloneKey, displayName || sourceDisplayName)
+          await cloneAuthProfile({
+            agentId: sourceAgentId,
+            sourceProfileId: profileId,
+            targetProfileId: workspaceProfileId,
+          })
+          clearDiscoveryCache()
+          nextProfiles = [
+            ...current.profiles.filter((profile) => profile.profileId !== workspaceProfileId),
+            {
+              ...(sourceProfile || buildFallbackProfile({
                 profileId: workspaceProfileId,
-                workspace: workspace || displayName || sourceProfile.workspace,
-                displayName: displayName || workspace || sourceProfile.displayName,
-                note: note || sourceProfile.note,
-                isCurrentProfile: true,
-                recommended: false,
-              },
-            ]
-            nextCurrentProfileId = workspaceProfileId
-            merged.profileId = workspaceProfileId
-          } else {
-            nextProfiles = current.profiles.map((profile) =>
-              profile.profileId === profileId
-                ? {
-                    ...profile,
-                    displayName: displayName || profile.displayName,
-                    note: note || profile.note,
-                  }
-                : profile,
-            )
-            nextCurrentProfileId = profileId
-          }
+                agentId: sourceAgentId,
+                displayName: displayName || workspace || sourceDisplayName,
+                note: note || sourceNote,
+                workspace: workspace || displayName || null,
+              })),
+              profileId: workspaceProfileId,
+              workspace: workspace || displayName || sourceProfile?.workspace || null,
+              displayName: displayName || workspace || sourceDisplayName,
+              note: note || sourceNote,
+              isCurrentProfile: true,
+              recommended: false,
+            },
+          ]
+          nextCurrentProfileId = workspaceProfileId
+          merged.profileId = workspaceProfileId
+        } else {
+          const updated = current.profiles.map((profile) =>
+            profile.profileId === profileId
+              ? {
+                  ...profile,
+                  displayName: displayName || profile.displayName,
+                  note: note || profile.note,
+                }
+              : profile,
+          )
+          nextProfiles = updated.some((profile) => profile.profileId === profileId)
+            ? updated
+            : [
+                ...updated,
+                buildFallbackProfile({
+                  profileId,
+                  agentId: sourceAgentId,
+                  displayName: displayName || sourceDisplayName,
+                  note: note || sourceNote,
+                  workspace: workspace || sourceProfile?.workspace || null,
+                }),
+              ]
+          nextCurrentProfileId = profileId
         }
       }
 

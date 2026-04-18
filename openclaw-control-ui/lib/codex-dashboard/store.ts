@@ -12,6 +12,7 @@ import type {
   DashboardSummary,
   HealthLevel,
 } from '@/lib/codex-dashboard/types'
+import { fetchRealCodexUsage } from '@/lib/codex-dashboard/usage'
 
 const execFileAsync = promisify(execFile)
 const DATA_DIR = '/opt/esnafdijital/data'
@@ -84,16 +85,6 @@ type DiscoveryResult = {
 
 function nowIso() {
   return new Date().toISOString()
-}
-
-function addHours(value: number | null | undefined, hours: number) {
-  if (!value) return null
-  return new Date(value + hours * 60 * 60 * 1000).toISOString()
-}
-
-function addDays(value: number | null | undefined, days: number) {
-  if (!value) return null
-  return new Date(value + days * 24 * 60 * 60 * 1000).toISOString()
 }
 
 async function exists(filePath: string) {
@@ -226,6 +217,12 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
   const hidden = new Set(overlay.hiddenProfileIds || [])
   const agentMap = new Map(discovery.agents.map((agent) => [agent.id, agent]))
   const profiles: CodexProfile[] = []
+  const usageEntries = await Promise.all(
+    (discovery.authProfiles || [])
+      .filter((entry) => entry.provider === 'openai-codex' && !hidden.has(entry.profileId))
+      .map(async (entry) => [entry.profileId, await fetchRealCodexUsage(entry.agentId, entry.profileId)] as const),
+  )
+  const usageMap = new Map(usageEntries)
 
   for (const agent of discovery.agents) {
     if (hidden.has(agent.id)) continue
@@ -258,10 +255,10 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
         recentSessionCount: agent.sessionCount,
         lastUsedAt: lastUsedMs ? new Date(lastUsedMs).toISOString() : null,
         usage: {
-          fiveHourPct: probeStatus === 'ok' ? 10 : probeStatus === 'warn' ? 68 : 0,
-          weekPct: probeStatus === 'ok' ? 18 : probeStatus === 'warn' ? 72 : 0,
-          fiveHourResetAt: addHours(lastUsedMs, 5),
-          weekResetAt: addDays(lastUsedMs, 7),
+          fiveHourPct: 0,
+          weekPct: 0,
+          fiveHourResetAt: null,
+          weekResetAt: null,
         },
         probe: {
           status: probeStatus,
@@ -291,6 +288,9 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
           : 'warn'
     const agent = agentMap.get(entry.agentId)
     const lastUsedMs = usage.lastUsed || entry.updatedAtMs || null
+    const realUsage = usageMap.get(entry.profileId)
+    const usage5h = realUsage?.windows.find((window) => window.label.toLowerCase() === '5h')
+    const usageWeek = realUsage?.windows.find((window) => window.label.toLowerCase() === 'week')
 
     profiles.push({
       profileId: entry.profileId,
@@ -298,7 +298,7 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
       note: meta.note || `Gerçek auth profile, agent=${entry.agentId}, mode=${entry.mode || 'unknown'}`,
       email: entry.email || '—',
       accountId: entry.accountId || 'bilinmiyor',
-      planType: entry.planType || (entry.mode === 'oauth' ? 'OAuth' : entry.mode || 'Auth Profile'),
+      planType: realUsage?.plan || entry.planType || (entry.mode === 'oauth' ? 'OAuth' : entry.mode || 'Auth Profile'),
       agentId: entry.agentId,
       workspace: meta.workspace || agent?.workspace || null,
       provider: entry.provider,
@@ -307,10 +307,10 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
       recentSessionCount: agent?.sessionCount || 0,
       lastUsedAt: lastUsedMs ? new Date(lastUsedMs).toISOString() : null,
       usage: {
-        fiveHourPct: profileHealth === 'ok' ? 0 : 82,
-        weekPct: profileHealth === 'ok' ? 0 : 88,
-        fiveHourResetAt: usage.cooldownUntil ? new Date(usage.cooldownUntil).toISOString() : addHours(lastUsedMs, 5),
-        weekResetAt: usage.disabledUntil ? new Date(usage.disabledUntil).toISOString() : addDays(lastUsedMs, 7),
+        fiveHourPct: Math.round(usage5h?.usedPercent || 0),
+        weekPct: Math.round(usageWeek?.usedPercent || 0),
+        fiveHourResetAt: usage5h?.resetAt ? new Date(usage5h.resetAt).toISOString() : usage.cooldownUntil ? new Date(usage.cooldownUntil).toISOString() : null,
+        weekResetAt: usageWeek?.resetAt ? new Date(usageWeek.resetAt).toISOString() : usage.disabledUntil ? new Date(usage.disabledUntil).toISOString() : null,
       },
       probe: {
         status: profileHealth,
@@ -439,7 +439,7 @@ async function persistOverlay(state: DashboardState) {
       ...overlay.profileMeta,
       ...Object.fromEntries(state.profiles.map((profile) => [profile.profileId, { displayName: profile.displayName, note: profile.note, workspace: profile.workspace }])),
     },
-    hiddenProfileIds: overlay.hiddenProfileIds || [],
+    hiddenProfileIds: (overlay.hiddenProfileIds || []).filter((profileId) => profileId !== state.settings.currentSessionProfileId),
   }
   await writeJson(OVERLAY_FILE, nextOverlay)
 }

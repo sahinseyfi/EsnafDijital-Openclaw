@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+import path from 'path'
+import { pathToFileURL } from 'url'
+
+const [, , agentId, profileId] = process.argv
+
+if (!agentId || !profileId) {
+  console.error(JSON.stringify({ ok: false, error: 'agentId ve profileId zorunlu' }))
+  process.exit(1)
+}
+
+const agentDir = path.join('/root/.openclaw/agents', agentId, 'agent')
+
+try {
+  const ioMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/io-5pxHCi7V.js').href)
+  const storeMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/store-C1I9Mkh8.js').href)
+  const authProfilesMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/auth-profiles-BQEgLpFI.js').href)
+  const usageMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/plugin-sdk/provider-usage.js').href)
+
+  const cfg = ioMod.a()
+  const store = storeMod.n(agentDir, { allowKeychainPrompt: false })
+  const credential = store.profiles?.[profileId]
+
+  if (!credential || credential.provider !== 'openai-codex') {
+    console.log(JSON.stringify({ ok: true, usage: null }))
+    process.exit(0)
+  }
+
+  const resolved = await authProfilesMod.t({
+    cfg,
+    store,
+    profileId,
+    agentDir,
+  })
+
+  const snapshot = await usageMod.fetchCodexUsage(resolved.apiKey, credential.accountId, 5000, fetch)
+  console.log(JSON.stringify({
+    ok: true,
+    usage: {
+      plan: snapshot.plan,
+      error: snapshot.error,
+      windows: snapshot.windows || [],
+    },
+  }))
+} catch (error) {
+  console.error(JSON.stringify({ ok: false, error: error instanceof Error ? error.message : String(error) }))
+  process.exit(1)
+}

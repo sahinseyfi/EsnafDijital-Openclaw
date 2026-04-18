@@ -40,6 +40,23 @@ function authStatusText(value?: AuthSessionState['status']) {
   }
 }
 
+function usageLeft(usedPercent?: number | null) {
+  return Math.max(0, 100 - Math.round(usedPercent || 0))
+}
+
+function timeUntil(value?: string | null) {
+  if (!value) return null
+  const diffMs = new Date(value).getTime() - Date.now()
+  if (diffMs <= 0) return 'şimdi'
+  const totalMinutes = Math.round(diffMs / 60000)
+  if (totalMinutes < 60) return `${totalMinutes} dk`
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  if (hours < 24) return minutes > 0 ? `${hours} sa ${minutes} dk` : `${hours} sa`
+  const days = Math.floor(hours / 24)
+  return `${days} gün`
+}
+
 function classNames(...items: Array<string | false | null | undefined>) {
   return items.filter(Boolean).join(' ')
 }
@@ -118,7 +135,12 @@ function ProfileCard({
 
         <div className={styles.profileInfoRow}>
           <span className={styles.infoChip}>Agent: {profile.agentId || 'Yok'}</span>
-          <span className={styles.infoChip}>Profil ID: {profile.profileId}</span>
+          {profile.kind === 'authProfile' && profile.usage.fiveHourResetAt ? (
+            <span className={styles.infoChip}>5 saat: %{usageLeft(profile.usage.fiveHourPct)} kaldı{timeUntil(profile.usage.fiveHourResetAt) ? ` · ${timeUntil(profile.usage.fiveHourResetAt)}` : ''}</span>
+          ) : null}
+          {profile.kind === 'authProfile' && profile.usage.weekResetAt ? (
+            <span className={styles.infoChip}>Hafta: %{usageLeft(profile.usage.weekPct)} kaldı{timeUntil(profile.usage.weekResetAt) ? ` · ${timeUntil(profile.usage.weekResetAt)}` : ''}</span>
+          ) : null}
         </div>
       </div>
 
