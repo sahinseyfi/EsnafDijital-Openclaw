@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { deleteAuthProfile } from '@/lib/codex-dashboard/auth-store'
-import { clearDiscoveryCache, getDashboardStatus, readDashboardState, removeProfileArtifacts } from '@/lib/codex-dashboard/store'
+import { clearDiscoveryCache, getDashboardStatus, hideProfile, readDashboardState, removeProfileArtifacts } from '@/lib/codex-dashboard/store'
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -25,7 +25,11 @@ export async function POST(request: NextRequest) {
   }
 
   if (target.kind !== 'authProfile') {
-    return NextResponse.json({ ok: false, message: 'Sadece gerçek auth profilleri silinebilir' }, { status: 400 })
+    const nextState = await hideProfile(profileId).catch((error: Error) => error)
+    if (nextState instanceof Error) {
+      return NextResponse.json({ ok: false, message: nextState.message }, { status: 400 })
+    }
+    return NextResponse.json({ ok: true, message: 'Agent satırı panelden kaldırıldı', profiles: nextState.profiles, settings: nextState.settings })
   }
 
   const deleted = await deleteAuthProfile({ agentId: target.agentId, profileId }).catch((error: Error) => error)

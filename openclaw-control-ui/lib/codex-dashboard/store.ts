@@ -223,6 +223,34 @@ function normalizeProfileWorkspace(value?: string | null) {
   return normalized
 }
 
+function inferWorkspaceLabelFromProfileId(profileId: string) {
+  const marker = '__ws_'
+  const index = profileId.indexOf(marker)
+  if (index === -1) return null
+  const raw = profileId.slice(index + marker.length).trim()
+  if (!raw) return null
+  return raw
+    .split('-')
+    .filter(Boolean)
+    .map((part) => (/^\d+$/.test(part) ? part : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join(' ')
+}
+
+function resolveAuthProfileDisplayName(params: { profileId: string; email?: string | null; metaDisplayName?: string | null; metaWorkspace?: string | null }) {
+  const email = params.email || null
+  const workspace = normalizeProfileWorkspace(params.metaWorkspace) || inferWorkspaceLabelFromProfileId(params.profileId)
+  const displayName = typeof params.metaDisplayName === 'string' ? params.metaDisplayName.trim() : ''
+
+  if (displayName && (!email || displayName !== email || !workspace)) {
+    return displayName
+  }
+
+  if (workspace) return workspace
+  if (displayName) return displayName
+  if (email) return email
+  return params.profileId
+}
+
 function mapUsageSnapshot(snapshot?: { windows?: Array<{ label: string; usedPercent: number; resetAt?: number }> } | null) {
   const usage5h = snapshot?.windows?.find((window) => window.label.toLowerCase() === '5h')
   const usageWeek = snapshot?.windows?.find((window) => window.label.toLowerCase() === 'week')
@@ -324,15 +352,22 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
     const usage5h = realUsage?.windows.find((window) => window.label.toLowerCase() === '5h')
     const usageWeek = realUsage?.windows.find((window) => window.label.toLowerCase() === 'week')
 
+    const inferredWorkspace = normalizeProfileWorkspace(meta.workspace) || inferWorkspaceLabelFromProfileId(entry.profileId)
+
     profiles.push({
       profileId: entry.profileId,
-      displayName: meta.displayName || entry.email || entry.profileId,
+      displayName: resolveAuthProfileDisplayName({
+        profileId: entry.profileId,
+        email: entry.email,
+        metaDisplayName: meta.displayName,
+        metaWorkspace: inferredWorkspace,
+      }),
       note: meta.note || `Gerçek auth profile, agent=${entry.agentId}, mode=${entry.mode || 'unknown'}`,
       email: entry.email || '—',
       accountId: entry.accountId || 'bilinmiyor',
       planType: realUsage?.plan || entry.planType || (entry.mode === 'oauth' ? 'OAuth' : entry.mode || 'Auth Profile'),
       agentId: entry.agentId,
-      workspace: normalizeProfileWorkspace(meta.workspace),
+      workspace: inferredWorkspace,
       provider: entry.provider,
       mode: entry.mode || null,
       kind: 'authProfile',
@@ -378,13 +413,23 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
           }
         : profile
 
+      const overlayWorkspace = overlay.profileMeta[profile.profileId]?.workspace
+      const resolvedWorkspace = profile.kind === 'authProfile'
+        ? normalizeProfileWorkspace(overlayWorkspace) ?? mergedProfile.workspace ?? inferWorkspaceLabelFromProfileId(profile.profileId)
+        : overlayWorkspace ?? mergedProfile.workspace
+
       return {
         ...mergedProfile,
-        displayName: overlay.profileMeta[profile.profileId]?.displayName || mergedProfile.displayName,
+        displayName: profile.kind === 'authProfile'
+          ? resolveAuthProfileDisplayName({
+              profileId: profile.profileId,
+              email: mergedProfile.email,
+              metaDisplayName: overlay.profileMeta[profile.profileId]?.displayName ?? mergedProfile.displayName,
+              metaWorkspace: resolvedWorkspace,
+            })
+          : overlay.profileMeta[profile.profileId]?.displayName || mergedProfile.displayName,
         note: overlay.profileMeta[profile.profileId]?.note ?? mergedProfile.note,
-        workspace: profile.kind === 'authProfile'
-          ? normalizeProfileWorkspace(overlay.profileMeta[profile.profileId]?.workspace) ?? mergedProfile.workspace
-          : overlay.profileMeta[profile.profileId]?.workspace ?? mergedProfile.workspace,
+        workspace: resolvedWorkspace,
         isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
         health: deriveHealth(mergedProfile, settings.routingThreshold),
       }
