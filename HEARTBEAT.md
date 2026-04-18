@@ -24,11 +24,12 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `/codex-profilleri` ekranı ile çoklu OpenClaw/Codex auth profili yönetimini canlıya alma
 - aynı email altında ayrı business/workspace auth profili açma mantığını geri getirme
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
+- `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
 - `businesses`, `audits`, `offers`, `delivery_projects` şemaları
-- Project OS ekranını gerçek veri modeliyle bağlama
+- Project OS ekranını Prisma/veritabanı katmanına bağlama
 - Context Center ekranını dosya/veritabanı ayrımı karar yüzeyine çevirme
 - GPT Pro Consultation Center v1 akışını prompt üretimiyle bağlama
 - codex panelindeki profil/limit mantığını daha gerçek usage verileriyle iyileştirme

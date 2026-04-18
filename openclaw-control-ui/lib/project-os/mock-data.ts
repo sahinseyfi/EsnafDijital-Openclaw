@@ -1,0 +1,83 @@
+import type { ProjectOsDataset } from '@/lib/project-os/types'
+
+export const projectOsMockData: ProjectOsDataset = {
+  businesses: [
+    {
+      id: 'biz-001',
+      name: 'Mavi Makas Berber',
+      segment: 'berber',
+      district: 'Arnavutköy',
+      ownerName: 'Sefa Usta',
+      status: 'lead',
+    },
+    {
+      id: 'biz-002',
+      name: 'Narin Güzellik',
+      segment: 'guzellik',
+      district: 'Arnavutköy',
+      ownerName: 'Narin Kaya',
+      status: 'active',
+    },
+    {
+      id: 'biz-003',
+      name: 'Sokak Kahvesi',
+      segment: 'kafe-restoran',
+      district: 'Arnavutköy',
+      ownerName: 'Emre Çetin',
+      status: 'active',
+    },
+  ],
+  audits: [
+    {
+      id: 'aud-001',
+      businessId: 'biz-001',
+      status: 'new',
+      channelReadiness: 'dusuk',
+      summary: 'Google görünürlüğü zayıf, temel iletişim bilgileri dağınık.',
+    },
+    {
+      id: 'aud-002',
+      businessId: 'biz-002',
+      status: 'reviewed',
+      channelReadiness: 'orta',
+      summary: 'Instagram var ama güven veren dijital vitrin eksik.',
+    },
+    {
+      id: 'aud-003',
+      businessId: 'biz-003',
+      status: 'offered',
+      channelReadiness: 'orta',
+      summary: 'Menü ve lokasyon var, teklif aşamasına geçmiş durumda.',
+    },
+  ],
+  offers: [
+    {
+      id: 'off-001',
+      businessId: 'biz-002',
+      status: 'sent',
+      packageName: 'Güven Veren Dijital Vitrin',
+      amountTry: 18000,
+    },
+    {
+      id: 'off-002',
+      businessId: 'biz-003',
+      status: 'approved',
+      packageName: 'Güven Veren Dijital Vitrin',
+      amountTry: 22000,
+    },
+  ],
+  deliveryProjects: [
+    {
+      id: 'del-001',
+      businessId: 'biz-003',
+      status: 'building',
+      scope: 'Tanıtım sitesi + temel içerik düzeni',
+    },
+    {
+      id: 'del-002',
+      businessId: 'biz-002',
+      status: 'maintenance',
+      scope: 'Aylık canlılık ve küçük güncelleme takibi',
+    },
+  ],
+}
