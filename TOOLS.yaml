@@ -1,0 +1,45 @@
+tools:
+  web:
+    purpose: "Tanıtım sitesi, admin panel ve iç operasyon ekranları"
+    default_stack: ["Next.js"]
+    use_when:
+      - "dashboard ve admin ekranları"
+      - "context center"
+      - "consultation center"
+      - "iş akışı görünürlüğü"
+
+  database:
+    purpose: "Operasyonel kayıtların tutulması"
+    default_stack: ["Postgres", "Prisma"]
+    use_when:
+      - "businesses"
+      - "audits"
+      - "offers"
+      - "delivery_projects"
+      - "durumu değişen iş nesneleri"
+
+  docs:
+    purpose: "Sabit bağlam ve yaşayan proje kayıtları"
+    default_stack: ["Markdown", "YAML", "JSON"]
+    use_when:
+      - "project context"
+      - "roadmap"
+      - "heartbeat"
+      - "memory"
+      - "decisions"
+      - "playbooks"
+      - "prompt üretim bağlamı"
+
+  automation:
+    purpose: "Küçük tekrar eden işleri azaltmak"
+    default_stack: ["cron", "basit jobs"]
+    use_when:
+      - "health checks"
+      - "küçük takip görevleri"
+      - "düzenli kontrol işleri"
+
+rules:
+  - "MVP'de vector DB, event bus ve mikroservis önerilmez"
+  - "Tüm bağlam her prompta kör biçimde taşınmaz"
+  - "Önce en küçük çalışan akış kurulur"
+  - "Operasyonel veri ile kalıcı bağlam birbirine karıştırılmaz"

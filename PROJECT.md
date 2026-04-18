@@ -1,0 +1,108 @@
+# PROJECT.md
+
+## Proje Kimliği
+- **Ad:** EsnafDigital
+- **Tür:** küçük işletmeler için dijital görünürlük ve güven altyapısı
+- **Faz:** iç operasyon sistemi + ilk satılabilir teklif omurgası
+
+## Ana Problem
+Türkiye'deki küçük işletmelerin önemli bir kısmı dijitalde ya zayıf temsil ediliyor ya da güven vermeyen bir görünümle yer alıyor. Sorun çoğu zaman yalnızca "site yok" meselesi değil; dağınık bilgi, düşük güven algısı, zayıf görünürlük ve dönüşüme hazırlıksız dijital vitrin sorunu.
+
+## Ana Amaç
+Küçük işletmelerin dijitalde daha görünür, daha güvenilir ve daha kolay ulaşılabilir hale gelmesini sağlayan sade, tekrar edilebilir ve büyüyebilir bir hizmet sistemi kurmak.
+
+## Çekirdek Değer Önerisi
+EsnafDigital, küçük işletmeye ağır ajans dili değil; hızlı anlaşılır, güven veren ve doğrudan işe yarayan dijital düzen sunar.
+
+## Ana Operasyon Akışı
+1. **Audit** — işletmenin mevcut dijital görünümünü analiz et
+2. **Teklif** — ihtiyaca uygun net kapsam üret
+3. **Teslimat** — görünen iyileştirmeyi hızlıca hayata geçir
+4. **Bakım** — canlılığı ve güncelliği koru
+
+Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akışı desteklemelidir.
+
+## İlk Pazar Odağı
+- **Bölge:** İstanbul Arnavutköy ve çevresi
+- **Öncelikli segmentler:**
+  - berber
+  - güzellik salonu
+  - kafe / restoran
+
+## Ürün Omurgası
+### 1. Giriş ürünü
+**Dijital Görünürlük Kontrolü / Audit**
+- mevcut dijital görünümün hızlı fotoğrafı
+- eksiklerin ve fırsatların sade özeti
+- teklif için giriş noktası
+
+### 2. Ana ürün
+**Güven Veren Dijital Vitrin**
+- tek sayfa profesyonel web sitesi
+- harita/profil düzeni
+- temel güven unsurları
+- QR yorum akışı
+- hızlı teslim yaklaşımı
+
+### 3. Devam ürünü
+**Bakım / Canlılık / Küçük Güncelleme**
+- küçük içerik güncellemeleri
+- iletişim ve görünürlük bakımı
+- dijital vitrinin ölü kalmamasını sağlama
+
+## MVP Kapsamı
+- harita varlığı ve optimizasyonu
+- tek sayfa profesyonel web vitrini
+- temel güven unsurları
+- yorum yönlendirme akışı
+- operasyonel kayıtların panelde takibi
+- proje ve bağlam yönetimi
+- GPT Pro danışma için bağlamlı prompt üretimi
+
+## MVP Dışı
+- genel amaçlı CRM
+- tüm sektörleri aynı anda hedefleyen yapı
+- ağır AI / RAG / vector DB katmanları
+- stok / tahsilat / gelir-gider modülleri
+- çok rollü karmaşık yetkilendirme
+- mikroservis mimarisi
+
+## İç Sistem Hedefi
+İç sistem tek yerde şu üç şeyi birleştirmelidir:
+1. **Proje Yönetimi** — neredeyiz, sırada ne var, blokaj ne
+2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
+3. **Prompt Üretim Merkezi** — mevcut bağlamı kullanarak GPT Pro için kaliteli prompt hazırlama
+
+## Admin Panelde Olması Gereken Ana Sayfalar
+- Dashboard
+- Businesses
+- Business Detail
+- Audits
+- Offers
+- Delivery
+- Project OS
+- Context Center
+- GPT Pro Consultation Center
+
+## Prompt Üretim Mantığı
+Prompt üretimi, yalnızca serbest metin alanından gelen talebe göre değil; aşağıdaki bağlamı kullanarak çalışmalıdır:
+- proje tanımı
+- aktif yol haritası
+- güncel heartbeat
+- kalıcı hafıza
+- ajan kuralları
+- kullanıcı tercihleri
+- araç ve ortam notları
+
+Amaç, "uzun prompt" üretmek değil; **doğru bağlamı seçen, net hedef veren, uygulamaya dönük güçlü prompt** üretmektir.
+
+## Teknik Varsayımlar
+- **frontend/admin:** Next.js
+- **veritabanı:** Postgres
+- **ORM:** Prisma
+- **sabit bağlam:** Markdown / YAML / JSON
+- **küçük otomasyonlar:** cron / basit jobs
+
+## İş Bölümü
+- **Kurucu:** satış, saha, teklif doğrulama, yön belirleme, kritik ticari kararlar
+- **Ajan / sistem tarafı:** teknik kurulum, admin panel, veri modeli, operasyon akışı, bağlam yönetimi, prompt hazırlık sistemi, dokümantasyon ve bakım

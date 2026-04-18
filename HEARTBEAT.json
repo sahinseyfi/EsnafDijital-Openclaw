@@ -1,0 +1,33 @@
+{
+  "current_phase": "Faz 1 - ic operasyon ve baglam omurgasini kurma",
+  "main_goal": "Proje yonetimi, baglam merkezi ve prompt uretim merkezini ayni admin panel mantiginda birlestiren sade bir ic sistem kurmak",
+  "top_priorities": [
+    "Teklif omurgasini netlestirmek",
+    "Admin paneli is akisina gore toparlamak",
+    "Operasyonel veri modelini baslatmak",
+    "Project OS + Context Center + Consultation Center ekranlarini tanimlamak"
+  ],
+  "doing": [
+    "Yasayan proje dosyalarini standardize etmek",
+    "Admin panel bilgi mimarisini netlestirmek",
+    "Audit -> teklif -> teslimat akisinin gorunurlugunu artirmak"
+  ],
+  "next": [
+    "Postgres + Prisma kurulumu",
+    "businesses / audits / offers / delivery_projects semalari",
+    "Project OS ekrani",
+    "Context Center ekrani",
+    "GPT Pro Consultation Center v1"
+  ],
+  "blockers": [
+    "Ilk teklif paketinin detaylari tam keskin degil",
+    "Operasyonel kayitlar henuz tam veritabanina tasinmadi",
+    "Dosya tabanli baglam ile veritabani sinirinin netlestirilmesi gerekiyor"
+  ],
+  "alerts": [
+    "MVP'nin genel CRM'e kayma riski var",
+    "Baglam dosyalari kontrolsuz buyumemeli",
+    "Tum dosyalar her prompta kor bicimde eklenmemeli"
+  ],
+  "last_updated": "2026-04-18"
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "default_scale": "0-5",
+  "total_score": 100,
+  "dimensions": [
+    {
+      "key": "maps_presence",
+      "label": "Harita varlığı ve doğruluğu",
+      "weight": 25,
+      "checks": ["Maps kaydı var mı", "İsim/adres/telefon doğru mu", "Çalışma saatleri net mi"]
+    },
+    {
+      "key": "trust_signals",
+      "label": "Dijital güven sinyalleri",
+      "weight": 20,
+      "checks": ["Yorum sayısı", "Puan görünümü", "Temel iletişim güveni", "Görsel kalite"]
+    },
+    {
+      "key": "website_or_landing",
+      "label": "Web vitrini",
+      "weight": 20,
+      "checks": ["Site var mı", "Mobilde okunabilir mi", "Hizmet net mi", "Aksiyon butonu var mı"]
+    },
+    {
+      "key": "conversion_readiness",
+      "label": "Dönüşüm hazırlığı",
+      "weight": 20,
+      "checks": ["Ara / yol tarifi / mesaj aksiyonları", "Teklif çağrısı", "QR yorum akışı"]
+    },
+    {
+      "key": "content_freshness",
+      "label": "Canlılık ve güncellik",
+      "weight": 15,
+      "checks": ["Bilgiler güncel mi", "Görseller güncel mi", "İçerik ölü mü canlı mı"]
+    }
+  ],
+  "segment_notes": {
+    "barber": ["Hızlı arama ve yol tarifi kritik", "Güven veren görünürlük yeterli olmalı"],
+    "beauty": ["Görsel kalite ve güven algısı daha kritik"],
+    "cafe_restaurant": ["Konum, saat, ürün/mekan hissi öne çıkar"]
+  }
+}
