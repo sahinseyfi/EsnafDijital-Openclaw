@@ -19,17 +19,6 @@ function formatDate(value?: string | null) {
   }).format(new Date(value))
 }
 
-function timeAgo(value?: string | null) {
-  if (!value) return 'Henüz yok'
-  const diff = Date.now() - new Date(value).getTime()
-  const minutes = Math.max(1, Math.round(diff / 60000))
-  if (minutes < 60) return `${minutes} dk önce`
-  const hours = Math.round(minutes / 60)
-  if (hours < 24) return `${hours} sa önce`
-  const days = Math.round(hours / 24)
-  return `${days} gün önce`
-}
-
 function healthText(value?: HealthLevel) {
   switch (value) {
     case 'ok': return 'Sağlıklı'
@@ -127,23 +116,9 @@ function ProfileCard({
           </div>
         </div>
 
-        <div className={styles.profileStats}>
-          <div className={styles.statItem}>
-            <span>Agent</span>
-            <strong>{profile.agentId || 'Yok'}</strong>
-          </div>
-          <div className={styles.statItem}>
-            <span>Son kullanım</span>
-            <strong>{timeAgo(profile.lastUsedAt)}</strong>
-          </div>
-          <div className={styles.statItem}>
-            <span>5 saat</span>
-            <strong>%{profile.usage.fiveHourPct}</strong>
-          </div>
-          <div className={styles.statItem}>
-            <span>Hafta</span>
-            <strong>%{profile.usage.weekPct}</strong>
-          </div>
+        <div className={styles.profileInfoRow}>
+          <span className={styles.infoChip}>Agent: {profile.agentId || 'Yok'}</span>
+          <span className={styles.infoChip}>Profil ID: {profile.profileId}</span>
         </div>
       </div>
 

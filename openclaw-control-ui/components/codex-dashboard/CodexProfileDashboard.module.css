@@ -363,30 +363,21 @@
   word-break: break-word;
 }
 
-.profileStats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(90px, 1fr));
+.profileInfoRow {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.statItem {
-  min-width: 90px;
+.infoChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
   padding: 10px 12px;
-  border-radius: 14px;
   background: rgba(15, 23, 42, 0.55);
   border: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.statItem span {
-  display: block;
-  color: #94a3b8;
-  font-size: 12px;
-  margin-bottom: 6px;
-}
-
-.statItem strong {
-  color: #e2e8f0;
-  font-size: 14px;
+  color: #cbd5e1;
+  font-size: 13px;
 }
 
 .rowNote,
@@ -427,9 +418,6 @@
     flex-direction: column;
   }
 
-  .profileStats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 800px) {
@@ -441,8 +429,7 @@
   }
 
   .summaryGrid,
-  .formGrid,
-  .profileStats {
+  .formGrid {
     grid-template-columns: 1fr;
   }
 }
