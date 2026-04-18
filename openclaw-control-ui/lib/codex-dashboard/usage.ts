@@ -20,8 +20,7 @@ const CACHE_TTL_MS = 60_000
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
 
 export async function fetchRealCodexUsage(agentId: string, profileId: string): Promise<RealUsageSnapshot | null> {
-  const sharedProfileId = profileId.includes('__ws_') ? profileId.split('__ws_')[0] || profileId : profileId
-  const key = `${agentId}:${sharedProfileId}`
+  const key = `${agentId}:${profileId}`
   const cached = usageCache.get(key)
   const now = Date.now()
 

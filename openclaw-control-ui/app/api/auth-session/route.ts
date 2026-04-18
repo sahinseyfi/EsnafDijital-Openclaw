@@ -1,7 +1,7 @@
 import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { NextResponse } from 'next/server'
-import { buildWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
+import { buildUniqueWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
 import { clearDiscoveryCache, readDashboardState, updateDashboardState } from '@/lib/codex-dashboard/store'
 import type { AuthSessionState, CodexProfile } from '@/lib/codex-dashboard/types'
 
@@ -96,7 +96,12 @@ export async function GET() {
         const cloneKey = workspace || displayName
 
         if (cloneKey) {
-          const workspaceProfileId = buildWorkspaceAuthProfileId(profileId, cloneKey, displayName || sourceDisplayName)
+          const workspaceProfileId = await buildUniqueWorkspaceAuthProfileId({
+            agentId: sourceAgentId,
+            sourceProfileId: profileId,
+            workspace: cloneKey,
+            displayName: displayName || sourceDisplayName,
+          })
           await cloneAuthProfile({
             agentId: sourceAgentId,
             sourceProfileId: profileId,

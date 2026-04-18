@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cloneAuthProfile, buildWorkspaceAuthProfileId } from '@/lib/codex-dashboard/auth-store'
+import { buildUniqueWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
 import { clearDiscoveryCache, updateDashboardState } from '@/lib/codex-dashboard/store'
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,12 @@ export async function POST(request: NextRequest) {
       throw new Error('Kaynak gerçek auth profili bulunamadı')
     }
 
-    const targetProfileId = buildWorkspaceAuthProfileId(sourceProfileId, workspace, displayName || sourceProfile.displayName)
+    const targetProfileId = await buildUniqueWorkspaceAuthProfileId({
+      agentId: sourceProfile.agentId,
+      sourceProfileId,
+      workspace,
+      displayName: displayName || sourceProfile.displayName,
+    })
 
     await cloneAuthProfile({
       agentId: sourceProfile.agentId,

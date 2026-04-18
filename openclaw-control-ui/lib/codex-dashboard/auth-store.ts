@@ -18,6 +18,28 @@ export function buildWorkspaceAuthProfileId(sourceProfileId: string, workspace: 
   return `${sourceProfileId}__ws_${slugify(workspace || displayName || 'workspace')}`
 }
 
+export async function buildUniqueWorkspaceAuthProfileId(params: {
+  agentId: string
+  sourceProfileId: string
+  workspace: string
+  displayName?: string | null
+}) {
+  const store = await loadAuthProfiles(params.agentId)
+  const profiles = store.profiles || {}
+  const baseId = buildWorkspaceAuthProfileId(params.sourceProfileId, params.workspace, params.displayName)
+
+  if (!profiles[baseId]) {
+    return baseId
+  }
+
+  let index = 2
+  while (profiles[`${baseId}-${index}`]) {
+    index += 1
+  }
+
+  return `${baseId}-${index}`
+}
+
 function authProfilesPath(agentId: string) {
   return path.join('/root/.openclaw/agents', agentId, 'agent', 'auth-profiles.json')
 }
