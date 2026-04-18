@@ -18,6 +18,7 @@ const USAGE_HELPER = '/usr/local/bin/esnafdijital-openclaw-usage'
 const CACHE_TTL_MS = 60_000
 
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
+let liveStatusUsageCache: { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> } | null = null
 
 export async function fetchRealCodexUsage(agentId: string, profileId: string): Promise<RealUsageSnapshot | null> {
   const key = `${agentId}:${profileId}`
@@ -46,5 +47,40 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string): P
   })()
 
   usageCache.set(key, { value: cached?.value || null, expiresAt: 0, inflight })
+  return inflight
+}
+
+export async function fetchLiveStatusCodexUsage(): Promise<RealUsageSnapshot | null> {
+  const now = Date.now()
+  if (liveStatusUsageCache?.value && liveStatusUsageCache.expiresAt > now) {
+    return liveStatusUsageCache.value
+  }
+  if (liveStatusUsageCache?.inflight) {
+    return liveStatusUsageCache.inflight
+  }
+
+  const inflight = (async () => {
+    try {
+      const { stdout } = await execFileAsync('openclaw', ['status', '--json', '--usage'], { maxBuffer: 1024 * 1024 })
+      const payload = JSON.parse(stdout) as {
+        usage?: {
+          providers?: Array<{
+            provider?: string
+            plan?: string
+            windows?: RealUsageWindow[]
+          }>
+        }
+      }
+      const provider = payload.usage?.providers?.find((entry) => entry.provider === 'openai-codex') || payload.usage?.providers?.[0]
+      const value = provider ? { plan: provider.plan, windows: provider.windows || [] } : null
+      liveStatusUsageCache = { value, expiresAt: Date.now() + 15_000 }
+      return value
+    } catch {
+      liveStatusUsageCache = { value: null, expiresAt: Date.now() + 10_000 }
+      return null
+    }
+  })()
+
+  liveStatusUsageCache = { value: liveStatusUsageCache?.value || null, expiresAt: 0, inflight }
   return inflight
 }

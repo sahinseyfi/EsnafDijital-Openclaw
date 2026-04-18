@@ -12,7 +12,7 @@ import type {
   DashboardSummary,
   HealthLevel,
 } from '@/lib/codex-dashboard/types'
-import { fetchRealCodexUsage } from '@/lib/codex-dashboard/usage'
+import { fetchLiveStatusCodexUsage, fetchRealCodexUsage } from '@/lib/codex-dashboard/usage'
 
 const execFileAsync = promisify(execFile)
 const DATA_DIR = '/opt/esnafdijital/data'
@@ -221,6 +221,18 @@ function normalizeProfileWorkspace(value?: string | null) {
   if (!normalized) return null
   if (normalized.startsWith('/')) return null
   return normalized
+}
+
+function mapUsageSnapshot(snapshot?: { windows?: Array<{ label: string; usedPercent: number; resetAt?: number }> } | null) {
+  const usage5h = snapshot?.windows?.find((window) => window.label.toLowerCase() === '5h')
+  const usageWeek = snapshot?.windows?.find((window) => window.label.toLowerCase() === 'week')
+  if (!usage5h && !usageWeek) return null
+  return {
+    fiveHourPct: Math.round(usage5h?.usedPercent || 0),
+    weekPct: Math.round(usageWeek?.usedPercent || 0),
+    fiveHourResetAt: usage5h?.resetAt ? new Date(usage5h.resetAt).toISOString() : null,
+    weekResetAt: usageWeek?.resetAt ? new Date(usageWeek.resetAt).toISOString() : null,
+  }
 }
 
 function uniqueProfiles(profiles: CodexProfile[]) {
@@ -506,7 +518,7 @@ export async function hideProfile(profileId: string) {
   return readDashboardState()
 }
 
-export function buildSummary(state: DashboardState): DashboardSummary {
+export function buildSummary(state: DashboardState, currentSessionUsage?: DashboardSummary['currentSessionUsage']): DashboardSummary {
   const recommended = state.profiles.find((profile) => profile.recommended)
   const current = state.profiles.find((profile) => profile.isCurrentProfile)
   return {
@@ -518,14 +530,18 @@ export function buildSummary(state: DashboardState): DashboardSummary {
     workspace: state.settings.workspace,
     currentModel: state.settings.currentModel,
     activeAgentId: state.settings.activeAgentId,
+    currentSessionUsage: currentSessionUsage || null,
   }
 }
 
 export async function getDashboardStatus(): Promise<DashboardStatusResponse> {
-  const state = await readDashboardState()
+  const [state, liveStatusUsage] = await Promise.all([
+    readDashboardState(),
+    fetchLiveStatusCodexUsage(),
+  ])
   return {
     lastRefreshedAt: nowIso(),
-    summary: buildSummary(state),
+    summary: buildSummary(state, mapUsageSnapshot(liveStatusUsage)),
     profiles: state.profiles,
     settings: state.settings,
   }

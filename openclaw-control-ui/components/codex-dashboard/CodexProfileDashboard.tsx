@@ -100,6 +100,7 @@ function ProfileCard({
   onHide,
   setEditDisplayName,
   setEditNote,
+  currentSessionUsage,
 }: {
   profile: CodexProfile
   busyKey: string | null
@@ -114,7 +115,10 @@ function ProfileCard({
   onHide: (profileId: string) => void
   setEditDisplayName: (value: string) => void
   setEditNote: (value: string) => void
+  currentSessionUsage?: DashboardStatusResponse['summary']['currentSessionUsage']
 }) {
+  const visibleUsage = profile.isCurrentProfile && currentSessionUsage ? currentSessionUsage : profile.usage
+
   return (
     <article className={classNames(styles.profileRow, profile.isCurrentProfile && styles.profileRowCurrent)}>
       <div className={styles.profileRowMain}>
@@ -135,11 +139,11 @@ function ProfileCard({
 
         <div className={styles.profileInfoRow}>
           <span className={styles.infoChip}>Agent: {profile.agentId || 'Yok'}</span>
-          {profile.kind === 'authProfile' && profile.usage.fiveHourResetAt ? (
-            <span className={styles.infoChip}>5 saat: %{usageLeft(profile.usage.fiveHourPct)} kaldı{timeUntil(profile.usage.fiveHourResetAt) ? ` · ${timeUntil(profile.usage.fiveHourResetAt)}` : ''}</span>
+          {profile.kind === 'authProfile' && visibleUsage?.fiveHourResetAt ? (
+            <span className={styles.infoChip}>{profile.isCurrentProfile && currentSessionUsage ? 'Oturum 5 saat' : '5 saat'}: %{usageLeft(visibleUsage.fiveHourPct)} kaldı{timeUntil(visibleUsage.fiveHourResetAt) ? ` · ${timeUntil(visibleUsage.fiveHourResetAt)}` : ''}</span>
           ) : null}
-          {profile.kind === 'authProfile' && profile.usage.weekResetAt ? (
-            <span className={styles.infoChip}>Hafta: %{usageLeft(profile.usage.weekPct)} kaldı{timeUntil(profile.usage.weekResetAt) ? ` · ${timeUntil(profile.usage.weekResetAt)}` : ''}</span>
+          {profile.kind === 'authProfile' && visibleUsage?.weekResetAt ? (
+            <span className={styles.infoChip}>{profile.isCurrentProfile && currentSessionUsage ? 'Oturum hafta' : 'Hafta'}: %{usageLeft(visibleUsage.weekPct)} kaldı{timeUntil(visibleUsage.weekResetAt) ? ` · ${timeUntil(visibleUsage.weekResetAt)}` : ''}</span>
           ) : null}
         </div>
       </div>
@@ -550,6 +554,7 @@ export function CodexProfileDashboard({
               onHide={hideProfile}
               setEditDisplayName={setEditDisplayName}
               setEditNote={setEditNote}
+              currentSessionUsage={status.summary.currentSessionUsage}
             />
           ))}
         </div>

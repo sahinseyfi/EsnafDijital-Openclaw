@@ -80,6 +80,7 @@ export interface DashboardSummary {
   workspace: string
   currentModel: string
   activeAgentId: string
+  currentSessionUsage?: CodexUsage | null
 }
 
 export interface DashboardStatusResponse {
