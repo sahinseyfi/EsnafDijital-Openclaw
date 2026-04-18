@@ -518,6 +518,25 @@ export async function hideProfile(profileId: string) {
   return readDashboardState()
 }
 
+export async function removeProfileArtifacts(profileId: string) {
+  const overlay = await loadOverlay()
+  const nextManagedProfiles = (overlay.managedProfiles || []).filter((profile) => profile.profileId !== profileId)
+  const nextProfileMeta = { ...overlay.profileMeta }
+  delete nextProfileMeta[profileId]
+
+  await writeJson(OVERLAY_FILE, {
+    ...overlay,
+    settings: {
+      ...overlay.settings,
+      currentSessionProfileId: overlay.settings.currentSessionProfileId === profileId ? null : overlay.settings.currentSessionProfileId,
+      globalProfileId: overlay.settings.globalProfileId === profileId ? null : overlay.settings.globalProfileId,
+    },
+    managedProfiles: nextManagedProfiles,
+    profileMeta: nextProfileMeta,
+    hiddenProfileIds: (overlay.hiddenProfileIds || []).filter((id) => id !== profileId),
+  })
+}
+
 export function buildSummary(state: DashboardState, currentSessionUsage?: DashboardSummary['currentSessionUsage']): DashboardSummary {
   const recommended = state.profiles.find((profile) => profile.recommended)
   const current = state.profiles.find((profile) => profile.isCurrentProfile)

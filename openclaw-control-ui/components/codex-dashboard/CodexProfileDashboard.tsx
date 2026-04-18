@@ -162,7 +162,7 @@ function ProfileCard({
         <button className={styles.secondaryButton} onClick={() => (isEditing ? onEditCancel() : onEditOpen(profile))}>
           {isEditing ? 'Düzenlemeyi kapat' : 'Ad / not düzenle'}
         </button>
-        <button className={styles.ghostDangerButton} disabled={busyKey === `hide:${profile.profileId}`} onClick={() => onHide(profile.profileId)}>
+        <button className={styles.ghostDangerButton} disabled={profile.isCurrentProfile || profile.kind !== 'authProfile' || busyKey === `hide:${profile.profileId}`} onClick={() => onHide(profile.profileId)}>
           Sil
         </button>
       </div>
@@ -418,6 +418,7 @@ export function CodexProfileDashboard({
   }, [editDisplayName, editNote, refreshDashboard, showFlash])
 
   const hideProfile = useCallback(async (profileId: string) => {
+    if (!window.confirm('Bu profil gerçekten silinecek. Devam edilsin mi?')) return
     setBusyKey(`hide:${profileId}`)
     try {
       const payload = await request<{ ok: true; message: string }>('/api/profile-delete', {
@@ -427,7 +428,7 @@ export function CodexProfileDashboard({
       await refreshDashboard(false)
       showFlash(payload.message, 'info')
     } catch (error: any) {
-      const message = error?.message || 'Profil kaldırılamadı'
+      const message = error?.message || 'Profil silinemedi'
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
