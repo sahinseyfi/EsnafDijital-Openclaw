@@ -1,8 +1,8 @@
 import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { NextResponse } from 'next/server'
-import { buildUniqueWorkspaceAuthProfileId, cloneAuthProfile } from '@/lib/codex-dashboard/auth-store'
-import { clearDiscoveryCache, hideProfiles, readDashboardState, updateDashboardState } from '@/lib/codex-dashboard/store'
+import { canonicalizeAuthProfile } from '@/lib/codex-dashboard/auth-store'
+import { clearDiscoveryCache, readDashboardState, removeProfileArtifacts, updateDashboardState } from '@/lib/codex-dashboard/store'
 import type { AuthSessionState, CodexProfile } from '@/lib/codex-dashboard/types'
 
 const execFileAsync = promisify(execFile)
@@ -29,13 +29,15 @@ function buildFallbackProfile(params: {
   displayName: string
   note: string
   workspace?: string | null
+  email?: string | null
+  accountId?: string | null
 }): CodexProfile {
   return {
     profileId: params.profileId,
     displayName: params.displayName,
     note: params.note,
-    email: '—',
-    accountId: 'bilinmiyor',
+    email: params.email || '—',
+    accountId: params.accountId || 'bilinmiyor',
     planType: 'OAuth',
     agentId: params.agentId,
     workspace: params.workspace || null,
@@ -74,87 +76,62 @@ export async function GET() {
     ...(helper || {}),
   }
 
-  const profileId = extractProfileId(merged.result)
-  if (profileId) {
-    merged.profileId = profileId
+  const rawProfileId = extractProfileId(merged.result)
+  if (rawProfileId) {
+    merged.profileId = rawProfileId
   }
 
   const terminal = merged.status === 'completed' || merged.status === 'error' || merged.status === 'cancelled'
   if (terminal) {
-    let autoHideProfileId: string | null = null
+    let rawProfileIdToCleanup: string | null = null
 
     await updateDashboardState(async (current) => {
       let nextProfiles = current.profiles
       let nextCurrentProfileId = current.settings.currentSessionProfileId
 
-      if (merged.status === 'completed' && profileId) {
+      if (merged.status === 'completed' && rawProfileId) {
         const displayName = merged.displayName?.trim() || ''
         const note = merged.note?.trim() || ''
         const workspace = merged.workspace?.trim() || ''
-        const sourceProfile = current.profiles.find((profile) => profile.profileId === profileId)
-        const sourceAgentId = sourceProfile?.agentId || current.settings.activeAgentId || 'main'
-        const sourceDisplayName = sourceProfile?.displayName || displayName || workspace || profileId
-        const sourceNote = sourceProfile?.note || note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
-        const cloneKey = workspace || displayName
+        const rawProfile = current.profiles.find((profile) => profile.profileId === rawProfileId)
+        const sourceAgentId = rawProfile?.agentId || current.settings.activeAgentId || 'main'
+        const canonical = await canonicalizeAuthProfile({
+          agentId: sourceAgentId,
+          profileId: rawProfileId,
+        })
 
-        if (cloneKey) {
-          const workspaceProfileId = await buildUniqueWorkspaceAuthProfileId({
-            agentId: sourceAgentId,
-            sourceProfileId: profileId,
-            workspace: cloneKey,
-            displayName: displayName || sourceDisplayName,
-          })
-          await cloneAuthProfile({
-            agentId: sourceAgentId,
-            sourceProfileId: profileId,
-            targetProfileId: workspaceProfileId,
-          })
-          clearDiscoveryCache()
-          autoHideProfileId = profileId !== workspaceProfileId ? profileId : null
-          nextProfiles = [
-            ...current.profiles.filter((profile) => profile.profileId !== workspaceProfileId && profile.profileId !== profileId),
-            {
-              ...(sourceProfile || buildFallbackProfile({
-                profileId: workspaceProfileId,
-                agentId: sourceAgentId,
-                displayName: displayName || workspace || sourceDisplayName,
-                note: note || sourceNote,
-                workspace: workspace || displayName || null,
-              })),
-              profileId: workspaceProfileId,
-              workspace: workspace || displayName || sourceProfile?.workspace || null,
-              displayName: displayName || workspace || sourceDisplayName,
-              note: note || sourceNote,
-              isCurrentProfile: true,
-              recommended: false,
-            },
-          ]
-          nextCurrentProfileId = workspaceProfileId
-          merged.profileId = workspaceProfileId
-        } else {
-          const updated = current.profiles.map((profile) =>
-            profile.profileId === profileId
-              ? {
-                  ...profile,
-                  displayName: displayName || profile.displayName,
-                  note: note || profile.note,
-                }
-              : profile,
-          )
-          nextProfiles = updated.some((profile) => profile.profileId === profileId)
-            ? updated
-            : [
-                ...updated,
-                buildFallbackProfile({
-                  profileId,
-                  agentId: sourceAgentId,
-                  displayName: displayName || sourceDisplayName,
-                  note: note || sourceNote,
-                  workspace: workspace || sourceProfile?.workspace || null,
-                }),
-              ]
-          nextCurrentProfileId = profileId
-        }
+        clearDiscoveryCache()
+        rawProfileIdToCleanup = canonical.previousProfileId !== canonical.canonicalProfileId ? canonical.previousProfileId : null
+
+        const canonicalDisplayName = displayName || workspace || rawProfile?.displayName || canonical.email || canonical.canonicalProfileId
+        const canonicalNote = note || rawProfile?.note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
+        const canonicalWorkspace = workspace || rawProfile?.workspace || null
+        const existingCanonical = current.profiles.find((profile) => profile.profileId === canonical.canonicalProfileId)
+
+        nextProfiles = [
+          ...current.profiles.filter((profile) => profile.profileId !== rawProfileId && profile.profileId !== canonical.canonicalProfileId),
+          {
+            ...(existingCanonical || rawProfile || buildFallbackProfile({
+              profileId: canonical.canonicalProfileId,
+              agentId: sourceAgentId,
+              displayName: canonicalDisplayName,
+              note: canonicalNote,
+              workspace: canonicalWorkspace,
+              email: canonical.email,
+              accountId: canonical.accountId,
+            })),
+            profileId: canonical.canonicalProfileId,
+            accountId: canonical.accountId || existingCanonical?.accountId || rawProfile?.accountId || 'bilinmiyor',
+            email: canonical.email || existingCanonical?.email || rawProfile?.email || '—',
+            workspace: canonicalWorkspace,
+            displayName: canonicalDisplayName,
+            note: canonicalNote,
+            isCurrentProfile: true,
+            recommended: false,
+          },
+        ]
+        nextCurrentProfileId = canonical.canonicalProfileId
+        merged.profileId = canonical.canonicalProfileId
       }
 
       return {
@@ -168,8 +145,8 @@ export async function GET() {
       }
     })
 
-    if (autoHideProfileId) {
-      await hideProfiles([autoHideProfileId])
+    if (rawProfileIdToCleanup) {
+      await removeProfileArtifacts(rawProfileIdToCleanup)
     }
   }
 

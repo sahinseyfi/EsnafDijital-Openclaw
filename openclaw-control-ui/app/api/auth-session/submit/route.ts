@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     message: displayName || workspace
-      ? 'Auth doğrulaması başlatıldı. Tamamlanınca bu bilgiyle ayrı profil kaydedilecek.'
-      : 'Auth doğrulaması başlatıldı. İsim verirsen ayrı profil olarak kaydedilir.',
+      ? 'Auth doğrulaması başlatıldı. Hesap bağlamına göre profil oluşturulacak veya güncellenecek.'
+      : 'Auth doğrulaması başlatıldı. Profil eşleşirse güncellenir, gerekirse yeni kayıt açılır.',
     authSession: nextState.authSession,
     profiles: nextState.profiles,
   })

@@ -22,7 +22,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - eski canlı siteyi yayından alıp yeniden kurulum için zemini temizleme
 - `admin.esnafdijital.com.tr` altında gerçek Next.js admin uygulamasını yayına alma
 - `/codex-profilleri` ekranı ile çoklu OpenClaw/Codex auth profili yönetimini canlıya alma
-- aynı email altında ayrı business/workspace auth profili açma mantığını geri getirme
+- codex auth profil kimliğini `principalKey + accountId` çizgisine taşıma
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 
@@ -32,8 +32,8 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - Project OS ekranını Prisma/veritabanı katmanına bağlama
 - Context Center ekranını dosya/veritabanı ayrımı karar yüzeyine çevirme
 - GPT Pro Consultation Center v1 akışını prompt üretimiyle bağlama
-- codex panelindeki profil/limit mantığını daha gerçek usage verileriyle iyileştirme
-- workspace bazlı auth profillerinde kullanım/veri ayrımını daha görünür hale getirme
+- codex panelindeki profil akışını canonical auth modele göre sadeleştirme
+- Project OS, Context Center ve Consultation Center ekranlarını gerçek veri/akışla bağlama
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detayları tam keskin değil
