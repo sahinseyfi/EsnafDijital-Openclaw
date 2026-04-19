@@ -25,6 +25,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center icin backend evaluator ve `/api/consultation-center/evaluate` route'u eklendi; route/missing-fields mantığı ürünleştirildi
 - Consultation Center icin otomatik prompt preview üreticisi eklendi; external route kayitlari artik brief + context pack'ten prompt taslağı çıkarıyor
 - Consultation Center prompt preview alanina kopyalama aksiyonu eklendi; üretilen prompt artik doğrudan GPT Pro oturumuna taşınabilir
+- Consultation Center kayit detay API'sine PATCH desteği eklendi; title, karar sorusu, why-now, desired output, brief ve context pack artik güncellenebilir
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi

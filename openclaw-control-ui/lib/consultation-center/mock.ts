@@ -1,6 +1,20 @@
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
-import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
+
+type ConsultationUpdateInput = {
+  title?: string
+  decisionQuestion?: string
+  whyNow?: string
+  desiredOutput?: string
+  summary?: string
+  stage?: ConsultationDetail['stage']
+  dueAt?: string | null
+  businessBrief?: Record<string, string | string[] | null>
+  technicalBrief?: Record<string, string | string[] | null>
+  sharedBrief?: Record<string, string | string[] | null>
+  contextRefs?: ConsultationContextRef[]
+}
 
 const consultations: ConsultationDetail[] = [
   {
@@ -223,4 +237,29 @@ export function createMockConsultation(input: { title?: string; type?: string; n
 
   consultations.unshift(item)
   return item
+}
+
+export function updateMockConsultation(id: string, input: ConsultationUpdateInput) {
+  const index = consultations.findIndex((entry) => entry.id === id)
+  if (index === -1) return null
+
+  const current = consultations[index]
+  const next: ConsultationDetail = {
+    ...current,
+    title: input.title?.trim() || current.title,
+    decisionQuestion: input.decisionQuestion?.trim() || current.decisionQuestion,
+    whyNow: input.whyNow?.trim() || current.whyNow,
+    desiredOutput: input.desiredOutput?.trim() || current.desiredOutput,
+    summary: input.summary?.trim() || current.summary,
+    stage: input.stage || current.stage,
+    dueAt: input.dueAt === undefined ? current.dueAt : input.dueAt,
+    businessBrief: input.businessBrief || current.businessBrief,
+    technicalBrief: input.technicalBrief || current.technicalBrief,
+    sharedBrief: input.sharedBrief || current.sharedBrief,
+    contextRefs: input.contextRefs || current.contextRefs,
+    updatedAt: new Date().toISOString(),
+  }
+
+  consultations[index] = next
+  return getConsultationDetail(id)
 }

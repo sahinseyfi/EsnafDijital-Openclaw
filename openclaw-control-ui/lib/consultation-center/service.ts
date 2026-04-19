@@ -2,8 +2,22 @@ import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationR
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { prisma } from '@/lib/prisma'
-import { createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail } from '@/lib/consultation-center/mock'
-import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
+import { createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
+
+type ConsultationUpdateInput = {
+  title?: string
+  decisionQuestion?: string
+  whyNow?: string
+  desiredOutput?: string
+  summary?: string
+  stage?: ConsultationStage
+  dueAt?: string | null
+  businessBrief?: Record<string, string | string[] | null>
+  technicalBrief?: Record<string, string | string[] | null>
+  sharedBrief?: Record<string, string | string[] | null>
+  contextRefs?: ConsultationContextRef[]
+}
 
 type ConsultationRecord = Consultation & {
   brief: ConsultationBrief | null
@@ -235,5 +249,61 @@ export async function createConsultation(input: { title?: string; type?: string;
       created,
       payload: getMockConsultationCenterPayload(created.id),
     }
+  }
+}
+
+export async function updateConsultation(id: string, input: ConsultationUpdateInput) {
+  if (!hasDatabaseUrl()) {
+    const updated = updateMockConsultation(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+
+  try {
+    const updated = await prisma.consultation.update({
+      where: { id },
+      data: {
+        title: input.title?.trim(),
+        decisionQuestion: input.decisionQuestion?.trim(),
+        whyNow: input.whyNow?.trim(),
+        goal: input.desiredOutput?.trim(),
+        stage: input.stage,
+        dueAt: input.dueAt === undefined ? undefined : (input.dueAt ? new Date(input.dueAt) : null),
+        brief: {
+          upsert: {
+            create: {
+              businessJson: input.businessBrief,
+              technicalJson: input.technicalBrief,
+              sharedJson: {
+                ...(input.sharedBrief || {}),
+                ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+              },
+              contextRefsJson: input.contextRefs,
+            },
+            update: {
+              businessJson: input.businessBrief,
+              technicalJson: input.technicalBrief,
+              sharedJson: {
+                ...(input.sharedBrief || {}),
+                ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+              },
+              contextRefsJson: input.contextRefs,
+            },
+          },
+        },
+      },
+      include: {
+        brief: true,
+        runs: true,
+        actions: true,
+      },
+    })
+
+    return {
+      updated: mapRecordToDetail(updated),
+      payload: await getConsultationCenterPayload(id),
+    }
+  } catch {
+    const updated = updateMockConsultation(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
   }
 }
