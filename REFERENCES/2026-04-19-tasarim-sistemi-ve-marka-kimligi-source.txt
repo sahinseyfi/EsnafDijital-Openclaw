@@ -10,11 +10,10 @@ Amaç:
 Ana referanslar:
 - Kalıcı karar özeti: `DECISIONS/2026-04-19-brand-design-system.md`
 - Referans haritası: `REFERENCES/design-system/00-reference-map.md`
-- Marka ve ton: `REFERENCES/design-system/01-brand-and-voice.md`
-- Tokenlar: `REFERENCES/design-system/02-design-tokens.md`
-- Layout ve UX: `REFERENCES/design-system/03-layout-patterns-and-ux.md`
-- Component envanteri: `REFERENCES/design-system/04-component-inventory.md`
-- Anasayfa referansı: `REFERENCES/design-system/05-homepage-reference.md`
+- Foundations: `REFERENCES/design-system/foundations/*`
+- Patterns: `REFERENCES/design-system/patterns/*`
+- Components: `REFERENCES/design-system/components/*`
+- Geriye dönük kısa giriş dosyaları: `REFERENCES/design-system/01-05*.md`
 
 Bu temizlikte çıkarılanlar:
 - prompt metinleri
