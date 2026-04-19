@@ -1,6 +1,7 @@
 import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationRun } from '@prisma/client'
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
+import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
 import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
@@ -95,12 +96,33 @@ function mapRecordToInboxItem(record: ConsultationRecord): ConsultationInboxItem
     technicalBrief,
     sharedBrief,
   })
+  const latestRun = [...record.runs].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]
+  const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
+    id: action.id,
+    ownerRole: mapOwnerRole(action.ownerRole),
+    title: action.title,
+    status: action.status === 'done' ? 'done' : 'open',
+    linkedEntityType: action.linkedEntityType === 'project_os' || action.linkedEntityType === 'context_center' ? action.linkedEntityType : undefined,
+    linkedEntityId: action.linkedEntityId || undefined,
+  }))
+  const stage = inferConsultationStage({
+    currentStage: mapConsultationStage(record.stage),
+    decisionQuestion: record.decisionQuestion,
+    whyNow: record.whyNow,
+    desiredOutput: record.goal,
+    missingFields: evaluation.missingFields,
+    route: evaluation.route,
+    promptText: latestRun?.promptText || null,
+    sentAt: latestRun?.sentAt?.toISOString() || null,
+    responseSummary: latestRun?.responseSummary || null,
+    actions,
+  })
 
   return {
     id: record.id,
     title: record.title,
     type: mapConsultationType(record.type),
-    stage: mapConsultationStage(record.stage),
+    stage,
     route: evaluation.route,
     ownerRole: evaluation.ownerRole,
     dueAt: record.dueAt ? record.dueAt.toISOString() : null,
@@ -142,9 +164,30 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
         sharedBrief,
       })
     : '')
+  const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
+    id: action.id,
+    ownerRole: mapOwnerRole(action.ownerRole),
+    title: action.title,
+    status: action.status === 'done' ? 'done' : 'open',
+    linkedEntityType: action.linkedEntityType === 'project_os' || action.linkedEntityType === 'context_center' ? action.linkedEntityType : undefined,
+    linkedEntityId: action.linkedEntityId || undefined,
+  }))
+  const stage = inferConsultationStage({
+    currentStage: inbox.stage,
+    decisionQuestion: record.decisionQuestion,
+    whyNow: record.whyNow,
+    desiredOutput: record.goal,
+    missingFields: evaluation.missingFields,
+    route: evaluation.route,
+    promptText,
+    sentAt: latestRun?.sentAt?.toISOString() || null,
+    responseSummary: latestRun?.responseSummary || null,
+    actions,
+  })
 
   return {
     ...inbox,
+    stage,
     whyNow: record.whyNow || 'Henüz yazılmadı',
     desiredOutput: record.goal || 'Henüz seçilmedi',
     missingFields: evaluation.missingFields,
@@ -158,14 +201,7 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
       sentAt: latestRun?.sentAt?.toISOString() || null,
       responseSummary: latestRun?.responseSummary || null,
     },
-    actions: record.actions.map((action) => ({
-      id: action.id,
-      ownerRole: mapOwnerRole(action.ownerRole),
-      title: action.title,
-      status: action.status === 'done' ? 'done' : 'open',
-      linkedEntityType: action.linkedEntityType === 'project_os' || action.linkedEntityType === 'context_center' ? action.linkedEntityType : undefined,
-      linkedEntityId: action.linkedEntityId || undefined,
-    })),
+    actions,
   }
 }
 

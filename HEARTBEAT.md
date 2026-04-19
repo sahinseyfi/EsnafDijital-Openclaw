@@ -31,6 +31,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center icin sonuç kaydı akışı eklendi; prompt + cevap özeti kaydedilip stage answered'a taşınabiliyor
 - Consultation Center aksiyon listesine durum toggle eklendi; action'lar done/open olarak işaretlenebiliyor ve tümü tamamlanınca stage actioned'a taşınabiliyor
 - Consultation Inbox'a route / tip / sahiplik filtreleri eklendi; consultation listesi artik karar işlerini daha hızlı ayiklayabiliyor
+- Consultation stage görünümü route + prompt run + action durumundan otomatik türetilir hale geldi; draft/clarifying/ready_to_send/answered/actioned daha tutarlı gösteriliyor
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi

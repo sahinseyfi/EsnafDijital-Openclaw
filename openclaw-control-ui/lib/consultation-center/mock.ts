@@ -1,5 +1,6 @@
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
+import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -154,12 +155,24 @@ function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
     technicalBrief: consultation.technicalBrief,
     sharedBrief: consultation.sharedBrief,
   })
+  const stage = inferConsultationStage({
+    currentStage: consultation.stage,
+    decisionQuestion: consultation.decisionQuestion,
+    whyNow: consultation.whyNow,
+    desiredOutput: consultation.desiredOutput,
+    missingFields: evaluation.missingFields,
+    route: evaluation.route,
+    promptText: consultation.promptRun.promptText,
+    sentAt: consultation.promptRun.sentAt,
+    responseSummary: consultation.promptRun.responseSummary,
+    actions: consultation.actions,
+  })
 
   return {
     id: consultation.id,
     title: consultation.title,
     type: consultation.type,
-    stage: consultation.stage,
+    stage,
     route: evaluation.route,
     ownerRole: evaluation.ownerRole,
     dueAt: consultation.dueAt,
@@ -202,9 +215,22 @@ export function getConsultationDetail(id: string): ConsultationDetail | null {
         sharedBrief: item.sharedBrief,
       })
     : '')
+  const stage = inferConsultationStage({
+    currentStage: item.stage,
+    decisionQuestion: item.decisionQuestion,
+    whyNow: item.whyNow,
+    desiredOutput: item.desiredOutput,
+    missingFields: evaluation.missingFields,
+    route: evaluation.route,
+    promptText,
+    sentAt: item.promptRun.sentAt,
+    responseSummary: item.promptRun.responseSummary,
+    actions: item.actions,
+  })
 
   return {
     ...item,
+    stage,
     route: evaluation.route,
     ownerRole: evaluation.ownerRole,
     gptRecommended: evaluation.gptRecommended,
