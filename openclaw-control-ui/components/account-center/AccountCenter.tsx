@@ -229,7 +229,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       <section className="stats-grid" style={{ marginTop: 24 }}>
         <article className="card stat-card">
           <strong>{payload.state.totalProfiles}</strong>
-          <p className="muted">kayıtlı gerçek auth profili</p>
+          <p className="muted">Bu ekran sadece gerçek auth kaydı, current seçim ve operatör adı ilişkisini net kurmak için yazıldı.</p>
         </article>
       </section>
 
