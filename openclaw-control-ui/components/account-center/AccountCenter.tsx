@@ -36,10 +36,32 @@ function authStatusText(value?: AuthSessionState['status']) {
   }
 }
 
-function limitText(label: string, value?: number | null, resetAt?: string | null) {
-  if (typeof value !== 'number') return `${label}: veri yok`
-  const resetText = resetAt ? `, sıfır: ${formatDate(resetAt)}` : ''
-  return `${label}: %${value} kaldı${resetText}`
+function clampPercent(value?: number | null) {
+  if (typeof value !== 'number' || Number.isNaN(value)) return 0
+  return Math.max(0, Math.min(100, Math.round(value)))
+}
+
+function formatRemainingTime(resetAt?: string | null) {
+  if (!resetAt) return 'veri yok'
+  const diffMs = new Date(resetAt).getTime() - Date.now()
+  if (!Number.isFinite(diffMs) || diffMs <= 0) return 'sıfırlanıyor'
+
+  const totalMinutes = Math.ceil(diffMs / 60000)
+  const days = Math.floor(totalMinutes / (60 * 24))
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60)
+  const minutes = totalMinutes % 60
+
+  if (days > 0) return `${days}g ${hours}s`
+  if (hours > 0) return `${hours}s ${minutes}dk`
+  return `${minutes}dk`
+}
+
+function resetProgress(resetAt?: string | null, totalHours?: number) {
+  if (!resetAt || !totalHours) return 0
+  const totalMs = totalHours * 60 * 60 * 1000
+  const remainingMs = new Date(resetAt).getTime() - Date.now()
+  if (!Number.isFinite(remainingMs) || remainingMs <= 0) return 0
+  return Math.max(0, Math.min(100, Math.round((remainingMs / totalMs) * 100)))
 }
 
 export function AccountCenter({ initialPayload }: { initialPayload: AccountCenterPayload }) {
@@ -314,9 +336,30 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
                     </div>
                     {profile.note ? <div className="muted" style={{ marginTop: 6 }}>{profile.note}</div> : null}
                     {profile.workspaceLabel ? <div className="badge" style={{ marginTop: 8 }}>{profile.workspaceLabel}</div> : null}
-                    <div className="profile-limit-row">
-                      <span className="badge">{limitText('5 saat', profile.limits?.fiveHourLeftPct, profile.limits?.fiveHourResetAt)}</span>
-                      <span className="badge">{limitText('Hafta', profile.limits?.weekLeftPct, profile.limits?.weekResetAt)}</span>
+                    <div className="profile-limit-stack">
+                      <div className="limit-block">
+                        <div className="limit-label">5 saat</div>
+                        <div className="limit-bar limit-bar-usage">
+                          <div className="limit-bar-fill" style={{ width: `${clampPercent(profile.limits?.fiveHourLeftPct)}%` }} />
+                          <span className="limit-bar-text">%{clampPercent(profile.limits?.fiveHourLeftPct)} kaldı</span>
+                        </div>
+                        <div className="limit-bar limit-bar-reset">
+                          <div className="limit-bar-fill" style={{ width: `${resetProgress(profile.limits?.fiveHourResetAt, 5)}%` }} />
+                          <span className="limit-bar-text">{formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır</span>
+                        </div>
+                      </div>
+
+                      <div className="limit-block">
+                        <div className="limit-label">Hafta</div>
+                        <div className="limit-bar limit-bar-usage">
+                          <div className="limit-bar-fill" style={{ width: `${clampPercent(profile.limits?.weekLeftPct)}%` }} />
+                          <span className="limit-bar-text">%{clampPercent(profile.limits?.weekLeftPct)} kaldı</span>
+                        </div>
+                        <div className="limit-bar limit-bar-reset">
+                          <div className="limit-bar-fill" style={{ width: `${resetProgress(profile.limits?.weekResetAt, 24 * 7)}%` }} />
+                          <span className="limit-bar-text">{formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır</span>
+                        </div>
+                      </div>
                     </div>
                   </>
                 )}
