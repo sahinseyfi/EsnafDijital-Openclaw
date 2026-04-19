@@ -1,4 +1,5 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import Link from 'next/link'
@@ -200,15 +201,10 @@ export default async function ConsultationCenterPage({
                 {renderRecord(selected.technicalBrief)}
                 {renderRecord(selected.sharedBrief)}
               </div>
-              <div className="card stack-sm">
-                <h3>Prompt / sonuç</h3>
-                <p className="muted">{selected.promptRun.responseSummary || routeLabel(selected.route)}</p>
-                {selected.promptRun.promptText ? (
-                  <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 13 }}>{selected.promptRun.promptText}</pre>
-                ) : (
-                  <p className="muted">Bu kayıt için GPT Pro prompt'u gerekmiyor.</p>
-                )}
-              </div>
+              <PromptPreviewCard
+                promptText={selected.promptRun.promptText}
+                fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
+              />
             </section>
 
             <section className="card stack-sm">
