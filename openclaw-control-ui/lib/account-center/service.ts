@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { readDashboardState } from '@/lib/codex-dashboard/store'
+import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 import type { AccountCenterPayload, AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
 
 type PersistedCredential = {
@@ -14,6 +14,7 @@ type AuthProfilesFile = {
 }
 
 type OverlayFile = {
+  authSession?: AuthSessionState | null
   profileMeta?: Record<string, { displayName?: string; note?: string; workspace?: string | null }>
 }
 
@@ -96,13 +97,13 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
 }
 
 export async function getAccountCenterPayload(): Promise<AccountCenterPayload> {
-  const [state, dashboard] = await Promise.all([
+  const [state, overlay] = await Promise.all([
     getAccountCenterState(),
-    readDashboardState(),
+    readJson<OverlayFile>(OVERLAY_PATH),
   ])
 
   return {
     state,
-    authSession: dashboard.authSession,
+    authSession: overlay?.authSession || null,
   }
 }

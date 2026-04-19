@@ -27,6 +27,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `/hesap-merkezi` içine yeni auth başlatma, current switch, ad/not güncelleme ve silme aksiyonlarını bağlama
 - `/hesap-merkezi` auth akışını eski route'lardan ayırıp kendi V2 API yüzeyine taşıma
 - `/hesap-merkezi` auth kaydetme mantığını operator kullanımına daha uygun hale getirme; aynı hesap tekrar gelse bile yeni kayıt açabilen çizgiye yaklaşma
+- `/hesap-merkezi` status/payload yüklemesini hafifletme, auth session bilgisini hafif overlay okumasıyla verme
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 
