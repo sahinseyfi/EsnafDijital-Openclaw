@@ -2,7 +2,7 @@ import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationR
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { prisma } from '@/lib/prisma'
-import { addMockConsultationAction, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
+import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -24,6 +24,12 @@ type ConsultationActionInput = {
   ownerRole?: ConsultationOwnerRole
   linkedEntityType?: 'project_os' | 'context_center'
   linkedEntityId?: string
+}
+
+type ConsultationRunInput = {
+  modelName?: string
+  promptText?: string
+  responseSummary?: string
 }
 
 function mapActionType(input: ConsultationActionInput) {
@@ -343,6 +349,41 @@ export async function addConsultationAction(id: string, input: ConsultationActio
     return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
   } catch {
     const updated = addMockConsultationAction(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+}
+
+export async function addConsultationRun(id: string, input: ConsultationRunInput) {
+  if (!hasDatabaseUrl()) {
+    const updated = addMockConsultationRun(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+
+  try {
+    const current = await getConsultationDetail(id)
+    const promptText = input.promptText?.trim() || current?.promptRun.promptText || ''
+
+    await prisma.consultationRun.create({
+      data: {
+        consultationId: id,
+        modelName: input.modelName?.trim() || current?.promptRun.modelName || null,
+        promptText,
+        sentAt: new Date(),
+        responseSummary: input.responseSummary?.trim() || null,
+      },
+    })
+
+    await prisma.consultation.update({
+      where: { id },
+      data: {
+        stage: 'answered',
+      },
+    })
+
+    const updated = await getConsultationDetail(id)
+    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
+  } catch {
+    const updated = addMockConsultationRun(id, input)
     return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
   }
 }

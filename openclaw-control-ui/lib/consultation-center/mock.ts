@@ -23,6 +23,12 @@ type ConsultationActionInput = {
   linkedEntityId?: string
 }
 
+type ConsultationRunInput = {
+  modelName?: string
+  promptText?: string
+  responseSummary?: string
+}
+
 const consultations: ConsultationDetail[] = [
   {
     id: 'consult_shared_offer_v1',
@@ -285,6 +291,23 @@ export function addMockConsultationAction(id: string, input: ConsultationActionI
     linkedEntityId: input.linkedEntityId?.trim() || undefined,
   })
   current.updatedAt = new Date().toISOString()
+  consultations[index] = current
+  return getConsultationDetail(id)
+}
+
+export function addMockConsultationRun(id: string, input: ConsultationRunInput) {
+  const index = consultations.findIndex((entry) => entry.id === id)
+  if (index === -1) return null
+
+  const current = consultations[index]
+  current.promptRun = {
+    modelName: input.modelName?.trim() || current.promptRun.modelName,
+    promptText: input.promptText?.trim() || current.promptRun.promptText,
+    sentAt: new Date().toISOString(),
+    responseSummary: input.responseSummary?.trim() || current.promptRun.responseSummary,
+  }
+  current.updatedAt = new Date().toISOString()
+  current.stage = 'answered'
   consultations[index] = current
   return getConsultationDetail(id)
 }

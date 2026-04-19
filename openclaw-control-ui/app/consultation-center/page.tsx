@@ -3,6 +3,7 @@ import { ActionCreateForm } from '@/components/consultation-center/ActionCreateF
 import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
+import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import Link from 'next/link'
 
@@ -202,6 +203,18 @@ export default async function ConsultationCenterPage({
                 promptText={selected.promptRun.promptText}
                 fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
               />
+            </section>
+
+            <section className="grid-2">
+              <ResponseCaptureForm consultation={selected} />
+              <div className="card stack-sm">
+                <h3>Run durumu</h3>
+                <ul className="list">
+                  <li>Model: {selected.promptRun.modelName || '—'}</li>
+                  <li>Gönderim: {selected.promptRun.sentAt || 'Henüz kaydedilmedi'}</li>
+                  <li>Özet: {selected.promptRun.responseSummary || 'Henüz kaydedilmedi'}</li>
+                </ul>
+              </div>
             </section>
 
             <section className="card stack-sm">
