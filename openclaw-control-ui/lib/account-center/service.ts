@@ -116,9 +116,55 @@ function cleanProfileNote(value?: string | null) {
   return note
 }
 
+function isExhausted(leftPct?: number | null) {
+  return typeof leftPct === 'number' && leftPct <= 0
+}
+
+function resetSortValue(resetAt?: string | null) {
+  const value = Date.parse(resetAt || '')
+  return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY
+}
+
+function compareLimitWindow(
+  aLeftPct: number | null | undefined,
+  aResetAt: string | null | undefined,
+  bLeftPct: number | null | undefined,
+  bResetAt: string | null | undefined,
+) {
+  const aExhausted = isExhausted(aLeftPct)
+  const bExhausted = isExhausted(bLeftPct)
+
+  if (aExhausted !== bExhausted) {
+    return aExhausted ? 1 : -1
+  }
+
+  if (aExhausted && bExhausted) {
+    return resetSortValue(aResetAt) - resetSortValue(bResetAt)
+  }
+
+  return 0
+}
+
 function sortProfiles(a: AccountCenterProfile, b: AccountCenterProfile) {
   if (a.current && !b.current) return -1
   if (!a.current && b.current) return 1
+
+  const weekCompare = compareLimitWindow(
+    a.limits?.weekLeftPct,
+    a.limits?.weekResetAt,
+    b.limits?.weekLeftPct,
+    b.limits?.weekResetAt,
+  )
+  if (weekCompare !== 0) return weekCompare
+
+  const fiveHourCompare = compareLimitWindow(
+    a.limits?.fiveHourLeftPct,
+    a.limits?.fiveHourResetAt,
+    b.limits?.fiveHourLeftPct,
+    b.limits?.fiveHourResetAt,
+  )
+  if (fiveHourCompare !== 0) return fiveHourCompare
+
   return a.displayName.localeCompare(b.displayName, 'tr')
 }
 

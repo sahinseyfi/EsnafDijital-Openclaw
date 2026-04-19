@@ -325,7 +325,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <div className="page-header" style={{ marginBottom: 16 }}>
           <div>
             <h3>Kayıtlı profiller</h3>
-            <p className="muted">Aktif olan üstte durur. Limitler doğrudan profil üzerinden okunur.</p>
+            <p className="muted">Aktif olan üstte durur. Haftalık ve 5 saatlik limiti bitenler sonda toplanır, daha geç sıfırlanan daha aşağı iner.</p>
           </div>
           <button className="button-secondary" onClick={() => refresh().then(() => setFlash('Liste yenilendi')).catch((error) => setErrorText(error.message))}>Yenile</button>
         </div>
