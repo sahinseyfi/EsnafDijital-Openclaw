@@ -19,6 +19,7 @@ const DATA_DIR = '/opt/esnafdijital/data'
 const OPENCLAW_STATE_DIR = '/root/.openclaw'
 const OVERLAY_FILE = path.join(DATA_DIR, 'codex-dashboard-overlay.json')
 const DISCOVERY_HELPER = '/usr/local/bin/esnafdijital-openclaw-discovery'
+const CURRENT_SESSION_SWITCH_HELPER = '/usr/local/bin/esnafdijital-openclaw-session-switch'
 const DISCOVERY_TTL_MS = 2000
 const DISCOVERY_TIMEOUT_MS = 2500
 
@@ -50,6 +51,10 @@ type OverlayState = {
 
 type SessionStoreEntry = {
   authProfileOverride?: string | null
+}
+
+type ReadDashboardStateOptions = {
+  skipAutoRoute?: boolean
 }
 
 type DiscoveryResult = {
@@ -219,6 +224,19 @@ function deriveHealth(profile: CodexProfile, threshold: number): HealthLevel {
   if (profile.usage.fiveHourPct >= threshold || profile.usage.weekPct >= Math.max(80, threshold)) return 'warn'
   if (profile.probe.status === 'warn') return 'warn'
   return 'ok'
+}
+
+function isProfileExhausted(profile: CodexProfile) {
+  return profile.usage.fiveHourPct >= 100 || profile.usage.weekPct >= 100
+}
+
+function canAutoRouteToProfile(profile: CodexProfile, currentProfileId?: string | null) {
+  return profile.profileId !== currentProfileId
+    && profile.kind === 'authProfile'
+    && profile.provider === 'openai-codex'
+    && (profile.health === 'ok' || profile.health === 'warn')
+    && profile.usage.fiveHourPct < 100
+    && profile.usage.weekPct < 100
 }
 
 function normalizeProfileWorkspace(value?: string | null) {
@@ -464,7 +482,47 @@ async function discoverProfiles(overlay: OverlayState, settings: DashboardSettin
   }))
 }
 
-export async function readDashboardState(): Promise<DashboardState> {
+async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<DashboardState> {
+  if (!state.settings.autoRouteEnabled) return state
+
+  const current = state.profiles.find((profile) => profile.isCurrentProfile)
+  if (!current || current.kind !== 'authProfile' || current.provider !== 'openai-codex' || !isProfileExhausted(current)) {
+    return state
+  }
+
+  const target = state.profiles.find((profile) => profile.recommended && canAutoRouteToProfile(profile, current.profileId))
+    || state.profiles.find((profile) => canAutoRouteToProfile(profile, current.profileId))
+
+  if (!target) return state
+
+  try {
+    await execFileAsync(CURRENT_SESSION_SWITCH_HELPER, [target.agentId, target.profileId, `agent:${target.agentId}:${target.agentId}`])
+  } catch {
+    return state
+  }
+
+  const switchedAt = nowIso()
+  clearDiscoveryCache()
+  await persistOverlay({
+    ...state,
+    profiles: state.profiles.map((profile) => ({
+      ...profile,
+      isCurrentProfile: profile.profileId === target.profileId,
+      lastUsedAt: profile.profileId === target.profileId ? switchedAt : profile.lastUsedAt,
+    })),
+    settings: {
+      ...state.settings,
+      activeAgentId: target.agentId,
+      workspace: target.workspace || state.settings.workspace,
+      currentSessionProfileId: target.profileId,
+    },
+    updatedAt: switchedAt,
+  })
+
+  return readDashboardState({ skipAutoRoute: true })
+}
+
+export async function readDashboardState(options: ReadDashboardStateOptions = {}): Promise<DashboardState> {
   const overlay = await loadOverlay()
   const discovery = await runDiscovery()
   const defaultWorkspace = discovery.config?.agents?.defaults?.workspace || '—'
@@ -504,7 +562,7 @@ export async function readDashboardState(): Promise<DashboardState> {
     settings.workspace = resolvedCurrentProfile.workspace
   }
 
-  return {
+  const state = {
     profiles: profiles.map((profile) => ({
       ...profile,
       isCurrentProfile: profile.profileId === settings.currentSessionProfileId,
@@ -513,6 +571,12 @@ export async function readDashboardState(): Promise<DashboardState> {
     authSession: overlay.authSession,
     updatedAt: nowIso(),
   }
+
+  if (options.skipAutoRoute) {
+    return state
+  }
+
+  return maybeAutoRouteCurrentProfile(state)
 }
 
 async function persistOverlay(state: DashboardState) {

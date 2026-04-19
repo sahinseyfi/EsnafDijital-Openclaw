@@ -22,6 +22,12 @@ const LIVE_STATUS_TIMEOUT_MS = 10_000
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
 let liveStatusUsageCache: { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> } | null = null
 
+function parseUsagePayload(stdout?: string | null) {
+  if (!stdout?.trim()) return null
+  const payload = JSON.parse(stdout) as { ok?: boolean; usage?: RealUsageSnapshot | null }
+  return payload.ok ? (payload.usage || null) : null
+}
+
 export async function fetchRealCodexUsage(agentId: string, profileId: string, timeoutMs = USAGE_HELPER_TIMEOUT_MS): Promise<RealUsageSnapshot | null> {
   const key = `${agentId}:${profileId}`
   const cached = usageCache.get(key)
@@ -38,13 +44,20 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string, ti
 
   const inflight = (async () => {
     try {
-      const { stdout } = await execFileAsync(USAGE_HELPER, [agentId, profileId], {
-        maxBuffer: 1024 * 1024,
-        timeout: timeoutMs,
-        killSignal: 'SIGKILL',
-      })
-      const payload = JSON.parse(stdout) as { ok?: boolean; usage?: RealUsageSnapshot | null }
-      const value = payload.ok ? (payload.usage || null) : null
+      let value: RealUsageSnapshot | null = null
+
+      try {
+        const { stdout } = await execFileAsync(USAGE_HELPER, [agentId, profileId], {
+          maxBuffer: 1024 * 1024,
+          timeout: timeoutMs,
+          killSignal: 'SIGKILL',
+        })
+        value = parseUsagePayload(stdout)
+      } catch (error: any) {
+        value = parseUsagePayload(typeof error?.stdout === 'string' ? error.stdout : '')
+        if (!value) throw error
+      }
+
       usageCache.set(key, { value, expiresAt: Date.now() + CACHE_TTL_MS })
       return value
     } catch {
