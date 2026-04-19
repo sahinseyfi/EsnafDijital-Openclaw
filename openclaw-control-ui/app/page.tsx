@@ -5,20 +5,24 @@ export default function HomePage() {
   return (
     <AdminShell
       title="İç operasyon merkezi"
-      description="Sıradaki üç çekirdeği tek panelde görünür başlatıyoruz: proje akışı, bağlam merkezi ve consultation hazırlığı."
+      description="Yeni hesap sistemiyle birlikte proje akışı, bağlam merkezi ve consultation hazırlığını sade şekilde kuruyoruz."
     >
       <section className="hero">
         <div>
           <p className="eyebrow">Şimdi aktif</p>
           <h1>Sade admin omurgası</h1>
           <p className="muted">
-            Bu ana giriş artık sadece Codex ekranına atmak yerine sonraki gerçek operasyon modüllerini görünür hale getiriyor.
+            Bu ana giriş artık yeni Hesap Merkezi ile gerçek auth/profil sistemini ayrı bir çekirdek olarak görünür başlatıyor.
           </p>
         </div>
-        <Link href="/project-os" className="cta-link">Project OS ekranını aç</Link>
+        <Link href="/hesap-merkezi" className="cta-link">Hesap Merkezi'ni aç</Link>
       </section>
 
       <section className="grid-3" style={{ marginTop: 24 }}>
+        <article className="card">
+          <h3>Hesap Merkezi</h3>
+          <p className="muted">Eski Codex ekranından ayrı, gerçek auth kayıtlarını net göstermek için başlatılan yeni sistem.</p>
+        </article>
         <article className="card">
           <h3>Project OS</h3>
           <p className="muted">Audit, teklif, teslimat ve bakım akışını tek yerden takip etmek için başlangıç iskeleti.</p>

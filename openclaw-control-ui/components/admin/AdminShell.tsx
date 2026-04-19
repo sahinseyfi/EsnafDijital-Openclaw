@@ -8,10 +8,11 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
+  { href: '/hesap-merkezi', label: 'Hesap Merkezi', note: 'Yeni auth/profil sistemi' },
   { href: '/project-os', label: 'Project OS', note: 'Akış ve operasyon' },
   { href: '/context-center', label: 'Context Center', note: 'Bağlam ve dosyalar' },
   { href: '/consultation-center', label: 'Consultation Center', note: 'GPT Pro hazırlığı' },
-  { href: '/codex-profilleri', label: 'Codex Profilleri', note: 'Auth ve profil yönetimi' },
+  { href: '/codex-profilleri', label: 'Codex Profilleri', note: 'Eski ekran' },
 ]
 
 export function AdminShell({
@@ -29,7 +30,7 @@ export function AdminShell({
         <div>
           <p className="eyebrow">EsnafDigital Admin</p>
           <h1>İç sistem</h1>
-          <p className="muted">Tek panel içinde proje, bağlam, consultation ve Codex operasyonu.</p>
+          <p className="muted">Yeni hesap sistemi, proje akışı ve bağlam merkezini tek panelde topluyoruz.</p>
         </div>
 
         <nav>
@@ -49,7 +50,7 @@ export function AdminShell({
             <h2>{title}</h2>
             <p className="muted">{description}</p>
           </div>
-          <Link href="/codex-profilleri" className="ghost-link">Codex profillerine dön</Link>
+          <Link href="/hesap-merkezi" className="ghost-link">Hesap Merkezi'ne dön</Link>
         </header>
         {children}
       </main>
