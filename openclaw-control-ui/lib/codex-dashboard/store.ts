@@ -23,6 +23,7 @@ const DISCOVERY_HELPER = '/usr/local/bin/esnafdijital-openclaw-discovery'
 const CURRENT_SESSION_SWITCH_HELPER = '/usr/local/bin/esnafdijital-openclaw-session-switch'
 const DISCOVERY_TTL_MS = 2000
 const DISCOVERY_TIMEOUT_MS = 2500
+const AUTO_ROUTE_FIVE_HOUR_USED_PCT = 92
 
 let discoveryCache: {
   value: DiscoveryResult | null
@@ -230,8 +231,8 @@ function deriveHealth(profile: CodexProfile, threshold: number): HealthLevel {
   return 'ok'
 }
 
-function isProfileExhausted(profile: CodexProfile) {
-  return profile.usage.fiveHourPct >= 100 || profile.usage.weekPct >= 100
+function shouldAutoRouteCurrentProfile(profile: CodexProfile) {
+  return profile.usage.fiveHourPct >= AUTO_ROUTE_FIVE_HOUR_USED_PCT || profile.usage.weekPct >= 100
 }
 
 function canAutoRouteToProfile(profile: CodexProfile, currentProfileId?: string | null) {
@@ -490,7 +491,7 @@ async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<Dash
   if (!state.settings.autoRouteEnabled) return state
 
   const current = state.profiles.find((profile) => profile.isCurrentProfile)
-  if (!current || current.kind !== 'authProfile' || current.provider !== 'openai-codex' || !isProfileExhausted(current)) {
+  if (!current || current.kind !== 'authProfile' || current.provider !== 'openai-codex' || !shouldAutoRouteCurrentProfile(current)) {
     return state
   }
 
@@ -507,7 +508,7 @@ async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<Dash
 
   const switchedAt = nowIso()
   const exhaustedWindows = [
-    current.usage.fiveHourPct >= 100 ? '5 saatlik' : null,
+    current.usage.fiveHourPct >= AUTO_ROUTE_FIVE_HOUR_USED_PCT ? '5 saatlik limit %8 seviyesine indiği' : null,
     current.usage.weekPct >= 100 ? 'haftalik' : null,
   ].filter(Boolean).join(' ve ')
   clearDiscoveryCache()
@@ -526,7 +527,7 @@ async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<Dash
     },
     systemNotice: {
       kind: 'info',
-      message: `${current.displayName} profilinin ${exhaustedWindows || 'limit'} bittigi icin otomatik olarak ${target.displayName} profiline gecildi.`,
+      message: `${current.displayName} profilinde ${exhaustedWindows || 'limit esigi'} nedeniyle otomatik olarak ${target.displayName} profiline gecildi.`,
       createdAt: switchedAt,
     },
     updatedAt: switchedAt,
