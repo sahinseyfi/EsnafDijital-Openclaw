@@ -30,6 +30,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center sonucundan aksiyon üretme akışı eklendi; detail ekranindan Project OS / Context Center hedefli yeni action kaydı açılabiliyor
 - Consultation Center icin sonuç kaydı akışı eklendi; prompt + cevap özeti kaydedilip stage answered'a taşınabiliyor
 - Consultation Center aksiyon listesine durum toggle eklendi; action'lar done/open olarak işaretlenebiliyor ve tümü tamamlanınca stage actioned'a taşınabiliyor
+- Consultation Inbox'a route / tip / sahiplik filtreleri eklendi; consultation listesi artik karar işlerini daha hızlı ayiklayabiliyor
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi

@@ -2,11 +2,11 @@ import { AdminShell } from '@/components/admin/AdminShell'
 import { ActionCreateForm } from '@/components/consultation-center/ActionCreateForm'
 import { ActionStatusList } from '@/components/consultation-center/ActionStatusList'
 import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
+import { ConsultationInboxList } from '@/components/consultation-center/ConsultationInboxList'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
-import Link from 'next/link'
 
 function sectionTitle(value: string) {
   if (value === 'sales') return 'Saha / satış'
@@ -124,30 +124,7 @@ export default async function ConsultationCenterPage({
       </section>
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
-        <article className="card">
-          <div className="stack-sm">
-            <div>
-              <p className="eyebrow">Consultation Inbox</p>
-              <h3>Açık kayıtlar</h3>
-            </div>
-            <div className="stack-sm">
-              {payload.inbox.map((item) => (
-                <Link key={item.id} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="card" style={{ padding: 16, borderStyle: selected?.id === item.id ? 'solid' : 'dashed', display: 'block' }}>
-                  <div className="stack-xs">
-                    <strong>{item.title}</strong>
-                    <p className="muted">{item.summary}</p>
-                  </div>
-                  <div className="stack-xs muted" style={{ marginTop: 10 }}>
-                    <span>Tip: {sectionTitle(item.type)}</span>
-                    <span>Stage: {stageLabel(item.stage)}</span>
-                    <span>Route: {routeLabel(item.route)}</span>
-                    <span>Sahiplik: {ownerLabel(item.ownerRole)}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </article>
+        <ConsultationInboxList items={payload.inbox} selectedId={selected?.id} />
 
         {selected ? (
           <article className="card stack-sm">
