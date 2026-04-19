@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKSPACE_DIR="${WORKSPACE_DIR:-/root/.openclaw/workspace}"
+ENV_FILE="${ENV_FILE:-/etc/esnafdijital/workspace-github-sync.env}"
+FALLBACK_ENV_FILE="$WORKSPACE_DIR/deploy/workspace-github-sync.env"
+
+if [[ -f "$ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$ENV_FILE"
+elif [[ -f "$FALLBACK_ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$FALLBACK_ENV_FILE"
+fi
+
+GIT_REMOTE_NAME="${GIT_REMOTE_NAME:-origin}"
+GIT_BRANCH="${GIT_BRANCH:-$(git -C "$WORKSPACE_DIR" branch --show-current 2>/dev/null || echo master)}"
+REPO_URL="${GITHUB_REPO_URL:-${REPO_URL:-}}"
+AUTO_PUSH_ENABLED="${AUTO_PUSH_ENABLED:-1}"
+SSH_KEY_PATH="${SSH_KEY_PATH:-/root/.ssh/esnafdijital_workspace_github}"
+
+if [[ -z "${GIT_SSH_COMMAND:-}" && -f "$SSH_KEY_PATH" ]]; then
+  export GIT_SSH_COMMAND="ssh -i $SSH_KEY_PATH -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+fi
+
+if [[ "$AUTO_PUSH_ENABLED" != "1" ]]; then
+  echo "workspace sync disabled"
+  exit 0
+fi
+
+cd "$WORKSPACE_DIR"
+
+if [[ ! -d .git ]]; then
+  echo "workspace git repo not found: $WORKSPACE_DIR" >&2
+  exit 1
+fi
+
+if [[ -n "$REPO_URL" ]]; then
+  if git remote get-url "$GIT_REMOTE_NAME" >/dev/null 2>&1; then
+    git remote set-url "$GIT_REMOTE_NAME" "$REPO_URL"
+  else
+    git remote add "$GIT_REMOTE_NAME" "$REPO_URL"
+  fi
+fi
+
+if ! git remote get-url "$GIT_REMOTE_NAME" >/dev/null 2>&1; then
+  echo "workspace sync skipped: remote '$GIT_REMOTE_NAME' is not configured yet"
+  exit 0
+fi
+
+if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+  git add -A
+  if ! git diff --cached --quiet; then
+    git commit -m "auto sync: $(date -u +'%Y-%m-%d %H:%M UTC')"
+  fi
+fi
+
+git push "$GIT_REMOTE_NAME" "HEAD:$GIT_BRANCH"
+
+echo "workspace sync ok"

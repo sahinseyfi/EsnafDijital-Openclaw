@@ -1,0 +1,11 @@
+[Unit]
+Description=Run EsnafDigital workspace GitHub sync every 5 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=esnafdijital-workspace-sync.service
+
+[Install]
+WantedBy=timers.target

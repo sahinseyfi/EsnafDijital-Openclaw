@@ -1,0 +1,13 @@
+[Unit]
+Description=EsnafDigital workspace GitHub sync
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/root/.openclaw/workspace
+Environment=WORKSPACE_DIR=/root/.openclaw/workspace
+Environment=ENV_FILE=/etc/esnafdijital/workspace-github-sync.env
+ExecStart=/root/.openclaw/workspace/bin/esnafdijital-workspace-sync
