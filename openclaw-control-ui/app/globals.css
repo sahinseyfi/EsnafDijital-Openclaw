@@ -192,6 +192,32 @@ textarea {
   filter: brightness(1.06);
 }
 
+.button-secondary,
+.button-danger {
+  border-radius: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.button-secondary {
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.button-danger {
+  border: 1px solid #7f1d1d;
+  background: #3b0d0d;
+  color: #fecaca;
+}
+
+button:disabled,
+a.button-primary[aria-disabled='true'] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 @media (max-width: 900px) {
   .page-shell { grid-template-columns: 1fr; }
   .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }

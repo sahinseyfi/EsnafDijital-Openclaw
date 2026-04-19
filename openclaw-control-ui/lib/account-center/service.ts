@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import type { AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
+import { readDashboardState } from '@/lib/codex-dashboard/store'
+import type { AccountCenterPayload, AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
 
 type PersistedCredential = {
   provider?: string
@@ -91,5 +92,17 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
     currentDisplayName: currentProfile?.displayName || null,
     totalProfiles: profiles.length,
     profiles,
+  }
+}
+
+export async function getAccountCenterPayload(): Promise<AccountCenterPayload> {
+  const [state, dashboard] = await Promise.all([
+    getAccountCenterState(),
+    readDashboardState(),
+  ])
+
+  return {
+    state,
+    authSession: dashboard.authSession,
   }
 }

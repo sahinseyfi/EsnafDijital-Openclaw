@@ -24,6 +24,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `/codex-profilleri` ekranı ile çoklu OpenClaw/Codex auth profili yönetimini canlıya alma
 - eski codex ekranından ayrı `/hesap-merkezi` V2 çekirdeğini açma
 - yeni hesap sistemini sadece gerçek auth kaydı + operator adı + teknik kimlik ilişkisini net gösterecek şekilde başlatma
+- `/hesap-merkezi` içine yeni auth başlatma, current switch, ad/not güncelleme ve silme aksiyonlarını bağlama
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 

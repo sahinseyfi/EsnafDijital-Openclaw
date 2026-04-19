@@ -1,3 +1,5 @@
+import type { AuthSessionState } from '@/lib/codex-dashboard/types'
+
 export type AccountCenterProfile = {
   profileId: string
   displayName: string
@@ -15,4 +17,9 @@ export type AccountCenterState = {
   currentDisplayName: string | null
   totalProfiles: number
   profiles: AccountCenterProfile[]
+}
+
+export type AccountCenterPayload = {
+  state: AccountCenterState
+  authSession: AuthSessionState | null
 }
