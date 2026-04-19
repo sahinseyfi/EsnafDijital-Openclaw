@@ -7,6 +7,7 @@ import { PromptPreviewCard } from '@/components/consultation-center/PromptPrevie
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import { getConsultationNextSteps } from '@/lib/consultation-center/workflow'
 
 function sectionTitle(value: string) {
   if (value === 'sales') return 'Saha / satış'
@@ -77,6 +78,7 @@ export default async function ConsultationCenterPage({
   const params = await searchParams
   const payload = await getConsultationCenterPayload(params?.selectedId)
   const selected = payload.selected
+  const nextSteps = selected ? getConsultationNextSteps(selected) : null
 
   return (
     <AdminShell
@@ -174,6 +176,17 @@ export default async function ConsultationCenterPage({
                 )}
               </div>
             </section>
+
+            {nextSteps ? (
+              <section className="card stack-sm">
+                <h3>{nextSteps.title}</h3>
+                <ul className="list">
+                  {nextSteps.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
             <section className="grid-2">
               <ConsultationDetailEditor consultation={selected} />
