@@ -1,5 +1,5 @@
 import { AdminShell } from '@/components/admin/AdminShell'
-import { getConsultationCenterPayload } from '@/lib/consultation-center/mock'
+import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
 function sectionTitle(value: string) {
   if (value === 'sales') return 'Saha / satış'
@@ -56,8 +56,8 @@ function renderRecord(value: Record<string, string | string[] | null> | undefine
   )
 }
 
-export default function ConsultationCenterPage() {
-  const payload = getConsultationCenterPayload()
+export default async function ConsultationCenterPage() {
+  const payload = await getConsultationCenterPayload()
   const selected = payload.selected
 
   return (

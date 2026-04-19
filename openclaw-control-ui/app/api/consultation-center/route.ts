@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createMockConsultation, getConsultationCenterPayload } from '@/lib/consultation-center/mock'
+import { createConsultation, getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
 export async function GET(request: NextRequest) {
   const selectedId = request.nextUrl.searchParams.get('selectedId') || undefined
-  return NextResponse.json(getConsultationCenterPayload(selectedId))
+  return NextResponse.json(await getConsultationCenterPayload(selectedId))
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({})) as { title?: string; type?: string; note?: string }
-  const created = createMockConsultation(body)
-  return NextResponse.json({ ok: true, created, payload: getConsultationCenterPayload(created.id) })
+  const result = await createConsultation(body)
+  return NextResponse.json({ ok: true, created: result.created, payload: result.payload })
 }
