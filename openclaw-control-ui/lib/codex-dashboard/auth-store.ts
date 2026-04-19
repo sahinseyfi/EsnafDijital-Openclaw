@@ -217,6 +217,7 @@ export async function canonicalizeAuthProfile(params: { agentId: string; profile
   const identity = extractIdentityFromCredential(params.profileId, sourceCredential)
   const canonicalProfileId = identity.canonicalProfileId
   const existingCredential = profiles[canonicalProfileId]
+  const existedCanonical = Boolean(existingCredential)
 
   profiles[canonicalProfileId] = JSON.parse(JSON.stringify(existingCredential || sourceCredential))
   profiles[canonicalProfileId] = {
@@ -243,6 +244,7 @@ export async function canonicalizeAuthProfile(params: { agentId: string; profile
     ...identity,
     previousProfileId: params.profileId,
     canonicalProfileId,
+    existedCanonical,
   }
 }
 

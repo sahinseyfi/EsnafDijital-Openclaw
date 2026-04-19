@@ -259,7 +259,11 @@ export function CodexProfileDashboard({
         setAuthSession(payload.authSession)
 
         if (payload.authSession?.status === 'completed') {
-          showFlash(payload.authSession.displayName || payload.authSession.profileId ? `Profil kaydedildi: ${payload.authSession.displayName || payload.authSession.profileId}` : 'Profil kaydedildi', 'success')
+          const profileLabel = payload.authSession.displayName || payload.authSession.profileId || 'profil'
+          const message = payload.authSession.canonicalAction === 'updated'
+            ? `Yeni satır açılmadı, mevcut profil güncellendi: ${profileLabel}`
+            : `Yeni profil kaydedildi: ${profileLabel}`
+          showFlash(message, 'success')
           setCallbackValue('')
           setAuthDisplayName('')
           setAuthNote('')
@@ -443,7 +447,7 @@ export function CodexProfileDashboard({
           <span className={styles.eyebrow}>EsnafDigital / Codex Profilleri</span>
           <h1>Sade operator ekranı</h1>
           <p className={styles.lead}>
-            Burada sadece üç iş var: gerçek auth başlatmak, aynı auth’tan ayrı workspace profili açmak ve hangi profille çalışacağını seçmek.
+            Burada sadece üç iş var: gerçek auth başlatmak, profili kaydetmek ve hangi profille çalışacağını seçmek.
           </p>
         </div>
         <div className={styles.heroMeta}>

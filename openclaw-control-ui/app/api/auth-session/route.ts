@@ -132,6 +132,7 @@ export async function GET() {
         ]
         nextCurrentProfileId = canonical.canonicalProfileId
         merged.profileId = canonical.canonicalProfileId
+        merged.canonicalAction = canonical.existedCanonical ? 'updated' : 'created'
       }
 
       return {

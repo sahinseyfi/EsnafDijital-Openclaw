@@ -49,6 +49,7 @@ export interface AuthSessionState {
   displayName?: string | null
   note?: string | null
   workspace?: string | null
+  canonicalAction?: 'created' | 'updated'
 }
 
 export interface DashboardSettings {
