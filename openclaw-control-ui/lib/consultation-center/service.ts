@@ -1,4 +1,5 @@
 import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationRun } from '@prisma/client'
+import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { prisma } from '@/lib/prisma'
 import { createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
@@ -42,18 +43,33 @@ function buildSummary(record: ConsultationRecord) {
 }
 
 function mapRecordToInboxItem(record: ConsultationRecord): ConsultationInboxItem {
+  const businessBrief = (record.brief?.businessJson as Record<string, string | string[] | null> | null) || undefined
+  const technicalBrief = (record.brief?.technicalJson as Record<string, string | string[] | null> | null) || undefined
+  const sharedBrief = (record.brief?.sharedJson as Record<string, string | string[] | null> | null) || undefined
+  const contextRefs = (record.brief?.contextRefsJson as ConsultationDetail['contextRefs'] | null) || []
+  const evaluation = evaluateConsultation({
+    type: mapConsultationType(record.type),
+    decisionQuestion: record.decisionQuestion,
+    whyNow: record.whyNow,
+    desiredOutput: record.goal,
+    contextRefs,
+    businessBrief,
+    technicalBrief,
+    sharedBrief,
+  })
+
   return {
     id: record.id,
     title: record.title,
     type: mapConsultationType(record.type),
     stage: mapConsultationStage(record.stage),
-    route: mapConsultationRoute(record.consultRoute),
-    ownerRole: mapOwnerRole(record.ownerRole),
+    route: evaluation.route,
+    ownerRole: evaluation.ownerRole,
     dueAt: record.dueAt ? record.dueAt.toISOString() : null,
     updatedAt: record.updatedAt.toISOString(),
     decisionQuestion: record.decisionQuestion || 'Karar sorusu henüz yazılmadı',
     summary: buildSummary(record),
-    gptRecommended: record.consultRoute === 'external',
+    gptRecommended: evaluation.gptRecommended,
   }
 }
 
@@ -61,20 +77,30 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
   const inbox = mapRecordToInboxItem(record)
   const brief = record.brief
   const latestRun = [...record.runs].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]
+  const businessBrief = (brief?.businessJson as Record<string, string | string[] | null> | null) || undefined
+  const technicalBrief = (brief?.technicalJson as Record<string, string | string[] | null> | null) || undefined
+  const sharedBrief = (brief?.sharedJson as Record<string, string | string[] | null> | null) || undefined
+  const contextRefs = (brief?.contextRefsJson as ConsultationDetail['contextRefs'] | null) || []
+  const evaluation = evaluateConsultation({
+    type: inbox.type,
+    decisionQuestion: record.decisionQuestion,
+    whyNow: record.whyNow,
+    desiredOutput: record.goal,
+    contextRefs,
+    businessBrief,
+    technicalBrief,
+    sharedBrief,
+  })
 
   return {
     ...inbox,
     whyNow: record.whyNow || 'Henüz yazılmadı',
     desiredOutput: record.goal || 'Henüz seçilmedi',
-    missingFields: [
-      !record.decisionQuestion ? 'karar sorusu' : null,
-      !record.goal ? 'beklenen çıktı' : null,
-      !brief?.contextRefsJson ? 'bağlam' : null,
-    ].filter(Boolean) as string[],
-    businessBrief: (brief?.businessJson as Record<string, string | string[] | null> | null) || undefined,
-    technicalBrief: (brief?.technicalJson as Record<string, string | string[] | null> | null) || undefined,
-    sharedBrief: (brief?.sharedJson as Record<string, string | string[] | null> | null) || undefined,
-    contextRefs: (brief?.contextRefsJson as ConsultationDetail['contextRefs'] | null) || [],
+    missingFields: evaluation.missingFields,
+    businessBrief,
+    technicalBrief,
+    sharedBrief,
+    contextRefs,
     promptRun: {
       modelName: latestRun?.modelName || null,
       promptText: latestRun?.promptText || '',

@@ -1,3 +1,4 @@
+import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 const consultations: ConsultationDetail[] = [
@@ -111,18 +112,29 @@ const consultations: ConsultationDetail[] = [
 ]
 
 function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
+  const evaluation = evaluateConsultation({
+    type: consultation.type,
+    decisionQuestion: consultation.decisionQuestion,
+    whyNow: consultation.whyNow,
+    desiredOutput: consultation.desiredOutput,
+    contextRefs: consultation.contextRefs,
+    businessBrief: consultation.businessBrief,
+    technicalBrief: consultation.technicalBrief,
+    sharedBrief: consultation.sharedBrief,
+  })
+
   return {
     id: consultation.id,
     title: consultation.title,
     type: consultation.type,
     stage: consultation.stage,
-    route: consultation.route,
-    ownerRole: consultation.ownerRole,
+    route: evaluation.route,
+    ownerRole: evaluation.ownerRole,
     dueAt: consultation.dueAt,
     updatedAt: consultation.updatedAt,
     decisionQuestion: consultation.decisionQuestion,
     summary: consultation.summary,
-    gptRecommended: consultation.gptRecommended,
+    gptRecommended: evaluation.gptRecommended,
   }
 }
 
@@ -131,7 +143,27 @@ export function getConsultationInbox(): ConsultationInboxItem[] {
 }
 
 export function getConsultationDetail(id: string): ConsultationDetail | null {
-  return consultations.find((item) => item.id === id) || null
+  const item = consultations.find((entry) => entry.id === id)
+  if (!item) return null
+
+  const evaluation = evaluateConsultation({
+    type: item.type,
+    decisionQuestion: item.decisionQuestion,
+    whyNow: item.whyNow,
+    desiredOutput: item.desiredOutput,
+    contextRefs: item.contextRefs,
+    businessBrief: item.businessBrief,
+    technicalBrief: item.technicalBrief,
+    sharedBrief: item.sharedBrief,
+  })
+
+  return {
+    ...item,
+    route: evaluation.route,
+    ownerRole: evaluation.ownerRole,
+    gptRecommended: evaluation.gptRecommended,
+    missingFields: evaluation.missingFields,
+  }
 }
 
 export function getConsultationCenterPayload(selectedId?: string): ConsultationCenterPayload {
@@ -156,7 +188,7 @@ export function createMockConsultation(input: { title?: string; type?: string; n
     gptRecommended: false,
     whyNow: 'Henüz yazılmadı',
     desiredOutput: 'Henüz seçilmedi',
-    missingFields: ['karar sorusu', 'bağlam', 'beklenen çıktı'],
+    missingFields: ['karar sorusu', 'neden şimdi', 'beklenen çıktı', 'bağlam', 'karar çekirdeği'],
     sharedBrief: {
       hamNot: input.note?.trim() || '',
     },
