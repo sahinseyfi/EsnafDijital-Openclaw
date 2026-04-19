@@ -29,6 +29,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `/hesap-merkezi` auth kaydetme mantığını operator kullanımına daha uygun hale getirme; aynı hesap tekrar gelse bile yeni kayıt açabilen çizgiyi kurma
 - `/hesap-merkezi` status/payload yüklemesini hafifletme, auth session bilgisini hafif overlay okumasıyla verme
 - V2 auth save akışını kontrollü simülasyonla doğrulama, aynı teknik hesaptan ayrı kayıt açıldığını test etme
+- V2 için yerel/prod doğrulama helper'ı ekleme ve çalıştırma
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 
@@ -38,7 +39,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - Project OS ekranını Prisma/veritabanı katmanına bağlama
 - Context Center ekranını dosya/veritabanı ayrımı karar yüzeyine çevirme
 - GPT Pro Consultation Center v1 akışını prompt üretimiyle bağlama
-- normal oturumda `/hesap-merkezi` V2 build'ini prod servise taşıyıp gerçek canlı doğrulama alma
+- normal oturumda `/hesap-merkezi` V2 build'ini prod servise taşıyıp helper ile gerçek canlı doğrulama alma
 - eski `/codex-profilleri` ekranını ancak V2 prod doğrulaması tamamlanınca emekliye ayırma
 - Project OS, Context Center ve Consultation Center ekranlarını gerçek veri/akışla bağlama
 

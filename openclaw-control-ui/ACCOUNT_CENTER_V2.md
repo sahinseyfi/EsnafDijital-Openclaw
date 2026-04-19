@@ -25,4 +25,11 @@ Kullanıcının gerçekten neye sahip olduğunu net göstermek:
 1. Gerçek kayıtları temiz ve dürüst göster
 2. Yeni auth akışını bu modele göre yeniden kur
 3. Switch / delete / rename davranışını bu modelin üstüne ekle
-4. Eski ekranı ancak V2 tamamlanınca emekli et
+4. Prod doğrulamasını helper ile netleştir
+5. Eski ekranı ancak V2 tamamlanınca emekli et
+
+## Doğrulama
+- Yerel/prod kontrol helper'ı: `bin/verify-hesap-merkezi-v2`
+- npm kısayolu: `npm run verify:hesap-merkezi-v2`
+- Varsayılan hedef: `http://127.0.0.1:3012`
+- İstenirse özel base URL verilebilir: `./bin/verify-hesap-merkezi-v2 http://127.0.0.1:4013`
