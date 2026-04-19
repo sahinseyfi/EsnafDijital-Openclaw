@@ -2,7 +2,7 @@ import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationR
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { prisma } from '@/lib/prisma'
-import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
+import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -30,6 +30,10 @@ type ConsultationRunInput = {
   modelName?: string
   promptText?: string
   responseSummary?: string
+}
+
+type ConsultationActionStatusInput = {
+  status: 'open' | 'done'
 }
 
 function mapActionType(input: ConsultationActionInput) {
@@ -384,6 +388,40 @@ export async function addConsultationRun(id: string, input: ConsultationRunInput
     return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
   } catch {
     const updated = addMockConsultationRun(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+}
+
+export async function updateConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
+  if (!hasDatabaseUrl()) {
+    const updated = updateMockConsultationActionStatus(id, actionId, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+
+  try {
+    await prisma.consultationAction.update({
+      where: { id: actionId },
+      data: {
+        status: input.status === 'done' ? 'done' : 'open',
+      },
+    })
+
+    const actionRows = await prisma.consultationAction.findMany({
+      where: { consultationId: id },
+      select: { status: true },
+    })
+
+    await prisma.consultation.update({
+      where: { id },
+      data: {
+        stage: actionRows.length > 0 && actionRows.every((action) => action.status === 'done') ? 'actioned' : undefined,
+      },
+    })
+
+    const updated = await getConsultationDetail(id)
+    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
+  } catch {
+    const updated = updateMockConsultationActionStatus(id, actionId, input)
     return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
   }
 }

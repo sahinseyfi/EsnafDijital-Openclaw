@@ -29,6 +29,10 @@ type ConsultationRunInput = {
   responseSummary?: string
 }
 
+type ConsultationActionStatusInput = {
+  status: 'open' | 'done'
+}
+
 const consultations: ConsultationDetail[] = [
   {
     id: 'consult_shared_offer_v1',
@@ -308,6 +312,24 @@ export function addMockConsultationRun(id: string, input: ConsultationRunInput) 
   }
   current.updatedAt = new Date().toISOString()
   current.stage = 'answered'
+  consultations[index] = current
+  return getConsultationDetail(id)
+}
+
+export function updateMockConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
+  const index = consultations.findIndex((entry) => entry.id === id)
+  if (index === -1) return null
+
+  const current = consultations[index]
+  current.actions = current.actions.map((action) => (
+    action.id === actionId
+      ? { ...action, status: input.status }
+      : action
+  ))
+  current.updatedAt = new Date().toISOString()
+  if (current.actions.every((action) => action.status === 'done') && current.actions.length > 0) {
+    current.stage = 'actioned'
+  }
   consultations[index] = current
   return getConsultationDetail(id)
 }

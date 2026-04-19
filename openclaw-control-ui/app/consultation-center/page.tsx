@@ -1,5 +1,6 @@
 import { AdminShell } from '@/components/admin/AdminShell'
 import { ActionCreateForm } from '@/components/consultation-center/ActionCreateForm'
+import { ActionStatusList } from '@/components/consultation-center/ActionStatusList'
 import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
@@ -226,14 +227,7 @@ export default async function ConsultationCenterPage({
 
             <section className="grid-2">
               <ActionCreateForm consultation={selected} />
-              <div className="card stack-sm">
-                <h3>Sonuçtan çıkan aksiyonlar</h3>
-                <ul className="list">
-                  {selected.actions.map((action) => (
-                    <li key={action.id}>{action.title} ({ownerLabel(action.ownerRole)} / {action.status})</li>
-                  ))}
-                </ul>
-              </div>
+              <ActionStatusList consultationId={selected.id} actions={selected.actions} />
             </section>
           </article>
         ) : null}
