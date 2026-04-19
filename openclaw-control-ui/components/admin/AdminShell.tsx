@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 
 type NavItem = {
@@ -8,12 +11,16 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
-  { href: '/hesap-merkezi', label: 'Hesap Merkezi', note: 'Yeni auth/profil sistemi' },
-  { href: '/project-os', label: 'Project OS', note: 'Akış ve operasyon' },
-  { href: '/context-center', label: 'Context Center', note: 'Bağlam ve dosyalar' },
-  { href: '/consultation-center', label: 'Consultation Center', note: 'GPT Pro hazırlığı' },
-  { href: '/codex-profilleri', label: 'Codex Profilleri', note: 'Eski ekran' },
+  { href: '/hesap-merkezi', label: 'Hesap Merkezi', note: 'Gerçek auth ve operatör kayıtları' },
+  { href: '/project-os', label: 'Project OS', note: 'Audit, teklif ve teslimat akışı' },
+  { href: '/context-center', label: 'Context Center', note: 'Dosya, veri ve prompt ayrımı' },
+  { href: '/consultation-center', label: 'Consultation Center', note: 'Temiz brief ve danışma hazırlığı' },
+  { href: '/codex-profilleri', label: 'Codex Profilleri', note: 'Eski ekran, hâlâ erişilebilir' },
 ]
+
+function classNames(...items: Array<string | false | null | undefined>) {
+  return items.filter(Boolean).join(' ')
+}
 
 export function AdminShell({
   title,
@@ -24,35 +31,63 @@ export function AdminShell({
   description: string
   children: ReactNode
 }) {
+  const pathname = usePathname()
+
   return (
     <div className="page-shell">
       <aside className="sidebar">
-        <div>
-          <p className="eyebrow">EsnafDigital Admin</p>
-          <h1>İç sistem</h1>
-          <p className="muted">Yeni hesap sistemi, proje akışı ve bağlam merkezini tek panelde topluyoruz.</p>
+        <div className="sidebar-brand">
+          <div className="brand-mark">
+            <span className="brand-dot" />
+            EsnafDigital Admin
+          </div>
+          <h1>İç operasyon paneli</h1>
+          <p className="muted">Güven veren, sade ve okunur bir operator yüzeyi. Her ekranda tek ana iş daha net görünür.</p>
         </div>
 
-        <nav>
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="nav-link">
-              <strong>{item.label}</strong>
-              <p className="muted">{item.note}</p>
-            </Link>
-          ))}
+        <nav className="sidebar-nav">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')}>
+                <strong>{item.label}</strong>
+                <p className="muted">{item.note}</p>
+              </Link>
+            )
+          })}
         </nav>
+
+        <div className="sidebar-footer">
+          <p className="eyebrow">Tasarım çizgisi</p>
+          <p className="muted">Inter, açık yüzeyler, brand + accent aksı, kısa Türkçe mikro metin ve border-first kart yaklaşımı aktif.</p>
+        </div>
       </aside>
 
       <main className="content">
-        <header className="page-header">
-          <div>
-            <p className="eyebrow">Faz 1</p>
-            <h2>{title}</h2>
-            <p className="muted">{description}</p>
+        <div className="page-body">
+          <div className="topbar">
+            <div className="topbar-meta">
+              <span className="topbar-badge">Faz 1</span>
+              <span className="topbar-note">Yeni Tasarım Sistemi aktif</span>
+            </div>
+            <div className="topbar-actions">
+              <Link href="/" className="ghost-link">Ana giriş</Link>
+            </div>
           </div>
-          <Link href="/hesap-merkezi" className="ghost-link">Hesap Merkezi'ne dön</Link>
-        </header>
-        {children}
+
+          <header className="page-header">
+            <div>
+              <p className="eyebrow">EsnafDigital panel</p>
+              <h2>{title}</h2>
+              <p className="muted">{description}</p>
+            </div>
+            <div className="page-header-actions">
+              <Link href="/hesap-merkezi" className="ghost-link">Hesap Merkezi</Link>
+            </div>
+          </header>
+
+          {children}
+        </div>
       </main>
     </div>
   )

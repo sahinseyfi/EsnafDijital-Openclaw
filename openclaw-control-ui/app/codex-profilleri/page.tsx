@@ -1,3 +1,4 @@
+import { AdminShell } from '@/components/admin/AdminShell'
 import { CodexProfileDashboard } from '@/components/codex-dashboard/CodexProfileDashboard'
 import { getDashboardStatus, readDashboardState } from '@/lib/codex-dashboard/store'
 
@@ -9,5 +10,12 @@ export default async function CodexProfilleriPage() {
     getDashboardStatus(),
   ])
 
-  return <CodexProfileDashboard initialStatus={status} initialAuthSession={state.authSession} />
+  return (
+    <AdminShell
+      title="Codex Profilleri"
+      description="Eski operator ekranı da yeni tasarım diliyle aynı açık yüzey, net tipografi ve sade aksiyon mantığına taşındı."
+    >
+      <CodexProfileDashboard initialStatus={status} initialAuthSession={state.authSession} />
+    </AdminShell>
+  )
 }

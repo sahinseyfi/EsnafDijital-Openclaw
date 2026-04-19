@@ -21,16 +21,24 @@ export default function ProjectOsPage() {
   return (
     <AdminShell
       title="Project OS"
-      description="Audit → teklif → teslimat → bakım akışını ilk typed operasyon veri modeliyle görünür başlatan ekran."
+      description="Audit → teklif → teslimat → bakım hattını sakin, okunur ve operasyon odaklı bir yüzeyde görünür başlatan çekirdek ekran."
     >
+      <section className="hero">
+        <div>
+          <p className="eyebrow">Operasyon akışı</p>
+          <h1>Tek akış, net görünürlük</h1>
+          <p className="muted">Bu alan genel CRM gibi büyümek için değil, EsnafDigital'in gerçek teslimat hattını açık tutmak için var.</p>
+        </div>
+      </section>
+
       <section className="stats-grid">
         <article className="card stat-card">
           <strong>{stats.businesses}</strong>
-          <p className="muted">businesses çekirdeği</p>
+          <p className="muted">işletme kaydı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.audits}</strong>
-          <p className="muted">audit kaydı</p>
+          <p className="muted">audit hazırlığı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.offers}</strong>
@@ -38,32 +46,32 @@ export default function ProjectOsPage() {
         </article>
         <article className="card stat-card">
           <strong>{stats.deliveryProjects}</strong>
-          <p className="muted">teslimat / bakım kaydı</p>
+          <p className="muted">teslimat ve bakım kaydı</p>
         </article>
       </section>
 
-      <section className="grid-2" style={{ marginTop: 24 }}>
+      <section className="grid-2">
         <article className="card">
           <h3>Çekirdek veri modeli</h3>
           <ul className="list">
-            <li>businesses: işletme ve segment kaydı</li>
-            <li>audits: ilk durum analizi ve teklif hazırlık zemini</li>
-            <li>offers: satılabilir teklif nesnesi</li>
-            <li>delivery_projects: yayına alma ve bakım takibi</li>
+            <li>businesses, işletme ve segment bilgisini taşır</li>
+            <li>audits, teklif öncesi somut durum analizini tutar</li>
+            <li>offers, satılabilir teklif nesnesini netleştirir</li>
+            <li>delivery_projects, yayına alma ve bakım takibini taşır</li>
           </ul>
         </article>
         <article className="card">
           <h3>Karar çizgisi</h3>
           <ul className="list">
-            <li>Tek akış: audit → teklif → teslimat → bakım</li>
             <li>Genel CRM değil, operasyon görünürlüğü</li>
-            <li>İlk ekranlar dosya tabanlı örnek veriyle başladı</li>
-            <li>Sonraki adım: Prisma şeması + gerçek kayıt tabanı</li>
+            <li>Önce çalışan akış, sonra veri tabanı derinliği</li>
+            <li>Grafik yerine sayı, durum ve tablo önceliği</li>
+            <li>Sonraki teknik adım Prisma şeması ve gerçek kayıt katmanı</li>
           </ul>
         </article>
       </section>
 
-      <section className="grid-2" style={{ marginTop: 24 }}>
+      <section className="grid-2">
         <article className="card">
           <h3>İşletmeler</h3>
           <div className="table-wrap">
@@ -115,7 +123,7 @@ export default function ProjectOsPage() {
         </article>
       </section>
 
-      <section className="grid-2" style={{ marginTop: 24 }}>
+      <section className="grid-2">
         <article className="card">
           <h3>Teklifler</h3>
           <div className="table-wrap">
@@ -143,7 +151,7 @@ export default function ProjectOsPage() {
         </article>
 
         <article className="card">
-          <h3>Teslimat / bakım</h3>
+          <h3>Teslimat ve bakım</h3>
           <div className="table-wrap">
             <table>
               <thead>

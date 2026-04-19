@@ -1,17 +1,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.hero,
-.panel,
-.summaryCard,
-.flash,
-.errorBanner {
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.9));
-  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.24);
+  gap: 16px;
 }
 
 .hero,
@@ -20,38 +10,54 @@
 .flash,
 .errorBanner,
 .emptyBox,
-.noteBox,
+.authBox,
 .inlineEditor,
+.noteBox,
 .profileList {
-  border-radius: 20px;
+  border-radius: 16px;
+}
+
+.hero,
+.panel,
+.summaryCard,
+.flash,
+.errorBanner {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .hero {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  padding: 26px;
+  padding: 24px;
   align-items: flex-start;
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.96), rgba(240, 253, 250, 0.94));
+  border-color: rgba(37, 99, 235, 0.14);
 }
 
 .eyebrow {
   display: inline-flex;
   margin-bottom: 10px;
   font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #67e8f9;
+  color: var(--brand-700);
 }
 
 .hero h1 {
   margin: 0;
   font-size: 34px;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--ink-title);
 }
 
 .lead {
   margin: 10px 0 0;
-  color: #cbd5e1;
+  color: var(--ink-muted);
   line-height: 1.7;
   max-width: 760px;
 }
@@ -60,7 +66,8 @@
 .metaRow,
 .authRow,
 .cardActions,
-.inlineEditorActions {
+.inlineEditorActions,
+.profileRowActions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -69,79 +76,89 @@
 .metaChip,
 .currentBadge,
 .recommendBadge,
-.healthBadge {
+.healthBadge,
+.infoChip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
+  min-height: 32px;
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 700;
+  line-height: 1;
 }
 
-.metaChip {
-  background: rgba(30, 41, 59, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  color: #cbd5e1;
+.metaChip,
+.infoChip {
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+  color: var(--ink-secondary);
 }
 
 .currentBadge {
-  background: rgba(37, 99, 235, 0.22);
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  color: #bfdbfe;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-200);
+  color: var(--brand-700);
 }
 
 .recommendBadge {
-  background: rgba(8, 145, 178, 0.18);
-  border: 1px solid rgba(34, 211, 238, 0.35);
-  color: #67e8f9;
+  background: var(--accent-50);
+  border: 1px solid var(--accent-200);
+  color: var(--accent-700);
 }
 
 .healthBadge {
-  background: rgba(51, 65, 85, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+  color: var(--ink-secondary);
 }
 
 .health_ok {
-  color: #86efac;
-  border-color: rgba(34, 197, 94, 0.35);
-  background: rgba(20, 83, 45, 0.28);
+  color: var(--success-text);
+  border-color: var(--success-border);
+  background: var(--success-bg);
 }
 
 .health_warn {
-  color: #fde68a;
-  border-color: rgba(245, 158, 11, 0.35);
-  background: rgba(120, 53, 15, 0.28);
+  color: var(--warning-text);
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
 }
 
 .health_bad {
-  color: #fecaca;
-  border-color: rgba(248, 113, 113, 0.35);
-  background: rgba(127, 29, 29, 0.32);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
 }
 
 .health_idle {
-  color: #cbd5e1;
+  color: var(--ink-secondary);
 }
 
 .flash,
 .errorBanner {
   padding: 14px 16px;
+  font-weight: 600;
 }
 
 .flash_info {
-  color: #bfdbfe;
+  color: var(--info-text);
+  border-color: var(--info-border);
+  background: var(--info-bg);
 }
 
 .flash_success {
-  color: #bbf7d0;
+  color: var(--success-text);
+  border-color: var(--success-border);
+  background: var(--success-bg);
 }
 
 .flash_error,
 .errorBanner {
-  color: #fecaca;
-  border-color: rgba(248, 113, 113, 0.28);
-  background: rgba(127, 29, 29, 0.28);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
 }
 
 .panel {
@@ -158,12 +175,15 @@
 
 .sectionHeader h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--ink-title);
 }
 
 .sectionHeader p {
   margin: 8px 0 0;
-  color: #94a3b8;
+  color: var(--ink-muted);
   line-height: 1.65;
 }
 
@@ -179,22 +199,26 @@
 
 .summaryLabel {
   display: block;
-  color: #94a3b8;
+  color: var(--ink-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 12px;
+  font-weight: 700;
 }
 
 .summaryValue {
   display: block;
   margin-top: 10px;
   font-size: 24px;
+  line-height: 1.2;
   letter-spacing: -0.03em;
+  color: var(--ink-title);
+  font-variant-numeric: tabular-nums;
 }
 
 .summaryNote {
   margin: 8px 0 0;
-  color: #94a3b8;
+  color: var(--ink-muted);
   line-height: 1.55;
   font-size: 13px;
 }
@@ -202,9 +226,10 @@
 .emptyBox,
 .authBox,
 .inlineEditor,
-.noteBox {
-  background: rgba(15, 23, 42, 0.68);
-  border: 1px solid rgba(148, 163, 184, 0.14);
+.noteBox,
+.profileList {
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
 }
 
 .emptyBox {
@@ -217,7 +242,7 @@
 
 .emptyBox p {
   margin: 0;
-  color: #cbd5e1;
+  color: var(--ink-secondary);
 }
 
 .authBox {
@@ -230,13 +255,11 @@
 .formGrid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .profileList {
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background: rgba(15, 23, 42, 0.52);
 }
 
 .fieldBlock {
@@ -246,7 +269,7 @@
 }
 
 .fieldBlock span {
-  color: #cbd5e1;
+  color: var(--ink-secondary);
   font-size: 13px;
   font-weight: 600;
 }
@@ -256,16 +279,26 @@
 .fieldBlock textarea,
 .linkRow input {
   width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(15, 23, 42, 0.78);
-  color: #e2e8f0;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink-title);
   padding: 11px 13px;
   font: inherit;
 }
 
+.fieldBlock input:focus,
+.fieldBlock select:focus,
+.fieldBlock textarea:focus,
+.linkRow input:focus {
+  outline: none;
+  border-color: var(--brand-600);
+  box-shadow: var(--focus-ring);
+}
+
 .fieldBlock textarea {
-  min-height: 92px;
+  min-height: 100px;
   resize: vertical;
 }
 
@@ -278,37 +311,44 @@
 .secondaryButton,
 .ghostDangerButton {
   appearance: none;
-  border-radius: 14px;
-  padding: 10px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 12px;
+  padding: 12px 16px;
   font: inherit;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 160ms ease;
   text-decoration: none;
+  transition: 160ms ease;
 }
 
 .primaryButton {
-  border: 1px solid rgba(34, 211, 238, 0.35);
-  background: linear-gradient(135deg, #0ea5e9, #2563eb);
-  color: white;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  background: linear-gradient(135deg, var(--brand-600), var(--accent-600));
+  color: var(--ink-inverse);
+  box-shadow: 0 10px 26px rgba(29, 78, 216, 0.18);
 }
 
 .secondaryButton {
-  border: 1px solid rgba(148, 163, 184, 0.24);
-  background: rgba(30, 41, 59, 0.8);
-  color: #e2e8f0;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink-secondary);
 }
 
 .ghostDangerButton {
-  border: 1px solid rgba(248, 113, 113, 0.3);
-  background: rgba(127, 29, 29, 0.2);
-  color: #fecaca;
+  border: 1px solid var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger-text);
 }
 
 .primaryButton:hover,
 .secondaryButton:hover,
 .ghostDangerButton:hover {
   transform: translateY(-1px);
-  filter: brightness(1.04);
+  box-shadow: var(--shadow-soft-hover);
 }
 
 .primaryButton:disabled,
@@ -317,12 +357,13 @@
   opacity: 0.62;
   cursor: wait;
   transform: none;
+  box-shadow: none;
 }
 
 .profileRow {
   padding: 18px 20px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-  background: rgba(15, 23, 42, 0.62);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .profileRow:last-child {
@@ -330,7 +371,7 @@
 }
 
 .profileRowCurrent {
-  background: rgba(30, 64, 175, 0.18);
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1));
 }
 
 .profileRowMain {
@@ -355,11 +396,12 @@
 .profileName {
   font-size: 18px;
   line-height: 1.3;
+  color: var(--ink-title);
 }
 
 .profileSubline {
   margin: 6px 0 0;
-  color: #94a3b8;
+  color: var(--ink-muted);
   word-break: break-word;
 }
 
@@ -369,36 +411,18 @@
   gap: 10px;
 }
 
-.infoChip {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: rgba(15, 23, 42, 0.55);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  color: #cbd5e1;
-  font-size: 13px;
-}
-
 .rowNote,
 .inlineEditor {
   padding: 14px;
-  color: #cbd5e1;
+  color: var(--ink-body);
 }
 
 .rowNote {
   margin: 12px 0 0;
   line-height: 1.6;
   border-radius: 14px;
-  background: rgba(15, 23, 42, 0.55);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.profileRowActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 
 .inlineEditor {
@@ -417,7 +441,6 @@
   .profileRowMain {
     flex-direction: column;
   }
-
 }
 
 @media (max-width: 800px) {
@@ -431,5 +454,11 @@
   .summaryGrid,
   .formGrid {
     grid-template-columns: 1fr;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .ghostDangerButton {
+    width: 100%;
   }
 }
