@@ -1,4 +1,5 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
@@ -195,16 +196,18 @@ export default async function ConsultationCenterPage({
             </section>
 
             <section className="grid-2">
-              <div className="card stack-sm">
-                <h3>Brief</h3>
-                {renderRecord(selected.businessBrief)}
-                {renderRecord(selected.technicalBrief)}
-                {renderRecord(selected.sharedBrief)}
-              </div>
+              <ConsultationDetailEditor consultation={selected} />
               <PromptPreviewCard
                 promptText={selected.promptRun.promptText}
                 fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
               />
+            </section>
+
+            <section className="card stack-sm">
+              <h3>Mevcut brief görünümü</h3>
+              {renderRecord(selected.businessBrief)}
+              {renderRecord(selected.technicalBrief)}
+              {renderRecord(selected.sharedBrief)}
             </section>
 
             <section className="card stack-sm">
