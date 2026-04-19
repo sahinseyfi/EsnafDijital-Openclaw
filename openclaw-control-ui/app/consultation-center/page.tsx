@@ -6,6 +6,7 @@ import { ConsultationInboxList } from '@/components/consultation-center/Consulta
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
+import { getConsultationProgress } from '@/lib/consultation-center/progress'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { getConsultationNextSteps } from '@/lib/consultation-center/workflow'
 
@@ -79,6 +80,7 @@ export default async function ConsultationCenterPage({
   const payload = await getConsultationCenterPayload(params?.selectedId)
   const selected = payload.selected
   const nextSteps = selected ? getConsultationNextSteps(selected) : null
+  const progress = selected ? getConsultationProgress(selected) : null
 
   return (
     <AdminShell
@@ -156,6 +158,14 @@ export default async function ConsultationCenterPage({
                 </ul>
               </div>
             </section>
+
+            {progress ? (
+              <section className="card stack-sm">
+                <h3>Akış ilerleme durumu</h3>
+                <strong>%{progress.percent}</strong>
+                <p className="muted">{progress.completedSteps} / {progress.totalSteps} ana adım tamamlandı</p>
+              </section>
+            ) : null}
 
             <section className="grid-2">
               <div className="card stack-sm">

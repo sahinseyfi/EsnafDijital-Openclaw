@@ -33,6 +33,8 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Inbox'a route / tip / sahiplik filtreleri eklendi; consultation listesi artik karar işlerini daha hızlı ayiklayabiliyor
 - Consultation stage görünümü route + prompt run + action durumundan otomatik türetilir hale geldi; draft/clarifying/ready_to_send/answered/actioned daha tutarlı gösteriliyor
 - Consultation detail ekranina workflow guidance karti eklendi; sistem artik bu kayit için en mantikli sonraki adimi görünür öneriyor
+- Consultation workflow guidance helper'i eklendi; brief eksigi, external send, answered ve actioned durumlari için sonraki adim önerisi üretiyor
+- Consultation detail ekranina akiş ilerleme özeti eklendi; brief/route/run/action tamamlama seviyesi yüzde olarak görünür oldu
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
