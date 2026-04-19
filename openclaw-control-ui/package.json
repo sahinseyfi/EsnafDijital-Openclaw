@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -H 127.0.0.1 -p 3012",
     "lint": "eslint",
-    "verify:hesap-merkezi-v2": "./bin/verify-hesap-merkezi-v2"
+    "verify:hesap-merkezi-v2": "./bin/verify-hesap-merkezi-v2",
+    "deploy:hesap-merkezi-v2": "./bin/deploy-hesap-merkezi-v2"
   },
   "dependencies": {
     "next": "16.2.4",

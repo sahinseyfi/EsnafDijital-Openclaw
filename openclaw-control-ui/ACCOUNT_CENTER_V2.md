@@ -33,3 +33,11 @@ Kullanıcının gerçekten neye sahip olduğunu net göstermek:
 - npm kısayolu: `npm run verify:hesap-merkezi-v2`
 - Varsayılan hedef: `http://127.0.0.1:3012`
 - İstenirse özel base URL verilebilir: `./bin/verify-hesap-merkezi-v2 http://127.0.0.1:4013`
+
+## Deploy
+- Tek komut helper'ı: `bin/deploy-hesap-merkezi-v2`
+- npm kısayolu: `npm run deploy:hesap-merkezi-v2`
+- Bu helper sırasıyla şunları yapar:
+  1. `npm run build`
+  2. `systemctl restart esnafdijital-admin.service`
+  3. `./bin/verify-hesap-merkezi-v2`

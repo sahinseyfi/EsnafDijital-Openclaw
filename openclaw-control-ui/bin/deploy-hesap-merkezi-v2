@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT_DIR"
+
+echo "[1/3] build alınıyor"
+npm run build
+
+echo "[2/3] servis restart ediliyor"
+systemctl restart esnafdijital-admin.service
+systemctl is-active --quiet esnafdijital-admin.service
+
+echo "[3/3] hesap merkezi doğrulanıyor"
+./bin/verify-hesap-merkezi-v2
+
+echo "deploy tamam"
