@@ -20,6 +20,7 @@ const OPENCLAW_STATE_DIR = '/root/.openclaw'
 const OVERLAY_FILE = path.join(DATA_DIR, 'codex-dashboard-overlay.json')
 const DISCOVERY_HELPER = '/usr/local/bin/esnafdijital-openclaw-discovery'
 const DISCOVERY_TTL_MS = 2000
+const DISCOVERY_TIMEOUT_MS = 2500
 
 let discoveryCache: {
   value: DiscoveryResult | null
@@ -189,7 +190,11 @@ async function runDiscovery(): Promise<DiscoveryResult> {
 
   discoveryCache.inflight = (async () => {
     try {
-      const { stdout } = await execFileAsync(DISCOVERY_HELPER)
+      const { stdout } = await execFileAsync(DISCOVERY_HELPER, [], {
+        timeout: DISCOVERY_TIMEOUT_MS,
+        killSignal: 'SIGKILL',
+        maxBuffer: 1024 * 1024,
+      })
       const parsed = JSON.parse(stdout) as DiscoveryResult
       discoveryCache.value = parsed
       discoveryCache.expiresAt = Date.now() + DISCOVERY_TTL_MS

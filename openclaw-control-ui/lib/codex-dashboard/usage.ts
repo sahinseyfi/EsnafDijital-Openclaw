@@ -16,6 +16,8 @@ export type RealUsageSnapshot = {
 const execFileAsync = promisify(execFile)
 const USAGE_HELPER = '/usr/local/bin/esnafdijital-openclaw-usage'
 const CACHE_TTL_MS = 60_000
+const USAGE_HELPER_TIMEOUT_MS = 2_500
+const LIVE_STATUS_TIMEOUT_MS = 4_000
 
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
 let liveStatusUsageCache: { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> } | null = null
@@ -35,7 +37,11 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string): P
 
   const inflight = (async () => {
     try {
-      const { stdout } = await execFileAsync(USAGE_HELPER, [agentId, profileId], { maxBuffer: 1024 * 1024 })
+      const { stdout } = await execFileAsync(USAGE_HELPER, [agentId, profileId], {
+        maxBuffer: 1024 * 1024,
+        timeout: USAGE_HELPER_TIMEOUT_MS,
+        killSignal: 'SIGKILL',
+      })
       const payload = JSON.parse(stdout) as { ok?: boolean; usage?: RealUsageSnapshot | null }
       const value = payload.ok ? (payload.usage || null) : null
       usageCache.set(key, { value, expiresAt: Date.now() + CACHE_TTL_MS })
@@ -61,7 +67,11 @@ export async function fetchLiveStatusCodexUsage(): Promise<RealUsageSnapshot | n
 
   const inflight = (async () => {
     try {
-      const { stdout } = await execFileAsync('openclaw', ['status', '--json', '--usage'], { maxBuffer: 1024 * 1024 })
+      const { stdout } = await execFileAsync('openclaw', ['status', '--json', '--usage'], {
+        maxBuffer: 1024 * 1024,
+        timeout: LIVE_STATUS_TIMEOUT_MS,
+        killSignal: 'SIGKILL',
+      })
       const payload = JSON.parse(stdout) as {
         usage?: {
           providers?: Array<{
