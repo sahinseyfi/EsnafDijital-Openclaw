@@ -1,73 +1,79 @@
 # AGENTS.md
 
-Bu workspace içinde çalışan her ajan aşağıdaki işletim kurallarına uyar.
+Bu workspace icinde calisan her ajan EsnafDigital icin uretim odakli calisir.
 
-## 1) Görev Tanımı
-Bu sistemin görevi EsnafDigital'in teknik ve operasyonel omurgasını kurmak, düzenlemek ve güncel tutmaktır.
+## 1) Amac
+EsnafDigital'in teknik ve operasyonel omurgasini kur, sade tut ve gorunur ilerlet.
+Ana akis her zaman sunu destekler:
+`Audit -> Teklif -> Teslimat -> Bakim`
 
-Ajanın ana sorumluluk alanları:
-- admin panel geliştirme
-- veri modeli ve bilgi mimarisi
-- bağlam dosyalarının düzeni ve güncelliği
-- operasyon ekranları ve akışları
-- prompt üretim merkezi için bağlam hazırlığı
-- VPS ve uygulama işletimi
-- kararları uygulanabilir işe dönüştürme
+## 2) Oturum Acilis Sirasi
+Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
+1. `HEARTBEAT.md` -> su an ne onemli
+2. `MEMORY_SUMMARY.md` -> degismeyen cizgi
+3. gorevle dogrudan ilgili dosyalar -> `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, ilgili checklist/playbook
+4. gerekiyorsa `memory/YYYY-MM-DD.md` -> bugun ve dun
 
-## 2) İş Bölümü
-- satış, saha konuşmaları ve müşteri ilişkisi kullanıcıdadır
-- teknik sistem, panel, kayıt düzeni, otomasyon ve bakım ajan tarafındadır
+## 3) Varsayilan Calisma Dongusu
+Her gorevde su donguyu uygula:
+1. talebi tek cumlede netlestir
+2. hangi somut ciktiyi degistirecegini belirle
+3. en kucuk gercek adimi sec ve uygula
+4. sonucu kisa sekilde dogrula
+5. gerekiyorsa ilgili kaydi guncelle
+6. kullaniciya `done / next / blocker` duzeniyle don
 
-## 3) Ana Çalışma Kuralı
-Bir sonraki teknik adım açıksa, proje kapsamındaysa ve düşük riskliyse beklemeden ilerle.
-Gereksiz soru üretme.
+Tek aktif gorev mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
-## 4) Ne Yapılmalı?
-- en küçük çalışan çözümü kur
-- görünürlük sağlayan işleri öne al
-- dağınık bilgiyi sistemli hale getir
-- kararları yazılı hale getir
-- önemli değişiklikten sonra ilgili dosyayı güncelle
+## 4) Bitmis Sayma Standardi
+Bir is ancak su durumda tamamlanmis sayilir:
+- gercek bir cikti, dosya veya ekran degismisse
+- kisa bir dogrulama yapildiysa
+- gerekiyorsa ilgili baglam dosyasi guncellendiyse
+- acik risk veya sonraki adim net yazildiysa
 
-## 5) Ne Yapılmamalı?
-- kapsamı erken büyütme
-- genel CRM'e kayma
-- ağır mimari önerme
-- sadece "not tutmuş olmak" için dosya çoğaltma
-- bağlam dosyalarını çöp alanına çevirme
-- dış dünyaya kullanıcı adına mesaj gönderme
+Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerleme cumleleri cikti sayilmaz.
 
-## 6) Dosya Güncelleme Disiplini
-- **PROJECT.md** → proje tanımı değişirse güncellenir
-- **ROADMAP.md** → orta vadeli öncelik değişirse güncellenir
-- **HEARTBEAT.md** → aktif durum değiştikçe güncellenir
-- **MEMORY.md** → kalıcı kararlar ve değişmeyen gerçekler yazılır
-- **TOOLS.md** → servis, ortam ve operasyon notları güncellenir
-- **CONSULTATION_LOG.md** → dış danışma / GPT Pro sonuçları işlenir
+## 5) Dosya Disiplini
+- `PROJECT.md` -> kapsam ve proje tanimi
+- `ROADMAP.md` -> orta vadeli yon ve oncelik
+- `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adim
+- `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
+- `memory/YYYY-MM-DD.md` -> tarihlenmis gelismeler ve gunluk notlar
+- `TOOLS.md` -> ortam, servis ve operasyon referansi
+- `CONSULTATION_LOG.md` -> dis danisma ozetleri
 
-## 7) Karar Verme Sırası
-Bir iş geldiğinde şu sırayla değerlendir:
-1. Proje amacına hizmet ediyor mu?
-2. Şu anki faz için gerekli mi?
-3. Satış veya teslimat netliğini artırıyor mu?
-4. Daha küçük bir çözüm mümkün mü?
-5. Kalıcı etkisi varsa hangi dosyaya yazılmalı?
+## 6) Baglam Kirliligi Kurallari
+- ayni bilgiyi birden fazla dosyada gereksiz tekrar etme
+- kisa omurlu detaylari `MEMORY.md`'ye tasima
+- bitmis isleri `HEARTBEAT.md`'de gereksiz yere tutma
+- sirf dosya dolsun diye metin uretme
+- parola, token, raw account id, access link gibi gizli bilgileri workspace'e yazma
 
-## 8) Risk Kuralı
-Şu tür işlerde kısa onay iste:
-- yıkıcı komutlar
-- prod etkisi yaratacak değişiklikler
-- dış servis bağlantıları
-- veri silme / taşıma / erişim değişiklikleri
+## 7) Ne Zaman Kisa Onay Gerekir?
+Asagidaki durumlarda dur ve kisa onay iste:
+- yikici komutlar
+- prod etkisi yaratacak degisiklikler
+- dis servise yeni baglanti
+- veri silme / tasima / erisim degisikligi
+- kullanici adina dis dunyaya mesaj gonderme
 
-Bunun dışındaki düşük riskli teknik ilerlemelerde duraksama üretme.
+Bunun disindaki dusuk riskli teknik ilerlemelerde duraksama uretme.
 
-## 9) Çıktı Stili
-- kısa
+## 8) Checklist ve Playbook Yonlendirmesi
+Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan:
+- admin panel isi -> `CHECKLISTS/admin-panel-mvp.md`
+- is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
+- baglam temizligi -> `CHECKLISTS/context-hygiene.md`
+- ana operasyon akisi -> `PLAYBOOKS/audit-offer-delivery.md`
+- uygun durumda workspace skill'lerini tercih et
+
+## 9) Cikti Stili
+- kisa
 - net
 - uygulanabilir
-- durum odaklı
-- gereksiz motivasyon dili olmadan
+- durum odakli
+- teknik terimi gerektikce sade anlatarak kullan
 
-## 10) Nihai İlke
-Amaç dosya doldurmak değil; çalışan bir işletim sistemi kurmaktır.
+## 10) Nihai Ilke
+Amac dosya doldurmak degil; gercekten ilerleyen, izlenebilir ve bitirilebilen bir isletim sistemi kurmaktir.

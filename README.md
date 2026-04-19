@@ -1,35 +1,46 @@
 # EsnafDigital Workspace
 
-Bu klasör, EsnafDigital projesinin yaşayan işletim sistemi olarak kullanılır.
+Bu klasor, EsnafDigital projesinin yasayan isletim sistemi olarak kullanilir.
 
-Amaç yalnızca kod tutmak değil; aynı zamanda proje yönünü, kararları, yol haritasını, araç notlarını ve GPT danışma bağlamını tek yerde düzenli biçimde tutmaktır.
+Amac yalnizca kod tutmak degil; ayni zamanda proje yonunu, kararlarini, yol haritasini, arac notlarini ve GPT danisma baglamini tek yerde duzenli bicimde tutmaktir.
 
-## Bu workspace ne işe yarar?
-- projenin ne olduğunu net tutar
-- şu an nerede olduğumuzu görünür kılar
-- teknik ve operasyonel kararları kaydeder
-- admin panel içeriği için referans sağlar
-- GPT Pro danışma / prompt üretimi için temiz bağlam üretir
+## Bu workspace ne ise yarar?
+- projenin ne oldugunu net tutar
+- su an nerede oldugumuzu gorunur kilar
+- teknik ve operasyonel kararlari kaydeder
+- admin panel icerigi icin referans saglar
+- GPT Pro danisma / prompt uretimi icin temiz baglam uretir
 
-## Çekirdek dosyalar
-- `PROJECT.md` → projenin tanımı, amacı, kapsamı
-- `ROADMAP.md` → orta vadeli yön ve öncelikler
-- `HEARTBEAT.md` → şu anki durum, aktif odak, blokajlar
-- `MEMORY.md` → kalıcı gerçekler ve karar çizgisi
-- `AGENTS.md` → ajanların çalışma kuralları
-- `SOUL.md` → karakter ve çalışma tavrı
-- `IDENTITY.md` → bu ajan kimdir
-- `USER.md` → kullanıcı tercihleri ve iş bölümü
-- `TOOLS.md` → ortam, servisler, araç politikası
+## Cekirdek dosyalar
+- `PROJECT.md` -> projenin tanimi, amaci, kapsami
+- `ROADMAP.md` -> orta vadeli yon ve oncelikler
+- `HEARTBEAT.md` -> su anki durum, aktif odak, blokajlar
+- `MEMORY.md` -> kalici gercekler ve karar cizgisi
+- `AGENTS.md` -> ajanin calisma kurallari
+- `SOUL.md` -> karakter ve calisma tavri
+- `IDENTITY.md` -> bu ajan kimdir
+- `USER.md` -> kullanici tercihleri ve is bolumu
+- `TOOLS.md` -> ortam, servisler, arac politikasi
 
-## Çalışma mantığı
-1. Önce bağlamı netleştir.
-2. Sonra en küçük çalışan akışı kur.
-3. Kararları yazılı hale getir.
-4. Yol haritasını güncel tut.
-5. Gereksiz karmaşıklık ekleme.
+## Destek klasorleri
+- `CHECKLISTS/` -> tekrarlayan islerde kisa uygulama listeleri
+- `PLAYBOOKS/` -> uctan uca akislarda izlenecek yol
+- `skills/` -> gerektiginde yuklenen gorev odakli rehberler
+- `memory/` -> gunluk tarihlenmis notlar
+- `DECISIONS/` -> neden oyle yaptigimizi aciklayan karar kayitlari
 
-## Çekirdek akış
-`Audit -> Teklif -> Teslimat -> Bakım`
+## Calisma mantigi
+1. Once baglami netlestir.
+2. Sonra en kucuk calisan akisi kur.
+3. Kararlari yazili hale getir.
+4. Yol haritasini guncel tut.
+5. Gereksiz karmasiklik ekleme.
+6. Bir isi bitmis saymadan once gercek cikti ve dogrulama ara.
 
-Bu proje içinde yeni ekranlar, veri modeli ve otomasyonlar bu ana akıştan kopmamalıdır.
+## Cekirdek akis
+`Audit -> Teklif -> Teslimat -> Bakim`
+
+Bu proje icinde yeni ekranlar, veri modeli ve otomasyonlar bu ana akistan kopmamalidir.
+
+## Guvenlik Notu
+Workspace bir referans ve hafiza alanidir. Parola, token, raw callback linki ve benzeri gizli degerler bu repoya yazilmaz.

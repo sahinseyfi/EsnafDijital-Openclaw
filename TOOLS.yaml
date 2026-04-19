@@ -1,25 +1,25 @@
 tools:
   web:
-    purpose: "Tanıtım sitesi, admin panel ve iç operasyon ekranları"
+    purpose: "Tanitim sitesi, admin panel ve ic operasyon ekranlari"
     default_stack: ["Next.js"]
     use_when:
-      - "dashboard ve admin ekranları"
+      - "dashboard ve admin ekranlari"
       - "context center"
       - "consultation center"
-      - "iş akışı görünürlüğü"
+      - "is akisi gorunurlugu"
 
   database:
-    purpose: "Operasyonel kayıtların tutulması"
+    purpose: "Operasyonel kayitlarin tutulmasi"
     default_stack: ["Postgres", "Prisma"]
     use_when:
       - "businesses"
       - "audits"
       - "offers"
       - "delivery_projects"
-      - "durumu değişen iş nesneleri"
+      - "durumu degisen is nesneleri"
 
   docs:
-    purpose: "Sabit bağlam ve yaşayan proje kayıtları"
+    purpose: "Sabit baglam ve yasayan proje kayitlari"
     default_stack: ["Markdown", "YAML", "JSON"]
     use_when:
       - "project context"
@@ -28,18 +28,19 @@ tools:
       - "memory"
       - "decisions"
       - "playbooks"
-      - "prompt üretim bağlamı"
+      - "prompt uretim baglami"
 
   automation:
-    purpose: "Küçük tekrar eden işleri azaltmak"
+    purpose: "Kucuk tekrar eden isleri azaltmak"
     default_stack: ["cron", "basit jobs"]
     use_when:
       - "health checks"
-      - "küçük takip görevleri"
-      - "düzenli kontrol işleri"
+      - "kucuk takip gorevleri"
+      - "duzenli kontrol isleri"
 
 rules:
-  - "MVP'de vector DB, event bus ve mikroservis önerilmez"
-  - "Tüm bağlam her prompta kör biçimde taşınmaz"
-  - "Önce en küçük çalışan akış kurulur"
-  - "Operasyonel veri ile kalıcı bağlam birbirine karıştırılmaz"
+  - "MVP'de vector DB, event bus ve mikroservis onerilmez"
+  - "Tum baglam her prompta kor bicimde tasinmaz"
+  - "Once en kucuk calisan akis kurulur"
+  - "Operasyonel veri ile kalici baglam birbirine karistirilmaz"
+  - "Parola, token ve benzeri gizli bilgiler workspace'e yazilmaz"

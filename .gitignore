@@ -1,3 +1,13 @@
 .openclaw/
 state/
 memory/.dreams/
+.env
+.env.*
+*.pem
+*.key
+*.log
+**/secrets*
+/openclaw-control-ui/node_modules/
+/openclaw-control-ui/.next/
+/openclaw-control-ui/out/
+/openclaw-control-ui/build/
