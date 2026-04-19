@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import styles from './AccountCenter.module.css'
 import type { AccountCenterPayload, AccountCenterProfile } from '@/lib/account-center/types'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 
@@ -17,6 +18,10 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     throw new Error(json.message || 'İstek başarısız oldu')
   }
   return json as T
+}
+
+function cx(...items: Array<string | false | null | undefined>) {
+  return items.filter(Boolean).join(' ')
 }
 
 function formatDate(value?: string | null) {
@@ -62,6 +67,112 @@ function resetProgress(resetAt?: string | null, totalHours?: number) {
   const remainingMs = new Date(resetAt).getTime() - Date.now()
   if (!Number.isFinite(remainingMs) || remainingMs <= 0) return 0
   return Math.max(0, Math.min(100, Math.round((remainingMs / totalMs) * 100)))
+}
+
+function ProfileCard({
+  profile,
+  busyKey,
+  editingProfileId,
+  editDisplayName,
+  editNote,
+  openEdit,
+  saveMeta,
+  setEditingProfileId,
+  setEditDisplayName,
+  setEditNote,
+  switchProfile,
+  removeProfile,
+}: {
+  profile: AccountCenterProfile
+  busyKey: string | null
+  editingProfileId: string | null
+  editDisplayName: string
+  editNote: string
+  openEdit: (profile: AccountCenterProfile) => void
+  saveMeta: (profileId: string) => void
+  setEditingProfileId: (value: string | null) => void
+  setEditDisplayName: (value: string) => void
+  setEditNote: (value: string) => void
+  switchProfile: (profileId: string) => void
+  removeProfile: (profileId: string) => void
+}) {
+  const isEditing = editingProfileId === profile.profileId
+
+  return (
+    <article className={cx(styles.profileCard, profile.current && styles.profileCardCurrent)}>
+      <div className={styles.profileMain}>
+        {isEditing ? (
+          <div className={styles.editorBox}>
+            <div className={styles.editorGrid}>
+              <label className={styles.field}>
+                <span>Görünen ad</span>
+                <input className={styles.input} value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} />
+              </label>
+              <label className={styles.field}>
+                <span>Kısa not</span>
+                <input className={styles.input} value={editNote} onChange={(event) => setEditNote(event.target.value)} placeholder="Not" />
+              </label>
+            </div>
+            <div className={styles.actionRow} style={{ marginTop: 14 }}>
+              <button className="button-primary" onClick={() => saveMeta(profile.profileId)} disabled={busyKey === `meta:${profile.profileId}`}>Kaydet</button>
+              <button className="button-secondary" onClick={() => setEditingProfileId(null)}>Vazgeç</button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className={styles.profileHead}>
+              <span className={cx(styles.profileLight, profile.current && styles.profileLightActive)} />
+              <strong className={styles.profileName}>{profile.displayName}</strong>
+              {profile.current ? <span className={styles.currentChip}>Current</span> : null}
+              {profile.workspaceLabel ? <span className={styles.badge}>{profile.workspaceLabel}</span> : null}
+            </div>
+
+            <div className={styles.profileSubline}>
+              <span>Son kullanım: {formatDate(profile.lastUsedAt)}</span>
+              {profile.planType ? <span>Plan: {profile.planType}</span> : null}
+              {profile.accountId ? <span>Account ID: {profile.accountId}</span> : null}
+            </div>
+
+            {profile.note ? <p className={styles.profileNote}>{profile.note}</p> : null}
+
+            <div className={styles.profileUsage}>
+              <div className={styles.limitBlock}>
+                <div className={styles.limitLabel}>5 saat</div>
+                <div className={styles.limitBar}>
+                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${clampPercent(profile.limits?.fiveHourLeftPct)}%` }} />
+                  <span className={styles.limitText}>%{clampPercent(profile.limits?.fiveHourLeftPct)} kaldı</span>
+                </div>
+                <div className={styles.limitBar}>
+                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${resetProgress(profile.limits?.fiveHourResetAt, 5)}%` }} />
+                  <span className={styles.limitText}>{formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır</span>
+                </div>
+              </div>
+
+              <div className={styles.limitBlock}>
+                <div className={styles.limitLabel}>Hafta</div>
+                <div className={styles.limitBar}>
+                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${clampPercent(profile.limits?.weekLeftPct)}%` }} />
+                  <span className={styles.limitText}>%{clampPercent(profile.limits?.weekLeftPct)} kaldı</span>
+                </div>
+                <div className={styles.limitBar}>
+                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${resetProgress(profile.limits?.weekResetAt, 24 * 7)}%` }} />
+                  <span className={styles.limitText}>{formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır</span>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className={styles.actionStack}>
+        <button className="button-primary" disabled={profile.current || busyKey === `switch:${profile.profileId}`} onClick={() => switchProfile(profile.profileId)}>
+          Bu oturumda kullan
+        </button>
+        <button className="button-secondary" onClick={() => openEdit(profile)}>Ad / not</button>
+        <button className="button-danger" disabled={profile.current || busyKey === `delete:${profile.profileId}`} onClick={() => removeProfile(profile.profileId)}>Sil</button>
+      </div>
+    </article>
+  )
 }
 
 export function AccountCenter({ initialPayload }: { initialPayload: AccountCenterPayload }) {
@@ -249,166 +360,140 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   }, [editDisplayName, editNote])
 
   return (
-    <>
-      <section className="hero">
+    <div className={styles.page}>
+      <section className={styles.hero}>
         <div>
-          <p className="eyebrow">Yeni sistem / V2</p>
+          <p className={styles.eyebrow}>Yeni sistem / V2</p>
           <h1>Hesap Merkezi</h1>
-          <p className="muted">
-            Bu ekran sadece gerçek auth kaydı, current seçim ve operatör adı ilişkisini net kurmak için yazıldı.
-          </p>
+          <p className={styles.lead}>Bu ekran gerçek auth kaydı, current seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
+        </div>
+        <div className={styles.heroMeta}>
+          <span className={styles.metaChip}>Toplam profil: {payload.state.totalProfiles}</span>
+          {payload.state.currentDisplayName ? <span className={styles.currentChip}>Current: {payload.state.currentDisplayName}</span> : null}
         </div>
       </section>
 
-      {flash ? <section className="card" style={{ marginTop: 16 }}><p>{flash}</p></section> : null}
-      {errorText ? <section className="card" style={{ marginTop: 16, borderColor: '#7f1d1d' }}><p>{errorText}</p></section> : null}
+      {flash ? <section className={styles.notice}>{flash}</section> : null}
+      {errorText ? <section className={styles.error}>{errorText}</section> : null}
 
-      <section className="stats-grid" style={{ marginTop: 24 }}>
-        <article className="card stat-card">
-          <strong>{payload.state.totalProfiles}</strong>
-          <p className="muted">Bu ekran sadece gerçek auth kaydı, current seçim ve operatör adı ilişkisini net kurmak için yazıldı.</p>
+      <section className={styles.statsGrid}>
+        <article className={styles.statCard}>
+          <strong className={styles.statValue}>{payload.state.totalProfiles}</strong>
+          <span className={styles.statLabel}>Kayıtlı profil</span>
+          <p className={styles.statText}>Aktif current profili koruyup, gerçek hesap kayıtlarını operatör düzeyinde yönetiyorsunuz.</p>
         </article>
       </section>
 
-      <section className="card" style={{ marginTop: 24 }}>
-        <div className="page-header" style={{ marginBottom: 16 }}>
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
           <div>
             <h3>Yeni auth ekle</h3>
-            <p className="muted">Link üret, giriş yap, callback'i yapıştır, profil adını ver, kaydet.</p>
+            <p className={styles.sectionText}>Link üretin, giriş yapın, dönen callback’i yapıştırın, profil adını verin ve kaydedin.</p>
           </div>
           <button className="button-primary" disabled={busyKey === 'start-auth'} onClick={startAuth}>Yeni auth başlat</button>
         </div>
 
         {!payload.authSession ? (
-          <p className="muted">Şu an aktif auth oturumu yok.</p>
+          <div className={styles.emptyState}>Şu an aktif auth oturumu yok.</div>
         ) : (
-          <div className="stack-form">
-            <div className="grid-2 two-col">
-              <div className="card">
-                <p><strong>Durum:</strong> {authStatusText(payload.authSession.status)}</p>
-                <p><strong>Başlangıç:</strong> {formatDate(payload.authSession.startedAt)}</p>
-                <p><strong>Session:</strong> {payload.authSession.sessionId}</p>
+          <div className={styles.stack}>
+            <div className={styles.authGrid}>
+              <div className={styles.authPanel}>
+                <div className={styles.infoList}>
+                  <div className={styles.infoRow}><strong>Durum:</strong> <span>{authStatusText(payload.authSession.status)}</span></div>
+                  <div className={styles.infoRow}><strong>Başlangıç:</strong> <span>{formatDate(payload.authSession.startedAt)}</span></div>
+                  <div className={styles.infoRow}><strong>Session:</strong> <span>{payload.authSession.sessionId}</span></div>
+                </div>
               </div>
-              <div className="card">
-                <label className="field">
+
+              <div className={styles.authPanel}>
+                <label className={styles.field}>
                   <span>Auth linki</span>
-                  <input value={payload.authSession.authUrl} readOnly />
+                  <input className={styles.input} value={payload.authSession.authUrl} readOnly />
                 </label>
-                <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                <div className={styles.actionRow} style={{ marginTop: 12 }}>
                   <a href={payload.authSession.authUrl} target="_blank" rel="noreferrer" className="button-primary">Linki aç</a>
                   <button className="button-danger" onClick={cancelAuth} disabled={busyKey === 'cancel-auth'}>İptal</button>
                 </div>
               </div>
             </div>
-            <div className="grid-2 two-col">
-              <label className="field two-col-span">
+
+            <div className={styles.authGrid}>
+              <label className={cx(styles.field, styles.twoColSpan)}>
                 <span>Dönen callback / kod</span>
-                <textarea value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} />
+                <textarea className={styles.textarea} value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} />
               </label>
-              <label className="field">
+              <label className={styles.field}>
                 <span>Profil adı</span>
-                <input value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Örn: Workspace1" />
+                <input className={styles.input} value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Örn: Workspace 1" />
               </label>
-              <label className="field">
+              <label className={styles.field}>
                 <span>Kısa not</span>
-                <input value={note} onChange={(event) => setNote(event.target.value)} placeholder="Opsiyonel" />
+                <input className={styles.input} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Opsiyonel" />
               </label>
             </div>
-            <div>
+
+            <div className={styles.actionRow}>
               <button className="button-primary" onClick={submitAuth} disabled={busyKey === 'submit-auth'}>Profili kaydet</button>
             </div>
           </div>
         )}
       </section>
 
-      <section className="card" style={{ marginTop: 24 }}>
-        <div className="page-header" style={{ marginBottom: 16 }}>
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
           <div>
             <h3>Kayıtlı profiller</h3>
-            <p className="muted">Aktif olan üstte durur. Haftalık ve 5 saatlik limiti bitenler sonda toplanır, daha geç sıfırlanan daha aşağı iner.</p>
+            <p className={styles.sectionText}>Aktif olan üstte durur. Haftalık ve 5 saatlik limiti bitenler sonda toplanır, daha geç sıfırlanan daha aşağı iner.</p>
           </div>
           <button className="button-secondary" onClick={() => refresh().then(() => setFlash('Liste yenilendi')).catch((error) => setErrorText(error.message))}>Yenile</button>
         </div>
 
-        <div className="profile-list">
+        <div className={styles.profileList}>
           {payload.state.profiles.map((profile) => (
-            <article key={profile.profileId} className={`profile-row${profile.current ? ' profile-row-current' : ''}`}>
-              <div className="profile-main">
-                {editingProfileId === profile.profileId ? (
-                  <div className="stack-form">
-                    <input value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} />
-                    <input value={editNote} onChange={(event) => setEditNote(event.target.value)} placeholder="Not" />
-                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                      <button className="button-primary" onClick={() => saveMeta(profile.profileId)} disabled={busyKey === `meta:${profile.profileId}`}>Kaydet</button>
-                      <button className="button-secondary" onClick={() => setEditingProfileId(null)}>Vazgeç</button>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="profile-title-row">
-                      <span className={`profile-light${profile.current ? ' profile-light-active' : ''}`} />
-                      <strong>{profile.displayName}</strong>
-                      <span className="profile-last-used">Son kullanım: {formatDate(profile.lastUsedAt)}</span>
-                    </div>
-                    {profile.note ? <div className="muted" style={{ marginTop: 6 }}>{profile.note}</div> : null}
-                    {profile.workspaceLabel ? <div className="badge" style={{ marginTop: 8 }}>{profile.workspaceLabel}</div> : null}
-                    <div className="profile-limit-stack">
-                      <div className="limit-block">
-                        <div className="limit-label">5 saat</div>
-                        <div className="limit-bar limit-bar-usage">
-                          <div className="limit-bar-fill" style={{ width: `${clampPercent(profile.limits?.fiveHourLeftPct)}%` }} />
-                          <span className="limit-bar-text">%{clampPercent(profile.limits?.fiveHourLeftPct)} kaldı</span>
-                        </div>
-                        <div className="limit-bar limit-bar-reset">
-                          <div className="limit-bar-fill" style={{ width: `${resetProgress(profile.limits?.fiveHourResetAt, 5)}%` }} />
-                          <span className="limit-bar-text">{formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır</span>
-                        </div>
-                      </div>
-
-                      <div className="limit-block">
-                        <div className="limit-label">Hafta</div>
-                        <div className="limit-bar limit-bar-usage">
-                          <div className="limit-bar-fill" style={{ width: `${clampPercent(profile.limits?.weekLeftPct)}%` }} />
-                          <span className="limit-bar-text">%{clampPercent(profile.limits?.weekLeftPct)} kaldı</span>
-                        </div>
-                        <div className="limit-bar limit-bar-reset">
-                          <div className="limit-bar-fill" style={{ width: `${resetProgress(profile.limits?.weekResetAt, 24 * 7)}%` }} />
-                          <span className="limit-bar-text">{formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır</span>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div className="profile-actions">
-                <button className="button-primary" disabled={profile.current || busyKey === `switch:${profile.profileId}`} onClick={() => switchProfile(profile.profileId)}>Bu oturumda kullan</button>
-                <button className="button-secondary" onClick={() => openEdit(profile)}>Ad / not</button>
-                <button className="button-danger" disabled={profile.current || busyKey === `delete:${profile.profileId}`} onClick={() => removeProfile(profile.profileId)}>Sil</button>
-              </div>
-            </article>
+            <ProfileCard
+              key={profile.profileId}
+              profile={profile}
+              busyKey={busyKey}
+              editingProfileId={editingProfileId}
+              editDisplayName={editDisplayName}
+              editNote={editNote}
+              openEdit={openEdit}
+              saveMeta={saveMeta}
+              setEditingProfileId={setEditingProfileId}
+              setEditDisplayName={setEditDisplayName}
+              setEditNote={setEditNote}
+              switchProfile={switchProfile}
+              removeProfile={removeProfile}
+            />
           ))}
         </div>
       </section>
 
-      <section className="card" style={{ marginTop: 24 }}>
-        <h3>Aynı teknik kayda bağlı profiller</h3>
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h3>Aynı teknik kayda bağlı profiller</h3>
+            <p className={styles.sectionText}>Aynı auth kimliğinden operatör tarafında ayrı kayıt açılmış gruplar burada görünür.</p>
+          </div>
+        </div>
+
         {payload.state.duplicateGroups.length === 0 ? (
-          <p className="muted">Şu an aynı Account ID / Plan çizgisinde ikinci kayıt yok.</p>
+          <div className={styles.emptyState}>Şu an aynı Account ID / Plan çizgisinde ikinci kayıt yok.</div>
         ) : (
-          <div className="duplicate-group-list">
+          <div className={styles.duplicateList}>
             {payload.state.duplicateGroups.map((group) => (
-              <article key={group.canonicalProfileId} className="duplicate-group-item">
-                <div className="stack-form" style={{ gap: 8 }}>
+              <article key={group.canonicalProfileId} className={styles.duplicateCard}>
+                <div className={styles.stack} style={{ gap: 8 }}>
                   <strong>Teknik grup</strong>
-                  <div className="muted">Account ID: {group.accountId || '—'}</div>
-                  <div className="muted">Plan: {group.planType || '—'}</div>
-                  <div className="muted">Temel kayıt: <code>{group.canonicalProfileId}</code></div>
+                  <div className={styles.mutedText}>Account ID: {group.accountId || '—'}</div>
+                  <div className={styles.mutedText}>Plan: {group.planType || '—'}</div>
+                  <div className={styles.mutedText}>Temel kayıt: <code className={styles.code}>{group.canonicalProfileId}</code></div>
                 </div>
-                <ul className="mini-list" style={{ marginTop: 12 }}>
+                <ul className={styles.miniList}>
                   {group.profiles.map((profile) => (
                     <li key={profile.profileId}>
-                      <strong>{profile.displayName}</strong> <code>{profile.profileId}</code>
+                      <strong>{profile.displayName}</strong> <code className={styles.code}>{profile.profileId}</code>
                     </li>
                   ))}
                 </ul>
@@ -417,6 +502,6 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
           </div>
         )}
       </section>
-    </>
+    </div>
   )
 }
