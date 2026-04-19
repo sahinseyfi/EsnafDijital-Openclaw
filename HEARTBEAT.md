@@ -36,6 +36,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Her wake'de bir somut teknik adım ilerletsin: veri modeli, API, ekran akışı, route mantığı veya gerçek veritabanı bağlantısı.
 - Aynı wake içinde yeni daha kritik bir blokaj veya karar ihtiyacı çıkmazsa başka iş akışına dağılmasın.
 - Görünür kullanıcı mesajı ancak gerçekten önemli gelişme, net blokaj veya karar ihtiyacı varsa gönderilsin.
+- Consultation Center follow-through işi bu faz için yeterli noktaya geldiğinde saatlik heartbeat cron'u kapatılsın; iş bitince gereksiz tekrar etmesin.
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detayları hâlâ tam keskin değil
