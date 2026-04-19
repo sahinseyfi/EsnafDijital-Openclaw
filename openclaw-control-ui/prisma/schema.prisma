@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConsultationType {
+  sales
+  technical
+  shared
+}
+
+enum ConsultationStage {
+  draft
+  clarifying
+  goal_set
+  context_ready
+  blocked
+  internal
+  external
+  ready_to_send
+  answered
+  actioned
+}
+
+enum ConsultationStatus {
+  open
+  archived
+}
+
+enum ConsultationRoute {
+  blocked
+  internal
+  external
+}
+
+enum ConsultationOwnerRole {
+  user
+  tech_agent
+  shared
+}
+
+enum ConsultationActionType {
+  decision_note
+  project_task
+  followup
+}
+
+enum ConsultationActionStatus {
+  open
+  done
+  cancelled
+}
+
+model Consultation {
+  id               String                  @id @default(cuid())
+  title            String
+  type             ConsultationType
+  stage            ConsultationStage       @default(draft)
+  status           ConsultationStatus      @default(open)
+  ownerRole        ConsultationOwnerRole?
+  consultRoute     ConsultationRoute?
+  decisionQuestion String?
+  goal             String?
+  whyNow           String?
+  dueAt            DateTime?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  brief            ConsultationBrief?
+  runs             ConsultationRun[]
+  actions          ConsultationAction[]
+}
+
+model ConsultationBrief {
+  id              String        @id @default(cuid())
+  consultationId  String        @unique
+  businessJson    Json?
+  technicalJson   Json?
+  sharedJson      Json?
+  contextRefsJson Json?
+  constraintsJson Json?
+  successCriteria String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  consultation    Consultation  @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+}
+
+model ConsultationRun {
+  id              String        @id @default(cuid())
+  consultationId  String
+  modelName       String?
+  promptText      String
+  sentAt          DateTime?
+  responseRaw     String?
+  responseSummary String?
+  createdAt       DateTime      @default(now())
+
+  consultation    Consultation  @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+}
+
+model ConsultationAction {
+  id               String                   @id @default(cuid())
+  consultationId   String
+  ownerRole        ConsultationOwnerRole
+  actionType       ConsultationActionType
+  title            String
+  status           ConsultationActionStatus @default(open)
+  linkedEntityType String?
+  linkedEntityId   String?
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+
+  consultation     Consultation             @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+}
