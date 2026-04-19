@@ -68,9 +68,13 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         setPayload({ state: authPayload.state, authSession: authPayload.authSession })
 
         if (authPayload.authSession?.status === 'completed') {
-          setFlash(authPayload.authSession.canonicalAction === 'updated'
-            ? 'Yeni satır açılmadı, mevcut profil güncellendi'
-            : 'Yeni profil kaydedildi')
+          setFlash(
+            authPayload.authSession.canonicalAction === 'updated'
+              ? 'Yeni satır açılmadı, mevcut profil güncellendi'
+              : authPayload.authSession.canonicalAction === 'saved_separately'
+                ? 'Aynı teknik hesaptan ayrı kayıt açıldı'
+                : 'Yeni profil kaydedildi',
+          )
         }
 
         if (authPayload.terminal || !authPayload.authSession) {

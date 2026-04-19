@@ -127,7 +127,7 @@ export async function GET() {
         ]
         nextCurrentProfileId = materialized.targetProfileId
         merged.profileId = materialized.targetProfileId
-        merged.canonicalAction = 'created'
+        merged.canonicalAction = materialized.createdAdditionalRecord ? 'saved_separately' : 'created'
       }
 
       return {
