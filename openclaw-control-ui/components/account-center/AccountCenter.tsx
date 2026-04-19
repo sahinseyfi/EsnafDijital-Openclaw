@@ -69,6 +69,24 @@ function resetProgress(resetAt?: string | null, totalHours?: number) {
   return Math.max(0, Math.min(100, Math.round((remainingMs / totalMs) * 100)))
 }
 
+function mergePayloadPreservingLimits(current: AccountCenterPayload, next: AccountCenterPayload): AccountCenterPayload {
+  const currentProfiles = new Map(current.state.profiles.map((profile) => [profile.profileId, profile]))
+
+  return {
+    ...next,
+    state: {
+      ...next.state,
+      profiles: next.state.profiles.map((profile) => {
+        const existing = currentProfiles.get(profile.profileId)
+        return {
+          ...profile,
+          limits: profile.limits || existing?.limits || null,
+        }
+      }),
+    },
+  }
+}
+
 function ProfileCard({
   profile,
   busyKey,
@@ -192,7 +210,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
   const refresh = useCallback(async () => {
     const next = await request<AccountCenterPayload>('/api/hesap-merkezi/status')
-    setPayload(next)
+    setPayload((current) => mergePayloadPreservingLimits(current, next))
     return next
   }, [])
 
@@ -202,7 +220,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     const timer = window.setInterval(async () => {
       try {
         const next = await request<AccountCenterPayload>('/api/hesap-merkezi/status')
-        setPayload(next)
+        setPayload((current) => mergePayloadPreservingLimits(current, next))
       } catch {
         // sessiz kal
       }
@@ -277,7 +295,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     const timer = window.setInterval(async () => {
       try {
         const authPayload = await request<AccountCenterPayload & { terminal?: boolean }>('/api/hesap-merkezi/auth/status')
-        setPayload({ state: authPayload.state, authSession: authPayload.authSession, systemNotice: authPayload.systemNotice })
+        setPayload((current) => mergePayloadPreservingLimits(current, {
+          state: authPayload.state,
+          authSession: authPayload.authSession,
+          systemNotice: authPayload.systemNotice,
+        }))
 
         if (authPayload.authSession?.status === 'completed') {
           setFlash(
@@ -309,7 +331,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     setErrorText(null)
     try {
       const result = await request<AccountCenterPayload & { ok: true; message: string }>('/api/hesap-merkezi/auth/start', { method: 'POST' })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Auth başlatılamadı')
@@ -337,7 +363,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
           note,
         }),
       })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Auth kaydı başlatılamadı')
@@ -354,7 +384,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         method: 'POST',
         body: JSON.stringify({ sessionId: payload.authSession.sessionId }),
       })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setCallbackValue('')
       setDisplayName('')
       setNote('')
@@ -373,7 +407,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         method: 'POST',
         body: JSON.stringify({ profileId }),
       })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Profil değiştirilemedi')
@@ -390,7 +428,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         method: 'POST',
         body: JSON.stringify({ profileId }),
       })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Profil silinemedi')
@@ -412,7 +454,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         method: 'POST',
         body: JSON.stringify({ profileId, displayName: editDisplayName, note: editNote }),
       })
-      setPayload({ state: result.state, authSession: result.authSession, systemNotice: result.systemNotice })
+      setPayload((current) => mergePayloadPreservingLimits(current, {
+        state: result.state,
+        authSession: result.authSession,
+        systemNotice: result.systemNotice,
+      }))
       setEditingProfileId(null)
       setFlash(result.message)
     } catch (error: any) {
