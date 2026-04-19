@@ -33,6 +33,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - V2 prod deploy için build + restart + verify yapan tek komut helper'ı ekleme
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
+- tasarım sistemi + marka kimliği kararlarını kalıcı bağlama alıp yeni ekranları bu çizgiye sabitleme
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu

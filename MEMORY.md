@@ -96,3 +96,13 @@ Amaç, çok seçenekli karmaşık paketler değil; anlaşılır ve satılabilir 
 ## 13) Prompt Üretim İlkesi
 Prompt üretim sistemi, tüm dosyaları kaba biçimde birleştiren bir yapı olmayacaktır.
 Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü prompt üretmektir.
+
+## 14) Marka ve Tasarım Sistemi Kararı
+- EsnafDigital'in kalıcı görsel dili güven veren net mavi (`brand`) + destekleyici turkuaz (`accent`) ekseninde kurulacaktır.
+- Arayüz dili steril SaaS değil; sade, güven veren, yüksek okunabilirlikli ve esnaf dostu olacaktır.
+- Tek tipografi ailesi `Inter` olarak korunacaktır.
+- Geometri çizgisi hafif yuvarlatılmıştır: buton/input `12px`, kart/modal `16px`, badge `pill`.
+- İkonografi varsayılan olarak `line-first` kullanılacaktır.
+- Mikro metinlerde sade Türkçe, jargon kaçınma ve saygılı `siz` dili zorunludur.
+- Landing ve admin panel için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
+- Kaynak metnin tam kopyası: `REFERENCES/2026-04-19-tasarim-sistemi-ve-marka-kimligi-source.txt`
