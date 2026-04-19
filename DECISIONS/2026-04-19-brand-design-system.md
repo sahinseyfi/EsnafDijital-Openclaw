@@ -3,7 +3,9 @@
 Bu dosya, `/root/.openclaw/Tasarım Sistemi ve Marka Kimliği.txt` içeriğinin kalıcı ve uygulanabilir karar özetidir.
 
 ## Kaynak
-- Tam kaynak kopyası: `REFERENCES/2026-04-19-tasarim-sistemi-ve-marka-kimligi-source.txt`
+- Referans giriş dosyası: `REFERENCES/2026-04-19-tasarim-sistemi-ve-marka-kimligi-source.txt`
+- Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
+- Ham döküm arşivi: `ARCHIVE/2026-04-19-tasarim-sistemi-ve-marka-kimligi-raw-transcript.txt`
 - Bu dosya, gelecekte landing page, admin panel ve ortak UI kararlarında ana referanstır.
 
 ## 1) Marka Çekirdeği
