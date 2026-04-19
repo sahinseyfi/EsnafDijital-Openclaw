@@ -1,5 +1,7 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import Link from 'next/link'
 
 function sectionTitle(value: string) {
   if (value === 'sales') return 'Saha / satış'
@@ -56,8 +58,13 @@ function renderRecord(value: Record<string, string | string[] | null> | undefine
   )
 }
 
-export default async function ConsultationCenterPage() {
-  const payload = await getConsultationCenterPayload()
+export default async function ConsultationCenterPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ selectedId?: string }>
+}) {
+  const params = await searchParams
+  const payload = await getConsultationCenterPayload(params?.selectedId)
   const selected = payload.selected
 
   return (
@@ -92,6 +99,20 @@ export default async function ConsultationCenterPage() {
       </section>
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
+        <QuickCreateForm />
+        <article className="card">
+          <p className="eyebrow">Route mantığı</p>
+          <h3>Bu ekran ne yapıyor?</h3>
+          <ul className="list">
+            <li>Dağınık konuyu karar brief'ine çevirir</li>
+            <li>Blocked / internal / external filtresi uygular</li>
+            <li>Gerekirse GPT Pro prompt'u üretir</li>
+            <li>Sonucu kullanıcı işi, teknik iş veya ortak karara bağlar</li>
+          </ul>
+        </article>
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
         <article className="card">
           <div className="stack-sm">
             <div>
@@ -100,7 +121,7 @@ export default async function ConsultationCenterPage() {
             </div>
             <div className="stack-sm">
               {payload.inbox.map((item) => (
-                <div key={item.id} className="card" style={{ padding: 16, borderStyle: selected?.id === item.id ? 'solid' : 'dashed' }}>
+                <Link key={item.id} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="card" style={{ padding: 16, borderStyle: selected?.id === item.id ? 'solid' : 'dashed', display: 'block' }}>
                   <div className="stack-xs">
                     <strong>{item.title}</strong>
                     <p className="muted">{item.summary}</p>
@@ -111,7 +132,7 @@ export default async function ConsultationCenterPage() {
                     <span>Route: {routeLabel(item.route)}</span>
                     <span>Sahiplik: {ownerLabel(item.ownerRole)}</span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
