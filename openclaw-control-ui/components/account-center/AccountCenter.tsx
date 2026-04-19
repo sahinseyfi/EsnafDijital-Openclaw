@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './AccountCenter.module.css'
 import type { AccountCenterPayload, AccountCenterProfile } from '@/lib/account-center/types'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
@@ -97,6 +97,7 @@ function ProfileCard({
   removeProfile: (profileId: string) => void
 }) {
   const isEditing = editingProfileId === profile.profileId
+  const hasLimits = Boolean(profile.limits)
 
   return (
     <article className={cx(styles.profileCard, profile.current && styles.profileCardCurrent)}>
@@ -139,24 +140,24 @@ function ProfileCard({
               <div className={styles.limitBlock}>
                 <div className={styles.limitLabel}>5 saat</div>
                 <div className={styles.limitBar}>
-                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${clampPercent(profile.limits?.fiveHourLeftPct)}%` }} />
-                  <span className={styles.limitText}>%{clampPercent(profile.limits?.fiveHourLeftPct)} kaldı</span>
+                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${hasLimits ? clampPercent(profile.limits?.fiveHourLeftPct) : 100}%`, opacity: hasLimits ? 1 : 0.22 }} />
+                  <span className={styles.limitText}>{hasLimits ? `%${clampPercent(profile.limits?.fiveHourLeftPct)} kaldı` : 'Limit verisi yükleniyor'}</span>
                 </div>
                 <div className={styles.limitBar}>
-                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${resetProgress(profile.limits?.fiveHourResetAt, 5)}%` }} />
-                  <span className={styles.limitText}>{formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır</span>
+                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${hasLimits ? resetProgress(profile.limits?.fiveHourResetAt, 5) : 100}%`, opacity: hasLimits ? 1 : 0.18 }} />
+                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır` : 'Reset bilgisi yükleniyor'}</span>
                 </div>
               </div>
 
               <div className={styles.limitBlock}>
                 <div className={styles.limitLabel}>Hafta</div>
                 <div className={styles.limitBar}>
-                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${clampPercent(profile.limits?.weekLeftPct)}%` }} />
-                  <span className={styles.limitText}>%{clampPercent(profile.limits?.weekLeftPct)} kaldı</span>
+                  <div className={cx(styles.limitFill, styles.limitFillUsage)} style={{ width: `${hasLimits ? clampPercent(profile.limits?.weekLeftPct) : 100}%`, opacity: hasLimits ? 1 : 0.22 }} />
+                  <span className={styles.limitText}>{hasLimits ? `%${clampPercent(profile.limits?.weekLeftPct)} kaldı` : 'Limit verisi yükleniyor'}</span>
                 </div>
                 <div className={styles.limitBar}>
-                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${resetProgress(profile.limits?.weekResetAt, 24 * 7)}%` }} />
-                  <span className={styles.limitText}>{formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır</span>
+                  <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${hasLimits ? resetProgress(profile.limits?.weekResetAt, 24 * 7) : 100}%`, opacity: hasLimits ? 1 : 0.18 }} />
+                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır` : 'Reset bilgisi yükleniyor'}</span>
                 </div>
               </div>
             </div>
@@ -178,6 +179,7 @@ function ProfileCard({
 export function AccountCenter({ initialPayload }: { initialPayload: AccountCenterPayload }) {
   const [payload, setPayload] = useState(initialPayload)
   const [busyKey, setBusyKey] = useState<string | null>(null)
+  const limitRequestsRef = useRef<Set<string>>(new Set())
   const [flash, setFlash] = useState<string | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [callbackValue, setCallbackValue] = useState('')
@@ -207,6 +209,69 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
     return () => window.clearInterval(timer)
   }, [payload.authSession?.sessionId])
+
+  useEffect(() => {
+    const missingProfiles = payload.state.profiles
+      .filter((profile) => !profile.limits)
+      .map((profile) => profile.profileId)
+      .filter((profileId) => !limitRequestsRef.current.has(profileId))
+
+    if (missingProfiles.length === 0) return
+
+    let cancelled = false
+    const concurrency = 4
+
+    const run = async () => {
+      const queue = [...missingProfiles]
+      const worker = async () => {
+        while (queue.length > 0 && !cancelled) {
+          const profileId = queue.shift()
+          if (!profileId) return
+          limitRequestsRef.current.add(profileId)
+          try {
+            const result = await request<{ ok: true; profileId: string; limits: AccountCenterProfile['limits'] }>('/api/hesap-merkezi/limits', {
+              method: 'POST',
+              body: JSON.stringify({ profileId }),
+            })
+
+            if (cancelled) return
+
+            setPayload((current) => ({
+              ...current,
+              state: {
+                ...current.state,
+                profiles: current.state.profiles.map((profile) => (
+                  profile.profileId === result.profileId
+                    ? {
+                        ...profile,
+                        limits: result.limits || {
+                          fiveHourLeftPct: null,
+                          weekLeftPct: null,
+                          fiveHourResetAt: null,
+                          weekResetAt: null,
+                        },
+                      }
+                    : profile
+                )),
+              },
+            }))
+          } catch {
+            // sessiz kal
+          } finally {
+            limitRequestsRef.current.delete(profileId)
+          }
+        }
+      }
+
+      await Promise.all(Array.from({ length: Math.min(concurrency, queue.length) }, () => worker()))
+    }
+
+    void run()
+
+    return () => {
+      cancelled = true
+    }
+  }, [payload.state.profiles])
 
   useEffect(() => {
     if (!payload.authSession?.sessionId) return
