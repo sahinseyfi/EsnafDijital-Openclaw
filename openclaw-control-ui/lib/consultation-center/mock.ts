@@ -1,4 +1,5 @@
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
+import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 const consultations: ConsultationDetail[] = [
@@ -157,12 +158,30 @@ export function getConsultationDetail(id: string): ConsultationDetail | null {
     sharedBrief: item.sharedBrief,
   })
 
+  const promptText = item.promptRun.promptText || (evaluation.route === 'external'
+    ? buildConsultationPrompt({
+        type: item.type,
+        title: item.title,
+        decisionQuestion: item.decisionQuestion,
+        whyNow: item.whyNow,
+        desiredOutput: item.desiredOutput,
+        contextRefs: item.contextRefs,
+        businessBrief: item.businessBrief,
+        technicalBrief: item.technicalBrief,
+        sharedBrief: item.sharedBrief,
+      })
+    : '')
+
   return {
     ...item,
     route: evaluation.route,
     ownerRole: evaluation.ownerRole,
     gptRecommended: evaluation.gptRecommended,
     missingFields: evaluation.missingFields,
+    promptRun: {
+      ...item.promptRun,
+      promptText,
+    },
   }
 }
 

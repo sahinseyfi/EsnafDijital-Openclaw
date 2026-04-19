@@ -23,6 +23,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center ekranina quick create formu ve seçili kayıt akışı bağlandı; inbox'tan kayıt seçme ve yeni consultation açma çalışır hale geldi
 - Consultation Center detail ekranina route kararı ve minimum brief eksik alan kontrolü eklendi
 - Consultation Center icin backend evaluator ve `/api/consultation-center/evaluate` route'u eklendi; route/missing-fields mantığı ürünleştirildi
+- Consultation Center icin otomatik prompt preview üreticisi eklendi; external route kayitlari artik brief + context pack'ten prompt taslağı çıkarıyor
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi

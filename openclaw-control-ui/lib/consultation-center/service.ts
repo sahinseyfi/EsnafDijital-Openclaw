@@ -1,5 +1,6 @@
 import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationRun } from '@prisma/client'
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
+import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { prisma } from '@/lib/prisma'
 import { createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
@@ -91,6 +92,19 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     technicalBrief,
     sharedBrief,
   })
+  const promptText = latestRun?.promptText || (evaluation.route === 'external'
+    ? buildConsultationPrompt({
+        type: inbox.type,
+        title: record.title,
+        decisionQuestion: record.decisionQuestion || 'Karar sorusu henüz yazılmadı',
+        whyNow: record.whyNow || 'Henüz yazılmadı',
+        desiredOutput: record.goal || 'Henüz seçilmedi',
+        contextRefs,
+        businessBrief,
+        technicalBrief,
+        sharedBrief,
+      })
+    : '')
 
   return {
     ...inbox,
@@ -103,7 +117,7 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     contextRefs,
     promptRun: {
       modelName: latestRun?.modelName || null,
-      promptText: latestRun?.promptText || '',
+      promptText,
       sentAt: latestRun?.sentAt?.toISOString() || null,
       responseSummary: latestRun?.responseSummary || null,
     },
