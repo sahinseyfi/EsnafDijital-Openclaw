@@ -32,6 +32,13 @@ export type CanonicalProfileIdentity = {
   canonicalProfileId: string
 }
 
+export type OperatorAuthMaterialization = CanonicalProfileIdentity & {
+  previousProfileId: string
+  targetProfileId: string
+  canonicalProfileId: string
+  createdAdditionalRecord: boolean
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -158,6 +165,47 @@ function remapAuthStateProfileId(authState: PersistedAuthState, sourceProfileId:
   }
 }
 
+function identityKey(identity: Pick<CanonicalProfileIdentity, 'providerId' | 'principalKey' | 'accountId'>) {
+  return [identity.providerId, identity.principalKey, identity.accountId || ''].join('::')
+}
+
+function buildOperatorRecordBaseId(canonicalProfileId: string, displayName?: string | null, workspace?: string | null) {
+  const suffix = slugify(displayName || workspace || 'profil')
+  return `${canonicalProfileId}__saved_${suffix}`
+}
+
+function buildUniqueProfileId(profiles: Record<string, PersistedCredential>, baseId: string) {
+  if (!profiles[baseId]) return baseId
+  let index = 2
+  while (profiles[`${baseId}-${index}`]) {
+    index += 1
+  }
+  return `${baseId}-${index}`
+}
+
+async function rekeyAuthProfile(params: { agentId: string; sourceProfileId: string; targetProfileId: string }) {
+  if (params.sourceProfileId === params.targetProfileId) return
+
+  const store = await loadAuthProfiles(params.agentId)
+  const profiles = store.profiles || {}
+  const sourceCredential = profiles[params.sourceProfileId]
+
+  if (!sourceCredential) {
+    throw new Error('Kaynak auth profile auth-profiles.json içinde bulunamadı')
+  }
+
+  profiles[params.targetProfileId] = JSON.parse(JSON.stringify(sourceCredential))
+  delete profiles[params.sourceProfileId]
+  store.profiles = profiles
+  await saveAuthProfiles(params.agentId, store)
+
+  const authState = await loadAuthState(params.agentId).catch(() => null)
+  if (authState) {
+    remapAuthStateProfileId(authState, params.sourceProfileId, params.targetProfileId)
+    await saveAuthState(params.agentId, authState)
+  }
+}
+
 export function buildWorkspaceAuthProfileId(sourceProfileId: string, workspace: string, displayName?: string | null) {
   return `${sourceProfileId}__ws_${slugify(workspace || displayName || 'workspace')}`
 }
@@ -245,6 +293,47 @@ export async function canonicalizeAuthProfile(params: { agentId: string; profile
     previousProfileId: params.profileId,
     canonicalProfileId,
     existedCanonical,
+  }
+}
+
+export async function materializeOperatorAuthProfile(params: {
+  agentId: string
+  profileId: string
+  displayName?: string | null
+  workspace?: string | null
+}) : Promise<OperatorAuthMaterialization> {
+  const store = await loadAuthProfiles(params.agentId)
+  const profiles = store.profiles || {}
+  const sourceCredential = profiles[params.profileId]
+
+  if (!sourceCredential) {
+    throw new Error('Kaynak auth profile auth-profiles.json içinde bulunamadı')
+  }
+
+  const identity = extractIdentityFromCredential(params.profileId, sourceCredential)
+  const sourceIdentityKey = identityKey(identity)
+  const matchingProfileIds = Object.entries(profiles)
+    .filter(([profileId]) => profileId !== params.profileId)
+    .filter(([profileId, credential]) => identityKey(extractIdentityFromCredential(profileId, credential)) === sourceIdentityKey)
+    .map(([profileId]) => profileId)
+
+  const createdAdditionalRecord = matchingProfileIds.length > 0
+  const targetProfileId = createdAdditionalRecord
+    ? buildUniqueProfileId(profiles, buildOperatorRecordBaseId(identity.canonicalProfileId, params.displayName, params.workspace))
+    : identity.canonicalProfileId
+
+  await rekeyAuthProfile({
+    agentId: params.agentId,
+    sourceProfileId: params.profileId,
+    targetProfileId,
+  })
+
+  return {
+    ...identity,
+    previousProfileId: params.profileId,
+    targetProfileId,
+    canonicalProfileId: identity.canonicalProfileId,
+    createdAdditionalRecord,
   }
 }
 

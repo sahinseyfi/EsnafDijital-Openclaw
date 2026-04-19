@@ -2,7 +2,7 @@ import { execFile } from 'child_process'
 import { promisify } from 'util'
 import { NextResponse } from 'next/server'
 import { getAccountCenterState } from '@/lib/account-center/service'
-import { canonicalizeAuthProfile } from '@/lib/codex-dashboard/auth-store'
+import { materializeOperatorAuthProfile } from '@/lib/codex-dashboard/auth-store'
 import { clearDiscoveryCache, readDashboardState, removeProfileArtifacts, updateDashboardState } from '@/lib/codex-dashboard/store'
 import type { AuthSessionState, CodexProfile } from '@/lib/codex-dashboard/types'
 
@@ -88,41 +88,46 @@ export async function GET() {
         const workspace = merged.workspace?.trim() || ''
         const rawProfile = current.profiles.find((profile) => profile.profileId === rawProfileId)
         const sourceAgentId = rawProfile?.agentId || current.settings.activeAgentId || 'main'
-        const canonical = await canonicalizeAuthProfile({ agentId: sourceAgentId, profileId: rawProfileId })
+        const materialized = await materializeOperatorAuthProfile({
+          agentId: sourceAgentId,
+          profileId: rawProfileId,
+          displayName,
+          workspace,
+        })
 
         clearDiscoveryCache()
-        rawProfileIdToCleanup = canonical.previousProfileId !== canonical.canonicalProfileId ? canonical.previousProfileId : null
+        rawProfileIdToCleanup = materialized.previousProfileId !== materialized.targetProfileId ? materialized.previousProfileId : null
 
-        const canonicalDisplayName = displayName || workspace || rawProfile?.displayName || canonical.email || canonical.canonicalProfileId
-        const canonicalNote = note || rawProfile?.note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
-        const canonicalWorkspace = workspace || rawProfile?.workspace || null
-        const existingCanonical = current.profiles.find((profile) => profile.profileId === canonical.canonicalProfileId)
+        const targetDisplayName = displayName || workspace || rawProfile?.displayName || materialized.email || materialized.targetProfileId
+        const targetNote = note || rawProfile?.note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
+        const targetWorkspace = workspace || rawProfile?.workspace || null
+        const existingTarget = current.profiles.find((profile) => profile.profileId === materialized.targetProfileId)
 
         nextProfiles = [
-          ...current.profiles.filter((profile) => profile.profileId !== rawProfileId && profile.profileId !== canonical.canonicalProfileId),
+          ...current.profiles.filter((profile) => profile.profileId !== rawProfileId && profile.profileId !== materialized.targetProfileId),
           {
-            ...(existingCanonical || rawProfile || buildFallbackProfile({
-              profileId: canonical.canonicalProfileId,
+            ...(existingTarget || rawProfile || buildFallbackProfile({
+              profileId: materialized.targetProfileId,
               agentId: sourceAgentId,
-              displayName: canonicalDisplayName,
-              note: canonicalNote,
-              workspace: canonicalWorkspace,
-              email: canonical.email,
-              accountId: canonical.accountId,
+              displayName: targetDisplayName,
+              note: targetNote,
+              workspace: targetWorkspace,
+              email: materialized.email,
+              accountId: materialized.accountId,
             })),
-            profileId: canonical.canonicalProfileId,
-            accountId: canonical.accountId || existingCanonical?.accountId || rawProfile?.accountId || 'bilinmiyor',
-            email: canonical.email || existingCanonical?.email || rawProfile?.email || '—',
-            workspace: canonicalWorkspace,
-            displayName: canonicalDisplayName,
-            note: canonicalNote,
+            profileId: materialized.targetProfileId,
+            accountId: materialized.accountId || existingTarget?.accountId || rawProfile?.accountId || 'bilinmiyor',
+            email: materialized.email || existingTarget?.email || rawProfile?.email || '—',
+            workspace: targetWorkspace,
+            displayName: targetDisplayName,
+            note: targetNote,
             isCurrentProfile: true,
             recommended: false,
           },
         ]
-        nextCurrentProfileId = canonical.canonicalProfileId
-        merged.profileId = canonical.canonicalProfileId
-        merged.canonicalAction = canonical.existedCanonical ? 'updated' : 'created'
+        nextCurrentProfileId = materialized.targetProfileId
+        merged.profileId = materialized.targetProfileId
+        merged.canonicalAction = 'created'
       }
 
       return {
