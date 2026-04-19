@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAccountCenterProfileLimits, getAccountCenterState } from '@/lib/account-center/service'
+import { getAccountCenterProfileLimits } from '@/lib/account-center/service'
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -10,8 +10,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const state = await getAccountCenterState()
-    const limits = await getAccountCenterProfileLimits(profileId, state.currentProfileId)
+    const limits = await getAccountCenterProfileLimits(profileId)
     return NextResponse.json({ ok: true, profileId, limits })
   } catch (error: any) {
     return NextResponse.json({ ok: false, message: error?.message || 'Limit verisi alınamadı' }, { status: 500 })
