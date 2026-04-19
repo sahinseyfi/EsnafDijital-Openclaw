@@ -95,10 +95,12 @@ function extractCanonicalProfileId(profileId: string, credential: PersistedCrede
   return buildCanonicalAuthProfileId({ providerId, principalKey, accountId })
 }
 
+const ACCOUNT_CENTER_USAGE_TIMEOUT_MS = 10_000
+
 function mapUsageToLimits(usage: RealUsageSnapshot | null) {
   if (!usage) return null
-  const fiveHour = usage.windows.find((window) => window.label === '5h')
-  const week = usage.windows.find((window) => window.label === 'Week')
+  const fiveHour = usage.windows.find((window) => window.label.toLowerCase() === '5h')
+  const week = usage.windows.find((window) => window.label.toLowerCase() === 'week')
 
   return {
     fiveHourLeftPct: typeof fiveHour?.usedPercent === 'number' ? Math.max(0, 100 - Math.round(fiveHour.usedPercent)) : null,
@@ -185,7 +187,7 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
   const usageEntries = await Promise.all(
     rawProfiles.map(async ([profileId, credential]) => {
       const usage = credential.provider === 'openai-codex'
-        ? await fetchRealCodexUsage('main', profileId)
+        ? await fetchRealCodexUsage('main', profileId, ACCOUNT_CENTER_USAGE_TIMEOUT_MS)
         : null
       return [profileId, usage] as const
     }),

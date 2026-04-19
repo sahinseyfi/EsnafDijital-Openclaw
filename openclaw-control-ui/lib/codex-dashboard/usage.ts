@@ -22,7 +22,7 @@ const LIVE_STATUS_TIMEOUT_MS = 4_000
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
 let liveStatusUsageCache: { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> } | null = null
 
-export async function fetchRealCodexUsage(agentId: string, profileId: string): Promise<RealUsageSnapshot | null> {
+export async function fetchRealCodexUsage(agentId: string, profileId: string, timeoutMs = USAGE_HELPER_TIMEOUT_MS): Promise<RealUsageSnapshot | null> {
   const key = `${agentId}:${profileId}`
   const cached = usageCache.get(key)
   const now = Date.now()
@@ -39,7 +39,7 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string): P
     try {
       const { stdout } = await execFileAsync(USAGE_HELPER, [agentId, profileId], {
         maxBuffer: 1024 * 1024,
-        timeout: USAGE_HELPER_TIMEOUT_MS,
+        timeout: timeoutMs,
         killSignal: 'SIGKILL',
       })
       const payload = JSON.parse(stdout) as { ok?: boolean; usage?: RealUsageSnapshot | null }
