@@ -17,7 +17,7 @@ const execFileAsync = promisify(execFile)
 const USAGE_HELPER = '/usr/local/bin/esnafdijital-openclaw-usage'
 const CACHE_TTL_MS = 60_000
 const USAGE_HELPER_TIMEOUT_MS = 2_500
-const LIVE_STATUS_TIMEOUT_MS = 4_000
+const LIVE_STATUS_TIMEOUT_MS = 10_000
 
 const usageCache = new Map<string, { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> }>()
 let liveStatusUsageCache: { expiresAt: number; value: RealUsageSnapshot | null; inflight?: Promise<RealUsageSnapshot | null> } | null = null

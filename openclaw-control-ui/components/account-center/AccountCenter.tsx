@@ -180,6 +180,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   const [payload, setPayload] = useState(initialPayload)
   const [busyKey, setBusyKey] = useState<string | null>(null)
   const limitRequestsRef = useRef<Set<string>>(new Set())
+  const limitHydrationRunningRef = useRef(false)
   const [flash, setFlash] = useState<string | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [callbackValue, setCallbackValue] = useState('')
@@ -211,6 +212,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   }, [payload.authSession?.sessionId])
 
   useEffect(() => {
+    if (limitHydrationRunningRef.current) return
+
     const missingProfiles = payload.state.profiles
       .filter((profile) => !profile.limits)
       .map((profile) => profile.profileId)
@@ -218,13 +221,13 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
     if (missingProfiles.length === 0) return
 
-    let cancelled = false
     const concurrency = 4
+    limitHydrationRunningRef.current = true
 
     const run = async () => {
       const queue = [...missingProfiles]
       const worker = async () => {
-        while (queue.length > 0 && !cancelled) {
+        while (queue.length > 0) {
           const profileId = queue.shift()
           if (!profileId) return
           limitRequestsRef.current.add(profileId)
@@ -233,8 +236,6 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
               method: 'POST',
               body: JSON.stringify({ profileId }),
             })
-
-            if (cancelled) return
 
             setPayload((current) => ({
               ...current,
@@ -264,13 +265,10 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       }
 
       await Promise.all(Array.from({ length: Math.min(concurrency, queue.length) }, () => worker()))
+      limitHydrationRunningRef.current = false
     }
 
     void run()
-
-    return () => {
-      cancelled = true
-    }
   }, [payload.state.profiles])
 
   useEffect(() => {
