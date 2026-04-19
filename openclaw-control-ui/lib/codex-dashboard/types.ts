@@ -52,6 +52,12 @@ export interface AuthSessionState {
   canonicalAction?: 'created' | 'updated' | 'saved_separately'
 }
 
+export interface DashboardNotice {
+  kind: 'info'
+  message: string
+  createdAt: string
+}
+
 export interface DashboardSettings {
   autoRouteEnabled: boolean
   routingThreshold: number
@@ -69,6 +75,7 @@ export interface DashboardState {
   profiles: CodexProfile[]
   settings: DashboardSettings
   authSession: AuthSessionState | null
+  systemNotice: DashboardNotice | null
   updatedAt: string
 }
 

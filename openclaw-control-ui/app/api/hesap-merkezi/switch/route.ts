@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString()
     await updateDashboardState((state) => ({
       ...state,
+      systemNotice: null,
       profiles: state.profiles.map((profile) => (
         profile.profileId === profileId
           ? { ...profile, lastUsedAt: now }

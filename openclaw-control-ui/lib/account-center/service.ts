@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import type { AuthSessionState } from '@/lib/codex-dashboard/types'
+import type { AuthSessionState, DashboardNotice } from '@/lib/codex-dashboard/types'
 import { readDashboardState } from '@/lib/codex-dashboard/store'
 import { fetchRealCodexUsage, type RealUsageSnapshot } from '@/lib/codex-dashboard/usage'
 import type { AccountCenterDuplicateGroup, AccountCenterLimits, AccountCenterPayload, AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
@@ -17,6 +17,7 @@ type AuthProfilesFile = {
 
 type OverlayFile = {
   authSession?: AuthSessionState | null
+  systemNotice?: DashboardNotice | null
   profileMeta?: Record<string, { displayName?: string; note?: string; workspace?: string | null; lastUsedAt?: string | null }>
 }
 
@@ -261,5 +262,6 @@ export async function getAccountCenterPayload(): Promise<AccountCenterPayload> {
   return {
     state,
     authSession: overlay?.authSession || null,
+    systemNotice: overlay?.systemNotice || null,
   }
 }

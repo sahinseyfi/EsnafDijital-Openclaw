@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
 
     return {
       ...state,
+      systemNotice: null,
       settings: {
         ...state.settings,
         activeAgentId: selected.agentId,

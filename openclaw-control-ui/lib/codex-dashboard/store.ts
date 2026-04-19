@@ -6,6 +6,7 @@ import { promisify } from 'util'
 import type {
   AuthSessionState,
   CodexProfile,
+  DashboardNotice,
   DashboardSettings,
   DashboardState,
   DashboardStatusResponse,
@@ -44,6 +45,7 @@ export function clearDiscoveryCache() {
 type OverlayState = {
   settings: Partial<DashboardSettings>
   authSession: AuthSessionState | null
+  systemNotice: DashboardNotice | null
   managedProfiles: CodexProfile[]
   profileMeta: Record<string, { displayName?: string; note?: string; workspace?: string | null; lastUsedAt?: string | null }>
   hiddenProfileIds: string[]
@@ -119,6 +121,7 @@ async function ensureOverlayFile() {
         viewFilter: 'all',
       },
       authSession: null,
+      systemNotice: null,
       managedProfiles: [],
       profileMeta: {},
       hiddenProfileIds: [],
@@ -144,6 +147,7 @@ async function loadOverlay(): Promise<OverlayState> {
   return (await readJson<OverlayState>(OVERLAY_FILE)) || {
     settings: {},
     authSession: null,
+    systemNotice: null,
     managedProfiles: [],
     profileMeta: {},
     hiddenProfileIds: [],
@@ -502,6 +506,10 @@ async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<Dash
   }
 
   const switchedAt = nowIso()
+  const exhaustedWindows = [
+    current.usage.fiveHourPct >= 100 ? '5 saatlik' : null,
+    current.usage.weekPct >= 100 ? 'haftalik' : null,
+  ].filter(Boolean).join(' ve ')
   clearDiscoveryCache()
   await persistOverlay({
     ...state,
@@ -515,6 +523,11 @@ async function maybeAutoRouteCurrentProfile(state: DashboardState): Promise<Dash
       activeAgentId: target.agentId,
       workspace: target.workspace || state.settings.workspace,
       currentSessionProfileId: target.profileId,
+    },
+    systemNotice: {
+      kind: 'info',
+      message: `${current.displayName} profilinin ${exhaustedWindows || 'limit'} bittigi icin otomatik olarak ${target.displayName} profiline gecildi.`,
+      createdAt: switchedAt,
     },
     updatedAt: switchedAt,
   })
@@ -569,6 +582,7 @@ export async function readDashboardState(options: ReadDashboardStateOptions = {}
     })),
     settings,
     authSession: overlay.authSession,
+    systemNotice: overlay.systemNotice || null,
     updatedAt: nowIso(),
   }
 
@@ -600,6 +614,7 @@ async function persistOverlay(state: DashboardState) {
       globalProfileId: state.settings.globalProfileId,
     },
     authSession: state.authSession,
+    systemNotice: state.systemNotice,
     managedProfiles: state.profiles.filter((profile) => !discoveredIds.has(profile.profileId)),
     profileMeta: {
       ...overlay.profileMeta,

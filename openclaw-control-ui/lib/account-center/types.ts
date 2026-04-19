@@ -1,4 +1,4 @@
-import type { AuthSessionState } from '@/lib/codex-dashboard/types'
+import type { AuthSessionState, DashboardNotice } from '@/lib/codex-dashboard/types'
 
 export type AccountCenterLimits = {
   fiveHourLeftPct: number | null
@@ -43,4 +43,5 @@ export type AccountCenterState = {
 export type AccountCenterPayload = {
   state: AccountCenterState
   authSession: AuthSessionState | null
+  systemNotice: DashboardNotice | null
 }
