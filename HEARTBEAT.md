@@ -17,6 +17,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 ## Aktif Yapılanlar
 - `hesap-merkezi` V2 yerel akış ve API yüzeyi tamamlandı
 - Project OS ilk typed operasyon modeliyle ilerliyor
+- Consultation Center v1 rol ayrımı netleşti: karar hazırlama, danışma filtresi ve sonuç route katmanı olarak tanımlandı
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
@@ -26,6 +27,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - `businesses`, `audits`, `offers`, `delivery_projects` şemaları
 - Project OS ekranını veritabanı katmanına bağlamak
 - Context Center'i dosya / veritabanı karar yüzeyine çevirmek
+- Consultation Center v1 spec'ini ekran + veri modeli + route akışına bağlamak
 - normal oturumda V2 prod deploy + doğrulama almak
 
 ## Mevcut Blokajlar

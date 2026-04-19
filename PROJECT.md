@@ -71,7 +71,7 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 İç sistem tek yerde şu üç şeyi birleştirmelidir:
 1. **Proje Yönetimi** — neredeyiz, sırada ne var, blokaj ne
 2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
-3. **Prompt Üretim Merkezi** — mevcut bağlamı kullanarak GPT Pro için kaliteli prompt hazırlama
+3. **Consultation Center** — kararı netleştirip doğru bağlamla danışma brief'i ve prompt üretme
 
 ## Admin Panelde Olması Gereken Ana Sayfalar
 - Dashboard
@@ -84,7 +84,9 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 - Context Center
 - GPT Pro Consultation Center
 
-## Prompt Üretim Mantığı
+## Consultation Center / Prompt Üretim Mantığı
+Consultation Center'ın amacı tüm notları toplamak değil; dağınık konuyu karar brief'ine çevirmek, danışma gerekliliğini filtrelemek ve gerekirse güçlü prompt üretmektir.
+
 Prompt üretimi, yalnızca serbest metin alanından gelen talebe göre değil; aşağıdaki bağlamı kullanarak çalışmalıdır:
 - proje tanımı
 - aktif yol haritası
@@ -95,6 +97,11 @@ Prompt üretimi, yalnızca serbest metin alanından gelen talebe göre değil; a
 - araç ve ortam notları
 
 Amaç, "uzun prompt" üretmek değil; **doğru bağlamı seçen, net hedef veren, uygulamaya dönük güçlü prompt** üretmektir.
+
+Consultation Center sonucu üç yere route eder:
+- kullanıcı işi
+- teknik ajan işi
+- ortak karar
 
 ## Teknik Varsayımlar
 - **frontend/admin:** Next.js
