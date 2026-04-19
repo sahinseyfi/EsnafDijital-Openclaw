@@ -34,6 +34,7 @@ Proje yönetimi, bağlam merkezi ve prompt üretim merkezini aynı admin panel m
 - `Project OS`, `Context Center` ve `Consultation Center` için ilk admin ekran iskeletlerini açma
 - `Project OS` ekranını ilk typed operasyon veri modeliyle beslemeye başlama
 - tasarım sistemi + marka kimliği kararlarını kalıcı bağlama alıp yeni ekranları bu çizgiye sabitleme
+- OOM sonrası 8G swap açma ve admin servis için memory guard ekleme
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
