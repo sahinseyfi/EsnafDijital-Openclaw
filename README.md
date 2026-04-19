@@ -1,46 +1,37 @@
 # EsnafDigital Workspace
 
-Bu klasor, EsnafDigital projesinin yasayan isletim sistemi olarak kullanilir.
+Bu klasor, EsnafDigital projesinin yasayan calisma alani ve referans merkezidir.
 
-Amac yalnizca kod tutmak degil; ayni zamanda proje yonunu, kararlarini, yol haritasini, arac notlarini ve GPT danisma baglamini tek yerde duzenli bicimde tutmaktir.
-
-## Bu workspace ne ise yarar?
-- projenin ne oldugunu net tutar
-- su an nerede oldugumuzu gorunur kilar
-- teknik ve operasyonel kararlari kaydeder
-- admin panel icerigi icin referans saglar
-- GPT Pro danisma / prompt uretimi icin temiz baglam uretir
+Amac:
+- proje yonunu net tutmak
+- aktif isi gorunur kilmak
+- kalici kararlari kaydetmek
+- admin panel ve operasyon gelistirmesini ayni yerde toplamak
 
 ## Cekirdek dosyalar
-- `PROJECT.md` -> projenin tanimi, amaci, kapsami
+- `PROJECT.md` -> proje tanimi ve kapsam
 - `ROADMAP.md` -> orta vadeli yon ve oncelikler
-- `HEARTBEAT.md` -> su anki durum, aktif odak, blokajlar
-- `MEMORY.md` -> kalici gercekler ve karar cizgisi
-- `AGENTS.md` -> ajanin calisma kurallari
-- `SOUL.md` -> karakter ve calisma tavri
-- `IDENTITY.md` -> bu ajan kimdir
-- `USER.md` -> kullanici tercihleri ve is bolumu
-- `TOOLS.md` -> ortam, servisler, arac politikasi
+- `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adimlar
+- `MEMORY.md` -> kalici karar cizgisi
+- `MEMORY_SUMMARY.md` -> hizli kisaltma ozeti
+- `AGENTS.md` -> calisma kurallari
+- `TOOLS.md` -> arac ve baglam politikasi
+- `OPERATIONS.md` -> servis, port, systemd ve canli operasyon notlari
 
 ## Destek klasorleri
-- `CHECKLISTS/` -> tekrarlayan islerde kisa uygulama listeleri
-- `PLAYBOOKS/` -> uctan uca akislarda izlenecek yol
-- `skills/` -> gerektiginde yuklenen gorev odakli rehberler
+- `CHECKLISTS/` -> kisa uygulama listeleri
+- `PLAYBOOKS/` -> uctan uca akislar
+- `skills/` -> gorev odakli rehberler
 - `memory/` -> gunluk tarihlenmis notlar
-- `DECISIONS/` -> neden oyle yaptigimizi aciklayan karar kayitlari
+- `DECISIONS/` -> karar kayitlari
+- `REFERENCES/` -> tasarim ve diger referans kaynaklari
 
-## Calisma mantigi
-1. Once baglami netlestir.
-2. Sonra en kucuk calisan akisi kur.
-3. Kararlari yazili hale getir.
-4. Yol haritasini guncel tut.
-5. Gereksiz karmasiklik ekleme.
-6. Bir isi bitmis saymadan once gercek cikti ve dogrulama ara.
+## Okuma sirasi
+1. `HEARTBEAT.md`
+2. `MEMORY_SUMMARY.md`
+3. goreve gore ilgili dosyalar
 
-## Cekirdek akis
-`Audit -> Teklif -> Teslimat -> Bakim`
-
-Bu proje icinde yeni ekranlar, veri modeli ve otomasyonlar bu ana akistan kopmamalidir.
-
-## Guvenlik Notu
-Workspace bir referans ve hafiza alanidir. Parola, token, raw callback linki ve benzeri gizli degerler bu repoya yazilmaz.
+## Not
+- calisma davranisi icin `AGENTS.md`
+- gizli bilgi ve arac cizgisi icin `TOOLS.md`
+- canli servis ayrintilari icin `OPERATIONS.md`

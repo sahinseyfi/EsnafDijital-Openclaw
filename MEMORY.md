@@ -79,15 +79,11 @@ Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü p
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
 
 ## 12) Güvenlik ve Bağlam Hijyeni
-- Parola, token, callback linki, raw account id ve benzeri hassas değerler workspace'e yazılmaz.
-- Gizli değerler repo yerine sistem state'i, env veya parola yöneticisinde tutulur.
+- Gizli bilgi kuralı için `TOOLS.md` çizgisi geçerlidir.
 - `HEARTBEAT.md` aktif durumu, `memory/YYYY-MM-DD.md` tarihlenmiş gelişmeleri, bu dosya ise yalnızca kalıcı çizgiyi taşır.
 
 ## 13) Mevcut Operasyonel Gerçekler
 - Ana domain: `esnafdijital.com.tr`
 - Admin domain: `admin.esnafdijital.com.tr`
 - DNS yönetimi: Natro
-- Admin uygulama kaynak yolu: `/root/.openclaw/workspace/openclaw-control-ui`
-- Admin app service adı: `esnafdijital-admin.service`
-- Reverse proxy: Caddy
 - İşletme keşfi / veri toplama tarafında Apify CLI tercih edilir.

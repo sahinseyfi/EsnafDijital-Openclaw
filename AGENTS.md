@@ -48,7 +48,7 @@ Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerlem
 - kisa omurlu detaylari `MEMORY.md`'ye tasima
 - bitmis isleri `HEARTBEAT.md`'de gereksiz yere tutma
 - sirf dosya dolsun diye metin uretme
-- parola, token, raw account id, access link gibi gizli bilgileri workspace'e yazma
+- gizli bilgi kurali icin `TOOLS.md` cizgisini uygula
 
 ## 7) Ne Zaman Kisa Onay Gerekir?
 Asagidaki durumlarda dur ve kisa onay iste:
