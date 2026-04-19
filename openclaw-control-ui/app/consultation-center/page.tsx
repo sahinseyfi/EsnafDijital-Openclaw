@@ -31,6 +31,12 @@ function routeLabel(value: string) {
   return 'GPT Pro aç'
 }
 
+function routeText(value: string) {
+  if (value === 'blocked') return 'Bu konu henüz dış danışmaya hazır değil. Önce karar sorusu, bağlam ve beklenen çıktı netleşmeli.'
+  if (value === 'internal') return 'Bu kayıt için dış danışma şart değil. Doğrudan iç aksiyon veya teknik uygulama açılabilir.'
+  return 'Bu kayıt dış danışmaya uygun. Prompt preview hazırlandıktan sonra GPT Pro akışına gönderilebilir.'
+}
+
 function ownerLabel(value: string) {
   if (value === 'user') return 'Kullanıcı işi'
   if (value === 'tech_agent') return 'Teknik ajan işi'
@@ -164,6 +170,26 @@ export default async function ConsultationCenterPage({
                     <li key={`${ref.kind}-${ref.ref}`}>{ref.title} ({ref.ref})</li>
                   ))}
                 </ul>
+              </div>
+            </section>
+
+            <section className="grid-2">
+              <div className="card stack-sm">
+                <h3>Route kararı</h3>
+                <strong>{routeLabel(selected.route)}</strong>
+                <p className="muted">{routeText(selected.route)}</p>
+              </div>
+              <div className="card stack-sm">
+                <h3>Eksik alan kontrolü</h3>
+                {selected.missingFields.length > 0 ? (
+                  <ul className="list">
+                    {selected.missingFields.map((field) => (
+                      <li key={field}>{field}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="muted">Minimum brief tamam. Bu kayıt karar üretimine hazır.</p>
+                )}
               </div>
             </section>
 

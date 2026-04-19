@@ -21,6 +21,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center icin Prisma schema, dummy veri ve ilk API / ekran akışı iskeleti bağlandı
 - Consultation Center icin Prisma client, `.env.example` ve mock-or-db service katmanı eklendi; gerçek DB'ye geçiş yolu açıldı
 - Consultation Center ekranina quick create formu ve seçili kayıt akışı bağlandı; inbox'tan kayıt seçme ve yeni consultation açma çalışır hale geldi
+- Consultation Center detail ekranina route kararı ve minimum brief eksik alan kontrolü eklendi
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
