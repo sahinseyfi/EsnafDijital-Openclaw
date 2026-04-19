@@ -27,6 +27,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center prompt preview alanina kopyalama aksiyonu eklendi; üretilen prompt artik doğrudan GPT Pro oturumuna taşınabilir
 - Consultation Center kayit detay API'sine PATCH desteği eklendi; title, karar sorusu, why-now, desired output, brief ve context pack artik güncellenebilir
 - Consultation Center detail ekranina kayitli editör eklendi; temel brief alanlari ve context pack artik UI üzerinden düzenlenip route/prompt yeniden hesaplanabiliyor
+- Consultation Center sonucundan aksiyon üretme akışı eklendi; detail ekranindan Project OS / Context Center hedefli yeni action kaydı açılabiliyor
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi

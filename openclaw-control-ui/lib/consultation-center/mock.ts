@@ -16,6 +16,13 @@ type ConsultationUpdateInput = {
   contextRefs?: ConsultationContextRef[]
 }
 
+type ConsultationActionInput = {
+  title?: string
+  ownerRole?: ConsultationDetail['ownerRole']
+  linkedEntityType?: 'project_os' | 'context_center'
+  linkedEntityId?: string
+}
+
 const consultations: ConsultationDetail[] = [
   {
     id: 'consult_shared_offer_v1',
@@ -261,5 +268,23 @@ export function updateMockConsultation(id: string, input: ConsultationUpdateInpu
   }
 
   consultations[index] = next
+  return getConsultationDetail(id)
+}
+
+export function addMockConsultationAction(id: string, input: ConsultationActionInput) {
+  const index = consultations.findIndex((entry) => entry.id === id)
+  if (index === -1) return null
+
+  const current = consultations[index]
+  current.actions.unshift({
+    id: `action_${Date.now()}`,
+    ownerRole: input.ownerRole || current.ownerRole,
+    title: input.title?.trim() || 'Yeni aksiyon',
+    status: 'open',
+    linkedEntityType: input.linkedEntityType,
+    linkedEntityId: input.linkedEntityId?.trim() || undefined,
+  })
+  current.updatedAt = new Date().toISOString()
+  consultations[index] = current
   return getConsultationDetail(id)
 }

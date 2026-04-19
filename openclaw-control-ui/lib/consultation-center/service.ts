@@ -2,7 +2,7 @@ import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationR
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { prisma } from '@/lib/prisma'
-import { createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
+import { addMockConsultationAction, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation } from '@/lib/consultation-center/mock'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -17,6 +17,19 @@ type ConsultationUpdateInput = {
   technicalBrief?: Record<string, string | string[] | null>
   sharedBrief?: Record<string, string | string[] | null>
   contextRefs?: ConsultationContextRef[]
+}
+
+type ConsultationActionInput = {
+  title?: string
+  ownerRole?: ConsultationOwnerRole
+  linkedEntityType?: 'project_os' | 'context_center'
+  linkedEntityId?: string
+}
+
+function mapActionType(input: ConsultationActionInput) {
+  if (input.linkedEntityType === 'context_center') return 'decision_note' as const
+  if (input.linkedEntityType === 'project_os') return 'project_task' as const
+  return 'followup' as const
 }
 
 type ConsultationRecord = Consultation & {
@@ -304,6 +317,32 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
     }
   } catch {
     const updated = updateMockConsultation(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+}
+
+export async function addConsultationAction(id: string, input: ConsultationActionInput) {
+  if (!hasDatabaseUrl()) {
+    const updated = addMockConsultationAction(id, input)
+    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+  }
+
+  try {
+    await prisma.consultationAction.create({
+      data: {
+        consultationId: id,
+        ownerRole: input.ownerRole || 'shared',
+        actionType: mapActionType(input),
+        title: input.title?.trim() || 'Yeni aksiyon',
+        linkedEntityType: input.linkedEntityType,
+        linkedEntityId: input.linkedEntityId?.trim() || null,
+      },
+    })
+
+    const updated = await getConsultationDetail(id)
+    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
+  } catch {
+    const updated = addMockConsultationAction(id, input)
     return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
   }
 }
