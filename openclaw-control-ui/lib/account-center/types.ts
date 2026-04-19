@@ -19,6 +19,7 @@ export type AccountCenterProfile = {
   workspaceLabel: string | null
   limits: AccountCenterLimits | null
   canonicalProfileId: string | null
+  lastUsedAt: string | null
 }
 
 export type AccountCenterDuplicateGroup = {

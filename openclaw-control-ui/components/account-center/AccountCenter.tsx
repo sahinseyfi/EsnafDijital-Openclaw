@@ -83,6 +83,21 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   }, [])
 
   useEffect(() => {
+    if (payload.authSession?.sessionId) return
+
+    const timer = window.setInterval(async () => {
+      try {
+        const next = await request<AccountCenterPayload>('/api/hesap-merkezi/status')
+        setPayload(next)
+      } catch {
+        // sessiz kal
+      }
+    }, 30000)
+
+    return () => window.clearInterval(timer)
+  }, [payload.authSession?.sessionId])
+
+  useEffect(() => {
     if (!payload.authSession?.sessionId) return
 
     const timer = window.setInterval(async () => {
@@ -333,6 +348,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
                     <div className="profile-title-row">
                       <span className={`profile-light${profile.current ? ' profile-light-active' : ''}`} />
                       <strong>{profile.displayName}</strong>
+                      <span className="profile-last-used">Son kullanım: {formatDate(profile.lastUsedAt)}</span>
                     </div>
                     {profile.note ? <div className="muted" style={{ marginTop: 6 }}>{profile.note}</div> : null}
                     {profile.workspaceLabel ? <div className="badge" style={{ marginTop: 8 }}>{profile.workspaceLabel}</div> : null}

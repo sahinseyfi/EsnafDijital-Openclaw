@@ -43,7 +43,7 @@ type OverlayState = {
   settings: Partial<DashboardSettings>
   authSession: AuthSessionState | null
   managedProfiles: CodexProfile[]
-  profileMeta: Record<string, { displayName?: string; note?: string; workspace?: string | null }>
+  profileMeta: Record<string, { displayName?: string; note?: string; workspace?: string | null; lastUsedAt?: string | null }>
   hiddenProfileIds: string[]
 }
 
@@ -534,7 +534,7 @@ async function persistOverlay(state: DashboardState) {
     managedProfiles: state.profiles.filter((profile) => !discoveredIds.has(profile.profileId)),
     profileMeta: {
       ...overlay.profileMeta,
-      ...Object.fromEntries(state.profiles.map((profile) => [profile.profileId, { displayName: profile.displayName, note: profile.note, workspace: profile.workspace }])),
+      ...Object.fromEntries(state.profiles.map((profile) => [profile.profileId, { displayName: profile.displayName, note: profile.note, workspace: profile.workspace, lastUsedAt: profile.lastUsedAt }])),
     },
     hiddenProfileIds: (overlay.hiddenProfileIds || []).filter((profileId) => profileId !== state.settings.currentSessionProfileId),
   }

@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
+import { readDashboardState } from '@/lib/codex-dashboard/store'
 import { fetchLiveStatusCodexUsage, fetchRealCodexUsage, type RealUsageSnapshot } from '@/lib/codex-dashboard/usage'
 import type { AccountCenterDuplicateGroup, AccountCenterPayload, AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
 
@@ -16,7 +17,7 @@ type AuthProfilesFile = {
 
 type OverlayFile = {
   authSession?: AuthSessionState | null
-  profileMeta?: Record<string, { displayName?: string; note?: string; workspace?: string | null }>
+  profileMeta?: Record<string, { displayName?: string; note?: string; workspace?: string | null; lastUsedAt?: string | null }>
 }
 
 type SessionsFile = Record<string, { authProfileOverride?: string | null }>
@@ -122,15 +123,18 @@ function sortProfiles(a: AccountCenterProfile, b: AccountCenterProfile) {
 }
 
 export async function getAccountCenterState(): Promise<AccountCenterState> {
-  const [authProfilesFile, overlayFile, sessionsFile, liveCurrentUsage] = await Promise.all([
+  const [authProfilesFile, overlayFile, sessionsFile, liveCurrentUsage, dashboardState] = await Promise.all([
     readJson<AuthProfilesFile>(AUTH_PROFILES_PATH),
     readJson<OverlayFile>(OVERLAY_PATH),
     readJson<SessionsFile>(SESSIONS_PATH),
     fetchLiveStatusCodexUsage(),
+    readDashboardState().catch(() => null),
   ])
 
   const currentProfileId = sessionsFile?.['agent:main:main']?.authProfileOverride || null
   const meta = overlayFile?.profileMeta || {}
+  const dashboardProfileMap = new Map((dashboardState?.profiles || []).map((profile) => [profile.profileId, profile]))
+  const now = new Date().toISOString()
   const rawProfiles = Object.entries(authProfilesFile?.profiles || {})
   const usageEntries = await Promise.all(
     rawProfiles.map(async ([profileId, credential]) => {
@@ -163,6 +167,9 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
       workspaceLabel: inferWorkspaceLabel(profileId, profileMeta.workspace),
       limits,
       canonicalProfileId: extractCanonicalProfileId(profileId, credential),
+      lastUsedAt: profileId === currentProfileId
+        ? now
+        : profileMeta.lastUsedAt || dashboardProfileMap.get(profileId)?.lastUsedAt || null,
     } satisfies AccountCenterProfile
   }).sort(sortProfiles)
 

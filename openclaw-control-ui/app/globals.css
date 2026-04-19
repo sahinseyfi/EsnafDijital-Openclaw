@@ -261,6 +261,12 @@ a.button-primary[aria-disabled='true'] {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-last-used {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .profile-light {
