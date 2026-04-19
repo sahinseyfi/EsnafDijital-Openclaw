@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 import { readDashboardState } from '@/lib/codex-dashboard/store'
-import { fetchLiveStatusCodexUsage, fetchRealCodexUsage, type RealUsageSnapshot } from '@/lib/codex-dashboard/usage'
+import { fetchRealCodexUsage, type RealUsageSnapshot } from '@/lib/codex-dashboard/usage'
 import type { AccountCenterDuplicateGroup, AccountCenterLimits, AccountCenterPayload, AccountCenterProfile, AccountCenterState } from '@/lib/account-center/types'
 
 type PersistedCredential = {
@@ -174,22 +174,17 @@ function sortProfiles(a: AccountCenterProfile, b: AccountCenterProfile) {
   return a.displayName.localeCompare(b.displayName, 'tr')
 }
 
-export async function getAccountCenterProfileLimits(profileId: string, currentProfileId?: string | null): Promise<AccountCenterLimits | null> {
-  const [liveCurrentUsage, usage] = await Promise.all([
-    profileId === currentProfileId ? fetchLiveStatusCodexUsage().catch(() => null) : Promise.resolve(null),
-    fetchRealCodexUsage('main', profileId, ACCOUNT_CENTER_USAGE_TIMEOUT_MS).catch(() => null),
-  ])
-
-  return mapUsageToLimits(liveCurrentUsage || usage || null)
+export async function getAccountCenterProfileLimits(profileId: string, _currentProfileId?: string | null): Promise<AccountCenterLimits | null> {
+  const usage = await fetchRealCodexUsage('main', profileId, ACCOUNT_CENTER_USAGE_TIMEOUT_MS).catch(() => null)
+  return mapUsageToLimits(usage || null)
 }
 
 export async function getAccountCenterState(): Promise<AccountCenterState> {
-  const [authProfilesFile, authStateFile, overlayFile, sessionsFile, liveCurrentUsage, dashboardState] = await Promise.all([
+  const [authProfilesFile, authStateFile, overlayFile, sessionsFile, dashboardState] = await Promise.all([
     readJson<AuthProfilesFile>(AUTH_PROFILES_PATH),
     readJson<AuthStateFile>(AUTH_STATE_PATH),
     readJson<OverlayFile>(OVERLAY_PATH),
     readJson<SessionsFile>(SESSIONS_PATH),
-    fetchLiveStatusCodexUsage(),
     readDashboardState().catch(() => null),
   ])
 
@@ -204,15 +199,7 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
     const auth = payload?.['https://api.openai.com/auth'] || {}
     const profileMeta = meta[profileId] || {}
     const displayName = profileMeta.displayName?.trim() || profileMeta.workspace?.trim() || credential.email || profileId
-    const dashboardUsage = dashboardProfileMap.get(profileId)?.usage
-    const limits = profileId === currentProfileId
-      ? mapUsageToLimits(liveCurrentUsage || (dashboardUsage ? {
-        windows: [
-          { label: '5h', usedPercent: dashboardUsage.fiveHourPct, resetAt: dashboardUsage.fiveHourResetAt ? Date.parse(dashboardUsage.fiveHourResetAt) : undefined },
-          { label: 'Week', usedPercent: dashboardUsage.weekPct, resetAt: dashboardUsage.weekResetAt ? Date.parse(dashboardUsage.weekResetAt) : undefined },
-        ],
-      } : null))
-      : null
+    const limits = null
 
     return {
       profileId,
