@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { AccountCenterPayload, AccountCenterProfile } from '@/lib/account-center/types'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 
@@ -36,6 +36,12 @@ function authStatusText(value?: AuthSessionState['status']) {
   }
 }
 
+function limitText(label: string, value?: number | null, resetAt?: string | null) {
+  if (typeof value !== 'number') return `${label}: veri yok`
+  const resetText = resetAt ? `, sıfır: ${formatDate(resetAt)}` : ''
+  return `${label}: %${value} kaldı${resetText}`
+}
+
 export function AccountCenter({ initialPayload }: { initialPayload: AccountCenterPayload }) {
   const [payload, setPayload] = useState(initialPayload)
   const [busyKey, setBusyKey] = useState<string | null>(null)
@@ -47,11 +53,6 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   const [editingProfileId, setEditingProfileId] = useState<string | null>(null)
   const [editDisplayName, setEditDisplayName] = useState('')
   const [editNote, setEditNote] = useState('')
-
-  const currentProfile = useMemo(
-    () => payload.state.profiles.find((profile) => profile.current) || null,
-    [payload.state.profiles],
-  )
 
   const refresh = useCallback(async () => {
     const next = await request<AccountCenterPayload>('/api/hesap-merkezi/status')
@@ -230,10 +231,6 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
           <strong>{payload.state.totalProfiles}</strong>
           <p className="muted">kayıtlı gerçek auth profili</p>
         </article>
-        <article className="card stat-card">
-          <strong>{payload.state.currentDisplayName || 'Yok'}</strong>
-          <p className="muted">bu oturumda aktif profil</p>
-        </article>
       </section>
 
       <section className="card" style={{ marginTop: 24 }}>
@@ -291,71 +288,75 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <div className="page-header" style={{ marginBottom: 16 }}>
           <div>
             <h3>Kayıtlı profiller</h3>
-            <p className="muted">Bir satır = tek gerçek auth kaydı.</p>
+            <p className="muted">Aktif olan üstte durur. Limitler doğrudan profil üzerinden okunur.</p>
           </div>
           <button className="button-secondary" onClick={() => refresh().then(() => setFlash('Liste yenilendi')).catch((error) => setErrorText(error.message))}>Yenile</button>
         </div>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Görünen ad</th>
-                <th>Current</th>
-                <th>Email</th>
-                <th>Account ID</th>
-                <th>Plan</th>
-                <th>Profil ID</th>
-                <th>İşlem</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payload.state.profiles.map((profile) => (
-                <tr key={profile.profileId}>
-                  <td>
-                    {editingProfileId === profile.profileId ? (
-                      <div className="stack-form">
-                        <input value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} />
-                        <input value={editNote} onChange={(event) => setEditNote(event.target.value)} />
-                        <div style={{ display: 'flex', gap: 8 }}>
-                          <button className="button-primary" onClick={() => saveMeta(profile.profileId)} disabled={busyKey === `meta:${profile.profileId}`}>Kaydet</button>
-                          <button className="button-secondary" onClick={() => setEditingProfileId(null)}>Vazgeç</button>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <strong>{profile.displayName}</strong>
-                        <div className="muted" style={{ marginTop: 6 }}>{profile.note}</div>
-                        {profile.workspaceLabel ? <div className="badge" style={{ marginTop: 8 }}>{profile.workspaceLabel}</div> : null}
-                      </>
-                    )}
-                  </td>
-                  <td>{profile.current ? <span className="badge">Aktif</span> : '—'}</td>
-                  <td>{profile.email || '—'}</td>
-                  <td><code>{profile.accountId || '—'}</code></td>
-                  <td>{profile.planType || '—'}</td>
-                  <td><code>{profile.profileId}</code></td>
-                  <td>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      <button className="button-primary" disabled={profile.current || busyKey === `switch:${profile.profileId}`} onClick={() => switchProfile(profile.profileId)}>Bu oturumda kullan</button>
-                      <button className="button-secondary" onClick={() => openEdit(profile)}>Ad / not</button>
-                      <button className="button-danger" disabled={profile.current || busyKey === `delete:${profile.profileId}`} onClick={() => removeProfile(profile.profileId)}>Sil</button>
+
+        <div className="profile-list">
+          {payload.state.profiles.map((profile) => (
+            <article key={profile.profileId} className={`profile-row${profile.current ? ' profile-row-current' : ''}`}>
+              <div className="profile-main">
+                {editingProfileId === profile.profileId ? (
+                  <div className="stack-form">
+                    <input value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} />
+                    <input value={editNote} onChange={(event) => setEditNote(event.target.value)} placeholder="Not" />
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      <button className="button-primary" onClick={() => saveMeta(profile.profileId)} disabled={busyKey === `meta:${profile.profileId}`}>Kaydet</button>
+                      <button className="button-secondary" onClick={() => setEditingProfileId(null)}>Vazgeç</button>
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                ) : (
+                  <>
+                    <div className="profile-title-row">
+                      <span className={`profile-light${profile.current ? ' profile-light-active' : ''}`} />
+                      <strong>{profile.displayName}</strong>
+                    </div>
+                    {profile.note ? <div className="muted" style={{ marginTop: 6 }}>{profile.note}</div> : null}
+                    {profile.workspaceLabel ? <div className="badge" style={{ marginTop: 8 }}>{profile.workspaceLabel}</div> : null}
+                    <div className="profile-limit-row">
+                      <span className="badge">{limitText('5 saat', profile.limits?.fiveHourLeftPct, profile.limits?.fiveHourResetAt)}</span>
+                      <span className="badge">{limitText('Hafta', profile.limits?.weekLeftPct, profile.limits?.weekResetAt)}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="profile-actions">
+                <button className="button-primary" disabled={profile.current || busyKey === `switch:${profile.profileId}`} onClick={() => switchProfile(profile.profileId)}>Bu oturumda kullan</button>
+                <button className="button-secondary" onClick={() => openEdit(profile)}>Ad / not</button>
+                <button className="button-danger" disabled={profile.current || busyKey === `delete:${profile.profileId}`} onClick={() => removeProfile(profile.profileId)}>Sil</button>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
       <section className="card" style={{ marginTop: 24 }}>
-        <h3>Sistem çizgisi</h3>
-        <ul className="list">
-          <li>Bir satır gerçek auth kaydıdır</li>
-          <li>Current seçimi bu oturum için ayrıdır</li>
-          <li>Görünen ad teknik kimlikten ayrıdır</li>
-          <li>Bu ekran eski panelin kopyası değil, yeni çekirdektir</li>
-        </ul>
+        <h3>Aynı teknik kayda bağlı profiller</h3>
+        {payload.state.duplicateGroups.length === 0 ? (
+          <p className="muted">Şu an aynı Account ID / Plan çizgisinde ikinci kayıt yok.</p>
+        ) : (
+          <div className="duplicate-group-list">
+            {payload.state.duplicateGroups.map((group) => (
+              <article key={group.canonicalProfileId} className="duplicate-group-item">
+                <div className="stack-form" style={{ gap: 8 }}>
+                  <strong>Teknik grup</strong>
+                  <div className="muted">Account ID: {group.accountId || '—'}</div>
+                  <div className="muted">Plan: {group.planType || '—'}</div>
+                  <div className="muted">Temel kayıt: <code>{group.canonicalProfileId}</code></div>
+                </div>
+                <ul className="mini-list" style={{ marginTop: 12 }}>
+                  {group.profiles.map((profile) => (
+                    <li key={profile.profileId}>
+                      <strong>{profile.displayName}</strong> <code>{profile.profileId}</code>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </>
   )

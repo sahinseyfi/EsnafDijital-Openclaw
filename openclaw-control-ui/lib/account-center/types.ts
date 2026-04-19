@@ -1,5 +1,12 @@
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 
+export type AccountCenterLimits = {
+  fiveHourLeftPct: number | null
+  weekLeftPct: number | null
+  fiveHourResetAt: string | null
+  weekResetAt: string | null
+}
+
 export type AccountCenterProfile = {
   profileId: string
   displayName: string
@@ -10,6 +17,18 @@ export type AccountCenterProfile = {
   planType: string | null
   current: boolean
   workspaceLabel: string | null
+  limits: AccountCenterLimits | null
+  canonicalProfileId: string | null
+}
+
+export type AccountCenterDuplicateGroup = {
+  canonicalProfileId: string
+  accountId: string | null
+  planType: string | null
+  profiles: Array<{
+    profileId: string
+    displayName: string
+  }>
 }
 
 export type AccountCenterState = {
@@ -17,6 +36,7 @@ export type AccountCenterState = {
   currentDisplayName: string | null
   totalProfiles: number
   profiles: AccountCenterProfile[]
+  duplicateGroups: AccountCenterDuplicateGroup[]
 }
 
 export type AccountCenterPayload = {
