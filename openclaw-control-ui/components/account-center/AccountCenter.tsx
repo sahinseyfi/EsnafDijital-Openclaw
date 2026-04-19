@@ -64,8 +64,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
     const timer = window.setInterval(async () => {
       try {
-        const authPayload = await request<{ authSession: AuthSessionState | null; terminal?: boolean }>('/api/auth-session')
-        setPayload((current) => ({ ...current, authSession: authPayload.authSession }))
+        const authPayload = await request<AccountCenterPayload & { terminal?: boolean }>('/api/hesap-merkezi/auth/status')
+        setPayload({ state: authPayload.state, authSession: authPayload.authSession })
 
         if (authPayload.authSession?.status === 'completed') {
           setFlash(authPayload.authSession.canonicalAction === 'updated'
@@ -74,7 +74,6 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         }
 
         if (authPayload.terminal || !authPayload.authSession) {
-          await refresh()
           if (!authPayload.authSession) {
             setCallbackValue('')
             setDisplayName('')
@@ -87,14 +86,14 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     }, 2500)
 
     return () => window.clearInterval(timer)
-  }, [payload.authSession?.sessionId, refresh])
+  }, [payload.authSession?.sessionId])
 
   const startAuth = useCallback(async () => {
     setBusyKey('start-auth')
     setErrorText(null)
     try {
-      const result = await request<{ ok: true; message: string; authSession: AuthSessionState }>('/api/auth-session/start', { method: 'POST' })
-      setPayload((current) => ({ ...current, authSession: result.authSession }))
+      const result = await request<AccountCenterPayload & { ok: true; message: string }>('/api/hesap-merkezi/auth/start', { method: 'POST' })
+      setPayload({ state: result.state, authSession: result.authSession })
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Auth başlatılamadı')
@@ -113,7 +112,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     setBusyKey('submit-auth')
     setErrorText(null)
     try {
-      const result = await request<{ ok: true; message: string; authSession: AuthSessionState }>('/api/auth-session/submit', {
+      const result = await request<AccountCenterPayload & { ok: true; message: string }>('/api/hesap-merkezi/auth/submit', {
         method: 'POST',
         body: JSON.stringify({
           sessionId: payload.authSession.sessionId,
@@ -122,7 +121,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
           note,
         }),
       })
-      setPayload((current) => ({ ...current, authSession: result.authSession }))
+      setPayload({ state: result.state, authSession: result.authSession })
       setFlash(result.message)
     } catch (error: any) {
       setErrorText(error?.message || 'Auth kaydı başlatılamadı')
@@ -135,11 +134,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     if (!payload.authSession?.sessionId) return
     setBusyKey('cancel-auth')
     try {
-      const result = await request<{ ok: true; message: string }>('/api/auth-session/cancel', {
+      const result = await request<AccountCenterPayload & { ok: true; message: string }>('/api/hesap-merkezi/auth/cancel', {
         method: 'POST',
         body: JSON.stringify({ sessionId: payload.authSession.sessionId }),
       })
-      await refresh()
+      setPayload({ state: result.state, authSession: result.authSession })
       setCallbackValue('')
       setDisplayName('')
       setNote('')
@@ -149,7 +148,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     } finally {
       setBusyKey(null)
     }
-  }, [payload.authSession, refresh])
+  }, [payload.authSession])
 
   const switchProfile = useCallback(async (profileId: string) => {
     setBusyKey(`switch:${profileId}`)
