@@ -31,6 +31,12 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center v1 spec'ini ekran + veri modeli + route akışına bağlamak
 - normal oturumda V2 prod deploy + doğrulama almak
 
+## Heartbeat Çalışma Talimatı
+- Saat başı tetiklenen heartbeat, öncelikle Consultation Center için alınan GPT çıktısını ürüne çevirmeye devam etsin.
+- Her wake'de bir somut teknik adım ilerletsin: veri modeli, API, ekran akışı, route mantığı veya gerçek veritabanı bağlantısı.
+- Aynı wake içinde yeni daha kritik bir blokaj veya karar ihtiyacı çıkmazsa başka iş akışına dağılmasın.
+- Görünür kullanıcı mesajı ancak gerçekten önemli gelişme, net blokaj veya karar ihtiyacı varsa gönderilsin.
+
 ## Mevcut Blokajlar
 - ilk teklif paketinin detayları hâlâ tam keskin değil
 - operasyonel kayıtlar henüz tam veritabanına taşınmadı
