@@ -21,8 +21,12 @@ type OverlayFile = {
 }
 
 type SessionsFile = Record<string, { authProfileOverride?: string | null }>
+type AuthStateFile = {
+  usageStats?: Record<string, { lastUsed?: number | null }>
+}
 
 const AUTH_PROFILES_PATH = '/root/.openclaw/agents/main/agent/auth-profiles.json'
+const AUTH_STATE_PATH = '/root/.openclaw/agents/main/agent/auth-state.json'
 const OVERLAY_PATH = '/opt/esnafdijital/data/codex-dashboard-overlay.json'
 const SESSIONS_PATH = '/root/.openclaw/agents/main/sessions/sessions.json'
 
@@ -180,8 +184,9 @@ export async function getAccountCenterProfileLimits(profileId: string, currentPr
 }
 
 export async function getAccountCenterState(): Promise<AccountCenterState> {
-  const [authProfilesFile, overlayFile, sessionsFile, liveCurrentUsage, dashboardState] = await Promise.all([
+  const [authProfilesFile, authStateFile, overlayFile, sessionsFile, liveCurrentUsage, dashboardState] = await Promise.all([
     readJson<AuthProfilesFile>(AUTH_PROFILES_PATH),
+    readJson<AuthStateFile>(AUTH_STATE_PATH),
     readJson<OverlayFile>(OVERLAY_PATH),
     readJson<SessionsFile>(SESSIONS_PATH),
     fetchLiveStatusCodexUsage(),
@@ -190,8 +195,8 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
 
   const currentProfileId = sessionsFile?.['agent:main:main']?.authProfileOverride || null
   const meta = overlayFile?.profileMeta || {}
+  const authUsageStats = authStateFile?.usageStats || {}
   const dashboardProfileMap = new Map((dashboardState?.profiles || []).map((profile) => [profile.profileId, profile]))
-  const now = new Date().toISOString()
   const rawProfiles = Object.entries(authProfilesFile?.profiles || {})
 
   const profiles = rawProfiles.map(([profileId, credential]) => {
@@ -221,8 +226,8 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
       workspaceLabel: inferWorkspaceLabel(profileId, profileMeta.workspace),
       limits,
       canonicalProfileId: extractCanonicalProfileId(profileId, credential),
-      lastUsedAt: profileId === currentProfileId
-        ? now
+      lastUsedAt: typeof authUsageStats[profileId]?.lastUsed === 'number'
+        ? new Date(authUsageStats[profileId].lastUsed as number).toISOString()
         : profileMeta.lastUsedAt || dashboardProfileMap.get(profileId)?.lastUsedAt || null,
     } satisfies AccountCenterProfile
   }).sort(sortProfiles)
