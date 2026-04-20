@@ -1,57 +1,56 @@
 [
   {
     "id": "consult_1776682297327",
-    "title": "Mobilde kisa akis, sade menu ve erken CTA promptu",
+    "title": "Mobilde 5-7 section, sade menü ve erken CTA üreten ana prompt kuralları",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T11:39:49.357Z",
-    "decisionQuestion": "Kucuk isletme vitrini ureten ana promptu, mobilde en fazla 5-7 kisa section, sade menu ve ilk ekrana yakin ana CTA uretecek sekilde hangi zorunlu kurallarla tanimlamaliyiz?",
-    "summary": "Bu consultation, kucuk isletme vitrini uretim promptunu mobilde kisa, hizli taranan ve ana CTA'si erken gorunen net bir standa cevirme ihtiyacini ele aliyor.",
+    "updatedAt": "2026-04-20T11:47:30.355Z",
+    "decisionQuestion": "Küçük işletme vitrini üreten ana promptu, mobilde 5-7 kısa section, en fazla 3-4 menü öğesi ve ilk ekranda ya da hemen altında görünen tek ana CTA üretecek şekilde hangi zorunlu kurallarla standardize etmeliyiz?",
+    "summary": "Amaç, küçük işletme vitrini üreten ana promptu mobilde kısa taranan, üst alanı kalabalıklaştırmayan ve ana CTA'yı ilk ekrana yakın gösteren zorunlu kurallarla standarda bağlamaktır.",
     "gptRecommended": false,
-    "whyNow": "Bu kural seti prompt seviyesinde netlesmezse her yeni uretimde mobil revizyon, teslim gecikmesi ve kalite dalgalanmasi tekrar ediyor; sade MVP cizgisinde hizli teslim ve dusuk operasyon yuku icin bunu simdi standarda baglamak gerekiyor.",
-    "desiredOutput": "GPT Pro'dan 5 kullanilabilir deliverable alinmali: mobile-first ana prompt, section sayisi ve akisi kurallari, menu kurallari, hero ve CTA yerlesim ilkeleri, icerik yogunlugu guardrail listesi ve kisa responsive QA checklisti.",
+    "whyNow": "Bu standart prompt seviyesinde netleşmezse her yeni üretimde mobil revizyon tekrarlanır, teslim süresi uzar ve kalite dalgalanır; bu da sade MVP çizgisindeki hızlı teslim ve düşük operasyon yükü hedefini doğrudan zayıflatır.",
+    "desiredOutput": "GPT Pro'dan 5 net teslim alınmalı: mobile-first ana prompt, section sayısı ve akış kuralları, menü kuralları, hero ve CTA yerleşim ilkeleri, içerik yoğunluğu guardrail listesi ile kısa responsive QA checklist.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Mevcut uretimlerde mobil akis gereksiz uzuyor, ust alan kalabaliklasiyor ve ana CTA gec gorunur hale geliyor.",
-      "kararCekirdegi": "Kucuk isletme vitrini promptu, mobilde kisa tarama akisi, sade menu ve ilk ekrana yakin ana CTA ureten zorunlu kurallarla yazilmali.",
+      "kararCekirdegi": "Ana prompt, küçük işletme vitrini için varsayılan olarak mobile-first kısa akış üretmeli; section sayısını sınırlamalı, menüyü sade tutmalı ve ana CTA'yı erken görünür kılmalıdır.",
       "anaSorunlar": [
-        "Section sayisi masaustu mantigiyla artiyor ve mobilde gereksiz kaydirma olusturuyor.",
-        "Header ve menu kucuk ekranda orantisiz yer kapliyor.",
-        "Ana CTA hero icinde ya da hemen altinda net gorunmedigi icin donusum niyeti gec yakalaniyor.",
-        "Kart ve metin bloklari uzun kaldigi icin sayfa hizli taranabilir olmaktan cikiyor."
+        "Section sayısı masaüstü mantığıyla büyüyor ve mobilde gereksiz kaydırma oluşturuyor.",
+        "Header ve menü küçük ekranda orantısız yer kaplıyor.",
+        "Ana CTA hero içinde ya da hemen sonrasında net görünmediği için dönüşüm niyeti geç yakalanıyor.",
+        "Kart ve metin blokları uzadıkça sayfa hızlı taranabilir olmaktan çıkıyor."
       ],
-      "hedef": "Mobile-first, 5-7 ana section ile calisan, 3-4 menu ogesini gecmeyen, guven unsuru ve ana CTA'yi ust bolgede gosteren sade vitrini prompt seviyesinde standarda baglamak.",
+      "hedef": "Varsayılan tek sayfa küçük işletme vitrini kurgusunda 5-7 ana section ile çalışan, en fazla 3-4 menü öğesi kullanan, tek net değer önerisini ve ana CTA'yı üst bölgede gösteren sade bir prompt standardı çıkarmak.",
       "guardrails": [
-        "Varsayilan tek sayfa kurguda benzer icerikler birlestirilsin, gereksiz section cogaltma yapilmasin.",
-        "Hero alaninda tek net deger onerisi, tek ana CTA ve gerekiyorsa bir kisa guven unsuru bulunsun.",
-        "Ana CTA ilk ekranda ya da en gec hero altindaki ilk blokta gorunur olsun.",
-        "Mobil menu 3-4 ana ogeyi gecmesin; ikincil icerikler menuye yuklenmesin.",
-        "Her section tek ana mesaj tasimasi, kisa metin ve sinirli kart sayisi ile kurgulansin.",
-        "Mobilde kritik akislar tek kolon kalsin; yogun grid ve yan yana kart yapisi varsayilan olmasin."
+        "Varsayılan kurgu tek sayfa ve mobile-first olmalı; benzer içerikler ayrı section yerine birleştirilmeli.",
+        "Hero alanında tek net değer önerisi, tek ana CTA ve en fazla bir kısa güven unsuru bulunmalı.",
+        "Ana CTA ilk ekranda ya da en geç hero altındaki ilk blokta görünür olmalı.",
+        "Mobil menü 3-4 ana öğeyi geçmemeli; ikincil içerikler menüye yüklenmemeli.",
+        "Her section tek ana mesaj taşımalı; kısa metin, sınırlı kart sayısı ve hızlı tarama öncelikli olmalı.",
+        "Mobilde kritik akışlar tek kolon kalmalı; yoğun grid, yan yana çok kart ve kalabalık üst alan varsayılan olmamalı."
       ]
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje omurgasi ve MVP kapsami",
+        "title": "Proje omurgası, MVP kapsamı ve Consultation Center amacı",
         "ref": "PROJECT.md"
       },
       {
         "kind": "heartbeat",
-        "title": "Aktif faz ve mevcut oncelik",
+        "title": "Aktif faz, sade MVP ve düşük operasyon yükü önceliği",
         "ref": "HEARTBEAT.md"
       },
       {
         "kind": "decision",
-        "title": "Kalici MVP ve prompt uretim cizgisi",
+        "title": "Kalıcı MVP, prompt üretim ve küçük işletme odağı çizgisi",
         "ref": "MEMORY.md"
       },
       {
         "kind": "decision",
-        "title": "Marka ve mobil sadelik tasarim ilkeleri",
+        "title": "Marka dili, sadelik ve mobil tek kolon tasarım ilkeleri",
         "ref": "DECISIONS/2026-04-19-brand-design-system.md"
       }
     ],
@@ -65,18 +64,18 @@
   },
   {
     "id": "consult_1776682286936",
-    "title": "Mobil menu ve responsive promptu",
+    "title": "Mobil menu ve responsive standart promptu",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T10:51:26.936Z",
-    "decisionQuestion": "Karar sorusu henüz net değil",
-    "summary": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+    "updatedAt": "2026-04-20T11:46:04.941Z",
+    "decisionQuestion": "Kucuk isletme odakli EsnafDigital vitrini sitelerinde, mobilde guven veren ve dusuk operasyon yukuyle tekrar uygulanabilen standart menu ve responsive yapi hangi kurallarla sabitlenmeli?",
+    "summary": "Uretilen vitrin sitelerinde mobil deneyim zayif kaliyor ve menu kurgusu tutarsiz oldugu icin guven algisi ve kullanilabilirlik dusuyor. Bu consultation, kucuk isletme siteleri icin tekrar kullanilabilir mobil-first menu ve responsive standartlarini netlestirmek icin hazirlaniyor.",
     "gptRecommended": false,
-    "whyNow": "Henüz yazılmadı",
-    "desiredOutput": "Henüz seçilmedi",
+    "whyNow": "Mevcut uretimlerde mobil kalite zayif kaldigi icin teslimat kalitesi ve ilk izlenim riske giriyor. Yeni site ve teklif akislarini buyutmeden once tek bir sade standart belirlemek, tekrar duzeltme ihtiyacini azaltir ve daha hizli, daha tutarli teslimat saglar.",
+    "desiredOutput": "Kullanilabilir deliverable listesi: 1) mobil-first menu yapisi icin net kural seti, 2) responsive yerlesim ve breakpoint prensipleri, 3) GPT Pro'ya verilecek sade ama guclu prompt taslagi, 4) teslimat oncesi hizli kontrol checklist'i, 5) MVP disina atilacak karmaşik menu veya layout fikirleri.",
     "missingFields": [
       "karar sorusu",
       "neden şimdi",
@@ -85,9 +84,57 @@
       "karar çekirdeği"
     ],
     "sharedBrief": {
-      "hamNot": "Uretilen siteler mobilde zayif, menu mantigi da karisik"
+      "hamNot": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+      "kararCekirdegi": "Tek bir standart mobil menu ve responsive sistem tanimlanacak, sonra yeni uretimlerde bu standart prompt ve checklist ile tekrar uygulanacak.",
+      "ticariKatman": {
+        "hedef": "Kucuk isletmeye guven veren, hizli anlasilan ve telefonda rahat kullanilan vitrin deneyimi sunmak",
+        "isEtkisi": "Daha temiz ilk izlenim, daha az teslimat revizesi, daha tutarli urun kalitesi",
+        "operasyonRisqi": "Her site icin ayri menu kurgulamak operasyon yukunu ve hata payini arttiriyor"
+      },
+      "teknikKatman": {
+        "etkilenenAlanlar": [
+          "header ve navigation",
+          "mobil menu acilis akisi",
+          "responsive yerlesim ve spacing",
+          "tek sayfa vitrin siteleri"
+        ],
+        "mevcutSorunlar": [
+          "mobilde hiyerarsi zayif",
+          "menu secenekleri gereksiz karmasiklasiyor",
+          "responsive davranis sayfadan sayfaya tutarsiz kalabiliyor"
+        ],
+        "sinirlar": [
+          "kucuk isletme sitesi",
+          "tek sayfa veya cok sade yapi",
+          "mobil once gelir",
+          "dusuk operasyon yuku",
+          "yeni tasarim dili icat edilmez"
+        ]
+      },
+      "beklenenCevapTipi": "Karar verdiren, uygulanabilir standart ve prompt onerisi"
     },
-    "contextRefs": [],
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje kimligi ve MVP kapsami",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Faz 1 oncelik ve sade MVP cizgisi",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Consultation Center v1 karar hazirlama kurali",
+        "ref": "DECISIONS/2026-04-19-consultation-center-v1.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Brand ve design system kurallari",
+        "ref": "DECISIONS/2026-04-19-brand-design-system.md"
+      }
+    ],
     "promptRun": {
       "modelName": null,
       "sentAt": null,
