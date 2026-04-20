@@ -7,44 +7,55 @@
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T10:55:16.129Z",
-    "decisionQuestion": "Kucuk isletme vitrini uretirken mobilde sayfa gereksiz uzamasin, menu sade kalsin ve ana CTA'lar erken gorunsun diye GPT Pro promptunu nasil kurmaliyiz?",
-    "summary": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor. Bunu prompt seviyesinde bastan duzeltmek istiyoruz.",
+    "updatedAt": "2026-04-20T11:06:18.504Z",
+    "decisionQuestion": "Küçük işletme vitrini üretirken mobilde sayfa gereksiz uzamasın, menü sade kalsın ve ana CTA erken görünsün diye üretim promptunu nasıl kurmalıyız?",
+    "summary": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor.",
     "gptRecommended": false,
-    "whyNow": "Su an uretilen sayfalar masaustunde idare etse de mobilde section sayisi, kart yogunlugu ve icerik uzunlugu yuzunden akicilik bozuluyor. Bunu sonradan toplamak yerine prompt seviyesinde bastan sinirlamak istiyoruz.",
-    "desiredOutput": "Mobile-first ana prompt, maksimum section/icerik sinirlari, menu kurallari, CTA yerlesim ilkeleri ve responsive kalite checklisti",
+    "whyNow": "Üretilen sayfalar masaüstünde idare etse de mobilde section sayısı, içerik yoğunluğu ve üst alan yükü yüzünden akış zayıflıyor. Bunu kod sonrasında toplamak yerine prompt seviyesinde baştan sınırlamak gerekiyor.",
+    "desiredOutput": "Mobile-first ana prompt, section sayısı sınırı, menü kuralları, CTA yerleşim ilkeleri, içerik yoğunluğu guardrail listesi ve kısa responsive QA checklisti",
     "missingFields": [],
     "sharedBrief": {
       "hamNot": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor.",
-      "kararCekirdegi": "Mobilde daha kisa, daha hizli taranan, CTA'si erken gelen site uretim promptu",
+      "kararCekirdegi": "Mobilde daha kısa, daha hızlı taranan ve CTA’sı erken gelen küçük işletme vitrini promptu",
       "anaSorunlar": [
-        "mobilde cok fazla section cikmasi",
-        "menu ve ust alanin fazla yer kaplamasi",
-        "ana CTA'nin asagi dusmesi",
-        "kart ve metin bloklarinin ust uste birikmesi"
+        "mobilde section sayısının gereksiz artması",
+        "menü ve üst alanın fazla yer kaplaması",
+        "ana CTA’nın çok aşağı düşmesi",
+        "kart ve metin bloklarının üst üste birikmesi"
       ],
       "hedef": [
         "mobile-first kurgu",
-        "kisa ve net section akisi",
-        "ilk ekrana yakin CTA",
-        "sade menu mantigi"
+        "kısa ve net section akışı",
+        "ilk ekrana yakın CTA",
+        "sade menü mantığı"
+      ],
+      "guardrails": [
+        "mobilde gereksiz section çoğaltma",
+        "hero altında erken CTA zorunlu olsun",
+        "menü öğeleri minimumda kalsın",
+        "metin blokları kısa taranabilir parçalara bölünsün"
       ]
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje cizgisi",
+        "title": "Proje çizgisi",
         "ref": "PROJECT.md"
       },
       {
         "kind": "heartbeat",
-        "title": "Aktif faz ve oncelik",
+        "title": "Aktif faz ve öncelik",
         "ref": "HEARTBEAT.md"
       },
       {
         "kind": "project",
-        "title": "Kalici karar cizgisi",
+        "title": "Kalıcı karar çizgisi",
         "ref": "MEMORY.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Marka ve tasarım sistemi",
+        "ref": "DECISIONS/2026-04-19-brand-design-system.md"
       }
     ],
     "promptRun": {
