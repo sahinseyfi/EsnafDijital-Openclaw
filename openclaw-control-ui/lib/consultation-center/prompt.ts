@@ -1,8 +1,33 @@
 import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
 
-function roleLabel(type: ConsultationDetail['type']) {
-  if (type === 'sales') return 'küçük işletme saha satış stratejisti'
-  if (type === 'technical') return 'yalın iç operasyon sistemleri kuran ürün/teknik mimar'
+function containsAny(value: string, keywords: string[]) {
+  return keywords.some((keyword) => value.includes(keyword))
+}
+
+function roleLabel(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'desiredOutput' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {
+  const haystack = [
+    detail.title,
+    detail.decisionQuestion,
+    detail.desiredOutput,
+    ...Object.values(detail.businessBrief || {}),
+    ...Object.values(detail.technicalBrief || {}),
+    ...Object.values(detail.sharedBrief || {}),
+  ]
+    .flatMap((value) => Array.isArray(value) ? value : [value])
+    .filter((value): value is string => Boolean(value))
+    .join(' ')
+    .toLocaleLowerCase('tr-TR')
+
+  if (containsAny(haystack, ['mobil', 'mobile', 'responsive', 'hero', 'cta', 'landing', 'vitrin', 'menü', 'menu'])) {
+    return 'küçük işletmeler için mobile-first vitrin kurgusu, CTA yerleşimi ve prompt standardı tasarlayan dönüşüm odaklı dijital vitrin stratejisti'
+  }
+
+  if (containsAny(haystack, ['teklif', 'paket', 'fiyatlama', 'konumlandırma', 'ürünleştirme'])) {
+    return 'küçük işletmeler için teklif yapısı ve hizmet ürünleştirme danışmanı'
+  }
+
+  if (detail.type === 'sales') return 'küçük işletme saha satış stratejisti'
+  if (detail.type === 'technical') return 'yalın iç operasyon sistemleri kuran ürün/teknik mimar'
   return 'KOBİ teklif ve ürün tasarımı danışmanı'
 }
 
@@ -26,7 +51,7 @@ function formatBriefBlock(title: string, value?: Record<string, string | string[
 
 export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'whyNow' | 'desiredOutput' | 'contextRefs' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {
   const blocks = [
-    `Rolün: ${roleLabel(detail.type)}.`,
+    `Rolün: ${roleLabel(detail)}.`,
     '',
     'Bağlam:',
     '- Proje: EsnafDigital',
