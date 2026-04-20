@@ -45,12 +45,13 @@ Yeni bir oturumda varsayilan okuma sirasi:
 
 ## Goreve gore nereye gidilir?
 - Kod veya admin ekran gorevi -> `agent-workspace/README.md`
-- Web vitrini gorevi -> `website/`
+- Web vitrini gorevi -> `website/README.md`
 - Aktif durum / oncelik -> `HEARTBEAT.md`
 - Proje kapsam ve yon -> `PROJECT.md`, sonra `ROADMAP.md`
 - Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
 - Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
-- Operasyon, servis, komut, yol -> `TOOLS.md` ve `OPERATIONS.md`
+- Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
+- Kaynak materyal veya referans arama -> `REFERENCES/README.md`
 - Tekrarlayan is akisi -> ilgili `CHECKLISTS/` veya `PLAYBOOKS/`
 
 ## Bu bilgi nereye yazilir?

@@ -9,10 +9,11 @@ Ana akis her zaman sunu destekler:
 
 ## 2) Oturum Acilis Sirasi
 Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
-1. `HEARTBEAT.md` -> su an ne onemli
-2. `MEMORY_SUMMARY.md` -> degismeyen cizgi
-3. gorevle dogrudan ilgili dosyalar -> `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, ilgili checklist/playbook
-4. gerekiyorsa `memory/YYYY-MM-DD.md` -> bugun ve dun
+1. `README.md` -> repo ne, ilk nereye bakilacak
+2. `HEARTBEAT.md` -> su an ne onemli
+3. `MEMORY_SUMMARY.md` -> degismeyen cizgi
+4. goreve gore ilgili dosya veya klasor README'si -> `PROJECT.md`, `ROADMAP.md`, `agent-workspace/README.md`, `memory/README.md`, `DECISIONS/README.md`, `TOOLS.md`, `OPERATIONS.md`, ilgili checklist/playbook
+5. gerekiyorsa ilgili tarihli veya konu-ozel kayit
 
 ## 3) Varsayilan Calisma Dongusu
 Her gorevde su donguyu uygula:
@@ -35,18 +36,24 @@ Bir is ancak su durumda tamamlanmis sayilir:
 Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerleme cumleleri cikti sayilmaz.
 
 ## 5) Dosya Disiplini
+- `README.md` -> giris kapisi, okuma rotasi ve kaynak hiyerarsisi
 - `PROJECT.md` -> kapsam ve proje tanimi
 - `ROADMAP.md` -> orta vadeli yon ve oncelik
 - `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adim
 - `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
-- `memory/YYYY-MM-DD.md` -> tarihlenmis gelismeler ve gunluk notlar
-- `TOOLS.md` -> ortam, servis ve operasyon referansi
-- `CONSULTATION_LOG.md` -> dis danisma ozetleri
+- `DECISIONS/` -> tekil kalici karar kayitlari
+- `memory/YYYY-MM-DD.md` -> tarihlenmis gunluk ozet
+- `memory/YYYY-MM-DD-konu.md` -> session, incident veya konu-ozel kayit
+- `TOOLS.md` ve `OPERATIONS.md` -> ortam, servis ve operasyon referansi
+- `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` -> teklif, segment ve kaynak materyal
+- `ARCHIVE/` -> aktif kullanilmayan ama saklanacak icerik
 
 ## 6) Baglam Kirliligi Kurallari
 - ayni bilgiyi birden fazla dosyada gereksiz tekrar etme
 - kisa omurlu detaylari `MEMORY.md`'ye tasima
 - bitmis isleri `HEARTBEAT.md`'de gereksiz yere tutma
+- gunluk not ile kalici karari ayni yere yazma
+- yeni dosya acmadan once kanonik yerini `README.md` veya ilgili klasor README'sinden kontrol et
 - sirf dosya dolsun diye metin uretme
 - gizli bilgi kurali icin `TOOLS.md` cizgisini uygula
 
