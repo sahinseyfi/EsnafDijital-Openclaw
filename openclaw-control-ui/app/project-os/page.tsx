@@ -1,5 +1,5 @@
 import { AdminShell } from '@/components/admin/AdminShell'
-import { projectOsMockData } from '@/lib/project-os/mock-data'
+import { getProjectOsDataset } from '@/lib/project-os/service'
 
 const segmentLabels = {
   berber: 'Berber',
@@ -8,16 +8,17 @@ const segmentLabels = {
   diger: 'Diğer',
 } as const
 
-const businessNames = Object.fromEntries(projectOsMockData.businesses.map((business) => [business.id, business.name]))
+export default async function ProjectOsPage() {
+  const dataset = await getProjectOsDataset()
+  const businessNames = Object.fromEntries(dataset.businesses.map((business) => [business.id, business.name]))
 
-const stats = {
-  businesses: projectOsMockData.businesses.length,
-  audits: projectOsMockData.audits.length,
-  offers: projectOsMockData.offers.length,
-  deliveryProjects: projectOsMockData.deliveryProjects.length,
-}
+  const stats = {
+    businesses: dataset.businesses.length,
+    audits: dataset.audits.length,
+    offers: dataset.offers.length,
+    deliveryProjects: dataset.deliveryProjects.length,
+  }
 
-export default function ProjectOsPage() {
   return (
     <AdminShell
       title="Project OS"
@@ -27,7 +28,7 @@ export default function ProjectOsPage() {
         <div>
           <p className="eyebrow">Operasyon akışı</p>
           <h1>Tek akış, net görünürlük</h1>
-          <p className="muted">Bu alan genel CRM gibi büyümek için değil, EsnafDigital'in gerçek teslimat hattını açık tutmak için var.</p>
+          <p className="muted">Bu alan genel CRM gibi büyümek için değil, EsnafDigital’in gerçek teslimat hattını açık tutmak için var.</p>
         </div>
       </section>
 
@@ -85,14 +86,18 @@ export default function ProjectOsPage() {
                 </tr>
               </thead>
               <tbody>
-                {projectOsMockData.businesses.map((business) => (
+                {dataset.businesses.length > 0 ? dataset.businesses.map((business) => (
                   <tr key={business.id}>
                     <td>{business.name}</td>
                     <td>{segmentLabels[business.segment]}</td>
                     <td>{business.district}</td>
                     <td>{business.status}</td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={4} className="muted">Henüz işletme kaydı yok.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -110,13 +115,17 @@ export default function ProjectOsPage() {
                 </tr>
               </thead>
               <tbody>
-                {projectOsMockData.audits.map((audit) => (
+                {dataset.audits.length > 0 ? dataset.audits.map((audit) => (
                   <tr key={audit.id}>
-                    <td>{businessNames[audit.businessId]}</td>
+                    <td>{businessNames[audit.businessId] || '—'}</td>
                     <td>{audit.channelReadiness}</td>
                     <td>{audit.status}</td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={3} className="muted">Henüz audit kaydı yok.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -137,14 +146,18 @@ export default function ProjectOsPage() {
                 </tr>
               </thead>
               <tbody>
-                {projectOsMockData.offers.map((offer) => (
+                {dataset.offers.length > 0 ? dataset.offers.map((offer) => (
                   <tr key={offer.id}>
-                    <td>{businessNames[offer.businessId]}</td>
+                    <td>{businessNames[offer.businessId] || '—'}</td>
                     <td>{offer.packageName}</td>
                     <td>{offer.amountTry.toLocaleString('tr-TR')} ₺</td>
                     <td>{offer.status}</td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={4} className="muted">Henüz teklif kaydı yok.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -162,13 +175,17 @@ export default function ProjectOsPage() {
                 </tr>
               </thead>
               <tbody>
-                {projectOsMockData.deliveryProjects.map((project) => (
+                {dataset.deliveryProjects.length > 0 ? dataset.deliveryProjects.map((project) => (
                   <tr key={project.id}>
-                    <td>{businessNames[project.businessId]}</td>
+                    <td>{businessNames[project.businessId] || '—'}</td>
                     <td>{project.scope}</td>
                     <td>{project.status}</td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={3} className="muted">Henüz teslimat veya bakım kaydı yok.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
