@@ -50,7 +50,7 @@ function ownerLabel(value: string) {
   return 'Ortak karar'
 }
 
-function renderRecord(value: Record<string, string | string[] | null> | undefined) {
+function renderRecord(value: Record<string, unknown> | undefined) {
   if (!value) return null
 
   return (
@@ -60,10 +60,12 @@ function renderRecord(value: Record<string, string | string[] | null> | undefine
           <strong>{key}</strong>
           {Array.isArray(entry) ? (
             <ul className="list">
-              {entry.map((item) => <li key={item}>{item}</li>)}
+              {entry.map((item, index) => <li key={`${key}-${index}`}>{typeof item === 'string' ? item : JSON.stringify(item)}</li>)}
             </ul>
+          ) : entry && typeof entry === 'object' ? (
+            <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 13 }}>{JSON.stringify(entry, null, 2)}</pre>
           ) : (
-            <p className="muted">{entry || '—'}</p>
+            <p className="muted">{typeof entry === 'string' && entry ? entry : '—'}</p>
           )}
         </div>
       ))}
