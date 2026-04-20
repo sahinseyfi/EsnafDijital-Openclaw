@@ -10,12 +10,32 @@ type NavItem = {
   note: string
 }
 
-const navItems: NavItem[] = [
-  { href: '/hesap-merkezi', label: 'Hesap Merkezi', note: 'Gerçek auth ve operatör kayıtları' },
-  { href: '/project-os', label: 'Project OS', note: 'Audit, teklif ve teslimat akışı' },
-  { href: '/context-center', label: 'Context Center', note: 'Dosya, veri ve prompt ayrımı' },
-  { href: '/consultation-center', label: 'Consultation Center', note: 'Temiz brief ve danışma hazırlığı' },
-  { href: '/codex-profilleri', label: 'Codex Profilleri', note: 'Eski ekran, hâlâ erişilebilir' },
+type NavGroup = {
+  title: string
+  items: NavItem[]
+}
+
+const navGroups: NavGroup[] = [
+  {
+    title: 'Ana akış',
+    items: [
+      { href: '/project-os', label: 'İş Takibi', note: 'Audit, teklif ve teslimat akışı' },
+      { href: '/consultation-center', label: 'Karar Hazırlığı', note: 'Prompt ve danışma hazırlığı' },
+    ],
+  },
+  {
+    title: 'Sistem',
+    items: [
+      { href: '/hesap-merkezi', label: 'Hesaplar', note: 'Auth ve operatör kayıtları' },
+      { href: '/context-center', label: 'Bağlam', note: 'Dosya, veri ve karar yüzeyi' },
+    ],
+  },
+  {
+    title: 'Eski ekran',
+    items: [
+      { href: '/codex-profilleri', label: 'Profil araçları', note: 'Eski profil ekranı' },
+    ],
+  },
 ]
 
 function classNames(...items: Array<string | false | null | undefined>) {
@@ -46,20 +66,27 @@ export function AdminShell({
         </div>
 
         <nav className="sidebar-nav">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')}>
-                <strong>{item.label}</strong>
-                <p className="muted">{item.note}</p>
-              </Link>
-            )
-          })}
+          {navGroups.map((group) => (
+            <div key={group.title} className="stack-sm">
+              <p className="eyebrow">{group.title}</p>
+              <div className="stack-sm">
+                {group.items.map((item) => {
+                  const isActive = pathname === item.href
+                  return (
+                    <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')}>
+                      <strong>{item.label}</strong>
+                      <p className="muted">{item.note}</p>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="sidebar-footer">
-          <p className="eyebrow">Tasarım çizgisi</p>
-          <p className="muted">Inter, açık yüzeyler, brand + accent aksı, kısa Türkçe mikro metin ve border-first kart yaklaşımı aktif.</p>
+          <p className="eyebrow">Kısa kural</p>
+          <p className="muted">Önce iş, sonra karar, sonra bağlam. Menü akışı da bu sırayı izler.</p>
         </div>
       </aside>
 
@@ -68,10 +95,10 @@ export function AdminShell({
           <div className="topbar">
             <div className="topbar-meta">
               <span className="topbar-badge">Faz 1</span>
-              <span className="topbar-note">Yeni Tasarım Sistemi aktif</span>
+              <span className="topbar-note">Sade akış menüsü aktif</span>
             </div>
             <div className="topbar-actions">
-              <Link href="/" className="ghost-link">Ana giriş</Link>
+              <Link href="/project-os" className="ghost-link">İş Takibi</Link>
             </div>
           </div>
 
@@ -82,7 +109,7 @@ export function AdminShell({
               <p className="muted">{description}</p>
             </div>
             <div className="page-header-actions">
-              <Link href="/hesap-merkezi" className="ghost-link">Hesap Merkezi</Link>
+              <Link href="/project-os" className="ghost-link">Ana akışa dön</Link>
             </div>
           </header>
 
