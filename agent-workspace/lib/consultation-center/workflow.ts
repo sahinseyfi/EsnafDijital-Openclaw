@@ -3,7 +3,7 @@ import type { ConsultationDetail } from '@/lib/consultation-center/types'
 export function getConsultationNextSteps(detail: ConsultationDetail) {
   if (detail.missingFields.length > 0) {
     return {
-      title: 'Önce brief’i tamamla',
+      title: 'Önerilen çalışma modu: Brief’i netleştir',
       items: [
         `Eksik alanları kapat: ${detail.missingFields.join(', ')}`,
         'Karar sorusunu tek cümlede netleştir',
@@ -14,7 +14,7 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
 
   if (detail.route === 'internal') {
     return {
-      title: 'Doğrudan iç aksiyona çevir',
+      title: 'Önerilen çalışma modu: İç aksiyon / küçük patch',
       items: [
         'Project OS veya Context Center hedefli aksiyon aç',
         'Gerekiyorsa teknik uygulama notunu sade bir karar cümlesine indir',
@@ -25,7 +25,7 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
 
   if (!detail.promptRun.sentAt && detail.route === 'external') {
     return {
-      title: 'Promptu gönderime hazırla',
+      title: 'Önerilen çalışma modu: Dış danışma + sonra aksiyon',
       items: [
         'Prompt preview’ı gözden geçir ve gerekirse kopyalayarak GPT Pro oturumuna taşı',
         'Gelen cevabı kısa özet halinde sonuç kaydı formuna işle',
@@ -37,7 +37,7 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
   const openActions = detail.actions.filter((action) => action.status === 'open')
   if (detail.promptRun.responseSummary && openActions.length > 0) {
     return {
-      title: 'Cevabı işe çevir',
+      title: 'Önerilen çalışma modu: Cevabı işe çevir',
       items: [
         `${openActions.length} açık aksiyonu kapat veya sahipliğini netleştir`,
         'Karar notu çıkacaksa Context Center hedefine yaz',

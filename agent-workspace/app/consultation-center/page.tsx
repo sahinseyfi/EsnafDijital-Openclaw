@@ -8,6 +8,7 @@ import { QuickCreateForm } from '@/components/consultation-center/QuickCreateFor
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { getConsultationProgress } from '@/lib/consultation-center/progress'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import type { ConsultationDetail } from '@/lib/consultation-center/types'
 import { getConsultationNextSteps } from '@/lib/consultation-center/workflow'
 
 function sectionTitle(value: string) {
@@ -50,6 +51,30 @@ function ownerLabel(value: string) {
   return 'Ortak karar'
 }
 
+function promptStatus(detail: ConsultationDetail) {
+  if (detail.route !== 'external') {
+    return {
+      showPrompt: false,
+      title: 'Prompt gerekmiyor',
+      text: 'Bu kayıt için önce iç aksiyon veya küçük patch hattı daha doğru görünüyor.',
+    }
+  }
+
+  if (detail.missingFields.length > 0) {
+    return {
+      showPrompt: false,
+      title: 'Prompt için henüz erken',
+      text: `Önce şu alanları kapat: ${detail.missingFields.join(', ')}`,
+    }
+  }
+
+  return {
+    showPrompt: true,
+    title: 'Prompt hazır',
+    text: 'Brief ve bağlam yeterince net. İstersen promptu gözden geçirip GPT Pro oturumuna taşı.',
+  }
+}
+
 function renderRecord(value: Record<string, unknown> | undefined) {
   if (!value) return null
 
@@ -84,6 +109,7 @@ export default async function ConsultationCenterPage({
   const selected = payload.selected
   const nextSteps = selected ? getConsultationNextSteps(selected) : null
   const progress = selected ? getConsultationProgress(selected) : null
+  const selectedPromptStatus = selected ? promptStatus(selected) : null
 
   const routeStats = {
     blocked: payload.inbox.filter((item) => item.route === 'blocked').length,
@@ -196,6 +222,16 @@ export default async function ConsultationCenterPage({
               <p className="muted">{routeText(selected.route)}</p>
             </section>
 
+            <section className="card stack-sm">
+              <h3>Karar özeti</h3>
+              <ul className="list">
+                <li>Özet: {selected.summary || 'Henüz özet yok'}</li>
+                <li>Karar sorusu: {selected.decisionQuestion || 'Henüz yazılmadı'}</li>
+                <li>Neden şimdi: {selected.whyNow || 'Henüz yazılmadı'}</li>
+                <li>İstenen çıktı: {selected.desiredOutput || 'Henüz yazılmadı'}</li>
+              </ul>
+            </section>
+
             {selected.missingFields.length > 0 ? (
               <section className="card stack-sm">
                 <h3>Önce tamamlanacaklar</h3>
@@ -229,10 +265,19 @@ export default async function ConsultationCenterPage({
               </ul>
             </section>
 
-            <PromptPreviewCard
-              promptText={selected.promptRun.promptText}
-              fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
-            />
+            {selectedPromptStatus ? (
+              <section className="card stack-sm">
+                <h3>{selectedPromptStatus.title}</h3>
+                <p className="muted">{selectedPromptStatus.text}</p>
+              </section>
+            ) : null}
+
+            {selectedPromptStatus?.showPrompt ? (
+              <PromptPreviewCard
+                promptText={selected.promptRun.promptText}
+                fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
+              />
+            ) : null}
 
             <ResponseCaptureForm consultation={selected} />
 
