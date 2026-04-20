@@ -23,6 +23,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Project OS icin audit create/update akisi acildi; hizli audit formu ve `/api/project-os/audits` route'lari db-or-mock kalicilikla calisiyor
 - Project OS icin offer create/update akisi acildi; hizli teklif formu ve `/api/project-os/offers` route'lari db-or-mock kalicilikla calisiyor
 - Project OS icin delivery create/update akisi acildi; hizli teslimat formu ve `/api/project-os/delivery-projects` route'lari db-or-mock kalicilikla calisiyor
+- Context Center karar yuzeyi somutlastirildi; dosya/veri/hibrit ayrimi, kaynak matrisi ve canli kayit sayilari ayni ekranda gorunur hale geldi
 - Consultation Center v1 rol ayrımı netleşti: karar hazırlama, danışma filtresi ve sonuç route katmanı olarak tanımlandı
 - Consultation Center icin Prisma schema, dummy veri ve ilk API / ekran akışı iskeleti bağlandı
 - Consultation Center icin Prisma client, `.env.example` ve mock-or-db service katmanı eklendi; gerçek DB'ye geçiş yolu açıldı
@@ -48,7 +49,6 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 
 ## Sıradaki Somut Adımlar
 - Postgres + Prisma kurulumu
-- Context Center'i dosya / veritabanı karar yüzeyine çevirmek
 - Consultation Center v1 spec'ini ekran + veri modeli + route akışına bağlamak
 - normal oturumda V2 prod deploy + doğrulama almak
 
