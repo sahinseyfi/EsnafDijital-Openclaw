@@ -264,10 +264,10 @@ export async function getConsultationDetail(id: string): Promise<ConsultationDet
 
 export async function createConsultation(input: { title?: string; type?: string; note?: string }) {
   if (!hasDatabaseUrl()) {
-    const created = createMockConsultation(input)
+    const created = await createMockConsultation(input)
     return {
       created,
-      payload: getMockConsultationCenterPayload(created.id),
+      payload: await getMockConsultationCenterPayload(created.id),
     }
   }
 
@@ -303,18 +303,18 @@ export async function createConsultation(input: { title?: string; type?: string;
       payload: await getConsultationCenterPayload(created.id),
     }
   } catch {
-    const created = createMockConsultation(input)
+    const created = await createMockConsultation(input)
     return {
       created,
-      payload: getMockConsultationCenterPayload(created.id),
+      payload: await getMockConsultationCenterPayload(created.id),
     }
   }
 }
 
 export async function updateConsultation(id: string, input: ConsultationUpdateInput) {
   if (!hasDatabaseUrl()) {
-    const updated = updateMockConsultation(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await updateMockConsultation(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 
   try {
@@ -362,15 +362,15 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
       payload: await getConsultationCenterPayload(id),
     }
   } catch {
-    const updated = updateMockConsultation(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await updateMockConsultation(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 }
 
 export async function addConsultationAction(id: string, input: ConsultationActionInput) {
   if (!hasDatabaseUrl()) {
-    const updated = addMockConsultationAction(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await addMockConsultationAction(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 
   try {
@@ -388,15 +388,15 @@ export async function addConsultationAction(id: string, input: ConsultationActio
     const updated = await getConsultationDetail(id)
     return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
   } catch {
-    const updated = addMockConsultationAction(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await addMockConsultationAction(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 }
 
 export async function addConsultationRun(id: string, input: ConsultationRunInput) {
   if (!hasDatabaseUrl()) {
-    const updated = addMockConsultationRun(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await addMockConsultationRun(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 
   try {
@@ -423,15 +423,15 @@ export async function addConsultationRun(id: string, input: ConsultationRunInput
     const updated = await getConsultationDetail(id)
     return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
   } catch {
-    const updated = addMockConsultationRun(id, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await addMockConsultationRun(id, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 }
 
 export async function updateConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
   if (!hasDatabaseUrl()) {
-    const updated = updateMockConsultationActionStatus(id, actionId, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await updateMockConsultationActionStatus(id, actionId, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 
   try {
@@ -457,7 +457,7 @@ export async function updateConsultationActionStatus(id: string, actionId: strin
     const updated = await getConsultationDetail(id)
     return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
   } catch {
-    const updated = updateMockConsultationActionStatus(id, actionId, input)
-    return updated ? { updated, payload: getMockConsultationCenterPayload(id) } : null
+    const updated = await updateMockConsultationActionStatus(id, actionId, input)
+    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
   }
 }
