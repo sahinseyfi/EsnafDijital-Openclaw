@@ -7,7 +7,14 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({})) as { title?: string; type?: string; note?: string }
+  const body = await request.json().catch(() => ({})) as {
+    title?: string
+    type?: string
+    note?: string
+    workMode?: string
+    targetSurface?: string
+    outputType?: string
+  }
   const result = await createConsultation(body)
   return NextResponse.json({ ok: true, created: result.created, payload: result.payload })
 }

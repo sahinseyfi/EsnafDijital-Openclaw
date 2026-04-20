@@ -256,7 +256,14 @@ export async function getConsultationCenterPayload(selectedId?: string): Promise
   return { inbox, selected }
 }
 
-export async function createMockConsultation(input: { title?: string; type?: string; note?: string }) {
+export async function createMockConsultation(input: {
+  title?: string
+  type?: string
+  note?: string
+  workMode?: string
+  targetSurface?: string
+  outputType?: string
+}) {
   const consultations = await loadConsultations()
   const suggestion = suggestConsultationBrief(input)
   const id = `consult_${Date.now()}`

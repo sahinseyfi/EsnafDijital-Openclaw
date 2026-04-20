@@ -4,6 +4,9 @@ type SuggestionInput = {
   title?: string
   note?: string
   type?: string
+  workMode?: string
+  targetSurface?: string
+  outputType?: string
 }
 
 export type SuggestionOutput = {
@@ -27,6 +30,10 @@ type TopicSignals = {
   auth: boolean
 }
 
+type WorkMode = 'audit' | 'patch' | 'strategy' | 'decision'
+type TargetSurface = 'public_vitrine' | 'admin_ops' | 'context_docs' | 'cross'
+type OutputType = 'decision_summary' | 'action_plan' | 'patch_plan' | 'gpt_prompt'
+
 function normalizeType(value?: string): ConsultationType {
   if (value === 'sales' || value === 'technical' || value === 'shared') return value
   return 'shared'
@@ -35,6 +42,21 @@ function normalizeType(value?: string): ConsultationType {
 function normalizeTitle(value?: string) {
   const title = value?.trim()
   return title || 'Yeni danışma konusu'
+}
+
+function normalizeWorkMode(value?: string): WorkMode {
+  if (value === 'audit' || value === 'patch' || value === 'strategy' || value === 'decision') return value
+  return 'decision'
+}
+
+function normalizeTargetSurface(value?: string): TargetSurface {
+  if (value === 'public_vitrine' || value === 'admin_ops' || value === 'context_docs' || value === 'cross') return value
+  return 'cross'
+}
+
+function normalizeOutputType(value?: string): OutputType {
+  if (value === 'decision_summary' || value === 'action_plan' || value === 'patch_plan' || value === 'gpt_prompt') return value
+  return 'action_plan'
 }
 
 function normalizeNote(value?: string) {
@@ -75,6 +97,50 @@ function mergeContextRefs(...groups: ConsultationContextRef[][]) {
   }
 
   return result
+}
+
+function workModeLabel(value: WorkMode) {
+  if (value === 'audit') return 'audit'
+  if (value === 'patch') return 'küçük patch'
+  if (value === 'strategy') return 'strateji'
+  return 'karar'
+}
+
+function targetSurfaceLabel(value: TargetSurface) {
+  if (value === 'public_vitrine') return 'public vitrin'
+  if (value === 'admin_ops') return 'admin / operasyon'
+  if (value === 'context_docs') return 'context / docs'
+  return 'çapraz'
+}
+
+function outputTypeLabel(value: OutputType) {
+  if (value === 'decision_summary') return 'karar özeti'
+  if (value === 'patch_plan') return 'patch planı'
+  if (value === 'gpt_prompt') return 'GPT promptu'
+  return 'aksiyon planı'
+}
+
+function desiredOutputFromMeta(value: OutputType) {
+  if (value === 'decision_summary') return 'Net karar özeti, kısa gerekçe ve sonraki adımlar'
+  if (value === 'patch_plan') return 'Küçük patch planı, bakılacak alanlar, riskler ve kabul kriterleri'
+  if (value === 'gpt_prompt') return 'Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi'
+  return 'Uygulanabilir aksiyon planı, sahiplikler ve ilk çalışma sırası'
+}
+
+function appendMeta(sharedBrief: Record<string, string | string[] | null> | undefined, input: SuggestionInput) {
+  const workMode = normalizeWorkMode(input.workMode)
+  const targetSurface = normalizeTargetSurface(input.targetSurface)
+  const outputType = normalizeOutputType(input.outputType)
+
+  return {
+    ...(sharedBrief || {}),
+    workMode,
+    targetSurface,
+    outputType,
+    workModeLabel: workModeLabel(workMode),
+    targetSurfaceLabel: targetSurfaceLabel(targetSurface),
+    outputTypeLabel: outputTypeLabel(outputType),
+  }
 }
 
 function baseContextRefs(type: ConsultationType): ConsultationContextRef[] {
@@ -255,20 +321,30 @@ export function suggestConsultationBrief(input: SuggestionInput): SuggestionOutp
   const title = normalizeTitle(input.title)
   const note = normalizeNote(input.note)
   const signals = detectSignals(title, note)
+  const workMode = normalizeWorkMode(input.workMode)
+  const targetSurface = normalizeTargetSurface(input.targetSurface)
+  const outputType = normalizeOutputType(input.outputType)
+
+  const finalize = (suggestion: SuggestionOutput): SuggestionOutput => ({
+    ...suggestion,
+    whyNow: `${suggestion.whyNow} İlk girişte iş modu ${workModeLabel(workMode)}, hedef yüzey ${targetSurfaceLabel(targetSurface)} ve çıktı tipi ${outputTypeLabel(outputType)} olarak işaretlendi.`,
+    desiredOutput: outputType === 'action_plan' ? suggestion.desiredOutput : desiredOutputFromMeta(outputType),
+    sharedBrief: appendMeta(suggestion.sharedBrief, input),
+  })
 
   if ((signals.mobile || signals.menu) && signals.landing) {
-    return getMobileWebsiteSuggestion(title, note)
+    return finalize(getMobileWebsiteSuggestion(title, note))
   }
 
   if (signals.offer) {
-    return getOfferSuggestion(title, note, type)
+    return finalize(getOfferSuggestion(title, note, type))
   }
 
   if (type === 'technical' && signals.auth) {
-    return getAuthSuggestion(title, note)
+    return finalize(getAuthSuggestion(title, note))
   }
 
-  if (type === 'sales') return getGenericSalesSuggestion(title, note)
-  if (type === 'technical') return getGenericTechnicalSuggestion(title, note)
-  return getGenericSharedSuggestion(title, note)
+  if (type === 'sales') return finalize(getGenericSalesSuggestion(title, note))
+  if (type === 'technical') return finalize(getGenericTechnicalSuggestion(title, note))
+  return finalize(getGenericSharedSuggestion(title, note))
 }

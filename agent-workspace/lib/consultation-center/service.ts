@@ -263,7 +263,14 @@ export async function getConsultationDetail(id: string): Promise<ConsultationDet
   }
 }
 
-export async function createConsultation(input: { title?: string; type?: string; note?: string }) {
+export async function createConsultation(input: {
+  title?: string
+  type?: string
+  note?: string
+  workMode?: string
+  targetSurface?: string
+  outputType?: string
+}) {
   if (!hasDatabaseUrl()) {
     const created = await createMockConsultation(input)
     return {
