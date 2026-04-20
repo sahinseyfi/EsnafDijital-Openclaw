@@ -31,12 +31,14 @@ export function QuickCreateForm() {
       }
 
       const createdId = json?.created?.id
-      if (createdId) {
-        router.push(`/consultation-center?selectedId=${encodeURIComponent(createdId)}`)
+      if (!createdId) {
+        throw new Error('Yeni kayıt id dönmedi')
       }
-      router.refresh()
+
       setTitle('')
       setNote('')
+      router.replace(`/consultation-center?selectedId=${encodeURIComponent(createdId)}`)
+      router.refresh()
     } catch (error: any) {
       setErrorText(error?.message || 'Consultation oluşturulamadı')
     } finally {

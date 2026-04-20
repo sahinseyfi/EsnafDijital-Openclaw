@@ -95,7 +95,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
 
         <div className="stack-sm">
           {filteredItems.map((item) => (
-            <Link key={item.id} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="card" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed', display: 'block' }}>
+            <Link key={item.id} prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="card" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed', display: 'block' }}>
               <div className="stack-xs">
                 <strong>{item.title}</strong>
                 <p className="muted">{item.summary}</p>
