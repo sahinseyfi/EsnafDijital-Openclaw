@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
-import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
@@ -15,27 +15,32 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     summary?: string
   }
 
-  const suggestion = suggestConsultationBrief({
-    title: body.title || current.title,
-    note: body.summary || current.summary,
-    type: current.type,
-  })
-
-  const result = await updateConsultation(id, {
-    title: suggestion.title,
-    summary: suggestion.summary,
-    decisionQuestion: suggestion.decisionQuestion,
-    whyNow: suggestion.whyNow,
-    desiredOutput: suggestion.desiredOutput,
-    businessBrief: suggestion.businessBrief,
-    technicalBrief: suggestion.technicalBrief,
-    sharedBrief: suggestion.sharedBrief,
-    contextRefs: suggestion.contextRefs,
-  })
-
-  if (!result) {
-    return NextResponse.json({ ok: false, message: 'Consultation güncellenemedi' }, { status: 500 })
+  const workingCopy = {
+    ...current,
+    title: body.title?.trim() || current.title,
+    summary: body.summary?.trim() || current.summary,
   }
 
-  return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })
+  try {
+    const suggestion = await generateConsultationBriefWithAgent(workingCopy)
+    const result = await updateConsultation(id, {
+      title: suggestion.title || workingCopy.title,
+      summary: suggestion.summary || workingCopy.summary,
+      decisionQuestion: suggestion.decisionQuestion,
+      whyNow: suggestion.whyNow,
+      desiredOutput: suggestion.desiredOutput,
+      businessBrief: suggestion.businessBrief,
+      technicalBrief: suggestion.technicalBrief,
+      sharedBrief: suggestion.sharedBrief,
+      contextRefs: suggestion.contextRefs,
+    })
+
+    if (!result) {
+      return NextResponse.json({ ok: false, message: 'Consultation güncellenemedi' }, { status: 500 })
+    }
+
+    return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })
+  } catch (error: any) {
+    return NextResponse.json({ ok: false, message: error?.message || 'AI brief üretilemedi' }, { status: 500 })
+  }
 }

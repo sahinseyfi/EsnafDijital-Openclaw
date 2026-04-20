@@ -101,13 +101,13 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       const json = await response.json().catch(() => ({}))
 
       if (!response.ok) {
-        throw new Error(json.message || 'Akıllı brief önerisi üretilemedi')
+        throw new Error(json.message || 'AI brief üretilemedi')
       }
 
-      setSuccessText('Akıllı brief önerisi uygulandı')
+      setSuccessText('AI brief uygulandı')
       router.refresh()
     } catch (error: any) {
-      setErrorText(error?.message || 'Akıllı brief önerisi üretilemedi')
+      setErrorText(error?.message || 'AI brief üretilemedi')
     } finally {
       setBusy(false)
     }
@@ -180,7 +180,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       <div>
         <p className="eyebrow">Detail editor</p>
         <h3>Brief'i düzenle</h3>
-        <p className="muted">Yeni kayıt açılınca sistem ilk brief taslağını önerir. İstersen tek tuşla daha akıllı öneri uygulayıp sonra düzenleyebilirsin.</p>
+        <p className="muted">Yeni kayıt açılınca sistem ilk brief taslağını önerir. İstersen tek tuşla AI ile geliştirip sonra düzenleyebilirsin.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -260,7 +260,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <button type="button" className="button-secondary" disabled={busy || !title.trim()} onClick={handleSuggest}>
-          {busy ? 'Çalışıyor...' : 'Akıllı brief geliştir'}
+          {busy ? 'AI çalışıyor...' : 'AI ile geliştir'}
         </button>
         <button type="submit" className="button-primary" disabled={busy}>
           {busy ? 'Kaydediliyor...' : 'Kaydet'}
