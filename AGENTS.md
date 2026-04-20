@@ -68,7 +68,8 @@ Asagidaki durumlarda dur ve kisa onay iste:
 Bunun disindaki dusuk riskli teknik ilerlemelerde duraksama uretme.
 
 ## 8) Checklist ve Playbook Yonlendirmesi
-Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan:
+Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan.
+OpenClaw ajan davranisi, workspace injection dosyalari, skill formati veya runtime kabiliyeti degisecekse bu repo ana yuzey olarak kalir; gerekirse dis referans olarak `https://github.com/openclaw/openclaw` kontrol edilir.
 - admin panel isi -> `CHECKLISTS/admin-panel-mvp.md`
 - is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
 - baglam temizligi -> `CHECKLISTS/context-hygiene.md`

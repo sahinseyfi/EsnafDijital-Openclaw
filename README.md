@@ -25,6 +25,9 @@ Yeni bir oturumda varsayilan okuma sirasi:
 - `memory/` -> tarihlenmis gunluk notlar ve session/incident kayitlari
 - `TOOLS.md` ve `OPERATIONS.md` -> operasyon ve teknik ortam referansi
 
+## Dis referans
+Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davranisini, workspace injection yapisini, `AGENTS.md` / `SOUL.md` / `TOOLS.md` gibi injected dosyalari, skill formatini veya runtime kabiliyetlerini etkiliyorsa dis referans olarak `https://github.com/openclaw/openclaw` incelenebilir.
+
 ## Repo yapisi
 
 ### Uygulama klasorleri
