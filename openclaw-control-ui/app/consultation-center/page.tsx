@@ -90,40 +90,24 @@ export default async function ConsultationCenterPage({
       <section className="hero">
         <div>
           <p className="eyebrow">Karar hazırlama katmanı</p>
-          <h1>Consultation Center v1</h1>
-          <p className="muted">Dağınık notu karar brief'ine çevir, gerekirse GPT Pro prompt'u üret, sonucu tekrar işe bağla.</p>
+          <h1>Consultation Center</h1>
+          <p className="muted">Önce konu seç, sonra brief'i netleştir, gerekiyorsa prompt üret ve sonucu aksiyona çevir.</p>
         </div>
-      </section>
-
-      <section className="grid-3">
-        <article className="card">
-          <h3>Inbox</h3>
-          <strong>{payload.inbox.length}</strong>
-          <p className="muted">Açık consultation kaydı</p>
-        </article>
-        <article className="card">
-          <h3>GPT Pro açılabilir</h3>
-          <strong>{payload.inbox.filter((item) => item.gptRecommended).length}</strong>
-          <p className="muted">Minimum brief'i tamamlanmış ve dış danışmaya uygun kayıt</p>
-        </article>
-        <article className="card">
-          <h3>İçeride çözülecek</h3>
-          <strong>{payload.inbox.filter((item) => item.route === 'internal').length}</strong>
-          <p className="muted">Doğrudan teknik veya operasyon işi olarak ilerleyebilecek kayıt</p>
-        </article>
       </section>
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <QuickCreateForm />
-        <article className="card">
-          <p className="eyebrow">Route mantığı</p>
-          <h3>Bu ekran ne yapıyor?</h3>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Kısa özet</p>
+            <h3>Bu ekranda tek akış var</h3>
+          </div>
           <ul className="list">
-            <li>Dağınık konuyu karar brief'ine çevirir</li>
-            <li>Blocked / internal / external filtresi uygular</li>
-            <li>Gerekirse GPT Pro prompt'u üretir</li>
-            <li>Sonucu kullanıcı işi, teknik iş veya ortak karara bağlar</li>
+            <li>{payload.inbox.length} açık kayıt</li>
+            <li>{payload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için hazır</li>
+            <li>{payload.inbox.filter((item) => item.route === 'internal').length} kayıt içeride çözülebilir</li>
           </ul>
+          <p className="muted">Mantık sade: seç, netleştir, gönder, sonucu işle.</p>
         </article>
       </section>
 
@@ -138,54 +122,29 @@ export default async function ConsultationCenterPage({
               <p className="muted">{selected.decisionQuestion}</p>
             </div>
 
-            <section className="grid-2">
-              <div className="card">
-                <h3>Karar çekirdeği</h3>
+            <section className="card stack-sm">
+              <h3>Durum özeti</h3>
+              <ul className="list">
+                <li>Tip: {sectionTitle(selected.type)}</li>
+                <li>Stage: {stageLabel(selected.stage)}</li>
+                <li>Route: {routeLabel(selected.route)}</li>
+                <li>Sahiplik: {ownerLabel(selected.ownerRole)}</li>
+                <li>Beklenen çıktı: {selected.desiredOutput}</li>
+                {progress ? <li>İlerleme: %{progress.percent} ({progress.completedSteps}/{progress.totalSteps})</li> : null}
+              </ul>
+              <p className="muted">{routeText(selected.route)}</p>
+            </section>
+
+            {selected.missingFields.length > 0 ? (
+              <section className="card stack-sm">
+                <h3>Önce tamamlanacaklar</h3>
                 <ul className="list">
-                  <li>Tip: {sectionTitle(selected.type)}</li>
-                  <li>Stage: {stageLabel(selected.stage)}</li>
-                  <li>Route: {routeLabel(selected.route)}</li>
-                  <li>Sahiplik: {ownerLabel(selected.ownerRole)}</li>
-                  <li>Beklenen çıktı: {selected.desiredOutput}</li>
-                </ul>
-              </div>
-              <div className="card">
-                <h3>Bağlam paketi</h3>
-                <ul className="list">
-                  {selected.contextRefs.map((ref) => (
-                    <li key={`${ref.kind}-${ref.ref}`}>{ref.title} ({ref.ref})</li>
+                  {selected.missingFields.map((field) => (
+                    <li key={field}>{field}</li>
                   ))}
                 </ul>
-              </div>
-            </section>
-
-            {progress ? (
-              <section className="card stack-sm">
-                <h3>Akış ilerleme durumu</h3>
-                <strong>%{progress.percent}</strong>
-                <p className="muted">{progress.completedSteps} / {progress.totalSteps} ana adım tamamlandı</p>
               </section>
             ) : null}
-
-            <section className="grid-2">
-              <div className="card stack-sm">
-                <h3>Route kararı</h3>
-                <strong>{routeLabel(selected.route)}</strong>
-                <p className="muted">{routeText(selected.route)}</p>
-              </div>
-              <div className="card stack-sm">
-                <h3>Eksik alan kontrolü</h3>
-                {selected.missingFields.length > 0 ? (
-                  <ul className="list">
-                    {selected.missingFields.map((field) => (
-                      <li key={field}>{field}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="muted">Minimum brief tamam. Bu kayıt karar üretimine hazır.</p>
-                )}
-              </div>
-            </section>
 
             {nextSteps ? (
               <section className="card stack-sm">
@@ -198,37 +157,42 @@ export default async function ConsultationCenterPage({
               </section>
             ) : null}
 
-            <section className="grid-2">
-              <ConsultationDetailEditor consultation={selected} />
-              <PromptPreviewCard
-                promptText={selected.promptRun.promptText}
-                fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
-              />
+            <ConsultationDetailEditor consultation={selected} />
+
+            <section className="card stack-sm">
+              <h3>Bağlam paketi</h3>
+              <ul className="list">
+                {selected.contextRefs.length > 0 ? selected.contextRefs.map((ref) => (
+                  <li key={`${ref.kind}-${ref.ref}`}>{ref.title} ({ref.ref})</li>
+                )) : <li>Henüz bağlam eklenmemiş</li>}
+              </ul>
             </section>
 
-            <section className="grid-2">
-              <ResponseCaptureForm consultation={selected} />
-              <div className="card stack-sm">
-                <h3>Run durumu</h3>
-                <ul className="list">
-                  <li>Model: {selected.promptRun.modelName || '—'}</li>
-                  <li>Gönderim: {selected.promptRun.sentAt || 'Henüz kaydedilmedi'}</li>
-                  <li>Özet: {selected.promptRun.responseSummary || 'Henüz kaydedilmedi'}</li>
-                </ul>
-              </div>
+            <PromptPreviewCard
+              promptText={selected.promptRun.promptText}
+              fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
+            />
+
+            <ResponseCaptureForm consultation={selected} />
+
+            <section className="card stack-sm">
+              <h3>Run durumu</h3>
+              <ul className="list">
+                <li>Model: {selected.promptRun.modelName || '—'}</li>
+                <li>Gönderim: {selected.promptRun.sentAt || 'Henüz kaydedilmedi'}</li>
+                <li>Özet: {selected.promptRun.responseSummary || 'Henüz kaydedilmedi'}</li>
+              </ul>
             </section>
 
             <section className="card stack-sm">
-              <h3>Mevcut brief görünümü</h3>
+              <h3>Mevcut brief</h3>
               {renderRecord(selected.businessBrief)}
               {renderRecord(selected.technicalBrief)}
               {renderRecord(selected.sharedBrief)}
             </section>
 
-            <section className="grid-2">
-              <ActionCreateForm consultation={selected} />
-              <ActionStatusList consultationId={selected.id} actions={selected.actions} />
-            </section>
+            <ActionCreateForm consultation={selected} />
+            <ActionStatusList consultationId={selected.id} actions={selected.actions} />
           </article>
         ) : null}
       </section>
