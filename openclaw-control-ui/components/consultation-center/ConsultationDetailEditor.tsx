@@ -120,6 +120,40 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     }
   }
 
+  const handleDelete = async () => {
+    const confirmed = window.confirm(`"${consultation.title}" kaydını silmek istiyor musun?`)
+    if (!confirmed) return
+
+    setBusyAction('save')
+    setErrorText(null)
+    setSuccessText(null)
+
+    try {
+      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}`, {
+        method: 'DELETE',
+      })
+      const rawText = await response.text()
+      const json = rawText ? JSON.parse(rawText) : {}
+
+      if (!response.ok) {
+        throw new Error(json.message || rawText || 'Consultation silinemedi')
+      }
+
+      router.replace('/consultation-center')
+      router.refresh()
+    } catch (error: any) {
+      if (error instanceof SyntaxError) {
+        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayi yenileyip tekrar dene.')
+      } else if (error?.name === 'TypeError') {
+        setErrorText('Sunucuya ulasilamadi. Baglanti ya da servis gecici olarak dusmus olabilir.')
+      } else {
+        setErrorText(error?.message || 'Consultation silinemedi')
+      }
+    } finally {
+      setBusyAction(null)
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setBusyAction('save')
@@ -280,9 +314,14 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <button type="button" className="button-secondary" disabled={busyAction !== null || !title.trim()} onClick={handleSuggest}>
-          {busyAction === 'suggest' ? 'AI brief hazırlanıyor...' : 'AI ile geliştir'}
-        </button>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <button type="button" className="button-secondary" disabled={busyAction !== null || !title.trim()} onClick={handleSuggest}>
+            {busyAction === 'suggest' ? 'AI brief hazırlanıyor...' : 'AI ile geliştir'}
+          </button>
+          <button type="button" className="button-secondary" disabled={busyAction !== null} onClick={handleDelete} style={{ color: 'var(--danger-text)', borderColor: 'rgba(220, 38, 38, 0.28)' }}>
+            {busyAction === 'save' ? 'İşleniyor...' : 'Bu kaydı sil'}
+          </button>
+        </div>
         <button type="submit" className="button-primary" disabled={busyAction !== null}>
           {busyAction === 'save' ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
