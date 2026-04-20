@@ -42,8 +42,8 @@ Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerlem
 - `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adim
 - `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
 - `DECISIONS/` -> tekil kalici karar kayitlari
-- `memory/YYYY-MM-DD.md` -> tarihlenmis gunluk ozet
-- `memory/YYYY-MM-DD-konu.md` -> session, incident veya konu-ozel kayit
+- `memory/YYYY-MM-DD.md` -> tarihlenmis gunluk ozet, ayni gun icin mevcut dosyaya ek yap
+- `memory/YYYY-MM-DD-topic.md` -> session, incident veya konu-ozel kayit
 - `TOOLS.md` ve `OPERATIONS.md` -> ortam, servis ve operasyon referansi
 - `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` -> teklif, segment ve kaynak materyal
 - `ARCHIVE/` -> aktif kullanilmayan ama saklanacak icerik

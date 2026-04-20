@@ -52,7 +52,9 @@ Yeni bir oturumda varsayilan okuma sirasi:
 - Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
 - Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
 - Kaynak materyal veya referans arama -> `REFERENCES/README.md`
-- Tekrarlayan is akisi -> ilgili `CHECKLISTS/` veya `PLAYBOOKS/`
+- Tekrarlayan is akisi -> `CHECKLISTS/README.md` veya `PLAYBOOKS/README.md`
+- Gorev-ozel calisma rehberi -> `skills/README.md`
+- Eski veya superseded icerik takibi -> `ARCHIVE/README.md`
 
 ## Bu bilgi nereye yazilir?
 | Bilgi tipi | Kanonik yer | Kisa kural |
@@ -62,7 +64,7 @@ Yeni bir oturumda varsayilan okuma sirasi:
 | Proje tanimi ve kapsam | `PROJECT.md` | Gecici durum eklenmez |
 | Orta vadeli yon | `ROADMAP.md` | Gunluk todo tutulmaz |
 | Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
-| Gunluk not veya session/incident kaydi | `memory/` | Tarihli isim kullan |
+| Gunluk not veya session/incident kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, konu kaydi `YYYY-MM-DD-topic.md` |
 | Operasyon ve teknik ortam | `TOOLS.md`, `OPERATIONS.md` | Canli referans burada |
 | Teklif, segment, referans materyal | `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` | Karar kaydi gibi davranma |
 | Eski veya superseded icerik | `ARCHIVE/` | Ilk okuma paketi degil |
