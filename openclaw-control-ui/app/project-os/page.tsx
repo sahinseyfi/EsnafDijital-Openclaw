@@ -1,4 +1,5 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
@@ -35,17 +36,7 @@ export default async function ProjectOsPage() {
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <BusinessCreateForm />
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Veri akışı</p>
-            <h3>Project OS artık kayıt kabul ediyor</h3>
-          </div>
-          <ul className="list">
-            <li>İşletme kaydı önce açılır, audit, teklif ve teslimat aynı omurgaya bağlanır</li>
-            <li>Veritabanı varsa gerçek kayıt, yoksa `.data/project-os-mock.json` üstünden mock kalıcılık kullanılır</li>
-            <li>Bu fazda amaç geniş CRM değil, teslimat hattını tek yerde görünür başlatmak</li>
-          </ul>
-        </article>
+        <AuditCreateForm businesses={dataset.businesses} />
       </section>
 
       <section className="stats-grid">
