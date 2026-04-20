@@ -57,6 +57,8 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 ## Heartbeat Çalışma Talimatı
 - Consultation Center için ayrı follow-through heartbeat işi kapatıldı.
 - Bu konu için tekrar eden cron veya otomatik wake tutulmasın.
+- Heartbeat'ler varsayilan olarak yoklama kabul edilsin; acil durum veya net bir aktif is yoksa gorunur ilerleme uretilmesin.
+- Bes saat dolmadan gelen wake'lerde ancak zaman-duyarli risk, net blokaj veya kullanicinin acik istedigi bir takip varsa hareket edilsin.
 - Yeni wake'lerde ancak daha genel faz hedefleri için gerçekten gerekli somut teknik ilerleme varsa hareket edilsin.
 - Görünür kullanıcı mesajı ancak gerçekten önemli gelişme, net blokaj veya karar ihtiyacı varsa gönderilsin.
 
