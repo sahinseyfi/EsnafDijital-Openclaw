@@ -107,12 +107,12 @@
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T10:38:25.104Z",
-    "decisionQuestion": "Karar sorusu henüz net değil",
+    "updatedAt": "2026-04-20T11:28:07.732Z",
+    "decisionQuestion": "Mobil kalici test konusu için en doğru karar çerçevesi nasıl kurulmalı?",
     "summary": "persist",
     "gptRecommended": false,
-    "whyNow": "Henüz yazılmadı",
-    "desiredOutput": "Henüz seçilmedi",
+    "whyNow": "Mobil kalici test konusu şu an netleşirse sonraki iş adımları daha temiz ilerler.",
+    "desiredOutput": "Net karar çerçevesi, önerilen yaklaşım, seçenekler ve ilk aksiyonlar",
     "missingFields": [
       "karar sorusu",
       "neden şimdi",
@@ -121,9 +121,26 @@
       "karar çekirdeği"
     ],
     "sharedBrief": {
-      "hamNot": "persist"
+      "hamNot": "persist",
+      "kararCekirdegi": "Mobil kalici test"
     },
-    "contextRefs": [],
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje çizgisi",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve öncelik",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "project",
+        "title": "Kalıcı karar çizgisi",
+        "ref": "MEMORY.md"
+      }
+    ],
     "promptRun": {
       "modelName": null,
       "sentAt": null,
