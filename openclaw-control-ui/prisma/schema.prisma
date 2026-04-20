@@ -7,6 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum BusinessSegment {
+  berber
+  guzellik
+  kafe_restoran
+  diger
+}
+
+enum BusinessStatus {
+  lead
+  active
+  paused
+}
+
+enum AuditStatus {
+  new
+  reviewed
+  offered
+}
+
+enum ChannelReadiness {
+  dusuk
+  orta
+  iyi
+}
+
+enum OfferStatus {
+  draft
+  sent
+  approved
+}
+
+enum DeliveryProjectStatus {
+  kickoff
+  building
+  live
+  maintenance
+}
+
 enum ConsultationType {
   sales
   technical
@@ -53,6 +91,67 @@ enum ConsultationActionStatus {
   open
   done
   cancelled
+}
+
+model Business {
+  id               String           @id @default(cuid())
+  name             String
+  segment          BusinessSegment
+  district         String
+  ownerName        String
+  status           BusinessStatus   @default(lead)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  audits           Audit[]
+  offers           Offer[]
+  deliveryProjects DeliveryProject[]
+
+  @@map("businesses")
+}
+
+model Audit {
+  id               String           @id @default(cuid())
+  businessId       String
+  status           AuditStatus      @default(new)
+  channelReadiness ChannelReadiness
+  summary          String
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  business         Business         @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("audits")
+}
+
+model Offer {
+  id               String           @id @default(cuid())
+  businessId       String
+  status           OfferStatus      @default(draft)
+  packageName      String
+  amountTry        Int
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  business         Business         @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("offers")
+}
+
+model DeliveryProject {
+  id               String                @id @default(cuid())
+  businessId       String
+  status           DeliveryProjectStatus @default(kickoff)
+  scope            String
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+
+  business         Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@map("delivery_projects")
 }
 
 model Consultation {
