@@ -43,6 +43,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation workflow guidance helper'i eklendi; brief eksigi, external send, answered ve actioned durumlari için sonraki adim önerisi üretiyor
 - Consultation detail ekranina akiş ilerleme özeti eklendi; brief/route/run/action tamamlama seviyesi yüzde olarak görünür oldu
 - Consultation Center ana ekranda route akisi ve gonderim hatti sayisal ozetle gorunur hale geldi; blocked/internal/external ve hazir/answered/actioned dagilimi artik ilk bakista okunuyor
+- Consultation stage inference guncellendi; cekirdek brief dolu ama baglam veya tip-ozel alanlari eksik kayitlar artik `goal_set` olarak ayrisiyor, draft/clarifying/goal_set akisi daha anlamli gorunuyor
 - Consultation Center follow-through bu faz için yeterli noktaya geldi; saatlik heartbeat cron'u kapatildi
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
