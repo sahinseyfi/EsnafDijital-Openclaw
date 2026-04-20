@@ -78,11 +78,13 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
         router.replace('/consultation-center')
       }
       router.refresh()
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof SyntaxError) {
         setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
+      } else if (error instanceof Error) {
+        setErrorText(error.message || 'Consultation silinemedi')
       } else {
-        setErrorText(error?.message || 'Consultation silinemedi')
+        setErrorText('Consultation silinemedi')
       }
     } finally {
       setDeletingId(null)
@@ -134,9 +136,9 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
 
         <div className="stack-sm">
           {filteredItems.map((item) => (
-            <div key={item.id} className="card" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start' }}>
-                <Link prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} style={{ display: 'block', flex: 1, minWidth: 0 }}>
+            <div key={item.id} className="card consultation-inbox-item" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
+              <div className="consultation-inbox-main">
+                <Link prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="consultation-inbox-link">
                   <div className="stack-xs">
                     <strong>{item.title}</strong>
                     <p className="muted">{item.summary}</p>
@@ -149,15 +151,16 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
                   </div>
                 </Link>
 
-                <button
-                  type="button"
-                  className="button-secondary"
-                  onClick={() => handleDelete(item)}
-                  disabled={deletingId !== null}
-                  style={{ whiteSpace: 'nowrap' }}
-                >
-                  {deletingId === item.id ? 'Siliniyor...' : 'Sil'}
-                </button>
+                <div className="consultation-inbox-actions">
+                  <button
+                    type="button"
+                    className="button-secondary consultation-inbox-delete"
+                    onClick={() => handleDelete(item)}
+                    disabled={deletingId !== null}
+                  >
+                    {deletingId === item.id ? 'Siliniyor...' : 'Sil'}
+                  </button>
+                </div>
               </div>
             </div>
           ))}

@@ -424,6 +424,28 @@ a.button-secondary[aria-disabled='true'] {
   letter-spacing: -0.02em;
 }
 
+.consultation-inbox-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.consultation-inbox-link {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.consultation-inbox-actions {
+  flex-shrink: 0;
+}
+
+.consultation-inbox-delete {
+  width: auto;
+  white-space: nowrap;
+}
+
 .stat-card strong {
   display: block;
   font-size: 34px;
@@ -723,6 +745,15 @@ code {
   .button-danger,
   .ghost-link,
   .cta-link {
+    width: 100%;
+  }
+
+  .consultation-inbox-main {
+    flex-direction: column;
+  }
+
+  .consultation-inbox-actions,
+  .consultation-inbox-delete {
     width: 100%;
   }
 
