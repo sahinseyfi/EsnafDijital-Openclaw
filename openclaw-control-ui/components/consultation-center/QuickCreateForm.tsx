@@ -51,7 +51,7 @@ export function QuickCreateForm() {
       <div>
         <p className="eyebrow">Quick create</p>
         <h3>Yeni consultation aç</h3>
-        <p className="muted">Ham notu bırak, karar brief'ine çevirmeyi sonra detay ekranında yap.</p>
+        <p className="muted">Başlığı ve ham notu bırak. Sistem ilk brief taslağını hemen çıkarsın, istersen detay ekranında akıllı öneriyle güçlendir.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>

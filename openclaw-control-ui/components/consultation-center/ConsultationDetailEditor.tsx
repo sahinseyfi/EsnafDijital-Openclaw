@@ -85,6 +85,34 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     setSuccessText(null)
   }, [consultation])
 
+  const handleSuggest = async () => {
+    setBusy(true)
+    setErrorText(null)
+    setSuccessText(null)
+
+    try {
+      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}/suggest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, summary }),
+      })
+      const json = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(json.message || 'Akıllı brief önerisi üretilemedi')
+      }
+
+      setSuccessText('Akıllı brief önerisi uygulandı')
+      router.refresh()
+    } catch (error: any) {
+      setErrorText(error?.message || 'Akıllı brief önerisi üretilemedi')
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setBusy(true)
@@ -152,7 +180,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       <div>
         <p className="eyebrow">Detail editor</p>
         <h3>Brief'i düzenle</h3>
-        <p className="muted">Yeni kayıt açılınca sistem ilk brief taslağını önerir. Burada onu hızla düzeltip netleştirebilirsin.</p>
+        <p className="muted">Yeni kayıt açılınca sistem ilk brief taslağını önerir. İstersen tek tuşla daha akıllı öneri uygulayıp sonra düzenleyebilirsin.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -230,7 +258,10 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <button type="button" className="button-secondary" disabled={busy || !title.trim()} onClick={handleSuggest}>
+          {busy ? 'Çalışıyor...' : 'Akıllı brief geliştir'}
+        </button>
         <button type="submit" className="button-primary" disabled={busy}>
           {busy ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
