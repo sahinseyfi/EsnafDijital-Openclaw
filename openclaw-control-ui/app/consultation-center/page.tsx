@@ -77,7 +77,8 @@ export default async function ConsultationCenterPage({
   searchParams?: Promise<{ selectedId?: string }>
 }) {
   const params = await searchParams
-  const payload = await getConsultationCenterPayload(params?.selectedId)
+  const selectedId = params?.selectedId
+  const payload = await getConsultationCenterPayload(selectedId)
   const selected = payload.selected
   const nextSteps = selected ? getConsultationNextSteps(selected) : null
   const progress = selected ? getConsultationProgress(selected) : null
