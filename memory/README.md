@@ -10,20 +10,28 @@ Kalici hafiza burada degil, repo kokundeki `MEMORY.md` dosyasindadir.
 
 ## Okuma sirasi
 1. ilgili gunun genel notu varsa `YYYY-MM-DD.md`
-2. sonra gerekiyorsa konu-ozel dosya `YYYY-MM-DD-topic.md`
+2. sonra gerekiyorsa ilgili `topic`, `incident` veya `consultation` dosyasina git
 3. ayni gun icin daginik genel not arama, once mevcut gun dosyasini kontrol et
 
 ## Yazma kurallari
 - gunluk genel ozet -> `YYYY-MM-DD.md`
-- konu, hata, incident veya session ozel kayit -> `YYYY-MM-DD-topic.md`
 - ayni gun icin tekrar genel not acma, mevcut `YYYY-MM-DD.md` dosyasina ekle
-- konu-ozel bir kayit acilacaksa sadece gercekten ayri incident veya ayri session izi gerekiyorsa ac
+- tekil konu notlari -> `YYYY-MM-DD-topic-slug.md`
+- hata, kirilma veya prod issue -> `YYYY-MM-DD-incident-slug.md`
+- dis analiz, danisma veya repo degerlendirmesi -> `YYYY-MM-DD-consultation-slug.md`
 - kalici ilke, proje omurgasi veya karar cizgisi buraya yazilmaz
 
 ## Adlandirma kurali
-- gunluk ozet: `YYYY-MM-DD.md`
-- konu/incident/session: `YYYY-MM-DD-topic.md`
-- tek gun icinde yeni genel dosya acilmaz, mevcut gun dosyasi buyutulur
+- daily: `YYYY-MM-DD.md`
+- topic: `YYYY-MM-DD-topic-slug.md`
+- incident: `YYYY-MM-DD-incident-slug.md`
+- consultation: `YYYY-MM-DD-consultation-slug.md`
+- slug kisa ve kebab-case olur
+- ayni gun icin tek daily dosyasi olur
+- `topic`, `incident` ve `consultation` dosyalari ayni gun icinde coklanabilir
+- hata, kirilma veya prod issue ise `incident`
+- dis analiz, danisma veya repo degerlendirmesi ise `consultation`
+- geri kalan tekil konu notlari `topic` olarak acilir
 
 ## Not
 Bu klasor ilk giris paketi degildir.
