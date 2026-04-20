@@ -46,6 +46,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation stage inference guncellendi; cekirdek brief dolu ama baglam veya tip-ozel alanlari eksik kayitlar artik `goal_set` olarak ayrisiyor, draft/clarifying/goal_set akisi daha anlamli gorunuyor
 - Consultation Center follow-through bu faz için yeterli noktaya geldi; saatlik heartbeat cron'u kapatildi
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
+- repo onboarding yüzeyi güncellendi; `README.md` gerçek klasör yapısına göre düzeltildi, giriş rotası netleştirildi ve `agent-workspace/`, `memory/`, `DECISIONS/` için giriş README'leri eklendi
 - tasarım sistemi + marka kimliği kararları kalıcı bağlama alındı
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
 
@@ -79,4 +80,4 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - admin tarafında ana akışların nerede yaşadığı netleşmiş olacak
 
 ## Son Güncelleme
-2026-04-19
+2026-04-20

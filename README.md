@@ -1,75 +1,73 @@
 # EsnafDigital Workspace
 
-Bu repo, EsnafDigital'in tek GitHub deposu olarak tutulur.
-Ama uygulama tarafi sade bir cizgide iki ana klasor etrafinda organize edilir.
-
-## Repo mantigi
-Bu repo iki farkli seyi ayni yerde tutar:
+Bu repo, EsnafDigital'in tek GitHub deposudur.
+Ayni yerde iki sey tutulur:
 1. urun kodu
-2. operasyon ve baglam dosyalari
+2. operasyon ve baglam omurgasi
 
-Urun kodunda iki ana uygulama klasoru vardir.
-Destekleyici markdown, karar, checklist ve operasyon dosyalari repo kokunde kalir.
+Amac su: hafizasiz bir oturum bile kisa surede yon bulsun, dogru dosyayi okusun ve gereksiz dagilmasin.
 
-## Iki ana klasor
+## Ilk giris rotasi
+Yeni bir oturumda varsayilan okuma sirasi:
+1. `README.md`
+2. `HEARTBEAT.md`
+3. `MEMORY_SUMMARY.md`
+4. goreve gore ilgili dosya veya klasor README'si
 
-### 1) `website/`
-Ana web vitrini / tanitim sitesi icin ayrilan klasordur.
-Su an hafif ve sade tutulur.
-Site buyurse de public-facing vitrin burada kalir.
+## Guvenilir kaynak sirasi
+- `HEARTBEAT.md` -> aktif durum, blokaj, siradaki adim
+- `MEMORY_SUMMARY.md` -> 1 dakikalik kalici cizgi
+- `PROJECT.md` -> proje tanimi ve kapsam
+- `ROADMAP.md` -> orta vadeli yon
+- `AGENTS.md` -> calisma kontrati
+- `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
+- `DECISIONS/` -> tekil karar kayitlari
+- `memory/` -> tarihlenmis gunluk notlar ve session/incident kayitlari
+- `TOOLS.md` ve `OPERATIONS.md` -> operasyon ve teknik ortam referansi
 
-Ornek kullanim:
-- landing page
-- hizmet anlatimi
-- iletisim / guven ogeleri
-- kampanya veya sektor bazli vitrin sayfalari
+## Repo yapisi
 
-### 2) `agent-workspace/`
-Benim calistigim teknik ortam ve admin uygulama cekirdegi burada yasar.
-Admin paneli, ic operasyon ekranlari ve uygulama kodu bu klasorun kendisinde toplanir.
+### Uygulama klasorleri
+- `website/` -> public-facing web vitrini
+- `agent-workspace/` -> ana Next.js uygulamasi ve admin/ic operasyon alani
 
-Burada su alanlar yasar:
-- Project OS
-- Context Center
-- Consultation Center
-- Hesap Merkezi
-
-Ornek alt alanlar:
-- `app/` -> Next.js route ve sayfalar
-- `components/` -> arayuz parcalari
-- `lib/` -> servis, evaluator, domain mantigi
-- `prisma/` -> veri modeli
-- `bin/` -> deploy ve operasyon scriptleri
-- `deploy/` -> servis / systemd referanslari
-
-## Destek ve baglam klasorleri
-Bunlar ana uygulama klasoru degildir. Repo'nun calisma omurgasidir.
-
+### Baglam ve operasyon klasorleri
 - `CHECKLISTS/` -> kisa uygulama listeleri
-- `PLAYBOOKS/` -> uctan uca akislar
-- `skills/` -> gorev odakli rehberler
-- `memory/` -> gunluk tarihlenmis notlar
-- `DECISIONS/` -> karar kayitlari
-- `REFERENCES/` -> tasarim ve diger referans kaynaklari
-- `deploy/` -> repo koku operasyon notlari / yardimci deploy dosyalari
+- `PLAYBOOKS/` -> uctan uca is akis rehberleri
+- `DECISIONS/` -> tarihli karar kayitlari
+- `memory/` -> tarihlenmis gelismeler, session ve incident notlari
+- `REFERENCES/` -> kaynak materyaller ve referanslar
+- `skills/` -> gorev odakli workspace skill'leri
+- `deploy/` -> repo kokundeki operasyon/deploy referanslari
+- `bin/` -> repo kokundeki yardimci scriptler
+- `ARCHIVE/` -> aktif kullanilmayan ama saklanan materyaller
 - `state/` -> gecici ama takip edilmesi gereken uretim artefaktlari
 
-## Cekirdek dosyalar
-- `PROJECT.md` -> proje tanimi ve kapsam
-- `ROADMAP.md` -> orta vadeli yon ve oncelikler
-- `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adimlar
-- `MEMORY.md` -> kalici karar cizgisi
-- `MEMORY_SUMMARY.md` -> hizli kisaltma ozeti
-- `AGENTS.md` -> calisma kurallari
-- `TOOLS.md` -> arac ve baglam politikasi
-- `OPERATIONS.md` -> servis, port, systemd ve canli operasyon notlari
+## Goreve gore nereye gidilir?
+- Kod veya admin ekran gorevi -> `agent-workspace/README.md`
+- Web vitrini gorevi -> `website/`
+- Aktif durum / oncelik -> `HEARTBEAT.md`
+- Proje kapsam ve yon -> `PROJECT.md`, sonra `ROADMAP.md`
+- Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
+- Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
+- Operasyon, servis, komut, yol -> `TOOLS.md` ve `OPERATIONS.md`
+- Tekrarlayan is akisi -> ilgili `CHECKLISTS/` veya `PLAYBOOKS/`
 
-## Okuma sirasi
-1. `HEARTBEAT.md`
-2. `MEMORY_SUMMARY.md`
-3. goreve gore ilgili dosyalar
+## Bu bilgi nereye yazilir?
+| Bilgi tipi | Kanonik yer | Kisa kural |
+| --- | --- | --- |
+| Su an ne yapiliyor? | `HEARTBEAT.md` | Sadece aktif durum ve siradaki adim |
+| Kalici cizgi ve zor degisen gercekler | `MEMORY.md` | Gunluk detay yazilmaz |
+| Proje tanimi ve kapsam | `PROJECT.md` | Gecici durum eklenmez |
+| Orta vadeli yon | `ROADMAP.md` | Gunluk todo tutulmaz |
+| Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
+| Gunluk not veya session/incident kaydi | `memory/` | Tarihli isim kullan |
+| Operasyon ve teknik ortam | `TOOLS.md`, `OPERATIONS.md` | Canli referans burada |
+| Teklif, segment, referans materyal | `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` | Karar kaydi gibi davranma |
+| Eski veya superseded icerik | `ARCHIVE/` | Ilk okuma paketi degil |
 
-## Kisa kural
-- Tek repo korunur
-- Iki ana klasor vardir: `website/` ve `agent-workspace/`
-- Diger ust seviye klasorler uygulama degil, operasyon ve baglam destek alanidir
+## Kisa kurallar
+- Ayni bilgi iki kanonik dosyada yasamasin.
+- Once kokteki giris dosyalarini oku, sonra ilgili klasore dallan.
+- Kisa omurlu durum ile kalici hafizayi karistirma.
+- Yeni dosya acmadan once mevcut kanonik yeri kontrol et.
