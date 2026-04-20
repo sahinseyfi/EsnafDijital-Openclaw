@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { prisma } from '@/lib/prisma'
 import { readProjectOsMockStore, writeProjectOsMockStore } from '@/lib/project-os/mock-store'
-import type { AuditRecord, BusinessRecord, ProjectOsDataset } from '@/lib/project-os/types'
+import type { AuditRecord, BusinessRecord, OfferRecord, ProjectOsDataset } from '@/lib/project-os/types'
 
 type BusinessInput = {
   name?: string
@@ -16,6 +16,13 @@ type AuditInput = {
   status?: AuditRecord['status']
   channelReadiness?: AuditRecord['channelReadiness']
   summary?: string
+}
+
+type OfferInput = {
+  businessId?: string
+  status?: OfferRecord['status']
+  packageName?: string
+  amountTry?: number
 }
 
 function hasDatabaseUrl() {
@@ -40,6 +47,11 @@ function mapAuditStatus(value: string): AuditRecord['status'] {
 function mapChannelReadiness(value: string): AuditRecord['channelReadiness'] {
   if (value === 'orta' || value === 'iyi') return value
   return 'dusuk'
+}
+
+function mapOfferStatus(value: string): OfferRecord['status'] {
+  if (value === 'sent' || value === 'approved') return value
+  return 'draft'
 }
 
 function mapDataset(dataset: {
@@ -67,7 +79,7 @@ function mapDataset(dataset: {
     offers: dataset.offers.map((offer) => ({
       id: offer.id,
       businessId: offer.businessId,
-      status: offer.status === 'sent' || offer.status === 'approved' ? offer.status : 'draft',
+      status: mapOfferStatus(offer.status),
       packageName: offer.packageName,
       amountTry: offer.amountTry,
     })),
@@ -286,6 +298,103 @@ export async function updateAudit(id: string, input: AuditInput): Promise<Projec
     target.status = input.status ? mapAuditStatus(input.status) : target.status
     target.channelReadiness = input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : target.channelReadiness
     target.summary = input.summary?.trim() || target.summary
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> {
+  const businessId = input.businessId?.trim()
+  const packageName = input.packageName?.trim()
+  const amountTry = Number(input.amountTry)
+
+  if (!businessId || !packageName || !Number.isFinite(amountTry) || amountTry <= 0) {
+    throw new Error('İşletme, paket adı ve geçerli teklif tutarı zorunlu.')
+  }
+
+  const status = mapOfferStatus(input.status || 'draft')
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    dataset.offers.unshift({
+      id: `off-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      packageName,
+      amountTry,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.offer.create({
+      data: {
+        businessId,
+        status,
+        packageName,
+        amountTry,
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    dataset.offers.unshift({
+      id: `off-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      packageName,
+      amountTry,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function updateOffer(id: string, input: OfferInput): Promise<ProjectOsDataset | null> {
+  if (!id.trim()) return null
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.offers.find((offer) => offer.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapOfferStatus(input.status) : target.status
+    target.packageName = input.packageName?.trim() || target.packageName
+    if (Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0) {
+      target.amountTry = Number(input.amountTry)
+    }
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.offer.update({
+      where: { id },
+      data: {
+        businessId: input.businessId?.trim(),
+        status: input.status ? mapOfferStatus(input.status) : undefined,
+        packageName: input.packageName?.trim(),
+        amountTry: Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0 ? Number(input.amountTry) : undefined,
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.offers.find((offer) => offer.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapOfferStatus(input.status) : target.status
+    target.packageName = input.packageName?.trim() || target.packageName
+    if (Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0) {
+      target.amountTry = Number(input.amountTry)
+    }
 
     await writeProjectOsMockStore(dataset)
     return dataset

@@ -1,6 +1,7 @@
 import { AdminShell } from '@/components/admin/AdminShell'
 import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'
+import { OfferCreateForm } from '@/components/project-os/OfferCreateForm'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
 const segmentLabels = {
@@ -37,6 +38,21 @@ export default async function ProjectOsPage() {
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <BusinessCreateForm />
         <AuditCreateForm businesses={dataset.businesses} />
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <OfferCreateForm businesses={dataset.businesses} />
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Veri akışı</p>
+            <h3>Hat adım adım açılıyor</h3>
+          </div>
+          <ul className="list">
+            <li>Önce işletme, sonra audit, sonra teklif aynı omurgaya bağlanır</li>
+            <li>Veritabanı varsa gerçek kayıt, yoksa `.data/project-os-mock.json` üstünden mock kalıcılık kullanılır</li>
+            <li>Bu fazda amaç geniş CRM değil, teslimat hattını tek yerde görünür başlatmak</li>
+          </ul>
+        </article>
       </section>
 
       <section className="stats-grid">
