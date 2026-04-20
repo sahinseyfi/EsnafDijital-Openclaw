@@ -152,7 +152,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       <div>
         <p className="eyebrow">Detail editor</p>
         <h3>Brief'i düzenle</h3>
-        <p className="muted">Karar brief'ini burada netleştir. Route ve prompt preview save sonrası yeniden hesaplanır.</p>
+        <p className="muted">Yeni kayıt açılınca sistem ilk brief taslağını önerir. Burada onu hızla düzeltip netleştirebilirsin.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>

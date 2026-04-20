@@ -2,6 +2,7 @@ import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { readMockStore, writeMockStore } from '@/lib/consultation-center/mock-store'
+import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -257,26 +258,27 @@ export async function getConsultationCenterPayload(selectedId?: string): Promise
 
 export async function createMockConsultation(input: { title?: string; type?: string; note?: string }) {
   const consultations = await loadConsultations()
+  const suggestion = suggestConsultationBrief(input)
   const id = `consult_${Date.now()}`
   const item: ConsultationDetail = {
     id,
-    title: input.title?.trim() || 'Yeni danışma konusu',
-    type: input.type === 'sales' || input.type === 'technical' || input.type === 'shared' ? input.type : 'shared',
+    title: suggestion.title,
+    type: suggestion.type,
     stage: 'draft',
     route: 'blocked',
-    ownerRole: 'shared',
+    ownerRole: suggestion.type === 'sales' ? 'user' : suggestion.type === 'technical' ? 'tech_agent' : 'shared',
     dueAt: null,
     updatedAt: new Date().toISOString(),
-    decisionQuestion: 'Karar sorusu henüz net değil',
-    summary: input.note?.trim() || 'Ham not girildi, önce netleştirme gerekiyor.',
+    decisionQuestion: suggestion.decisionQuestion,
+    summary: suggestion.summary,
     gptRecommended: false,
-    whyNow: 'Henüz yazılmadı',
-    desiredOutput: 'Henüz seçilmedi',
-    missingFields: ['karar sorusu', 'neden şimdi', 'beklenen çıktı', 'bağlam', 'karar çekirdeği'],
-    sharedBrief: {
-      hamNot: input.note?.trim() || '',
-    },
-    contextRefs: [],
+    whyNow: suggestion.whyNow,
+    desiredOutput: suggestion.desiredOutput,
+    missingFields: [],
+    businessBrief: suggestion.businessBrief,
+    technicalBrief: suggestion.technicalBrief,
+    sharedBrief: suggestion.sharedBrief,
+    contextRefs: suggestion.contextRefs,
     promptRun: {
       modelName: null,
       sentAt: null,

@@ -4,6 +4,7 @@ import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
 import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
+import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -272,22 +273,24 @@ export async function createConsultation(input: { title?: string; type?: string;
   }
 
   try {
+    const suggestion = suggestConsultationBrief(input)
     const created = await prisma.consultation.create({
       data: {
-        title: input.title?.trim() || 'Yeni danışma konusu',
-        type: mapConsultationType(input.type || 'shared'),
+        title: suggestion.title,
+        type: mapConsultationType(suggestion.type),
         stage: 'draft',
         status: 'open',
-        ownerRole: 'shared',
+        ownerRole: suggestion.type === 'sales' ? 'user' : suggestion.type === 'technical' ? 'tech_agent' : 'shared',
         consultRoute: 'blocked',
-        decisionQuestion: 'Karar sorusu henüz net değil',
-        goal: 'Henüz seçilmedi',
-        whyNow: 'Henüz yazılmadı',
+        decisionQuestion: suggestion.decisionQuestion,
+        goal: suggestion.desiredOutput,
+        whyNow: suggestion.whyNow,
         brief: {
           create: {
-            sharedJson: {
-              hamNot: input.note?.trim() || '',
-            },
+            businessJson: suggestion.businessBrief,
+            technicalJson: suggestion.technicalBrief,
+            sharedJson: suggestion.sharedBrief,
+            contextRefsJson: suggestion.contextRefs,
           },
         },
       },
