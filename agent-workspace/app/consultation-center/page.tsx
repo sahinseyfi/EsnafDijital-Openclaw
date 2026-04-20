@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { ActionCreateForm } from '@/components/consultation-center/ActionCreateForm'
 import { ActionStatusList } from '@/components/consultation-center/ActionStatusList'
@@ -49,6 +50,30 @@ function ownerLabel(value: string) {
   if (value === 'user') return 'Kullanıcı işi'
   if (value === 'tech_agent') return 'Teknik ajan işi'
   return 'Ortak karar'
+}
+
+function AccordionSection({
+  title,
+  note,
+  defaultOpen = false,
+  children,
+}: {
+  title: string
+  note?: string
+  defaultOpen?: boolean
+  children: ReactNode
+}) {
+  return (
+    <details className="card accordion-card" open={defaultOpen}>
+      <summary>
+        <div>
+          <strong>{title}</strong>
+          {note ? <p className="muted">{note}</p> : null}
+        </div>
+      </summary>
+      <div className="stack-sm accordion-body">{children}</div>
+    </details>
+  )
 }
 
 function promptStatus(detail: ConsultationDetail) {
@@ -254,16 +279,17 @@ export default async function ConsultationCenterPage({
               </section>
             ) : null}
 
-            <ConsultationDetailEditor consultation={selected} />
+            <AccordionSection title="Detayı düzenle" note="Başlık, brief ve alanları düzenlemek için aç.">
+              <ConsultationDetailEditor consultation={selected} />
+            </AccordionSection>
 
-            <section className="card stack-sm">
-              <h3>Bağlam paketi</h3>
+            <AccordionSection title="Bağlam paketi" note="Sadece gerektiğinde aç, önce karar ve sonraki adımı netleştir.">
               <ul className="list">
                 {selected.contextRefs.length > 0 ? selected.contextRefs.map((ref) => (
                   <li key={`${ref.kind}-${ref.ref}`}>{ref.title} ({ref.ref})</li>
                 )) : <li>Henüz bağlam eklenmemiş</li>}
               </ul>
-            </section>
+            </AccordionSection>
 
             {selectedPromptStatus ? (
               <section className="card stack-sm">
@@ -273,32 +299,37 @@ export default async function ConsultationCenterPage({
             ) : null}
 
             {selectedPromptStatus?.showPrompt ? (
-              <PromptPreviewCard
-                promptText={selected.promptRun.promptText}
-                fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
-              />
+              <AccordionSection title="Prompt preview" note="Varsayılan kapalı. Önce karar özeti ve sonraki adımı kontrol et.">
+                <PromptPreviewCard
+                  promptText={selected.promptRun.promptText}
+                  fallbackText={selected.promptRun.responseSummary || routeLabel(selected.route)}
+                />
+              </AccordionSection>
             ) : null}
 
-            <ResponseCaptureForm consultation={selected} />
+            <AccordionSection title="Sonuç kaydı" note="Cevap geldiyse aç, kısa özetle işle.">
+              <ResponseCaptureForm consultation={selected} />
 
-            <section className="card stack-sm">
-              <h3>Run durumu</h3>
-              <ul className="list">
-                <li>Model: {selected.promptRun.modelName || '—'}</li>
-                <li>Gönderim: {selected.promptRun.sentAt || 'Henüz kaydedilmedi'}</li>
-                <li>Özet: {selected.promptRun.responseSummary || 'Henüz kaydedilmedi'}</li>
-              </ul>
-            </section>
+              <section className="card stack-sm">
+                <h3>Run durumu</h3>
+                <ul className="list">
+                  <li>Model: {selected.promptRun.modelName || '—'}</li>
+                  <li>Gönderim: {selected.promptRun.sentAt || 'Henüz kaydedilmedi'}</li>
+                  <li>Özet: {selected.promptRun.responseSummary || 'Henüz kaydedilmedi'}</li>
+                </ul>
+              </section>
+            </AccordionSection>
 
-            <section className="card stack-sm">
-              <h3>Mevcut brief</h3>
+            <AccordionSection title="Mevcut brief" note="Ham brief alanlarını görmek için aç.">
               {renderRecord(selected.businessBrief)}
               {renderRecord(selected.technicalBrief)}
               {renderRecord(selected.sharedBrief)}
-            </section>
+            </AccordionSection>
 
-            <ActionCreateForm consultation={selected} />
-            <ActionStatusList consultationId={selected.id} actions={selected.actions} />
+            <AccordionSection title="Aksiyonlar" note="Sonuçtan iş üretmek veya açık aksiyonları takip etmek için aç.">
+              <ActionCreateForm consultation={selected} />
+              <ActionStatusList consultationId={selected.id} actions={selected.actions} />
+            </AccordionSection>
           </article>
         ) : null}
       </section>

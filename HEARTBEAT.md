@@ -47,6 +47,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center follow-through bu faz için yeterli noktaya geldi; saatlik heartbeat cron'u kapatildi
 - Consultation Center icin Faz 1 yonu netlesti; ilk kucuk Faz 1 patch ile cikti paneli plan-first cizgiye yaklastirildi ve prompt preview readiness kosuluna baglandi
 - Consultation Center quick create girisi mini-brief ile guclendirildi; is modu, hedef yuzey ve cikti tipi ilk kayitta alinmaya baslandi
+- Consultation Center mobil bilgi mimarisi hafifletildi; detail, prompt, sonuc ve aksiyon bloklari kapali bolumlere alindi ve ilk bakista karar ozeti + sonraki adim daha gorunur hale geldi
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - repo onboarding yüzeyi güncellendi; `README.md` gerçek klasör yapısına göre düzeltildi, giriş rotası netleştirildi ve `agent-workspace/`, `memory/`, `DECISIONS/` için giriş README'leri eklendi
 - `AGENTS.md` ile `README.md` giriş rotası birebir hizalandı; entry point drift azaltıldı ve `website/`, `deploy/`, `bin/`, `REFERENCES/` için giriş README'leri eklendi

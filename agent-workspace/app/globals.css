@@ -446,6 +446,39 @@ a.button-secondary[aria-disabled='true'] {
   white-space: nowrap;
 }
 
+.accordion-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.accordion-card summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.accordion-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-card summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accordion-card summary strong {
+  color: var(--ink-title);
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.accordion-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--line);
+}
+
 .stat-card strong {
   display: block;
   font-size: 34px;
@@ -780,5 +813,13 @@ code {
   th,
   td {
     padding: 12px;
+  }
+
+  .accordion-card summary {
+    padding: 16px;
+  }
+
+  .accordion-body {
+    padding: 0 16px 16px;
   }
 }
