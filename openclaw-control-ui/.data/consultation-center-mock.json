@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "consult_1776687942305",
+    "title": "Mobil uyumlu vitrin prompt standardı",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-20T12:28:08.389Z",
+    "decisionQuestion": "Küçük işletme için üretilen tek sayfa vitrinde mobil akışı kısa tutan, menüyü sadeleştiren ve ana CTA'yı ilk ekran civarında görünür kılan üretim promptunu hangi net kurallarla tanımlamalıyız?",
+    "summary": "Küçük işletme vitrini üretiminde mobilde gereksiz uzamayı, kalabalık üst alanı ve geç görünen ana CTA sorununu prompt seviyesinde baştan sınırlayan net bir üretim standardı gerekiyor.",
+    "gptRecommended": false,
+    "whyNow": "İlk temas çoğu zaman mobilden geliyor ve mevcut üretimlerde uzun akış, yoğun içerik ve geç CTA yüzünden güven ve dönüşüm etkisi zayıflıyor. Bunu kod sonrası toparlamak yerine prompt seviyesinde standartlaştırmak, her yeni vitrinde kaliteyi daha düşük operasyon yüküyle korumak için şimdi gerekli.",
+    "desiredOutput": "Kullanıma hazır 1) mobile-first ana prompt, 2) maksimum section ve içerik yoğunluğu sınırları, 3) menü ve üst alan kuralları, 4) ana ve ikincil CTA yerleşim ilkeleri, 5) mobilde kaçınılacak guardrail listesi, 6) kısa responsive QA checklisti.",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "Mevcut vitrin üretimlerinde mobil deneyim zayıf kalıyor; menü ve üst alan fazla yer kaplıyor, sayfa gereksiz uzuyor ve neyin kısaltılması gerektiği promptta net tarif edilmediği için sonuç tutarsız çıkıyor.",
+      "kararCekirdegi": "Mobilde kısa akan, hızlı taranan, sade menülü ve erken CTA gösteren küçük işletme vitrini için üretim prompt standardı.",
+      "anaSorunlar": [
+        "Mobilde section sayısının gereksiz artması",
+        "Menü ve hero üst alanının fazla yer kaplaması",
+        "Ana CTA'nın çok aşağı düşmesi",
+        "Kart ve metin bloklarının üst üste birikip taramayı zorlaştırması",
+        "Promptta mobil öncelikli sınırların açık tanımlanmamış olması"
+      ],
+      "hedef": [
+        "Mobile-first kurgu",
+        "Kısa ve net section akışı",
+        "İlk ekran civarında ana CTA",
+        "Minimum menü mantığı",
+        "Taranabilir kısa metin ve kompakt kart yapısı"
+      ],
+      "guardrails": [
+        "Mobilde gereksiz section çoğaltma yapılmasın",
+        "Hero altında veya ilk ekran civarında net ana CTA zorunlu olsun",
+        "Menü öğeleri minimum tutulup ikincil linkler footer veya alt akışa taşınsın",
+        "Metin blokları kısa ve taranabilir parçalara bölünsün",
+        "Accordion benzeri açılır yapı sadece gerçekten bilgi yoğun alanlarda kullanılsın, varsayılan çözüm haline gelmesin"
+      ]
+    },
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje tanımı ve MVP çizgisi",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve sade sistem önceliği",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Marka ve tasarım sistemi",
+        "ref": "DECISIONS/2026-04-19-brand-design-system.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": null,
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  }
+]
