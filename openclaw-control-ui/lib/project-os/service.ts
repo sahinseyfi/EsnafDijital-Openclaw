@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { prisma } from '@/lib/prisma'
 import { readProjectOsMockStore, writeProjectOsMockStore } from '@/lib/project-os/mock-store'
-import type { BusinessRecord, ProjectOsDataset } from '@/lib/project-os/types'
+import type { AuditRecord, BusinessRecord, ProjectOsDataset } from '@/lib/project-os/types'
 
 type BusinessInput = {
   name?: string
@@ -9,6 +9,13 @@ type BusinessInput = {
   district?: string
   ownerName?: string
   status?: BusinessRecord['status']
+}
+
+type AuditInput = {
+  businessId?: string
+  status?: AuditRecord['status']
+  channelReadiness?: AuditRecord['channelReadiness']
+  summary?: string
 }
 
 function hasDatabaseUrl() {
@@ -23,6 +30,16 @@ function mapBusinessSegment(value: string): BusinessRecord['segment'] {
 function mapBusinessStatus(value: string): BusinessRecord['status'] {
   if (value === 'lead' || value === 'active' || value === 'paused') return value
   return 'lead'
+}
+
+function mapAuditStatus(value: string): AuditRecord['status'] {
+  if (value === 'reviewed' || value === 'offered') return value
+  return 'new'
+}
+
+function mapChannelReadiness(value: string): AuditRecord['channelReadiness'] {
+  if (value === 'orta' || value === 'iyi') return value
+  return 'dusuk'
 }
 
 function mapDataset(dataset: {
@@ -43,8 +60,8 @@ function mapDataset(dataset: {
     audits: dataset.audits.map((audit) => ({
       id: audit.id,
       businessId: audit.businessId,
-      status: audit.status === 'reviewed' || audit.status === 'offered' ? audit.status : 'new',
-      channelReadiness: audit.channelReadiness === 'orta' || audit.channelReadiness === 'iyi' ? audit.channelReadiness : 'dusuk',
+      status: mapAuditStatus(audit.status),
+      channelReadiness: mapChannelReadiness(audit.channelReadiness),
       summary: audit.summary,
     })),
     offers: dataset.offers.map((offer) => ({
@@ -176,6 +193,99 @@ export async function updateBusiness(id: string, input: BusinessInput): Promise<
     target.district = input.district?.trim() || target.district
     target.ownerName = input.ownerName?.trim() || target.ownerName
     target.status = input.status ? mapBusinessStatus(input.status) : target.status
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function createAudit(input: AuditInput): Promise<ProjectOsDataset> {
+  const businessId = input.businessId?.trim()
+  const summary = input.summary?.trim()
+
+  if (!businessId || !summary) {
+    throw new Error('İşletme ve audit özeti zorunlu.')
+  }
+
+  const status = mapAuditStatus(input.status || 'new')
+  const channelReadiness = mapChannelReadiness(input.channelReadiness || 'dusuk')
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    dataset.audits.unshift({
+      id: `aud-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      channelReadiness,
+      summary,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.audit.create({
+      data: {
+        businessId,
+        status,
+        channelReadiness,
+        summary,
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    dataset.audits.unshift({
+      id: `aud-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      channelReadiness,
+      summary,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function updateAudit(id: string, input: AuditInput): Promise<ProjectOsDataset | null> {
+  if (!id.trim()) return null
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.audits.find((audit) => audit.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapAuditStatus(input.status) : target.status
+    target.channelReadiness = input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : target.channelReadiness
+    target.summary = input.summary?.trim() || target.summary
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.audit.update({
+      where: { id },
+      data: {
+        businessId: input.businessId?.trim(),
+        status: input.status ? mapAuditStatus(input.status) : undefined,
+        channelReadiness: input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : undefined,
+        summary: input.summary?.trim(),
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.audits.find((audit) => audit.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapAuditStatus(input.status) : target.status
+    target.channelReadiness = input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : target.channelReadiness
+    target.summary = input.summary?.trim() || target.summary
 
     await writeProjectOsMockStore(dataset)
     return dataset
