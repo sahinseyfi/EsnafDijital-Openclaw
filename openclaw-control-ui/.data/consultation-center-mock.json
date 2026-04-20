@@ -1,60 +1,57 @@
 [
   {
     "id": "consult_1776682297327",
-    "title": "Mobil uzunluk, menu ve responsive promptu",
+    "title": "Mobilde kisa akis, sade menu ve erken CTA promptu",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T11:06:18.504Z",
-    "decisionQuestion": "Küçük işletme vitrini üretirken mobilde sayfa gereksiz uzamasın, menü sade kalsın ve ana CTA erken görünsün diye üretim promptunu nasıl kurmalıyız?",
-    "summary": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor.",
+    "updatedAt": "2026-04-20T11:39:49.357Z",
+    "decisionQuestion": "Kucuk isletme vitrini ureten ana promptu, mobilde en fazla 5-7 kisa section, sade menu ve ilk ekrana yakin ana CTA uretecek sekilde hangi zorunlu kurallarla tanimlamaliyiz?",
+    "summary": "Bu consultation, kucuk isletme vitrini uretim promptunu mobilde kisa, hizli taranan ve ana CTA'si erken gorunen net bir standa cevirme ihtiyacini ele aliyor.",
     "gptRecommended": false,
-    "whyNow": "Üretilen sayfalar masaüstünde idare etse de mobilde section sayısı, içerik yoğunluğu ve üst alan yükü yüzünden akış zayıflıyor. Bunu kod sonrasında toplamak yerine prompt seviyesinde baştan sınırlamak gerekiyor.",
-    "desiredOutput": "Mobile-first ana prompt, section sayısı sınırı, menü kuralları, CTA yerleşim ilkeleri, içerik yoğunluğu guardrail listesi ve kısa responsive QA checklisti",
+    "whyNow": "Bu kural seti prompt seviyesinde netlesmezse her yeni uretimde mobil revizyon, teslim gecikmesi ve kalite dalgalanmasi tekrar ediyor; sade MVP cizgisinde hizli teslim ve dusuk operasyon yuku icin bunu simdi standarda baglamak gerekiyor.",
+    "desiredOutput": "GPT Pro'dan 5 kullanilabilir deliverable alinmali: mobile-first ana prompt, section sayisi ve akisi kurallari, menu kurallari, hero ve CTA yerlesim ilkeleri, icerik yogunlugu guardrail listesi ve kisa responsive QA checklisti.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor.",
-      "kararCekirdegi": "Mobilde daha kısa, daha hızlı taranan ve CTA’sı erken gelen küçük işletme vitrini promptu",
+      "hamNot": "Mevcut uretimlerde mobil akis gereksiz uzuyor, ust alan kalabaliklasiyor ve ana CTA gec gorunur hale geliyor.",
+      "kararCekirdegi": "Kucuk isletme vitrini promptu, mobilde kisa tarama akisi, sade menu ve ilk ekrana yakin ana CTA ureten zorunlu kurallarla yazilmali.",
       "anaSorunlar": [
-        "mobilde section sayısının gereksiz artması",
-        "menü ve üst alanın fazla yer kaplaması",
-        "ana CTA’nın çok aşağı düşmesi",
-        "kart ve metin bloklarının üst üste birikmesi"
+        "Section sayisi masaustu mantigiyla artiyor ve mobilde gereksiz kaydirma olusturuyor.",
+        "Header ve menu kucuk ekranda orantisiz yer kapliyor.",
+        "Ana CTA hero icinde ya da hemen altinda net gorunmedigi icin donusum niyeti gec yakalaniyor.",
+        "Kart ve metin bloklari uzun kaldigi icin sayfa hizli taranabilir olmaktan cikiyor."
       ],
-      "hedef": [
-        "mobile-first kurgu",
-        "kısa ve net section akışı",
-        "ilk ekrana yakın CTA",
-        "sade menü mantığı"
-      ],
+      "hedef": "Mobile-first, 5-7 ana section ile calisan, 3-4 menu ogesini gecmeyen, guven unsuru ve ana CTA'yi ust bolgede gosteren sade vitrini prompt seviyesinde standarda baglamak.",
       "guardrails": [
-        "mobilde gereksiz section çoğaltma",
-        "hero altında erken CTA zorunlu olsun",
-        "menü öğeleri minimumda kalsın",
-        "metin blokları kısa taranabilir parçalara bölünsün"
+        "Varsayilan tek sayfa kurguda benzer icerikler birlestirilsin, gereksiz section cogaltma yapilmasin.",
+        "Hero alaninda tek net deger onerisi, tek ana CTA ve gerekiyorsa bir kisa guven unsuru bulunsun.",
+        "Ana CTA ilk ekranda ya da en gec hero altindaki ilk blokta gorunur olsun.",
+        "Mobil menu 3-4 ana ogeyi gecmesin; ikincil icerikler menuye yuklenmesin.",
+        "Her section tek ana mesaj tasimasi, kisa metin ve sinirli kart sayisi ile kurgulansin.",
+        "Mobilde kritik akislar tek kolon kalsin; yogun grid ve yan yana kart yapisi varsayilan olmasin."
       ]
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje çizgisi",
+        "title": "Proje omurgasi ve MVP kapsami",
         "ref": "PROJECT.md"
       },
       {
         "kind": "heartbeat",
-        "title": "Aktif faz ve öncelik",
+        "title": "Aktif faz ve mevcut oncelik",
         "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "project",
-        "title": "Kalıcı karar çizgisi",
+        "kind": "decision",
+        "title": "Kalici MVP ve prompt uretim cizgisi",
         "ref": "MEMORY.md"
       },
       {
         "kind": "decision",
-        "title": "Marka ve tasarım sistemi",
+        "title": "Marka ve mobil sadelik tasarim ilkeleri",
         "ref": "DECISIONS/2026-04-19-brand-design-system.md"
       }
     ],
