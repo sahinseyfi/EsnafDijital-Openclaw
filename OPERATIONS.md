@@ -10,8 +10,8 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 ## Mevcut Servis Referanslari
 - **Canli web app eski calisma yolu:** `/opt/esnafdijital/web`
 - **Arsivlenen eski web app yolu:** `/opt/esnafdijital/archive/web-20260418-182221`
-- **Admin control UI kaynak yolu:** `/root/.openclaw/workspace/openclaw-control-ui`
-- **Admin statik ilk sayfa kaynak yolu:** `/root/.openclaw/workspace/admin-site`
+- **Ajan calisma ortami kaynak yolu:** `/root/.openclaw/workspace/agent-workspace`
+- **Web sitesi kaynak yolu:** `/root/.openclaw/workspace/website`
 - **Web app service:** `esnafdijital-web.service` (su an kapali)
 - **Admin app service:** `esnafdijital-admin.service`
 - **Reverse proxy:** Caddy

@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
-WorkingDirectory=/root/.openclaw/workspace/openclaw-control-ui
+WorkingDirectory=/root/.openclaw/workspace/agent-workspace
 Environment=NODE_ENV=production
 Environment=HOSTNAME=127.0.0.1
 ExecStart=/usr/bin/npm run start

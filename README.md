@@ -11,9 +11,9 @@ Bu repo iki farkli seyi ayni yerde tutar:
 Urun kodunda iki ana uygulama klasoru vardir.
 Destekleyici markdown, karar, checklist ve operasyon dosyalari repo kokunde kalir.
 
-## Iki ana uygulama klasoru
+## Iki ana klasor
 
-### 1) `admin-site/`
+### 1) `website/`
 Ana web vitrini / tanitim sitesi icin ayrilan klasordur.
 Su an hafif ve sade tutulur.
 Site buyurse de public-facing vitrin burada kalir.
@@ -24,9 +24,15 @@ Ornek kullanim:
 - iletisim / guven ogeleri
 - kampanya veya sektor bazli vitrin sayfalari
 
-### 2) `openclaw-control-ui/`
-Admin paneli, ic operasyon ekranlari ve teknik uygulama cekirdegi burada yasar.
-Project OS, Context Center, Consultation Center ve Hesap Merkezi gibi ekranlar bu klasordadir.
+### 2) `agent-workspace/`
+Benim calistigim teknik ortam ve admin uygulama cekirdegi burada yasar.
+Admin paneli, ic operasyon ekranlari ve uygulama kodu bu klasorun kendisinde toplanir.
+
+Burada su alanlar yasar:
+- Project OS
+- Context Center
+- Consultation Center
+- Hesap Merkezi
 
 Ornek alt alanlar:
 - `app/` -> Next.js route ve sayfalar
@@ -65,5 +71,5 @@ Bunlar ana uygulama klasoru degildir. Repo'nun calisma omurgasidir.
 
 ## Kisa kural
 - Tek repo korunur
-- Iki ana uygulama klasoru vardir: `admin-site/` ve `openclaw-control-ui/`
+- Iki ana klasor vardir: `website/` ve `agent-workspace/`
 - Diger ust seviye klasorler uygulama degil, operasyon ve baglam destek alanidir

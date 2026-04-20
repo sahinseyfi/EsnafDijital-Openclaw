@@ -7,7 +7,7 @@ memory/.dreams/
 *.key
 *.log
 **/secrets*
-/openclaw-control-ui/node_modules/
-/openclaw-control-ui/.next/
-/openclaw-control-ui/out/
-/openclaw-control-ui/build/
+/agent-workspace/node_modules/
+/agent-workspace/.next/
+/agent-workspace/out/
+/agent-workspace/build/
