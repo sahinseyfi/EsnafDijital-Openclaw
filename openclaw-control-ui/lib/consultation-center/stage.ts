@@ -19,6 +19,10 @@ function hasText(value?: string | null) {
 
 export function inferConsultationStage(input: InferStageInput): ConsultationStage {
   const actions = input.actions || []
+  const hasDecisionQuestion = hasText(input.decisionQuestion)
+  const hasWhyNow = hasText(input.whyNow)
+  const hasDesiredOutput = hasText(input.desiredOutput)
+  const hasCore = hasDecisionQuestion && hasWhyNow && hasDesiredOutput
 
   if (actions.length > 0 && actions.every((action) => action.status === 'done')) {
     return 'actioned'
@@ -29,8 +33,15 @@ export function inferConsultationStage(input: InferStageInput): ConsultationStag
   }
 
   if (input.missingFields.length > 0) {
-    const hasCore = hasText(input.decisionQuestion) || hasText(input.whyNow) || hasText(input.desiredOutput)
-    return hasCore ? 'clarifying' : 'draft'
+    if (hasCore) {
+      return 'goal_set'
+    }
+
+    if (hasDecisionQuestion || hasWhyNow || hasDesiredOutput) {
+      return 'clarifying'
+    }
+
+    return 'draft'
   }
 
   if (input.route === 'internal') {
