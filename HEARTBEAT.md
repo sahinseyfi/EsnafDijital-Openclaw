@@ -49,11 +49,10 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - normal oturumda V2 prod deploy + doğrulama almak
 
 ## Heartbeat Çalışma Talimatı
-- Saat başı tetiklenen heartbeat, öncelikle Consultation Center için alınan GPT çıktısını ürüne çevirmeye devam etsin.
-- Her wake'de bir somut teknik adım ilerletsin: veri modeli, API, ekran akışı, route mantığı veya gerçek veritabanı bağlantısı.
-- Aynı wake içinde yeni daha kritik bir blokaj veya karar ihtiyacı çıkmazsa başka iş akışına dağılmasın.
+- Consultation Center için ayrı follow-through heartbeat işi kapatıldı.
+- Bu konu için tekrar eden cron veya otomatik wake tutulmasın.
+- Yeni wake'lerde ancak daha genel faz hedefleri için gerçekten gerekli somut teknik ilerleme varsa hareket edilsin.
 - Görünür kullanıcı mesajı ancak gerçekten önemli gelişme, net blokaj veya karar ihtiyacı varsa gönderilsin.
-- Consultation Center follow-through işi bu faz için yeterli noktaya geldiğinde saatlik heartbeat cron'u kapatılsın; iş bitince gereksiz tekrar etmesin.
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detayları hâlâ tam keskin değil
