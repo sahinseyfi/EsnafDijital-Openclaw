@@ -85,16 +85,28 @@ export default async function ConsultationCenterPage({
   const nextSteps = selected ? getConsultationNextSteps(selected) : null
   const progress = selected ? getConsultationProgress(selected) : null
 
+  const routeStats = {
+    blocked: payload.inbox.filter((item) => item.route === 'blocked').length,
+    internal: payload.inbox.filter((item) => item.route === 'internal').length,
+    external: payload.inbox.filter((item) => item.route === 'external').length,
+  }
+
+  const stageStats = {
+    readyToSend: payload.inbox.filter((item) => item.stage === 'ready_to_send').length,
+    answered: payload.inbox.filter((item) => item.stage === 'answered').length,
+    actioned: payload.inbox.filter((item) => item.stage === 'actioned').length,
+  }
+
   return (
     <AdminShell
       title="Consultation Center"
-      description="Karar brief'i, danışma filtresi ve sonuç route katmanı. Context Center hafıza, Project OS uygulama, burası karar hazırlığı."
+      description="Karar brief’i, danışma filtresi ve sonuç route katmanı. Context Center hafıza, Project OS uygulama, burası karar hazırlığı."
     >
       <section className="hero">
         <div>
           <p className="eyebrow">Karar hazırlama katmanı</p>
           <h1>Consultation Center</h1>
-          <p className="muted">Önce konu seç, sonra brief'i netleştir, gerekiyorsa prompt üret ve sonucu aksiyona çevir.</p>
+          <p className="muted">Önce konu seç, sonra brief’i netleştir, gerekiyorsa prompt üret ve sonucu aksiyona çevir.</p>
         </div>
       </section>
 
@@ -111,6 +123,52 @@ export default async function ConsultationCenterPage({
             <li>{payload.inbox.filter((item) => item.route === 'internal').length} kayıt içeride çözülebilir</li>
           </ul>
           <p className="muted">Mantık sade: seç, netleştir, gönder, sonucu işle.</p>
+        </article>
+      </section>
+
+      <section className="stats-grid">
+        <article className="card stat-card">
+          <strong>{routeStats.blocked}</strong>
+          <p className="muted">önce netleşmesi gereken kayıt</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{routeStats.internal}</strong>
+          <p className="muted">içeride çözülebilir kayıt</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{routeStats.external}</strong>
+          <p className="muted">dış danışmaya uygun kayıt</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{stageStats.readyToSend + stageStats.answered + stageStats.actioned}</strong>
+          <p className="muted">gönderim sonrası ilerleyen kayıt</p>
+        </article>
+      </section>
+
+      <section className="grid-3">
+        <article className="card">
+          <h3>Route akışı</h3>
+          <ul className="list">
+            <li>Blocked: brief veya bağlam eksik</li>
+            <li>Internal: dış danışma gerekmeden içeride çözülebilir</li>
+            <li>External: prompt üretip GPT Pro akışına gönderilebilir</li>
+          </ul>
+        </article>
+        <article className="card">
+          <h3>Gönderim hattı</h3>
+          <ul className="list">
+            <li>{stageStats.readyToSend} kayıt gönderime hazır</li>
+            <li>{stageStats.answered} kayıt cevap aldı</li>
+            <li>{stageStats.actioned} kayıt aksiyona döndü</li>
+          </ul>
+        </article>
+        <article className="card">
+          <h3>Kırmızı çizgi</h3>
+          <ul className="list">
+            <li>Consultation Center not çöplüğü değildir</li>
+            <li>Prompt üretimi amaç değil, doğru route amaç</li>
+            <li>İş çıkarsa Project OS veya Context Center’a bağlanır</li>
+          </ul>
         </article>
       </section>
 
