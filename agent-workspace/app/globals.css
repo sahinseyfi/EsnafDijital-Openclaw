@@ -424,6 +424,25 @@ a.button-secondary[aria-disabled='true'] {
   letter-spacing: -0.02em;
 }
 
+.stack-sm,
+.stack-xs {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-sm {
+  gap: 16px;
+}
+
+.stack-xs {
+  gap: 8px;
+}
+
+.stack-sm > *,
+.stack-xs > * {
+  min-width: 0;
+}
+
 .consultation-inbox-main {
   display: flex;
   justify-content: space-between;
@@ -452,6 +471,7 @@ a.button-secondary[aria-disabled='true'] {
 }
 
 .accordion-card summary {
+  display: block;
   list-style: none;
   cursor: pointer;
   padding: 20px;
@@ -472,11 +492,16 @@ a.button-secondary[aria-disabled='true'] {
   font-size: 18px;
   line-height: 1.35;
   letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
 }
 
 .accordion-body {
   padding: 0 20px 20px;
   border-top: 1px solid var(--line);
+}
+
+.accordion-body > * {
+  min-width: 0;
 }
 
 .stat-card strong {
@@ -499,6 +524,7 @@ a.button-secondary[aria-disabled='true'] {
 .mini-list li {
   margin-top: 8px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .table-wrap {
@@ -609,6 +635,8 @@ textarea {
   color: var(--ink-title);
   border-radius: 12px;
   padding: 11px 13px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 input::placeholder,
@@ -627,6 +655,7 @@ textarea:focus {
 textarea {
   resize: vertical;
   min-height: 110px;
+  overflow-wrap: anywhere;
 }
 
 .profile-row,
@@ -798,6 +827,13 @@ code {
 }
 
 @media (max-width: 640px) {
+  .stats-grid,
+  .grid-2,
+  .grid-3,
+  .stack-sm {
+    gap: 12px;
+  }
+
   .hero {
     padding: 22px 18px;
   }
@@ -813,6 +849,22 @@ code {
   th,
   td {
     padding: 12px;
+  }
+
+  .card,
+  .duplicate-group-item {
+    padding: 16px;
+  }
+
+  .accordion-card {
+    padding: 0;
+  }
+
+  .card h3,
+  .duplicate-group-item strong,
+  .accordion-card summary strong {
+    font-size: 18px;
+    line-height: 1.4;
   }
 
   .accordion-card summary {
