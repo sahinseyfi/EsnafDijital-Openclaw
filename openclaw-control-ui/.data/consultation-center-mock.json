@@ -1,37 +1,49 @@
 [
   {
     "id": "consult_1776682297327",
-    "title": "Mobil menu ve responsive promptu",
+    "title": "Mobil uzunluk, menu ve responsive promptu",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-20T10:51:37.327Z",
-    "decisionQuestion": "Mobil menu ve responsive promptu konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+    "updatedAt": "2026-04-20T10:55:16.129Z",
+    "decisionQuestion": "Kucuk isletme vitrini uretirken mobilde sayfa gereksiz uzamasin, menu sade kalsin ve ana CTA'lar erken gorunsun diye GPT Pro promptunu nasil kurmaliyiz?",
+    "summary": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor. Bunu prompt seviyesinde bastan duzeltmek istiyoruz.",
     "gptRecommended": false,
-    "whyNow": "Mobil menu ve responsive promptu konusu şu an netleşirse sonraki iş adımları daha temiz ilerler.",
-    "desiredOutput": "Net karar çerçevesi, önerilen yaklaşım, seçenekler ve ilk aksiyonlar",
+    "whyNow": "Su an uretilen sayfalar masaustunde idare etse de mobilde section sayisi, kart yogunlugu ve icerik uzunlugu yuzunden akicilik bozuluyor. Bunu sonradan toplamak yerine prompt seviyesinde bastan sinirlamak istiyoruz.",
+    "desiredOutput": "Mobile-first ana prompt, maksimum section/icerik sinirlari, menu kurallari, CTA yerlesim ilkeleri ve responsive kalite checklisti",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
-      "kararCekirdegi": "Mobil menu ve responsive promptu"
+      "hamNot": "Uretilen siteler mobilde gereksiz uzuyor, menu mantigi karisik kaliyor ve ana CTA gec gorunuyor.",
+      "kararCekirdegi": "Mobilde daha kisa, daha hizli taranan, CTA'si erken gelen site uretim promptu",
+      "anaSorunlar": [
+        "mobilde cok fazla section cikmasi",
+        "menu ve ust alanin fazla yer kaplamasi",
+        "ana CTA'nin asagi dusmesi",
+        "kart ve metin bloklarinin ust uste birikmesi"
+      ],
+      "hedef": [
+        "mobile-first kurgu",
+        "kisa ve net section akisi",
+        "ilk ekrana yakin CTA",
+        "sade menu mantigi"
+      ]
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje çizgisi",
+        "title": "Proje cizgisi",
         "ref": "PROJECT.md"
       },
       {
         "kind": "heartbeat",
-        "title": "Aktif faz ve öncelik",
+        "title": "Aktif faz ve oncelik",
         "ref": "HEARTBEAT.md"
       },
       {
         "kind": "project",
-        "title": "Kalıcı karar çizgisi",
+        "title": "Kalici karar cizgisi",
         "ref": "MEMORY.md"
       }
     ],
