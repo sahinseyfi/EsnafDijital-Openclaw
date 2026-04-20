@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
+import { deleteConsultation, getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
 export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
@@ -10,6 +10,17 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ id
   }
 
   return NextResponse.json({ ok: true, consultation })
+}
+
+export async function DELETE(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
+  const result = await deleteConsultation(id)
+
+  if (!result) {
+    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+  }
+
+  return NextResponse.json({ ok: true, payload: result.payload })
 }
 
 export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {

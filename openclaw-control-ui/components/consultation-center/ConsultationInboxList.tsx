@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import type { ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 function sectionTitle(value: string) {
@@ -39,9 +40,12 @@ function ownerLabel(value: string) {
 }
 
 export function ConsultationInboxList({ items, selectedId }: { items: ConsultationInboxItem[]; selectedId?: string }) {
+  const router = useRouter()
   const [routeFilter, setRouteFilter] = useState<'all' | 'blocked' | 'internal' | 'external'>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'sales' | 'technical' | 'shared'>('all')
   const [ownerFilter, setOwnerFilter] = useState<'all' | 'user' | 'tech_agent' | 'shared'>('all')
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [errorText, setErrorText] = useState<string | null>(null)
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -51,6 +55,39 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       return true
     })
   }, [items, ownerFilter, routeFilter, typeFilter])
+
+  const handleDelete = async (item: ConsultationInboxItem) => {
+    const confirmed = window.confirm(`"${item.title}" kaydını silmek istiyor musun?`)
+    if (!confirmed) return
+
+    setDeletingId(item.id)
+    setErrorText(null)
+
+    try {
+      const response = await fetch(`/api/consultation-center/${encodeURIComponent(item.id)}`, {
+        method: 'DELETE',
+      })
+      const rawText = await response.text()
+      const json = rawText ? JSON.parse(rawText) : {}
+
+      if (!response.ok) {
+        throw new Error(json.message || rawText || 'Consultation silinemedi')
+      }
+
+      if (selectedId === item.id) {
+        router.replace('/consultation-center')
+      }
+      router.refresh()
+    } catch (error: any) {
+      if (error instanceof SyntaxError) {
+        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
+      } else {
+        setErrorText(error?.message || 'Consultation silinemedi')
+      }
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   return (
     <div className="card">
@@ -93,20 +130,36 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
           </div>
         </details>
 
+        {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
+
         <div className="stack-sm">
           {filteredItems.map((item) => (
-            <Link key={item.id} prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="card" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed', display: 'block' }}>
-              <div className="stack-xs">
-                <strong>{item.title}</strong>
-                <p className="muted">{item.summary}</p>
+            <div key={item.id} className="card" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start' }}>
+                <Link prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} style={{ display: 'block', flex: 1, minWidth: 0 }}>
+                  <div className="stack-xs">
+                    <strong>{item.title}</strong>
+                    <p className="muted">{item.summary}</p>
+                  </div>
+                  <div className="stack-xs muted" style={{ marginTop: 10 }}>
+                    <span>Tip: {sectionTitle(item.type)}</span>
+                    <span>Stage: {stageLabel(item.stage)}</span>
+                    <span>Route: {routeLabel(item.route)}</span>
+                    <span>Sahiplik: {ownerLabel(item.ownerRole)}</span>
+                  </div>
+                </Link>
+
+                <button
+                  type="button"
+                  className="button-secondary"
+                  onClick={() => handleDelete(item)}
+                  disabled={deletingId !== null}
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  {deletingId === item.id ? 'Siliniyor...' : 'Sil'}
+                </button>
               </div>
-              <div className="stack-xs muted" style={{ marginTop: 10 }}>
-                <span>Tip: {sectionTitle(item.type)}</span>
-                <span>Stage: {stageLabel(item.stage)}</span>
-                <span>Route: {routeLabel(item.route)}</span>
-                <span>Sahiplik: {ownerLabel(item.ownerRole)}</span>
-              </div>
-            </Link>
+            </div>
           ))}
           {filteredItems.length === 0 ? <p className="muted">Bu filtrelerle kayıt bulunamadı.</p> : null}
         </div>

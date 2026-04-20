@@ -293,6 +293,14 @@ export async function createMockConsultation(input: { title?: string; type?: str
   return item
 }
 
+export async function deleteMockConsultation(id: string) {
+  const consultations = await loadConsultations()
+  const next = consultations.filter((entry) => entry.id !== id)
+  if (next.length === consultations.length) return false
+  await writeMockStore(next)
+  return true
+}
+
 export async function updateMockConsultation(id: string, input: ConsultationUpdateInput) {
   const consultations = await loadConsultations()
   const index = consultations.findIndex((entry) => entry.id === id)

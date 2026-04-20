@@ -3,7 +3,7 @@ import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
-import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
+import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, deleteMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
 
@@ -428,6 +428,24 @@ export async function addConsultationRun(id: string, input: ConsultationRunInput
   } catch {
     const updated = await addMockConsultationRun(id, input)
     return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
+  }
+}
+
+export async function deleteConsultation(id: string) {
+  if (!hasDatabaseUrl()) {
+    const deleted = await deleteMockConsultation(id)
+    return deleted ? { payload: await getMockConsultationCenterPayload() } : null
+  }
+
+  try {
+    await prisma.consultationAction.deleteMany({ where: { consultationId: id } })
+    await prisma.consultationRun.deleteMany({ where: { consultationId: id } })
+    await prisma.consultationBrief.deleteMany({ where: { consultationId: id } })
+    await prisma.consultation.delete({ where: { id } })
+    return { payload: await getConsultationCenterPayload() }
+  } catch {
+    const deleted = await deleteMockConsultation(id)
+    return deleted ? { payload: await getMockConsultationCenterPayload() } : null
   }
 }
 
