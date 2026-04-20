@@ -64,7 +64,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   const [affectedModule, setAffectedModule] = useState(formatList(consultation.technicalBrief?.affectedModule))
   const [currentProblem, setCurrentProblem] = useState(String(consultation.technicalBrief?.currentProblem || ''))
   const [kararCekirdegi, setKararCekirdegi] = useState(String(consultation.sharedBrief?.kararCekirdegi || ''))
-  const [busy, setBusy] = useState(false)
+  const [busyAction, setBusyAction] = useState<'suggest' | 'save' | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [successText, setSuccessText] = useState<string | null>(null)
 
@@ -86,7 +86,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   }, [consultation])
 
   const handleSuggest = async () => {
-    setBusy(true)
+    setBusyAction('suggest')
     setErrorText(null)
     setSuccessText(null)
 
@@ -98,24 +98,31 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         },
         body: JSON.stringify({ title, summary }),
       })
-      const json = await response.json().catch(() => ({}))
+      const rawText = await response.text()
+      const json = rawText ? JSON.parse(rawText) : {}
 
       if (!response.ok) {
-        throw new Error(json.message || 'AI brief üretilemedi')
+        throw new Error(json.message || rawText || 'AI brief üretilemedi')
       }
 
       setSuccessText('AI brief uygulandı')
       router.refresh()
     } catch (error: any) {
-      setErrorText(error?.message || 'AI brief üretilemedi')
+      if (error instanceof SyntaxError) {
+        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayi yenileyip tekrar dene.')
+      } else if (error?.name === 'TypeError') {
+        setErrorText('Sunucuya ulasilamadi. Baglanti ya da servis gecici olarak dusmus olabilir.')
+      } else {
+        setErrorText(error?.message || 'AI brief üretilemedi')
+      }
     } finally {
-      setBusy(false)
+      setBusyAction(null)
     }
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setBusy(true)
+    setBusyAction('save')
     setErrorText(null)
     setSuccessText(null)
 
@@ -160,18 +167,25 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         },
         body: JSON.stringify(payload),
       })
-      const json = await response.json().catch(() => ({}))
+      const rawText = await response.text()
+      const json = rawText ? JSON.parse(rawText) : {}
 
       if (!response.ok) {
-        throw new Error(json.message || 'Consultation kaydı güncellenemedi')
+        throw new Error(json.message || rawText || 'Consultation kaydı güncellenemedi')
       }
 
       setSuccessText('Kaydedildi')
       router.refresh()
     } catch (error: any) {
-      setErrorText(error?.message || 'Consultation kaydı güncellenemedi')
+      if (error instanceof SyntaxError) {
+        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayi yenileyip tekrar dene.')
+      } else if (error?.name === 'TypeError') {
+        setErrorText('Sunucuya ulasilamadi. Baglanti ya da servis gecici olarak dusmus olabilir.')
+      } else {
+        setErrorText(error?.message || 'Consultation kaydı güncellenemedi')
+      }
     } finally {
-      setBusy(false)
+      setBusyAction(null)
     }
   }
 
@@ -255,15 +269,22 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         </label>
       ) : null}
 
+      {busyAction === 'suggest' ? (
+        <div className="card stack-xs" style={{ background: 'rgba(59, 130, 246, 0.08)', borderColor: 'rgba(59, 130, 246, 0.22)' }}>
+          <strong>AI brief hazırlıyor...</strong>
+          <p className="muted">Bu islem biraz surebilir. Consultation kaydini okuyup daha net bir brief uretiyorum.</p>
+        </div>
+      ) : null}
+
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <button type="button" className="button-secondary" disabled={busy || !title.trim()} onClick={handleSuggest}>
-          {busy ? 'AI çalışıyor...' : 'AI ile geliştir'}
+        <button type="button" className="button-secondary" disabled={busyAction !== null || !title.trim()} onClick={handleSuggest}>
+          {busyAction === 'suggest' ? 'AI brief hazırlanıyor...' : 'AI ile geliştir'}
         </button>
-        <button type="submit" className="button-primary" disabled={busy}>
-          {busy ? 'Kaydediliyor...' : 'Kaydet'}
+        <button type="submit" className="button-primary" disabled={busyAction !== null}>
+          {busyAction === 'save' ? 'Kaydediliyor...' : 'Kaydet'}
         </button>
       </div>
     </form>
