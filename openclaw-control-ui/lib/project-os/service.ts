@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { prisma } from '@/lib/prisma'
 import { readProjectOsMockStore, writeProjectOsMockStore } from '@/lib/project-os/mock-store'
-import type { AuditRecord, BusinessRecord, OfferRecord, ProjectOsDataset } from '@/lib/project-os/types'
+import type { AuditRecord, BusinessRecord, DeliveryProjectRecord, OfferRecord, ProjectOsDataset } from '@/lib/project-os/types'
 
 type BusinessInput = {
   name?: string
@@ -23,6 +23,12 @@ type OfferInput = {
   status?: OfferRecord['status']
   packageName?: string
   amountTry?: number
+}
+
+type DeliveryProjectInput = {
+  businessId?: string
+  status?: DeliveryProjectRecord['status']
+  scope?: string
 }
 
 function hasDatabaseUrl() {
@@ -52,6 +58,11 @@ function mapChannelReadiness(value: string): AuditRecord['channelReadiness'] {
 function mapOfferStatus(value: string): OfferRecord['status'] {
   if (value === 'sent' || value === 'approved') return value
   return 'draft'
+}
+
+function mapDeliveryProjectStatus(value: string): DeliveryProjectRecord['status'] {
+  if (value === 'building' || value === 'live' || value === 'maintenance') return value
+  return 'kickoff'
 }
 
 function mapDataset(dataset: {
@@ -86,7 +97,7 @@ function mapDataset(dataset: {
     deliveryProjects: dataset.deliveryProjects.map((project) => ({
       id: project.id,
       businessId: project.businessId,
-      status: project.status === 'building' || project.status === 'live' || project.status === 'maintenance' ? project.status : 'kickoff',
+      status: mapDeliveryProjectStatus(project.status),
       scope: project.scope,
     })),
   }
@@ -395,6 +406,92 @@ export async function updateOffer(id: string, input: OfferInput): Promise<Projec
     if (Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0) {
       target.amountTry = Number(input.amountTry)
     }
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function createDeliveryProject(input: DeliveryProjectInput): Promise<ProjectOsDataset> {
+  const businessId = input.businessId?.trim()
+  const scope = input.scope?.trim()
+
+  if (!businessId || !scope) {
+    throw new Error('İşletme ve teslimat kapsamı zorunlu.')
+  }
+
+  const status = mapDeliveryProjectStatus(input.status || 'kickoff')
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    dataset.deliveryProjects.unshift({
+      id: `del-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      scope,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.deliveryProject.create({
+      data: {
+        businessId,
+        status,
+        scope,
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    dataset.deliveryProjects.unshift({
+      id: `del-${randomUUID().slice(0, 8)}`,
+      businessId,
+      status,
+      scope,
+    })
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+}
+
+export async function updateDeliveryProject(id: string, input: DeliveryProjectInput): Promise<ProjectOsDataset | null> {
+  if (!id.trim()) return null
+
+  if (!hasDatabaseUrl()) {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.deliveryProjects.find((project) => project.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapDeliveryProjectStatus(input.status) : target.status
+    target.scope = input.scope?.trim() || target.scope
+
+    await writeProjectOsMockStore(dataset)
+    return dataset
+  }
+
+  try {
+    await prisma.deliveryProject.update({
+      where: { id },
+      data: {
+        businessId: input.businessId?.trim(),
+        status: input.status ? mapDeliveryProjectStatus(input.status) : undefined,
+        scope: input.scope?.trim(),
+      },
+    })
+
+    return getProjectOsDataset()
+  } catch {
+    const dataset = await readProjectOsMockStore()
+    const target = dataset.deliveryProjects.find((project) => project.id === id)
+    if (!target) return null
+
+    target.businessId = input.businessId?.trim() || target.businessId
+    target.status = input.status ? mapDeliveryProjectStatus(input.status) : target.status
+    target.scope = input.scope?.trim() || target.scope
 
     await writeProjectOsMockStore(dataset)
     return dataset
