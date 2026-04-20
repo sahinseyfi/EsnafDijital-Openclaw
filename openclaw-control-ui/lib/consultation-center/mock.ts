@@ -1,6 +1,7 @@
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
+import { readMockStore, writeMockStore } from '@/lib/consultation-center/mock-store'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
@@ -34,7 +35,7 @@ type ConsultationActionStatusInput = {
   status: 'open' | 'done'
 }
 
-const consultations: ConsultationDetail[] = [
+const seedConsultations: ConsultationDetail[] = [
   {
     id: 'consult_shared_offer_v1',
     title: 'İlk teklif omurgasını 3 pakete düşürme',
@@ -144,6 +145,10 @@ const consultations: ConsultationDetail[] = [
   },
 ]
 
+async function loadConsultations() {
+  return readMockStore(seedConsultations)
+}
+
 function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
   const evaluation = evaluateConsultation({
     type: consultation.type,
@@ -183,11 +188,13 @@ function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
   }
 }
 
-export function getConsultationInbox(): ConsultationInboxItem[] {
+export async function getConsultationInbox(): Promise<ConsultationInboxItem[]> {
+  const consultations = await loadConsultations()
   return consultations.map(toInboxItem)
 }
 
-export function getConsultationDetail(id: string): ConsultationDetail | null {
+export async function getConsultationDetail(id: string): Promise<ConsultationDetail | null> {
+  const consultations = await loadConsultations()
   const item = consultations.find((entry) => entry.id === id)
   if (!item) return null
 
@@ -242,13 +249,14 @@ export function getConsultationDetail(id: string): ConsultationDetail | null {
   }
 }
 
-export function getConsultationCenterPayload(selectedId?: string): ConsultationCenterPayload {
-  const inbox = getConsultationInbox()
-  const selected = getConsultationDetail(selectedId || inbox[0]?.id || '')
+export async function getConsultationCenterPayload(selectedId?: string): Promise<ConsultationCenterPayload> {
+  const inbox = await getConsultationInbox()
+  const selected = await getConsultationDetail(selectedId || inbox[0]?.id || '')
   return { inbox, selected }
 }
 
-export function createMockConsultation(input: { title?: string; type?: string; note?: string }) {
+export async function createMockConsultation(input: { title?: string; type?: string; note?: string }) {
+  const consultations = await loadConsultations()
   const id = `consult_${Date.now()}`
   const item: ConsultationDetail = {
     id,
@@ -279,10 +287,12 @@ export function createMockConsultation(input: { title?: string; type?: string; n
   }
 
   consultations.unshift(item)
+  await writeMockStore(consultations)
   return item
 }
 
-export function updateMockConsultation(id: string, input: ConsultationUpdateInput) {
+export async function updateMockConsultation(id: string, input: ConsultationUpdateInput) {
+  const consultations = await loadConsultations()
   const index = consultations.findIndex((entry) => entry.id === id)
   if (index === -1) return null
 
@@ -304,10 +314,12 @@ export function updateMockConsultation(id: string, input: ConsultationUpdateInpu
   }
 
   consultations[index] = next
+  await writeMockStore(consultations)
   return getConsultationDetail(id)
 }
 
-export function addMockConsultationAction(id: string, input: ConsultationActionInput) {
+export async function addMockConsultationAction(id: string, input: ConsultationActionInput) {
+  const consultations = await loadConsultations()
   const index = consultations.findIndex((entry) => entry.id === id)
   if (index === -1) return null
 
@@ -322,10 +334,12 @@ export function addMockConsultationAction(id: string, input: ConsultationActionI
   })
   current.updatedAt = new Date().toISOString()
   consultations[index] = current
+  await writeMockStore(consultations)
   return getConsultationDetail(id)
 }
 
-export function addMockConsultationRun(id: string, input: ConsultationRunInput) {
+export async function addMockConsultationRun(id: string, input: ConsultationRunInput) {
+  const consultations = await loadConsultations()
   const index = consultations.findIndex((entry) => entry.id === id)
   if (index === -1) return null
 
@@ -339,10 +353,12 @@ export function addMockConsultationRun(id: string, input: ConsultationRunInput) 
   current.updatedAt = new Date().toISOString()
   current.stage = 'answered'
   consultations[index] = current
+  await writeMockStore(consultations)
   return getConsultationDetail(id)
 }
 
-export function updateMockConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
+export async function updateMockConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
+  const consultations = await loadConsultations()
   const index = consultations.findIndex((entry) => entry.id === id)
   if (index === -1) return null
 
@@ -357,5 +373,6 @@ export function updateMockConsultationActionStatus(id: string, actionId: string,
     current.stage = 'actioned'
   }
   consultations[index] = current
+  await writeMockStore(consultations)
   return getConsultationDetail(id)
 }
