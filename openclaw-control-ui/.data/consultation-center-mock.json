@@ -1,5 +1,82 @@
 [
   {
+    "id": "consult_1776682297327",
+    "title": "Mobil menu ve responsive promptu",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-20T10:51:37.327Z",
+    "decisionQuestion": "Mobil menu ve responsive promptu konusu için en doğru karar çerçevesi nasıl kurulmalı?",
+    "summary": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+    "gptRecommended": false,
+    "whyNow": "Mobil menu ve responsive promptu konusu şu an netleşirse sonraki iş adımları daha temiz ilerler.",
+    "desiredOutput": "Net karar çerçevesi, önerilen yaklaşım, seçenekler ve ilk aksiyonlar",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+      "kararCekirdegi": "Mobil menu ve responsive promptu"
+    },
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje çizgisi",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve öncelik",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "project",
+        "title": "Kalıcı karar çizgisi",
+        "ref": "MEMORY.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": null,
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  },
+  {
+    "id": "consult_1776682286936",
+    "title": "Mobil menu ve responsive promptu",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-20T10:51:26.936Z",
+    "decisionQuestion": "Karar sorusu henüz net değil",
+    "summary": "Uretilen siteler mobilde zayif, menu mantigi da karisik",
+    "gptRecommended": false,
+    "whyNow": "Henüz yazılmadı",
+    "desiredOutput": "Henüz seçilmedi",
+    "missingFields": [
+      "karar sorusu",
+      "neden şimdi",
+      "beklenen çıktı",
+      "bağlam",
+      "karar çekirdeği"
+    ],
+    "sharedBrief": {
+      "hamNot": "Uretilen siteler mobilde zayif, menu mantigi da karisik"
+    },
+    "contextRefs": [],
+    "promptRun": {
+      "modelName": null,
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  },
+  {
     "id": "consult_1776681505104",
     "title": "Mobil kalici test",
     "type": "shared",
