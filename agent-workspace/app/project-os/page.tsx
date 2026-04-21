@@ -1,8 +1,10 @@
+import Link from 'next/link'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'
 import { DeliveryProjectCreateForm } from '@/components/project-os/DeliveryProjectCreateForm'
 import { OfferCreateForm } from '@/components/project-os/OfferCreateForm'
+import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
 const segmentLabels = {
@@ -39,7 +41,10 @@ function getHotStage(input: {
 }
 
 export default async function ProjectOsPage() {
-  const dataset = await getProjectOsDataset()
+  const [dataset, consultationPayload] = await Promise.all([
+    getProjectOsDataset(),
+    getConsultationCenterPayload(),
+  ])
   const businessNames = Object.fromEntries(dataset.businesses.map((business) => [business.id, business.name]))
 
   const stats = {
@@ -60,6 +65,12 @@ export default async function ProjectOsPage() {
     activeDeliveries: stats.activeDeliveries,
     maintenanceProjects: stats.maintenanceProjects,
   })
+
+  const consultationStats = {
+    blocked: consultationPayload.inbox.filter((item) => item.route === 'blocked').length,
+    ready: consultationPayload.inbox.filter((item) => item.stage === 'ready_to_send').length,
+    gptRecommended: consultationPayload.inbox.filter((item) => item.gptRecommended).length,
+  }
 
   return (
     <AdminShell
@@ -147,6 +158,37 @@ export default async function ProjectOsPage() {
             <li>Önce çalışan akış, sonra veri tabanı derinliği</li>
             <li>Grafik yerine sayı, durum ve tablo önceliği</li>
             <li>Sonraki teknik adım Prisma şeması ve gerçek kayıt katmanı</li>
+          </ul>
+        </article>
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">El sıkışma</p>
+            <h3>Consultation ve Context ne zaman devreye girer?</h3>
+          </div>
+          <ul className="list">
+            <li>{consultationStats.blocked} consultation kaydı önce içeride netleşmeyi bekliyor.</li>
+            <li>{consultationStats.ready} consultation kaydı gönderime hazır görünüyor.</li>
+            <li>{consultationStats.gptRecommended} kayıt için GPT Pro hattı mantıklı duruyor.</li>
+          </ul>
+          <p className="muted">Project OS uygulama hattıdır. Karar bulanıklaşınca Consultation, sabit referans seçimi gerektiğinde Context devreye girer.</p>
+          <div className="hero-actions">
+            <Link href="/consultation-center" className="ghost-link">Consultation Centera git</Link>
+            <Link href="/context-center" className="ghost-link">Context Centera git</Link>
+          </div>
+        </article>
+
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Geçiş kuralı</p>
+            <h3>Bu ekrandan ne zaman çıkılır?</h3>
+          </div>
+          <ul className="list">
+            <li>Karar sorusu net değilse Consultation Centera geç.</li>
+            <li>Hangi sabit dosya referans alınacak belirsizse Context Centera geç.</li>
+            <li>İş artık uygulanacak kadar netse tekrar Project OS hattına dön.</li>
           </ul>
         </article>
       </section>
