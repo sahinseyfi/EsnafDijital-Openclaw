@@ -1,88 +1,174 @@
 import Link from 'next/link'
 import { AdminShell } from '@/components/admin/AdminShell'
+import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import { getProjectOsDataset } from '@/lib/project-os/service'
 
-const pillars = [
-  {
-    title: 'Hesap Merkezi',
-    text: 'Gerçek auth kayıtlarını, current seçimi ve operatör görünür adını tek yerde sade biçimde yönetir.',
-  },
-  {
-    title: 'Project OS',
-    text: 'Audit, teklif, teslimat ve bakım hattını ayrı araçlara dağılmadan görünür kılar.',
-  },
-  {
-    title: 'Context Center',
-    text: 'Hangi bilginin dosyada, hangisinin veri katmanında yaşaması gerektiğini netleştirir.',
-  },
-  {
-    title: 'Consultation Center',
-    text: 'Dış danışma veya GPT Pro çalışmaları için temiz brief ve seçili bağlam üretir.',
-  },
-]
+function getActiveFocus(input: {
+  blockedConsultations: number
+  pendingOffers: number
+  pendingAudits: number
+  activeDeliveries: number
+  maintenanceProjects: number
+  businesses: number
+}) {
+  if (input.businesses === 0) {
+    return {
+      eyebrow: 'Şimdi aktif',
+      title: 'İlk işletme kaydını aç',
+      text: 'Operasyon hattı boş. Önce işletme kaydı açıp audit -> teklif -> teslimat akışını gerçek veriyle başlat.',
+      primaryHref: '/project-os',
+      primaryLabel: 'Project OSa git',
+      secondaryHref: '/context-center',
+      secondaryLabel: 'Bağlam yüzeyini gör',
+    }
+  }
 
-export default function HomePage() {
+  if (input.blockedConsultations > 0) {
+    return {
+      eyebrow: 'Şimdi aktif',
+      title: 'Karar bekleyen işler var',
+      text: `${input.blockedConsultations} consultation kaydı netleşmeyi bekliyor. Kısa brief eksiklerini kapatıp hattı tekrar hareket ettir.`,
+      primaryHref: '/consultation-center',
+      primaryLabel: 'Karar hattına git',
+      secondaryHref: '/project-os',
+      secondaryLabel: 'Operasyon akışını aç',
+    }
+  }
+
+  if (input.pendingOffers > 0) {
+    return {
+      eyebrow: 'Şimdi aktif',
+      title: 'Teklife dönmesi gereken işler var',
+      text: `${input.pendingOffers} teklif kaydı taslak veya gönderim aşamasında. Teklif hattını kapatmak şu an en sıcak iş.`,
+      primaryHref: '/project-os',
+      primaryLabel: 'Teklif hattını aç',
+      secondaryHref: '/consultation-center',
+      secondaryLabel: 'Gerekirse danışma hazırla',
+    }
+  }
+
+  if (input.pendingAudits > 0) {
+    return {
+      eyebrow: 'Şimdi aktif',
+      title: 'Audit hattı ilerlemeyi bekliyor',
+      text: `${input.pendingAudits} audit kaydı yeni veya review aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
+      primaryHref: '/project-os',
+      primaryLabel: 'Audit hattını aç',
+      secondaryHref: '/context-center',
+      secondaryLabel: 'Eksik bağlama bak',
+    }
+  }
+
+  if (input.activeDeliveries > 0) {
+    return {
+      eyebrow: 'Şimdi aktif',
+      title: 'Teslimat hattı canlı',
+      text: `${input.activeDeliveries} teslimat kaydı kickoff, building veya live aşamasında. Yayın ve bakım geçişi ana takip noktası.`,
+      primaryHref: '/project-os',
+      primaryLabel: 'Teslimat hattını aç',
+      secondaryHref: '/consultation-center',
+      secondaryLabel: 'Karar hattını kontrol et',
+    }
+  }
+
+  return {
+    eyebrow: 'Şimdi aktif',
+    title: 'Bakım ve netlik dönemi',
+    text: `${input.maintenanceProjects} bakım kaydıyla hat sakin görünüyor. Home artık işi anlatmak değil, bir sonraki doğru aksiyonu göstermek için burada.`,
+    primaryHref: '/project-os',
+    primaryLabel: 'Project OSa git',
+    secondaryHref: '/context-center',
+    secondaryLabel: 'Bağlam yüzeyini aç',
+  }
+}
+
+export default async function HomePage() {
+  const [projectOs, consultationPayload] = await Promise.all([
+    getProjectOsDataset(),
+    getConsultationCenterPayload(),
+  ])
+
+  const pendingAudits = projectOs.audits.filter((audit) => audit.status === 'new' || audit.status === 'reviewed').length
+  const pendingOffers = projectOs.offers.filter((offer) => offer.status === 'draft' || offer.status === 'sent').length
+  const activeDeliveries = projectOs.deliveryProjects.filter((project) => project.status === 'kickoff' || project.status === 'building' || project.status === 'live').length
+  const maintenanceProjects = projectOs.deliveryProjects.filter((project) => project.status === 'maintenance').length
+  const blockedConsultations = consultationPayload.inbox.filter((item) => item.route === 'blocked').length
+  const readyConsultations = consultationPayload.inbox.filter((item) => item.stage === 'ready_to_send').length
+  const answeredConsultations = consultationPayload.inbox.filter((item) => item.stage === 'answered').length
+  const activeFocus = getActiveFocus({
+    blockedConsultations,
+    pendingOffers,
+    pendingAudits,
+    activeDeliveries,
+    maintenanceProjects,
+    businesses: projectOs.businesses.length,
+  })
+
   return (
     <AdminShell
       title="İç operasyon merkezi"
-      description="Admin panel artık yeni marka diliyle daha açık, daha sakin ve daha güven veren bir operatör yüzeyi olarak ilerliyor."
+      description="Bu yüzey sistem anlatısı değil, bugünkü işi ve bir sonraki doğru aksiyonu görünür kılmak için sadeleştiriliyor."
     >
       <section className="hero">
         <div>
-          <p className="eyebrow">Şimdi aktif</p>
-          <h1>Sade dijital düzen</h1>
-          <p className="muted">
-            Bu panel, gereksiz dashboard kalabalığı yerine net aksiyonlar, okunur bilgi blokları ve kontrollü operasyon akışı için toparlandı.
-          </p>
+          <p className="eyebrow">{activeFocus.eyebrow}</p>
+          <h1>{activeFocus.title}</h1>
+          <p className="muted">{activeFocus.text}</p>
         </div>
         <div className="hero-actions">
-          <Link href="/hesap-merkezi" className="cta-link">Hesap Merkezi'ni aç</Link>
-          <Link href="/project-os" className="ghost-link">Project OS'a geç</Link>
+          <Link href={activeFocus.primaryHref} className="cta-link">{activeFocus.primaryLabel}</Link>
+          <Link href={activeFocus.secondaryHref} className="ghost-link">{activeFocus.secondaryLabel}</Link>
         </div>
       </section>
 
       <section className="stats-grid">
         <article className="card stat-card">
-          <strong>4</strong>
-          <p className="muted">Şu an netleştirilen ana panel alanı</p>
+          <strong>{pendingAudits}</strong>
+          <p className="muted">audit hattinda bekleyen iş</p>
         </article>
         <article className="card stat-card">
-          <strong>1</strong>
-          <p className="muted">Ana aksiyon çizgisi, her sayfada daha görünür</p>
+          <strong>{pendingOffers}</strong>
+          <p className="muted">teklif hattinda kapanmayan iş</p>
         </article>
         <article className="card stat-card">
-          <strong>0</strong>
-          <p className="muted">Steril SaaS hissi, neon ton ve gereksiz kalabalık</p>
+          <strong>{activeDeliveries}</strong>
+          <p className="muted">aktif teslimat kaydı</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{maintenanceProjects}</strong>
+          <p className="muted">bakim tarafinda yasayan kayıt</p>
         </article>
       </section>
 
-      <section className="grid-2">
-        <article className="card">
-          <h3>Yeni tasarım çizgisi</h3>
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Kritik aksiyon</p>
+            <h3>İlk bakışta ne yapmalıyım?</h3>
+          </div>
           <ul className="list">
-            <li>Açık yüzey, yüksek okunabilirlik, Inter tipografi</li>
-            <li>Brand mavi, destekleyici accent turkuaz</li>
-            <li>Border-first kartlar, yumuşak shadow, sade mikro metin</li>
-            <li>Her sayfada tek ana iş daha net görünür</li>
+            <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
+            <li>Blocked consultation varsa brief eksiklerini tamamla, sonra dış danışmaya çık.</li>
+            <li>Bağlam eksikse Context Centera git, operasyon kaydını orada tekrar etme.</li>
           </ul>
         </article>
-        <article className="card">
-          <h3>Bu panelin rolü</h3>
-          <ul className="list">
-            <li>Satış konuşmasını değil, teknik omurgayı taşır</li>
-            <li>Audit → teklif → teslimat akışını görünür yapar</li>
-            <li>Bağlamı ve operasyon verisini ayrı tutar</li>
-            <li>Dış danışma için kirli değil, seçili brief üretir</li>
-          </ul>
-        </article>
-      </section>
 
-      <section className="grid-2">
-        {pillars.map((pillar) => (
-          <article key={pillar.title} className="card">
-            <h3>{pillar.title}</h3>
-            <p className="muted">{pillar.text}</p>
-          </article>
-        ))}
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Karar ve bağlam sinyali</p>
+            <h3>Yan yüzeyler ne durumda?</h3>
+          </div>
+          <ul className="list">
+            <li>{blockedConsultations} consultation kaydı blocked durumda</li>
+            <li>{readyConsultations} consultation kaydı gönderime hazır</li>
+            <li>{answeredConsultations} consultation kaydı cevap almış durumda</li>
+            <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
+          </ul>
+          <div className="hero-actions">
+            <Link href="/consultation-center" className="ghost-link">Consultation Centera git</Link>
+            <Link href="/context-center" className="ghost-link">Context Centera git</Link>
+          </div>
+        </article>
       </section>
     </AdminShell>
   )
