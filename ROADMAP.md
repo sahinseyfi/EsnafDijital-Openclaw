@@ -25,13 +25,15 @@ Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmak
 - proje kayıtlarının standardize edilmesi
 - admin panel bilgi mimarisinin netleştirilmesi
 - teklif ve audit omurgasının sadeleştirilmesi
+- home ekraninin sistem anlatısından aktif is ve kritik aksiyon yuzeyine cekilmesi
+- Project OS icinde businesses / audits / offers / delivery hattinin daha net gorunur hale getirilmesi
 
 ### Next
 - Postgres + Prisma kurulumu
 - `businesses`, `audits`, `offers`, `delivery_projects` tabloları
-- Project OS ekranı
-- Context Center ekranı
-- GPT Pro Consultation Center v1
+- dashboard/home icin aktif is + kritik aksiyon + kompakt hat ozeti
+- Project OS icinde asama bazli operasyon gorunumu
+- Project OS ile Consultation / Context el sikismasini gorunur hale getirmek
 
 ## 30–60 Gün
 ### Hedef
@@ -42,6 +44,7 @@ Audit -> teklif -> teslimat akışını panelde görünür hale getirmek.
 - audit scorecard kullanımını netleştirmek
 - offer şablonlarını standardize etmek
 - delivery takibini panelde işletmek
+- kanonik business detail yuzeyini acmak
 
 ## 60–90 Gün
 ### Hedef

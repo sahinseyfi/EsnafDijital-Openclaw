@@ -48,6 +48,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center icin Faz 1 yonu netlesti; ilk kucuk Faz 1 patch ile cikti paneli plan-first cizgiye yaklastirildi ve prompt preview readiness kosuluna baglandi
 - Consultation Center quick create girisi mini-brief ile guclendirildi; is modu, hedef yuzey ve cikti tipi ilk kayitta alinmaya baslandi
 - Consultation Center mobil bilgi mimarisi hafifletildi; detail, prompt, sonuc ve aksiyon bloklari kapali bolumlere alindi ve ilk bakista karar ozeti + sonraki adim daha gorunur hale geldi
+- admin bilgi mimarisi icin repo-gercegi uzerinden yeni dis analiz ayrildi; cekirdek cizgi home'i aktif is ekranina cevirmek ve businesses/audits/offers/delivery hattini ilk fazda `Project OS` icinde tutmak olarak netlesti
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - repo onboarding yüzeyi güncellendi; `README.md` gerçek klasör yapısına göre düzeltildi, giriş rotası netleştirildi ve `agent-workspace/`, `memory/`, `DECISIONS/` için giriş README'leri eklendi
 - `AGENTS.md` ile `README.md` giriş rotası birebir hizalandı; entry point drift azaltıldı ve `website/`, `deploy/`, `bin/`, `REFERENCES/` için giriş README'leri eklendi
@@ -57,8 +58,10 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
 
 ## Sıradaki Somut Adımlar
+- dashboard/home yuzeyini aktif is + kritik aksiyon + kompakt hat ozeti cizgisine cekmek
+- `Project OS` icinde businesses / audits / offers / delivery asamalarini daha net ayristirmak
+- `Project OS` ile Consultation / Context el sikismasini gorunur hale getirmek
 - Postgres + Prisma kurulumu
-- Consultation Center v1 spec'ini ekran + veri modeli + route akışına bağlamak
 - normal oturumda V2 prod deploy + doğrulama almak
 
 ## Heartbeat Çalışma Talimatı

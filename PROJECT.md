@@ -74,15 +74,24 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 3. **Consultation Center** — kararı netleştirip doğru bağlamla danışma brief'i ve prompt üretme
 
 ## Admin Panelde Olması Gereken Ana Sayfalar
-- Dashboard
-- Businesses
-- Business Detail
-- Audits
-- Offers
-- Delivery
+### Faz 1 cekirdek yuzeyler
+- Dashboard / Ana Sayfa
 - Project OS
 - Context Center
 - GPT Pro Consultation Center
+- Hesap Merkezi
+
+### Faz 1 icindeki operasyon alt yuzeyleri
+- Businesses
+- Audits
+- Offers
+- Delivery / Bakim
+
+Not: Bu dort operasyon alani ilk fazda ayri ust seviye CRM sayfalari olarak degil, once `Project OS` icinde ayni omurganin alt gorunumleri olarak ele alinir.
+
+### Sonraki asama
+- Business Detail
+- Gerekirse ayrik filtreli liste yuzeyleri
 
 ## Consultation Center / Prompt Üretim Mantığı
 Consultation Center'ın amacı tüm notları toplamak değil; dağınık konuyu karar brief'ine çevirmek, danışma gerekliliğini filtrelemek ve gerekirse güçlü prompt üretmektir.
