@@ -34,3 +34,6 @@ Gereksiz resmiyet veya yapay aşırı samimiyet kullanılmamalı.
 - yeni ChatGPT Pro oturumunda daha temiz bağlamla ilerlemek faydalıysa
 
 Bu durumda, dağınık bir metin değil; bağlamı seçilmiş, net hedefli ve uygulanabilir bir prompt hazırlanır.
+- Prompt yazarken mümkünse OpenAI `GPT-5 Prompting Guide` çizgisi izlenir.
+- Prompt içinde hedef, seçili bağlam, kısıtlar, beklenen çıktı formatı ve gerekiyorsa çalışma adımları açık yazılır.
+- Gereksiz uzunluk yerine güçlü yönlendirme ve uygulanabilir çıktı önceliklidir.
