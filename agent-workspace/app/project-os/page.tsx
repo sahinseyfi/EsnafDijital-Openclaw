@@ -12,6 +12,32 @@ const segmentLabels = {
   diger: 'Diğer',
 } as const
 
+function getHotStage(input: {
+  businesses: number
+  pendingAudits: number
+  pendingOffers: number
+  activeDeliveries: number
+  maintenanceProjects: number
+}) {
+  if (input.businesses === 0) {
+    return 'Henüz işletme yok. Önce işletme kaydı açıp hattı gerçek veriyle başlat.'
+  }
+
+  if (input.pendingAudits > 0) {
+    return `${input.pendingAudits} audit kaydı teklif öncesi netleşmeyi bekliyor.`
+  }
+
+  if (input.pendingOffers > 0) {
+    return `${input.pendingOffers} teklif kaydı kapanmayı bekliyor.`
+  }
+
+  if (input.activeDeliveries > 0) {
+    return `${input.activeDeliveries} teslimat kaydı canlı takip istiyor.`
+  }
+
+  return `${input.maintenanceProjects} bakım kaydı var. Hat sakin ama kapanmış değil.`
+}
+
 export default async function ProjectOsPage() {
   const dataset = await getProjectOsDataset()
   const businessNames = Object.fromEntries(dataset.businesses.map((business) => [business.id, business.name]))
@@ -21,7 +47,19 @@ export default async function ProjectOsPage() {
     audits: dataset.audits.length,
     offers: dataset.offers.length,
     deliveryProjects: dataset.deliveryProjects.length,
+    pendingAudits: dataset.audits.filter((audit) => audit.status === 'new' || audit.status === 'reviewed').length,
+    pendingOffers: dataset.offers.filter((offer) => offer.status === 'draft' || offer.status === 'sent').length,
+    activeDeliveries: dataset.deliveryProjects.filter((project) => project.status === 'kickoff' || project.status === 'building' || project.status === 'live').length,
+    maintenanceProjects: dataset.deliveryProjects.filter((project) => project.status === 'maintenance').length,
   }
+
+  const hotStage = getHotStage({
+    businesses: stats.businesses,
+    pendingAudits: stats.pendingAudits,
+    pendingOffers: stats.pendingOffers,
+    activeDeliveries: stats.activeDeliveries,
+    maintenanceProjects: stats.maintenanceProjects,
+  })
 
   return (
     <AdminShell
@@ -37,16 +75,19 @@ export default async function ProjectOsPage() {
       </section>
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
-        <BusinessCreateForm />
-        <AuditCreateForm businesses={dataset.businesses} />
-      </section>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Şimdi sıcak</p>
+            <h3>Hangi aşama dikkat istiyor?</h3>
+          </div>
+          <p className="muted">{hotStage}</p>
+          <ul className="list">
+            <li>İşletme kaydı audit hattının giriş kapısıdır.</li>
+            <li>Audit kapanmadan teklif tarafı sağlıklı ilerlemez.</li>
+            <li>Teslimat ve bakım aynı kayıt zincirinde izlenir.</li>
+          </ul>
+        </article>
 
-      <section className="grid-2" style={{ alignItems: 'start' }}>
-        <OfferCreateForm businesses={dataset.businesses} />
-        <DeliveryProjectCreateForm businesses={dataset.businesses} />
-      </section>
-
-      <section className="grid-2" style={{ alignItems: 'start' }}>
         <article className="card stack-sm">
           <div>
             <p className="eyebrow">Veri akışı</p>
@@ -62,21 +103,31 @@ export default async function ProjectOsPage() {
 
       <section className="stats-grid">
         <article className="card stat-card">
-          <strong>{stats.businesses}</strong>
-          <p className="muted">işletme kaydı</p>
+          <strong>{stats.pendingAudits}</strong>
+          <p className="muted">audit aşamasında bekleyen iş</p>
         </article>
         <article className="card stat-card">
-          <strong>{stats.audits}</strong>
-          <p className="muted">audit hazırlığı</p>
+          <strong>{stats.pendingOffers}</strong>
+          <p className="muted">teklif aşamasında açık iş</p>
         </article>
         <article className="card stat-card">
-          <strong>{stats.offers}</strong>
-          <p className="muted">teklif nesnesi</p>
+          <strong>{stats.activeDeliveries}</strong>
+          <p className="muted">teslimat aşamasında aktif iş</p>
         </article>
         <article className="card stat-card">
-          <strong>{stats.deliveryProjects}</strong>
-          <p className="muted">teslimat ve bakım kaydı</p>
+          <strong>{stats.maintenanceProjects}</strong>
+          <p className="muted">bakım aşamasında yaşayan kayıt</p>
         </article>
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <BusinessCreateForm />
+        <AuditCreateForm businesses={dataset.businesses} />
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <OfferCreateForm businesses={dataset.businesses} />
+        <DeliveryProjectCreateForm businesses={dataset.businesses} />
       </section>
 
       <section className="grid-2">
