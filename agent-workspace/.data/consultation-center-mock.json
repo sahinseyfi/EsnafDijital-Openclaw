@@ -1,24 +1,24 @@
 [
   {
     "id": "consult_1776860324622",
-    "title": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğ...",
+    "title": "Prompt üreten skill için minimum karar çerçevesi",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T12:18:44.833Z",
-    "decisionQuestion": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğ... konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğru bağlamı seçip OpenClaw ajanına doğrudan yön verecek kısa ama yeterli GPT promptu üreten skillin nasıl iyileştirileceğini netleştirme işi.",
+    "updatedAt": "2026-04-22T12:20:21.853Z",
+    "decisionQuestion": "Consultation kaydından amaca uygun bağlamı seçip OpenClaw ajanına doğrudan yön verecek kısa ama yeterli GPT promptu üreten skill için en sade karar çerçevesi ve minimum yapı ne olmalı?",
+    "summary": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğru bağlamı seçip OpenClaw ajanına doğrudan yön veren kısa ama yeterli GPT promptu üreten skillin nasıl iyileştirileceğini netleştirme işi.",
     "gptRecommended": false,
-    "promptStatus": "preparing",
+    "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğ... konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
-    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "whyNow": "Bu konu şimdi netleşirse Consultation Center içindeki prompt üretimi daha güvenilir ilerler, kör bağlam yükleme ve gereksiz skill büyümesi erken engellenir, sonraki uygulama adımları daha az tekrar ve daha düşük operasyon yüküyle yürür.",
+    "desiredOutput": "Kullanılabilir çıktı paketi: 1) karar çerçevesi, 2) minimum skill yapısı, 3) bağlam seçme kuralları, 4) prompt üretim akışı, 5) kaçınılacak anti-patternler, 6) MVP için net öneri, 7) teknik olmayan kısa özet.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğru bağlamı seçip OpenClaw ajanına doğrudan yön verecek kısa ama yeterli GPT promptu üreten skillin nasıl iyileştirileceğini netleştirme işi.",
-      "kararCekirdegi": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğ...",
+      "hamNot": "Consultation kaydından doğru bağlamı seçip kısa ama yeterli GPT promptu üreten skillin nasıl daha iyi hale getirileceğini netleştirme ihtiyacı var.",
+      "kararCekirdegi": "Consultation kaydından doğru bağlamı seçip OpenClaw ajanına doğrudan yön veren prompt skillinin minimum karar yapısı",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -27,9 +27,10 @@
       "targetSurfaceLabel": "çapraz",
       "outputTypeLabel": "GPT promptu",
       "targetModelLabel": "GPT-5 Pro",
-      "promptStatus": "preparing",
+      "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": ""
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital’in Consultation Center akisinda kullanilacak, consultation kaydindan dogru baglami secip OpenClaw ajanina dogrudan yon veren kisa ama yeterli GPT promptu ureten skill icin minimum karar cercevesini netlestir.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Mevcut ihtiyac, consultation kaydindan amaca uygun baglam secip kisa ama yeterli GPT promptu ureten bir skill tasarlamak ve iyilestirmek.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Gorev, mevcut Consultation Center akisina gomulecek prompt uretim mantigidir.\n\nGorev:\nConsultation kaydindan amaca uygun baglami secip OpenClaw ajanina dogrudan yon verecek kisa ama yeterli GPT promptu ureten skill icin en sade karar cercevesini, minimum yapisini, baglam secme kurallarini ve prompt uretim akisina donecek oneriyi ver.\n\nSinirlar:\n- Tek is coz.\n- Baglami sec, dump etme.\n- Kucuk isletme odagi korunacak.\n- Sade MVP cizgisi korunacak.\n- Dusuk operasyon yuku korunacak.\n- Tum dosyalari kor bicimde prompta basma yaklasimi reddedilecek.\n- Gereksiz teori, pazarlama dili ve yeni karmasik katmanlar uretme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Repo veya runtime grounding yoksa ya da cikti tipi net degilse oneriyi hazir sayma.\n\nBeklenen cikti:\nSadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"selectionPriority\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"minimumSkillShape\": {\n    \"purpose\": \"string\",\n    \"inputs\": [\"string\"],\n    \"outputs\": [\"string\"],\n    \"rules\": [\"string\"]\n  },\n  \"contextSelectionRules\": [\n    {\n      \"when\": \"string\",\n      \"include\": [\"string\"],\n      \"exclude\": [\"string\"]\n    }\n  ],\n  \"promptProductionFlow\": [\"string\"],\n  \"antiPatterns\": [\"string\"],\n  \"mvpRecommendation\": {\n    \"recommendedApproach\": \"string\",\n    \"why\": \"string\",\n    \"firstActions\": [\"string\"]\n  },\n  \"shortPlainSummary\": {\n    \"corePoint\": \"string\",\n    \"whyItMatters\": \"string\",\n    \"nextStep\": \"string\"\n  }\n}\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Cikti consultation akisina dogrudan gomulebilir olmali.\n- Minimum alan ve minimum kuralla calismali.\n- Baglam secimi amac odakli olmali.\n- Gereksiz teori ve sistem buyumesi engellenmeli.\n- shortPlainSummary teknik olmayan, kisa ve anlasilir olmali.",
+      "promptPreparedAt": "2026-04-22T12:20:21.852Z"
     },
     "contextRefs": [
       {
@@ -43,19 +44,9 @@
         "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "project",
+        "kind": "decision",
         "title": "Kalıcı karar çizgisi",
         "ref": "MEMORY.md"
-      },
-      {
-        "kind": "roadmap",
-        "title": "Audit -> Teklif -> Teslimat akışı",
-        "ref": "PLAYBOOKS/audit-offer-delivery.md"
-      },
-      {
-        "kind": "roadmap",
-        "title": "OpenClaw runtime davranışı",
-        "ref": "AGENTS.md"
       }
     ],
     "promptRun": {
@@ -64,6 +55,20 @@
       "responseSummary": null,
       "promptText": ""
     },
-    "actions": []
+    "actions": [],
+    "technicalBrief": {
+      "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
+      "implementationFocus": "Consultation Center içinde consultation kaydından prompt üretim akışı",
+      "repoRefs": [
+        {
+          "title": "Uygulama reposu",
+          "ref": "https://github.com/sahinseyfi/EsnafDijital-Openclaw"
+        },
+        {
+          "title": "OpenClaw upstream",
+          "ref": "https://github.com/openclaw/openclaw"
+        }
+      ]
+    }
   }
 ]

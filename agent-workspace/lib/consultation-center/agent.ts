@@ -54,7 +54,6 @@ function formatConsultationPayload(consultation: ConsultationDetail) {
   const lines = [
     `- targetModel: ${consultation.promptRun.modelName || 'gpt-5-pro'}`,
     `- title: ${consultation.title || '—'}`,
-    `- type: ${consultation.type || '—'}`,
     `- summary: ${consultation.summary || '—'}`,
     `- decisionQuestion: ${consultation.decisionQuestion || '—'}`,
     `- whyNow: ${consultation.whyNow || '—'}`,
@@ -110,9 +109,6 @@ function buildPrompt(consultation: ConsultationDetail) {
   const skillContext = getPromptSkillContext()
 
   return [
-    'Bu gorevde yalnizca workspace skilli `consultation-prompt-builder` ve onun referanslarini uygula.',
-    'Davranis kurali uydurma, skill icerigini ana kaynak kabul et.',
-    '',
     'SKILL.md:',
     skillContext.skillMd,
     '',
@@ -121,12 +117,6 @@ function buildPrompt(consultation: ConsultationDetail) {
     '',
     'Grounding checklist:',
     skillContext.groundingChecklist,
-    '',
-    'Uygulama kontrati:',
-    '- Yalnizca gecerli JSON don.',
-    '- Ek aciklama veya serbest metin donme.',
-    '- Su alanlari uret: title, summary, decisionQuestion, whyNow, desiredOutput, finalPromptText, contextRefs, businessBrief, technicalBrief, sharedBrief.',
-    '- finalPromptText kullaniciya verilecek son prompttur.',
     '',
     'Consultation payload:',
     formatConsultationPayload(consultation),
