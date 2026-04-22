@@ -1,5 +1,58 @@
 [
   {
+    "id": "consult_1776837887910",
+    "title": "İlk sektör önceliklendirme roadmap hazırlığı",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-22T06:07:20.208Z",
+    "decisionQuestion": "Arnavutköy başlangıcında hangi 2-3 küçük işletme segmentiyle başlamalıyız ve bunu doğrulamak için Apify ile hangi minimum veriyi toplamalıyız?",
+    "summary": "Arnavutköy odağında hangi küçük işletme segmentleriyle başlamamız gerektiğini netleştirmek için Apify destekli hafif bir sektör taraması ve karar çerçevesi hazırlıyoruz.",
+    "gptRecommended": false,
+    "whyNow": "Bu karar şimdi netleşirse saha çalışması, audit dili, teklif omurgası ve veri toplama aynı hatta toplanır; netleşmezse erken fazda dağınık sektör denemeleri ve gereksiz operasyon yükü oluşur.",
+    "desiredOutput": "Dış danışmaya gidecek net GPT promptu ve seçili bağlam paketi; bu prompttan 1) sektör seçimi için karar çerçevesi, 2) Apify ile toplanacak minimum veri alanları ve kısa araştırma yöntemi, 3) önerilen ilk 2-3 segment ve kısa gerekçeleri, 4) buna bağlı 30 günlük sade uygulama roadmapi çıkması beklenir.",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "Apify ile hafif sektör taraması yapıp Arnavutköy odağında ilk başlayacağımız segmentleri netleştirmek istiyoruz.",
+      "kararCekirdegi": "İlk sektör önceliklendirme çerçevesi",
+      "workMode": "strategy",
+      "targetSurface": "cross",
+      "outputType": "gpt_prompt",
+      "workModeLabel": "strateji",
+      "targetSurfaceLabel": "çapraz",
+      "outputTypeLabel": "GPT promptu",
+      "scope": "İlk 2-3 segment seçimi, minimum araştırma planı ve kısa roadmap",
+      "constraints": "Küçük işletme odağı korunacak, sade MVP çizgisi bozulmayacak, düşük operasyon yükü esas alınacak ve öneriler Audit -> Teklif -> Teslimat -> Bakım omurgasına hizmet edecek.",
+      "successSignal": "İlk hangi segmentlerle başlanacağı, neden bu segmentlerin seçildiği ve sahada bunu nasıl doğrulayacağımız tek bakışta net olsun."
+    },
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje kapsamı ve ilk pazar odağı",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "roadmap",
+        "title": "Faz 1 öncelik sırası ve karar kuralı",
+        "ref": "ROADMAP.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve bu hafta öncelik",
+        "ref": "HEARTBEAT.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": null,
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  },
+  {
     "id": "consult_1776687942305",
     "title": "Mobil uyumlu vitrin prompt standardı",
     "type": "shared",
