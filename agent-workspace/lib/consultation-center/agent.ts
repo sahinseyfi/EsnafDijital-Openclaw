@@ -34,6 +34,10 @@ type AgentSuggestion = {
   sharedBrief?: Record<string, string | string[] | null>
 }
 
+type GeneratePromptOptions = {
+  changeRequest?: string
+}
+
 function formatBriefRecord(value?: Record<string, string | string[] | null>) {
   if (!value || Object.keys(value).length === 0) return '- yok'
 
@@ -105,8 +109,10 @@ function getPromptSkillContext() {
   }
 }
 
-function buildPrompt(consultation: ConsultationDetail) {
+function buildPrompt(consultation: ConsultationDetail, options?: GeneratePromptOptions) {
   const skillContext = getPromptSkillContext()
+  const changeRequest = options?.changeRequest?.trim()
+  const currentPromptText = consultation.promptRun.promptText?.trim()
 
   return [
     'SKILL.md:',
@@ -120,6 +126,18 @@ function buildPrompt(consultation: ConsultationDetail) {
     '',
     'Consultation payload:',
     formatConsultationPayload(consultation),
+    ...(changeRequest ? [
+      '',
+      'Prompt degisiklik istegi:',
+      `- ${changeRequest}`,
+      '- Mevcut promptu bu istege gore yeniden duzenle.',
+      '- Istenen degisiklik disinda ise yarayan grounding ve cikti cizgisini koru.',
+    ] : []),
+    ...(changeRequest && currentPromptText ? [
+      '',
+      'Mevcut prompt:',
+      currentPromptText,
+    ] : []),
   ].join('\n')
 }
 
@@ -174,7 +192,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
   }
 }
 
-export async function generateConsultationBriefWithAgent(consultation: ConsultationDetail) {
+export async function generateConsultationBriefWithAgent(consultation: ConsultationDetail, options?: GeneratePromptOptions) {
   const agentId = getConsultationPromptAgentId()
 
   const { stdout } = await execFileAsync(
@@ -183,7 +201,7 @@ export async function generateConsultationBriefWithAgent(consultation: Consultat
       'agent',
       '--agent', agentId,
       '--session-id', randomUUID(),
-      '--message', buildPrompt(consultation),
+      '--message', buildPrompt(consultation, options),
       '--thinking', 'high',
       '--timeout', '180',
       '--json',

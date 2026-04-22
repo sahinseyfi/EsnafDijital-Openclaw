@@ -68,8 +68,11 @@ export default async function ConsultationCenterPage({
             <ConsultationDetailEditor consultation={selected} />
 
             <PromptPreviewCard
+              consultationId={selected.id}
+              title={selected.title}
+              summary={selected.summary}
               promptText={selected.promptRun.promptText}
-              fallbackText="Kayıt açılınca prompt otomatik oluşur. Metni veya modeli değiştirirsen buradaki prompt yeniden kurulur."
+              fallbackText="Kayıt açılınca prompt otomatik oluşur. Metni, modeli veya değişiklik isteğini güncellersen buradaki prompt yeniden kurulur."
               targetModel={selected.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'}
               promptSummary={promptSummary}
               promptStatus={selected.promptStatus}

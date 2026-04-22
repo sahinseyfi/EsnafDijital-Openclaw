@@ -14,6 +14,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     title?: string
     summary?: string
     targetModel?: 'gpt-5' | 'gpt-5-pro'
+    changeRequest?: string
   }
 
   const workingCopy = {
@@ -35,7 +36,8 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   })
 
   try {
-    const suggestion = await generateConsultationBriefWithAgent(workingCopy)
+    const changeRequest = body.changeRequest?.trim() || undefined
+    const suggestion = await generateConsultationBriefWithAgent(workingCopy, { changeRequest })
     const targetModel = body.targetModel || workingCopy.promptRun.modelName || 'gpt-5-pro'
     const nextSharedBrief = {
       ...(workingCopy.sharedBrief || {}),
@@ -43,6 +45,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       targetModel,
       promptStatus: 'ready',
       promptError: null,
+      promptRevisionRequest: changeRequest || null,
     }
 
     const result = await updateConsultation(id, {
