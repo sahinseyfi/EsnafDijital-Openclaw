@@ -7,14 +7,6 @@ import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultat
 
 const execFileAsync = promisify(execFile)
 const PROMPTING_REFERENCE_PATH = path.resolve(process.cwd(), '../REFERENCES/prompting/gpt5-prompting-principles.md')
-const FALLBACK_PROMPTING_GUIDE = [
-  '- Tek prompt tek is istesin.',
-  '- Tum baglami dump etme, sadece gorevi degistiren secili baglami ver.',
-  '- Beklenen cikti tipini net yaz.',
-  '- Promptu kisa, yapilandirilmis ve gorev odakli kur.',
-  '- Repo/runtime gercegini acikca ver.',
-  '- Eksik kritik bilgi varsa uydurma, belirt.',
-].join('\n')
 
 function getConsultationPromptAgentId() {
   const agentId = process.env.CONSULTATION_PROMPT_AGENT_ID?.trim()
@@ -57,9 +49,15 @@ function formatContextRefs(refs: ConsultationContextRef[]) {
 
 function getPromptingReference() {
   try {
-    return readFileSync(PROMPTING_REFERENCE_PATH, 'utf8').trim()
-  } catch {
-    return FALLBACK_PROMPTING_GUIDE
+    const content = readFileSync(PROMPTING_REFERENCE_PATH, 'utf8').trim()
+
+    if (!content) {
+      throw new Error('Prompting referans dosyasi bos')
+    }
+
+    return content
+  } catch (error: any) {
+    throw new Error(`Prompting referansi okunamadi: ${PROMPTING_REFERENCE_PATH} (${error?.message || 'bilinmeyen hata'})`)
   }
 }
 
