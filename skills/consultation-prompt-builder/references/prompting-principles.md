@@ -6,7 +6,7 @@
 
 ## Uygulanacak ilkeler
 1. Gorevi tek ve net tanimla.
-2. Gereken baglami sec, dump etme; dosya sayisini yapay olarak sinirlama.
+2. Once cekirdek baglam ozetini kur, sonra gereken ikincil baglami sec; dump etme ve dosya sayisini yapay olarak sinirlama.
 3. Beklenen cikti tipini acik ver.
 4. Kisa ama yapilandirilmis kal.
 5. Repo ve runtime gercegine bagla.

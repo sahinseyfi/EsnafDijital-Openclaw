@@ -8,6 +8,8 @@ import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultat
 const execFileAsync = promisify(execFile)
 const CONSULTATION_PROMPT_SKILL_DIR = path.resolve(process.cwd(), '../skills/consultation-prompt-builder')
 const CONSULTATION_PROMPT_SKILL_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'SKILL.md')
+const CONSULTATION_CONTEXT_POLICY_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/context-injection-policy.md')
+const CONSULTATION_CONTEXT_MATRIX_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/context-selection-matrix.md')
 const CONSULTATION_PROMPTING_REFERENCE_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/prompting-principles.md')
 const CONSULTATION_GROUNDING_REFERENCE_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/grounding-checklist.md')
 
@@ -104,6 +106,8 @@ function readRequiredReference(filePath: string, label: string) {
 function getPromptSkillContext() {
   return {
     skillMd: readRequiredReference(CONSULTATION_PROMPT_SKILL_PATH, 'Consultation prompt skill dosyasi'),
+    contextInjectionPolicy: readRequiredReference(CONSULTATION_CONTEXT_POLICY_PATH, 'Consultation context injection policy'),
+    contextSelectionMatrix: readRequiredReference(CONSULTATION_CONTEXT_MATRIX_PATH, 'Consultation context selection matrix'),
     promptingReference: readRequiredReference(CONSULTATION_PROMPTING_REFERENCE_PATH, 'Consultation prompting referansi'),
     groundingChecklist: readRequiredReference(CONSULTATION_GROUNDING_REFERENCE_PATH, 'Consultation grounding checklist'),
   }
@@ -117,6 +121,12 @@ function buildPrompt(consultation: ConsultationDetail, options?: GeneratePromptO
   return [
     'SKILL.md:',
     skillContext.skillMd,
+    '',
+    'Context injection policy:',
+    skillContext.contextInjectionPolicy,
+    '',
+    'Context selection matrix:',
+    skillContext.contextSelectionMatrix,
     '',
     'Prompting principles:',
     skillContext.promptingReference,

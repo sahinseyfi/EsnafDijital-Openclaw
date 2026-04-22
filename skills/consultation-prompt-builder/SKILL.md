@@ -18,6 +18,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Dosya sayisini yapay olarak sinirlama; istenen degisikligi guvenle kurmak icin gereken baglamin tamamini oku.
    - Karari etkilemeyen tekrarları prompta tasima.
    - Isletme gercegi, mevcut faz, kritik sinir, beklenen cikti ve davranisi belirleyen asil kaynaklari one al.
+   - Once cekirdek baglam ozetini kur, sonra goreve gore ikincil kaynak sec, sadece gerekirse ham dosya oku.
 
 3. Promptu repo ve runtime gercegine bagla.
    - Gerekliyse uygulama reposu ve OpenClaw upstream referanslarini acik ver.
@@ -65,6 +66,8 @@ Bu skill Consultation Center icinden cagirildiginda:
 
 ## Referanslari ne zaman oku?
 
+- Baglamin nasil secilecegi, neyin ozetlenecegi ve ham dosyanin ne zaman okunacagi icin `references/context-injection-policy.md` oku.
+- Gorev tipine gore varsayilan baglam secimi gerekiyorsa `references/context-selection-matrix.md` oku.
 - GPT-5 prompt yazim cizgisi gerekiyorsa `references/prompting-principles.md` oku.
 - Repo/runtime grounding, fail-closed kontrol veya hazirlik kriteri gerekiyorsa `references/grounding-checklist.md` oku.
 

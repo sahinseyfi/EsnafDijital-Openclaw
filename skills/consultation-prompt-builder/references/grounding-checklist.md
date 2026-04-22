@@ -12,6 +12,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 
 ## Zorunlu netlik
 - prompt tek bir is mi istiyor
+- once cekirdek baglam ozeti kurulmus mu
 - secili baglam istenen degisikligi guvenle kurmaya yetecek kadar genis mi
 - karari etkilemeyen tekrarlar prompta tasinmamis mi
 - beklenen cikti tipi acik mi
