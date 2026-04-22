@@ -22,7 +22,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Gerekliyse uygulama reposu ve OpenClaw upstream referanslarini acik ver.
    - VPS uzerinde calisan OpenClaw ajani baglamini unutma.
    - Genel teori yerine mevcut akis icinde uygulanacak gorevi yaz.
-   - Sifir-hafiza varsayimini ic kural olarak kullan, ama bunu final promptta meta cumle olarak yazma. Ihtiyac olan baglami dogrudan promptun icine koy.
+   - Hedef modelin baglam ihtiyacini ic kural olarak dusun, ama bunu final promptta oturum hafizasi veya baglam eksigi meta cumlesi olarak yazma. Ihtiyac olan baglami dogrudan promptun icine koy.
 
 4. Cikti kontratini netlestir.
    - Beklenen cikti tipini acik yaz: karar cercevesi, JSON, plan, teklif vb.
@@ -43,7 +43,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Eksik kritik bilgi varsa uydurma, acik bosluk veya varsayim olarak etiketle.
 - Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini bozma.
 - Genel framework veya pazarlama dili yazma.
-- `Bu oturum sifir hafizali kabul edilsin` gibi meta cumleleri final prompta koyma.
+- Oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta koyma.
 - Prompt kullanicinin degil, promptu okuyacak GPT/ajanin hemen uygulayacagi sekilde yazilsin.
 
 ## Referanslari ne zaman oku?
