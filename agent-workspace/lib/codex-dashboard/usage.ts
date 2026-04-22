@@ -32,13 +32,12 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string, ti
   const key = `${agentId}:${profileId}`
   const cached = usageCache.get(key)
   const now = Date.now()
-  const useSharedCache = timeoutMs === USAGE_HELPER_TIMEOUT_MS
 
-  if (useSharedCache && cached?.value && cached.expiresAt > now) {
+  if (cached?.value && cached.expiresAt > now) {
     return cached.value
   }
 
-  if (useSharedCache && cached?.inflight) {
+  if (cached?.inflight) {
     return cached.inflight
   }
 
@@ -66,10 +65,7 @@ export async function fetchRealCodexUsage(agentId: string, profileId: string, ti
     }
   })()
 
-  if (useSharedCache) {
-    usageCache.set(key, { value: cached?.value || null, expiresAt: 0, inflight })
-  }
-
+  usageCache.set(key, { value: cached?.value || null, expiresAt: 0, inflight })
   return inflight
 }
 

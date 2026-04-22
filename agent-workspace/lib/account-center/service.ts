@@ -100,7 +100,7 @@ function extractCanonicalProfileId(profileId: string, credential: PersistedCrede
   return buildCanonicalAuthProfileId({ providerId, principalKey, accountId })
 }
 
-const ACCOUNT_CENTER_USAGE_TIMEOUT_MS = 10_000
+const ACCOUNT_CENTER_USAGE_TIMEOUT_MS = 20_000
 
 function mapUsageToLimits(usage: RealUsageSnapshot | null): AccountCenterLimits | null {
   if (!usage) return null
