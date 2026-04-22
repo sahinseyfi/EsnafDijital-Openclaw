@@ -88,8 +88,6 @@ export default async function ProjectOsPage({
   const overview = deriveProjectOsOverview(dataset)
   const consultationStats = {
     blocked: consultationPayload.inbox.filter((item) => item.route === 'blocked').length,
-    ready: consultationPayload.inbox.filter((item) => item.stage === 'ready_to_send').length,
-    gptRecommended: consultationPayload.inbox.filter((item) => item.gptRecommended).length,
   }
 
   return (
@@ -115,37 +113,6 @@ export default async function ProjectOsPage({
           <h1>Bugün hangi işi ilerleteceğin net olsun</h1>
           <p className="muted">Bu ekran genel CRM değil. Sadece aktif audit → teklif → teslimat → bakım zincirinde hangi işin sıcak olduğunu ve bir sonraki aksiyonu görünür kılar.</p>
         </div>
-      </section>
-
-      <section className="grid-2" style={{ alignItems: 'start' }}>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Şimdi sıcak</p>
-            <h3>{overview.hotStage.title}</h3>
-          </div>
-          <p className="muted">{overview.hotStage.text}</p>
-          <div className="hero-actions">
-            <Link href="#queue" className="cta-link">Sıradaki işleri gör</Link>
-            <Link href="#quick-actions" className="ghost-link">Hızlı aksiyonlara git</Link>
-          </div>
-        </article>
-
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Blokaj ve karar netliği</p>
-            <h3>Yan ekran geçişi</h3>
-          </div>
-          <ul className="list">
-            <li>{consultationStats.blocked} consultation kaydı karar netliği bekliyor.</li>
-            <li>{consultationStats.ready} kayıt gönderime hazır görünüyor.</li>
-            <li>{consultationStats.gptRecommended} kayıt için GPT Pro hattı mantıklı duruyor.</li>
-          </ul>
-          <p className="muted">Karar bulanıksa Consultation, sabit referans seçimi bulanıksa Context. Netleşen iş yine bu hatta döner.</p>
-          <div className="hero-actions">
-            <Link href="/consultation-center" className="ghost-link">Consultation Centera git</Link>
-            <Link href="/context-center" className="ghost-link">Context Centera git</Link>
-          </div>
-        </article>
       </section>
 
       <section className="stats-grid">
