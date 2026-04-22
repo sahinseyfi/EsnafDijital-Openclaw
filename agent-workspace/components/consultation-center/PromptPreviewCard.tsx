@@ -37,7 +37,7 @@ export function PromptPreviewCard({
           <h3>Prompt</h3>
           <p className="muted">Hedef model: {targetModel === 'gpt-5-pro' ? 'GPT-5 Pro' : 'GPT-5'}</p>
         </div>
-        {promptText.trim() ? (
+        {promptText.trim() && promptStatus === 'ready' ? (
           <button type="button" className="button-secondary" onClick={handleCopy}>
             {copied ? 'Kopyalandı' : 'Promptu kopyala'}
           </button>

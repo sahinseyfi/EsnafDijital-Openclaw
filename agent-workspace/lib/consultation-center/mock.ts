@@ -361,6 +361,8 @@ export async function updateMockConsultation(id: string, input: ConsultationUpda
       ...(input.targetModel ? { targetModel: normalizeTargetModel(input.targetModel) } : {}),
     },
     contextRefs: input.contextRefs || current.contextRefs,
+    promptStatus: mapPromptStatus((input.sharedBrief?.promptStatus as string | undefined) || (current.sharedBrief?.promptStatus as string | undefined), current.promptRun.promptText),
+    promptError: typeof input.sharedBrief?.promptError === 'string' ? input.sharedBrief.promptError : current.promptError,
     updatedAt: new Date().toISOString(),
   }
 
@@ -401,6 +403,13 @@ export async function addMockConsultationRun(id: string, input: ConsultationRunI
     sentAt: new Date().toISOString(),
     responseSummary: input.responseSummary?.trim() || current.promptRun.responseSummary,
   }
+  current.sharedBrief = {
+    ...(current.sharedBrief || {}),
+    promptStatus: 'ready',
+    promptError: null,
+  }
+  current.promptStatus = 'ready'
+  current.promptError = null
   current.updatedAt = new Date().toISOString()
   current.stage = 'answered'
   consultations[index] = current

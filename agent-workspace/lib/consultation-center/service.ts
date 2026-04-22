@@ -1,6 +1,5 @@
 import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationRun } from '@prisma/client'
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
-import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
 import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, deleteMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
@@ -462,6 +461,15 @@ export async function addConsultationRun(id: string, input: ConsultationRunInput
       where: { id },
       data: {
         stage: 'answered',
+        brief: {
+          update: {
+            sharedJson: {
+              ...((current?.sharedBrief || {}) as Record<string, string | string[] | null>),
+              promptStatus: 'ready',
+              promptError: null,
+            },
+          },
+        },
       },
     })
 
