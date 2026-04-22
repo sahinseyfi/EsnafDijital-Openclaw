@@ -31,20 +31,8 @@ export default async function ConsultationCenterPage({
       title="Consultation Center"
       description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar. Sade V1 akışı budur."
     >
-      <section className="grid-2" style={{ alignItems: 'start' }}>
+      <section>
         <QuickCreateForm />
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Akış</p>
-            <h3>Bu sayfa artık tek iş yapıyor</h3>
-          </div>
-          <ol className="list">
-            <li>Yapmak istediğin değişikliği düz metin yaz</li>
-            <li>Sistem uygun bağlamı otomatik seçip promptu hazırlasın</li>
-            <li>Gelen cevabı yapıştır ve çıkan kararı kaydet</li>
-          </ol>
-          <p className="muted">Sıfır hafızalı GPT oturumu varsayılır. VPS ve OpenClaw çalışma bağlamı promptun içine otomatik taşınır.</p>
-        </article>
       </section>
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
