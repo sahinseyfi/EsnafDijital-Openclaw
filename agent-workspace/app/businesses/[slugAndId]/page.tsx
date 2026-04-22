@@ -1,3 +1,6 @@
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+
 import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
@@ -42,6 +45,66 @@ const deliveryStatusLabels = {
   maintenance: 'Bakım',
 } as const
 
+type DiscoverySummaryEntry = {
+  source: {
+    collectedAt: string
+    matchedSearchTerms: string[]
+    missingSearchTerms: string[]
+    searchCoverageNote: string
+  }
+  candidate: {
+    name: string
+    categoryName: string
+    address: string
+    district: string
+    city: string
+    phone: string
+    websiteUrl: string
+    hasWebsite: boolean
+    rating: number | null
+    reviewsCount: number
+    hasOpeningHours: boolean
+    ownershipStatus: 'claimed' | 'unclaimed' | 'unknown'
+    capturedAt?: string
+  }
+  scoring: {
+    bucket: string
+    reasons: string[]
+  }
+}
+
+function normalizeDiscoveryText(value: string) {
+  return value
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ç/g, 'c')
+    .replace(/ğ/g, 'g')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ş/g, 's')
+    .replace(/ü/g, 'u')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+async function getBusinessDiscoverySnapshot(business: { name: string; district: string }) {
+  try {
+    const summaryPath = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'summary', 'candidates-summary.json')
+    const raw = await readFile(summaryPath, 'utf8')
+    const records = JSON.parse(raw) as DiscoverySummaryEntry[]
+    const businessName = normalizeDiscoveryText(business.name)
+    const businessDistrict = normalizeDiscoveryText(business.district)
+
+    return records.find((record) => {
+      const candidateName = normalizeDiscoveryText(record.candidate.name)
+      const candidateDistrict = normalizeDiscoveryText(record.candidate.district || record.candidate.city || '')
+
+      return candidateName === businessName && (!businessDistrict || candidateDistrict.includes(businessDistrict))
+    }) || null
+  } catch {
+    return null
+  }
+}
+
 function formatTimelineDate(value: string) {
   return new Intl.DateTimeFormat('tr-TR', {
     day: '2-digit',
@@ -83,6 +146,9 @@ export default async function BusinessDetailPage({
   const queueItem = overview.queue.find((item) => item.businessId === business.id) || null
   const latestOffer = offers[0] || null
   const latestDelivery = deliveryProjects[0] || null
+  const latestAudit = audits[0] || null
+  const discoverySnapshot = await getBusinessDiscoverySnapshot(business)
+  const auditSnapshotReasons = discoverySnapshot?.scoring.reasons?.slice(0, 4) || []
   const activityTimeline = [
     {
       id: `business-created-${business.id}`,
@@ -280,9 +346,70 @@ export default async function BusinessDetailPage({
           )}
 
           <div className="stack-xs">
-            <p><strong>Son audit:</strong> {audits[0] ? `${auditStatusLabels[audits[0].status]} · ${audits[0].summary}` : 'Henüz audit yok'}</p>
+            <p><strong>Son audit:</strong> {latestAudit ? `${auditStatusLabels[latestAudit.status]} · ${latestAudit.summary}` : 'Henüz audit yok'}</p>
             <p><strong>Son teklif:</strong> {latestOffer ? `${latestOffer.packageName} · ${offerStatusLabels[latestOffer.status]}` : 'Henüz teklif yok'}</p>
             <p><strong>Son teslimat:</strong> {latestDelivery ? deliveryStatusLabels[latestDelivery.status] : 'Henüz teslimat yok'}</p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <div>
+              <p className="eyebrow">Audit snapshot</p>
+              <h3>Dış dünya ve audit özetini tek bakışta oku</h3>
+            </div>
+            <button type="button" className="button-secondary" disabled>
+              Detaylı işletme verilerini al
+            </button>
+          </div>
+
+          <p className="muted">İlk UI girişi hazır. Yenileme aksiyonu bir sonraki turda Apify akışına bağlanacak.</p>
+
+          <div className="grid-2" style={{ alignItems: 'start' }}>
+            <div className="stack-sm">
+              <div className="stack-xs">
+                <p><strong>Audit özeti:</strong> {latestAudit ? latestAudit.summary : 'Henüz yazılmış audit özeti yok.'}</p>
+                <p><strong>Hazırlık sinyali:</strong> {latestAudit ? latestAudit.channelReadiness : 'Belirsiz'}</p>
+                <p><strong>Audit durumu:</strong> {latestAudit ? auditStatusLabels[latestAudit.status] : 'Henüz audit açılmadı'}</p>
+              </div>
+
+              {discoverySnapshot ? (
+                <div className="stack-xs">
+                  <p><strong>Dış veri resmi:</strong> {discoverySnapshot.candidate.categoryName} · {discoverySnapshot.candidate.address}</p>
+                  <p><strong>Yorum / puan:</strong> {discoverySnapshot.candidate.rating !== null ? `${discoverySnapshot.candidate.rating.toLocaleString('tr-TR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} puan · ${discoverySnapshot.candidate.reviewsCount} yorum` : `${discoverySnapshot.candidate.reviewsCount} yorum · puan görünmüyor`}</p>
+                  <p><strong>Website:</strong> {discoverySnapshot.candidate.hasWebsite ? discoverySnapshot.candidate.websiteUrl : 'Görünmüyor'}</p>
+                  <p><strong>Telefon:</strong> {discoverySnapshot.candidate.phone || 'Görünmüyor'}</p>
+                  <p><strong>Sahiplik:</strong> {discoverySnapshot.candidate.ownershipStatus === 'claimed' ? 'Sahiplenilmiş' : discoverySnapshot.candidate.ownershipStatus === 'unclaimed' ? 'Sahiplenilmemiş' : 'Bilinmiyor'}</p>
+                  <p><strong>Snapshot zamanı:</strong> {formatTimelineDate(discoverySnapshot.candidate.capturedAt || discoverySnapshot.source.collectedAt)}</p>
+                </div>
+              ) : (
+                <p className="muted">Bu işletme için bağlanmış discovery snapshot bulunamadı.</p>
+              )}
+            </div>
+
+            <div className="stack-sm">
+              <div>
+                <p className="eyebrow">İlk eksik listesi</p>
+                <ul className="muted" style={{ margin: '8px 0 0', paddingLeft: 18 }}>
+                  {auditSnapshotReasons.length > 0 ? auditSnapshotReasons.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  )) : (
+                    <li>Eksik listesi discovery snapshot geldikçe burada büyüyecek.</li>
+                  )}
+                </ul>
+              </div>
+
+              {discoverySnapshot ? (
+                <div className="stack-xs">
+                  <p><strong>Google görünürlük notu:</strong> {discoverySnapshot.source.searchCoverageNote}</p>
+                  <p><strong>İlk paket yönü:</strong> {discoverySnapshot.candidate.hasWebsite ? 'Vitrin + güven iyileştirme' : 'Website + güven veren vitrin başlangıcı'}</p>
+                </div>
+              ) : (
+                <p className="muted">Dış veri eşleşmesi olmadığında paket yönü sadece operator auditine göre belirlenecek.</p>
+              )}
+            </div>
           </div>
         </article>
       </section>
