@@ -45,6 +45,19 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Genel framework veya pazarlama dili yazma.
 - Oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta koyma.
 - Prompt kullanicinin degil, promptu okuyacak GPT/ajanin hemen uygulayacagi sekilde yazilsin.
+- finalPromptText alanini dogrudan yaz; ayri kod/template katmani son promptu tekrar kurmayacak varsay.
+- finalPromptText icinde sabit ve sade rol kullan: `Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.`
+- finalPromptText icinde su repo referanslarini acikca gecir: `https://github.com/sahinseyfi/EsnafDijital-Openclaw` ve `https://github.com/openclaw/openclaw`.
+- finalPromptText icinde teknik olmayan kisa ozet istegini uygun yerde acikca ekle.
+
+## Uygulama entegrasyon kontrati
+
+Bu skill Consultation Center icinden cagirildiginda:
+- Sadece gecerli JSON don.
+- Markdown, kod fence, onsoz, sonsoz veya ek aciklama donme.
+- JSON alanlari en az su alanlari icermeli: `title`, `summary`, `decisionQuestion`, `whyNow`, `desiredOutput`, `finalPromptText`, `contextRefs`, `businessBrief`, `technicalBrief`, `sharedBrief`.
+- `contextRefs` en fazla 4 oge olmali.
+- Cikti dili Turkce olmali.
 
 ## Referanslari ne zaman oku?
 
@@ -54,5 +67,5 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 ## Cikti stili
 
 - once kullanilacak promptu uret
-- sonra kisa bir kalite notu ver: tamam / eksik
-- eksikse neyin eksik oldugunu tek tek yaz
+- prompt Consultation Center kaydina dogrudan yazilabilecek kadar hazir olsun
+- kalite notu ayrica serbest metin olarak degil, gerekiyorsa JSON alanlari icindeki net icerikle yansisin
