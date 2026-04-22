@@ -247,7 +247,9 @@ export default async function DiscoveryPage({
                 <tr key={row.candidate.placeId}>
                   <td>
                     <div className="stack-xs">
-                      <strong style={{ color: 'var(--ink-title)' }}>{row.candidate.name}</strong>
+                      <Link href={`/discovery/${encodeURIComponent(row.candidate.placeId)}`} style={{ color: 'var(--ink-title)', fontWeight: 700 }}>
+                        {row.candidate.name}
+                      </Link>
                       <span className="muted">{row.candidate.categoryName || 'Kategori yok'}</span>
                       <span className="muted">{row.candidate.address || 'Adres yok'}</span>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>

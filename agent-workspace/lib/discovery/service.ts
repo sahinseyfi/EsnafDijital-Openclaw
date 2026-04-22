@@ -20,6 +20,11 @@ export async function readDiscoverySummary(): Promise<DiscoverySummaryRow[]> {
   return JSON.parse(content) as DiscoverySummaryRow[]
 }
 
+export async function readDiscoveryRow(placeId: string): Promise<DiscoverySummaryRow | null> {
+  const rows = await readDiscoverySummary()
+  return rows.find((row) => row.candidate.placeId === placeId) || null
+}
+
 export function normalizeDiscoveryFilters(filters: DiscoveryFilters) {
   const segment = filters.segment === 'berber' || filters.segment === 'guzellik salonu' ? (filters.segment as DiscoverySegment) : 'all'
   const bucket = filters.bucket === 'shortlist' || filters.bucket === 'review' || filters.bucket === 'skip' ? (filters.bucket as DiscoveryBucket) : 'all'
