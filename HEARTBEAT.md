@@ -25,6 +25,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 ## Mevcut Blokajlar
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
+- `agent-workspace` icinde kullanilabilir gercek `DATABASE_URL` bulunamadi; bu yuzden `npm run prisma:bootstrap:local` hatti henuz kosulamiyor
 - prod dogrulama icin normal oturum yetkisi gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
