@@ -1,5 +1,98 @@
 [
   {
+    "id": "consult_1776868210381",
+    "title": "Bağlam dosyalarını değerlendirip nihai sürümlerini yazma",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-22T14:31:54.747Z",
+    "decisionQuestion": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını çakışma, tekrar, eksik ve gereksiz yük açısından değerlendirip bu proje için en sade ve en güçlü nihai dosya setini nasıl kurmalıyız?",
+    "summary": "EsnafDigital’de ajanın çalışma biçimini belirleyen temel bağlam dosyalarını proje özelinde değerlendirip eksiklerini, fazlalıklarını ve çakışmalarını bulacak, ardından her biri için daha güçlü nihai sürüm önerecek consultation promptu.",
+    "gptRecommended": false,
+    "promptStatus": "ready",
+    "promptError": null,
+    "whyNow": "Bu konu şimdi netleşirse Consultation Center ve genel çalışma düzeni daha temiz ilerler, bağlam dosyaları kontrolsüz büyümeden toparlanır ve sonraki teknik adımlar daha net, daha tutarlı ve daha düşük operasyon yüküyle yürür.",
+    "desiredOutput": "Kullanılabilir çıktı paketi: 1) dosya bazlı değerlendirme, 2) eksik ve fazlalık analizi, 3) çakışma ve tekrar noktaları, 4) önerilen sadeleştirme ilkeleri, 5) her dosya için nihai içerik, 6) öncelikli uygulama sırası, 7) JSON dışında kısa teknik olmayan özet.",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını bu proje özelinde değerlendir, eksikliklerini ve fazlalıklarını bul, sonra hepsi için nihai dosyaları yaz.",
+      "kararCekirdegi": "Temel bağlam dosyalarını birlikte değerlendirip en sade ve güçlü nihai dosya setini kurma",
+      "workMode": "decision",
+      "targetSurface": "cross",
+      "outputType": "gpt_prompt",
+      "targetModel": "gpt-5-pro",
+      "workModeLabel": "karar",
+      "targetSurfaceLabel": "çapraz",
+      "outputTypeLabel": "GPT promptu",
+      "targetModelLabel": "GPT-5 Pro",
+      "promptStatus": "ready",
+      "promptError": null,
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital’de ajanin calisma bicimini belirleyen temel baglam dosyalarini proje ozelinde degerlendirip, eksiklerini ve fazlaliklarini bul, sonra her biri icin daha sade ve daha guclu nihai surumu oner.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Calisma ilkesi: once netlik, sonra arac; once calisan basit cozum, sonra otomasyon.\n- Kullanici tercihi: kisa, net, uygulanabilir ve gereksiz teoriden uzak iletisim.\n- Ton: sakin, pratik, sahiplenen, sonuc odakli.\n- Degerlendirilecek dosyalar: AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md, HEARTBEAT.md.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Gorev, Consultation Center icinde kullanilan temel baglam dosyalarini sadeleştirme ve guclendirme isidir.\n\nGorev:\nBu dosya setini butun olarak incele. Her dosya icin ne ise yaradigini, nerede tekrar olustugunu, hangi kisimlarin eksik oldugunu, hangi kisimlarin fazla veya daginik oldugunu belirle. Ardindan bu proje icin daha sade ve daha guclu bir nihai dosya seti oner ve her dosyanin guncellenmis son icerigini yaz.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Gereksiz yeni dosya ve yeni sistem onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n- Karari etkilemeyen tekrarlar prompta tasinmasin.\n- Repo veya runtime grounding yoksa ya da cikti tipi net degilse oneriyi hazir sayma.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"overallAssessment\": {\n    \"coreProblem\": \"string\",\n    \"designPrinciples\": [\"string\"],\n    \"priorityOrder\": [\"string\"]\n  },\n  \"fileReviews\": [\n    {\n      \"file\": \"AGENTS.md|SOUL.md|USER.md|IDENTITY.md|TOOLS.md|MEMORY.md|HEARTBEAT.md\",\n      \"role\": \"string\",\n      \"keep\": [\"string\"],\n      \"removeOrTrim\": [\"string\"],\n      \"missing\": [\"string\"],\n      \"overlapWith\": [\"string\"],\n      \"finalContent\": \"string\"\n    }\n  ],\n  \"crossFileIssues\": [\"string\"],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"firstActions\": [\"string\"],\n  \"risks\": [\"string\"]\n}\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Teknik bilmeyen biri de neyin degisecegini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Dosyalar tek tek ama butun olarak degerlendirilmis olmali.\n- Fazlalik, eksik ve cakisma alanlari net cikmali.\n- Nihai dosya icerikleri dogrudan kullanilabilir olmali.\n- Gereksiz teori ve sistem buyumesi engellenmeli.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
+      "promptRevisionRequest": null,
+      "promptPreparedAt": "2026-04-22T14:31:54.746Z"
+    },
+    "contextRefs": [
+      {
+        "kind": "roadmap",
+        "title": "Ajan çalışma ve iş akışı omurgası",
+        "ref": "AGENTS.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Kalıcı karar çizgisi",
+        "ref": "MEMORY.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif hedef ve öncelikler",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "project",
+        "title": "Proje ve kullanıcı çalışma çizgisi",
+        "ref": "PROJECT.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": "gpt-5-pro",
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": [],
+    "technicalBrief": {
+      "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
+      "implementationFocus": "Ajanı yöneten temel bağlam dosyalarının proje özelinde sadeleştirilmesi ve nihai sürümlerinin yazılması",
+      "repoRefs": [
+        {
+          "title": "Uygulama reposu",
+          "ref": "https://github.com/sahinseyfi/EsnafDijital-Openclaw"
+        },
+        {
+          "title": "OpenClaw upstream",
+          "ref": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "filesInScope": [
+        "AGENTS.md",
+        "SOUL.md",
+        "USER.md",
+        "IDENTITY.md",
+        "TOOLS.md",
+        "MEMORY.md",
+        "HEARTBEAT.md"
+      ],
+      "selectionPolicy": "Önce çekirdek bağlam özeti kuruldu, sonra görev için gereken asli dosyalar ve doğrudan değerlendirilecek ham dosyalar seçildi.",
+      "outputConstraints": [
+        "Citation, footnote ve markdown reference link kullanılmayacak",
+        "Link gerekiyorsa doğrudan URL yazılacak",
+        "Teknik olmayan kısa özet JSON dışında ayrı ikinci bölüm olarak istenecek"
+      ]
+    }
+  },
+  {
     "id": "consult_1776867153947",
     "title": "Bağlam dosyalarını sadeleştirip nihai sürümlerini yazma",
     "type": "shared",
