@@ -20,10 +20,10 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- delivery kickoff'a tasinan pilot kayitta scope checklistinin ayri alanlara bolunup bolunmeyecegine karar vermek ve gerekirse ikinci pilotta ayni akisi tekrar denemek
+- delivery kickoff'a tasinan pilotlardan birinde asset ve erisim satirlarini gercek isletme verisiyle doldurup text-first scope'un saha icin yeterli kalip kalmadigini test etmek
 
 ## Mevcut Blokajlar
-- delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi; fakat bunlarin tek metin alani icinde mi kalacagi yoksa daha yapisal operator alanlaryna mi bolunecegi henuz kapanmadi
+- delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
