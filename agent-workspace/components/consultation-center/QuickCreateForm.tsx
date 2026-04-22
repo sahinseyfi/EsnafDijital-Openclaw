@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 export function QuickCreateForm() {
   const router = useRouter()
+  const [expanded, setExpanded] = useState(true)
   const [title, setTitle] = useState('')
   const [note, setNote] = useState('')
   const [targetModel, setTargetModel] = useState<'gpt-5' | 'gpt-5-pro'>('gpt-5-pro')
@@ -61,48 +62,66 @@ export function QuickCreateForm() {
 
   return (
     <form onSubmit={handleSubmit} className="card" style={{ display: 'grid', gap: 12 }}>
-      <div>
-        <p className="eyebrow">1. İstek metni</p>
-        <h3>Neyi değiştirmek istiyorsun?</h3>
-        <p className="muted">Buraya düz metin yaz. Kayıt açılınca sistem otomatik bağlam seçip promptu hazırlayacak.</p>
-      </div>
-
-      <label style={{ display: 'grid', gap: 6 }}>
-        <span>Kısa başlık (isteğe bağlı)</span>
-        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgasını sadeleştir" />
-      </label>
-
-      <label style={{ display: 'grid', gap: 6 }}>
-        <span>Değişiklik isteği</span>
-        <textarea
-          value={note}
-          onChange={(event) => setNote(event.target.value)}
-          rows={6}
-          placeholder="Ne yapmak istediğini, neden düşündüğünü ve kafandaki soruyu düz metin olarak yaz."
-        />
-      </label>
-
-      <label style={{ display: 'grid', gap: 6 }}>
-        <span>Hedef model</span>
-        <select value={targetModel} onChange={(event) => setTargetModel(event.target.value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')}>
-          <option value="gpt-5-pro">GPT-5 Pro</option>
-          <option value="gpt-5">GPT-5</option>
-        </select>
-      </label>
-
-      {targetModel === 'gpt-5-pro' ? (
-        <p className="muted">GPT-5 Pro varsayılan seçili. Cevap yaklaşık 30 dakika sürebilir, bu yüzden prompt daha dikkatli hazırlanır.</p>
-      ) : (
-        <p className="muted">GPT-5 daha hızlı akış için uygundur. Sistem promptu daha kompakt kurar.</p>
-      )}
-
-      {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
-
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button type="submit" className="button-primary" disabled={busy}>
-          {busy ? 'Kayıt ve prompt hazırlanıyor...' : 'Kaydı aç'}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+        <div>
+          <p className="eyebrow">1. İstek metni</p>
+          <h3>Neyi değiştirmek istiyorsun?</h3>
+          <p className="muted">Buraya düz metin yaz. Kayıt açılınca sistem otomatik bağlam seçip promptu hazırlayacak.</p>
+        </div>
+        <button
+          type="button"
+          className="button-secondary"
+          onClick={() => setExpanded((current) => !current)}
+          aria-expanded={expanded}
+          aria-controls="consultation-quick-create-fields"
+          style={{ whiteSpace: 'nowrap' }}
+        >
+          {expanded ? 'Kapat' : 'Aç'}
         </button>
       </div>
+
+      {expanded ? (
+        <>
+          <label style={{ display: 'grid', gap: 6 }}>
+            <span>Kısa başlık (isteğe bağlı)</span>
+            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgasını sadeleştir" />
+          </label>
+
+          <div id="consultation-quick-create-fields" style={{ display: 'grid', gap: 12 }}>
+            <label style={{ display: 'grid', gap: 6 }}>
+              <span>Değişiklik isteği</span>
+              <textarea
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+                rows={6}
+                placeholder="Ne yapmak istediğini, neden düşündüğünü ve kafandaki soruyu düz metin olarak yaz."
+              />
+            </label>
+
+            <label style={{ display: 'grid', gap: 6 }}>
+              <span>Hedef model</span>
+              <select value={targetModel} onChange={(event) => setTargetModel(event.target.value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')}>
+                <option value="gpt-5-pro">GPT-5 Pro</option>
+                <option value="gpt-5">GPT-5</option>
+              </select>
+            </label>
+
+            {targetModel === 'gpt-5-pro' ? (
+              <p className="muted">GPT-5 Pro varsayılan seçili. Cevap yaklaşık 30 dakika sürebilir, bu yüzden prompt daha dikkatli hazırlanır.</p>
+            ) : (
+              <p className="muted">GPT-5 daha hızlı akış için uygundur. Sistem promptu daha kompakt kurar.</p>
+            )}
+
+            {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="submit" className="button-primary" disabled={busy}>
+                {busy ? 'Kayıt ve prompt hazırlanıyor...' : 'Kaydı aç'}
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
     </form>
   )
 }
