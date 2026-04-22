@@ -65,7 +65,7 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
       <div>
         <p className="eyebrow">Teklif akışı</p>
         <h3>Yeni teklif aç</h3>
-        <p className="muted">Audit sonrası paket ve tutarı netleştirip teklifi Project OS omurgasına bağlar.</p>
+        <p className="muted">Audit sonrası paket ve tutarı netleştirip teklifi İş Takibi omurgasına bağlar.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -94,9 +94,9 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Durum</span>
           <select value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value as OfferRecord['status'] }))}>
-            <option value="draft">Draft</option>
-            <option value="sent">Sent</option>
-            <option value="approved">Approved</option>
+            <option value="draft">Taslak</option>
+            <option value="sent">Gönderildi</option>
+            <option value="approved">Onaylandı</option>
           </select>
         </label>
       </div>
@@ -116,7 +116,7 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Domain tercihi</span>
           <select value={form.domainPreference} onChange={(event) => setForm((current) => ({ ...current, domainPreference: event.target.value as OfferRecord['domainPreference'] }))}>
-            <option value="subdomain">Subdomain</option>
+            <option value="subdomain">Alt alan adı</option>
             <option value="custom-domain">Ozel domain</option>
           </select>
         </label>
@@ -160,7 +160,7 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {businesses.length === 0 ? <p className="muted">Teklif açmadan önce en az bir işletme kaydı gerekli.</p> : null}
 
-      <p className="muted">Paket 0 audit / demo tarafinda kalir. Offer kaydi icinde Paket 1-4 ve bakim serisi secilir. Domain tercihi ve opsiyonel ekler bu kayitta tutulur.</p>
+      <p className="muted">Paket 0 audit ve demo tarafında kalır. Teklif kaydı içinde Paket 1-4 ve bakım serisi seçilir. Domain tercihi ve opsiyonel ekler bu kayıtta tutulur.</p>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button type="submit" className="button-secondary" disabled={busy || businesses.length === 0 || !form.businessId || !form.amountTry.trim()}>

@@ -56,7 +56,7 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
 
       <label style={{ display: 'grid', gap: 6 }}>
         <span>Aksiyon başlığı</span>
-        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: Offer v1 paket sınırlarını yaz" />
+        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif v1 paket sınırlarını yaz" />
       </label>
 
       <div className="grid-2">
@@ -72,8 +72,8 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Yazılacağı yer</span>
           <select value={linkedEntityType} onChange={(event) => setLinkedEntityType(event.target.value as 'project_os' | 'context_center')}>
-            <option value="project_os">Project OS</option>
-            <option value="context_center">Context Center</option>
+            <option value="project_os">İş Takibi</option>
+            <option value="context_center">Bağlam Merkezi</option>
           </select>
         </label>
       </div>

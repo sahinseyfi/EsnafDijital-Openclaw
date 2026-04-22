@@ -53,7 +53,7 @@ export function DeliveryProjectCreateForm({ businesses, offers }: { businesses: 
       <div>
         <p className="eyebrow">Teslimat akışı</p>
         <h3>Yeni teslimat aç</h3>
-        <p className="muted">Onaylanan işi kickoff, build, live veya maintenance durumuyla operasyon hattına bağlar.</p>
+        <p className="muted">Onaylanan işi başlangıç, yapım, yayın veya bakım durumuyla operasyon hattına bağlar.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -73,10 +73,10 @@ export function DeliveryProjectCreateForm({ businesses, offers }: { businesses: 
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Durum</span>
           <select value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value as DeliveryProjectRecord['status'] }))}>
-            <option value="kickoff">Kickoff</option>
-            <option value="building">Building</option>
-            <option value="live">Live</option>
-            <option value="maintenance">Maintenance</option>
+            <option value="kickoff">Başlangıç</option>
+            <option value="building">Yapım</option>
+            <option value="live">Yayında</option>
+            <option value="maintenance">Bakım</option>
           </select>
         </label>
       </div>
@@ -84,18 +84,18 @@ export function DeliveryProjectCreateForm({ businesses, offers }: { businesses: 
       {latestOffer ? (
         <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
           <div>
-            <p className="eyebrow">Tekliften gelen scope onerisi</p>
+            <p className="eyebrow">Tekliften gelen kapsam önerisi</p>
             <strong style={{ color: 'var(--ink-title)' }}>{latestOffer.packageName}</strong>
           </div>
           <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', color: 'var(--ink-secondary)' }}>{suggestedScope}</pre>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button type="button" className="button-secondary" onClick={() => setForm((current) => ({ ...current, scope: suggestedScope }))}>
-              Scope taslagini doldur
+              Kapsam taslağını doldur
             </button>
           </div>
         </article>
       ) : (
-        <p className="muted">Secili isletme icin once teklif kaydi acilirsa teslimat scope taslagi otomatik onerilir.</p>
+        <p className="muted">Seçili işletme için önce teklif kaydı açılırsa teslimat kapsam taslağı otomatik önerilir.</p>
       )}
 
       <label style={{ display: 'grid', gap: 6 }}>

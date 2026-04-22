@@ -51,7 +51,7 @@ export function BusinessCreateForm() {
       <div>
         <p className="eyebrow">Hızlı kayıt</p>
         <h3>Yeni işletme aç</h3>
-        <p className="muted">Project OS hattına yeni işletmeyi hızlıca ekler ve doğrudan veritabanına yazar.</p>
+        <p className="muted">İş Takibi hattına yeni işletmeyi hızlıca ekler ve doğrudan veritabanına yazar.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -73,9 +73,9 @@ export function BusinessCreateForm() {
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Durum</span>
           <select value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value as BusinessRecord['status'] }))}>
-            <option value="lead">Lead</option>
-            <option value="active">Active</option>
-            <option value="paused">Paused</option>
+            <option value="lead">Aday</option>
+            <option value="active">Aktif</option>
+            <option value="paused">Beklemede</option>
           </select>
         </label>
       </div>

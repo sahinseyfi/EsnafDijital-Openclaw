@@ -50,7 +50,7 @@ export function AuditCreateForm({ businesses }: { businesses: BusinessRecord[] }
       <div>
         <p className="eyebrow">Audit akışı</p>
         <h3>Yeni audit aç</h3>
-        <p className="muted">İşletme seç, ilk hazırlık seviyesini yaz ve teklif öncesi somut durumu Project OS içine bağla.</p>
+        <p className="muted">İşletme seç, ilk hazırlık seviyesini yaz ve teklif öncesi somut durumu İş Takibi içine bağla.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -79,9 +79,9 @@ export function AuditCreateForm({ businesses }: { businesses: BusinessRecord[] }
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Durum</span>
           <select value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value as AuditRecord['status'] }))}>
-            <option value="new">New</option>
-            <option value="reviewed">Reviewed</option>
-            <option value="offered">Offered</option>
+            <option value="new">Yeni</option>
+            <option value="reviewed">İncelendi</option>
+            <option value="offered">Teklife taşındı</option>
           </select>
         </label>
       </div>
