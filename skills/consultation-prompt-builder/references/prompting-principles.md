@@ -6,7 +6,7 @@
 
 ## Uygulanacak ilkeler
 1. Gorevi tek ve net tanimla.
-2. Baglami sec, dump etme.
+2. Gereken baglami sec, dump etme; dosya sayisini yapay olarak sinirlama.
 3. Beklenen cikti tipini acik ver.
 4. Kisa ama yapilandirilmis kal.
 5. Repo ve runtime gercegine bagla.
@@ -36,4 +36,5 @@
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta tasimak
 - son prompt yerine kodun toparlayacagi yarim taslak uretmek
 - repo linklerini veya runtime gercegini ima edip acik yazmamak
+- baglami dosya sayisina gore yapay olarak daraltmak
 - `[1]`, `[2]`, `([GitHub][1])` gibi atif/footnote stili kullanmak

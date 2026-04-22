@@ -12,7 +12,8 @@ Promptu hazir saymadan once sunlari kontrol et:
 
 ## Zorunlu netlik
 - prompt tek bir is mi istiyor
-- secili baglam en fazla 3-5 oge mi
+- secili baglam istenen degisikligi guvenle kurmaya yetecek kadar genis mi
+- karari etkilemeyen tekrarlar prompta tasinmamis mi
 - beklenen cikti tipi acik mi
 - sinirlar ve basari kosulu yazili mi
 - gerekiyorsa teknik olmayan kisa ozet istegi JSON disinda ayri bir bolum olarak var mi
@@ -25,6 +26,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - prompt fazla genel kalmissa
 - repo/runtime baglami yoksa
 - kullanilacak cikti bicimi net degilse
+- baglam yapay olarak dar tutulup kritik kaynaklar disarida kalmissa
 - gereksiz teori promptun agirligini artiriyorsa
 - eksik kritik bilgi saklaniyorsa
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleler final promptta geciyorsa
