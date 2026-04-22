@@ -1,5 +1,72 @@
 [
   {
+    "id": "consult_1776868816069",
+    "title": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-22T14:40:16.364Z",
+    "decisionQuestion": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu için en doğru karar çerçevesi nasıl kurulmalı?",
+    "summary": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
+    "gptRecommended": false,
+    "promptStatus": "preparing",
+    "promptError": null,
+    "whyNow": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
+    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
+      "kararCekirdegi": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+      "workMode": "decision",
+      "targetSurface": "cross",
+      "outputType": "gpt_prompt",
+      "targetModel": "gpt-5-pro",
+      "workModeLabel": "karar",
+      "targetSurfaceLabel": "çapraz",
+      "outputTypeLabel": "GPT promptu",
+      "targetModelLabel": "GPT-5 Pro",
+      "promptStatus": "preparing",
+      "promptError": null,
+      "preparedPromptText": ""
+    },
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje çizgisi",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve öncelik",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "project",
+        "title": "Kalıcı karar çizgisi",
+        "ref": "MEMORY.md"
+      },
+      {
+        "kind": "roadmap",
+        "title": "Audit -> Teklif -> Teslimat akışı",
+        "ref": "PLAYBOOKS/audit-offer-delivery.md"
+      },
+      {
+        "kind": "roadmap",
+        "title": "OpenClaw runtime davranışı",
+        "ref": "AGENTS.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": "gpt-5-pro",
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  },
+  {
     "id": "consult_1776868210381",
     "title": "Bağlam dosyalarını değerlendirip nihai sürümlerini yazma",
     "type": "shared",
