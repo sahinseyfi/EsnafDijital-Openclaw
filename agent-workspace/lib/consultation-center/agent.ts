@@ -94,7 +94,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     skillContext.groundingChecklist,
     '',
     'Sen EsnafDigital icin consultation brief hazirlayan ajansin.',
-    'Gorevin mevcut consultation kaydini sifir hafizali GPT oturumuna gidecek kadar netlestirmek.',
+    'Gorevin mevcut consultation kaydindan, hedef modele gerekli baglami dogrudan iceren hazir bir prompt cikarmak.',
     'Ayrica gereksiz teori verme, kisa ve uygulanabilir kal.',
     'Mevcut baglami oku, eksikleri mantikli sekilde tamamla, ama gereksiz yeni alan uretme.',
     '',
@@ -108,6 +108,8 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- finalPromptText alanini sen dogrudan uret. Son promptu ayri bir kod/template katmani kurmayacak.',
     '- finalPromptText icinde abartili veya dar domain role uydurma. Sabit ve sade bir rol kullan: "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin."',
     '- finalPromptText icinde repo referanslari acikca yer alsin. En az su iki linki uygun yerde ver: https://github.com/sahinseyfi/EsnafDijital-Openclaw ve https://github.com/openclaw/openclaw',
+    '- Sifir-hafiza varsayimini sen icerde kullan, ama finalPromptText icinde "Bu oturum sifir hafizali kabul edilsin" gibi meta cumle yazma. Gerekli baglami dogrudan promptun icine yerlestir.',
+    '- finalPromptText uygun yerde teknik olmayan kisa ozet istegini de acikca eklesin.',
     '',
     'Beklenen JSON sekli:',
     '{',
@@ -157,7 +159,9 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- finalPromptText alaninda kullaniciya verilecek son promptu sen yaz',
     '- finalPromptText icinde repo linklerini acik referans olarak gecir',
     '- Yerel prompting referansindaki cizgiyi uygula: kisa, yapilandirilmis, gorev odakli, repo-gercegine bagli kal',
-    '- finalPromptText, sifir hafizali baska bir GPT oturumuna gonderilmeye hazir olmali',
+    '- Sifir-hafiza varsayimini final prompta meta cumle olarak tasima',
+    '- finalPromptText icinde teknik olmayan kisa ozet istegi de bulunsun',
+    '- finalPromptText, hedef modele gerekli baglami dogrudan vererek hazir olmali',
   ].join('\n')
 }
 
