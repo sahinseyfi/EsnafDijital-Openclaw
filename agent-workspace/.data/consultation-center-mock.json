@@ -1,24 +1,24 @@
 [
   {
     "id": "consult_1776850238725",
-    "title": "Prompt skili",
+    "title": "Prompt üreten skill için karar çerçevesi",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T09:49:30.976Z",
-    "decisionQuestion": "Prompt skili konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "Promptu üreten skilli nasıl geliştirebiliriz?",
+    "updatedAt": "2026-04-22T09:52:23.206Z",
+    "decisionQuestion": "Consultation kaydından doğru bağlamı seçip kısa ama güçlü bir GPT promptu üreten skill için en sade ve doğru karar çerçevesi nasıl kurulmalı?",
+    "summary": "EsnafDigital’in consultation akışında kullanılan prompt üreten skill için minimum karar yapısını, bağlam seçme mantığını ve uygulanabilir çıktı sözleşmesini netleştirme ihtiyacı var.",
     "gptRecommended": false,
-    "promptStatus": "preparing",
+    "promptStatus": "ready",
     "promptError": "Command failed: openclaw agent --session-id 05977ee0-9430-4455-be71-6246cd3a1f46 --message Sen EsnafDigital icin consultation brief hazirlayan ajansin.\nGorevin mevcut consultation kaydini sifir hafizali GPT oturumuna gidecek kadar netlestirmek.\nAyrica gereksiz teori verme, kisa ve uygulanabilir kal.\nMevcut baglami oku, eksikleri mantikli sekilde tamamla, ama gereksiz yeni alan uretme.\n\nKesin kurallar:\n- Sadece gecerli JSON don.\n- Markdown, aciklama, kod fence, onsoz, sonsoz donme.\n- Context refleri en fazla 4 adet tut.\n- Output Turkce olsun.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Promptun sonucunun VPS uzerinde calisan OpenClaw ajanina yon verecegini unutma.\n- finalPromptText alanini sen dogrudan uret. Son promptu ayri bir kod/template katmani kurmayacak.\n- finalPromptText icinde abartili veya dar domain role uydurma. Sabit ve sade bir rol kullan: \"Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\"\n\nBeklenen JSON sekli:\n{\n  \"title\": \"string\",\n  \"summary\": \"string\",\n  \"decisionQuestion\": \"string\",\n  \"whyNow\": \"string\",\n  \"desiredOutput\": \"string\",\n  \"finalPromptText\": \"string\",\n  \"contextRefs\": [{ \"kind\": \"project|heartbeat|decision|roadmap\", \"title\": \"string\", \"ref\": \"string\" }],\n  \"businessBrief\": { ... } | null,\n  \"technicalBrief\": { ... } | null,\n  \"sharedBrief\": { ... } | null\n}\n\nConsultation kaydi:\n- targetModel: gpt-5-pro\n- title: Prompt skili\n- type: shared\n- summary: Promptu üreten skilli nasıl geliştirebiliriz?\n- decisionQuestion: Prompt skili konusu için en doğru karar çerçevesi nasıl kurulmalı?\n- whyNow: Prompt skili konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.\n- desiredOutput: Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi\n\nMevcut context refs:\n- project | Proje çizgisi | PROJECT.md\n- heartbeat | Aktif faz ve öncelik | HEARTBEAT.md\n- project | Kalıcı karar çizgisi | MEMORY.md\n\nMevcut businessBrief:\n- yok\n\nMevcut technicalBrief:\n- yok\n\nMevcut sharedBrief:\n- hamNot: Promptu üreten skilli nasıl geliştirebiliriz?\n- kararCekirdegi: Prompt skili\n- workMode: decision\n- targetSurface: cross\n- outputType: gpt_prompt\n- targetModel: gpt-5-pro\n- workModeLabel: karar\n- targetSurfaceLabel: çapraz\n- outputTypeLabel: GPT promptu\n- targetModelLabel: GPT-5 Pro\n- promptStatus: preparing\n- promptError: —\n- preparedPromptText: —\n\nOdak:\n- karar sorusunu tek cumlede keskinlestir\n- neden simdiyi is degeri uzerinden netlestir\n- beklenen ciktiyi kullanilabilir deliverable listesine cevir\n- gerekirse context refleri iyilestir\n- brief alanlarini bu consultation turune gore doldur\n- finalPromptText alaninda kullaniciya verilecek son promptu sen yaz\n- finalPromptText, sifir hafizali baska bir GPT oturumuna gonderilmeye hazir olmali --thinking high --timeout 180 --json\nGateway agent failed; falling back to embedded: Error: gateway timeout after 210000ms\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /root/.openclaw/openclaw.json\nBind: loopback\n[diagnostic] lane task error: lane=main durationMs=11654 error=\"Error: session file locked (timeout 10000ms): pid=614260 /root/.openclaw/agents/main/sessions/fa5a0283-c80e-413d-ae02-a008b2b55611.jsonl.lock\"\n[diagnostic] lane task error: lane=session:agent:main:explicit:05977ee0-9430-4455-be71-6246cd3a1f46 durationMs=11660 error=\"Error: session file locked (timeout 10000ms): pid=614260 /root/.openclaw/agents/main/sessions/fa5a0283-c80e-413d-ae02-a008b2b55611.jsonl.lock\"\n[model-fallback/decision] model fallback decision: decision=candidate_failed requested=openai-codex/gpt-5.4 candidate=openai-codex/gpt-5.4 reason=timeout next=none detail=session file locked (timeout 10000ms): pid=614260 /root/.openclaw/agents/main/sessions/fa5a0283-c80e-413d-ae02-a008b2b55611.jsonl.lock\nFailoverError: session file locked (timeout 10000ms): pid=614260 /root/.openclaw/agents/main/sessions/fa5a0283-c80e-413d-ae02-a008b2b55611.jsonl.lock\n",
-    "whyNow": "Prompt skili konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
-    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "whyNow": "Bu yapı şimdi netleşirse Consultation Center, bağlam seçimi ve prompt üretimi aynı çizgide ilerler; gereksiz alan büyümesi, kör bağlam yükleme ve zayıf prompt üretimi erken aşamada engellenir.",
+    "desiredOutput": "Kullanılabilir deliverable listesi: 1) karar çerçevesi, 2) minimum skill yapısı, 3) bağlam seçme kuralları, 4) consultation kaydından prompt üretim akışı, 5) kaçınılacak anti-patternler, 6) MVP için net öneri.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Promptu üreten skilli nasıl geliştirebiliriz?",
-      "kararCekirdegi": "Prompt skili",
+      "hamNot": "Promptu üreten skill nasıl geliştirilir?",
+      "kararCekirdegi": "Consultation kaydından doğru bağlamı seçip kısa ve güçlü GPT promptu üreten skillin minimum karar yapısı",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -27,14 +27,30 @@
       "targetSurfaceLabel": "çapraz",
       "outputTypeLabel": "GPT promptu",
       "targetModelLabel": "GPT-5 Pro",
-      "promptStatus": "preparing",
+      "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": ""
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital’in consultation akisinda kullanilan prompt ureten skill icin en sade ve uygulanabilir karar cercevesini netlestir.\n\nBaglam:\n- EsnafDigital, kucuk isletmelerin dijitalde daha gorunur, daha guvenilir ve daha erisilebilir olmasini saglayan sade bir hizmet sistemi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- MVP cizgisi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku, genel CRM yok, agir AI/RAG/vector DB yok.\n- Ic sistem hedefi: Project OS + Context Center + GPT Pro Consultation Center yapisini ayni admin panel mantiginda birlestirmek.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Mevcut ihtiyac: consultation kaydindan dogru baglami secen, kisa ama guclu GPT promptu ureten bir skill tasarlamak.\n- Mevcut riskler: tum dosyalari kor bicimde prompta basmak, gereksiz teori uretmek, ekrani ve veri modelini erkenden buyutmek.\n- Kalici ilke: once netlik, sonra arac; once calisan basit cozum, sonra otomasyon.\n\nKarar sorusu:\nConsultation kaydindan dogru baglami secip VPS uzerindeki OpenClaw ajanina uygulanabilir net GPT promptu ureten bir skill icin hangi minimum karar cercevesi ve yapi kurulmalidir?\n\nDegerlendirme olcutleri:\n- Prompt kisa ama yeterince yonlendirici olmali.\n- Skill, tum baglami kor yuklememeli; amaca gore secili baglam kullanmali.\n- Sistem kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisinden sapmamali.\n- Oneri, mevcut Consultation Center akisina dogrudan gomulebilir olmali.\n- Yeni karmasik alt sistemler onermemeli.\n\nSenden istedigim cikti:\nSadece JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"selectionPriority\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"skillDesign\": {\n    \"purpose\": \"string\",\n    \"minimumInputs\": [\"string\"],\n    \"minimumOutputs\": [\"string\"],\n    \"requiredRules\": [\"string\"]\n  },\n  \"contextSelectionRules\": [\n    {\n      \"when\": \"string\",\n      \"include\": [\"string\"],\n      \"exclude\": [\"string\"]\n    }\n  ],\n  \"outputContract\": {\n    \"requiredSections\": [\"string\"],\n    \"writingRules\": [\"string\"],\n    \"jsonShapeAdvice\": [\"string\"]\n  },\n  \"recommendedFlow\": [\"string\"],\n  \"antiPatterns\": [\"string\"],\n  \"mvpRecommendation\": {\n    \"recommendedApproach\": \"string\",\n    \"why\": \"string\",\n    \"firstVersionScope\": [\"string\"]\n  }\n}\n\nKurallar:\n- Kisa, net ve uygulanabilir ol.\n- Gereksiz teori verme.\n- Onerileri OpenClaw ajani tarafinda VPS uzerinde uygulanabilir tut.\n- Alan adlarini netlestirebilirsin ama gereksiz yeni katmanlar uretme.\n- Her bolumde simdi uygulanabilir minimum cozum odagini koru.",
+      "mevcutDurum": "Prompt üretimi tarafında hata yaşanmış, fakat asıl ihtiyaç karar çerçevesi, bağlam seçimi ve çıktı sözleşmesini sade biçimde netleştirmek.",
+      "kritikSinirlar": [
+        "küçük işletme odağı korunacak",
+        "sade MVP çizgisi korunacak",
+        "düşük operasyon yükü korunacak",
+        "tüm dosyaları kör biçimde prompta basma yaklaşımı reddedilecek",
+        "çıktı VPS üzerindeki OpenClaw ajanına doğrudan yön verecek kadar net olacak"
+      ],
+      "basariOlcutleri": [
+        "karar sorusu tek cümlede netleşir",
+        "çıktı consultation akışına doğrudan gömülebilir olur",
+        "minimum alan ve minimum kuralla çalışır",
+        "bağlam seçimi amaç odaklı olur",
+        "gereksiz teori ve sistem büyümesi engellenir"
+      ],
+      "promptPreparedAt": "2026-04-22T09:52:23.205Z"
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje çizgisi",
+        "title": "Proje tanımı ve MVP çizgisi",
         "ref": "PROJECT.md"
       },
       {
@@ -43,8 +59,8 @@
         "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "project",
-        "title": "Kalıcı karar çizgisi",
+        "kind": "decision",
+        "title": "Kalıcı karar ve prompt üretim ilkeleri",
         "ref": "MEMORY.md"
       }
     ],
