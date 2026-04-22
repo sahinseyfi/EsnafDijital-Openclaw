@@ -55,10 +55,23 @@ Bu yuzden dedupe sirasinda su bilgi korunacak:
 - kac farkli arama teriminde gorundu
 - ilk hangi arama terimiyle yakalandi
 
+## Summary komutu
+Raw veriyi koruyup ozet tablo uretmek icin:
+
+```bash
+./bin/apify-discovery-summary
+```
+
+Bu komut su dosyalari uretir:
+- `state/apify-discovery/summary/candidates-summary.json`
+- `state/apify-discovery/summary/candidates-summary.csv`
+
 ## Sonraki adim
-Raw dosyalar olustuktan sonra tek bir scorer scripti su isi yapacak:
+Summary komutu su isi yapar:
 - maps url veya place benzeri benzersiz alanla dedupe
 - dedupe sirasinda `matchedSearchTerms` bilgisini kaybetmeden birlestir
-- zincir ve hedef disi kayitlari ele
-- gorunurluk skoru hesapla
-- sadece shortlist dosyasi uret
+- `missingSearchTerms` alanini hesapla
+- gorunurluk skorunu hesapla
+- summary tabloyu JSON ve CSV olarak yazar
+
+Bir sonraki adimda istersek zincir eleme ve sadece shortlist cikisi icin ikinci script ekleriz.

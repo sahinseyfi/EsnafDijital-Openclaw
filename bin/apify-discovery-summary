@@ -1,0 +1,398 @@
+#!/usr/bin/env python3
+import csv
+import json
+import re
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+WORKSPACE = Path('/root/.openclaw/workspace')
+BASE_DIR = WORKSPACE / 'state' / 'apify-discovery'
+RAW_DIR = BASE_DIR / 'raw'
+SUMMARY_DIR = BASE_DIR / 'summary'
+
+
+def slug_to_segment(slug: str) -> str:
+    prefix = slug.replace('-arnavutkoy', '')
+    return prefix.replace('-', ' ')
+
+
+def normalize_text(value: str | None) -> str:
+    if not value:
+        return ''
+    return re.sub(r'\s+', ' ', value.strip().lower())
+
+
+def business_key(row: dict[str, Any]) -> str:
+    for key in ('placeId', 'url'):
+        value = row.get(key)
+        if value:
+            return str(value)
+    title = normalize_text(row.get('title'))
+    address = normalize_text(row.get('address'))
+    return f'{title}::{address}'
+
+
+def first_truthy(*values: Any) -> Any:
+    for value in values:
+        if value not in (None, '', [], {}):
+            return value
+    return None
+
+
+def parse_iso(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        if value.endswith('Z'):
+            value = value.replace('Z', '+00:00')
+        return datetime.fromisoformat(value)
+    except Exception:
+        return None
+
+
+def iso_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')
+
+
+def extract_website(row: dict[str, Any]) -> tuple[str, bool]:
+    for key in ('website', 'websiteUrl'):
+        value = row.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip(), True
+    web_results = row.get('webResults')
+    if isinstance(web_results, list) and web_results:
+        first = web_results[0]
+        if isinstance(first, str) and first.strip():
+            return first.strip(), True
+        if isinstance(first, dict):
+            for key in ('url', 'link'):
+                value = first.get(key)
+                if isinstance(value, str) and value.strip():
+                    return value.strip(), True
+    return '', False
+
+
+def detect_district(row: dict[str, Any], location_query: str) -> str:
+    address = ' '.join(str(row.get(k) or '') for k in ('address', 'city', 'state'))
+    address_norm = normalize_text(address)
+    if 'arnavutköy' in address_norm or 'arnavutkoy' in address_norm:
+        return 'Arnavutkoy'
+    location_norm = normalize_text(location_query)
+    if 'arnavutköy' in location_norm or 'arnavutkoy' in location_norm:
+        return 'Arnavutkoy'
+    return str(row.get('city') or '')
+
+
+def category_list(row: dict[str, Any]) -> list[str]:
+    categories = row.get('categories')
+    if isinstance(categories, list):
+        return [str(item) for item in categories if item]
+    category = row.get('categoryName')
+    return [str(category)] if category else []
+
+
+def score_entry(entry: dict[str, Any]) -> None:
+    reasons: list[str] = []
+    score = 0
+    reviews_count = int(entry['candidate'].get('reviewsCount') or 0)
+    rating = entry['candidate'].get('rating')
+    has_phone = bool(entry['candidate'].get('phone'))
+    has_opening_hours = bool(entry['candidate'].get('hasOpeningHours'))
+    is_closed = bool(entry['candidate'].get('isClosed'))
+    matched_count = int(entry['source'].get('matchedSearchTermCount') or 0)
+    total_terms = max(1, len(entry['source'].get('expectedSearchTerms') or []))
+
+    if reviews_count == 0:
+        score += 2
+        reasons.append('yorum yok')
+    elif reviews_count <= 9:
+        score += 1
+        reasons.append('yorum dusuk')
+
+    if rating in (None, ''):
+        score += 1
+        reasons.append('puan yok')
+
+    if not has_phone:
+        score += 1
+        reasons.append('telefon eksik')
+
+    if not has_opening_hours:
+        score += 1
+        reasons.append('saat bilgisi eksik')
+
+    if matched_count == 1 and total_terms > 1:
+        reasons.append('tek arama teriminde gorundu')
+
+    if reviews_count >= 50:
+        score -= 2
+        reasons.append('yorum guclu')
+    elif reviews_count >= 30 and rating not in (None, '') and float(rating) >= 4.4:
+        score -= 2
+        reasons.append('yorum ve puan guclu')
+
+    if is_closed:
+        score -= 3
+        reasons.append('kapali gorunuyor')
+
+    if score >= 5:
+        bucket = 'shortlist'
+    elif score >= 3:
+        bucket = 'review'
+    else:
+        bucket = 'drop'
+
+    if matched_count >= total_terms and total_terms > 1:
+        coverage = 'genis'
+    elif matched_count == 1:
+        coverage = 'tek-terim'
+    else:
+        coverage = 'sinirli'
+
+    entry['scoring'] = {
+        'score': score,
+        'bucket': bucket,
+        'reasons': reasons,
+        'searchCoverageSignal': coverage,
+    }
+
+
+def build_summary() -> list[dict[str, Any]]:
+    grouped: dict[str, dict[str, Any]] = {}
+    inputs = sorted(BASE_DIR.glob('*.input.json'))
+    run_configs: list[dict[str, Any]] = []
+    all_search_terms: list[str] = []
+    all_segments: list[str] = []
+
+    for input_path in inputs:
+        slug = input_path.name.replace('.input.json', '')
+        raw_path = RAW_DIR / f'{slug}.raw.json'
+        if not raw_path.exists():
+            continue
+        payload = json.loads(input_path.read_text(encoding='utf-8'))
+        expected_terms = [str(item) for item in payload.get('searchStringsArray') or []]
+        location_query = str(payload.get('locationQuery') or '')
+        segment = slug_to_segment(slug)
+        run_configs.append({
+            'slug': slug,
+            'raw_path': raw_path,
+            'expected_terms': expected_terms,
+            'location_query': location_query,
+            'segment': segment,
+        })
+        for term in expected_terms:
+            if term not in all_search_terms:
+                all_search_terms.append(term)
+        if segment not in all_segments:
+            all_segments.append(segment)
+
+    for cfg in run_configs:
+        raw_rows = json.loads(cfg['raw_path'].read_text(encoding='utf-8'))
+        expected_terms = cfg['expected_terms']
+        location_query = cfg['location_query']
+        segment = cfg['segment']
+
+        for row in raw_rows:
+            key = business_key(row)
+            entry = grouped.get(key)
+            if not entry:
+                website_url, has_website = extract_website(row)
+                categories = category_list(row)
+                location = row.get('location') or {}
+                district = detect_district(row, location_query)
+                entry = {
+                    'source': {
+                        'segment': segment,
+                        'locationQuery': location_query,
+                        'collectedAt': row.get('scrapedAt') or iso_now(),
+                        'expectedSearchTerms': list(all_search_terms),
+                        'matchedSearchTerms': [],
+                        'missingSearchTerms': [],
+                        'matchedSearchTermCount': 0,
+                        'firstMatchedSearchTerm': str(row.get('searchString') or ''),
+                        'matchedSegments': [segment],
+                        'missingSegments': [],
+                        'searchCoverageNote': '',
+                        'rawRecordCount': 0,
+                    },
+                    'candidate': {
+                        'name': str(row.get('title') or ''),
+                        'mapsUrl': str(row.get('url') or ''),
+                        'placeId': str(row.get('placeId') or ''),
+                        'segment': segment,
+                        'categoryName': str(row.get('categoryName') or ''),
+                        'categories': categories,
+                        'address': str(row.get('address') or ''),
+                        'district': district,
+                        'city': str(row.get('city') or ''),
+                        'phone': str(row.get('phone') or ''),
+                        'websiteUrl': website_url,
+                        'hasWebsite': has_website,
+                        'rating': row.get('totalScore'),
+                        'reviewsCount': int(row.get('reviewsCount') or 0),
+                        'hasOpeningHours': bool(row.get('openingHours')),
+                        'isClosed': bool(row.get('temporarilyClosed') or row.get('permanentlyClosed')),
+                        'latitude': location.get('lat'),
+                        'longitude': location.get('lng'),
+                    },
+                    'scoring': {},
+                }
+                grouped[key] = entry
+
+            entry['source']['rawRecordCount'] += 1
+            search_string = str(row.get('searchString') or '')
+            if search_string and search_string not in entry['source']['matchedSearchTerms']:
+                entry['source']['matchedSearchTerms'].append(search_string)
+            if segment not in entry['source']['matchedSegments']:
+                entry['source']['matchedSegments'].append(segment)
+
+            scraped_at = parse_iso(row.get('scrapedAt'))
+            current_collected = parse_iso(entry['source'].get('collectedAt'))
+            if scraped_at and (not current_collected or scraped_at < current_collected):
+                entry['source']['collectedAt'] = row.get('scrapedAt')
+
+            candidate = entry['candidate']
+            candidate['phone'] = str(first_truthy(candidate.get('phone'), row.get('phone')) or '')
+            website_url, has_website = extract_website(row)
+            candidate['websiteUrl'] = str(first_truthy(candidate.get('websiteUrl'), website_url) or '')
+            candidate['hasWebsite'] = bool(candidate.get('hasWebsite') or has_website)
+            candidate['rating'] = first_truthy(candidate.get('rating'), row.get('totalScore'))
+            candidate['reviewsCount'] = max(int(candidate.get('reviewsCount') or 0), int(row.get('reviewsCount') or 0))
+            candidate['hasOpeningHours'] = bool(candidate.get('hasOpeningHours') or row.get('openingHours'))
+            candidate['isClosed'] = bool(candidate.get('isClosed') or row.get('temporarilyClosed') or row.get('permanentlyClosed'))
+            candidate['mapsUrl'] = str(first_truthy(candidate.get('mapsUrl'), row.get('url')) or '')
+            candidate['placeId'] = str(first_truthy(candidate.get('placeId'), row.get('placeId')) or '')
+            candidate['categoryName'] = str(first_truthy(candidate.get('categoryName'), row.get('categoryName')) or '')
+            if not candidate.get('categories'):
+                candidate['categories'] = category_list(row)
+            if not candidate.get('address'):
+                candidate['address'] = str(row.get('address') or '')
+            if not candidate.get('district'):
+                candidate['district'] = detect_district(row, location_query)
+            if not candidate.get('city'):
+                candidate['city'] = str(row.get('city') or '')
+            location = row.get('location') or {}
+            candidate['latitude'] = first_truthy(candidate.get('latitude'), location.get('lat'))
+            candidate['longitude'] = first_truthy(candidate.get('longitude'), location.get('lng'))
+
+    summary_rows: list[dict[str, Any]] = []
+    for entry in grouped.values():
+        expected_terms = entry['source'].get('expectedSearchTerms') or []
+        matched_terms = entry['source'].get('matchedSearchTerms') or []
+        missing_terms = [term for term in expected_terms if term not in matched_terms]
+        matched_segments = entry['source'].get('matchedSegments') or []
+        missing_segments = [segment for segment in all_segments if segment not in matched_segments]
+        entry['source']['missingSearchTerms'] = missing_terms
+        entry['source']['matchedSearchTermCount'] = len(matched_terms)
+        entry['source']['missingSegments'] = missing_segments
+        if matched_terms and missing_terms:
+            entry['source']['searchCoverageNote'] = f"{', '.join(matched_terms)} ile cikti, {', '.join(missing_terms)} ile cikmadi"
+        elif matched_terms:
+            entry['source']['searchCoverageNote'] = f"{', '.join(matched_terms)} ile bulundu"
+        else:
+            entry['source']['searchCoverageNote'] = 'Arama terimi bilgisi yok'
+        score_entry(entry)
+        summary_rows.append(entry)
+
+    def sort_key(item: dict[str, Any]):
+        return (
+            item['source'].get('segment') or '',
+            -(item.get('scoring') or {}).get('score', 0),
+            -(item['candidate'].get('reviewsCount') or 0),
+            item['candidate'].get('name') or '',
+        )
+
+    return sorted(summary_rows, key=sort_key)
+
+
+def write_outputs(summary_rows: list[dict[str, Any]]) -> None:
+    SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
+    json_path = SUMMARY_DIR / 'candidates-summary.json'
+    csv_path = SUMMARY_DIR / 'candidates-summary.csv'
+
+    json_path.write_text(json.dumps(summary_rows, ensure_ascii=False, indent=2), encoding='utf-8')
+
+    fieldnames = [
+        'segment',
+        'name',
+        'placeId',
+        'mapsUrl',
+        'categoryName',
+        'categories',
+        'address',
+        'district',
+        'city',
+        'phone',
+        'hasWebsite',
+        'websiteUrl',
+        'rating',
+        'reviewsCount',
+        'hasOpeningHours',
+        'isClosed',
+        'matchedSearchTerms',
+        'missingSearchTerms',
+        'matchedSearchTermCount',
+        'firstMatchedSearchTerm',
+        'searchCoverageNote',
+        'searchCoverageSignal',
+        'score',
+        'bucket',
+        'reasons',
+        'rawRecordCount',
+        'collectedAt',
+        'latitude',
+        'longitude',
+    ]
+
+    with csv_path.open('w', encoding='utf-8', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for entry in summary_rows:
+            writer.writerow({
+                'segment': entry['source'].get('segment'),
+                'name': entry['candidate'].get('name'),
+                'placeId': entry['candidate'].get('placeId'),
+                'mapsUrl': entry['candidate'].get('mapsUrl'),
+                'categoryName': entry['candidate'].get('categoryName'),
+                'categories': ' | '.join(entry['candidate'].get('categories') or []),
+                'address': entry['candidate'].get('address'),
+                'district': entry['candidate'].get('district'),
+                'city': entry['candidate'].get('city'),
+                'phone': entry['candidate'].get('phone'),
+                'hasWebsite': entry['candidate'].get('hasWebsite'),
+                'websiteUrl': entry['candidate'].get('websiteUrl'),
+                'rating': entry['candidate'].get('rating'),
+                'reviewsCount': entry['candidate'].get('reviewsCount'),
+                'hasOpeningHours': entry['candidate'].get('hasOpeningHours'),
+                'isClosed': entry['candidate'].get('isClosed'),
+                'matchedSearchTerms': ' | '.join(entry['source'].get('matchedSearchTerms') or []),
+                'missingSearchTerms': ' | '.join(entry['source'].get('missingSearchTerms') or []),
+                'matchedSearchTermCount': entry['source'].get('matchedSearchTermCount'),
+                'firstMatchedSearchTerm': entry['source'].get('firstMatchedSearchTerm'),
+                'searchCoverageNote': entry['source'].get('searchCoverageNote'),
+                'searchCoverageSignal': entry['scoring'].get('searchCoverageSignal'),
+                'score': entry['scoring'].get('score'),
+                'bucket': entry['scoring'].get('bucket'),
+                'reasons': ' | '.join(entry['scoring'].get('reasons') or []),
+                'rawRecordCount': entry['source'].get('rawRecordCount'),
+                'collectedAt': entry['source'].get('collectedAt'),
+                'latitude': entry['candidate'].get('latitude'),
+                'longitude': entry['candidate'].get('longitude'),
+            })
+
+
+def main() -> None:
+    summary_rows = build_summary()
+    write_outputs(summary_rows)
+    print(json.dumps({
+        'ok': True,
+        'count': len(summary_rows),
+        'summaryJson': str(SUMMARY_DIR / 'candidates-summary.json'),
+        'summaryCsv': str(SUMMARY_DIR / 'candidates-summary.csv'),
+    }, ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()
