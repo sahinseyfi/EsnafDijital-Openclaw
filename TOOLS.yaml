@@ -1,3 +1,8 @@
+meta:
+  derived_from: "TOOLS.md"
+  role: "eslik eden ozet"
+  update_rule: "Davranis degistiren guncelleme once TOOLS.md tarafinda yapilir"
+
 tools:
   web:
     purpose: "Tanitim sitesi, admin panel ve ic operasyon ekranlari"

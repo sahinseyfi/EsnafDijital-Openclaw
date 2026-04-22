@@ -1,4 +1,7 @@
 {
+  "derived_from": "HEARTBEAT.md",
+  "role": "eslik eden ozet",
+  "update_rule": "Davranis degistiren guncelleme once HEARTBEAT.md tarafinda yapilir",
   "current_phase": "Faz 1 - ic operasyon ve baglam omurgasini kurma",
   "main_goal": "Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak",
   "top_priorities": [

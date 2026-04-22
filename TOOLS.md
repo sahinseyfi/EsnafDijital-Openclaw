@@ -1,5 +1,9 @@
 # TOOLS.md
 
+Bu dosya karar kaynagidir.
+`TOOLS.yaml` bu dosyanin eslik eden ozetidir.
+Davranis degistiren guncelleme once burada yapilir.
+
 Bu dosya teknik ortami ve operasyon sinirini tutar.
 
 ## Calisma Ortami
