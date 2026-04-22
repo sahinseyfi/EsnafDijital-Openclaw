@@ -101,6 +101,7 @@ function extractCanonicalProfileId(profileId: string, credential: PersistedCrede
 }
 
 const ACCOUNT_CENTER_USAGE_TIMEOUT_MS = 20_000
+const ACCOUNT_CENTER_LIMITS_BATCH_CONCURRENCY = 4
 
 function mapUsageToLimits(usage: RealUsageSnapshot | null): AccountCenterLimits | null {
   if (!usage) return null
@@ -178,6 +179,37 @@ function sortProfiles(a: AccountCenterProfile, b: AccountCenterProfile) {
 export async function getAccountCenterProfileLimits(profileId: string, _currentProfileId?: string | null): Promise<AccountCenterLimits | null> {
   const usage = await fetchRealCodexUsage('main', profileId, ACCOUNT_CENTER_USAGE_TIMEOUT_MS).catch(() => null)
   return mapUsageToLimits(usage || null)
+}
+
+export async function getAccountCenterProfileLimitsBatch(profileIds: string[]): Promise<Record<string, AccountCenterLimits | null>> {
+  const uniqueProfileIds = [...new Set(
+    profileIds
+      .map((profileId) => (typeof profileId === 'string' ? profileId.trim() : ''))
+      .filter(Boolean),
+  )]
+
+  if (uniqueProfileIds.length === 0) return {}
+
+  const limitsByProfileId = new Map<string, AccountCenterLimits | null>()
+  const queue = [...uniqueProfileIds]
+
+  const worker = async () => {
+    while (queue.length > 0) {
+      const profileId = queue.shift()
+      if (!profileId) return
+      const limits = await getAccountCenterProfileLimits(profileId).catch(() => null)
+      limitsByProfileId.set(profileId, limits)
+    }
+  }
+
+  await Promise.all(
+    Array.from(
+      { length: Math.min(ACCOUNT_CENTER_LIMITS_BATCH_CONCURRENCY, queue.length) },
+      () => worker(),
+    ),
+  )
+
+  return Object.fromEntries(uniqueProfileIds.map((profileId) => [profileId, limitsByProfileId.get(profileId) || null]))
 }
 
 export async function getAccountCenterState(): Promise<AccountCenterState> {

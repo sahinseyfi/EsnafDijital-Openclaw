@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './AccountCenter.module.css'
-import type { AccountCenterPayload, AccountCenterProfile } from '@/lib/account-center/types'
+import type { AccountCenterLimits, AccountCenterPayload, AccountCenterProfile } from '@/lib/account-center/types'
 import type { AuthSessionState } from '@/lib/codex-dashboard/types'
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
@@ -69,6 +69,17 @@ function resetProgress(resetAt?: string | null, totalHours?: number) {
   return Math.max(0, Math.min(100, Math.round((remainingMs / totalMs) * 100)))
 }
 
+const EMPTY_LIMITS: AccountCenterLimits = {
+  fiveHourLeftPct: null,
+  weekLeftPct: null,
+  fiveHourResetAt: null,
+  weekResetAt: null,
+}
+
+function normalizeLimits(limits?: AccountCenterProfile['limits']) {
+  return limits || EMPTY_LIMITS
+}
+
 function mergePayloadPreservingLimits(current: AccountCenterPayload, next: AccountCenterPayload): AccountCenterPayload {
   const currentProfiles = new Map(current.state.profiles.map((profile) => [profile.profileId, profile]))
 
@@ -83,6 +94,26 @@ function mergePayloadPreservingLimits(current: AccountCenterPayload, next: Accou
           limits: profile.limits || existing?.limits || null,
         }
       }),
+    },
+  }
+}
+
+function mergeHydratedLimits(
+  current: AccountCenterPayload,
+  limitsByProfileId: Record<string, AccountCenterProfile['limits']>,
+): AccountCenterPayload {
+  return {
+    ...current,
+    state: {
+      ...current.state,
+      profiles: current.state.profiles.map((profile) => (
+        Object.prototype.hasOwnProperty.call(limitsByProfileId, profile.profileId)
+          ? {
+              ...profile,
+              limits: normalizeLimits(limitsByProfileId[profile.profileId]),
+            }
+          : profile
+      )),
     },
   }
 }
@@ -242,8 +273,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
     const concurrency = 4
     limitHydrationRunningRef.current = true
 
-    const run = async () => {
-      const queue = [...missingProfiles]
+    const hydrateIndividually = async (profileIds: string[]) => {
+      const queue = [...profileIds]
       const worker = async () => {
         while (queue.length > 0) {
           const profileId = queue.shift()
@@ -255,24 +286,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
               body: JSON.stringify({ profileId }),
             })
 
-            setPayload((current) => ({
-              ...current,
-              state: {
-                ...current.state,
-                profiles: current.state.profiles.map((profile) => (
-                  profile.profileId === result.profileId
-                    ? {
-                        ...profile,
-                        limits: result.limits || {
-                          fiveHourLeftPct: null,
-                          weekLeftPct: null,
-                          fiveHourResetAt: null,
-                          weekResetAt: null,
-                        },
-                      }
-                    : profile
-                )),
-              },
+            setPayload((current) => mergeHydratedLimits(current, {
+              [result.profileId]: result.limits,
             }))
           } catch {
             // sessiz kal
@@ -283,7 +298,24 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       }
 
       await Promise.all(Array.from({ length: Math.min(concurrency, queue.length) }, () => worker()))
-      limitHydrationRunningRef.current = false
+    }
+
+    const run = async () => {
+      try {
+        const result = await request<{
+          ok: true
+          limitsByProfileId: Record<string, AccountCenterProfile['limits']>
+        }>('/api/hesap-merkezi/limits/bulk', {
+          method: 'POST',
+          body: JSON.stringify({ profileIds: missingProfiles }),
+        })
+
+        setPayload((current) => mergeHydratedLimits(current, result.limitsByProfileId))
+      } catch {
+        await hydrateIndividually(missingProfiles)
+      } finally {
+        limitHydrationRunningRef.current = false
+      }
     }
 
     void run()
