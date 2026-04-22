@@ -20,12 +20,12 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Repo migration zinciri DB gecmisiyle hizalandi; bir sonraki adim `202604211753_init` delta migration'ini kontrollu uygulayip `npm run prisma:bootstrap:local` dogrulamasini tekrar almak
+- Admin uygulama runtime `DATABASE_URL` degerini Supabase ana DB'ye cevirip smoke test almak
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
-- gercek `DATABASE_URL` bulundu ve repo tarafinda eksik `20260418143000_init` migration'i geri yazilarak migration gecmisi hizalandi; fakat sonraki `202604211753_init` delta migration'i mevcut eski tabloları/kolonlari donusturuyor ve kismi yikici etkisi var, bu yuzden kontrollu apply onayi olmadan bootstrap tamamlanmiyor
+- Supabase public schema current Prisma migration zinciriyle temiz sekilde kuruldu, fakat admin runtime hala local DB/env cizgisinde; uygulama baglantisi Supabase'e cevrilmeden gecis tamamlanmis sayilmaz
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
