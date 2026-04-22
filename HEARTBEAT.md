@@ -20,12 +20,12 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- gercek `DATABASE_URL` ile `npm run prisma:bootstrap:local` calistirmak ve DB baglantisini dogrulamak
+- Prisma migration drift'ini cozmek: DB'deki eski migration gecmisi ile repo altindaki mevcut migration dosyalarini hizalayıp sonra `npm run prisma:bootstrap:local` dogrulamasini tekrar almak
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
-- `agent-workspace` icinde kullanilabilir gercek `DATABASE_URL` bulunamadi; bu yuzden `npm run prisma:bootstrap:local` hatti henuz kosulamiyor
+- gercek `DATABASE_URL` bulundu ve DB baglantisi dogrulandi, fakat Prisma migration drift var: DB icinde `_prisma_migrations` tablosunda eski `20260418143000_init` kaydi duruyor, repo altinda ise yalniz `202604211753_init` mevcut; bootstrap denemesi `Consultation` tablosu zaten var hatasiyla (`P3018`, `relation "Consultation" already exists`) duruyor
 - prod dogrulama icin normal oturum yetkisi gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
