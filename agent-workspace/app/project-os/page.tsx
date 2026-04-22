@@ -6,6 +6,7 @@ import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'
 import { DeliveryProjectCreateForm } from '@/components/project-os/DeliveryProjectCreateForm'
 import { OfferCreateForm } from '@/components/project-os/OfferCreateForm'
+import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { deriveProjectOsOverview, type ProjectOsQueueItem, type ProjectOsStage } from '@/lib/project-os/derived'
 import { getProjectOsDataset } from '@/lib/project-os/service'
@@ -49,6 +50,7 @@ function QueueList({ items, emptyText }: { items: ProjectOsQueueItem[]; emptyTex
           </div>
 
           <div className="hero-actions">
+            {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} /> : null}
             <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">Kaydı aç</Link>
             <Link href="/consultation-center" className="ghost-link">Consultation</Link>
             <Link href="/context-center" className="ghost-link">Context</Link>

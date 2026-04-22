@@ -2,6 +2,13 @@ import type { ProjectOsDataset } from '@/lib/project-os/types'
 
 export type ProjectOsStage = 'intake' | 'audit' | 'offer' | 'delivery' | 'maintenance'
 
+export type ProjectOsQueueAdvanceAction = {
+  entityType: 'audit' | 'offer' | 'deliveryProject'
+  entityId: string
+  nextStatus: 'reviewed' | 'offered' | 'sent' | 'approved' | 'building' | 'live' | 'maintenance'
+  label: string
+}
+
 export type ProjectOsQueueItem = {
   businessId: string
   businessName: string
@@ -12,6 +19,7 @@ export type ProjectOsQueueItem = {
   statusLabel: string
   nextAction: string
   summary: string
+  advanceAction: ProjectOsQueueAdvanceAction | null
 }
 
 export type ProjectOsOverview = {
@@ -72,6 +80,7 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: 'Audit açılmadı',
       nextAction: 'Audit başlat',
       summary: 'İşletme kaydı var ama operasyon zinciri henüz audit ile başlamadı.',
+      advanceAction: null,
     }
   }
 
@@ -86,6 +95,12 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: audit.status === 'new' ? 'Yeni audit' : 'Reviewed audit',
       nextAction: audit.status === 'new' ? 'Auditi reviewe al' : 'Teklife geçir',
       summary: `${audit.channelReadiness} hazırlık sinyali var. ${audit.summary}`,
+      advanceAction: {
+        entityType: 'audit',
+        entityId: audit.id,
+        nextStatus: audit.status === 'new' ? 'reviewed' : 'offered',
+        label: audit.status === 'new' ? 'Reviewe al' : 'Teklife geçir',
+      },
     }
   }
 
@@ -100,6 +115,7 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: 'Teklif açılmadı',
       nextAction: 'İlk teklifi aç',
       summary: 'Audit teklif aşamasına kadar geldi ama henüz teklif kaydı açılmadı.',
+      advanceAction: null,
     }
   }
 
@@ -114,6 +130,12 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: offer.status === 'draft' ? 'Taslak teklif' : 'Gönderilmiş teklif',
       nextAction: offer.status === 'draft' ? 'Teklifi gönder' : 'Teklifi kapat',
       summary: `${offer.packageName} paketi ${offer.amountTry.toLocaleString('tr-TR')} ₺ ile açık duruyor.`,
+      advanceAction: {
+        entityType: 'offer',
+        entityId: offer.id,
+        nextStatus: offer.status === 'draft' ? 'sent' : 'approved',
+        label: offer.status === 'draft' ? 'Teklifi gönder' : 'Teklifi kapat',
+      },
     }
   }
 
@@ -128,6 +150,7 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: 'Teslimat açılmadı',
       nextAction: 'Teslimat başlat',
       summary: 'Teklif onaylanmış görünüyor, şimdi teslimat zincirini başlatmak gerekiyor.',
+      advanceAction: null,
     }
   }
 
@@ -142,6 +165,12 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       statusLabel: delivery.status === 'kickoff' ? 'Kickoff' : delivery.status === 'building' ? 'Building' : 'Live',
       nextAction: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Canlıya al' : 'Bakıma geçir',
       summary: delivery.scope,
+      advanceAction: {
+        entityType: 'deliveryProject',
+        entityId: delivery.id,
+        nextStatus: delivery.status === 'kickoff' ? 'building' : delivery.status === 'building' ? 'live' : 'maintenance',
+        label: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Canlıya al' : 'Bakıma geçir',
+      },
     }
   }
 
@@ -155,6 +184,7 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
     statusLabel: 'Bakımda',
     nextAction: 'Bakımı sürdür',
     summary: delivery.scope,
+    advanceAction: null,
   }
 }
 
