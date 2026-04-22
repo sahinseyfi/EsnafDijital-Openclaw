@@ -20,10 +20,10 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- ilk teklif paketini Project OS uzerindeki gercek kayitlarla esleyip teklif omurgasini daha net operasyon verisine baglamak
+- opsiyonel ekler ve domain tercihinin baglandigi teklif kayitlarini 2-3 pilot isletmede deneyip delivery scope sablonunu gercek veriyle netlestirmek
 
 ## Mevcut Blokajlar
-- ilk teklif paketinin detaylari hala tam keskin degil
+- ilk teklif paketinin detaylari hala tam keskin degil, ozellikle opsiyonel eklerin hangilerinin varsayilan paket icinde kalacagi tam kapanmadi
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
