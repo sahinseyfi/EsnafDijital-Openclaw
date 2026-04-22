@@ -11,7 +11,9 @@
 4. Kisa ama yapilandirilmis kal.
 5. Repo ve runtime gercegine bagla.
 6. Eksik kritik bilgiyi uydurma.
-7. Promptu hemen uygulanabilir yaz.
+7. Sifir-hafiza varsayimini icerde kullan, final prompta meta cumle olarak tasima.
+8. Uygunsa teknik olmayan kisa ozet istegini promptun icine koy.
+9. Promptu hemen uygulanabilir yaz.
 
 ## Tercih edilen prompt omurgasi
 - amac
@@ -26,3 +28,4 @@
 - tek promptta birden fazla is istemek
 - cikti tipini acik tanimlamamak
 - teori ve jargonla promptu sisirmek
+- `Bu oturum sifir hafizali kabul edilsin` gibi meta cumleleri final prompta tasimak
