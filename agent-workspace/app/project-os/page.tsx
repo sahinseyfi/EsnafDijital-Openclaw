@@ -9,6 +9,7 @@ import { OfferCreateForm } from '@/components/project-os/OfferCreateForm'
 import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { deriveProjectOsOverview, type ProjectOsQueueItem, type ProjectOsStage } from '@/lib/project-os/derived'
+import { getOfferPackageByName } from '@/lib/project-os/offer-packages'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
 const segmentLabels = {
@@ -340,14 +341,22 @@ export default async function ProjectOsPage({
                       </tr>
                     </thead>
                     <tbody>
-                      {dataset.offers.length > 0 ? dataset.offers.map((offer) => (
+                      {dataset.offers.length > 0 ? dataset.offers.map((offer) => {
+                        const packageInfo = getOfferPackageByName(offer.packageName)
+
+                        return (
                         <tr key={offer.id}>
                           <td>{businessNames[offer.businessId] || '—'}</td>
-                          <td>{offer.packageName}</td>
+                          <td>
+                            <div className="stack-xs">
+                              <strong style={{ color: 'var(--ink-title)' }}>{offer.packageName}</strong>
+                              {packageInfo ? <span className="muted">{packageInfo.description}</span> : null}
+                            </div>
+                          </td>
                           <td>{offer.amountTry.toLocaleString('tr-TR')} ₺</td>
                           <td>{offer.status}</td>
                         </tr>
-                      )) : (
+                      )}) : (
                         <tr>
                           <td colSpan={4} className="muted">Henüz teklif kaydı yok.</td>
                         </tr>
