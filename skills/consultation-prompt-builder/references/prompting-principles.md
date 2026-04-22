@@ -10,7 +10,7 @@
 3. Beklenen cikti tipini acik ver.
 4. Kisa ama yapilandirilmis kal.
 5. Dosya veya skill degerlendirme gorevlerinde once karar ver, sonra sadece gereken yerde degisiklik oner.
-6. Dis GPT oturumunda repo analizi gerekiyorsa, erisim mumkunse once repoyu klonla ve ilgili dosyalari dogrudan incele; clone mumkun degilse repo icerigini baska bir yolla incele; bu da mumkun degilse bunu acik bosluk veya blokaj olarak yaz.
+6. Dis GPT oturumunda repo analizi gerekiyorsa, final prompt dis GPT'yi erisim mumkunse once repoyu klonlamaya ve ilgili dosyalari dogrudan incelemeye yonlendirsin; clone mumkun degilse repo icerigini baska bir yolla incelemesini, bu da mumkun degilse acik bosluk veya blokaj yazmasini istesin.
 7. Repo ve runtime gercegine bagla.
 8. Eksik kritik bilgiyi uydurma.
 9. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
@@ -37,6 +37,7 @@
 - dosya degerlendirme gorevini butun dosyalari rewrite etmeye zorlamak
 - `keep | trim | rewrite` ayrimi gerekirken sadece toplu yeniden yazim istemek
 - teori ve jargonla promptu sisirmek
+- dis GPT oturumunda repo analizi isterken, clone veya esdeger repo incelemesini bizim ajan yapacakmis gibi belirsiz yazmak
 - dis GPT oturumunda repo analizi isterken clone veya esdeger repo incelemesi yapmadan kesin konusmak
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta tasimak
 - son prompt yerine kodun toparlayacagi yarim taslak uretmek

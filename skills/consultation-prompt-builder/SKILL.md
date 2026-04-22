@@ -20,7 +20,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Karari etkilemeyen tekrarları prompta tasima.
    - Isletme gercegi, mevcut faz, kritik sinir, beklenen cikti ve davranisi belirleyen asil kaynaklari one al.
    - Once cekirdek baglam ozetini kur, sonra goreve gore ikincil kaynak sec, sadece gerekirse ham dosya oku.
-   - Eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, erisim mumkunse once repoyu klonla ve ilgili dosyalari dogrudan incele. Clone mumkun degilse ilgili dosya, link veya archive uzerinden repo icerigini incele. Bu da mumkun degilse blokaji acik yaz.
+   - Eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptu okuyacak dis GPT'yi su cizgide yonlendir: erisim mumkunse once repoyu klonlasin ve ilgili dosyalari dogrudan incelesin. Clone mumkun degilse ilgili dosya, link veya archive uzerinden repo icerigini incelesin. Bu da mumkun degilse blokaji acik yazsin.
 
 3. Promptu repo ve runtime gercegine bagla.
    - Gerekliyse uygulama reposu ve OpenClaw upstream referanslarini acik ver.
@@ -46,7 +46,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Kisa, yapilandirilmis ve gorev odakli yaz.
 - Tek promptta birden fazla farkli is isteme.
 - Eksik kritik bilgi varsa uydurma, acik bosluk veya varsayim olarak etiketle.
-- Dis GPT oturumunda repo analizi gerekiyorsa, yalnizca promptta verilen kisa ozetle yetinme; erisim mumkunse once repoyu klonla, clone mumkun degilse baska bir yolla repo icerigini incelemeden kesin analiz yapma.
+- Dis GPT oturumunda repo analizi gerekiyorsa, final promptta klonlama ve repo inceleme gorevini bizim ajana degil dis GPT'ye ver. Yalnizca promptta verilen kisa ozetle yetinme; dis GPT'yi erisim mumkunse once repoyu klonlamaya, clone mumkun degilse baska bir yolla repo icerigini incelemeye yonlendir.
 - Dosya-seti veya skill degerlendirmelerinde varsayilan karar `keep` olsun; ancak net gerekce varsa `trim` veya `rewrite` oner.
 - Dosya-seti degerlendirmelerinde tum dosyalari otomatik rewrite ettiren dil kurma.
 - Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini bozma.

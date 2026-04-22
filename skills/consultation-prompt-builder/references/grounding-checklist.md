@@ -9,6 +9,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - VPS uzerinde calisan OpenClaw ajani baglami var mi
 - gorev mevcut Consultation Center akisina bagli mi
 - sabit rol net mi
+- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa final prompt clone veya esdeger repo incelemesi gorevini acikca dis GPT'ye veriyor mu
 - eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa erisim mumkunken clone veya esdeger repo incelemesi gercekten yapildi mi
 
 ## Zorunlu netlik

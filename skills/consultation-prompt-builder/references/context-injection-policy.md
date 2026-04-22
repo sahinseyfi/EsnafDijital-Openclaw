@@ -161,9 +161,9 @@ Consultation Center prompt uretiminde varsayilan olarak:
 - sonra consultation kaydinin ihtiyacina gore ikincil baglam sec
 - sadece prompt kalitesini gercekten etkiliyorsa ham dosya oku
 - prompta sadece karari etkileyen baglam tasinmali
-- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, erisim mumkunse once repoyu klonlayip ilgili dosyalari incelemeyi zorunlu varsay
-- clone mumkun degilse ilgili repo dosyasi, link veya archive icerigi uzerinden inceleme yap
-- bunlar da mumkun degilse bunu acik bosluk veya blokaj olarak yaz
+- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi erisim mumkunse once repoyu klonlayip ilgili dosyalari incelemeye yonlendirmesini zorunlu varsay
+- clone mumkun degilse final prompt dis GPT'yi ilgili repo dosyasi, link veya archive icerigi uzerinden inceleme yapmaya yonlendirsin
+- bunlar da mumkun degilse final prompt bunu acik bosluk veya blokaj olarak yazdirsin
 
 ## Hazir sayma kosulu
 Baglam paketi ancak su durumda hazir sayilir:
