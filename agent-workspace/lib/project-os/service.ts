@@ -243,7 +243,7 @@ export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> 
       amountTry,
       addonKeys,
       domainPreference: domainPreference === 'custom-domain' ? 'custom_domain' : 'subdomain',
-      customDomain: customDomain || null,
+      customDomain: domainPreference === 'custom-domain' ? (customDomain || null) : null,
     },
   })
 
@@ -265,7 +265,11 @@ export async function updateOffer(id: string, input: OfferInput): Promise<Projec
         amountTry: Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0 ? Number(input.amountTry) : undefined,
         addonKeys: Array.isArray(input.addonKeys) ? input.addonKeys.map((item) => String(item).trim()).filter(Boolean) : undefined,
         domainPreference: input.domainPreference ? (mapOfferDomainPreference(input.domainPreference) === 'custom-domain' ? 'custom_domain' : 'subdomain') : undefined,
-        customDomain: input.customDomain === undefined ? undefined : (input.customDomain.trim() || null),
+        customDomain: input.customDomain === undefined
+          ? undefined
+          : (input.domainPreference && mapOfferDomainPreference(input.domainPreference) !== 'custom-domain')
+            ? null
+            : (input.customDomain.trim() || null),
       },
     })
   } catch {

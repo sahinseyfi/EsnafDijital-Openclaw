@@ -2,13 +2,16 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { OFFER_PACKAGES, getOfferPackageByKey, type OfferPackageKey } from '@/lib/project-os/offer-packages'
+import { OFFER_ADDONS, OFFER_PACKAGES, getOfferPackageByKey, type OfferAddonKey, type OfferPackageKey } from '@/lib/project-os/offer-packages'
 import type { BusinessRecord, OfferRecord } from '@/lib/project-os/types'
 
 const initialState = (businessId?: string) => ({
   businessId: businessId || '',
   status: 'draft' as OfferRecord['status'],
   packageKey: 'paket-1' as OfferPackageKey,
+  addonKeys: [] as OfferAddonKey[],
+  domainPreference: 'subdomain' as OfferRecord['domainPreference'],
+  customDomain: '',
   amountTry: '',
 })
 
@@ -35,6 +38,9 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
           status: form.status,
           packageName: selectedPackage.name,
           amountTry: Number(form.amountTry),
+          addonKeys: form.addonKeys,
+          domainPreference: form.domainPreference,
+          customDomain: form.customDomain.trim(),
         }),
       })
       const json = await response.json().catch(() => ({})) as { message?: string }
@@ -106,15 +112,55 @@ export function OfferCreateForm({ businesses }: { businesses: BusinessRecord[] }
         </ul>
       </article>
 
-      <label style={{ display: 'grid', gap: 6 }}>
-        <span>Tutar (₺)</span>
-        <input value={form.amountTry} onChange={(event) => setForm((current) => ({ ...current, amountTry: event.target.value }))} inputMode="numeric" placeholder="Orn: 18000" />
-      </label>
+      <div className="grid-2">
+        <label style={{ display: 'grid', gap: 6 }}>
+          <span>Domain tercihi</span>
+          <select value={form.domainPreference} onChange={(event) => setForm((current) => ({ ...current, domainPreference: event.target.value as OfferRecord['domainPreference'] }))}>
+            <option value="subdomain">Subdomain</option>
+            <option value="custom-domain">Ozel domain</option>
+          </select>
+        </label>
+
+        <label style={{ display: 'grid', gap: 6 }}>
+          <span>Tutar (₺)</span>
+          <input value={form.amountTry} onChange={(event) => setForm((current) => ({ ...current, amountTry: event.target.value }))} inputMode="numeric" placeholder="Orn: 18000" />
+        </label>
+      </div>
+
+      {form.domainPreference === 'custom-domain' ? (
+        <label style={{ display: 'grid', gap: 6 }}>
+          <span>Ozel domain</span>
+          <input value={form.customDomain} onChange={(event) => setForm((current) => ({ ...current, customDomain: event.target.value }))} placeholder="Orn: atakuafor.com.tr" />
+        </label>
+      ) : null}
+
+      <fieldset className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+        <legend className="eyebrow" style={{ padding: '0 6px' }}>Opsiyonel ekler</legend>
+        {OFFER_ADDONS.map((item) => {
+          const checked = form.addonKeys.includes(item.key)
+          return (
+            <label key={item.key} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={() => setForm((current) => ({
+                  ...current,
+                  addonKeys: checked ? current.addonKeys.filter((key) => key !== item.key) : [...current.addonKeys, item.key],
+                }))}
+              />
+              <span>
+                <strong style={{ color: 'var(--ink-title)' }}>{item.label}</strong>
+                <span className="muted" style={{ display: 'block' }}>{item.description}</span>
+              </span>
+            </label>
+          )
+        })}
+      </fieldset>
 
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {businesses.length === 0 ? <p className="muted">Teklif açmadan önce en az bir işletme kaydı gerekli.</p> : null}
 
-      <p className="muted">Paket 0 audit / demo tarafinda kalir. Offer kaydi icinde Paket 1-4 ve bakim serisi secilir.</p>
+      <p className="muted">Paket 0 audit / demo tarafinda kalir. Offer kaydi icinde Paket 1-4 ve bakim serisi secilir. Domain tercihi ve opsiyonel ekler bu kayitta tutulur.</p>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button type="submit" className="button-secondary" disabled={busy || businesses.length === 0 || !form.businessId || !form.amountTry.trim()}>

@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { BusinessRecord, DeliveryProjectRecord } from '@/lib/project-os/types'
+import { buildDeliveryScopeSuggestion } from '@/lib/project-os/offer-packages'
+import type { BusinessRecord, DeliveryProjectRecord, OfferRecord } from '@/lib/project-os/types'
 
 const initialState = (businessId?: string) => ({
   businessId: businessId || '',
@@ -10,11 +11,14 @@ const initialState = (businessId?: string) => ({
   scope: '',
 })
 
-export function DeliveryProjectCreateForm({ businesses }: { businesses: BusinessRecord[] }) {
+export function DeliveryProjectCreateForm({ businesses, offers }: { businesses: BusinessRecord[]; offers: OfferRecord[] }) {
   const router = useRouter()
   const [form, setForm] = useState(initialState(businesses[0]?.id))
   const [busy, setBusy] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
+
+  const latestOffer = useMemo(() => offers.find((offer) => offer.businessId === form.businessId) || null, [offers, form.businessId])
+  const suggestedScope = latestOffer ? buildDeliveryScopeSuggestion(latestOffer) : ''
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -77,13 +81,30 @@ export function DeliveryProjectCreateForm({ businesses }: { businesses: Business
         </label>
       </div>
 
+      {latestOffer ? (
+        <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+          <div>
+            <p className="eyebrow">Tekliften gelen scope onerisi</p>
+            <strong style={{ color: 'var(--ink-title)' }}>{latestOffer.packageName}</strong>
+          </div>
+          <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', color: 'var(--ink-secondary)' }}>{suggestedScope}</pre>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button type="button" className="button-secondary" onClick={() => setForm((current) => ({ ...current, scope: suggestedScope }))}>
+              Scope taslagini doldur
+            </button>
+          </div>
+        </article>
+      ) : (
+        <p className="muted">Secili isletme icin once teklif kaydi acilirsa teslimat scope taslagi otomatik onerilir.</p>
+      )}
+
       <label style={{ display: 'grid', gap: 6 }}>
         <span>Kapsam</span>
         <textarea
           value={form.scope}
           onChange={(event) => setForm((current) => ({ ...current, scope: event.target.value }))}
-          rows={4}
-          placeholder="Örn: Tanıtım sitesi + temel içerik düzeni"
+          rows={7}
+          placeholder="Orn: Tanitim sitesi + temel icerik duzeni"
         />
       </label>
 

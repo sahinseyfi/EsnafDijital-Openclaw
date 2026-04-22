@@ -9,7 +9,7 @@ import { OfferCreateForm } from '@/components/project-os/OfferCreateForm'
 import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { deriveProjectOsOverview, type ProjectOsQueueItem, type ProjectOsStage } from '@/lib/project-os/derived'
-import { getOfferPackageByName } from '@/lib/project-os/offer-packages'
+import { getOfferAddons, getOfferPackageByName } from '@/lib/project-os/offer-packages'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
 const segmentLabels = {
@@ -212,7 +212,7 @@ export default async function ProjectOsPage({
               </div>
               <div className="grid-2" style={{ alignItems: 'start' }}>
                 <OfferCreateForm businesses={dataset.businesses} />
-                <DeliveryProjectCreateForm businesses={dataset.businesses} />
+                <DeliveryProjectCreateForm businesses={dataset.businesses} offers={dataset.offers} />
               </div>
             </div>
           </details>
@@ -343,6 +343,7 @@ export default async function ProjectOsPage({
                     <tbody>
                       {dataset.offers.length > 0 ? dataset.offers.map((offer) => {
                         const packageInfo = getOfferPackageByName(offer.packageName)
+                        const addonLabels = getOfferAddons(offer.addonKeys).map((item) => item.label)
 
                         return (
                         <tr key={offer.id}>
@@ -351,6 +352,8 @@ export default async function ProjectOsPage({
                             <div className="stack-xs">
                               <strong style={{ color: 'var(--ink-title)' }}>{offer.packageName}</strong>
                               {packageInfo ? <span className="muted">{packageInfo.description}</span> : null}
+                              <span className="muted">{offer.domainPreference === 'custom-domain' ? `Ozel domain${offer.customDomain ? `: ${offer.customDomain}` : ''}` : 'Subdomain'}</span>
+                              {addonLabels.length > 0 ? <span className="muted">Ekler: {addonLabels.join(', ')}</span> : null}
                             </div>
                           </td>
                           <td>{offer.amountTry.toLocaleString('tr-TR')} ₺</td>
