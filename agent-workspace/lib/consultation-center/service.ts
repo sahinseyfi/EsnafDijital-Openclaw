@@ -5,7 +5,7 @@ import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
 import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, deleteMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
-import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/consultation-center/types'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationPromptStatus, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
   title?: string
@@ -79,6 +79,24 @@ function mapTargetModel(value?: string | null): ConsultationTargetModel {
   return value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
 }
 
+function mapPromptStatus(value?: string | null, promptText?: string | null): ConsultationPromptStatus {
+  if (value === 'preparing' || value === 'ready' || value === 'error') return value
+  return promptText?.trim() ? 'ready' : 'preparing'
+}
+
+function getPreparedPromptText(sharedBrief?: Record<string, string | string[] | null>, latestPromptText?: string | null) {
+  const latest = latestPromptText?.trim() || ''
+  if (latest) return latest
+
+  return typeof sharedBrief?.preparedPromptText === 'string' ? sharedBrief.preparedPromptText.trim() : ''
+}
+
+function getPromptError(sharedBrief?: Record<string, string | string[] | null>) {
+  return typeof sharedBrief?.promptError === 'string' && sharedBrief.promptError.trim()
+    ? sharedBrief.promptError.trim()
+    : null
+}
+
 function buildSummary(record: ConsultationRecord) {
   const brief = record.brief?.sharedJson as Record<string, unknown> | null
   const summary = typeof brief?.hamNot === 'string' && brief.hamNot.trim()
@@ -103,6 +121,9 @@ function mapRecordToInboxItem(record: ConsultationRecord): ConsultationInboxItem
     sharedBrief,
   })
   const latestRun = [...record.runs].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]
+  const promptText = getPreparedPromptText(sharedBrief, latestRun?.promptText || null)
+  const promptStatus = mapPromptStatus(sharedBrief?.promptStatus as string | undefined, promptText)
+  const promptError = getPromptError(sharedBrief)
   const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
     id: action.id,
     ownerRole: mapOwnerRole(action.ownerRole),
@@ -118,7 +139,7 @@ function mapRecordToInboxItem(record: ConsultationRecord): ConsultationInboxItem
     desiredOutput: record.goal,
     missingFields: evaluation.missingFields,
     route: evaluation.route,
-    promptText: latestRun?.promptText || null,
+    promptText: promptText || null,
     sentAt: latestRun?.sentAt?.toISOString() || null,
     responseSummary: latestRun?.responseSummary || null,
     actions,
@@ -136,6 +157,8 @@ function mapRecordToInboxItem(record: ConsultationRecord): ConsultationInboxItem
     decisionQuestion: record.decisionQuestion || 'Karar sorusu henüz yazılmadı',
     summary: buildSummary(record),
     gptRecommended: evaluation.gptRecommended,
+    promptStatus,
+    promptError,
   }
 }
 
@@ -158,20 +181,7 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     sharedBrief,
   })
   const targetModel = mapTargetModel(latestRun?.modelName || (sharedBrief?.targetModel as string | undefined))
-  const promptText = latestRun?.promptText || buildConsultationPrompt({
-    type: inbox.type,
-    title: record.title,
-    decisionQuestion: record.decisionQuestion || 'Bu değişiklik için en doğru yaklaşım ne olmalı?',
-    whyNow: record.whyNow || 'Kullanıcı bu değişikliği şimdi değerlendirmek istiyor.',
-    desiredOutput: record.goal || 'Net öneri, kısa gerekçe ve uygulanabilir sonraki adımlar',
-    contextRefs,
-    businessBrief,
-    technicalBrief,
-    sharedBrief: {
-      ...(sharedBrief || {}),
-      targetModel,
-    },
-  })
+  const promptText = getPreparedPromptText(sharedBrief, latestRun?.promptText || null)
   const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
     id: action.id,
     ownerRole: mapOwnerRole(action.ownerRole),
@@ -203,6 +213,8 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     technicalBrief,
     sharedBrief,
     contextRefs,
+    promptStatus: mapPromptStatus(sharedBrief?.promptStatus as string | undefined, promptText),
+    promptError: getPromptError(sharedBrief),
     promptRun: {
       modelName: targetModel,
       promptText,

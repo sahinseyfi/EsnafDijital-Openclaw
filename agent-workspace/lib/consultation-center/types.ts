@@ -3,6 +3,7 @@ export type ConsultationStage = 'draft' | 'clarifying' | 'goal_set' | 'context_r
 export type ConsultationRoute = 'blocked' | 'internal' | 'external'
 export type ConsultationOwnerRole = 'user' | 'tech_agent' | 'shared'
 export type ConsultationTargetModel = 'gpt-5' | 'gpt-5-pro'
+export type ConsultationPromptStatus = 'preparing' | 'ready' | 'error'
 
 export type ConsultationInboxItem = {
   id: string
@@ -16,6 +17,8 @@ export type ConsultationInboxItem = {
   decisionQuestion: string
   summary: string
   gptRecommended: boolean
+  promptStatus: ConsultationPromptStatus
+  promptError: string | null
 }
 
 export type ConsultationContextRef = {
