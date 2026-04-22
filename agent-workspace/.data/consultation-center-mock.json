@@ -1,24 +1,24 @@
 [
   {
     "id": "consult_1776867153947",
-    "title": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+    "title": "Bağlam dosyalarını sadeleştirip nihai sürümlerini yazma",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T14:12:34.232Z",
-    "decisionQuestion": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
+    "updatedAt": "2026-04-22T14:14:17.543Z",
+    "decisionQuestion": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını çakışma, tekrar, eksik ve gereksiz yük açısından değerlendirip bu proje için en sade ve en güçlü nihai dosya setini nasıl kurmalıyız?",
+    "summary": "EsnafDigital’de çalışan ajanı yöneten temel bağlam dosyalarını proje özelinde değerlendirip eksiklerini, fazlalıklarını ve çakışmalarını netleştirecek, ardından her biri için daha güçlü nihai sürüm önerecek consultation promptu.",
     "gptRecommended": false,
-    "promptStatus": "preparing",
+    "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
-    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "whyNow": "Bu konu şimdi netleşirse Consultation Center ve genel çalışma düzeni daha temiz ilerler, bağlam dosyaları kontrolsüz büyümeden toparlanır ve sonraki teknik adımlar daha net, daha tutarlı ve daha düşük operasyon yüküyle yürür.",
+    "desiredOutput": "Kullanılabilir çıktı paketi: 1) dosya bazlı değerlendirme, 2) eksik ve fazlalık analizi, 3) çakışma ve tekrar noktaları, 4) önerilen sadeleştirme ilkeleri, 5) her dosya için nihai içerik taslağı, 6) öncelikli uygulama sırası, 7) JSON dışında kısa teknik olmayan özet.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
-      "kararCekirdegi": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+      "hamNot": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını bu proje özelinde değerlendir, eksikliklerini ve fazlalıklarını bul, sonra hepsi için nihai dosyaları yaz.",
+      "kararCekirdegi": "Bağlam dosyalarını birlikte değerlendirip en sade ve güçlü nihai dosya setini kurma",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -27,35 +27,32 @@
       "targetSurfaceLabel": "çapraz",
       "outputTypeLabel": "GPT promptu",
       "targetModelLabel": "GPT-5 Pro",
-      "promptStatus": "preparing",
+      "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": ""
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital’de ajanin calisma bicimini belirleyen temel baglam dosyalarini proje ozelinde degerlendirip, eksiklerini ve fazlaliklarini bul, sonra her biri icin daha sade ve daha guclu nihai surumu oner.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Kalici ilke: once netlik, sonra arac; once calisan basit cozum, sonra otomasyon.\n- Degerlendirilecek dosyalar ve rolleri:\n  - AGENTS.md: nasil calisacagimi ve is akisimi belirliyor\n  - SOUL.md: tonumu ve tavrimi belirliyor\n  - USER.md: kullanicinin iletisim ve calisma tercihlerini belirliyor\n  - IDENTITY.md: bu projedeki rolumu netliyor\n  - TOOLS.md: teknik ortam ve operasyon kurallarini ciziyor\n  - MEMORY.md: kalici kararlar ve degismemesi gereken yonu tutuyor\n  - HEARTBEAT.md: su anki aktif hedefleri ve oncelikleri belirliyor\n- Mevcut ihtiyac: bu dosyalari birlikte degerlendirip hangileri fazla, eksik, cakisan veya gereksiz tekrar uretiyor bulmak; sonra hepsi icin daha iyi nihai icerik yazmak.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Gorev, Consultation Center icinde kullanilacak dosya setini netlestirme ve iyilestirme isidir.\n\nGorev:\nBu dosya setini butun olarak incele. Her dosya icin ne ise yaradigini, nerede tekrar olustugunu, hangi kisimlarin eksik oldugunu, hangi kisimlarin fazla veya daginik oldugunu belirle. Ardindan bu proje icin daha sade ve daha guclu bir nihai dosya seti oner ve her dosyanin guncellenmis son icerigini yaz.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Gereksiz yeni dosya ve yeni sistem onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n- Karari etkilemeyen tekrarlarin prompta tasinmamasini koru.\n- Repo veya runtime grounding yoksa ya da cikti tipi net degilse oneriyi hazir sayma.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"overallAssessment\": {\n    \"coreProblem\": \"string\",\n    \"designPrinciples\": [\"string\"],\n    \"priorityOrder\": [\"string\"]\n  },\n  \"fileReviews\": [\n    {\n      \"file\": \"AGENTS.md|SOUL.md|USER.md|IDENTITY.md|TOOLS.md|MEMORY.md|HEARTBEAT.md\",\n      \"role\": \"string\",\n      \"keep\": [\"string\"],\n      \"removeOrTrim\": [\"string\"],\n      \"missing\": [\"string\"],\n      \"overlapWith\": [\"string\"],\n      \"finalContent\": \"string\"\n    }\n  ],\n  \"crossFileIssues\": [\"string\"],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"firstActions\": [\"string\"],\n  \"risks\": [\"string\"]\n}\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Teknik bilmeyen biri de neyin degisecegini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Dosyalar tek tek ama butun olarak degerlendirilmis olmali.\n- Fazlalik, eksik ve cakisma alanlari net cikmali.\n- Nihai dosya icerikleri dogrudan kullanilabilir olmali.\n- Gereksiz teori ve sistem buyumesi engellenmeli.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
+      "promptRevisionRequest": null,
+      "promptPreparedAt": "2026-04-22T14:14:17.542Z"
     },
     "contextRefs": [
       {
-        "kind": "project",
-        "title": "Proje çizgisi",
-        "ref": "PROJECT.md"
+        "kind": "roadmap",
+        "title": "Ajan çalışma ve iş akışı omurgası",
+        "ref": "AGENTS.md"
       },
       {
-        "kind": "heartbeat",
-        "title": "Aktif faz ve öncelik",
-        "ref": "HEARTBEAT.md"
-      },
-      {
-        "kind": "project",
+        "kind": "decision",
         "title": "Kalıcı karar çizgisi",
         "ref": "MEMORY.md"
       },
       {
-        "kind": "roadmap",
-        "title": "Audit -> Teklif -> Teslimat akışı",
-        "ref": "PLAYBOOKS/audit-offer-delivery.md"
+        "kind": "heartbeat",
+        "title": "Aktif hedef ve öncelikler",
+        "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "roadmap",
-        "title": "OpenClaw runtime davranışı",
-        "ref": "AGENTS.md"
+        "kind": "project",
+        "title": "Kullanıcı ve proje çalışma tarzı bağlamı",
+        "ref": "USER.md"
       }
     ],
     "promptRun": {
@@ -64,6 +61,34 @@
       "responseSummary": null,
       "promptText": ""
     },
-    "actions": []
+    "actions": [],
+    "technicalBrief": {
+      "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
+      "implementationFocus": "Ajanı yöneten temel bağlam dosyalarının proje özelinde sadeleştirilmesi ve nihai sürümlerinin yazılması",
+      "repoRefs": [
+        {
+          "title": "Uygulama reposu",
+          "ref": "https://github.com/sahinseyfi/EsnafDijital-Openclaw"
+        },
+        {
+          "title": "OpenClaw upstream",
+          "ref": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "filesInScope": [
+        "AGENTS.md",
+        "SOUL.md",
+        "USER.md",
+        "IDENTITY.md",
+        "TOOLS.md",
+        "MEMORY.md",
+        "HEARTBEAT.md"
+      ],
+      "outputConstraints": [
+        "Citation, footnote ve markdown reference link kullanılmayacak",
+        "Link gerekiyorsa doğrudan URL yazılacak",
+        "Teknik olmayan kısa özet JSON dışında ayrı ikinci bölüm olarak istenecek"
+      ]
+    }
   }
 ]
