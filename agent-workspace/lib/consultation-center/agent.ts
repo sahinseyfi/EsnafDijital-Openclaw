@@ -11,6 +11,7 @@ type AgentSuggestion = {
   decisionQuestion: string
   whyNow: string
   desiredOutput: string
+  finalPromptText: string
   contextRefs: ConsultationContextRef[]
   businessBrief?: Record<string, string | string[] | null>
   technicalBrief?: Record<string, string | string[] | null>
@@ -47,6 +48,8 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- Output Turkce olsun.',
     '- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.',
     '- Promptun sonucunun VPS uzerinde calisan OpenClaw ajanina yon verecegini unutma.',
+    '- finalPromptText alanini sen dogrudan uret. Son promptu ayri bir kod/template katmani kurmayacak.',
+    '- finalPromptText icinde abartili veya dar domain role uydurma. Sabit ve sade bir rol kullan: "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin."',
     '',
     'Beklenen JSON sekli:',
     '{',
@@ -55,6 +58,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '  "decisionQuestion": "string",',
     '  "whyNow": "string",',
     '  "desiredOutput": "string",',
+    '  "finalPromptText": "string",',
     '  "contextRefs": [{ "kind": "project|heartbeat|decision|roadmap", "title": "string", "ref": "string" }],',
     '  "businessBrief": { ... } | null,',
     '  "technicalBrief": { ... } | null,',
@@ -88,6 +92,8 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- beklenen ciktiyi kullanilabilir deliverable listesine cevir',
     '- gerekirse context refleri iyilestir',
     '- brief alanlarini bu consultation turune gore doldur',
+    '- finalPromptText alaninda kullaniciya verilecek son promptu sen yaz',
+    '- finalPromptText, sifir hafizali baska bir GPT oturumuna gonderilmeye hazir olmali',
   ].join('\n')
 }
 
@@ -124,7 +130,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
     throw new Error('AI cevabi gecerli obje degil')
   }
 
-  if (!parsed.decisionQuestion?.trim() || !parsed.whyNow?.trim() || !parsed.desiredOutput?.trim()) {
+  if (!parsed.decisionQuestion?.trim() || !parsed.whyNow?.trim() || !parsed.desiredOutput?.trim() || !parsed.finalPromptText?.trim()) {
     throw new Error('AI cevabi zorunlu alanlari doldurmadi')
   }
 
@@ -134,6 +140,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
     decisionQuestion: parsed.decisionQuestion.trim(),
     whyNow: parsed.whyNow.trim(),
     desiredOutput: parsed.desiredOutput.trim(),
+    finalPromptText: parsed.finalPromptText.trim(),
     contextRefs: Array.isArray(parsed.contextRefs) ? parsed.contextRefs.slice(0, 4) : [],
     businessBrief: parsed.businessBrief || undefined,
     technicalBrief: parsed.technicalBrief || undefined,

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
-import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -45,17 +44,6 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       promptStatus: 'ready',
       promptError: null,
     }
-    const promptText = buildConsultationPrompt({
-      type: workingCopy.type,
-      title: suggestion.title || workingCopy.title,
-      decisionQuestion: suggestion.decisionQuestion,
-      whyNow: suggestion.whyNow,
-      desiredOutput: suggestion.desiredOutput,
-      contextRefs: suggestion.contextRefs,
-      businessBrief: suggestion.businessBrief,
-      technicalBrief: suggestion.technicalBrief,
-      sharedBrief: nextSharedBrief,
-    })
 
     const result = await updateConsultation(id, {
       title: suggestion.title || workingCopy.title,
@@ -67,7 +55,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       technicalBrief: suggestion.technicalBrief,
       sharedBrief: {
         ...nextSharedBrief,
-        preparedPromptText: promptText,
+        preparedPromptText: suggestion.finalPromptText,
         promptPreparedAt: new Date().toISOString(),
       },
       contextRefs: suggestion.contextRefs,
