@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- CRM V1 icin cekirdek nesneleri netlestirmek: business detail, activity timeline, next step, ic not ve gorev takibi hangi sira ile acilacak kararini vermek
+- Business detail route ve profil iskeleti acildi; siradaki adim bu yuzeye `next step`, activity timeline ve ic not katmanlarini kontrollu sirayla baglamak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir

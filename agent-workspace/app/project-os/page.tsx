@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 import { AdminShell } from '@/components/admin/AdminShell'
+import { buildBusinessDetailHref } from '@/lib/businesses/route'
 import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'
 import { DeliveryProjectCreateForm } from '@/components/project-os/DeliveryProjectCreateForm'
@@ -83,7 +84,8 @@ function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQu
 
           <div className="hero-actions">
             {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} businessId={item.businessId} /> : null}
-            <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">Kaydı aç</Link>
+            <Link href={buildBusinessDetailHref({ id: item.businessId, name: item.businessName, segment: item.segment })} className="ghost-link">Profili aç</Link>
+            <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">İş Takibinde aç</Link>
             <Link href="/consultation-center" className="ghost-link">Danışma</Link>
             <Link href="/context-center" className="ghost-link">Bağlam</Link>
           </div>
@@ -271,7 +273,7 @@ export default async function ProjectOsPage({
                           <tr key={business.id} style={isSelected ? { background: 'rgba(219, 234, 254, 0.45)' } : undefined}>
                             <td>
                               <div className="stack-xs">
-                                <strong style={{ color: 'var(--ink-title)' }}>{business.name}</strong>
+                                <Link href={buildBusinessDetailHref(business)} style={{ color: 'var(--ink-title)', fontWeight: 700 }}>{business.name}</Link>
                                 {isSelected ? <span className="badge">Seçili kayıt</span> : null}
                               </div>
                             </td>
