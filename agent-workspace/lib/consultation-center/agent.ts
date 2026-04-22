@@ -1,9 +1,20 @@
 import { execFile } from 'child_process'
 import { randomUUID } from 'crypto'
+import { readFileSync } from 'fs'
+import path from 'path'
 import { promisify } from 'util'
 import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
 
 const execFileAsync = promisify(execFile)
+const PROMPTING_REFERENCE_PATH = path.resolve(process.cwd(), '../REFERENCES/prompting/gpt5-prompting-principles.md')
+const FALLBACK_PROMPTING_GUIDE = [
+  '- Tek prompt tek is istesin.',
+  '- Tum baglami dump etme, sadece gorevi degistiren secili baglami ver.',
+  '- Beklenen cikti tipini net yaz.',
+  '- Promptu kisa, yapilandirilmis ve gorev odakli kur.',
+  '- Repo/runtime gercegini acikca ver.',
+  '- Eksik kritik bilgi varsa uydurma, belirt.',
+].join('\n')
 
 function getConsultationPromptAgentId() {
   const agentId = process.env.CONSULTATION_PROMPT_AGENT_ID?.trim()
@@ -44,7 +55,17 @@ function formatContextRefs(refs: ConsultationContextRef[]) {
   return refs.map((ref) => `- ${ref.kind} | ${ref.title} | ${ref.ref}`).join('\n')
 }
 
+function getPromptingReference() {
+  try {
+    return readFileSync(PROMPTING_REFERENCE_PATH, 'utf8').trim()
+  } catch {
+    return FALLBACK_PROMPTING_GUIDE
+  }
+}
+
 function buildPrompt(consultation: ConsultationDetail) {
+  const promptingReference = getPromptingReference()
+
   return [
     'Sen EsnafDigital icin consultation brief hazirlayan ajansin.',
     'Gorevin mevcut consultation kaydini sifir hafizali GPT oturumuna gidecek kadar netlestirmek.',
@@ -92,6 +113,10 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- Uygulama reposu | https://github.com/sahinseyfi/EsnafDijital-Openclaw',
     '- OpenClaw upstream | https://github.com/openclaw/openclaw',
     '',
+    'Yerel prompting referansi:',
+    `- Dosya | ${PROMPTING_REFERENCE_PATH}`,
+    promptingReference,
+    '',
     'Mevcut businessBrief:',
     formatBriefRecord(consultation.businessBrief),
     '',
@@ -109,6 +134,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- brief alanlarini bu consultation turune gore doldur',
     '- finalPromptText alaninda kullaniciya verilecek son promptu sen yaz',
     '- finalPromptText icinde repo linklerini acik referans olarak gecir',
+    '- Yerel prompting referansindaki cizgiyi uygula: kisa, yapilandirilmis, gorev odakli, repo-gercegine bagli kal',
     '- finalPromptText, sifir hafizali baska bir GPT oturumuna gonderilmeye hazir olmali',
   ].join('\n')
 }
