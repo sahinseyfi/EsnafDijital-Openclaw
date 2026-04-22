@@ -16,6 +16,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 
 ## Aktif Yapılanlar
 - `hesap-merkezi` V2 yerel akış ve API yüzeyi tamamlandı
+- `hesap-merkezi` V2 prod deploy + doğrulama alindi; servis yeni build ile restart edildi ve local health/status/page kontrolleri gecti
 - Project OS ilk typed operasyon modeliyle ilerliyor
 - Project OS icin `businesses`, `audits`, `offers`, `delivery_projects` Prisma modelleri eklendi; temel veri omurgasi schema seviyesinde acildi
 - Project OS icin db-or-mock service katmani acildi; ekran artik Prisma varsa veritabani, yoksa mock veri ile calisiyor
@@ -63,7 +64,6 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 
 ## Sıradaki Somut Adımlar
 - gercek `DATABASE_URL` ile `npm run prisma:bootstrap:local` calistirmak
-- normal oturumda V2 prod deploy + doğrulama almak
 
 ## Heartbeat Çalışma Talimatı
 - Consultation Center için ayrı follow-through heartbeat işi kapatıldı.
