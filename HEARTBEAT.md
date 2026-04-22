@@ -26,7 +26,6 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - gercek `DATABASE_URL` bulundu ve repo tarafinda eksik `20260418143000_init` migration'i geri yazilarak migration gecmisi hizalandi; fakat sonraki `202604211753_init` delta migration'i mevcut eski tabloları/kolonlari donusturuyor ve kismi yikici etkisi var, bu yuzden kontrollu apply onayi olmadan bootstrap tamamlanmiyor
-- prod dogrulama icin normal oturum yetkisi gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
