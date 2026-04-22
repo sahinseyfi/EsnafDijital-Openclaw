@@ -3,7 +3,7 @@ import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { readMockStore, writeMockStore } from '@/lib/consultation-center/mock-store'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
-import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem } from '@/lib/consultation-center/types'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationTargetModel } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
   title?: string
@@ -13,6 +13,7 @@ type ConsultationUpdateInput = {
   summary?: string
   stage?: ConsultationDetail['stage']
   dueAt?: string | null
+  targetModel?: ConsultationTargetModel
   businessBrief?: Record<string, string | string[] | null>
   technicalBrief?: Record<string, string | string[] | null>
   sharedBrief?: Record<string, string | string[] | null>
@@ -27,13 +28,17 @@ type ConsultationActionInput = {
 }
 
 type ConsultationRunInput = {
-  modelName?: string
+  modelName?: ConsultationTargetModel
   promptText?: string
   responseSummary?: string
 }
 
 type ConsultationActionStatusInput = {
   status: 'open' | 'done'
+}
+
+function normalizeTargetModel(value?: string | null): ConsultationTargetModel {
+  return value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
 }
 
 const seedConsultations: ConsultationDetail[] = [
@@ -64,7 +69,7 @@ const seedConsultations: ConsultationDetail[] = [
       { kind: 'heartbeat', title: 'Aktif blokaj ve hedef', ref: 'HEARTBEAT.md' },
     ],
     promptRun: {
-      modelName: 'gpt-pro',
+      modelName: 'gpt-5-pro',
       sentAt: null,
       responseSummary: null,
       promptText: 'Rolün: KOBİ teklif ve ürün tasarımı danışmanı. Karar sorusu: Audit sonrası teklif yapısını 3 sade pakete nasıl düşürelim?...',
@@ -101,7 +106,7 @@ const seedConsultations: ConsultationDetail[] = [
       { kind: 'heartbeat', title: 'Haftalık öncelik', ref: 'HEARTBEAT.md' },
     ],
     promptRun: {
-      modelName: 'gpt-pro',
+      modelName: 'gpt-5-pro',
       sentAt: null,
       responseSummary: null,
       promptText: 'Rolün: küçük işletme saha satış stratejisti. Karar sorusu: Audit’i ilk görüşmede hangi dille anlatırsak randevu açmak kolaylaşır?...',
@@ -263,6 +268,7 @@ export async function createMockConsultation(input: {
   workMode?: string
   targetSurface?: string
   outputType?: string
+  targetModel?: ConsultationTargetModel
 }) {
   const consultations = await loadConsultations()
   const suggestion = suggestConsultationBrief(input)
@@ -284,10 +290,13 @@ export async function createMockConsultation(input: {
     missingFields: [],
     businessBrief: suggestion.businessBrief,
     technicalBrief: suggestion.technicalBrief,
-    sharedBrief: suggestion.sharedBrief,
+    sharedBrief: {
+      ...(suggestion.sharedBrief || {}),
+      targetModel: normalizeTargetModel(input.targetModel),
+    },
     contextRefs: suggestion.contextRefs,
     promptRun: {
-      modelName: null,
+      modelName: normalizeTargetModel(input.targetModel),
       sentAt: null,
       responseSummary: null,
       promptText: '',
@@ -325,7 +334,11 @@ export async function updateMockConsultation(id: string, input: ConsultationUpda
     dueAt: input.dueAt === undefined ? current.dueAt : input.dueAt,
     businessBrief: input.businessBrief || current.businessBrief,
     technicalBrief: input.technicalBrief || current.technicalBrief,
-    sharedBrief: input.sharedBrief || current.sharedBrief,
+    sharedBrief: {
+      ...(current.sharedBrief || {}),
+      ...(input.sharedBrief || {}),
+      ...(input.targetModel ? { targetModel: normalizeTargetModel(input.targetModel) } : {}),
+    },
     contextRefs: input.contextRefs || current.contextRefs,
     updatedAt: new Date().toISOString(),
   }
@@ -362,7 +375,7 @@ export async function addMockConsultationRun(id: string, input: ConsultationRunI
 
   const current = consultations[index]
   current.promptRun = {
-    modelName: input.modelName?.trim() || current.promptRun.modelName,
+    modelName: normalizeTargetModel(input.modelName || current.promptRun.modelName),
     promptText: input.promptText?.trim() || current.promptRun.promptText,
     sentAt: new Date().toISOString(),
     responseSummary: input.responseSummary?.trim() || current.promptRun.responseSummary,

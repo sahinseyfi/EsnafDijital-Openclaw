@@ -339,6 +339,21 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
   }
 
   try {
+    const current = await prisma.consultation.findUnique({
+      where: { id },
+      include: {
+        brief: true,
+      },
+    })
+
+    const currentSharedBrief = (current?.brief?.sharedJson as Record<string, string | string[] | null> | null) || {}
+    const nextSharedBrief = {
+      ...currentSharedBrief,
+      ...(input.sharedBrief || {}),
+      ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+      ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
+    }
+
     const updated = await prisma.consultation.update({
       where: { id },
       data: {
@@ -353,21 +368,13 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
             create: {
               businessJson: input.businessBrief,
               technicalJson: input.technicalBrief,
-              sharedJson: {
-                ...(input.sharedBrief || {}),
-                ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
-                ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
-              },
+              sharedJson: nextSharedBrief,
               contextRefsJson: input.contextRefs,
             },
             update: {
               businessJson: input.businessBrief,
               technicalJson: input.technicalBrief,
-              sharedJson: {
-                ...(input.sharedBrief || {}),
-                ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
-                ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
-              },
+              sharedJson: nextSharedBrief,
               contextRefsJson: input.contextRefs,
             },
           },

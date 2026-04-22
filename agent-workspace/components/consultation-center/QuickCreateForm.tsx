@@ -7,6 +7,7 @@ export function QuickCreateForm() {
   const router = useRouter()
   const [title, setTitle] = useState('')
   const [note, setNote] = useState('')
+  const [targetModel, setTargetModel] = useState<'gpt-5' | 'gpt-5-pro'>('gpt-5-pro')
   const [busy, setBusy] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
@@ -33,6 +34,7 @@ export function QuickCreateForm() {
           workMode: 'decision',
           targetSurface: 'cross',
           outputType: 'gpt_prompt',
+          targetModel,
         }),
       })
       const json = await response.json().catch(() => ({}))
@@ -62,7 +64,7 @@ export function QuickCreateForm() {
       <div>
         <p className="eyebrow">1. İstek metni</p>
         <h3>Neyi değiştirmek istiyorsun?</h3>
-        <p className="muted">Buraya düz metin yaz. Sistem bunu GPT-5 için uygun prompta çevirecek.</p>
+        <p className="muted">Buraya düz metin yaz. Kayıt açılınca sistem otomatik bağlam seçip promptu hazırlayacak.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -80,11 +82,25 @@ export function QuickCreateForm() {
         />
       </label>
 
+      <label style={{ display: 'grid', gap: 6 }}>
+        <span>Hedef model</span>
+        <select value={targetModel} onChange={(event) => setTargetModel(event.target.value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')}>
+          <option value="gpt-5-pro">GPT-5 Pro</option>
+          <option value="gpt-5">GPT-5</option>
+        </select>
+      </label>
+
+      {targetModel === 'gpt-5-pro' ? (
+        <p className="muted">GPT-5 Pro varsayılan seçili. Cevap yaklaşık 30 dakika sürebilir, bu yüzden prompt daha dikkatli hazırlanır.</p>
+      ) : (
+        <p className="muted">GPT-5 daha hızlı akış için uygundur. Sistem promptu daha kompakt kurar.</p>
+      )}
+
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button type="submit" className="button-primary" disabled={busy}>
-          {busy ? 'Hazırlanıyor...' : 'Kaydı aç'}
+          {busy ? 'Kayıt ve prompt hazırlanıyor...' : 'Kaydı aç'}
         </button>
       </div>
     </form>
