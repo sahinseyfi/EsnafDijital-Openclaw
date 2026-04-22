@@ -19,6 +19,7 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - **Admin app ic portu:** `3012`
 - **Auth helper:** `/usr/local/bin/esnafdijital-openclaw-auth`
 - **Discovery helper:** `/usr/local/bin/esnafdijital-openclaw-discovery`
+- **Apify CLI:** `/usr/bin/apify`
 - **Dashboard overlay/state dosyasi:** `/opt/esnafdijital/data/codex-dashboard-overlay.json`
 - **Admin domain durumu:** `admin.esnafdijital.com.tr` basic auth + Next.js admin app ile yayinda
 
@@ -32,6 +33,7 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - workspace sync servis durum: `systemctl status esnafdijital-workspace-sync.service`
 - workspace sync timer durum: `systemctl status esnafdijital-workspace-sync.timer`
 - workspace sync log: `journalctl -u esnafdijital-workspace-sync.service -n 100 --no-pager`
+- Apify CLI surum kontrolu: `apify --version`
 
 ## GitHub Workspace Sync
 - yalnizca `/root/.openclaw/workspace` GitHub'a senkronize edilir, tum `/root/.openclaw` degil
