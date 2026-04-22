@@ -7,13 +7,13 @@
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T10:23:47.544Z",
-    "decisionQuestion": "Consultation kaydından doğru bağlamı seçip OpenClaw ajanına doğrudan yön verecek kısa ama yeterli GPT promptu üreten skill için en sade karar çerçevesi nasıl kurulmalı?",
-    "summary": "EsnafDigital’in Consultation Center akışında, consultation kaydından amaca uygun bağlamı seçip VPS üzerindeki OpenClaw ajanına net yön veren kısa ve güçlü GPT promptu üreten skill için sade karar yapısını netleştirme ihtiyacı var.",
+    "updatedAt": "2026-04-22T10:49:19.786Z",
+    "decisionQuestion": "Consultation kaydından amaca uygun bağlamı seçip OpenClaw ajanına doğrudan yön verecek kısa ama yeterli GPT promptu üreten skill için en sade karar çerçevesi ve minimum yapı ne olmalı?",
+    "summary": "EsnafDigital’in Consultation Center akışında, consultation kaydından doğru bağlamı seçip OpenClaw ajanına net yön veren kısa ve güçlü GPT promptu üreten skill için sade ve uygulanabilir karar yapısını netleştirme ihtiyacı var.",
     "gptRecommended": false,
     "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "Bu karar şimdi netleşirse Consultation Center v1 daha güvenilir ilerler, prompt üretiminde kör bağlam yükleme ve gereksiz skill büyümesi erken aşamada engellenir, sonraki uygulama adımları daha az tekrar ve daha az operasyon yüküyle yürür.",
+    "whyNow": "Bu karar şimdi netleşirse Consultation Center v1 daha güvenilir ilerler, prompt üretiminde kör bağlam yükleme ve gereksiz skill büyümesi erken durdurulur, sonraki uygulama adımları daha az tekrar ve daha düşük operasyon yüküyle ilerler.",
     "desiredOutput": "Kullanılabilir çıktı paketi: 1) karar çerçevesi, 2) minimum skill yapısı, 3) bağlam seçme kuralları, 4) consultation kaydından prompt üretim akışı, 5) kaçınılacak anti-patternler, 6) MVP için net öneri.",
     "missingFields": [],
     "sharedBrief": {
@@ -29,7 +29,7 @@
       "targetModelLabel": "GPT-5 Pro",
       "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nBu prompt sifir hafizali bir GPT oturumuna gidecek. Bu nedenle ihtiyacin olan tum yonlendirme asagida acikca veriliyor.\n\nGorevin:\nEsnafDigital’in Consultation Center akisinda kullanilacak, consultation kaydindan dogru baglami secip OpenClaw ajanina net yon veren kisa ve guclu GPT promptu ureten skill icin minimum karar cercevesini netlestir.\n\nBaglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Ic sistem hedefi: Project OS, Context Center ve GPT Pro Consultation Center yapisini ayni admin panel mantiginda birlestirmek.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Kacinilacaklar: genel CRM’e kayma, gereksiz teori, tum baglami kor bicimde prompta basma, gereksiz yeni katmanlar.\n- Kalici ilke: once netlik, sonra arac; once calisan basit cozum, sonra otomasyon.\n\nRepo referanslari:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n\nKarar sorusu:\nConsultation kaydindan dogru baglami secip OpenClaw ajanina dogrudan yon verecek kisa ama yeterli GPT promptu ureten skill icin en sade karar cercevesi ve minimum yapi ne olmali?\n\nMevcut durum:\n- Prompt uretimi tarafinda hata yasanmis, fakat asil ihtiyac karar cercevesi, baglam secimi ve cikti sozlesmesini sade bicimde netlestirmek.\n- Hedef, uzun prompt degil; dogru secilmis baglam ve uygulanabilir yonlendirme.\n- Gerekirse uygulama reposu ile OpenClaw upstream arasindaki ilgili farklari karar mantigina yansit, ama analizi gereksiz buyutme.\n\nKritik sinirlar:\n- Kucuk isletme odagi korunacak.\n- Sade MVP cizgisi korunacak.\n- Dusuk operasyon yuku korunacak.\n- Tum dosyalari kor bicimde prompta basma yaklasimi reddedilecek.\n- Cikti, VPS uzerindeki OpenClaw ajanina dogrudan yon verecek kadar net olacak.\n\nBasari olcutleri:\n- Karar sorusu tek cumlede netlesir.\n- Cikti consultation akisina dogrudan gomulebilir olur.\n- Minimum alan ve minimum kuralla calisir.\n- Baglam secimi amac odakli olur.\n- Gereksiz teori ve sistem buyumesi engellenir.\n\nSenden istedigim cikti:\nSadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"selectionPriority\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"skillDesign\": {\n    \"purpose\": \"string\",\n    \"minimumInputs\": [\"string\"],\n    \"minimumOutputs\": [\"string\"],\n    \"requiredRules\": [\"string\"]\n  },\n  \"contextSelectionRules\": [\n    {\n      \"when\": \"string\",\n      \"include\": [\"string\"],\n      \"exclude\": [\"string\"]\n    }\n  ],\n  \"outputContract\": {\n    \"requiredSections\": [\"string\"],\n    \"writingRules\": [\"string\"],\n    \"jsonShapeAdvice\": [\"string\"]\n  },\n  \"recommendedFlow\": [\"string\"],\n  \"antiPatterns\": [\"string\"],\n  \"mvpRecommendation\": {\n    \"recommendedApproach\": \"string\",\n    \"why\": \"string\",\n    \"firstVersionScope\": [\"string\"]\n  }\n}\n\nKurallar:\n- Kisa, net ve uygulanabilir ol.\n- Gereksiz teori verme.\n- Onerileri OpenClaw ajani tarafinda VPS uzerinde uygulanabilir tut.\n- Alan adlarini netlestirebilirsin ama gereksiz yeni katmanlar uretme.\n- Her bolumde simdi uygulanabilir minimum cozum odagini kor.",
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nBu prompt sifir hafizali bir GPT oturumuna gidecek. Bu nedenle ihtiyacin olan tum yonlendirme burada veriliyor.\n\nAmac:\nEsnafDigital’in Consultation Center akisinda kullanilacak, consultation kaydindan dogru baglami secip OpenClaw ajanina net yon veren kisa ve guclu GPT promptu ureten skill icin minimum karar cercevesini netlestir.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani\n- Konu, genel teori degil; mevcut uygulama akisina gomulecek prompt uretim mantigidir.\n\nBaglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Ic sistem hedefi: Project OS, Context Center ve GPT Pro Consultation Center yapisini ayni admin panel mantiginda birlestirmek.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Mevcut ihtiyac: consultation kaydindan amaca uygun baglam secip kisa ama yeterli GPT promptu ureten bir skill tasarlamak.\n- Mevcut sorun: prompt uretimi tarafinda hata yasanmis, fakat asil ihtiyac karar cercevesi, baglam secimi ve cikti sozlesmesini sade bicimde netlestirmek.\n\nCalisma cizgisi:\n- Tek prompt tek is istesin.\n- Baglami sec, dump etme.\n- Cikti kontratini acik ver.\n- Kisa ama yapilandirilmis kal.\n- Repo ve runtime gercegine bagli kal.\n- Eksik kritik bilgi varsa bunu varsayim veya acik bosluk olarak etiketle.\n- Gereksiz teori, pazarlama dili ve yeni karmasik katmanlar uretme.\n- Repo referansi, somut gorev veya net cikti yoksa promptu hazir sayma mantigiyla dusun.\n\nKarar sorusu:\nConsultation kaydindan amaca uygun baglami secip OpenClaw ajanina dogrudan yon verecek kisa ama yeterli GPT promptu ureten skill icin en sade karar cercevesi ve minimum yapi ne olmali?\n\nKritik sinirlar:\n- Kucuk isletme odagi korunacak.\n- Sade MVP cizgisi korunacak.\n- Dusuk operasyon yuku korunacak.\n- Tum dosyalari kor bicimde prompta basma yaklasimi reddedilecek.\n- Cikti, VPS uzerindeki OpenClaw ajanina dogrudan yon verecek kadar net olacak.\n\nBasari olcutleri:\n- Karar sorusu tek cumlede netlesir.\n- Cikti consultation akisina dogrudan gomulebilir olur.\n- Minimum alan ve minimum kuralla calisir.\n- Baglam secimi amac odakli olur.\n- Gereksiz teori ve sistem buyumesi engellenir.\n\nSenden istedigim cikti:\nSadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"selectionPriority\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"skillDesign\": {\n    \"purpose\": \"string\",\n    \"minimumInputs\": [\"string\"],\n    \"minimumOutputs\": [\"string\"],\n    \"requiredRules\": [\"string\"]\n  },\n  \"contextSelectionRules\": [\n    {\n      \"when\": \"string\",\n      \"include\": [\"string\"],\n      \"exclude\": [\"string\"]\n    }\n  ],\n  \"outputContract\": {\n    \"requiredSections\": [\"string\"],\n    \"writingRules\": [\"string\"],\n    \"jsonShapeAdvice\": [\"string\"]\n  },\n  \"recommendedFlow\": [\"string\"],\n  \"antiPatterns\": [\"string\"],\n  \"mvpRecommendation\": {\n    \"recommendedApproach\": \"string\",\n    \"why\": \"string\",\n    \"firstVersionScope\": [\"string\"]\n  }\n}\n\nKurallar:\n- Kisa, net ve uygulanabilir ol.\n- Gereksiz teori verme.\n- Onerileri OpenClaw ajani tarafinda VPS uzerinde uygulanabilir tut.\n- Alan adlarini netlestirebilirsin ama gereksiz yeni katmanlar uretme.\n- Her bolumde simdi uygulanabilir minimum cozum odagini kor.",
       "mevcutDurum": "Prompt üretimi tarafında hata yaşanmış, fakat asıl ihtiyaç karar çerçevesi, bağlam seçimi ve çıktı sözleşmesini sade biçimde netleştirmek.",
       "kritikSinirlar": [
         "küçük işletme odağı korunacak",
@@ -45,7 +45,7 @@
         "bağlam seçimi amaç odaklı olur",
         "gereksiz teori ve sistem büyümesi engellenir"
       ],
-      "promptPreparedAt": "2026-04-22T10:23:47.543Z",
+      "promptPreparedAt": "2026-04-22T10:49:19.786Z",
       "repoRefs": [
         {
           "title": "Uygulama reposu",
@@ -93,7 +93,19 @@
           "title": "OpenClaw upstream",
           "ref": "https://github.com/openclaw/openclaw"
         }
-      ]
+      ],
+      "promptingReference": {
+        "path": "/root/.openclaw/workspace/REFERENCES/prompting/gpt5-prompting-principles.md",
+        "appliedPrinciples": [
+          "Görevi tek ve net tanımla",
+          "Bağlamı seç, dump etme",
+          "Çıktı kontratini açık ver",
+          "Kısa ama yapılandırılmış kal",
+          "Repo ve runtime gerçeğine bağla",
+          "Eksik kritik bilgiyi varsayım veya açık boşluk olarak etiketle",
+          "Fail-closed düşün"
+        ]
+      }
     }
   }
 ]
