@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
+import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { deriveProjectOsOverview } from '@/lib/project-os/derived'
 import { getOfferAddons, getOfferPackageByName } from '@/lib/project-os/offer-packages'
@@ -117,6 +118,39 @@ export default async function BusinessDetailPage({
         </article>
       </section>
 
+      <section>
+        <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
+          <div>
+            <p className="eyebrow">Next step</p>
+            <h3>Bu kayıtta sıradaki mantıklı hareket</h3>
+          </div>
+          {queueItem ? (
+            <>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <span className="badge">{queueItem.stageLabel}</span>
+                <span className="badge">{queueItem.statusLabel}</span>
+              </div>
+              <div className="stack-xs">
+                <p><strong>Sıradaki adım:</strong> {queueItem.nextAction}</p>
+                <p className="muted">{queueItem.summary}</p>
+              </div>
+              <div className="hero-actions">
+                {queueItem.advanceAction ? <ProjectOsAdvanceButton action={queueItem.advanceAction} businessId={business.id} redirectHref={canonicalHref} /> : null}
+                <Link href={`/project-os?businessId=${business.id}#records`} className="ghost-link">Tüm hattı aç</Link>
+                <Link href="/consultation-center" className="ghost-link">Karar gerekiyorsa danışma aç</Link>
+              </div>
+            </>
+          ) : (
+            <div className="stack-xs">
+              <p className="muted">Bu işletme için henüz türetilmiş bir sonraki adım görünmüyor.</p>
+              <div className="hero-actions">
+                <Link href={`/project-os?businessId=${business.id}#records`} className="ghost-link">İş Takibinde aç</Link>
+              </div>
+            </div>
+          )}
+        </article>
+      </section>
+
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <article className="card stack-sm">
           <div>
@@ -154,7 +188,7 @@ export default async function BusinessDetailPage({
         <article className="card stack-sm">
           <div>
             <p className="eyebrow">Operasyon özeti</p>
-            <h3>Şimdi ne hareket etmeli?</h3>
+            <h3>Şu anki kısa durum</h3>
           </div>
           {queueItem ? (
             <>

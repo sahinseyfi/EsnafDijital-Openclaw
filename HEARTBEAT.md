@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Business detail route ve profil iskeleti acildi; siradaki adim bu yuzeye `next step`, activity timeline ve ic not katmanlarini kontrollu sirayla baglamak
+- Business detail icin `next step` karti acildi; siradaki adim activity timeline katmanini mevcut audit / teklif / teslimat hareketlerinden tureyip ayni yuzeye kontrollu sekilde baglamak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
