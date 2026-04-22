@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     workMode?: string
     targetSurface?: string
     outputType?: string
+    targetModel?: 'gpt-5' | 'gpt-5-pro'
   }
   const result = await createConsultation(body)
   return NextResponse.json({ ok: true, created: result.created, payload: result.payload })

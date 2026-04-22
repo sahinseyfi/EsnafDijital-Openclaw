@@ -33,6 +33,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     summary?: string
     stage?: 'draft' | 'clarifying' | 'goal_set' | 'context_ready' | 'blocked' | 'internal' | 'external' | 'ready_to_send' | 'answered' | 'actioned'
     dueAt?: string | null
+    targetModel?: 'gpt-5' | 'gpt-5-pro'
     businessBrief?: Record<string, string | string[] | null>
     technicalBrief?: Record<string, string | string[] | null>
     sharedBrief?: Record<string, string | string[] | null>

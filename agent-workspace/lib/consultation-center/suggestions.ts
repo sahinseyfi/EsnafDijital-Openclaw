@@ -7,6 +7,7 @@ type SuggestionInput = {
   workMode?: string
   targetSurface?: string
   outputType?: string
+  targetModel?: string
 }
 
 export type SuggestionOutput = {
@@ -28,6 +29,9 @@ type TopicSignals = {
   landing: boolean
   offer: boolean
   auth: boolean
+  segment: boolean
+  flow: boolean
+  openclaw: boolean
 }
 
 type WorkMode = 'audit' | 'patch' | 'strategy' | 'decision'
@@ -87,6 +91,9 @@ function detectSignals(title: string, note: string): TopicSignals {
     landing: hasAny(text, ['landing', 'hero', 'homepage', 'ana sayfa', 'site', 'sayfa', 'vitrin']),
     offer: hasAny(text, ['teklif', 'paket', 'offer', 'pricing', 'fiyat']),
     auth: hasAny(text, ['auth', 'login', 'giriş', 'giris', 'oturum', 'session', 'token']),
+    segment: hasAny(text, ['segment', 'sektör', 'sektor', 'pazar', 'arnavutköy', 'arnavutkoy']),
+    flow: hasAny(text, ['audit', 'teklif', 'teslimat', 'bakım', 'bakim', 'operasyon', 'akış', 'akis']),
+    openclaw: hasAny(text, ['openclaw', 'gateway', 'telegram', 'whatsapp', 'control ui', 'control-ui', 'session', 'heartbeat', 'runtime']),
   }
 }
 
@@ -138,26 +145,46 @@ function appendMeta(sharedBrief: Record<string, string | string[] | null> | unde
   const workMode = normalizeWorkMode(input.workMode)
   const targetSurface = normalizeTargetSurface(input.targetSurface)
   const outputType = normalizeOutputType(input.outputType)
+  const targetModel = input.targetModel === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
 
   return {
     ...(sharedBrief || {}),
     workMode,
     targetSurface,
     outputType,
+    targetModel,
     workModeLabel: workModeLabel(workMode),
     targetSurfaceLabel: targetSurfaceLabel(targetSurface),
     outputTypeLabel: outputTypeLabel(outputType),
+    targetModelLabel: targetModel === 'gpt-5-pro' ? 'GPT-5 Pro' : 'GPT-5',
   }
 }
 
-function baseContextRefs(type: ConsultationType): ConsultationContextRef[] {
-  const refs: ConsultationContextRef[] = [
+function baseContextRefs(_type: ConsultationType): ConsultationContextRef[] {
+  return [
     { kind: 'project', title: 'Proje çizgisi', ref: 'PROJECT.md' },
     { kind: 'heartbeat', title: 'Aktif faz ve öncelik', ref: 'HEARTBEAT.md' },
+    { kind: 'project', title: 'Kalıcı karar çizgisi', ref: 'MEMORY.md' },
   ]
+}
 
-  if (type === 'shared') {
-    refs.push({ kind: 'project', title: 'Kalıcı karar çizgisi', ref: 'MEMORY.md' })
+function topicContextRefs(signals: TopicSignals): ConsultationContextRef[] {
+  const refs: ConsultationContextRef[] = []
+
+  if (signals.offer) {
+    refs.push({ kind: 'project', title: 'Teklif omurgası', ref: 'OFFERS.md' })
+  }
+
+  if (signals.segment) {
+    refs.push({ kind: 'project', title: 'Segment öncelikleri', ref: 'SEGMENTS.md' })
+  }
+
+  if (signals.flow || signals.offer || signals.segment) {
+    refs.push({ kind: 'roadmap', title: 'Audit -> Teklif -> Teslimat akışı', ref: 'PLAYBOOKS/audit-offer-delivery.md' })
+  }
+
+  if (signals.openclaw) {
+    refs.push({ kind: 'roadmap', title: 'OpenClaw runtime davranışı', ref: 'AGENTS.md' })
   }
 
   return refs
@@ -336,6 +363,7 @@ export function suggestConsultationBrief(input: SuggestionInput): SuggestionOutp
     ...suggestion,
     whyNow: `${suggestion.whyNow} İlk girişte iş modu ${workModeLabel(workMode)}, hedef yüzey ${targetSurfaceLabel(targetSurface)} ve çıktı tipi ${outputTypeLabel(outputType)} olarak işaretlendi.`,
     desiredOutput: outputType === 'action_plan' ? suggestion.desiredOutput : desiredOutputFromMeta(outputType),
+    contextRefs: mergeContextRefs(suggestion.contextRefs, topicContextRefs(signals)),
     sharedBrief: appendMeta(suggestion.sharedBrief, input),
   })
 

@@ -2,6 +2,7 @@ export type ConsultationType = 'sales' | 'technical' | 'shared'
 export type ConsultationStage = 'draft' | 'clarifying' | 'goal_set' | 'context_ready' | 'blocked' | 'internal' | 'external' | 'ready_to_send' | 'answered' | 'actioned'
 export type ConsultationRoute = 'blocked' | 'internal' | 'external'
 export type ConsultationOwnerRole = 'user' | 'tech_agent' | 'shared'
+export type ConsultationTargetModel = 'gpt-5' | 'gpt-5-pro'
 
 export type ConsultationInboxItem = {
   id: string
@@ -33,7 +34,7 @@ export type ConsultationAction = {
 }
 
 export type ConsultationPromptRun = {
-  modelName: string | null
+  modelName: ConsultationTargetModel | null
   promptText: string
   sentAt: string | null
   responseSummary: string | null

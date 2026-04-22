@@ -5,7 +5,7 @@ import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
 import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, deleteMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
-import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationType } from '@/lib/consultation-center/types'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
   title?: string
@@ -15,6 +15,7 @@ type ConsultationUpdateInput = {
   summary?: string
   stage?: ConsultationStage
   dueAt?: string | null
+  targetModel?: ConsultationTargetModel
   businessBrief?: Record<string, string | string[] | null>
   technicalBrief?: Record<string, string | string[] | null>
   sharedBrief?: Record<string, string | string[] | null>
@@ -29,7 +30,7 @@ type ConsultationActionInput = {
 }
 
 type ConsultationRunInput = {
-  modelName?: string
+  modelName?: ConsultationTargetModel
   promptText?: string
   responseSummary?: string
 }
@@ -72,6 +73,10 @@ function mapConsultationRoute(value?: string | null): ConsultationRoute {
 function mapOwnerRole(value?: string | null): ConsultationOwnerRole {
   if (value === 'user' || value === 'tech_agent' || value === 'shared') return value
   return 'shared'
+}
+
+function mapTargetModel(value?: string | null): ConsultationTargetModel {
+  return value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
 }
 
 function buildSummary(record: ConsultationRecord) {
@@ -152,6 +157,7 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     technicalBrief,
     sharedBrief,
   })
+  const targetModel = mapTargetModel(latestRun?.modelName || (sharedBrief?.targetModel as string | undefined))
   const promptText = latestRun?.promptText || buildConsultationPrompt({
     type: inbox.type,
     title: record.title,
@@ -161,7 +167,10 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     contextRefs,
     businessBrief,
     technicalBrief,
-    sharedBrief,
+    sharedBrief: {
+      ...(sharedBrief || {}),
+      targetModel,
+    },
   })
   const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
     id: action.id,
@@ -195,7 +204,7 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     sharedBrief,
     contextRefs,
     promptRun: {
-      modelName: latestRun?.modelName || null,
+      modelName: targetModel,
       promptText,
       sentAt: latestRun?.sentAt?.toISOString() || null,
       responseSummary: latestRun?.responseSummary || null,
@@ -268,6 +277,7 @@ export async function createConsultation(input: {
   workMode?: string
   targetSurface?: string
   outputType?: string
+  targetModel?: ConsultationTargetModel
 }) {
   if (!hasDatabaseUrl()) {
     const created = await createMockConsultation(input)
@@ -294,7 +304,10 @@ export async function createConsultation(input: {
           create: {
             businessJson: suggestion.businessBrief,
             technicalJson: suggestion.technicalBrief,
-            sharedJson: suggestion.sharedBrief,
+            sharedJson: {
+              ...(suggestion.sharedBrief || {}),
+              targetModel: mapTargetModel(input.targetModel),
+            },
             contextRefsJson: suggestion.contextRefs,
           },
         },
@@ -343,6 +356,7 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
               sharedJson: {
                 ...(input.sharedBrief || {}),
                 ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+                ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
               },
               contextRefsJson: input.contextRefs,
             },
@@ -352,6 +366,7 @@ export async function updateConsultation(id: string, input: ConsultationUpdateIn
               sharedJson: {
                 ...(input.sharedBrief || {}),
                 ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+                ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
               },
               contextRefsJson: input.contextRefs,
             },
@@ -414,7 +429,7 @@ export async function addConsultationRun(id: string, input: ConsultationRunInput
     await prisma.consultationRun.create({
       data: {
         consultationId: id,
-        modelName: input.modelName?.trim() || current?.promptRun.modelName || null,
+        modelName: mapTargetModel(input.modelName || current?.promptRun.modelName),
         promptText,
         sentAt: new Date(),
         responseSummary: input.responseSummary?.trim() || null,

@@ -1,4 +1,4 @@
-import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
+import type { ConsultationContextRef, ConsultationDetail, ConsultationTargetModel } from '@/lib/consultation-center/types'
 
 function containsAny(value: string, keywords: string[]) {
   return keywords.some((keyword) => value.includes(keyword))
@@ -49,6 +49,15 @@ function formatBriefBlock(title: string, value?: Record<string, string | string[
   return lines ? `${title}:\n${lines}` : ''
 }
 
+function resolveTargetModel(sharedBrief?: Record<string, string | string[] | null>) {
+  const raw = typeof sharedBrief?.targetModel === 'string' ? sharedBrief.targetModel.trim().toLowerCase() : ''
+  return raw === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
+}
+
+function targetModelLabel(model: ConsultationTargetModel) {
+  return model === 'gpt-5-pro' ? 'GPT-5 Pro' : 'GPT-5'
+}
+
 function formatRepoRefs(detail: Pick<ConsultationDetail, 'title' | 'decisionQuestion' | 'desiredOutput' | 'technicalBrief' | 'sharedBrief'>) {
   const projectRepo = 'https://github.com/sahinseyfi/EsnafDijital-Openclaw'
   const openclawRepo = 'https://github.com/openclaw/openclaw'
@@ -85,10 +94,24 @@ function formatRepoRefs(detail: Pick<ConsultationDetail, 'title' | 'decisionQues
   ].filter(Boolean).join('\n')
 }
 
+export function buildPromptSummary(detail: Pick<ConsultationDetail, 'title' | 'sharedBrief'>) {
+  const targetModel = resolveTargetModel(detail.sharedBrief)
+
+  return [
+    `Bu prompt, ${detail.title} konusu için hazırlanıyor ve sonucu VPS'te çalışan OpenClaw ajanına yön vermek için kullanılacak.`,
+    'Karşı GPT oturumunun hiçbir hafızası olmadığı varsayılıyor, bu yüzden gerekli proje bağlamı promptun içine taşınıyor.',
+    targetModel === 'gpt-5-pro'
+      ? 'GPT-5 Pro seçili olduğu için prompt daha dikkatli, daha eksiksiz ve daha iyi düşünülmüş kuruluyor. Cevap daha geç gelebilir.'
+      : 'GPT-5 seçili olduğu için prompt daha kompakt tutuluyor ama yine de kritik bağlam korunuyor.',
+    'Karşı taraftan teknik önerinin yanında, teknik olmayan kısa bir özet de isteniyor.',
+  ]
+}
+
 export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'whyNow' | 'desiredOutput' | 'contextRefs' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {
   const rawRequest = typeof detail.sharedBrief?.hamNot === 'string' && detail.sharedBrief.hamNot.trim()
     ? detail.sharedBrief.hamNot.trim()
     : 'Ham istek metni yok.'
+  const targetModel = resolveTargetModel(detail.sharedBrief)
 
   const blocks = [
     '<role>',
@@ -110,6 +133,11 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '- Proje: EsnafDigital',
     '- Amaç: küçük işletmeler için güven veren dijital görünürlük ve operasyon sistemi kurmak',
     '- Ana akış: Audit -> Teklif -> Teslimat -> Bakım',
+    '- Çalışma ortamı: website bir VPS üzerinde çalışıyor.',
+    '- Uygulama modeli: kullanıcı bu değişikliği VPS üzerinde çalışan OpenClaw ajanına yaptırıyor.',
+    '- Kullanım şekli: bu promptun çıktısı, ajanı yönlendirmek için kullanılacak.',
+    '- Hafıza varsayımı: karşı GPT oturumu projeyi ilk kez görüyor, önceki konuşmaları ve kararları bilmiyor.',
+    `- Hedef model: ${targetModelLabel(targetModel)}`,
     `- Konu: ${detail.title}`,
     `- Ham değişiklik isteği: ${rawRequest}`,
     `- Karar sorusu: ${detail.decisionQuestion}`,
@@ -138,6 +166,10 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '- Mümkünse mevcut yapıya uyumlu ilerle; sırf yeni sistem önermek için yeni sistem önerme.',
     '- Eksik veri varsa en fazla 3 maddede yaz ve geri kalanında makul varsayımlarla devam et.',
     '- Kod veya repo referansı gerekiyorsa önce verilen repo linklerini temel al.',
+    '- Bu promptun okuyucusunun sıfır hafızalı yeni bir GPT oturumu olduğunu unutma; kritik bağlamı dışarıda bırakma.',
+    targetModel === 'gpt-5-pro'
+      ? '- GPT-5 Pro için yazıyorsun. Cevap geç gelebileceği için hızdan çok doğruluk, eksiksizlik ve düşünülmüş yapı öncelikli olsun.'
+      : '- GPT-5 için yazıyorsun. Promptu gereksiz uzatmadan net ve yük taşıyan cümlelerle kur.',
     '</constraints>',
     '',
     '<output_format>',
@@ -149,6 +181,7 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '5. En güçlü öneri',
     '6. Net karar',
     '7. İlk adımlar',
+    '8. Teknik olmayan kısa özet (3-5 madde, sade Türkçe)',
     '</output_format>',
   ].filter(Boolean)
 
