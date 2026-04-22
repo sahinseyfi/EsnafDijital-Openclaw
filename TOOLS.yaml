@@ -16,31 +16,32 @@ tools:
       - "audits"
       - "offers"
       - "delivery_projects"
-      - "durumu degisen is nesneleri"
+      - "durumu degisen operasyonel is nesneleri"
 
   docs:
     purpose: "Sabit baglam ve yasayan proje kayitlari"
     default_stack: ["Markdown", "YAML", "JSON"]
     use_when:
-      - "project context"
+      - "project"
       - "roadmap"
       - "heartbeat"
       - "memory"
       - "decisions"
+      - "checklists"
       - "playbooks"
-      - "prompt uretim baglami"
+      - "sabit prompt baglami"
 
   automation:
     purpose: "Kucuk tekrar eden isleri azaltmak"
     default_stack: ["cron", "basit jobs"]
     use_when:
-      - "health checks"
-      - "kucuk takip gorevleri"
-      - "duzenli kontrol isleri"
+      - "ayni is tekrar etmeye basladiysa"
+      - "elle takip hata doguruyorsa"
+      - "kucuk ve anlasilir otomasyon yeterliyse"
 
 rules:
-  - "MVP'de vector DB, event bus ve mikroservis onerilmez"
-  - "Tum baglam her prompta kor bicimde tasinmaz"
-  - "Once en kucuk calisan akis kurulur"
+  - "Once mevcut stack icinde cozum ara"
+  - "Sirf ileride lazim olabilir diye yeni servis ekleme"
+  - "MVP'de agir altyapi degil, gorunur sonuc onceliklidir"
   - "Operasyonel veri ile kalici baglam birbirine karistirilmaz"
   - "Parola, token ve benzeri gizli bilgiler workspace'e yazilmaz"

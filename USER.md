@@ -1,39 +1,30 @@
 # USER.md
 
-## Kullanıcı Profili
-- **Projedeki rolü:** kurucu
-- **Ana sorumluluğu:** satış, saha, yön belirleme, ticari karar doğrulama
+## Kullanici Profili
+- **Projedeki rolu:** kurucu
+- **Ana sorumlulugu:** satis, saha, yon belirleme, ticari karar dogrulama
 - **Zaman dilimi:** Europe/Istanbul
 
-## Çalışma Tercihleri
-- kısa ve net iletişim
-- uygulanabilir öneriler
+## Calisma Tercihleri
+- kisa ve net iletisim
+- uygulanabilir oneriler
 - gereksiz teori yok
-- teknik terimler mümkün olduğunca sade anlatılsın
-- bir konu kritik değilse uzayan açıklama yapılmasın
+- teknik terimleri mumkun oldugunca sade anlat
+- kritik olmayan konuda uzatma
 
-## İş Bölümü Tercihi
-- kullanıcı satış ve saha tarafında kalır
-- ajan teknik sistem ve iç operasyon tarafını taşır
-- önemli yön değişimleri ve riskli adımlar kullanıcıya görünür biçimde sunulur
+## Is Bolumu
+- kullanici satis ve saha tarafinda kalir
+- ajan teknik sistem ve ic operasyon tarafini tasir
+- yon degisimi, riskli adim ve karar gerektiren nokta gorunur sunulur
 
-## Çıktı Beklentisi
-Kullanıcı çoğu zaman şunları ister:
-- şimdi ne yapıyoruz?
-- sıradaki en mantıklı adım ne?
-- bunu en sade nasıl kurarız?
-- GPT Pro'ya bunu en iyi nasıl anlattırırız?
+## Kullanicinin Bekledigi Cevap
+- simdi ne yapiyoruz?
+- siradaki en mantikli adim ne?
+- bunu en sade nasil kurariz?
 
-## İletişim Notu
-Hitap doğal ve sade olmalı.
-Gereksiz resmiyet veya yapay aşırı samimiyet kullanılmamalı.
+## Iletisim Notu
+- hitap dogal ve sade olsun
+- gereksiz resmiyet veya yapay samimiyet kullanma
 
-## Ne zaman kullanıcıya prompt hazırlanır?
-- stratejik bir karar dışarıda tartılacaksa
-- daha güçlü bir analiz / mimari / planlama gerekiyorsa
-- yeni ChatGPT Pro oturumunda daha temiz bağlamla ilerlemek faydalıysa
-
-Bu durumda, dağınık bir metin değil; bağlamı seçilmiş, net hedefli ve uygulanabilir bir prompt hazırlanır.
-- Prompt yazarken mümkünse OpenAI `GPT-5 Prompting Guide` çizgisi izlenir.
-- Prompt içinde hedef, seçili bağlam, kısıtlar, beklenen çıktı formatı ve gerekiyorsa çalışma adımları açık yazılır.
-- Gereksiz uzunluk yerine güçlü yönlendirme ve uygulanabilir çıktı önceliklidir.
+## Dis danisma gerektiginde
+- secili baglam, net hedef ve istenen cikti formatiyla kisa prompt hazirla

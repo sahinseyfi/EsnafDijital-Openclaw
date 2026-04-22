@@ -4,33 +4,27 @@
   "top_priorities": [
     "Ilk teklif omurgasini keskinlestirmek",
     "Project OS / Context Center / Consultation Center akislarini gercek veriyle baglamak",
-    "Postgres + Prisma temelini baslatmak",
-    "Hesap Merkezi V2'yi prod dogrulamayla kapatmak"
-  ],
-  "doing": [
-    "Hesap Merkezi V2 yerel akis ve API yuzeyi tamamlandi",
-    "Project OS ilk typed operasyon modeliyle ilerliyor",
-    "Workspace baglami sadelestirildi; gorev kapatma ve baglam hijyeni netlestirildi",
-    "Tasarim sistemi kalici baglama alindi",
-    "OOM sonrasi 8G swap ve admin memory guard eklendi"
+    "Gercek DATABASE_URL ile Postgres + Prisma hattini ayaga kaldirmak",
+    "Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak"
   ],
   "next": [
-    "Postgres + Prisma kurulumu",
-    "businesses / audits / offers / delivery_projects semalari",
-    "Project OS ekranini veritabani katmanina baglamak",
-    "Context Center'i dosya / veritabani karar yuzeyine cevirmek",
-    "Normal oturumda V2 prod deploy ve dogrulama almak"
+    "Gercek DATABASE_URL ile npm run prisma:bootstrap:local calistirmak ve DB baglantisini dogrulamak"
   ],
   "blockers": [
-    "Ilk teklif paketinin detaylari tam keskin degil",
+    "Ilk teklif paketinin detaylari hala tam keskin degil",
     "Operasyonel kayitlar henuz tam veritabanina tasinmadi",
     "Prod dogrulama icin normal oturum yetkisi gerekiyor",
-    "Ana domain hala placeholder modunda"
+    "Yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda"
   ],
   "alerts": [
     "MVP'nin genel CRM'e kayma riski var",
     "Baglam dosyalari tekrar ve cople buyumemeli",
     "Teklif netlesmeden ekran cogaltilmamali"
   ],
-  "last_updated": "2026-04-19"
+  "done_definition": [
+    "Teklif omurgasi netlesmis olacak",
+    "Temel veri modeli calisiyor olacak",
+    "Admin tarafinda ana akislarin nerede yasadigi netlesmis olacak"
+  ],
+  "last_updated": "2026-04-22"
 }
