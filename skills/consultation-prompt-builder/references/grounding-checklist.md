@@ -15,7 +15,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - beklenen cikti tipi acik mi
 - sinirlar ve basari kosulu yazili mi
 - gerekiyorsa teknik olmayan kisa ozet istegi var mi
-- sifir-hafiza varsayimi meta cumle olarak prompta yazilmamis mi
+- oturum hafizasi veya baglam eksigi meta cumlesi prompta yazilmamis mi
 
 ## Hazir saymama durumlari
 - prompt fazla genel kalmissa
@@ -23,4 +23,4 @@ Promptu hazir saymadan once sunlari kontrol et:
 - kullanilacak cikti bicimi net degilse
 - gereksiz teori promptun agirligini artiriyorsa
 - eksik kritik bilgi saklaniyorsa
-- `Bu oturum sifir hafizali kabul edilsin` gibi meta cumleler final promptta geciyorsa
+- oturum hafizasi veya baglam eksigiyle ilgili meta cumleler final promptta geciyorsa

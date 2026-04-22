@@ -11,7 +11,7 @@
 4. Kisa ama yapilandirilmis kal.
 5. Repo ve runtime gercegine bagla.
 6. Eksik kritik bilgiyi uydurma.
-7. Sifir-hafiza varsayimini icerde kullan, final prompta meta cumle olarak tasima.
+7. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
 8. Uygunsa teknik olmayan kisa ozet istegini promptun icine koy.
 9. Promptu hemen uygulanabilir yaz.
 
@@ -28,4 +28,4 @@
 - tek promptta birden fazla is istemek
 - cikti tipini acik tanimlamamak
 - teori ve jargonla promptu sisirmek
-- `Bu oturum sifir hafizali kabul edilsin` gibi meta cumleleri final prompta tasimak
+- oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta tasimak
