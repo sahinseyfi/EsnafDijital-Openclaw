@@ -344,6 +344,12 @@ export async function updateMockConsultation(id: string, input: ConsultationUpda
   if (index === -1) return null
 
   const current = consultations[index]
+  const nextSharedBrief: Record<string, string | string[] | null> = {
+    ...(current.sharedBrief || {}),
+    ...(input.sharedBrief || {}),
+    ...(input.targetModel ? { targetModel: normalizeTargetModel(input.targetModel) } : {}),
+  }
+  const nextPromptText = getPreparedPromptText(nextSharedBrief, current.promptRun.promptText)
   const next: ConsultationDetail = {
     ...current,
     title: input.title?.trim() || current.title,
@@ -355,14 +361,12 @@ export async function updateMockConsultation(id: string, input: ConsultationUpda
     dueAt: input.dueAt === undefined ? current.dueAt : input.dueAt,
     businessBrief: input.businessBrief || current.businessBrief,
     technicalBrief: input.technicalBrief || current.technicalBrief,
-    sharedBrief: {
-      ...(current.sharedBrief || {}),
-      ...(input.sharedBrief || {}),
-      ...(input.targetModel ? { targetModel: normalizeTargetModel(input.targetModel) } : {}),
-    },
+    sharedBrief: nextSharedBrief,
     contextRefs: input.contextRefs || current.contextRefs,
-    promptStatus: mapPromptStatus((input.sharedBrief?.promptStatus as string | undefined) || (current.sharedBrief?.promptStatus as string | undefined), current.promptRun.promptText),
-    promptError: typeof input.sharedBrief?.promptError === 'string' ? input.sharedBrief.promptError : current.promptError,
+    promptStatus: mapPromptStatus((nextSharedBrief.promptStatus as string | undefined), nextPromptText),
+    promptError: input.sharedBrief && 'promptError' in input.sharedBrief
+      ? ((typeof input.sharedBrief.promptError === 'string' && input.sharedBrief.promptError.trim()) ? input.sharedBrief.promptError : null)
+      : current.promptError,
     updatedAt: new Date().toISOString(),
   }
 
