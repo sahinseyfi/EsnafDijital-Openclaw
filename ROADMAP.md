@@ -27,10 +27,11 @@ Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmak
 - teklif ve audit omurgasının sadeleştirilmesi
 - home ekraninin sistem anlatısından aktif is ve kritik aksiyon yuzeyine cekilmesi
 - Project OS icinde businesses / audits / offers / delivery hattinin daha net gorunur hale getirilmesi
+- operator panelini CRM yonune genisletecek cekirdek nesnelerin sinirini cizmek
 
 ### Next
-- Postgres + Prisma kurulumu
-- `businesses`, `audits`, `offers`, `delivery_projects` tabloları
+- CRM V1 icin cekirdek nesneleri netlestirmek (`business detail`, `activity`, `note`, `next step`, `task`)
+- mevcut `businesses`, `audits`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak
 - dashboard/home icin aktif is + kritik aksiyon + kompakt hat ozeti
 - Project OS icinde asama bazli operasyon gorunumu
 - Project OS ile Consultation / Context el sikismasini gorunur hale getirmek
@@ -72,7 +73,7 @@ Yeni bir fikir geldiğinde şu sorularla filtrelenir:
 
 ## Şimdilik Ertelenenler
 - ağır AI / RAG katmanları
-- genel CRM özellikleri
+- yatay SaaS tipi genel CRM ürünleşmesi
 - çok rollü kullanıcı sistemi
 - ileri müşteri portalı
 - muhasebe / gelir-gider / stok modülleri

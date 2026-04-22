@@ -60,7 +60,7 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 - GPT Pro danışma için bağlamlı prompt üretimi
 
 ## MVP Dışı
-- genel amaçlı CRM
+- yatay ve herkes için genel amaçlı SaaS CRM
 - tüm sektörleri aynı anda hedefleyen yapı
 - ağır AI / RAG / vector DB katmanları
 - stok / tahsilat / gelir-gider modülleri
@@ -69,7 +69,7 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 
 ## İç Sistem Hedefi
 İç sistem tek yerde şu üç şeyi birleştirmelidir:
-1. **Proje Yönetimi** — neredeyiz, sırada ne var, blokaj ne
+1. **Operasyonel CRM / Proje Yönetimi** — işletme, görüşme, not, teklif, teslimat ve bakım hattında neredeyiz, sırada ne var, blokaj ne
 2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
 3. **Consultation Center** — kararı netleştirip doğru bağlamla danışma brief'i ve prompt üretme
 
@@ -87,11 +87,13 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 - Offers
 - Delivery / Bakim
 
-Not: Bu dort operasyon alani ilk fazda ayri ust seviye CRM sayfalari olarak degil, once `Project OS` icinde ayni omurganin alt gorunumleri olarak ele alinir.
+Not: Bu dort operasyon alani ilk fazda `Project OS` icinde baslayabilir, ancak ihtiyac halinde ayri CRM/detail yuzeylerine ayrilmasi artik acik bir yon secenegidir.
 
 ### Sonraki asama
 - Business Detail
+- Activity / note / next step timeline
 - Gerekirse ayrik filtreli liste yuzeyleri
+- Gorev ve takip yuzeyleri
 
 ## Consultation Center / Prompt Üretim Mantığı
 Consultation Center'ın amacı tüm notları toplamak değil; dağınık konuyu karar brief'ine çevirmek, danışma gerekliliğini filtrelemek ve gerekirse güçlü prompt üretmektir.

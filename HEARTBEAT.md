@@ -11,7 +11,7 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 **Faz 1 - ic operasyon ve baglam omurgasini kurma**
 
 ## Su Anki Ana Hedef
-Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak.
+Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisleyebilen ayni sistemde toplamak.
 
 ## Bu Hafta Oncelik
 1. ilk teklif omurgasini keskinlestirmek
@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- delivery kickoff'a tasinan pilotlardan birinde asset ve erisim satirlarini gercek isletme verisiyle doldurup text-first scope'un saha icin yeterli kalip kalmadigini test etmek
+- CRM V1 icin cekirdek nesneleri netlestirmek: business detail, activity timeline, next step, ic not ve gorev takibi hangi sira ile acilacak kararini vermek
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
@@ -29,7 +29,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
-- MVP'nin genel CRM'e kaymasi
+- yatay ve her yone dagilan genel CRM urunune savrulmak
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 
