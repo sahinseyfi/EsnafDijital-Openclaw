@@ -1,24 +1,24 @@
 [
   {
     "id": "consult_1776868816069",
-    "title": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+    "title": "Bağlam dosyalarını değerlendirip sadece gerekenleri değiştirme kararı",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T14:40:16.364Z",
-    "decisionQuestion": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
+    "updatedAt": "2026-04-22T14:41:57.716Z",
+    "decisionQuestion": "Bu proje için temel bağlam dosyalarını değerlendirirken hangi dosya keep, hangisi trim, hangisi rewrite olmalı ve bunu en sade karar çerçevesiyle nasıl belirlemeliyiz?",
+    "summary": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını proje özelinde değerlendirip, hangisinin korunacağı, hangisinin sadeleştirileceği ve hangisinin yeniden yazılması gerektiğini netleştiren consultation promptu.",
     "gptRecommended": false,
-    "promptStatus": "preparing",
+    "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
-    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "whyNow": "Bu konu şimdi netleşirse bağlam omurgası daha temiz ilerler, dosyalar kontrolsüz büyümeden toparlanır, gereksiz tekrar erken engellenir ve sonraki teknik adımlar daha net, daha tutarlı ve daha düşük operasyon yüküyle yürür.",
+    "desiredOutput": "Kullanılabilir çıktı paketi: 1) genel değerlendirme, 2) dosya bazlı keep/trim/rewrite kararı, 3) eksik ve fazlalık analizi, 4) çakışma noktaları, 5) sadece gereken dosyalar için nihai içerik, 6) öncelikli uygulama sırası, 7) JSON dışında kısa teknik olmayan özet.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor\n• SOUL.md , tonumu ve tavrımı belirliyor\n• USER.md , senin iletişim ve çalışma tercihini belirliyor\n• IDENTITY.md , bu projedeki rolümü netliyor\n• TOOLS.md , teknik ortam ve gizli bilgi kurallarını çiziyor\n• MEMORY.md , kalıcı kararları ve değişmemesi gereken yönü tutuyor\n• HEARTBEAT.md , şu anki aktif hedefleri ve öncelikleri belirliyor bu dosyları bu proje özelinde değerlendir eksiklikler ve fazlalıklarını bul ve hepsi için nihai dosyaları yaz.",
-      "kararCekirdegi": "• AGENTS.md , nasıl çalışacağımı ve iş akışını belirliyor",
+      "hamNot": "AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md ve HEARTBEAT.md dosyalarını bu proje özelinde değerlendir, eksikliklerini ve fazlalıklarını bul, sonra hepsi için nihai dosyaları yaz.",
+      "kararCekirdegi": "Temel bağlam dosyalarını birlikte değerlendirip en sade ve güçlü nihai dosya setini kurma",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -27,35 +27,32 @@
       "targetSurfaceLabel": "çapraz",
       "outputTypeLabel": "GPT promptu",
       "targetModelLabel": "GPT-5 Pro",
-      "promptStatus": "preparing",
+      "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": ""
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital’de ajanin calisma bicimini belirleyen temel baglam dosyalarini proje ozelinde degerlendirip hangisinin korunacagini, hangisinin sadeleştirilecegini ve hangisinin yeniden yazilmasi gerektigini netlestir.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Kalici ilke: once netlik, sonra arac; once calisan basit cozum, sonra otomasyon.\n- Kullanici tercihi: kisa, net, uygulanabilir ve gereksiz teoriden uzak iletisim.\n- Degerlendirilecek dosyalar: AGENTS.md, SOUL.md, USER.md, IDENTITY.md, TOOLS.md, MEMORY.md, HEARTBEAT.md.\n- Dosya rollerinin kisa ozeti:\n  - AGENTS.md: calisma kurallari ve is akisi\n  - SOUL.md: ton ve tavir\n  - USER.md: kullanici tercihleri ve iletisim stili\n  - IDENTITY.md: ajan rolu ve sinirlari\n  - TOOLS.md: teknik ortam ve operasyon cizgisi\n  - MEMORY.md: kalici kararlar ve korunacak yon\n  - HEARTBEAT.md: aktif hedefler, oncelikler ve blokajlar\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Gorev, Consultation Center icinde kullanilan temel baglam dosyalarini sadeleştirme ve guclendirme isidir.\n\nGorev:\nBu dosya setini butun olarak incele. Her dosya icin ne ise yaradigini, nerede tekrar olustugunu, hangi kisimlarin eksik oldugunu, hangi kisimlarin fazla veya daginik oldugunu belirle. Varsayilan karar keep olsun. Sadece net gerekce varsa trim veya rewrite oner. Guclu olan parcayi sirf yeniden yazmis olmak icin rewrite etme. Ardindan bu proje icin daha sade ve daha guclu nihai dosya seti oner.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Gereksiz yeni dosya ve yeni sistem onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n- Dosya degerlendirme gorevini toplu rewrite moduna kaydirma.\n- Karari etkilemeyen tekrarlar prompta tasinmasin.\n- Repo veya runtime grounding yoksa ya da cikti tipi net degilse oneriyi hazir sayma.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"overallAssessment\": {\n    \"coreProblem\": \"string\",\n    \"designPrinciples\": [\"string\"],\n    \"priorityOrder\": [\"string\"]\n  },\n  \"fileReviews\": [\n    {\n      \"file\": \"AGENTS.md|SOUL.md|USER.md|IDENTITY.md|TOOLS.md|MEMORY.md|HEARTBEAT.md\",\n      \"role\": \"string\",\n      \"decision\": \"keep|trim|rewrite\",\n      \"why\": \"string\",\n      \"keep\": [\"string\"],\n      \"removeOrTrim\": [\"string\"],\n      \"missing\": [\"string\"],\n      \"overlapWith\": [\"string\"],\n      \"finalContent\": \"string|null\"\n    }\n  ],\n  \"crossFileIssues\": [\"string\"],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"firstActions\": [\"string\"],\n  \"risks\": [\"string\"]\n}\n\nKurallar:\n- keep karari verilen dosyada finalContent alanini null birak.\n- finalContent alanini sadece trim veya rewrite kararinda doldur.\n- rewrite karari vermek icin net gerekce yaz.\n- Dosya bazli kararlar birbiriyle tutarli olsun.\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Teknik bilmeyen biri de neyin degisecegini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Dosyalar tek tek ama butun olarak degerlendirilmis olmali.\n- Fazlalik, eksik ve cakisma alanlari net cikmali.\n- Sadece gereken dosyalar icin final icerik yazilmali.\n- Gereksiz teori ve sistem buyumesi engellenmeli.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
+      "promptRevisionRequest": null,
+      "promptPreparedAt": "2026-04-22T14:41:57.715Z"
     },
     "contextRefs": [
       {
-        "kind": "project",
-        "title": "Proje çizgisi",
-        "ref": "PROJECT.md"
+        "kind": "roadmap",
+        "title": "Ajan çalışma ve iş akışı omurgası",
+        "ref": "AGENTS.md"
       },
       {
-        "kind": "heartbeat",
-        "title": "Aktif faz ve öncelik",
-        "ref": "HEARTBEAT.md"
-      },
-      {
-        "kind": "project",
+        "kind": "decision",
         "title": "Kalıcı karar çizgisi",
         "ref": "MEMORY.md"
       },
       {
-        "kind": "roadmap",
-        "title": "Audit -> Teklif -> Teslimat akışı",
-        "ref": "PLAYBOOKS/audit-offer-delivery.md"
+        "kind": "heartbeat",
+        "title": "Aktif hedef ve öncelikler",
+        "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "roadmap",
-        "title": "OpenClaw runtime davranışı",
-        "ref": "AGENTS.md"
+        "kind": "project",
+        "title": "Proje ve kullanıcı çalışma çizgisi",
+        "ref": "PROJECT.md"
       }
     ],
     "promptRun": {
@@ -64,7 +61,37 @@
       "responseSummary": null,
       "promptText": ""
     },
-    "actions": []
+    "actions": [],
+    "technicalBrief": {
+      "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
+      "implementationFocus": "Temel bağlam dosyalarını assess-first mantığıyla değerlendirip sadece gerekenleri trim veya rewrite etmek",
+      "repoRefs": [
+        {
+          "title": "Uygulama reposu",
+          "ref": "https://github.com/sahinseyfi/EsnafDijital-Openclaw"
+        },
+        {
+          "title": "OpenClaw upstream",
+          "ref": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "filesInScope": [
+        "AGENTS.md",
+        "SOUL.md",
+        "USER.md",
+        "IDENTITY.md",
+        "TOOLS.md",
+        "MEMORY.md",
+        "HEARTBEAT.md"
+      ],
+      "selectionPolicy": "Önce çekirdek bağlam özeti kuruldu, sonra doğrudan değerlendirilecek ham dosyalar seçildi; dosya sayısı yapay olarak sınırlandırılmadı, ancak kararı etkilemeyen tekrarlar prompta taşınmadı.",
+      "outputConstraints": [
+        "Citation, footnote ve markdown reference link kullanılmayacak",
+        "Link gerekiyorsa doğrudan URL yazılacak",
+        "Teknik olmayan kısa özet JSON dışında ayrı ikinci bölüm olarak istenecek",
+        "Dosya değerlendirmesinde varsayılan karar keep olacak, trim ve rewrite sadece net gerekçeyle önerilecek"
+      ]
+    }
   },
   {
     "id": "consult_1776868210381",
