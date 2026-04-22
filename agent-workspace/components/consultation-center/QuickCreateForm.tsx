@@ -6,16 +6,17 @@ import { useState } from 'react'
 export function QuickCreateForm() {
   const router = useRouter()
   const [title, setTitle] = useState('')
-  const [type, setType] = useState<'sales' | 'technical' | 'shared'>('shared')
-  const [workMode, setWorkMode] = useState<'audit' | 'patch' | 'strategy' | 'decision'>('decision')
-  const [targetSurface, setTargetSurface] = useState<'public_vitrine' | 'admin_ops' | 'context_docs' | 'cross'>('cross')
-  const [outputType, setOutputType] = useState<'decision_summary' | 'action_plan' | 'patch_plan' | 'gpt_prompt'>('action_plan')
   const [note, setNote] = useState('')
   const [busy, setBusy] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (!note.trim()) {
+      setErrorText('Önce neyi değiştirmek istediğini yaz.')
+      return
+    }
+
     setBusy(true)
     setErrorText(null)
 
@@ -25,12 +26,19 @@ export function QuickCreateForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, type, note, workMode, targetSurface, outputType }),
+        body: JSON.stringify({
+          title,
+          note,
+          type: 'shared',
+          workMode: 'decision',
+          targetSurface: 'cross',
+          outputType: 'gpt_prompt',
+        }),
       })
       const json = await response.json().catch(() => ({}))
 
       if (!response.ok) {
-        throw new Error(json.message || 'Consultation oluşturulamadı')
+        throw new Error(json.message || 'Kayıt oluşturulamadı')
       }
 
       const createdId = json?.created?.id
@@ -43,7 +51,7 @@ export function QuickCreateForm() {
       router.replace(`/consultation-center?selectedId=${encodeURIComponent(createdId)}`)
       router.refresh()
     } catch (error: any) {
-      setErrorText(error?.message || 'Consultation oluşturulamadı')
+      setErrorText(error?.message || 'Kayıt oluşturulamadı')
     } finally {
       setBusy(false)
     }
@@ -52,67 +60,31 @@ export function QuickCreateForm() {
   return (
     <form onSubmit={handleSubmit} className="card" style={{ display: 'grid', gap: 12 }}>
       <div>
-        <p className="eyebrow">Quick create</p>
-        <h3>Yeni consultation aç</h3>
-        <p className="muted">Başlığı, ham notu ve mini brief yönünü bırak. Sistem ilk taslağı biraz daha net kursun, istersen detay ekranında güçlendir.</p>
+        <p className="eyebrow">1. İstek metni</p>
+        <h3>Neyi değiştirmek istiyorsun?</h3>
+        <p className="muted">Buraya düz metin yaz. Sistem bunu GPT-5 için uygun prompta çevirecek.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
-        <span>Başlık</span>
-        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: İlk teklif paketlerini sadeleştir" />
+        <span>Kısa başlık (isteğe bağlı)</span>
+        <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgasını sadeleştir" />
       </label>
 
       <label style={{ display: 'grid', gap: 6 }}>
-        <span>Tip</span>
-        <select value={type} onChange={(event) => setType(event.target.value as 'sales' | 'technical' | 'shared')}>
-          <option value="shared">Ortak karar</option>
-          <option value="sales">Saha / satış</option>
-          <option value="technical">Teknik</option>
-        </select>
-      </label>
-
-      <div className="grid-3" style={{ gap: 12 }}>
-        <label style={{ display: 'grid', gap: 6 }}>
-          <span>İş modu</span>
-          <select value={workMode} onChange={(event) => setWorkMode(event.target.value as 'audit' | 'patch' | 'strategy' | 'decision')}>
-            <option value="decision">Karar</option>
-            <option value="audit">Audit</option>
-            <option value="patch">Küçük patch</option>
-            <option value="strategy">Strateji</option>
-          </select>
-        </label>
-
-        <label style={{ display: 'grid', gap: 6 }}>
-          <span>Hedef yüzey</span>
-          <select value={targetSurface} onChange={(event) => setTargetSurface(event.target.value as 'public_vitrine' | 'admin_ops' | 'context_docs' | 'cross')}>
-            <option value="cross">Çapraz</option>
-            <option value="public_vitrine">Public vitrin</option>
-            <option value="admin_ops">Admin / operasyon</option>
-            <option value="context_docs">Context / docs</option>
-          </select>
-        </label>
-
-        <label style={{ display: 'grid', gap: 6 }}>
-          <span>Çıktı tipi</span>
-          <select value={outputType} onChange={(event) => setOutputType(event.target.value as 'decision_summary' | 'action_plan' | 'patch_plan' | 'gpt_prompt')}>
-            <option value="action_plan">Aksiyon planı</option>
-            <option value="decision_summary">Karar özeti</option>
-            <option value="patch_plan">Patch planı</option>
-            <option value="gpt_prompt">GPT promptu</option>
-          </select>
-        </label>
-      </div>
-
-      <label style={{ display: 'grid', gap: 6 }}>
-        <span>Ham not</span>
-        <textarea value={note} onChange={(event) => setNote(event.target.value)} rows={5} placeholder="Dağınık notu bırak, sonra netleştir." />
+        <span>Değişiklik isteği</span>
+        <textarea
+          value={note}
+          onChange={(event) => setNote(event.target.value)}
+          rows={6}
+          placeholder="Ne yapmak istediğini, neden düşündüğünü ve kafandaki soruyu düz metin olarak yaz."
+        />
       </label>
 
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button type="submit" className="button-primary" disabled={busy}>
-          {busy ? 'Oluşturuluyor...' : 'Consultation oluştur'}
+          {busy ? 'Hazırlanıyor...' : 'Kaydı aç'}
         </button>
       </div>
     </form>

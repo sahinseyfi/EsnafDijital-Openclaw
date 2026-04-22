@@ -1,60 +1,30 @@
 'use client'
 
-import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import type { ConsultationInboxItem } from '@/lib/consultation-center/types'
-
-function sectionTitle(value: string) {
-  if (value === 'sales') return 'Saha / satış'
-  if (value === 'technical') return 'Teknik'
-  return 'Ortak karar'
-}
 
 function stageLabel(value: string) {
   const labels: Record<string, string> = {
     draft: 'Taslak',
-    clarifying: 'Netleştiriliyor',
-    goal_set: 'Hedef net',
-    context_ready: 'Bağlam hazır',
-    blocked: 'Blocked',
+    clarifying: 'Netleşiyor',
+    goal_set: 'Hazırlanıyor',
+    context_ready: 'Prompt hazır',
+    blocked: 'Eksik var',
     internal: 'İçeride çöz',
-    external: 'Dış danışma',
+    external: 'GPT ile düşün',
     ready_to_send: 'Gönderime hazır',
     answered: 'Cevap geldi',
-    actioned: 'Aksiyona döndü',
+    actioned: 'Karar çıktı',
   }
   return labels[value] || value
 }
 
-function routeLabel(value: string) {
-  if (value === 'blocked') return 'Önce içeride netleştir'
-  if (value === 'internal') return 'GPT Pro gerekmez'
-  return 'GPT Pro aç'
-}
-
-function ownerLabel(value: string) {
-  if (value === 'user') return 'Kullanıcı işi'
-  if (value === 'tech_agent') return 'Teknik ajan işi'
-  return 'Ortak karar'
-}
-
 export function ConsultationInboxList({ items, selectedId }: { items: ConsultationInboxItem[]; selectedId?: string }) {
   const router = useRouter()
-  const [routeFilter, setRouteFilter] = useState<'all' | 'blocked' | 'internal' | 'external'>('all')
-  const [typeFilter, setTypeFilter] = useState<'all' | 'sales' | 'technical' | 'shared'>('all')
-  const [ownerFilter, setOwnerFilter] = useState<'all' | 'user' | 'tech_agent' | 'shared'>('all')
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
-
-  const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      if (routeFilter !== 'all' && item.route !== routeFilter) return false
-      if (typeFilter !== 'all' && item.type !== typeFilter) return false
-      if (ownerFilter !== 'all' && item.ownerRole !== ownerFilter) return false
-      return true
-    })
-  }, [items, ownerFilter, routeFilter, typeFilter])
 
   const handleDelete = async (item: ConsultationInboxItem) => {
     const confirmed = window.confirm(`"${item.title}" kaydını silmek istiyor musun?`)
@@ -71,7 +41,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       const json = rawText ? JSON.parse(rawText) : {}
 
       if (!response.ok) {
-        throw new Error(json.message || rawText || 'Consultation silinemedi')
+        throw new Error(json.message || rawText || 'Kayıt silinemedi')
       }
 
       if (selectedId === item.id) {
@@ -82,9 +52,9 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       if (error instanceof SyntaxError) {
         setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
       } else if (error instanceof Error) {
-        setErrorText(error.message || 'Consultation silinemedi')
+        setErrorText(error.message || 'Kayıt silinemedi')
       } else {
-        setErrorText('Consultation silinemedi')
+        setErrorText('Kayıt silinemedi')
       }
     } finally {
       setDeletingId(null)
@@ -95,59 +65,22 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
     <div className="card">
       <div className="stack-sm">
         <div>
-          <p className="eyebrow">Consultation Inbox</p>
-          <h3>Açık kayıtlar</h3>
+          <p className="eyebrow">Kayıtlar</p>
+          <h3>Açık consultation kayıtları</h3>
+          <p className="muted">Bir kayıt seç, metni düzenle, promptu al, cevabı işle.</p>
         </div>
-
-        <details>
-          <summary className="muted" style={{ cursor: 'pointer' }}>Filtreler ({filteredItems.length} kayıt)</summary>
-          <div className="grid-3" style={{ marginTop: 12 }}>
-            <label style={{ display: 'grid', gap: 6 }}>
-              <span>Route</span>
-              <select value={routeFilter} onChange={(event) => setRouteFilter(event.target.value as typeof routeFilter)}>
-                <option value="all">Tümü</option>
-                <option value="blocked">Blocked</option>
-                <option value="internal">Internal</option>
-                <option value="external">External</option>
-              </select>
-            </label>
-            <label style={{ display: 'grid', gap: 6 }}>
-              <span>Tip</span>
-              <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value as typeof typeFilter)}>
-                <option value="all">Tümü</option>
-                <option value="sales">Saha / satış</option>
-                <option value="technical">Teknik</option>
-                <option value="shared">Ortak karar</option>
-              </select>
-            </label>
-            <label style={{ display: 'grid', gap: 6 }}>
-              <span>Sahiplik</span>
-              <select value={ownerFilter} onChange={(event) => setOwnerFilter(event.target.value as typeof ownerFilter)}>
-                <option value="all">Tümü</option>
-                <option value="user">Kullanıcı işi</option>
-                <option value="tech_agent">Teknik ajan işi</option>
-                <option value="shared">Ortak karar</option>
-              </select>
-            </label>
-          </div>
-        </details>
 
         {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
 
         <div className="stack-sm">
-          {filteredItems.map((item) => (
+          {items.map((item) => (
             <div key={item.id} className="card consultation-inbox-item" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
               <div className="consultation-inbox-main">
                 <Link prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="consultation-inbox-link">
                   <div className="stack-xs">
                     <strong>{item.title}</strong>
                     <p className="muted">{item.summary}</p>
-                  </div>
-                  <div className="stack-xs muted" style={{ marginTop: 10 }}>
-                    <span>Tip: {sectionTitle(item.type)}</span>
-                    <span>Stage: {stageLabel(item.stage)}</span>
-                    <span>Route: {routeLabel(item.route)}</span>
-                    <span>Sahiplik: {ownerLabel(item.ownerRole)}</span>
+                    <span className="muted">Durum: {stageLabel(item.stage)}</span>
                   </div>
                 </Link>
 
@@ -164,7 +97,8 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
               </div>
             </div>
           ))}
-          {filteredItems.length === 0 ? <p className="muted">Bu filtrelerle kayıt bulunamadı.</p> : null}
+
+          {items.length === 0 ? <p className="muted">Henüz kayıt yok.</p> : null}
         </div>
       </div>
     </div>
