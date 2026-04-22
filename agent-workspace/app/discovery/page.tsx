@@ -1,0 +1,231 @@
+import { AdminShell } from '@/components/admin/AdminShell'
+import { filterDiscoveryRows, normalizeDiscoveryFilters, readDiscoverySummary } from '@/lib/discovery/service'
+
+export const dynamic = 'force-dynamic'
+
+const segmentLabels = {
+  berber: 'Berber',
+  'guzellik salonu': 'Güzellik salonu',
+} as const
+
+const bucketLabels = {
+  shortlist: 'Kısa liste',
+  review: 'İncele',
+  skip: 'Ele',
+} as const
+
+function formatRating(value: number | null) {
+  return typeof value === 'number' ? value.toFixed(1) : '—'
+}
+
+function bucketBadgeStyle(bucket: 'shortlist' | 'review' | 'skip') {
+  if (bucket === 'shortlist') {
+    return {
+      background: 'var(--success-bg)',
+      color: 'var(--success-text)',
+      borderColor: 'var(--success-border)',
+    }
+  }
+
+  if (bucket === 'review') {
+    return {
+      background: 'var(--warning-bg)',
+      color: 'var(--warning-text)',
+      borderColor: 'var(--warning-border)',
+    }
+  }
+
+  return {
+    background: 'var(--surface-subtle)',
+    color: 'var(--ink-secondary)',
+    borderColor: 'var(--line-strong)',
+  }
+}
+
+export default async function DiscoveryPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ segment?: string; bucket?: string; q?: string }>
+}) {
+  const params = (await searchParams) || {}
+  const rows = await readDiscoverySummary()
+  const filters = normalizeDiscoveryFilters(params)
+  const filteredRows = filterDiscoveryRows(rows, params)
+
+  const stats = {
+    total: rows.length,
+    visible: filteredRows.length,
+    shortlist: rows.filter((row) => row.scoring.bucket === 'shortlist').length,
+    withWebsite: rows.filter((row) => row.candidate.hasWebsite).length,
+    withPhone: rows.filter((row) => Boolean(row.candidate.phone.trim())).length,
+    multiTerm: rows.filter((row) => row.source.matchedSearchTermCount > 1).length,
+  }
+
+  return (
+    <AdminShell
+      title="Discovery"
+      description="Apify taramasindan gelen adaylari ana kayitlara dokunmadan once temiz, okunur ve filtrelenebilir bir staging tablosunda gosterir."
+    >
+      <section className="hero">
+        <div>
+          <p className="eyebrow">Discovery staging</p>
+          <h1>Ham tarama degil, islenmis aday tablosu</h1>
+          <p className="muted">Bu ekran Google Maps verisini dogrudan Project OS kayitlarina yazmaz. Once burada gorur, eler, sonra nitelikli adaylari isletme ve audit tarafina tasiriz.</p>
+        </div>
+      </section>
+
+      <section className="stats-grid">
+        <article className="card stat-card">
+          <strong>{stats.total}</strong>
+          <p className="muted">toplam ozet aday</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{stats.shortlist}</strong>
+          <p className="muted">kisa liste sinyalinde aday</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{stats.withPhone}</strong>
+          <p className="muted">telefonu dolu aday</p>
+        </article>
+        <article className="card stat-card">
+          <strong>{stats.withWebsite}</strong>
+          <p className="muted">web sitesi gorunen aday</p>
+        </article>
+      </section>
+
+      <section className="grid-2" style={{ alignItems: 'start' }}>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Filtre</p>
+            <h3>Tabloyu daralt</h3>
+          </div>
+          <form method="get" className="form-grid two-col">
+            <label className="field">
+              <span>Arama</span>
+              <input name="q" defaultValue={filters.q} placeholder="Isletme, adres, telefon, kategori" />
+            </label>
+            <label className="field">
+              <span>Segment</span>
+              <select name="segment" defaultValue={filters.segment}>
+                <option value="all">Tum segmentler</option>
+                <option value="berber">Berber</option>
+                <option value="guzellik salonu">Guzellik salonu</option>
+              </select>
+            </label>
+            <label className="field">
+              <span>Karar kovasi</span>
+              <select name="bucket" defaultValue={filters.bucket}>
+                <option value="all">Tum kovalar</option>
+                <option value="shortlist">Kisa liste</option>
+                <option value="review">Incele</option>
+                <option value="skip">Ele</option>
+              </select>
+            </label>
+            <div className="page-header-actions" style={{ alignSelf: 'end' }}>
+              <button type="submit" className="button-primary">Uygula</button>
+              <a href="/discovery" className="button-secondary">Temizle</a>
+            </div>
+          </form>
+        </article>
+
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Okuma notu</p>
+            <h3>Bu tabloyu nasil kullanacagiz?</h3>
+          </div>
+          <ul className="list">
+            <li>Skor ve kova ilk eleme sinyalidir, son karar degil.</li>
+            <li>Coklu arama teriminde gorunen adaylar daha guclu gorunurluk sinyali verir.</li>
+            <li>Buradan secilen adaylari sonra Business ve Audit olarak Project OSa tasiriz.</li>
+          </ul>
+          <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi.</p>
+        </article>
+      </section>
+
+      <section className="card stack-sm">
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div>
+            <p className="eyebrow">Aday tablosu</p>
+            <h3>Discovery listesi</h3>
+          </div>
+          <span className="badge">{stats.visible} kayit gosteriliyor</span>
+        </div>
+
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Isletme</th>
+                <th>Segment</th>
+                <th>Skor</th>
+                <th>Yorum / puan</th>
+                <th>Iletisim</th>
+                <th>Arama kapsami</th>
+                <th>Karar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRows.length > 0 ? filteredRows.map((row) => (
+                <tr key={row.candidate.placeId}>
+                  <td>
+                    <div className="stack-xs">
+                      <strong style={{ color: 'var(--ink-title)' }}>{row.candidate.name}</strong>
+                      <span className="muted">{row.candidate.categoryName || 'Kategori yok'}</span>
+                      <span className="muted">{row.candidate.address || 'Adres yok'}</span>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Maps</a>
+                        {row.candidate.websiteUrl ? (
+                          <a href={row.candidate.websiteUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Website</a>
+                        ) : null}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <span>{segmentLabels[row.source.segment]}</span>
+                      <span className="muted">{row.candidate.district || 'Ilce yok'}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <strong style={{ color: 'var(--ink-title)' }}>{row.scoring.score}</strong>
+                      <span className="muted">{row.scoring.searchCoverageSignal}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <span>{row.candidate.reviewsCount} yorum</span>
+                      <span className="muted">{formatRating(row.candidate.rating)} puan</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <span>{row.candidate.phone || 'Telefon yok'}</span>
+                      <span className="muted">{row.candidate.hasWebsite ? 'Website var' : 'Website yok'}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <span>{row.source.matchedSearchTerms.join(', ') || 'Terim yok'}</span>
+                      <span className="muted">{row.source.matchedSearchTermCount} terim</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
+                      <span className="badge" style={bucketBadgeStyle(row.scoring.bucket)}>{bucketLabels[row.scoring.bucket]}</span>
+                      <span className="muted">{row.scoring.reasons.slice(0, 2).join(', ') || 'Not yok'}</span>
+                    </div>
+                  </td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={7} className="muted">Bu filtreyle eslesen aday yok.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </AdminShell>
+  )
+}
