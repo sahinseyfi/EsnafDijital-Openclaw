@@ -7,7 +7,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   const current = await getConsultationDetail(id)
 
   if (!current) {
-    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
   }
 
   const body = await request.json().catch(() => ({})) as {
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     })
 
     if (!result) {
-      return NextResponse.json({ ok: false, message: 'Consultation güncellenemedi' }, { status: 500 })
+      return NextResponse.json({ ok: false, message: 'Danışma kaydı güncellenemedi' }, { status: 500 })
     }
 
     return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })
@@ -78,11 +78,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       sharedBrief: {
         ...(current.sharedBrief || {}),
         promptStatus: 'error',
-        promptError: error?.message || 'AI brief üretilemedi',
+        promptError: error?.message || 'Prompt hazırlığı tamamlanamadı',
         preparedPromptText: '',
       },
     })
 
-    return NextResponse.json({ ok: false, message: error?.message || 'AI brief üretilemedi' }, { status: 500 })
+    return NextResponse.json({ ok: false, message: error?.message || 'Prompt hazırlığı tamamlanamadı' }, { status: 500 })
   }
 }

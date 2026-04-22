@@ -10,6 +10,10 @@ function ownerLabel(value: ConsultationOwnerRole) {
   return 'Ortak karar'
 }
 
+function statusLabel(value: 'open' | 'done') {
+  return value === 'done' ? 'tamamlandı' : 'açık'
+}
+
 export function ActionStatusList({ consultationId, actions }: { consultationId: string; actions: ConsultationAction[] }) {
   const router = useRouter()
   const [busyId, setBusyId] = useState<string | null>(null)
@@ -29,11 +33,11 @@ export function ActionStatusList({ consultationId, actions }: { consultationId: 
       })
       const json = await response.json().catch(() => ({}))
       if (!response.ok) {
-        throw new Error(json.message || 'Action güncellenemedi')
+        throw new Error(json.message || 'Aksiyon güncellenemedi')
       }
       router.refresh()
     } catch (error: any) {
-      setErrorText(error?.message || 'Action güncellenemedi')
+      setErrorText(error?.message || 'Aksiyon güncellenemedi')
     } finally {
       setBusyId(null)
     }
@@ -51,7 +55,7 @@ export function ActionStatusList({ consultationId, actions }: { consultationId: 
             <li key={action.id}>
               <div className="stack-xs">
                 <strong>{action.title}</strong>
-                <span className="muted">{ownerLabel(action.ownerRole)} / {action.status}</span>
+                <span className="muted">{ownerLabel(action.ownerRole)} / {statusLabel(action.status)}</span>
                 <div>
                   <button type="button" className="button-secondary" disabled={busyId === action.id} onClick={() => handleToggle(action.id, nextStatus)}>
                     {busyId === action.id ? 'Güncelleniyor...' : buttonText}

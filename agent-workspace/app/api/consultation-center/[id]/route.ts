@@ -6,7 +6,7 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ id
   const consultation = await getConsultationDetail(id)
 
   if (!consultation) {
-    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true, consultation })
@@ -17,7 +17,7 @@ export async function DELETE(_request: NextRequest, context: { params: Promise<{
   const result = await deleteConsultation(id)
 
   if (!result) {
-    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true, payload: result.payload })
@@ -43,7 +43,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
   const result = await updateConsultation(id, body)
 
   if (!result) {
-    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })

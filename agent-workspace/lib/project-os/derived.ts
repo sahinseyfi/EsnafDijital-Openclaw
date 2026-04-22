@@ -34,7 +34,7 @@ export type ProjectOsOverview = {
 const stageOrder: ProjectOsStage[] = ['intake', 'audit', 'offer', 'delivery', 'maintenance']
 
 function getStageLabel(stage: ProjectOsStage) {
-  if (stage === 'intake') return 'İntake'
+  if (stage === 'intake') return 'Giriş'
   if (stage === 'audit') return 'Audit'
   if (stage === 'offer') return 'Teklif'
   if (stage === 'delivery') return 'Teslimat'
@@ -54,9 +54,9 @@ function getOfferRank(status: string) {
 }
 
 function getDeliveryRank(status: string) {
-  if (status === 'Kickoff') return 0
-  if (status === 'Building') return 1
-  if (status === 'Live') return 2
+  if (status === 'Başlangıç') return 0
+  if (status === 'Yapım') return 1
+  if (status === 'Yayında') return 2
   return 3
 }
 
@@ -92,14 +92,14 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       district: business.district,
       stage: 'audit',
       stageLabel: getStageLabel('audit'),
-      statusLabel: audit.status === 'new' ? 'Yeni audit' : 'Reviewed audit',
-      nextAction: audit.status === 'new' ? 'Auditi reviewe al' : 'Teklife geçir',
+      statusLabel: audit.status === 'new' ? 'Yeni audit' : 'İncelenen audit',
+      nextAction: audit.status === 'new' ? 'Auditi incelemeye al' : 'Teklife geçir',
       summary: `${audit.channelReadiness} hazırlık sinyali var. ${audit.summary}`,
       advanceAction: {
         entityType: 'audit',
         entityId: audit.id,
         nextStatus: audit.status === 'new' ? 'reviewed' : 'offered',
-        label: audit.status === 'new' ? 'Reviewe al' : 'Teklife geçir',
+        label: audit.status === 'new' ? 'İncelemeye al' : 'Teklife geçir',
       },
     }
   }
@@ -162,14 +162,14 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       district: business.district,
       stage: 'delivery',
       stageLabel: getStageLabel('delivery'),
-      statusLabel: delivery.status === 'kickoff' ? 'Kickoff' : delivery.status === 'building' ? 'Building' : 'Live',
-      nextAction: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Canlıya al' : 'Bakıma geçir',
+      statusLabel: delivery.status === 'kickoff' ? 'Başlangıç' : delivery.status === 'building' ? 'Yapım' : 'Yayında',
+      nextAction: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Yayına al' : 'Bakıma geçir',
       summary: delivery.scope,
       advanceAction: {
         entityType: 'deliveryProject',
         entityId: delivery.id,
         nextStatus: delivery.status === 'kickoff' ? 'building' : delivery.status === 'building' ? 'live' : 'maintenance',
-        label: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Canlıya al' : 'Bakıma geçir',
+        label: delivery.status === 'kickoff' ? 'Yapıma geçir' : delivery.status === 'building' ? 'Yayına al' : 'Bakıma geçir',
       },
     }
   }
@@ -229,8 +229,8 @@ export function deriveProjectOsOverview(dataset: ProjectOsDataset): ProjectOsOve
     if (stageDelta !== 0) return stageDelta
 
     if (left.stage === 'audit' && right.stage === 'audit') {
-      const leftAuditStatus = left.statusLabel === 'Yeni audit' ? 'new' : left.statusLabel === 'Reviewed audit' ? 'reviewed' : 'offered'
-      const rightAuditStatus = right.statusLabel === 'Yeni audit' ? 'new' : right.statusLabel === 'Reviewed audit' ? 'reviewed' : 'offered'
+      const leftAuditStatus = left.statusLabel === 'Yeni audit' ? 'new' : left.statusLabel === 'İncelenen audit' ? 'reviewed' : 'offered'
+      const rightAuditStatus = right.statusLabel === 'Yeni audit' ? 'new' : right.statusLabel === 'İncelenen audit' ? 'reviewed' : 'offered'
       const auditDelta = getAuditRank(leftAuditStatus) - getAuditRank(rightAuditStatus)
       if (auditDelta !== 0) return auditDelta
     }

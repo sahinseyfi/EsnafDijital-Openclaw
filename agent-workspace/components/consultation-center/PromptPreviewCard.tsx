@@ -102,7 +102,7 @@ export function PromptPreviewCard({
         ) : null}
       </div>
       <p className="muted">{fallbackText}</p>
-      {promptStatus === 'preparing' ? <p className="muted">Agent promptu şimdi hazırlıyor.</p> : null}
+      {promptStatus === 'preparing' ? <p className="muted">Sistem promptu şimdi hazırlıyor.</p> : null}
       {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{promptError || 'Prompt hazırlanırken hata oldu. "Promptu yenile" ile tekrar deneyebilirsin.'}</p> : null}
       {promptSummary.length && promptStatus === 'ready' ? (
         <ul className="list">

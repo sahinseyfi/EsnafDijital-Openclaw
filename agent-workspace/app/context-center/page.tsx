@@ -14,7 +14,7 @@ const sourceRules = [
   {
     title: 'Veri tabanı omurgası',
     source: 'Postgres / Prisma',
-    scope: ['businesses', 'audits', 'offers', 'delivery_projects', 'consultation kayıtları'],
+    scope: ['İşletmeler', 'Audit kayıtları', 'Teklifler', 'Teslimatlar', 'Danışma kayıtları'],
     reason: 'Durumu değişen, liste ve ilişki gerektiren operasyon nesneleri veri katmanında tutulur.',
   },
   {
@@ -108,7 +108,7 @@ export default async function ContextCenterPage() {
           <h3>Kırmızı çizgi</h3>
           <ul className="list">
             <li>Wiki gibi büyüyen, araması zor bir yapı yok</li>
-            <li>Dosya tabanlı bağlam ile operasyon datası birbirine karışmaz</li>
+            <li>Dosya tabanlı bağlam ile operasyon verisi birbirine karışmaz</li>
             <li>Her yeni bilgi önce işlevine göre sınıflanır</li>
           </ul>
         </article>

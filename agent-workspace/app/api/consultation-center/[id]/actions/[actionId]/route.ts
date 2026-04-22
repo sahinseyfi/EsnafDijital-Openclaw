@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
   })
 
   if (!result) {
-    return NextResponse.json({ ok: false, message: 'Consultation veya action bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı veya aksiyon bulunamadı' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })

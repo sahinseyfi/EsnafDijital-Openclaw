@@ -56,7 +56,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       <div className="stack-sm">
         <div>
           <p className="eyebrow">Kayıtlar</p>
-          <h3>Açık consultation kayıtları</h3>
+          <h3>Açık danışma kayıtları</h3>
           <p className="muted">Bir kayıt seç, metni düzenle, promptu al, cevabı işle.</p>
         </div>
 

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   const result = await addConsultationRun(id, body)
 
   if (!result) {
-    return NextResponse.json({ ok: false, message: 'Consultation bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })

@@ -30,11 +30,11 @@ function mapReadiness(input: { phone?: string; websiteUrl?: string; reviewsCount
 
 function buildSummary(body: Required<Pick<ImportBody, 'name'>> & ImportBody) {
   const parts = [
-    'Apify discovery adayindan acildi.',
+    'Apify keşif adayından açıldı.',
     body.categoryName?.trim() ? `Kategori: ${body.categoryName.trim()}.` : null,
     body.address?.trim() ? `Adres: ${body.address.trim()}.` : null,
     body.phone?.trim() ? `Telefon: ${body.phone.trim()}.` : 'Telefon bilgisi eksik.',
-    body.websiteUrl?.trim() ? `Website: ${body.websiteUrl.trim()}.` : 'Website bilgisi eksik.',
+    body.websiteUrl?.trim() ? `Web sitesi: ${body.websiteUrl.trim()}.` : 'Web sitesi bilgisi eksik.',
     Number.isFinite(Number(body.reviewsCount)) ? `Yorum: ${Number(body.reviewsCount)}.` : null,
     Number.isFinite(Number(body.score)) ? `Skor: ${Number(body.score)}.` : null,
     Array.isArray(body.matchedSearchTerms) && body.matchedSearchTerms.length > 0 ? `Yakalayan aramalar: ${body.matchedSearchTerms.join(', ')}.` : null,
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
   const state = await readDiscoveryRuntimeState()
   if (state.imports[placeId]) {
-    return NextResponse.json({ ok: false, message: 'Bu aday zaten Project OSa aktarildi.', import: state.imports[placeId] }, { status: 409 })
+    return NextResponse.json({ ok: false, message: 'Bu aday zaten İş Takibine aktarıldı.', import: state.imports[placeId] }, { status: 409 })
   }
 
   try {
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
           name,
           segment: mapSegment(body.segment),
           district: body.district?.trim() || 'Arnavutkoy',
-          ownerName: 'Discovery adayi',
+          ownerName: 'Keşif adayı',
           status: 'lead',
         },
       })
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
       shortlistedPlaceIds: updated.shortlistedPlaceIds,
     })
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Discovery import basarisiz oldu.'
+    const message = error instanceof Error ? error.message : 'Aday aktarımı başarısız oldu.'
     return NextResponse.json({ ok: false, message }, { status: 400 })
   }
 }

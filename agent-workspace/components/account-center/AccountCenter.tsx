@@ -173,14 +173,14 @@ function ProfileCard({
             <div className={styles.profileHead}>
               <span className={cx(styles.profileLight, profile.current && styles.profileLightActive)} />
               <strong className={styles.profileName}>{profile.displayName}</strong>
-              {profile.current ? <span className={styles.currentChip}>Current</span> : null}
+              {profile.current ? <span className={styles.currentChip}>Aktif</span> : null}
               {profile.workspaceLabel ? <span className={styles.badge}>{profile.workspaceLabel}</span> : null}
             </div>
 
             <div className={styles.profileSubline}>
               <span>Son kullanım: {formatDate(profile.lastUsedAt)}</span>
               {profile.planType ? <span>Plan: {profile.planType}</span> : null}
-              {profile.accountId ? <span>Account ID: {profile.accountId}</span> : null}
+              {profile.accountId ? <span>Hesap kimliği: {profile.accountId}</span> : null}
             </div>
 
             {profile.note ? <p className={styles.profileNote}>{profile.note}</p> : null}
@@ -379,7 +379,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   const submitAuth = useCallback(async () => {
     if (!payload.authSession?.sessionId) return
     if (!callbackValue.trim() || !displayName.trim()) {
-      setErrorText('Callback ve profil adı zorunlu')
+      setErrorText('Dönen bağlantı veya kod ile profil adı zorunlu')
       return
     }
 
@@ -506,11 +506,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <div>
           <p className={styles.eyebrow}>Yeni sistem / V2</p>
           <h1>Hesap Merkezi</h1>
-          <p className={styles.lead}>Bu ekran gerçek auth kaydı, current seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
+          <p className={styles.lead}>Bu ekran gerçek auth kaydı, aktif seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
         </div>
         <div className={styles.heroMeta}>
           <span className={styles.metaChip}>Toplam profil: {payload.state.totalProfiles}</span>
-          {payload.state.currentDisplayName ? <span className={styles.currentChip}>Current: {payload.state.currentDisplayName}</span> : null}
+          {payload.state.currentDisplayName ? <span className={styles.currentChip}>Aktif: {payload.state.currentDisplayName}</span> : null}
         </div>
       </section>
 
@@ -522,7 +522,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <article className={styles.statCard}>
           <strong className={styles.statValue}>{payload.state.totalProfiles}</strong>
           <span className={styles.statLabel}>Kayıtlı profil</span>
-          <p className={styles.statText}>Aktif current profili koruyup, gerçek hesap kayıtlarını operatör düzeyinde yönetiyorsunuz.</p>
+          <p className={styles.statText}>Aktif profili koruyup, gerçek hesap kayıtlarını operatör düzeyinde yönetiyorsunuz.</p>
         </article>
       </section>
 
@@ -544,7 +544,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
                 <div className={styles.infoList}>
                   <div className={styles.infoRow}><strong>Durum:</strong> <span>{authStatusText(payload.authSession.status)}</span></div>
                   <div className={styles.infoRow}><strong>Başlangıç:</strong> <span>{formatDate(payload.authSession.startedAt)}</span></div>
-                  <div className={styles.infoRow}><strong>Session:</strong> <span>{payload.authSession.sessionId}</span></div>
+                  <div className={styles.infoRow}><strong>Oturum:</strong> <span>{payload.authSession.sessionId}</span></div>
                 </div>
               </div>
 
@@ -562,7 +562,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
             <div className={styles.authGrid}>
               <label className={cx(styles.field, styles.twoColSpan)}>
-                <span>Dönen callback / kod</span>
+                <span>Dönen bağlantı / kod</span>
                 <textarea className={styles.textarea} value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} />
               </label>
               <label className={styles.field}>
@@ -621,14 +621,14 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         </div>
 
         {payload.state.duplicateGroups.length === 0 ? (
-          <div className={styles.emptyState}>Şu an aynı Account ID / Plan çizgisinde ikinci kayıt yok.</div>
+          <div className={styles.emptyState}>Şu an aynı hesap kimliği ve plan çizgisinde ikinci kayıt yok.</div>
         ) : (
           <div className={styles.duplicateList}>
             {payload.state.duplicateGroups.map((group) => (
               <article key={group.canonicalProfileId} className={styles.duplicateCard}>
                 <div className={styles.stack} style={{ gap: 8 }}>
                   <strong>Teknik grup</strong>
-                  <div className={styles.mutedText}>Account ID: {group.accountId || '—'}</div>
+                  <div className={styles.mutedText}>Hesap kimliği: {group.accountId || '—'}</div>
                   <div className={styles.mutedText}>Plan: {group.planType || '—'}</div>
                   <div className={styles.mutedText}>Temel kayıt: <code className={styles.code}>{group.canonicalProfileId}</code></div>
                 </div>

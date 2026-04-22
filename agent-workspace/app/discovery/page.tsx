@@ -19,8 +19,8 @@ const bucketLabels = {
 } as const
 
 const ownershipLabels: Record<DiscoveryOwnershipStatus, string> = {
-  claimed: 'Alinmis',
-  unclaimed: 'Alinmamis',
+  claimed: 'Alınmış',
+  unclaimed: 'Alınmamış',
   unknown: 'Bilinmiyor',
 }
 
@@ -110,7 +110,7 @@ export default async function DiscoveryPage({
       <section className="hero">
         <div>
           <p className="eyebrow">Keşif ön elemesi</p>
-          <h1>Ham tarama degil, islenmis aday tablosu</h1>
+          <h1>Ham tarama değil, işlenmiş aday tablosu</h1>
           <p className="muted">Bu ekran Google Maps verisini doğrudan İş Takibi kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve audit tarafına taşırız.</p>
         </div>
       </section>
@@ -143,22 +143,22 @@ export default async function DiscoveryPage({
           <form method="get" className="form-grid two-col">
             <label className="field">
               <span>Arama</span>
-              <input name="q" defaultValue={filters.q} placeholder="Isletme, adres, telefon, kategori" />
+              <input name="q" defaultValue={filters.q} placeholder="İşletme, adres, telefon, kategori" />
             </label>
             <label className="field">
               <span>Segment</span>
               <select name="segment" defaultValue={filters.segment}>
-                <option value="all">Tum segmentler</option>
+                <option value="all">Tüm segmentler</option>
                 <option value="berber">Berber</option>
-                <option value="guzellik salonu">Guzellik salonu</option>
+                <option value="guzellik salonu">Güzellik salonu</option>
               </select>
             </label>
             <label className="field">
               <span>Karar kovasi</span>
               <select name="bucket" defaultValue={filters.bucket}>
-                <option value="all">Tum kovalar</option>
-                <option value="shortlist">Kisa liste</option>
-                <option value="review">Incele</option>
+                <option value="all">Tüm kovalar</option>
+                <option value="shortlist">Kısa liste</option>
+                <option value="review">İncele</option>
                 <option value="skip">Ele</option>
               </select>
             </label>
@@ -174,15 +174,15 @@ export default async function DiscoveryPage({
         <article className="card stack-sm">
           <div>
             <p className="eyebrow">Okuma notu</p>
-            <h3>Bu tabloyu nasil kullanacagiz?</h3>
+            <h3>Bu tabloyu nasıl kullanacağız?</h3>
           </div>
           <ul className="list">
-            <li>Skor ve kova ilk eleme sinyalidir, son karar degil.</li>
-            <li>Coklu arama teriminde gorenen adaylar daha guclu gorunurluk sinyali verir.</li>
-            <li>Sahiplik durumu, kaydin alinip alinmadigini sonraki scrape'lerde hizlica ayirmak icin tutulur.</li>
+            <li>Skor ve kova ilk eleme sinyalidir, son karar değil.</li>
+            <li>Çoklu arama teriminde görünen adaylar daha güçlü görünürlük sinyali verir.</li>
+            <li>Sahiplik durumu, kaydın alınıp alınmadığını sonraki taramalarda hızlıca ayırmak için tutulur.</li>
             <li>Kısa liste butonu manuel seçimi saklar, İş Takibi butonu ise işletme ve audit açarak adayları ana hatta taşır.</li>
           </ul>
-          <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi, {stats.unclaimed} tanesinde kayit alinmamis sinyali var.</p>
+          <p className="muted">Şu an {stats.visible} aday görünüyor, bunların {stats.multiTerm} tanesi birden fazla arama teriminde yakalandı, {stats.unclaimed} tanesinde kayıt alınmamış sinyali var.</p>
         </article>
       </section>
 
@@ -192,14 +192,14 @@ export default async function DiscoveryPage({
             <p className="eyebrow">Aday tablosu</p>
             <h3>Keşif listesi</h3>
           </div>
-          <span className="badge">{stats.visible} kayit gosteriliyor, siralama: {filters.sort} {filters.dir}</span>
+          <span className="badge">{stats.visible} kayıt gösteriliyor, sıralama: {filters.sort} {filters.dir}</span>
         </div>
 
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Isletme</th>
+                <th>İşletme</th>
                 <th>
                   <Link href={buildSortHref('segment')} className="discovery-sort-link">
                     Segment <span>{getSortLabel(filters.sort === 'segment', filters.dir)}</span>
@@ -217,7 +217,7 @@ export default async function DiscoveryPage({
                 </th>
                 <th>
                   <Link href={buildSortHref('contact')} className="discovery-sort-link">
-                    Iletisim <span>{getSortLabel(filters.sort === 'contact', filters.dir)}</span>
+                    İletişim <span>{getSortLabel(filters.sort === 'contact', filters.dir)}</span>
                   </Link>
                 </th>
                 <th>
@@ -227,7 +227,7 @@ export default async function DiscoveryPage({
                 </th>
                 <th>
                   <Link href={buildSortHref('coverage')} className="discovery-sort-link">
-                    Arama kapsami <span>{getSortLabel(filters.sort === 'coverage', filters.dir)}</span>
+                    Arama kapsamı <span>{getSortLabel(filters.sort === 'coverage', filters.dir)}</span>
                   </Link>
                 </th>
                 <th>
@@ -263,7 +263,7 @@ export default async function DiscoveryPage({
                   <td>
                     <div className="stack-xs">
                       <span>{segmentLabels[row.source.segment]}</span>
-                      <span className="muted">{row.candidate.district || 'Ilce yok'}</span>
+                      <span className="muted">{row.candidate.district || 'İlçe yok'}</span>
                     </div>
                   </td>
                   <td>
@@ -326,7 +326,7 @@ export default async function DiscoveryPage({
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={9} className="muted">Bu filtreyle eslesen aday yok.</td>
+                  <td colSpan={9} className="muted">Bu filtreyle eşleşen aday yok.</td>
                 </tr>
               )}
             </tbody>

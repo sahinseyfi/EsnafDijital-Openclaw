@@ -20,8 +20,8 @@ const bucketLabels = {
 } as const
 
 const ownershipLabels: Record<DiscoveryOwnershipStatus, string> = {
-  claimed: 'Alinmis',
-  unclaimed: 'Alinmamis',
+  claimed: 'Alınmış',
+  unclaimed: 'Alınmamış',
   unknown: 'Bilinmiyor',
 }
 
@@ -56,12 +56,12 @@ export default async function DiscoveryDetailPage({
   const latestSnapshot = snapshots.at(-1) || null
   const previousSnapshot = snapshots.length > 1 ? snapshots.at(-2) || null : null
   const changedFields = previousSnapshot ? [
-    previousSnapshot.reviewsCount !== latestSnapshot?.reviewsCount ? { label: 'Yorum sayisi', value: formatChange(previousSnapshot.reviewsCount, latestSnapshot?.reviewsCount) } : null,
+    previousSnapshot.reviewsCount !== latestSnapshot?.reviewsCount ? { label: 'Yorum sayısı', value: formatChange(previousSnapshot.reviewsCount, latestSnapshot?.reviewsCount) } : null,
     previousSnapshot.rating !== latestSnapshot?.rating ? { label: 'Puan', value: formatChange(formatRating(previousSnapshot.rating), formatRating(latestSnapshot?.rating ?? null)) } : null,
     previousSnapshot.websiteUrl !== latestSnapshot?.websiteUrl ? { label: 'Web sitesi', value: formatChange(previousSnapshot.websiteUrl || 'Yok', latestSnapshot?.websiteUrl || 'Yok') } : null,
     previousSnapshot.phone !== latestSnapshot?.phone ? { label: 'Telefon', value: formatChange(previousSnapshot.phone || 'Yok', latestSnapshot?.phone || 'Yok') } : null,
     previousSnapshot.ownershipStatus !== latestSnapshot?.ownershipStatus ? { label: 'Sahiplik', value: formatChange(ownershipLabels[previousSnapshot.ownershipStatus], ownershipLabels[latestSnapshot?.ownershipStatus || 'unknown']) } : null,
-    previousSnapshot.matchedSearchTerms.join(', ') !== latestSnapshot?.matchedSearchTerms.join(', ') ? { label: 'Eslesen terimler', value: formatChange(previousSnapshot.matchedSearchTerms.join(', ') || 'Yok', latestSnapshot?.matchedSearchTerms.join(', ') || 'Yok') } : null,
+    previousSnapshot.matchedSearchTerms.join(', ') !== latestSnapshot?.matchedSearchTerms.join(', ') ? { label: 'Eşleşen terimler', value: formatChange(previousSnapshot.matchedSearchTerms.join(', ') || 'Yok', latestSnapshot?.matchedSearchTerms.join(', ') || 'Yok') } : null,
   ].filter(Boolean) as { label: string; value: string }[] : []
 
   return (
@@ -74,10 +74,10 @@ export default async function DiscoveryDetailPage({
           <div>
             <p className="eyebrow">Aday detay</p>
             <h3>{row.candidate.name}</h3>
-            <p className="muted">{row.candidate.categoryName || 'Kategori yok'} · {segmentLabels[row.source.segment]} · {row.candidate.district || 'Ilce yok'}</p>
+            <p className="muted">{row.candidate.categoryName || 'Kategori yok'} · {segmentLabels[row.source.segment]} · {row.candidate.district || 'İlçe yok'}</p>
           </div>
           <div className="page-header-actions">
-            <Link href="/discovery" className="button-secondary">Listeye don</Link>
+            <Link href="/discovery" className="button-secondary">Listeye dön</Link>
             <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="button-primary">Haritada aç</a>
           </div>
         </div>
@@ -114,12 +114,12 @@ export default async function DiscoveryDetailPage({
         <section className="card stack-sm">
           <div>
             <p className="eyebrow">İş Takibi bağlantısı</p>
-            <h3>Bu aday ana hatta tasindi</h3>
+            <h3>Bu aday ana hatta taşındı</h3>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <span className="badge">İşletme {importInfo.businessId.slice(0, 8)}</span>
             <span className="badge">Audit {importInfo.auditId.slice(0, 8)}</span>
-            {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarim {importInfo.importedAt}</span> : null}
+            {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarım {importInfo.importedAt}</span> : null}
           </div>
           <div className="page-header-actions">
             <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">İşletme kaydını aç</Link>
@@ -131,12 +131,12 @@ export default async function DiscoveryDetailPage({
         <section className="card stack-sm">
           <div>
             <p className="eyebrow">Çekim geçmişi</p>
-            <h3>Once ve simdi</h3>
+            <h3>Önce ve şimdi</h3>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <span className="badge">Toplam çekim {snapshots.length}</span>
-            <span className="badge">Son kayit {latestSnapshot.capturedAt}</span>
-            {previousSnapshot ? <span className="badge">Bir onceki {previousSnapshot.capturedAt}</span> : null}
+            <span className="badge">Son kayıt {latestSnapshot.capturedAt}</span>
+            {previousSnapshot ? <span className="badge">Bir önceki {previousSnapshot.capturedAt}</span> : null}
           </div>
           {previousSnapshot ? (
             changedFields.length ? (

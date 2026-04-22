@@ -24,12 +24,12 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
     name: 'Paket 1 - Temel Dijital Varlik',
     shortLabel: 'Paket 1',
     stage: 'ana-kurulum',
-    description: 'Google Maps duzeni, subdomain web sayfasi, logo ve kartvizit ile temel dijital varligi kurar.',
+    description: 'Google Maps düzeni, alt alan adlı web sayfası, logo ve kartvizit ile temel dijital varlığı kurar.',
     includes: [
-      'Google Maps isletme kaydi duzenleme',
-      'Subdomain web sayfasi',
-      'Logo tasarimi',
-      'Kartvizit tasarimi',
+      'Google Maps işletme kaydı düzenleme',
+      'Alt alan adlı web sayfası',
+      'Logo tasarımı',
+      'Kartvizit tasarımı',
     ],
   },
   {
@@ -37,12 +37,12 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
     name: 'Paket 2 - Gorunurluk Plus',
     shortLabel: 'Paket 2',
     stage: 'ana-kurulum',
-    description: 'Paket 1 ustune Yandex, Apple Maps ve QR yorum akisini ekler.',
+    description: 'Paket 1 üstüne Yandex, Apple Maps ve QR yorum akışını ekler.',
     includes: [
-      'Paket 1 kapsami',
-      'Yandex kaydi',
-      'Apple Maps kaydi',
-      'QR yorum isteme akisi',
+      'Paket 1 kapsamı',
+      'Yandex kaydı',
+      'Apple Maps kaydı',
+      'QR yorum isteme akışı',
     ],
   },
   {
@@ -50,11 +50,11 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
     name: 'Paket 3 - Guclu Dijital Kimlik',
     shortLabel: 'Paket 3',
     stage: 'ana-kurulum',
-    description: 'Paket 2 ustune Instagram profili ve NFC yorum akisi ile kimligi guclendirir.',
+    description: 'Paket 2 üstüne Instagram profili ve NFC yorum akışı ile kimliği güçlendirir.',
     includes: [
-      'Paket 2 kapsami',
-      'Instagram kurulumu / profil duzeni',
-      'NFC yorum isteme akisi',
+      'Paket 2 kapsamı',
+      'Instagram kurulumu / profil düzeni',
+      'NFC yorum isteme akışı',
     ],
   },
   {
@@ -62,11 +62,11 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
     name: 'Paket 4 - Duzenli Icerik',
     shortLabel: 'Paket 4',
     stage: 'icerik',
-    description: 'Haftalik Instagram icerik ritmiyle kurulan yuzeyi bos kalmaktan cikarir.',
+    description: 'Haftalık Instagram içerik ritmiyle kurulan yüzeyi boş kalmaktan çıkarır.',
     includes: [
-      'Haftalik Instagram icerik paylasimi',
-      'Temel icerik duzeni',
-      'Gorunurluk canlilik akisi',
+      'Haftalık Instagram içerik paylaşımı',
+      'Temel içerik düzeni',
+      'Görünürlük canlılık akışı',
     ],
   },
   {
@@ -74,12 +74,12 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
     name: 'Bakim - Guncel Tutma',
     shortLabel: 'Bakim',
     stage: 'bakim',
-    description: 'Harita, site ve iletisim bilgilerinde kucuk ama kritik guncellemeleri tutar.',
+    description: 'Harita, site ve iletişim bilgilerinde küçük ama kritik güncellemeleri tutar.',
     includes: [
-      'Harita bilgileri guncelleme',
-      'Telefon / saat / adres duzeltmeleri',
-      'Site uzerindeki kucuk guncellemeler',
-      'Gorunurluk ve yorum akisina kisa kontrol',
+      'Harita bilgileri güncelleme',
+      'Telefon / saat / adres düzeltmeleri',
+      'Site üzerindeki küçük güncellemeler',
+      'Görünürlük ve yorum akışına kısa kontrol',
     ],
   },
 ]
@@ -87,23 +87,23 @@ export const OFFER_PACKAGES: OfferPackageDefinition[] = [
 export const OFFER_ADDONS: OfferAddonDefinition[] = [
   {
     key: 'ozel-domain',
-    label: 'Ozel domain baglama',
-    description: 'Tum paketlerde ayri ek olarak kalir. Varsayilan teslim subdomaindir.',
+    label: 'Özel alan adı bağlama',
+    description: 'Tüm paketlerde ayrı ek olarak kalır. Varsayılan teslim alt alan adıyladır.',
   },
   {
     key: 'ek-kartvizit',
     label: 'Ek kartvizit varyasyonu',
-    description: 'Paket 1 icindeki tek kartvizit tasarimi disinda ikinci varyasyon veya ekstra cikis isterse kullanilir.',
+    description: 'Paket 1 içindeki tek kartvizit tasarımı dışında ikinci varyasyon veya ekstra çıkış isterse kullanılır.',
   },
   {
     key: 'ek-yorum-materyali',
     label: 'Ek yorum materyali',
-    description: 'Paket 2-3 icindeki temel yorum akisi disinda ek QR/NFC materyali isterse kullanilir.',
+    description: 'Paket 2-3 içindeki temel yorum akışı dışında ek QR/NFC materyali isterse kullanılır.',
   },
   {
     key: 'kucuk-sosyal-medya-duzenleme',
-    label: 'Kucuk sosyal medya duzenleme',
-    description: 'Paket 1-2 tarafinda hafif profil dokunusu icin eklenir. Paket 3 icinde temel Instagram kurulumu zaten vardir.',
+    label: 'Küçük sosyal medya düzenleme',
+    description: 'Paket 1-2 tarafında hafif profil dokunuşu için eklenir. Paket 3 içinde temel Instagram kurulumu zaten vardır.',
   },
 ]
 
@@ -125,23 +125,23 @@ export function buildDeliveryScopeSuggestion(offer: Pick<OfferRecord, 'packageNa
   const addons = getOfferAddons(offer.addonKeys)
   const needsInstagram = offer.packageName === 'Paket 3 - Guclu Dijital Kimlik' || offer.packageName === 'Paket 4 - Duzenli Icerik' || offer.addonKeys.includes('kucuk-sosyal-medya-duzenleme')
   const domainLine = offer.domainPreference === 'custom-domain'
-    ? `- Ozel domain bagla${offer.customDomain ? ` (${offer.customDomain})` : ' ve DNS yonlendirmesini netlestir'}`
-    : '- Subdomain ile yayinla'
+    ? `- Özel alan adını bağla${offer.customDomain ? ` (${offer.customDomain})` : ' ve DNS yönlendirmesini netleştir'}`
+    : '- Alt alan adı ile yayına al'
 
   const sections = [
-    `Secili teklif: ${offer.packageName}`,
-    'Cekirdek teslimler:',
-    ...(packageInfo ? packageInfo.includes.map((item) => `- ${item}`) : ['- Teklif kapsam maddeleri netlestirilecek']),
-    'Domain ve yayin plani:',
+    `Seçili teklif: ${offer.packageName}`,
+    'Çekirdek teslimler:',
+    ...(packageInfo ? packageInfo.includes.map((item) => `- ${item}`) : ['- Teklif kapsam maddeleri netleştirilecek']),
+    'Alan adı ve yayın planı:',
     domainLine,
-    'Gerekli assetler:',
-    '- Isletme adi, telefon, adres, calisma saatleri',
-    '- Kullanilacak logo, gorsel ve kisa tanitim metni',
-    '- Kartvizit veya yorum materyali icin baski metni/onayi',
-    'Gerekli erisimler:',
-    '- Google Isletme Profili erisimi veya dogrulama destegi',
-    '- Domain gerekiyorsa registrar / DNS erisimi',
-    ...(needsInstagram ? ['- Instagram giris bilgisi veya profil duzenleme onayi'] : []),
+    'Gerekli varlıklar:',
+    '- İşletme adı, telefon, adres, çalışma saatleri',
+    '- Kullanılacak logo, görsel ve kısa tanıtım metni',
+    '- Kartvizit veya yorum materyali için baskı metni ve onayı',
+    'Gerekli erişimler:',
+    '- Google İşletme Profili erişimi veya doğrulama desteği',
+    '- Alan adı gerekiyorsa kayıt firması ve DNS erişimi',
+    ...(needsInstagram ? ['- Instagram giriş bilgisi veya profil düzenleme onayı'] : []),
   ]
 
   if (addons.length > 0) {
@@ -149,8 +149,8 @@ export function buildDeliveryScopeSuggestion(offer: Pick<OfferRecord, 'packageNa
     sections.push(...addons.map((item) => `- ${item.label}`))
   }
 
-  sections.push('Kickoff sonrasi operasyon adimlari:')
-  sections.push('- Asset ve erisim eksiklerini tamamla')
+  sections.push('Başlangıç sonrası operasyon adımları:')
+  sections.push('- Varlık ve erişim eksiklerini tamamla')
   sections.push('- Ilk taslak / kurulum cikisini hazirla')
   sections.push('- Isletme onayi sonrasi yayin / teslim adimini gec')
   sections.push('Yayin oncesi kontrol:')

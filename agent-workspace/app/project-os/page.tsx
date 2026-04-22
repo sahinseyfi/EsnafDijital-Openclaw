@@ -27,6 +27,31 @@ const stageTitles: Record<ProjectOsStage, string> = {
   maintenance: 'Bakımda yaşayan kayıtlar',
 }
 
+const businessStatusLabels = {
+  lead: 'Aday',
+  active: 'Aktif',
+  paused: 'Beklemede',
+} as const
+
+const auditStatusLabels = {
+  new: 'Yeni',
+  reviewed: 'İncelendi',
+  offered: 'Teklife taşındı',
+} as const
+
+const offerStatusLabels = {
+  draft: 'Taslak',
+  sent: 'Gönderildi',
+  approved: 'Onaylandı',
+} as const
+
+const deliveryStatusLabels = {
+  kickoff: 'Başlangıç',
+  building: 'Yapım',
+  live: 'Yayında',
+  maintenance: 'Bakım',
+} as const
+
 function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQueueItem[]; emptyText: string; updatedBusinessId: string }) {
   if (items.length === 0) {
     return <p className="muted">{emptyText}</p>
@@ -46,7 +71,7 @@ function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQu
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               <span className="badge">{item.stageLabel}</span>
-              {isUpdated ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az once guncellendi</span> : null}
+              {isUpdated ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az önce güncellendi</span> : null}
             </div>
           </div>
 
@@ -210,7 +235,7 @@ export default async function ProjectOsPage({
               <h3>{selectedBusiness.name}</h3>
             </div>
             <p className="muted">Seçilen işletme alt kayıtlarda işaretlendi. Buradan audit, teklif ve teslimat zincirini kontrol edebilirsin.</p>
-            {selectedBusinessId === updatedBusinessId ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az once guncellendi</span> : null}
+            {selectedBusinessId === updatedBusinessId ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az önce güncellendi</span> : null}
           </article>
         </section>
       ) : null}
@@ -252,7 +277,7 @@ export default async function ProjectOsPage({
                             </td>
                             <td>{segmentLabels[business.segment]}</td>
                             <td>{business.district}</td>
-                            <td>{business.status}</td>
+                            <td>{businessStatusLabels[business.status]}</td>
                           </tr>
                         )
                       }) : (
@@ -281,7 +306,7 @@ export default async function ProjectOsPage({
                         <tr key={audit.id}>
                           <td>{businessNames[audit.businessId] || '—'}</td>
                           <td>{audit.channelReadiness}</td>
-                          <td>{audit.status}</td>
+                          <td>{auditStatusLabels[audit.status]}</td>
                         </tr>
                       )) : (
                         <tr>
@@ -319,12 +344,12 @@ export default async function ProjectOsPage({
                             <div className="stack-xs">
                               <strong style={{ color: 'var(--ink-title)' }}>{offer.packageName}</strong>
                               {packageInfo ? <span className="muted">{packageInfo.description}</span> : null}
-                              <span className="muted">{offer.domainPreference === 'custom-domain' ? `Ozel domain${offer.customDomain ? `: ${offer.customDomain}` : ''}` : 'Subdomain'}</span>
+                              <span className="muted">{offer.domainPreference === 'custom-domain' ? `Özel alan adı${offer.customDomain ? `: ${offer.customDomain}` : ''}` : 'Alt alan adı'}</span>
                               {addonLabels.length > 0 ? <span className="muted">Ekler: {addonLabels.join(', ')}</span> : null}
                             </div>
                           </td>
                           <td>{offer.amountTry.toLocaleString('tr-TR')} ₺</td>
-                          <td>{offer.status}</td>
+                          <td>{offerStatusLabels[offer.status]}</td>
                         </tr>
                       )}) : (
                         <tr>
@@ -352,7 +377,7 @@ export default async function ProjectOsPage({
                         <tr key={project.id}>
                           <td>{businessNames[project.businessId] || '—'}</td>
                           <td>{project.scope}</td>
-                          <td>{project.status}</td>
+                          <td>{deliveryStatusLabels[project.status]}</td>
                         </tr>
                       )) : (
                         <tr>

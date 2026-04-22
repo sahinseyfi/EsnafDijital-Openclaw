@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (target.isCurrentProfile) {
-    return NextResponse.json({ ok: false, message: 'Aktif current profil silinemez. Önce başka profile geç.' }, { status: 400 })
+    return NextResponse.json({ ok: false, message: 'Aktif profil silinemez. Önce başka profile geç.' }, { status: 400 })
   }
 
   if (target.kind !== 'authProfile') {
