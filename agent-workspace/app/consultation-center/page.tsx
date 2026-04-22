@@ -30,8 +30,8 @@ export default async function ConsultationCenterPage({
 
   return (
     <AdminShell
-      title="Consultation Center"
-      description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar. Sade V1 akışı budur."
+      title="Karar Hazırlığı"
+      description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar. Sade ilk akış budur."
     >
       <section>
         <QuickCreateForm />

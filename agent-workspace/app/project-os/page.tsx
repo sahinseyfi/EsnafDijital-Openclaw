@@ -20,7 +20,7 @@ const segmentLabels = {
 } as const
 
 const stageTitles: Record<ProjectOsStage, string> = {
-  intake: 'İntake, audit açılmamış işletmeler',
+  intake: 'Giriş, audit açılmamış işletmeler',
   audit: 'Audit kuyruğu',
   offer: 'Teklif kuyruğu',
   delivery: 'Teslimat kuyruğu',
@@ -59,8 +59,8 @@ function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQu
           <div className="hero-actions">
             {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} businessId={item.businessId} /> : null}
             <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">Kaydı aç</Link>
-            <Link href="/consultation-center" className="ghost-link">Consultation</Link>
-            <Link href="/context-center" className="ghost-link">Context</Link>
+            <Link href="/consultation-center" className="ghost-link">Danışma</Link>
+            <Link href="/context-center" className="ghost-link">Bağlam</Link>
           </div>
         </article>
       )})}
@@ -92,8 +92,8 @@ export default async function ProjectOsPage({
 
   return (
     <AdminShell
-      title="Project OS"
-      description="Create form duvarı değil, bugün hangi işi ilerleteceğini söyleyen sade operasyon merkezi."
+      title="İş Takibi"
+      description="Kayıt formu duvarı değil, bugün hangi işi ilerleteceğini söyleyen sade operasyon merkezi."
     >
       {updatedBusiness ? (
         <section>
@@ -138,7 +138,7 @@ export default async function ProjectOsPage({
         </article>
         <article className="card stat-card">
           <strong>{consultationStats.blocked}</strong>
-          <p className="muted">blocked karar sinyali</p>
+          <p className="muted">blokaj sinyali</p>
         </article>
       </section>
 
@@ -161,8 +161,8 @@ export default async function ProjectOsPage({
             <li>Audit başlat</li>
             <li>Teklif aç</li>
             <li>Teslimat başlat</li>
-            <li>Karar için Consultation aç</li>
-            <li>Referans için Context aç</li>
+            <li>Karar için danışma aç</li>
+            <li>Referans için bağlam aç</li>
           </ul>
           <details className="accordion-card" open={dataset.businesses.length === 0}>
             <summary>

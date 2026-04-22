@@ -20,7 +20,7 @@ const sourceRules = [
   {
     title: 'Prompt ve karar katmanı',
     source: 'Hibrit',
-    scope: ['Consultation brief JSON', 'Context ref seçimi', 'Prompt preview ve cevap özeti'],
+    scope: ['Danışma özeti JSON', 'Bağlam referansı seçimi', 'Prompt önizlemesi ve cevap özeti'],
     reason: 'Karar kaydı veri içinde yaşar ama başvurduğu sabit bağlam dosya katmanından seçilir.',
   },
 ]
@@ -35,20 +35,20 @@ const decisionRows = [
   {
     domain: 'İşletme, audit, teklif, teslimat',
     source: 'Veri',
-    owner: 'Project OS',
+    owner: 'İş Takibi',
     why: 'Liste, durum ve ilişki gerektiren çekirdek operasyon hattı.',
   },
   {
-    domain: 'Consultation kayıtları',
+    domain: 'Danışma kayıtları',
     source: 'Veri',
-    owner: 'Consultation Center',
+    owner: 'Karar Hazırlığı',
     why: 'Stage, route, action ve run geçmişi olan karar nesneleri.',
   },
   {
     domain: 'Prompta girecek sabit referans',
     source: 'Dosya seçimi',
-    owner: 'Context Center',
-    why: 'Tüm dosyaları kör yüklemek yerine seçili bağlam pack mantığı korunur.',
+    owner: 'Bağlam Merkezi',
+    why: 'Tüm dosyaları kör yüklemek yerine seçili bağlam paket mantığı korunur.',
   },
 ]
 
@@ -65,7 +65,7 @@ export default async function ContextCenterPage() {
 
   return (
     <AdminShell
-      title="Context Center"
+      title="Bağlam Merkezi"
       description="Bağlamın kontrolsüz büyümemesi için dosya, veri ve prompt katmanlarını birbirinden ayıran karar yüzeyi."
     >
       <section className="hero">
@@ -83,15 +83,15 @@ export default async function ContextCenterPage() {
         </article>
         <article className="card stat-card">
           <strong>{stats.projectOsRecords}</strong>
-          <p className="muted">Project OS kayıt toplamı</p>
+          <p className="muted">İş Takibi kayıt toplamı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.consultationRecords}</strong>
-          <p className="muted">consultation kaydı</p>
+          <p className="muted">danışma kaydı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.gptReady}</strong>
-          <p className="muted">GPT Pro için hazır consultation</p>
+          <p className="muted">GPT Pro için hazır karar kaydı</p>
         </article>
       </section>
 

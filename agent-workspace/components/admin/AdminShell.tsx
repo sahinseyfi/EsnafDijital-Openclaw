@@ -21,13 +21,13 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/project-os', label: 'İş Takibi', note: 'Audit, teklif ve teslimat akışı' },
       { href: '/consultation-center', label: 'Karar Hazırlığı', note: 'Prompt ve danışma hazırlığı' },
-      { href: '/discovery', label: 'Discovery', note: 'Apify aday tablosu ve staging görünümü' },
+      { href: '/discovery', label: 'Keşif', note: 'Apify aday tablosu ve ön eleme görünümü' },
     ],
   },
   {
     title: 'Sistem',
     items: [
-      { href: '/hesap-merkezi', label: 'Hesaplar', note: 'Auth ve operatör kayıtları' },
+      { href: '/hesap-merkezi', label: 'Hesaplar', note: 'Giriş doğrulaması ve operatör kayıtları' },
       { href: '/context-center', label: 'Bağlam', note: 'Dosya, veri ve karar yüzeyi' },
     ],
   },
@@ -104,7 +104,7 @@ export function AdminShell({
         <div className="sidebar-brand">
           <div className="brand-mark">
             <span className="brand-dot" />
-            EsnafDigital Admin
+            EsnafDigital Yönetim
           </div>
           <h1>İç operasyon paneli</h1>
           <p className="muted">Güven veren, sade ve okunur bir operator yüzeyi. Her ekranda tek ana iş daha net görünür.</p>

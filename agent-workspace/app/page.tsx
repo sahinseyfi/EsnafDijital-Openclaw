@@ -19,7 +19,7 @@ function getActiveFocus(input: {
       title: 'İlk işletme kaydını aç',
       text: 'Operasyon hattı boş. Önce işletme kaydı açıp audit -> teklif -> teslimat akışını gerçek veriyle başlat.',
       primaryHref: '/project-os',
-      primaryLabel: 'Project OSa git',
+      primaryLabel: 'İş Takibine git',
       secondaryHref: '/context-center',
       secondaryLabel: 'Bağlam yüzeyini gör',
     }
@@ -29,7 +29,7 @@ function getActiveFocus(input: {
     return {
       eyebrow: 'Şimdi aktif',
       title: 'Karar bekleyen işler var',
-      text: `${input.blockedConsultations} consultation kaydı netleşmeyi bekliyor. Kısa brief eksiklerini kapatıp hattı tekrar hareket ettir.`,
+      text: `${input.blockedConsultations} danışma kaydı netleşmeyi bekliyor. Kısa özet eksiklerini kapatıp hattı tekrar hareket ettir.`,
       primaryHref: '/consultation-center',
       primaryLabel: 'Karar hattına git',
       secondaryHref: '/project-os',
@@ -53,7 +53,7 @@ function getActiveFocus(input: {
     return {
       eyebrow: 'Şimdi aktif',
       title: 'Audit hattı ilerlemeyi bekliyor',
-      text: `${input.pendingAudits} audit kaydı yeni veya review aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
+      text: `${input.pendingAudits} audit kaydı yeni veya inceleme aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
       primaryHref: '/project-os',
       primaryLabel: 'Audit hattını aç',
       secondaryHref: '/context-center',
@@ -65,7 +65,7 @@ function getActiveFocus(input: {
     return {
       eyebrow: 'Şimdi aktif',
       title: 'Teslimat hattı canlı',
-      text: `${input.activeDeliveries} teslimat kaydı kickoff, building veya live aşamasında. Yayın ve bakım geçişi ana takip noktası.`,
+      text: `${input.activeDeliveries} teslimat kaydı başlangıç, yapım veya yayın aşamasında. Yayın ve bakım geçişi ana takip noktası.`,
       primaryHref: '/project-os',
       primaryLabel: 'Teslimat hattını aç',
       secondaryHref: '/consultation-center',
@@ -76,9 +76,9 @@ function getActiveFocus(input: {
   return {
     eyebrow: 'Şimdi aktif',
     title: 'Bakım ve netlik dönemi',
-    text: `${input.maintenanceProjects} bakım kaydıyla hat sakin görünüyor. Home artık işi anlatmak değil, bir sonraki doğru aksiyonu göstermek için burada.`,
+    text: `${input.maintenanceProjects} bakım kaydıyla hat sakin görünüyor. Ana ekran artık işi anlatmak değil, bir sonraki doğru aksiyonu göstermek için burada.`,
     primaryHref: '/project-os',
-    primaryLabel: 'Project OSa git',
+    primaryLabel: 'İş Takibine git',
     secondaryHref: '/context-center',
     secondaryLabel: 'Bağlam yüzeyini aç',
   }
@@ -150,8 +150,8 @@ export default async function HomePage() {
           </div>
           <ul className="list">
             <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
-            <li>Blocked consultation varsa brief eksiklerini tamamla, sonra dış danışmaya çık.</li>
-            <li>Bağlam eksikse Context Centera git, operasyon kaydını orada tekrar etme.</li>
+            <li>Blokajdaki danışma kayıtlarında özet eksiklerini tamamla, sonra dış danışmaya çık.</li>
+            <li>Bağlam eksikse Bağlam Merkezine git, operasyon kaydını orada tekrar etme.</li>
           </ul>
         </article>
 
@@ -161,14 +161,14 @@ export default async function HomePage() {
             <h3>Yan yüzeyler ne durumda?</h3>
           </div>
           <ul className="list">
-            <li>{blockedConsultations} consultation kaydı blocked durumda</li>
-            <li>{readyConsultations} consultation kaydı gönderime hazır</li>
-            <li>{answeredConsultations} consultation kaydı cevap almış durumda</li>
+            <li>{blockedConsultations} danışma kaydı blokajda</li>
+            <li>{readyConsultations} danışma kaydı gönderime hazır</li>
+            <li>{answeredConsultations} danışma kaydı cevap almış durumda</li>
             <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
           </ul>
           <div className="hero-actions">
-            <Link href="/consultation-center" className="ghost-link">Consultation Centera git</Link>
-            <Link href="/context-center" className="ghost-link">Context Centera git</Link>
+            <Link href="/consultation-center" className="ghost-link">Karar Hazırlığına git</Link>
+            <Link href="/context-center" className="ghost-link">Bağlam Merkezine git</Link>
           </div>
         </article>
       </section>

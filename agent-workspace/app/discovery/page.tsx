@@ -104,14 +104,14 @@ export default async function DiscoveryPage({
 
   return (
     <AdminShell
-      title="Discovery"
-      description="Apify taramasindan gelen adaylari ana kayitlara dokunmadan once temiz, okunur ve filtrelenebilir bir staging tablosunda gosterir."
+      title="Keşif"
+      description="Apify taramasından gelen adayları ana kayıtlara dokunmadan önce temiz, okunur ve filtrelenebilir bir ön eleme tablosunda gösterir."
     >
       <section className="hero">
         <div>
-          <p className="eyebrow">Discovery staging</p>
+          <p className="eyebrow">Keşif ön elemesi</p>
           <h1>Ham tarama degil, islenmis aday tablosu</h1>
-          <p className="muted">Bu ekran Google Maps verisini dogrudan Project OS kayitlarina yazmaz. Once burada gorur, eler, sonra nitelikli adaylari isletme ve audit tarafina tasiriz.</p>
+          <p className="muted">Bu ekran Google Maps verisini doğrudan İş Takibi kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve audit tarafına taşırız.</p>
         </div>
       </section>
 
@@ -126,11 +126,11 @@ export default async function DiscoveryPage({
         </article>
         <article className="card stat-card">
           <strong>{stats.manualShortlist}</strong>
-          <p className="muted">elle shortlist edilen aday</p>
+          <p className="muted">elle kısa listeye alınan aday</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.imported}</strong>
-          <p className="muted">Project OSa aktarilan aday</p>
+          <p className="muted">İş Takibine aktarılan aday</p>
         </article>
       </section>
 
@@ -180,7 +180,7 @@ export default async function DiscoveryPage({
             <li>Skor ve kova ilk eleme sinyalidir, son karar degil.</li>
             <li>Coklu arama teriminde gorenen adaylar daha guclu gorunurluk sinyali verir.</li>
             <li>Sahiplik durumu, kaydin alinip alinmadigini sonraki scrape'lerde hizlica ayirmak icin tutulur.</li>
-            <li>Shortlist butonu manuel secimi saklar, Project OS butonu ise Business ve Audit acarak adaylari ana hatta tasir.</li>
+            <li>Kısa liste butonu manuel seçimi saklar, İş Takibi butonu ise işletme ve audit açarak adayları ana hatta taşır.</li>
           </ul>
           <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi, {stats.unclaimed} tanesinde kayit alinmamis sinyali var.</p>
         </article>
@@ -190,7 +190,7 @@ export default async function DiscoveryPage({
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <div>
             <p className="eyebrow">Aday tablosu</p>
-            <h3>Discovery listesi</h3>
+            <h3>Keşif listesi</h3>
           </div>
           <span className="badge">{stats.visible} kayit gosteriliyor, siralama: {filters.sort} {filters.dir}</span>
         </div>
@@ -253,9 +253,9 @@ export default async function DiscoveryPage({
                       <span className="muted">{row.candidate.categoryName || 'Kategori yok'}</span>
                       <span className="muted">{row.candidate.address || 'Adres yok'}</span>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                        <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Maps</a>
+                        <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Harita</a>
                         {row.candidate.websiteUrl ? (
-                          <a href={row.candidate.websiteUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Website</a>
+                          <a href={row.candidate.websiteUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Web sitesi</a>
                         ) : null}
                       </div>
                     </div>
@@ -281,13 +281,13 @@ export default async function DiscoveryPage({
                   <td>
                     <div className="stack-xs">
                       <span>{row.candidate.phone || 'Telefon yok'}</span>
-                      <span className="muted">{row.candidate.hasWebsite ? 'Website var' : 'Website yok'}</span>
+                      <span className="muted">{row.candidate.hasWebsite ? 'Web sitesi var' : 'Web sitesi yok'}</span>
                     </div>
                   </td>
                   <td>
                     <div className="stack-xs">
                       <span>{ownershipLabels[row.candidate.ownershipStatus]}</span>
-                      <span className="muted">{row.candidate.ownershipStatus === 'unclaimed' ? 'claimThisBusiness=true' : row.candidate.ownershipStatus === 'claimed' ? 'claimThisBusiness=false' : 'Alan yok'}</span>
+                      <span className="muted">{row.candidate.ownershipStatus === 'unclaimed' ? 'İşletme kaydı alınmamış görünüyor' : row.candidate.ownershipStatus === 'claimed' ? 'İşletme kaydı alınmış görünüyor' : 'Alan yok'}</span>
                     </div>
                   </td>
                   <td>
@@ -299,7 +299,7 @@ export default async function DiscoveryPage({
                   <td>
                     <div className="stack-xs">
                       <span className="badge" style={bucketBadgeStyle(row.scoring.bucket)}>{bucketLabels[row.scoring.bucket]}</span>
-                      {shortlistedPlaceIds.has(row.candidate.placeId) ? <span className="badge">Shortlistte</span> : null}
+                      {shortlistedPlaceIds.has(row.candidate.placeId) ? <span className="badge">Kısa listede</span> : null}
                       <span className="muted">{row.scoring.reasons.slice(0, 2).join(', ') || 'Not yok'}</span>
                     </div>
                   </td>

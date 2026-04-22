@@ -9,7 +9,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'EsnafDigital Admin',
+  title: 'EsnafDigital Yönetim',
   description: 'EsnafDigital iç operasyon paneli',
 }
 

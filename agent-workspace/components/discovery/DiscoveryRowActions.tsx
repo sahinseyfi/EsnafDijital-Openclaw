@@ -46,14 +46,14 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
       const result = await response.json()
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.message || 'Shortlist guncellenemedi.')
+        throw new Error(result.message || 'Kısa liste güncellenemedi.')
       }
 
       setIsShortlisted(!isShortlisted)
-      setMessage(!isShortlisted ? 'Shortliste eklendi' : 'Shortlistten cikarildi')
+      setMessage(!isShortlisted ? 'Kısa listeye eklendi' : 'Kısa listeden çıkarıldı')
       router.refresh()
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Shortlist guncellenemedi.')
+      setMessage(error instanceof Error ? error.message : 'Kısa liste güncellenemedi.')
     } finally {
       setIsSubmitting(false)
     }
@@ -72,15 +72,15 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
       const result = await response.json()
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.message || 'Project OS import basarisiz oldu.')
+        throw new Error(result.message || 'İş Takibine aktarım başarısız oldu.')
       }
 
       setCurrentImport(result.import)
       setIsShortlisted(true)
-      setMessage('Project OSa aktarildi')
+      setMessage('İş Takibine aktarıldı')
       router.refresh()
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Project OS import basarisiz oldu.')
+      setMessage(error instanceof Error ? error.message : 'İş Takibine aktarım başarısız oldu.')
     } finally {
       setIsSubmitting(false)
     }
@@ -90,17 +90,17 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
     <div className="stack-xs">
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         <button type="button" className="button-secondary" style={{ minHeight: 36, padding: '8px 12px' }} onClick={toggleShortlist} disabled={isSubmitting}>
-          {isShortlisted ? 'Shortlistten cikar' : 'Shortlist al'}
+          {isShortlisted ? 'Kısa listeden çıkar' : 'Kısa listeye al'}
         </button>
         <button type="button" className="button-primary" style={{ minHeight: 36, padding: '8px 12px' }} onClick={importToProjectOs} disabled={isSubmitting || Boolean(currentImport)}>
-          {currentImport ? 'Aktarildi' : 'Project OSa aktar'}
+          {currentImport ? 'Aktarıldı' : 'İş Takibine aktar'}
         </button>
       </div>
       {currentImport ? (
         <div className="stack-xs">
-          <span className="muted">Business {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} acildi.</span>
+          <span className="muted">İşletme {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} açıldı.</span>
           <Link href={`/project-os?businessId=${currentImport.businessId}#businesses`} className="ghost-link" style={{ minHeight: 36, padding: '8px 12px', width: 'fit-content' }}>
-            Business kaydini ac
+            İşletme kaydını aç
           </Link>
         </div>
       ) : null}

@@ -58,7 +58,7 @@ export default async function DiscoveryDetailPage({
   const changedFields = previousSnapshot ? [
     previousSnapshot.reviewsCount !== latestSnapshot?.reviewsCount ? { label: 'Yorum sayisi', value: formatChange(previousSnapshot.reviewsCount, latestSnapshot?.reviewsCount) } : null,
     previousSnapshot.rating !== latestSnapshot?.rating ? { label: 'Puan', value: formatChange(formatRating(previousSnapshot.rating), formatRating(latestSnapshot?.rating ?? null)) } : null,
-    previousSnapshot.websiteUrl !== latestSnapshot?.websiteUrl ? { label: 'Website', value: formatChange(previousSnapshot.websiteUrl || 'Yok', latestSnapshot?.websiteUrl || 'Yok') } : null,
+    previousSnapshot.websiteUrl !== latestSnapshot?.websiteUrl ? { label: 'Web sitesi', value: formatChange(previousSnapshot.websiteUrl || 'Yok', latestSnapshot?.websiteUrl || 'Yok') } : null,
     previousSnapshot.phone !== latestSnapshot?.phone ? { label: 'Telefon', value: formatChange(previousSnapshot.phone || 'Yok', latestSnapshot?.phone || 'Yok') } : null,
     previousSnapshot.ownershipStatus !== latestSnapshot?.ownershipStatus ? { label: 'Sahiplik', value: formatChange(ownershipLabels[previousSnapshot.ownershipStatus], ownershipLabels[latestSnapshot?.ownershipStatus || 'unknown']) } : null,
     previousSnapshot.matchedSearchTerms.join(', ') !== latestSnapshot?.matchedSearchTerms.join(', ') ? { label: 'Eslesen terimler', value: formatChange(previousSnapshot.matchedSearchTerms.join(', ') || 'Yok', latestSnapshot?.matchedSearchTerms.join(', ') || 'Yok') } : null,
@@ -66,8 +66,8 @@ export default async function DiscoveryDetailPage({
 
   return (
     <AdminShell
-      title="Discovery detay"
-      description="Seçili aday için şu ana kadar çekilen staging verisini tek yerde gösterir."
+      title="Keşif detayı"
+      description="Seçili aday için şu ana kadar çekilen ön eleme verisini tek yerde gösterir."
     >
       <section className="card stack-sm">
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
@@ -78,7 +78,7 @@ export default async function DiscoveryDetailPage({
           </div>
           <div className="page-header-actions">
             <Link href="/discovery" className="button-secondary">Listeye don</Link>
-            <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="button-primary">Maps'te ac</a>
+            <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="button-primary">Haritada aç</a>
           </div>
         </div>
 
@@ -86,8 +86,8 @@ export default async function DiscoveryDetailPage({
           <span className="badge">{bucketLabels[row.scoring.bucket]}</span>
           <span className="badge">Skor {row.scoring.score}</span>
           <span className="badge">Sahiplik: {ownershipLabels[row.candidate.ownershipStatus]}</span>
-          {isShortlisted ? <span className="badge">Shortlistte</span> : null}
-          {importInfo ? <span className="badge">Project OSa aktarildi</span> : null}
+          {isShortlisted ? <span className="badge">Kısa listede</span> : null}
+          {importInfo ? <span className="badge">İş Takibine aktarıldı</span> : null}
         </div>
 
         <DiscoveryRowActions
@@ -113,16 +113,16 @@ export default async function DiscoveryDetailPage({
       {importInfo ? (
         <section className="card stack-sm">
           <div>
-            <p className="eyebrow">Project OS baglantisi</p>
+            <p className="eyebrow">İş Takibi bağlantısı</p>
             <h3>Bu aday ana hatta tasindi</h3>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <span className="badge">Business {importInfo.businessId.slice(0, 8)}</span>
+            <span className="badge">İşletme {importInfo.businessId.slice(0, 8)}</span>
             <span className="badge">Audit {importInfo.auditId.slice(0, 8)}</span>
             {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarim {importInfo.importedAt}</span> : null}
           </div>
           <div className="page-header-actions">
-            <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">Business kaydini ac</Link>
+            <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">İşletme kaydını aç</Link>
           </div>
         </section>
       ) : null}
@@ -130,11 +130,11 @@ export default async function DiscoveryDetailPage({
       {latestSnapshot ? (
         <section className="card stack-sm">
           <div>
-            <p className="eyebrow">Snapshot gecmisi</p>
+            <p className="eyebrow">Çekim geçmişi</p>
             <h3>Once ve simdi</h3>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <span className="badge">Toplam snapshot {snapshots.length}</span>
+            <span className="badge">Toplam çekim {snapshots.length}</span>
             <span className="badge">Son kayit {latestSnapshot.capturedAt}</span>
             {previousSnapshot ? <span className="badge">Bir onceki {previousSnapshot.capturedAt}</span> : null}
           </div>
@@ -146,10 +146,10 @@ export default async function DiscoveryDetailPage({
                 ))}
               </ul>
             ) : (
-              <p className="muted">Son iki snapshot arasinda izlenen alanlarda degisiklik yok.</p>
+              <p className="muted">Son iki çekim arasında izlenen alanlarda değişiklik yok.</p>
             )
           ) : (
-            <p className="muted">Henuz karsilastirma yapacak ikinci snapshot yok. Sonraki scrape'te once/simdi farki burada gorunecek.</p>
+            <p className="muted">Henüz karşılaştırma yapacak ikinci çekim yok. Sonraki taramada önce ve şimdi farkı burada görünecek.</p>
           )}
         </section>
       ) : null}
@@ -170,7 +170,7 @@ export default async function DiscoveryDetailPage({
               <dd>{row.candidate.phone || 'Yok'}</dd>
             </div>
             <div>
-              <dt className="eyebrow">Website</dt>
+              <dt className="eyebrow">Web sitesi</dt>
               <dd>{row.candidate.websiteUrl ? <a href={row.candidate.websiteUrl} target="_blank" rel="noreferrer" className="ghost-link">{row.candidate.websiteUrl}</a> : 'Yok'}</dd>
             </div>
             <div>
@@ -198,7 +198,7 @@ export default async function DiscoveryDetailPage({
 
         <article className="card stack-sm">
           <div>
-            <p className="eyebrow">Discovery sinyali</p>
+            <p className="eyebrow">Keşif sinyali</p>
             <h3>Neden burada gorunuyor?</h3>
           </div>
           <dl className="stack-sm">
@@ -216,7 +216,7 @@ export default async function DiscoveryDetailPage({
             </div>
             <div>
               <dt className="eyebrow">Sahiplik sinyali</dt>
-              <dd>{ownershipLabels[row.candidate.ownershipStatus]}{row.candidate.ownershipStatus === 'unclaimed' ? ' (claimThisBusiness=true)' : row.candidate.ownershipStatus === 'claimed' ? ' (claimThisBusiness=false)' : ''}</dd>
+              <dd>{ownershipLabels[row.candidate.ownershipStatus]}{row.candidate.ownershipStatus === 'unclaimed' ? ' (işletme kaydı alınmamış görünüyor)' : row.candidate.ownershipStatus === 'claimed' ? ' (işletme kaydı alınmış görünüyor)' : ''}</dd>
             </div>
             <div>
               <dt className="eyebrow">Skor nedenleri</dt>
@@ -231,11 +231,11 @@ export default async function DiscoveryDetailPage({
               <dd>{row.source.collectedAt || 'Yok'}</dd>
             </div>
             <div>
-              <dt className="eyebrow">Mevcut scrape ozeti</dt>
+              <dt className="eyebrow">Güncel tarama özeti</dt>
               <dd>{row.source.rawRecordCount} ham kayittan ozetlenmis, {row.source.matchedSearchTermCount} arama teriminde yakalanmis.</dd>
             </div>
             <div>
-              <dt className="eyebrow">Snapshot durumu</dt>
+              <dt className="eyebrow">Çekim durumu</dt>
               <dd>{snapshots.length ? `${snapshots.length} kayit var` : 'Henuz snapshot yok'}</dd>
             </div>
           </dl>
