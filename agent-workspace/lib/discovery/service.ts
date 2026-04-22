@@ -6,6 +6,7 @@ export type DiscoverySortKey = 'segment' | 'score' | 'reviews' | 'contact' | 'ow
 export type DiscoverySortDirection = 'asc' | 'desc'
 
 const SUMMARY_PATH = path.join(process.cwd(), '..', 'state', 'apify-discovery', 'summary', 'candidates-summary.json')
+const SNAPSHOT_DIR = path.join(process.cwd(), '..', 'state', 'apify-discovery', 'snapshots')
 
 export type DiscoveryFilters = {
   segment?: string
@@ -23,6 +24,42 @@ export async function readDiscoverySummary(): Promise<DiscoverySummaryRow[]> {
 export async function readDiscoveryRow(placeId: string): Promise<DiscoverySummaryRow | null> {
   const rows = await readDiscoverySummary()
   return rows.find((row) => row.candidate.placeId === placeId) || null
+}
+
+export type DiscoverySnapshot = {
+  capturedAt: string
+  placeId: string
+  name: string
+  address: string
+  phone: string
+  websiteUrl: string
+  hasWebsite: boolean
+  rating: number | null
+  reviewsCount: number
+  hasOpeningHours: boolean
+  isClosed: boolean
+  ownershipStatus: DiscoveryOwnershipStatus
+  matchedSearchTerms: string[]
+  missingSearchTerms: string[]
+  matchedSearchTermCount: number
+  searchCoverageNote: string
+  rawRecordCount: number
+  score: number
+  bucket: string
+}
+
+export async function readDiscoverySnapshots(placeId: string): Promise<DiscoverySnapshot[]> {
+  const snapshotPath = path.join(SNAPSHOT_DIR, `${placeId}.json`)
+  try {
+    const content = await fs.readFile(snapshotPath, 'utf8')
+    const parsed = JSON.parse(content)
+    return Array.isArray(parsed) ? parsed as DiscoverySnapshot[] : []
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return []
+    }
+    throw error
+  }
 }
 
 export function normalizeDiscoveryFilters(filters: DiscoveryFilters) {

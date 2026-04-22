@@ -11,6 +11,7 @@ WORKSPACE = Path('/root/.openclaw/workspace')
 BASE_DIR = WORKSPACE / 'state' / 'apify-discovery'
 RAW_DIR = BASE_DIR / 'raw'
 SUMMARY_DIR = BASE_DIR / 'summary'
+SNAPSHOT_DIR = BASE_DIR / 'snapshots'
 
 
 def slug_to_segment(slug: str) -> str:
@@ -323,6 +324,62 @@ def build_summary() -> list[dict[str, Any]]:
     return sorted(summary_rows, key=sort_key)
 
 
+def snapshot_payload(entry: dict[str, Any]) -> dict[str, Any]:
+    return {
+        'capturedAt': iso_now(),
+        'placeId': entry['candidate'].get('placeId'),
+        'name': entry['candidate'].get('name'),
+        'address': entry['candidate'].get('address'),
+        'phone': entry['candidate'].get('phone'),
+        'websiteUrl': entry['candidate'].get('websiteUrl'),
+        'hasWebsite': entry['candidate'].get('hasWebsite'),
+        'rating': entry['candidate'].get('rating'),
+        'reviewsCount': entry['candidate'].get('reviewsCount'),
+        'hasOpeningHours': entry['candidate'].get('hasOpeningHours'),
+        'isClosed': entry['candidate'].get('isClosed'),
+        'ownershipStatus': entry['candidate'].get('ownershipStatus'),
+        'matchedSearchTerms': entry['source'].get('matchedSearchTerms') or [],
+        'missingSearchTerms': entry['source'].get('missingSearchTerms') or [],
+        'matchedSearchTermCount': entry['source'].get('matchedSearchTermCount'),
+        'searchCoverageNote': entry['source'].get('searchCoverageNote'),
+        'rawRecordCount': entry['source'].get('rawRecordCount'),
+        'score': entry['scoring'].get('score'),
+        'bucket': entry['scoring'].get('bucket'),
+    }
+
+
+def append_snapshots(summary_rows: list[dict[str, Any]]) -> None:
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    for entry in summary_rows:
+        place_id = str(entry['candidate'].get('placeId') or '').strip()
+        if not place_id:
+            continue
+        snapshot_path = SNAPSHOT_DIR / f'{place_id}.json'
+        payload = snapshot_payload(entry)
+        history: list[dict[str, Any]] = []
+        if snapshot_path.exists():
+            try:
+                history = json.loads(snapshot_path.read_text(encoding='utf-8'))
+                if not isinstance(history, list):
+                    history = []
+            except Exception:
+                history = []
+        if history:
+            last = history[-1]
+            comparable_keys = [
+                'address', 'phone', 'websiteUrl', 'hasWebsite', 'rating', 'reviewsCount',
+                'hasOpeningHours', 'isClosed', 'ownershipStatus', 'matchedSearchTerms',
+                'missingSearchTerms', 'matchedSearchTermCount', 'searchCoverageNote',
+                'rawRecordCount', 'score', 'bucket'
+            ]
+            if all(last.get(key) == payload.get(key) for key in comparable_keys):
+                history[-1]['capturedAt'] = payload['capturedAt']
+                snapshot_path.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding='utf-8')
+                continue
+        history.append(payload)
+        snapshot_path.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
 def write_outputs(summary_rows: list[dict[str, Any]]) -> None:
     SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
     json_path = SUMMARY_DIR / 'candidates-summary.json'
@@ -408,6 +465,7 @@ def write_outputs(summary_rows: list[dict[str, Any]]) -> None:
 def main() -> None:
     summary_rows = build_summary()
     write_outputs(summary_rows)
+    append_snapshots(summary_rows)
     print(json.dumps({
         'ok': True,
         'count': len(summary_rows),

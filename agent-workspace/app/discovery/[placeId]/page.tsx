@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { DiscoveryRowActions } from '@/components/discovery/DiscoveryRowActions'
 import { readDiscoveryRuntimeState } from '@/lib/discovery/runtime'
-import { readDiscoveryRow } from '@/lib/discovery/service'
+import { readDiscoveryRow, readDiscoverySnapshots } from '@/lib/discovery/service'
 import type { DiscoveryOwnershipStatus } from '@/lib/discovery/types'
 
 export const dynamic = 'force-dynamic'
@@ -29,15 +29,22 @@ function formatRating(value: number | null) {
   return typeof value === 'number' ? value.toFixed(1) : '—'
 }
 
+function formatChange(previous: string | number | boolean | null | undefined, current: string | number | boolean | null | undefined) {
+  const prev = previous ?? 'Yok'
+  const next = current ?? 'Yok'
+  return `${prev} → ${next}`
+}
+
 export default async function DiscoveryDetailPage({
   params,
 }: {
   params: Promise<{ placeId: string }>
 }) {
   const { placeId } = await params
-  const [row, runtimeState] = await Promise.all([
+  const [row, runtimeState, snapshots] = await Promise.all([
     readDiscoveryRow(decodeURIComponent(placeId)),
     readDiscoveryRuntimeState(),
+    readDiscoverySnapshots(decodeURIComponent(placeId)),
   ])
 
   if (!row) {
@@ -46,6 +53,16 @@ export default async function DiscoveryDetailPage({
 
   const importInfo = runtimeState.imports[row.candidate.placeId]
   const isShortlisted = runtimeState.shortlistedPlaceIds.includes(row.candidate.placeId)
+  const latestSnapshot = snapshots.at(-1) || null
+  const previousSnapshot = snapshots.length > 1 ? snapshots.at(-2) || null : null
+  const changedFields = previousSnapshot ? [
+    previousSnapshot.reviewsCount !== latestSnapshot?.reviewsCount ? { label: 'Yorum sayisi', value: formatChange(previousSnapshot.reviewsCount, latestSnapshot?.reviewsCount) } : null,
+    previousSnapshot.rating !== latestSnapshot?.rating ? { label: 'Puan', value: formatChange(formatRating(previousSnapshot.rating), formatRating(latestSnapshot?.rating ?? null)) } : null,
+    previousSnapshot.websiteUrl !== latestSnapshot?.websiteUrl ? { label: 'Website', value: formatChange(previousSnapshot.websiteUrl || 'Yok', latestSnapshot?.websiteUrl || 'Yok') } : null,
+    previousSnapshot.phone !== latestSnapshot?.phone ? { label: 'Telefon', value: formatChange(previousSnapshot.phone || 'Yok', latestSnapshot?.phone || 'Yok') } : null,
+    previousSnapshot.ownershipStatus !== latestSnapshot?.ownershipStatus ? { label: 'Sahiplik', value: formatChange(ownershipLabels[previousSnapshot.ownershipStatus], ownershipLabels[latestSnapshot?.ownershipStatus || 'unknown']) } : null,
+    previousSnapshot.matchedSearchTerms.join(', ') !== latestSnapshot?.matchedSearchTerms.join(', ') ? { label: 'Eslesen terimler', value: formatChange(previousSnapshot.matchedSearchTerms.join(', ') || 'Yok', latestSnapshot?.matchedSearchTerms.join(', ') || 'Yok') } : null,
+  ].filter(Boolean) as { label: string; value: string }[] : []
 
   return (
     <AdminShell
@@ -107,6 +124,33 @@ export default async function DiscoveryDetailPage({
           <div className="page-header-actions">
             <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">Business kaydini ac</Link>
           </div>
+        </section>
+      ) : null}
+
+      {latestSnapshot ? (
+        <section className="card stack-sm">
+          <div>
+            <p className="eyebrow">Snapshot gecmisi</p>
+            <h3>Once ve simdi</h3>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <span className="badge">Toplam snapshot {snapshots.length}</span>
+            <span className="badge">Son kayit {latestSnapshot.capturedAt}</span>
+            {previousSnapshot ? <span className="badge">Bir onceki {previousSnapshot.capturedAt}</span> : null}
+          </div>
+          {previousSnapshot ? (
+            changedFields.length ? (
+              <ul className="list">
+                {changedFields.map((item) => (
+                  <li key={item.label}><strong>{item.label}:</strong> {item.value}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="muted">Son iki snapshot arasinda izlenen alanlarda degisiklik yok.</p>
+            )
+          ) : (
+            <p className="muted">Henuz karsilastirma yapacak ikinci snapshot yok. Sonraki scrape'te once/simdi farki burada gorunecek.</p>
+          )}
         </section>
       ) : null}
 
@@ -189,6 +233,10 @@ export default async function DiscoveryDetailPage({
             <div>
               <dt className="eyebrow">Mevcut scrape ozeti</dt>
               <dd>{row.source.rawRecordCount} ham kayittan ozetlenmis, {row.source.matchedSearchTermCount} arama teriminde yakalanmis.</dd>
+            </div>
+            <div>
+              <dt className="eyebrow">Snapshot durumu</dt>
+              <dd>{snapshots.length ? `${snapshots.length} kayit var` : 'Henuz snapshot yok'}</dd>
             </div>
           </dl>
         </article>
