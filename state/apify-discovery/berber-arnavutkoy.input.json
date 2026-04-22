@@ -1,6 +1,9 @@
 {
   "searchStringsArray": [
-    "berber"
+    "berber",
+    "erkek kuaforu",
+    "erkek kuaförü",
+    "barbershop"
   ],
   "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
   "maxCrawledPlacesPerSearch": 60,
