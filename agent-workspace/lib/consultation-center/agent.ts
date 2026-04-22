@@ -4,6 +4,7 @@ import { promisify } from 'util'
 import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
 
 const execFileAsync = promisify(execFile)
+const CONSULTATION_PROMPT_AGENT_ID = process.env.CONSULTATION_PROMPT_AGENT_ID?.trim() || 'esnafdijital'
 
 type AgentSuggestion = {
   title?: string
@@ -153,6 +154,7 @@ export async function generateConsultationBriefWithAgent(consultation: Consultat
     'openclaw',
     [
       'agent',
+      '--agent', CONSULTATION_PROMPT_AGENT_ID,
       '--session-id', randomUUID(),
       '--message', buildPrompt(consultation),
       '--thinking', 'high',
