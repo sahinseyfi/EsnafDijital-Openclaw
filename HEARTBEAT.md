@@ -48,6 +48,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - Consultation Center follow-through bu faz için yeterli noktaya geldi; saatlik heartbeat cron'u kapatildi
 - Consultation Center icin Faz 1 yonu netlesti; ilk kucuk Faz 1 patch ile cikti paneli plan-first cizgiye yaklastirildi ve prompt preview readiness kosuluna baglandi
 - Consultation Center V1 sade prompt akisi guncellendi; hedef model secimi (GPT-5 / GPT-5 Pro), otomatik baglam paketi, sifir-hafiza prompt cizgisi, VPS/OpenClaw baglami ve teknik olmayan kisa ozet istegi ekrana ve prompt uretimine baglandi
+- Consultation Center create akisi promptu artik direkt gostermiyor; yeni kayit `preparing` durumuyla aciliyor, detail acilisinda agent tetigi calisiyor ve prompt `preparing / ready / error` durumlariyla gorunur hale geliyor
 - Consultation Center quick create girisi mini-brief ile guclendirildi; is modu, hedef yuzey ve cikti tipi ilk kayitta alinmaya baslandi
 - Consultation Center mobil bilgi mimarisi hafifletildi; detail, prompt, sonuc ve aksiyon bloklari kapali bolumlere alindi ve ilk bakista karar ozeti + sonraki adim daha gorunur hale geldi
 - admin bilgi mimarisi icin repo-gercegi uzerinden yeni dis analiz ayrildi; cekirdek cizgi home'i aktif is ekranina cevirmek ve businesses/audits/offers/delivery hattini ilk fazda `Project OS` icinde tutmak olarak netlesti
