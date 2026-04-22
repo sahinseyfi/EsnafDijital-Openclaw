@@ -8,6 +8,50 @@ Burada iki sey ayrilir:
 Kural:
 Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmalidir.
 
+## Temel kararlar
+
+### Dis veri kaynagi
+- business detail icindeki dis dunya verileri varsayilan olarak discovery snapshot uzerinden okunacak
+- sayfada `Detayli isletme verilerini al` butonu olacak
+- bu buton Apify CLI ile secili isletmenin detay verilerini yeniden cekecek ve elde edilebilen alanlari guncelleyecek
+- yorum / puan ve benzeri dis sinyaller bu yenileme akisinin parcasi olacak
+
+### Operator yetkisi
+- operator business sayfasindaki tum bilgileri duzenleyebilmeli
+- dis kaynaklar sadece sinyal ve karsilastirma katmani olacak
+- son kanonik business verisi operatorun onayladigi / duzelttigi ic kayit olacak
+
+### Website kontrolu
+- website'nin otomatik ziyaret edilip kirik / calisiyor / guven veriyor gibi sinyaller uretmesi isteniyor
+- bunun teknik yontemi simdilik sabitlenmedi
+- bu kontrol ajan destekli ziyaret, baska bir evaluator veya farkli bir teknik yontemle daha sonra netlestirilecek
+
+### Instagram kontrolu
+- Instagram verisi icin scrape yontemleri ayrica arastirilacak
+- bu alan simdilik kesin veri kontrati kazanmis sayilmaz
+
+### Paket secimi
+- sistem paket yonu onerir
+- son paket secimi operator tarafinda yapilir
+
+### Audit puani
+- puan sistemi henuz kesinlesmedi
+- bu nedenle ilk cizgide puan ana karar mekanizmasi olmayacak, audit ozeti ve eksik listesi daha baskin olacak
+
+### Demo sayfasi
+- scrape edilen detaylardan business'e ozel demo website uretecek ayri bir skill kurulacak
+- demo subdomain uzerinde canliya alinabilecek
+- demo acilisi manuel tetiklenecek
+- surekli canli kalma secilmediyse belirli bir sure icin yayinda tutulup sonra kapanabilecek
+
+### Logo ve kartvizit
+- logo ve kartvizit uretimi icin ayri skill kurulacak
+- bu alanlarin detay operasyon kontrati daha sonra netlestirilecek
+
+### Yandex ve Apple Maps
+- bu kanallarin scrape edilip edilemeyecegi arastirilacak
+- Apify ile guvenilir veri alinabiliyorsa bu alanlar da detay veri yenileme akisina dahil edilecek
+
 ## 1. Audit / Mevcut Durum
 
 ### 1.1 Google Maps durumu kontrolu
@@ -32,9 +76,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - website url
 - calisma saatleri
 
-**Henuz net olmayanlar**
-- veri discovery snapshot'tan mi okunacak, canli tekrar mi cekilecek
-- sahiplik durumu ne kadar guvenilir kaynaktan gelecek
+**Net cizgi**
+- veri discovery snapshot'tan okunacak, gerekirse `Detayli isletme verilerini al` butonuyla Apify CLI uzerinden yenilenecek
+- sahiplik durumu discovery / scrape sonucunda gelen bir sinyal olarak tutulacak, mutlak gercek gibi degil operatorun degerlendirecegi dis veri olarak okunacak
 
 ### 1.2 Temel bilgi tutarliligi kontrolu
 **Sayfada ne gosterilecek**
@@ -55,8 +99,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - website ust bilgi / footer bilgisi
 - Instagram profil adi / bio linki
 
-**Henuz net olmayanlar**
-- kanonik dogru kaynak business kaydi mi olacak, operator override'i mi olacak
+**Net cizgi**
+- kanonik dogru kaynak operatorun duzelttigi business kaydi olacak
+- dis kaynaklar tutarlilik kontrolu icin okunacak ama son soz operatorde olacak
 
 ### 1.3 Yorum / puan gorunumu
 **Sayfada ne gosterilecek**
@@ -76,7 +121,8 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - mumkunse son yorum tarihi veya son yorum ornekleri
 
 **Henuz net olmayanlar**
-- sadece toplam puan/yorum mu tutulacak, yorum icerigi de okunacak mi
+- detay veri yenilemede yorum icerigi / son yorum tarihi alinabiliyorsa dahil edilecek
+- yorum iceriginin ne kadarinin saklanacagi ayrica karar gerektirir
 
 ### 1.4 Website var mi / guven veriyor mu
 **Sayfada ne gosterilecek**
@@ -96,8 +142,8 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - temel bolumler: hero, iletisim, harita / adres, CTA, gorsel duzen
 
 **Henuz net olmayanlar**
-- bu degerlendirme manuel audit notu mu olacak, otomatik evaluator mu olacak
-- guven skoru sayisal mi, sadece kisa ozet mi olacak
+- website ziyaret ve kiriklik kontrolunun hangi teknik yontemle yapilacagi daha sonra netlestirilecek
+- guven sonucu sayisal skor mu, kisa operator ozeti mi olacak karari daha sonra verilecek
 
 ### 1.5 Instagram var mi / bos mu
 **Sayfada ne gosterilecek**
@@ -117,7 +163,8 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - gonderi sayisi veya son paylasim sinyali
 
 **Henuz net olmayanlar**
-- bu veri elle mi girilecek, scrape ile mi gelecek
+- Instagram scrape yontemleri ayrica arastirilacak
+- veri kontrati scrape sonucuna gore netlestirilecek
 
 ### 1.6 Temel eksiklerin kisa ozeti
 **Sayfada ne gosterilecek**
@@ -131,8 +178,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Bunun icin gereken veri**
 - audit sonucunda cikan eksik maddeler
 
-**Henuz net olmayanlar**
-- eksikler manuel mi yazilacak, evaluator mu cikaracak
+**Net cizgi**
+- eksik listesi discovery verisi, website kontrolu ve operator duzeltmeleri ustunden cikacak
+- operator bu listeyi elle duzenleyebilecek
 
 ### 1.7 Kisa audit puani veya ozet
 **Sayfada ne gosterilecek**
@@ -145,9 +193,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Bunun icin gereken veri**
 - scorecard ya da ozet mantigi
 
-**Henuz net olmayanlar**
-- puan sistemi kesinlesmedi mi
-- puan mi, seviye etiketi mi daha dogru olacak
+**Net cizgi**
+- puan sistemi henuz kesinlesmedi
+- ilk cizgide puandan cok kisa audit ozeti ve eksik listesi oncelikli olacak
 
 ## 2. Paket / Teklif Yonu
 
@@ -167,8 +215,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - mevcut urun paket tanimlari
 - gerekiyorsa operator notu
 
-**Henuz net olmayanlar**
-- bu yonlendirme kural bazli mi olacak, operator secimi mi olacak
+**Net cizgi**
+- sistem paket yonu onerecek
+- son paket secimi operator tarafinda yapilacak
 
 ### 2.2 Teklif gerekcesi
 **Sayfada ne gosterilecek**
@@ -196,8 +245,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - demo url
 - demo durumu: yok / hazirlaniyor / hazir
 
-**Henuz net olmayanlar**
-- demo statik template mi olacak, isletmeye ozel uretilmis mi olacak
+**Net cizgi**
+- demo ayri bir skill ile scrape edilen detaylardan isletmeye ozel uretilecek
+- demo acilisi manuel olacak
 
 ### 3.2 Tek yonlu demo website onizlemesi
 **Sayfada ne gosterilecek**
@@ -223,6 +273,9 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - subdomain url
 - yayin durumu
 
+**Henuz net olmayanlar**
+- surekli canli kalmayacak demo icin yayin suresi / kapanma kurali netlestirilecek
+
 ## 4. Temel Teslimler
 
 ### 4.1 Logo tasarimi
@@ -239,6 +292,10 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - logo asset reference
 - durum: bekliyor / taslak / onaylandi / teslim edildi
 
+**Net cizgi**
+- bu uretim icin ayri skill kurulacak
+- detay is akisi daha sonra netlestirilecek
+
 ### 4.2 Kartvizit tasarimi
 **Sayfada ne gosterilecek**
 - kartvizit var / yok
@@ -252,6 +309,10 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Bunun icin gereken veri**
 - kartvizit asset reference
 - durum
+
+**Net cizgi**
+- bu uretim icin ayri skill kurulacak
+- detay is akisi daha sonra netlestirilecek
 
 ### 4.3 Website kurulumu
 **Sayfada ne gosterilecek**
@@ -281,6 +342,10 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Bunun icin gereken veri**
 - Yandex profil linki veya status kaydi
 
+**Henuz net olmayanlar**
+- Yandex verisinin scrape edilip edilemeyecegi arastirilacak
+- scrape mumkunse Apify yenileme akisina dahil edilecek
+
 ### 5.2 Apple Maps kaydi
 **Sayfada ne gosterilecek**
 - var / yok
@@ -292,6 +357,10 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 
 **Bunun icin gereken veri**
 - Apple profil linki veya status kaydi
+
+**Henuz net olmayanlar**
+- Apple Maps verisinin scrape edilip edilemeyecegi arastirilacak
+- scrape mumkunse Apify yenileme akisina dahil edilecek
 
 ### 5.3 Google Maps duzenleme / tamamlama
 **Sayfada ne gosterilecek**
