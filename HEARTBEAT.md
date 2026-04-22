@@ -52,6 +52,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - `Project OS` giris yuzeyi asama-oncelikli okunur hale getirildi; audit / teklif / teslimat / bakim yogunlugu ustte net ayrisiyor ve sicak asama ilk bakista gorunuyor
 - `Project OS` icinde Consultation / Context el sikismasi gorunur hale getirildi; karar bulanikligi ve sabit referans secimi icin hangi yan yuzeye gecilecegi artik ekran ustunde acik yaziyor
 - Postgres + Prisma icin ilk migration iskeleti cikarildi; `prisma/migrations/202604211753_init/migration.sql` ve `prisma/migration_lock.toml` ile DB apply oncesi temel hat acildi
+- Prisma local bootstrap helper hattı doğrulandı; `npm run prisma:bootstrap:local` `.env` / `.env.local` icinden `DATABASE_URL` okuyup migrate deploy + generate hattini tek komutta kosmaya hazir
 - workspace bağlamı sadeleştirildi, görev kapatma ve bağlam hijyeni netleştirildi
 - repo onboarding yüzeyi güncellendi; `README.md` gerçek klasör yapısına göre düzeltildi, giriş rotası netleştirildi ve `agent-workspace/`, `memory/`, `DECISIONS/` için giriş README'leri eklendi
 - `AGENTS.md` ile `README.md` giriş rotası birebir hizalandı; entry point drift azaltıldı ve `website/`, `deploy/`, `bin/`, `REFERENCES/` için giriş README'leri eklendi
@@ -61,7 +62,7 @@ Teklif omurgası, veri temeli ve admin operasyon ekranlarını aynı sade sistem
 - OOM sonrası 8G swap açıldı ve admin servis için memory guard eklendi
 
 ## Sıradaki Somut Adımlar
-- `DATABASE_URL` ile ilk local apply / generate hattini calistirmak
+- gercek `DATABASE_URL` ile `npm run prisma:bootstrap:local` calistirmak
 - normal oturumda V2 prod deploy + doğrulama almak
 
 ## Heartbeat Çalışma Talimatı
