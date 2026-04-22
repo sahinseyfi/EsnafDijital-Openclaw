@@ -6,7 +6,10 @@ import { promisify } from 'util'
 import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
 
 const execFileAsync = promisify(execFile)
-const PROMPTING_REFERENCE_PATH = path.resolve(process.cwd(), '../REFERENCES/prompting/gpt5-prompting-principles.md')
+const CONSULTATION_PROMPT_SKILL_DIR = path.resolve(process.cwd(), '../skills/consultation-prompt-builder')
+const CONSULTATION_PROMPT_SKILL_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'SKILL.md')
+const CONSULTATION_PROMPTING_REFERENCE_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/prompting-principles.md')
+const CONSULTATION_GROUNDING_REFERENCE_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/grounding-checklist.md')
 
 function getConsultationPromptAgentId() {
   const agentId = process.env.CONSULTATION_PROMPT_AGENT_ID?.trim()
@@ -47,24 +50,49 @@ function formatContextRefs(refs: ConsultationContextRef[]) {
   return refs.map((ref) => `- ${ref.kind} | ${ref.title} | ${ref.ref}`).join('\n')
 }
 
-function getPromptingReference() {
+function readRequiredReference(filePath: string, label: string) {
   try {
-    const content = readFileSync(PROMPTING_REFERENCE_PATH, 'utf8').trim()
+    const content = readFileSync(filePath, 'utf8').trim()
 
     if (!content) {
-      throw new Error('Prompting referans dosyasi bos')
+      throw new Error(`${label} bos`)
     }
 
     return content
   } catch (error: any) {
-    throw new Error(`Prompting referansi okunamadi: ${PROMPTING_REFERENCE_PATH} (${error?.message || 'bilinmeyen hata'})`)
+    throw new Error(`${label} okunamadi: ${filePath} (${error?.message || 'bilinmeyen hata'})`)
+  }
+}
+
+function getPromptSkillContext() {
+  return {
+    skillMd: readRequiredReference(CONSULTATION_PROMPT_SKILL_PATH, 'Consultation prompt skill dosyasi'),
+    promptingReference: readRequiredReference(CONSULTATION_PROMPTING_REFERENCE_PATH, 'Consultation prompting referansi'),
+    groundingChecklist: readRequiredReference(CONSULTATION_GROUNDING_REFERENCE_PATH, 'Consultation grounding checklist'),
   }
 }
 
 function buildPrompt(consultation: ConsultationDetail) {
-  const promptingReference = getPromptingReference()
+  const skillContext = getPromptSkillContext()
 
   return [
+    'Bu gorev workspace skilli `consultation-prompt-builder` cizgisine net uyar.',
+    'Asagidaki skill dosyalarini dogrudan calisma kurali kabul et ve skill mantigina gore promptu uret.',
+    '',
+    'Skill dosyalari:',
+    `- SKILL.md | ${CONSULTATION_PROMPT_SKILL_PATH}`,
+    `- Prompting principles | ${CONSULTATION_PROMPTING_REFERENCE_PATH}`,
+    `- Grounding checklist | ${CONSULTATION_GROUNDING_REFERENCE_PATH}`,
+    '',
+    'Skill ana dosyasi:',
+    skillContext.skillMd,
+    '',
+    'Prompting principles:',
+    skillContext.promptingReference,
+    '',
+    'Grounding checklist:',
+    skillContext.groundingChecklist,
+    '',
     'Sen EsnafDigital icin consultation brief hazirlayan ajansin.',
     'Gorevin mevcut consultation kaydini sifir hafizali GPT oturumuna gidecek kadar netlestirmek.',
     'Ayrica gereksiz teori verme, kisa ve uygulanabilir kal.',
@@ -110,10 +138,6 @@ function buildPrompt(consultation: ConsultationDetail) {
     'Zorunlu repo referanslari:',
     '- Uygulama reposu | https://github.com/sahinseyfi/EsnafDijital-Openclaw',
     '- OpenClaw upstream | https://github.com/openclaw/openclaw',
-    '',
-    'Yerel prompting referansi:',
-    `- Dosya | ${PROMPTING_REFERENCE_PATH}`,
-    promptingReference,
     '',
     'Mevcut businessBrief:',
     formatBriefRecord(consultation.businessBrief),
