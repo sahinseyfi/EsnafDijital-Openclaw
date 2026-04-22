@@ -21,6 +21,9 @@ type OfferInput = {
   status?: OfferRecord['status']
   packageName?: string
   amountTry?: number
+  addonKeys?: string[]
+  domainPreference?: OfferRecord['domainPreference']
+  customDomain?: string
 }
 
 type DeliveryProjectInput = {
@@ -60,6 +63,11 @@ function mapOfferStatus(value: string): OfferRecord['status'] {
   return 'draft'
 }
 
+function mapOfferDomainPreference(value: string | undefined): OfferRecord['domainPreference'] {
+  if (value === 'custom-domain') return 'custom-domain'
+  return 'subdomain'
+}
+
 function mapDeliveryProjectStatus(value: string): DeliveryProjectRecord['status'] {
   if (value === 'building' || value === 'live' || value === 'maintenance') return value
   return 'kickoff'
@@ -68,7 +76,7 @@ function mapDeliveryProjectStatus(value: string): DeliveryProjectRecord['status'
 function mapDataset(dataset: {
   businesses: Array<{ id: string; name: string; segment: string; district: string; ownerName: string; status: string }>
   audits: Array<{ id: string; businessId: string; status: string; channelReadiness: string; summary: string }>
-  offers: Array<{ id: string; businessId: string; status: string; packageName: string; amountTry: number }>
+  offers: Array<{ id: string; businessId: string; status: string; packageName: string; amountTry: number; addonKeys: string[]; domainPreference: string; customDomain: string | null }>
   deliveryProjects: Array<{ id: string; businessId: string; status: string; scope: string }>
 }): ProjectOsDataset {
   return {
@@ -93,6 +101,9 @@ function mapDataset(dataset: {
       status: mapOfferStatus(offer.status),
       packageName: offer.packageName,
       amountTry: offer.amountTry,
+      addonKeys: Array.isArray(offer.addonKeys) ? offer.addonKeys : [],
+      domainPreference: mapOfferDomainPreference(offer.domainPreference),
+      customDomain: offer.customDomain || '',
     })),
     deliveryProjects: dataset.deliveryProjects.map((project) => ({
       id: project.id,
@@ -214,6 +225,9 @@ export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> 
   const businessId = input.businessId?.trim()
   const packageName = input.packageName?.trim()
   const amountTry = Number(input.amountTry)
+  const addonKeys = Array.isArray(input.addonKeys) ? input.addonKeys.map((item) => String(item).trim()).filter(Boolean) : []
+  const domainPreference = mapOfferDomainPreference(input.domainPreference)
+  const customDomain = input.customDomain?.trim()
 
   if (!businessId || !packageName || !Number.isFinite(amountTry) || amountTry <= 0) {
     throw new Error('İşletme, paket adı ve geçerli teklif tutarı zorunlu.')
@@ -227,6 +241,9 @@ export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> 
       status: mapOfferStatus(input.status || 'draft'),
       packageName,
       amountTry,
+      addonKeys,
+      domainPreference: domainPreference === 'custom-domain' ? 'custom_domain' : 'subdomain',
+      customDomain: customDomain || null,
     },
   })
 
@@ -246,6 +263,9 @@ export async function updateOffer(id: string, input: OfferInput): Promise<Projec
         status: input.status ? mapOfferStatus(input.status) : undefined,
         packageName: input.packageName?.trim(),
         amountTry: Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0 ? Number(input.amountTry) : undefined,
+        addonKeys: Array.isArray(input.addonKeys) ? input.addonKeys.map((item) => String(item).trim()).filter(Boolean) : undefined,
+        domainPreference: input.domainPreference ? (mapOfferDomainPreference(input.domainPreference) === 'custom-domain' ? 'custom_domain' : 'subdomain') : undefined,
+        customDomain: input.customDomain === undefined ? undefined : (input.customDomain.trim() || null),
       },
     })
   } catch {

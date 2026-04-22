@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
     status?: 'draft' | 'sent' | 'approved'
     packageName?: string
     amountTry?: number
+    addonKeys?: string[]
+    domainPreference?: 'subdomain' | 'custom-domain'
+    customDomain?: string
   }
 
   try {

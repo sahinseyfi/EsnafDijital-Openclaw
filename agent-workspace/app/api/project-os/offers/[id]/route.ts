@@ -8,6 +8,9 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     status?: 'draft' | 'sent' | 'approved'
     packageName?: string
     amountTry?: number
+    addonKeys?: string[]
+    domainPreference?: 'subdomain' | 'custom-domain'
+    customDomain?: string
   }
 
   const dataset = await updateOffer(id, body)

@@ -17,12 +17,17 @@ export interface AuditRecord {
   summary: string
 }
 
+export type OfferDomainPreference = 'subdomain' | 'custom-domain'
+
 export interface OfferRecord {
   id: string
   businessId: string
   status: 'draft' | 'sent' | 'approved'
   packageName: string
   amountTry: number
+  addonKeys: string[]
+  domainPreference: OfferDomainPreference
+  customDomain: string
 }
 
 export interface DeliveryProjectRecord {

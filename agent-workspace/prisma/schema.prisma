@@ -38,6 +38,11 @@ enum OfferStatus {
   approved
 }
 
+enum OfferDomainPreference {
+  subdomain
+  custom_domain
+}
+
 enum DeliveryProjectStatus {
   kickoff
   building
@@ -126,15 +131,18 @@ model Audit {
 }
 
 model Offer {
-  id               String           @id @default(cuid())
+  id               String                @id @default(cuid())
   businessId       String
-  status           OfferStatus      @default(draft)
+  status           OfferStatus           @default(draft)
   packageName      String
   amountTry        Int
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  addonKeys        String[]              @default([])
+  domainPreference OfferDomainPreference @default(subdomain)
+  customDomain     String?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
 
-  business         Business         @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  business         Business              @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   @@index([businessId])
   @@map("offers")
