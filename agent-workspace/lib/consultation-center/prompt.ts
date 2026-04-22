@@ -49,6 +49,42 @@ function formatBriefBlock(title: string, value?: Record<string, string | string[
   return lines ? `${title}:\n${lines}` : ''
 }
 
+function formatRepoRefs(detail: Pick<ConsultationDetail, 'title' | 'decisionQuestion' | 'desiredOutput' | 'technicalBrief' | 'sharedBrief'>) {
+  const projectRepo = 'https://github.com/sahinseyfi/EsnafDijital-Openclaw'
+  const openclawRepo = 'https://github.com/openclaw/openclaw'
+  const haystack = [
+    detail.title,
+    detail.decisionQuestion,
+    detail.desiredOutput,
+    ...Object.values(detail.technicalBrief || {}),
+    ...Object.values(detail.sharedBrief || {}),
+  ]
+    .flatMap((value) => Array.isArray(value) ? value : [value])
+    .filter((value): value is string => Boolean(value))
+    .join(' ')
+    .toLocaleLowerCase('tr-TR')
+
+  const needsOpenclawRef = containsAny(haystack, [
+    'openclaw',
+    'gateway',
+    'telegram',
+    'whatsapp',
+    'heartbeat',
+    'session',
+    'pairing',
+    'control ui',
+    'control-ui',
+    'runtime',
+    'channel',
+  ])
+
+  return [
+    'Repo referansları:',
+    `- Çalışılan repo: ${projectRepo}`,
+    needsOpenclawRef ? `- OpenClaw upstream referansı (gerektiğinde): ${openclawRepo}` : '',
+  ].filter(Boolean).join('\n')
+}
+
 export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'whyNow' | 'desiredOutput' | 'contextRefs' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {
   const rawRequest = typeof detail.sharedBrief?.hamNot === 'string' && detail.sharedBrief.hamNot.trim()
     ? detail.sharedBrief.hamNot.trim()
@@ -70,6 +106,8 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '',
     'Seçili context pack:',
     formatContextRefs(detail.contextRefs),
+    '',
+    formatRepoRefs(detail),
     '',
     formatBriefBlock('İş / saha brief', detail.businessBrief),
     formatBriefBlock('Teknik brief', detail.technicalBrief),
