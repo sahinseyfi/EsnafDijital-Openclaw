@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import type { DiscoveryBucket, DiscoverySegment, DiscoverySummaryRow } from '@/lib/discovery/types'
+import type { DiscoveryBucket, DiscoveryOwnershipStatus, DiscoverySegment, DiscoverySummaryRow } from '@/lib/discovery/types'
 
-export type DiscoverySortKey = 'segment' | 'score' | 'reviews' | 'contact' | 'coverage' | 'decision' | 'actions'
+export type DiscoverySortKey = 'segment' | 'score' | 'reviews' | 'contact' | 'ownership' | 'coverage' | 'decision' | 'actions'
 export type DiscoverySortDirection = 'asc' | 'desc'
 
 const SUMMARY_PATH = path.join(process.cwd(), '..', 'state', 'apify-discovery', 'summary', 'candidates-summary.json')
@@ -24,7 +24,7 @@ export function normalizeDiscoveryFilters(filters: DiscoveryFilters) {
   const segment = filters.segment === 'berber' || filters.segment === 'guzellik salonu' ? (filters.segment as DiscoverySegment) : 'all'
   const bucket = filters.bucket === 'shortlist' || filters.bucket === 'review' || filters.bucket === 'skip' ? (filters.bucket as DiscoveryBucket) : 'all'
   const q = filters.q?.trim() || ''
-  const sort = filters.sort === 'segment' || filters.sort === 'score' || filters.sort === 'reviews' || filters.sort === 'contact' || filters.sort === 'coverage' || filters.sort === 'decision' || filters.sort === 'actions'
+  const sort = filters.sort === 'segment' || filters.sort === 'score' || filters.sort === 'reviews' || filters.sort === 'contact' || filters.sort === 'ownership' || filters.sort === 'coverage' || filters.sort === 'decision' || filters.sort === 'actions'
     ? (filters.sort as DiscoverySortKey)
     : 'score'
   const dir = filters.dir === 'asc' || filters.dir === 'desc' ? (filters.dir as DiscoverySortDirection) : 'desc'
@@ -69,6 +69,12 @@ function getBucketRank(bucket: DiscoveryBucket) {
   return 2
 }
 
+function getOwnershipRank(status: DiscoveryOwnershipStatus) {
+  if (status === 'unclaimed') return 0
+  if (status === 'unknown') return 1
+  return 2
+}
+
 export function sortDiscoveryRows(
   rows: DiscoverySummaryRow[],
   filters: DiscoveryFilters,
@@ -105,6 +111,9 @@ export function sortDiscoveryRows(
       case 'contact':
         result = compareNumber(Number(left.candidate.hasWebsite) + Number(Boolean(left.candidate.phone.trim())), Number(right.candidate.hasWebsite) + Number(Boolean(right.candidate.phone.trim())))
         if (result === 0) result = compareText(left.candidate.phone || '', right.candidate.phone || '')
+        break
+      case 'ownership':
+        result = compareNumber(getOwnershipRank(left.candidate.ownershipStatus), getOwnershipRank(right.candidate.ownershipStatus))
         break
       case 'coverage':
         result = compareNumber(left.source.matchedSearchTermCount, right.source.matchedSearchTermCount)

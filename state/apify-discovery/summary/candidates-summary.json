@@ -64,6 +64,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1876296,
       "longitude": 28.7483131
     },
@@ -145,6 +146,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1866132,
       "longitude": 28.7390603
     },
@@ -224,6 +226,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1855925,
       "longitude": 28.76264
     },
@@ -303,6 +306,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1818918,
       "longitude": 28.7365108
     },
@@ -382,6 +386,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184141,
       "longitude": 28.7469264
     },
@@ -461,6 +466,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.183787,
       "longitude": 28.712808
     },
@@ -540,6 +546,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1981702,
       "longitude": 28.7642581
     },
@@ -619,6 +626,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2013528,
       "longitude": 28.7652176
     },
@@ -700,6 +708,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1860519,
       "longitude": 28.7623714
     },
@@ -781,6 +790,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2097946,
       "longitude": 28.7210533
     },
@@ -860,6 +870,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1950117,
       "longitude": 28.7164595
     },
@@ -939,6 +950,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1864549,
       "longitude": 28.761281
     },
@@ -1018,6 +1030,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2021674,
       "longitude": 28.7427499
     },
@@ -1097,6 +1110,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.185718,
       "longitude": 28.7572282
     },
@@ -1178,6 +1192,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1811998,
       "longitude": 28.7138154
     },
@@ -1259,6 +1274,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2110331,
       "longitude": 28.735732
     },
@@ -1338,6 +1354,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2151712,
       "longitude": 28.7465411
     },
@@ -1417,6 +1434,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1844421,
       "longitude": 28.7419416
     },
@@ -1496,6 +1514,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1855199,
       "longitude": 28.7538007
     },
@@ -1577,6 +1596,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1830419,
       "longitude": 28.7429174
     },
@@ -1658,6 +1678,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1876817,
       "longitude": 28.7538455
     },
@@ -1739,6 +1760,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1864117,
       "longitude": 28.7388896
     },
@@ -1820,6 +1842,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1842676,
       "longitude": 28.7132185
     },
@@ -1899,6 +1922,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1846984,
       "longitude": 28.738314
     },
@@ -1978,6 +2002,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1876347,
       "longitude": 28.7483235
     },
@@ -2057,6 +2082,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1811054,
       "longitude": 28.6124007
     },
@@ -2135,6 +2161,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1827216,
       "longitude": 28.7394189
     },
@@ -2213,6 +2240,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1561331,
       "longitude": 28.6207672
     },
@@ -2292,6 +2320,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1996539,
       "longitude": 28.7679055
     },
@@ -2372,6 +2401,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1980387,
       "longitude": 28.7272121
     },
@@ -2451,6 +2481,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1545063,
       "longitude": 28.6231382
     },
@@ -2529,6 +2560,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1562708,
       "longitude": 28.62041
     },
@@ -2608,6 +2640,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1847095,
       "longitude": 28.7485091
     },
@@ -2688,6 +2721,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1833283,
       "longitude": 28.7456722
     },
@@ -2767,6 +2801,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1587904,
       "longitude": 28.6186172
     },
@@ -2845,6 +2880,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1575511,
       "longitude": 28.6146991
     },
@@ -2924,6 +2960,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1822056,
       "longitude": 28.7399895
     },
@@ -3004,6 +3041,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1988406,
       "longitude": 28.7654654
     },
@@ -3082,6 +3120,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1839436,
       "longitude": 28.7429221
     },
@@ -3160,6 +3199,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1858796,
       "longitude": 28.7493431
     },
@@ -3238,6 +3278,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1754149,
       "longitude": 28.7030938
     },
@@ -3318,6 +3359,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2000933,
       "longitude": 28.766258
     },
@@ -3396,6 +3438,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1864172,
       "longitude": 28.7297135
     },
@@ -3474,6 +3517,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1865905,
       "longitude": 28.7385633
     },
@@ -3554,6 +3598,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1144234,
       "longitude": 28.642469
     },
@@ -3632,6 +3677,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2185337,
       "longitude": 28.706573
     },
@@ -3712,6 +3758,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1845161,
       "longitude": 28.7482438
     },
@@ -3791,6 +3838,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1989333,
       "longitude": 28.7655345
     },
@@ -3870,6 +3918,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1893206,
       "longitude": 28.7516395
     },
@@ -3950,6 +3999,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184505,
       "longitude": 28.7132885
     },
@@ -4029,6 +4079,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1808829,
       "longitude": 28.6132504
     },
@@ -4107,6 +4158,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1975779,
       "longitude": 28.7511178
     },
@@ -4185,6 +4237,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1824353,
       "longitude": 28.6113912
     },
@@ -4262,6 +4315,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1856355,
       "longitude": 28.7087413
     },
@@ -4339,6 +4393,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2141931,
       "longitude": 28.7506099
     },
@@ -4417,6 +4472,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2085353,
       "longitude": 28.7025574
     },
@@ -4495,6 +4551,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1813399,
       "longitude": 28.7569094
     },
@@ -4573,6 +4630,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1990899,
       "longitude": 28.7150798
     },
@@ -4651,6 +4709,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1566181,
       "longitude": 28.6160517
     },
@@ -4729,6 +4788,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1875316,
       "longitude": 28.7546759
     },
@@ -4808,6 +4868,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2110913,
       "longitude": 28.7356749
     },
@@ -4887,6 +4948,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184329,
       "longitude": 28.7513395
     },
@@ -4966,6 +5028,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1820861,
       "longitude": 28.7133496
     },
@@ -5045,6 +5108,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1820873,
       "longitude": 28.7133447
     },
@@ -5124,6 +5188,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1793926,
       "longitude": 28.7099826
     },
@@ -5203,6 +5268,7 @@
       "reviewsCount": 24,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1867319,
       "longitude": 28.7065786
     },
@@ -5282,6 +5348,7 @@
       "reviewsCount": 21,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.20522,
       "longitude": 28.740478
     },
@@ -5361,6 +5428,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.186217,
       "longitude": 28.762464
     },
@@ -5440,6 +5508,7 @@
       "reviewsCount": 10,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1887056,
       "longitude": 28.7493576
     },
@@ -5518,6 +5587,7 @@
       "reviewsCount": 9,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1563516,
       "longitude": 28.6155826
     },
@@ -5595,6 +5665,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1562662,
       "longitude": 28.6218694
     },
@@ -5672,6 +5743,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1566527,
       "longitude": 28.6160726
     },
@@ -5749,6 +5821,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1957103,
       "longitude": 28.7287311
     },
@@ -5827,6 +5900,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1875039,
       "longitude": 28.7486741
     },
@@ -5905,6 +5979,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1841772,
       "longitude": 28.7382821
     },
@@ -5983,6 +6058,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.211718,
       "longitude": 28.7534661
     },
@@ -6062,6 +6138,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1841003,
       "longitude": 28.7482008
     },
@@ -6139,6 +6216,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.187545,
       "longitude": 28.747892
     },
@@ -6216,6 +6294,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1865613,
       "longitude": 28.7467769
     },
@@ -6294,6 +6373,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1845435,
       "longitude": 28.7126513
     },
@@ -6372,6 +6452,7 @@
       "reviewsCount": 16,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2048917,
       "longitude": 28.7423663
     },
@@ -6448,6 +6529,7 @@
       "reviewsCount": 12,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1806474,
       "longitude": 28.6133671
     },
@@ -6525,6 +6607,7 @@
       "reviewsCount": 12,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1825801,
       "longitude": 28.7436208
     },
@@ -6602,6 +6685,7 @@
       "reviewsCount": 10,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1828599,
       "longitude": 28.7409162
     },
@@ -6678,6 +6762,7 @@
       "reviewsCount": 9,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1814055,
       "longitude": 28.7425536
     },
@@ -6755,6 +6840,7 @@
       "reviewsCount": 9,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1882631,
       "longitude": 28.7370258
     },
@@ -6832,6 +6918,7 @@
       "reviewsCount": 9,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.196775,
       "longitude": 28.7159853
     },
@@ -6909,6 +6996,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1957738,
       "longitude": 28.7281527
     },
@@ -6986,6 +7074,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1856834,
       "longitude": 28.7409634
     },
@@ -7063,6 +7152,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1857642,
       "longitude": 28.7517158
     },
@@ -7140,6 +7230,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1579496,
       "longitude": 28.6242431
     },
@@ -7216,6 +7307,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1824587,
       "longitude": 28.7414211
     },
@@ -7292,6 +7384,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1537022,
       "longitude": 28.6224827
     },
@@ -7369,6 +7462,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1819385,
       "longitude": 28.7331008
     },
@@ -7446,6 +7540,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1855824,
       "longitude": 28.7456912
     },
@@ -7522,6 +7617,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1816389,
       "longitude": 28.7416356
     },
@@ -7598,6 +7694,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1542046,
       "longitude": 28.6158575
     },
@@ -7674,6 +7771,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1991157,
       "longitude": 28.7268424
     },
@@ -7750,6 +7848,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.180014,
       "longitude": 28.7638039
     },
@@ -7827,6 +7926,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3021889,
       "longitude": 28.6749912
     },
@@ -7903,6 +8003,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1856485,
       "longitude": 28.7392517
     },
@@ -7979,6 +8080,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1811054,
       "longitude": 28.6124023
     },
@@ -8056,6 +8158,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1971304,
       "longitude": 28.7529569
     },
@@ -8133,6 +8236,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1961665,
       "longitude": 28.7164283
     },
@@ -8209,6 +8313,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.236352,
       "longitude": 28.59754
     },
@@ -8286,6 +8391,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1567159,
       "longitude": 28.6197555
     },
@@ -8363,6 +8469,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2147755,
       "longitude": 28.7468853
     },
@@ -8441,6 +8548,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1137686,
       "longitude": 28.6417481
     },
@@ -8518,6 +8626,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1860523,
       "longitude": 28.706634
     },
@@ -8595,6 +8704,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1842039,
       "longitude": 28.7426383
     },
@@ -8673,6 +8783,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1820124,
       "longitude": 28.7138086
     },
@@ -8749,6 +8860,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2113546,
       "longitude": 28.7382305
     },
@@ -8825,6 +8937,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1983924,
       "longitude": 28.7640375
     },
@@ -8901,6 +9014,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.180747,
       "longitude": 28.7605498
     },
@@ -8978,6 +9092,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1864182,
       "longitude": 28.7297098
     },
@@ -9056,6 +9171,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184082,
       "longitude": 28.741219
     },
@@ -9133,6 +9249,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1888378,
       "longitude": 28.7429157
     },
@@ -9210,6 +9327,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1851684,
       "longitude": 28.7400718
     },
@@ -9287,6 +9405,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1837458,
       "longitude": 28.6100904
     },
@@ -9364,6 +9483,7 @@
       "reviewsCount": 36,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1983759,
       "longitude": 28.7520468
     },
@@ -9440,6 +9560,7 @@
       "reviewsCount": 28,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1819071,
       "longitude": 28.7416849
     },
@@ -9514,6 +9635,7 @@
       "reviewsCount": 27,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1823965,
       "longitude": 28.7436374
     },
@@ -9588,6 +9710,7 @@
       "reviewsCount": 27,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1861523,
       "longitude": 28.7289964
     },
@@ -9662,6 +9785,7 @@
       "reviewsCount": 27,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1851408,
       "longitude": 28.7368677
     },
@@ -9736,6 +9860,7 @@
       "reviewsCount": 26,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.186143,
       "longitude": 28.7629
     },
@@ -9810,6 +9935,7 @@
       "reviewsCount": 22,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1977689,
       "longitude": 28.7058973
     },
@@ -9884,6 +10010,7 @@
       "reviewsCount": 19,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.193822,
       "longitude": 28.745108
     },
@@ -9959,6 +10086,7 @@
       "reviewsCount": 19,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3004958,
       "longitude": 28.6742252
     },
@@ -10034,6 +10162,7 @@
       "reviewsCount": 18,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.181095,
       "longitude": 28.7425584
     },
@@ -10111,6 +10240,7 @@
       "reviewsCount": 18,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1829882,
       "longitude": 28.7430181
     },
@@ -10188,6 +10318,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.183804,
       "longitude": 28.746484
     },
@@ -10264,6 +10395,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1859116,
       "longitude": 28.7375762
     },
@@ -10340,6 +10472,7 @@
       "reviewsCount": 16,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3458068,
       "longitude": 28.6826424
     },
@@ -10414,6 +10547,7 @@
       "reviewsCount": 16,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.185374,
       "longitude": 28.764984
     },
@@ -10488,6 +10622,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2632794,
       "longitude": 28.6807472
     },
@@ -10563,6 +10698,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1881088,
       "longitude": 28.7532059
     },
@@ -10639,6 +10775,7 @@
       "reviewsCount": 14,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1907725,
       "longitude": 28.7212226
     },
@@ -10713,6 +10850,7 @@
       "reviewsCount": 13,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1835184,
       "longitude": 28.7391662
     },
@@ -10788,6 +10926,7 @@
       "reviewsCount": 13,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1859315,
       "longitude": 28.7370014
     },
@@ -10864,6 +11003,7 @@
       "reviewsCount": 12,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.18277,
       "longitude": 28.743834
     },
@@ -10938,6 +11078,7 @@
       "reviewsCount": 11,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.202635,
       "longitude": 28.767
     },
@@ -11012,6 +11153,7 @@
       "reviewsCount": 11,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1854868,
       "longitude": 28.7634748
     },
@@ -11087,6 +11229,7 @@
       "reviewsCount": 10,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1845278,
       "longitude": 28.7126881
     },
@@ -11163,6 +11306,7 @@
       "reviewsCount": 34,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1845084,
       "longitude": 28.7396465
     },
@@ -11241,6 +11385,7 @@
       "reviewsCount": 32,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2042445,
       "longitude": 28.729758
     },
@@ -11322,6 +11467,7 @@
       "reviewsCount": 291,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1138501,
       "longitude": 28.6416218
     },
@@ -11399,6 +11545,7 @@
       "reviewsCount": 208,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1856894,
       "longitude": 28.7380184
     },
@@ -11475,6 +11622,7 @@
       "reviewsCount": 201,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.183432,
       "longitude": 28.7342905
     },
@@ -11555,6 +11703,7 @@
       "reviewsCount": 200,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1858095,
       "longitude": 28.7377369
     },
@@ -11631,6 +11780,7 @@
       "reviewsCount": 196,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2043344,
       "longitude": 28.7288831
     },
@@ -11707,6 +11857,7 @@
       "reviewsCount": 194,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1838005,
       "longitude": 28.7426707
     },
@@ -11783,6 +11934,7 @@
       "reviewsCount": 191,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1992796,
       "longitude": 28.7659897
     },
@@ -11859,6 +12011,7 @@
       "reviewsCount": 171,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.191944,
       "longitude": 28.7186799
     },
@@ -11935,6 +12088,7 @@
       "reviewsCount": 136,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2598009,
       "longitude": 28.7402892
     },
@@ -12011,6 +12165,7 @@
       "reviewsCount": 99,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1843586,
       "longitude": 28.7453186
     },
@@ -12087,6 +12242,7 @@
       "reviewsCount": 95,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1862082,
       "longitude": 28.7464354
     },
@@ -12163,6 +12319,7 @@
       "reviewsCount": 82,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1833256,
       "longitude": 28.7424952
     },
@@ -12239,6 +12396,7 @@
       "reviewsCount": 70,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1836537,
       "longitude": 28.7407704
     },
@@ -12315,6 +12473,7 @@
       "reviewsCount": 62,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1896047,
       "longitude": 28.7363545
     },
@@ -12392,6 +12551,7 @@
       "reviewsCount": 62,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1975275,
       "longitude": 28.7511619
     },
@@ -12468,6 +12628,7 @@
       "reviewsCount": 61,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1572684,
       "longitude": 28.6225793
     },
@@ -12544,6 +12705,7 @@
       "reviewsCount": 58,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1866805,
       "longitude": 28.76277
     },
@@ -12620,6 +12782,7 @@
       "reviewsCount": 53,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.184139,
       "longitude": 28.736639
     },
@@ -12697,6 +12860,7 @@
       "reviewsCount": 51,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1914777,
       "longitude": 28.7477629
     },
@@ -12773,6 +12937,7 @@
       "reviewsCount": 46,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1933539,
       "longitude": 28.7356658
     },
@@ -12849,6 +13014,7 @@
       "reviewsCount": 39,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1980881,
       "longitude": 28.7655917
     },
@@ -12925,6 +13091,7 @@
       "reviewsCount": 38,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1780546,
       "longitude": 28.7024286
     },
@@ -13001,6 +13168,7 @@
       "reviewsCount": 37,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1824853,
       "longitude": 28.7437611
     },
@@ -13077,6 +13245,7 @@
       "reviewsCount": 35,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1846767,
       "longitude": 28.7384611
     },
@@ -13153,6 +13322,7 @@
       "reviewsCount": 34,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1856031,
       "longitude": 28.7378041
     },
@@ -13230,6 +13400,7 @@
       "reviewsCount": 33,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1921778,
       "longitude": 28.733105
     },
@@ -13308,6 +13479,7 @@
       "reviewsCount": 31,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.208721,
       "longitude": 28.703047
     },
@@ -13386,6 +13558,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1966061,
       "longitude": 28.7211464
     },
@@ -13467,6 +13640,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1847581,
       "longitude": 28.7446409
     },
@@ -13548,6 +13722,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1834179,
       "longitude": 28.7468463
     },
@@ -13629,6 +13804,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2149182,
       "longitude": 28.7456958
     },
@@ -13708,6 +13884,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1848406,
       "longitude": 28.7483657
     },
@@ -13789,6 +13966,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1838005,
       "longitude": 28.7426707
     },
@@ -13870,6 +14048,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1994647,
       "longitude": 28.7663772
     },
@@ -13951,6 +14130,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184703,
       "longitude": 28.743481
     },
@@ -14032,6 +14212,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.186023,
       "longitude": 28.752578
     },
@@ -14113,6 +14294,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.187799,
       "longitude": 28.748576
     },
@@ -14194,6 +14376,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1957916,
       "longitude": 28.7171183
     },
@@ -14275,6 +14458,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1843609,
       "longitude": 28.7435459
     },
@@ -14356,6 +14540,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1823474,
       "longitude": 28.7633268
     },
@@ -14437,6 +14622,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.187472,
       "longitude": 28.7639951
     },
@@ -14518,6 +14704,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2173369,
       "longitude": 28.7450203
     },
@@ -14599,6 +14786,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1855293,
       "longitude": 28.7507589
     },
@@ -14680,6 +14868,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1834694,
       "longitude": 28.7415265
     },
@@ -14761,6 +14950,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.187468,
       "longitude": 28.747764
     },
@@ -14842,6 +15032,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1892456,
       "longitude": 28.7615854
     },
@@ -14923,6 +15114,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1837472,
       "longitude": 28.612349
     },
@@ -15004,6 +15196,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1839738,
       "longitude": 28.7427271
     },
@@ -15084,6 +15277,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.204866,
       "longitude": 28.732581
     },
@@ -15164,6 +15358,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1634302,
       "longitude": 28.7664408
     },
@@ -15244,6 +15439,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1612969,
       "longitude": 28.6206446
     },
@@ -15324,6 +15520,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1612969,
       "longitude": 28.6206446
     },
@@ -15404,6 +15601,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1818267,
       "longitude": 28.7449289
     },
@@ -15484,6 +15682,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.158126,
       "longitude": 28.6199801
     },
@@ -15564,6 +15763,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1883295,
       "longitude": 28.7377666
     },
@@ -15644,6 +15844,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1561856,
       "longitude": 28.6196791
     },
@@ -15724,6 +15925,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1845087,
       "longitude": 28.7396772
     },
@@ -15804,6 +16006,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1828383,
       "longitude": 28.7578456
     },
@@ -15884,6 +16087,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.261344,
       "longitude": 28.7395325
     },
@@ -15964,6 +16168,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1924834,
       "longitude": 28.7326138
     },
@@ -16044,6 +16249,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1554918,
       "longitude": 28.6165577
     },
@@ -16124,6 +16330,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.183405,
       "longitude": 28.7424624
     },
@@ -16204,6 +16411,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1826064,
       "longitude": 28.7396137
     },
@@ -16284,6 +16492,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.3030159,
       "longitude": 28.6774534
     },
@@ -16364,6 +16573,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1817652,
       "longitude": 28.7329175
     },
@@ -16444,6 +16654,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1829521,
       "longitude": 28.7133658
     },
@@ -16524,6 +16735,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1811868,
       "longitude": 28.7606293
     },
@@ -16604,6 +16816,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1812985,
       "longitude": 28.7603903
     },
@@ -16684,6 +16897,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.258366,
       "longitude": 28.6531806
     },
@@ -16764,6 +16978,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1809765,
       "longitude": 28.6121716
     },
@@ -16844,6 +17059,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2622738,
       "longitude": 28.7460303
     },
@@ -16924,6 +17140,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1855369,
       "longitude": 28.7628147
     },
@@ -17004,6 +17221,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1808676,
       "longitude": 28.6122398
     },
@@ -17084,6 +17302,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2612262,
       "longitude": 28.7402042
     },
@@ -17164,6 +17383,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1887929,
       "longitude": 28.7430803
     },
@@ -17244,6 +17464,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1871408,
       "longitude": 28.7376707
     },
@@ -17324,6 +17545,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.178285,
       "longitude": 28.7047294
     },
@@ -17404,6 +17626,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2017583,
       "longitude": 28.7296227
     },
@@ -17484,6 +17707,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1983456,
       "longitude": 28.726465
     },
@@ -17564,6 +17788,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1555659,
       "longitude": 28.616201
     },
@@ -17643,6 +17868,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1849621,
       "longitude": 28.7389918
     },
@@ -17722,6 +17948,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.189135,
       "longitude": 28.7543832
     },
@@ -17801,6 +18028,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1861703,
       "longitude": 28.7460271
     },
@@ -17880,6 +18108,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1108826,
       "longitude": 28.6389655
     },
@@ -17959,6 +18188,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1819256,
       "longitude": 28.7134751
     },
@@ -18038,6 +18268,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1847089,
       "longitude": 28.7364934
     },
@@ -18117,6 +18348,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1638924,
       "longitude": 28.6224565
     },
@@ -18196,6 +18428,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2028797,
       "longitude": 28.7687194
     },
@@ -18275,6 +18508,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1856665,
       "longitude": 28.6118147
     },
@@ -18354,6 +18588,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1109615,
       "longitude": 28.6390131
     },
@@ -18433,6 +18668,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1833017,
       "longitude": 28.7413721
     },
@@ -18512,6 +18748,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1110516,
       "longitude": 28.6541536
     },
@@ -18591,6 +18828,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3029983,
       "longitude": 28.6774566
     },
@@ -18670,6 +18908,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1830312,
       "longitude": 28.7416372
     },
@@ -18749,6 +18988,7 @@
       "reviewsCount": 0,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.15599,
       "longitude": 28.6206745
     },
@@ -18828,6 +19068,7 @@
       "reviewsCount": 26,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1816143,
       "longitude": 28.7443075
     },
@@ -18907,6 +19148,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1833256,
       "longitude": 28.7424952
     },
@@ -18986,6 +19228,7 @@
       "reviewsCount": 16,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1852356,
       "longitude": 28.7500492
     },
@@ -19065,6 +19308,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1811903,
       "longitude": 28.6110764
     },
@@ -19145,6 +19389,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1526024,
       "longitude": 28.6215359
     },
@@ -19224,6 +19469,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.197477,
       "longitude": 28.7142655
     },
@@ -19303,6 +19549,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1830637,
       "longitude": 28.7641647
     },
@@ -19382,6 +19629,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184232,
       "longitude": 28.7410735
     },
@@ -19461,6 +19709,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1858719,
       "longitude": 28.7376554
     },
@@ -19540,6 +19789,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.182839,
       "longitude": 28.7575165
     },
@@ -19619,6 +19869,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1823928,
       "longitude": 28.7442968
     },
@@ -19698,6 +19949,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.181523,
       "longitude": 28.760463
     },
@@ -19777,6 +20029,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1837549,
       "longitude": 28.7462355
     },
@@ -19856,6 +20109,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.184001,
       "longitude": 28.6121733
     },
@@ -19935,6 +20189,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1830221,
       "longitude": 28.7435218
     },
@@ -20014,6 +20269,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1867471,
       "longitude": 28.7626069
     },
@@ -20094,6 +20350,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2626466,
       "longitude": 28.7420963
     },
@@ -20174,6 +20431,7 @@
       "reviewsCount": 9,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1834358,
       "longitude": 28.7460605
     },
@@ -20252,6 +20510,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1873051,
       "longitude": 28.7411639
     },
@@ -20330,6 +20589,7 @@
       "reviewsCount": 8,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.197803,
       "longitude": 28.7570509
     },
@@ -20411,6 +20671,7 @@
       "reviewsCount": 7,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1822157,
       "longitude": 28.6108098
     },
@@ -20489,6 +20750,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1564182,
       "longitude": 28.619962
     },
@@ -20567,6 +20829,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1839041,
       "longitude": 28.7408886
     },
@@ -20645,6 +20908,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1843385,
       "longitude": 28.749068
     },
@@ -20723,6 +20987,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1910166,
       "longitude": 28.7448486
     },
@@ -20801,6 +21066,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1865578,
       "longitude": 28.7311171
     },
@@ -20879,6 +21145,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1843221,
       "longitude": 28.7413902
     },
@@ -20957,6 +21224,7 @@
       "reviewsCount": 6,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.187472,
       "longitude": 28.7639951
     },
@@ -21036,6 +21304,7 @@
       "reviewsCount": 5,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1739163,
       "longitude": 28.7039698
     },
@@ -21114,6 +21383,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3392269,
       "longitude": 28.6796994
     },
@@ -21192,6 +21462,7 @@
       "reviewsCount": 4,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.112225,
       "longitude": 28.6596133
     },
@@ -21270,6 +21541,7 @@
       "reviewsCount": 3,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2009074,
       "longitude": 28.7651798
     },
@@ -21353,6 +21625,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1836485,
       "longitude": 28.7406855
     },
@@ -21432,6 +21705,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.183429,
       "longitude": 28.74097
     },
@@ -21510,6 +21784,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1879227,
       "longitude": 28.7530774
     },
@@ -21588,6 +21863,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2576627,
       "longitude": 28.7425615
     },
@@ -21666,6 +21942,7 @@
       "reviewsCount": 2,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2638832,
       "longitude": 28.6327372
     },
@@ -21744,6 +22021,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1848382,
       "longitude": 28.7441205
     },
@@ -21822,6 +22100,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1830419,
       "longitude": 28.7429174
     },
@@ -21900,6 +22179,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1855976,
       "longitude": 28.7271502
     },
@@ -21978,6 +22258,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1928383,
       "longitude": 28.7484601
     },
@@ -22056,6 +22337,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1944208,
       "longitude": 28.7471262
     },
@@ -22134,6 +22416,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1910166,
       "longitude": 28.7448486
     },
@@ -22212,6 +22495,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3378291,
       "longitude": 28.6926216
     },
@@ -22290,6 +22574,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1563325,
       "longitude": 28.6229699
     },
@@ -22368,6 +22653,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.186416,
       "longitude": 28.762138
     },
@@ -22446,6 +22732,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1824439,
       "longitude": 28.743858
     },
@@ -22524,6 +22811,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.2671466,
       "longitude": 28.6900091
     },
@@ -22602,6 +22890,7 @@
       "reviewsCount": 1,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2043639,
       "longitude": 28.7294827
     },
@@ -22680,6 +22969,7 @@
       "reviewsCount": 64,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1842458,
       "longitude": 28.7421106
     },
@@ -22760,6 +23050,7 @@
       "reviewsCount": 49,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1840261,
       "longitude": 28.7404611
     },
@@ -22837,6 +23128,7 @@
       "reviewsCount": 38,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1850768,
       "longitude": 28.733833
     },
@@ -22914,6 +23206,7 @@
       "reviewsCount": 36,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1841035,
       "longitude": 28.7432383
     },
@@ -22992,6 +23285,7 @@
       "reviewsCount": 32,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1821615,
       "longitude": 28.7433866
     },
@@ -23069,6 +23363,7 @@
       "reviewsCount": 29,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1837132,
       "longitude": 28.7386412
     },
@@ -23146,6 +23441,7 @@
       "reviewsCount": 28,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.180897,
       "longitude": 28.760436
     },
@@ -23223,6 +23519,7 @@
       "reviewsCount": 27,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1843971,
       "longitude": 28.7434373
     },
@@ -23300,6 +23597,7 @@
       "reviewsCount": 26,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1548904,
       "longitude": 28.6333422
     },
@@ -23377,6 +23675,7 @@
       "reviewsCount": 26,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.15619,
       "longitude": 28.6181328
     },
@@ -23454,6 +23753,7 @@
       "reviewsCount": 25,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2038669,
       "longitude": 28.7414665
     },
@@ -23531,6 +23831,7 @@
       "reviewsCount": 23,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2013426,
       "longitude": 28.7650068
     },
@@ -23608,6 +23909,7 @@
       "reviewsCount": 22,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1841306,
       "longitude": 28.746699
     },
@@ -23685,6 +23987,7 @@
       "reviewsCount": 21,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1832771,
       "longitude": 28.7419539
     },
@@ -23762,6 +24065,7 @@
       "reviewsCount": 20,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1839024,
       "longitude": 28.7435304
     },
@@ -23839,6 +24143,7 @@
       "reviewsCount": 18,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1966273,
       "longitude": 28.7293728
     },
@@ -23916,6 +24221,7 @@
       "reviewsCount": 18,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1924855,
       "longitude": 28.7326531
     },
@@ -23993,6 +24299,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1815169,
       "longitude": 28.7578208
     },
@@ -24070,6 +24377,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2630431,
       "longitude": 28.6337717
     },
@@ -24147,6 +24455,7 @@
       "reviewsCount": 17,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1567037,
       "longitude": 28.6155064
     },
@@ -24224,6 +24533,7 @@
       "reviewsCount": 16,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1825195,
       "longitude": 28.7440764
     },
@@ -24301,6 +24611,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.181349,
       "longitude": 28.7391247
     },
@@ -24378,6 +24689,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1627745,
       "longitude": 28.6236616
     },
@@ -24455,6 +24767,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1543708,
       "longitude": 28.6232835
     },
@@ -24532,6 +24845,7 @@
       "reviewsCount": 15,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.3004129,
       "longitude": 28.6742569
     },
@@ -24609,6 +24923,7 @@
       "reviewsCount": 14,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1839776,
       "longitude": 28.7367016
     },
@@ -24686,6 +25001,7 @@
       "reviewsCount": 12,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1832492,
       "longitude": 28.7414241
     },
@@ -24763,6 +25079,7 @@
       "reviewsCount": 12,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1954323,
       "longitude": 28.7287133
     },
@@ -24840,6 +25157,7 @@
       "reviewsCount": 11,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1579247,
       "longitude": 28.6224168
     },
@@ -24917,6 +25235,7 @@
       "reviewsCount": 10,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1980111,
       "longitude": 28.7134287
     },
@@ -24994,6 +25313,7 @@
       "reviewsCount": 10,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1827888,
       "longitude": 28.7436868
     },
@@ -25072,6 +25392,7 @@
       "reviewsCount": 729,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.261336,
       "longitude": 28.7398587
     },
@@ -25151,6 +25472,7 @@
       "reviewsCount": 42,
       "hasOpeningHours": false,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1807767,
       "longitude": 28.6082573
     },
@@ -25230,6 +25552,7 @@
       "reviewsCount": 34,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1576097,
       "longitude": 28.6210058
     },
@@ -25311,6 +25634,7 @@
       "reviewsCount": 10453,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.261478,
       "longitude": 28.7390029
     },
@@ -25391,6 +25715,7 @@
       "reviewsCount": 1103,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1840098,
       "longitude": 28.7405577
     },
@@ -25469,6 +25794,7 @@
       "reviewsCount": 415,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1829286,
       "longitude": 28.7434563
     },
@@ -25547,6 +25873,7 @@
       "reviewsCount": 386,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1807803,
       "longitude": 28.7449105
     },
@@ -25625,6 +25952,7 @@
       "reviewsCount": 298,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1840649,
       "longitude": 28.743327
     },
@@ -25703,6 +26031,7 @@
       "reviewsCount": 261,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1826265,
       "longitude": 28.7356041
     },
@@ -25781,6 +26110,7 @@
       "reviewsCount": 239,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1839894,
       "longitude": 28.7378712
     },
@@ -25859,6 +26189,7 @@
       "reviewsCount": 203,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1820625,
       "longitude": 28.7449375
     },
@@ -25940,6 +26271,7 @@
       "reviewsCount": 187,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1860773,
       "longitude": 28.7395834
     },
@@ -26021,6 +26353,7 @@
       "reviewsCount": 134,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1875331,
       "longitude": 28.7372371
     },
@@ -26106,6 +26439,7 @@
       "reviewsCount": 125,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1834537,
       "longitude": 28.7459711
     },
@@ -26186,6 +26520,7 @@
       "reviewsCount": 125,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "unclaimed",
       "latitude": 41.1817989,
       "longitude": 28.7408989
     },
@@ -26264,6 +26599,7 @@
       "reviewsCount": 122,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1840788,
       "longitude": 28.7404698
     },
@@ -26342,6 +26678,7 @@
       "reviewsCount": 120,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1822914,
       "longitude": 28.7334632
     },
@@ -26420,6 +26757,7 @@
       "reviewsCount": 116,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1815086,
       "longitude": 28.7457198
     },
@@ -26498,6 +26836,7 @@
       "reviewsCount": 114,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1828919,
       "longitude": 28.7427228
     },
@@ -26580,6 +26919,7 @@
       "reviewsCount": 104,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1842424,
       "longitude": 28.7364443
     },
@@ -26658,6 +26998,7 @@
       "reviewsCount": 103,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.2079957,
       "longitude": 28.7251222
     },
@@ -26736,6 +27077,7 @@
       "reviewsCount": 94,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1970197,
       "longitude": 28.7112911
     },
@@ -26814,6 +27156,7 @@
       "reviewsCount": 87,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1604127,
       "longitude": 28.6243478
     },
@@ -26892,6 +27235,7 @@
       "reviewsCount": 84,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.204564,
       "longitude": 28.7408957
     },
@@ -26970,6 +27314,7 @@
       "reviewsCount": 80,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1846618,
       "longitude": 28.7478466
     },
@@ -27048,6 +27393,7 @@
       "reviewsCount": 73,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1830162,
       "longitude": 28.7416496
     },
@@ -27129,6 +27475,7 @@
       "reviewsCount": 73,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1862216,
       "longitude": 28.7540199
     },
@@ -27207,6 +27554,7 @@
       "reviewsCount": 72,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1846632,
       "longitude": 28.740834
     },
@@ -27285,6 +27633,7 @@
       "reviewsCount": 66,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.183912,
       "longitude": 28.7433516
     },
@@ -27363,6 +27712,7 @@
       "reviewsCount": 65,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1822714,
       "longitude": 28.7433373
     },
@@ -27441,6 +27791,7 @@
       "reviewsCount": 64,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1903544,
       "longitude": 28.7436567
     },
@@ -27521,6 +27872,7 @@
       "reviewsCount": 61,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1856028,
       "longitude": 28.6124259
     },
@@ -27599,6 +27951,7 @@
       "reviewsCount": 59,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1832338,
       "longitude": 28.7413664
     },
@@ -27678,6 +28031,7 @@
       "reviewsCount": 56,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1837596,
       "longitude": 28.7384434
     },
@@ -27756,6 +28110,7 @@
       "reviewsCount": 53,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1839874,
       "longitude": 28.7406717
     },
@@ -27834,6 +28189,7 @@
       "reviewsCount": 50,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1819444,
       "longitude": 28.7131523
     },
@@ -27912,6 +28268,7 @@
       "reviewsCount": 49,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1808261,
       "longitude": 28.6122659
     },
@@ -27990,6 +28347,7 @@
       "reviewsCount": 47,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1817215,
       "longitude": 28.7409792
     },
@@ -28068,6 +28426,7 @@
       "reviewsCount": 42,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.182092,
       "longitude": 28.7435626
     },
@@ -28146,6 +28505,7 @@
       "reviewsCount": 37,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1846488,
       "longitude": 28.7076147
     },
@@ -28224,6 +28584,7 @@
       "reviewsCount": 34,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1786391,
       "longitude": 28.7465389
     },
@@ -28302,6 +28663,7 @@
       "reviewsCount": 31,
       "hasOpeningHours": true,
       "isClosed": false,
+      "ownershipStatus": "claimed",
       "latitude": 41.1112496,
       "longitude": 28.6391653
     },

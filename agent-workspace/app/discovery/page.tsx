@@ -3,6 +3,7 @@ import { AdminShell } from '@/components/admin/AdminShell'
 import { DiscoveryRowActions } from '@/components/discovery/DiscoveryRowActions'
 import { readDiscoveryRuntimeState } from '@/lib/discovery/runtime'
 import { filterDiscoveryRows, normalizeDiscoveryFilters, readDiscoverySummary, sortDiscoveryRows } from '@/lib/discovery/service'
+import type { DiscoveryOwnershipStatus } from '@/lib/discovery/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +17,12 @@ const bucketLabels = {
   review: 'İncele',
   skip: 'Ele',
 } as const
+
+const ownershipLabels: Record<DiscoveryOwnershipStatus, string> = {
+  claimed: 'Alinmis',
+  unclaimed: 'Alinmamis',
+  unknown: 'Bilinmiyor',
+}
 
 function formatRating(value: number | null) {
   return typeof value === 'number' ? value.toFixed(1) : '—'
@@ -50,7 +57,7 @@ function getSortLabel(isActive: boolean, dir: 'asc' | 'desc') {
   return dir === 'asc' ? '↑' : '↓'
 }
 
-function getDefaultSortDirection(key: 'segment' | 'score' | 'reviews' | 'contact' | 'coverage' | 'decision' | 'actions') {
+function getDefaultSortDirection(key: 'segment' | 'score' | 'reviews' | 'contact' | 'ownership' | 'coverage' | 'decision' | 'actions') {
   if (key === 'segment' || key === 'decision') return 'asc' as const
   return 'desc' as const
 }
@@ -79,9 +86,10 @@ export default async function DiscoveryPage({
     withWebsite: rows.filter((row) => row.candidate.hasWebsite).length,
     withPhone: rows.filter((row) => Boolean(row.candidate.phone.trim())).length,
     multiTerm: rows.filter((row) => row.source.matchedSearchTermCount > 1).length,
+    unclaimed: rows.filter((row) => row.candidate.ownershipStatus === 'unclaimed').length,
   }
 
-  function buildSortHref(key: 'segment' | 'score' | 'reviews' | 'contact' | 'coverage' | 'decision' | 'actions') {
+  function buildSortHref(key: 'segment' | 'score' | 'reviews' | 'contact' | 'ownership' | 'coverage' | 'decision' | 'actions') {
     const nextDir = filters.sort === key
       ? (filters.dir === 'desc' ? 'asc' : 'desc')
       : getDefaultSortDirection(key)
@@ -170,10 +178,11 @@ export default async function DiscoveryPage({
           </div>
           <ul className="list">
             <li>Skor ve kova ilk eleme sinyalidir, son karar degil.</li>
-            <li>Coklu arama teriminde gorunen adaylar daha guclu gorunurluk sinyali verir.</li>
+            <li>Coklu arama teriminde gorenen adaylar daha guclu gorunurluk sinyali verir.</li>
+            <li>Sahiplik durumu, kaydin alinip alinmadigini sonraki scrape'lerde hizlica ayirmak icin tutulur.</li>
             <li>Shortlist butonu manuel secimi saklar, Project OS butonu ise Business ve Audit acarak adaylari ana hatta tasir.</li>
           </ul>
-          <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi.</p>
+          <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi, {stats.unclaimed} tanesinde kayit alinmamis sinyali var.</p>
         </article>
       </section>
 
@@ -209,6 +218,11 @@ export default async function DiscoveryPage({
                 <th>
                   <Link href={buildSortHref('contact')} className="discovery-sort-link">
                     Iletisim <span>{getSortLabel(filters.sort === 'contact', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('ownership')} className="discovery-sort-link">
+                    Sahiplik <span>{getSortLabel(filters.sort === 'ownership', filters.dir)}</span>
                   </Link>
                 </th>
                 <th>
@@ -270,6 +284,12 @@ export default async function DiscoveryPage({
                   </td>
                   <td>
                     <div className="stack-xs">
+                      <span>{ownershipLabels[row.candidate.ownershipStatus]}</span>
+                      <span className="muted">{row.candidate.ownershipStatus === 'unclaimed' ? 'claimThisBusiness=true' : row.candidate.ownershipStatus === 'claimed' ? 'claimThisBusiness=false' : 'Alan yok'}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="stack-xs">
                       <span>{row.source.matchedSearchTerms.join(', ') || 'Terim yok'}</span>
                       <span className="muted">{row.source.matchedSearchTermCount} terim</span>
                     </div>
@@ -304,7 +324,7 @@ export default async function DiscoveryPage({
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={8} className="muted">Bu filtreyle eslesen aday yok.</td>
+                  <td colSpan={9} className="muted">Bu filtreyle eslesen aday yok.</td>
                 </tr>
               )}
             </tbody>

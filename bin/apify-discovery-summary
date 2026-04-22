@@ -74,6 +74,15 @@ def extract_website(row: dict[str, Any]) -> tuple[str, bool]:
     return '', False
 
 
+def ownership_status(row: dict[str, Any]) -> str:
+    claim_this_business = row.get('claimThisBusiness')
+    if claim_this_business is True:
+        return 'unclaimed'
+    if claim_this_business is False:
+        return 'claimed'
+    return 'unknown'
+
+
 def detect_district(row: dict[str, Any], location_query: str) -> str:
     address = ' '.join(str(row.get(k) or '') for k in ('address', 'city', 'state'))
     address_norm = normalize_text(address)
@@ -234,6 +243,7 @@ def build_summary() -> list[dict[str, Any]]:
                         'reviewsCount': int(row.get('reviewsCount') or 0),
                         'hasOpeningHours': bool(row.get('openingHours')),
                         'isClosed': bool(row.get('temporarilyClosed') or row.get('permanentlyClosed')),
+                        'ownershipStatus': ownership_status(row),
                         'latitude': location.get('lat'),
                         'longitude': location.get('lng'),
                     },
@@ -262,6 +272,12 @@ def build_summary() -> list[dict[str, Any]]:
             candidate['reviewsCount'] = max(int(candidate.get('reviewsCount') or 0), int(row.get('reviewsCount') or 0))
             candidate['hasOpeningHours'] = bool(candidate.get('hasOpeningHours') or row.get('openingHours'))
             candidate['isClosed'] = bool(candidate.get('isClosed') or row.get('temporarilyClosed') or row.get('permanentlyClosed'))
+            current_ownership = candidate.get('ownershipStatus')
+            new_ownership = ownership_status(row)
+            if current_ownership != 'unclaimed' and new_ownership == 'unclaimed':
+                candidate['ownershipStatus'] = 'unclaimed'
+            elif current_ownership in (None, '', 'unknown') and new_ownership in ('claimed', 'unclaimed'):
+                candidate['ownershipStatus'] = new_ownership
             candidate['mapsUrl'] = str(first_truthy(candidate.get('mapsUrl'), row.get('url')) or '')
             candidate['placeId'] = str(first_truthy(candidate.get('placeId'), row.get('placeId')) or '')
             candidate['categoryName'] = str(first_truthy(candidate.get('categoryName'), row.get('categoryName')) or '')
@@ -331,6 +347,7 @@ def write_outputs(summary_rows: list[dict[str, Any]]) -> None:
         'reviewsCount',
         'hasOpeningHours',
         'isClosed',
+        'ownershipStatus',
         'matchedSearchTerms',
         'missingSearchTerms',
         'matchedSegments',
@@ -369,6 +386,7 @@ def write_outputs(summary_rows: list[dict[str, Any]]) -> None:
                 'reviewsCount': entry['candidate'].get('reviewsCount'),
                 'hasOpeningHours': entry['candidate'].get('hasOpeningHours'),
                 'isClosed': entry['candidate'].get('isClosed'),
+                'ownershipStatus': entry['candidate'].get('ownershipStatus'),
                 'matchedSearchTerms': ' | '.join(entry['source'].get('matchedSearchTerms') or []),
                 'missingSearchTerms': ' | '.join(entry['source'].get('missingSearchTerms') or []),
                 'matchedSegments': ' | '.join(entry['source'].get('matchedSegments') or []),

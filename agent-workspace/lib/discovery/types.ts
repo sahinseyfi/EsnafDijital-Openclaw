@@ -1,6 +1,8 @@
 export type DiscoverySegment = 'berber' | 'guzellik salonu'
 export type DiscoveryBucket = 'shortlist' | 'review' | 'skip'
 
+export type DiscoveryOwnershipStatus = 'claimed' | 'unclaimed' | 'unknown'
+
 export type DiscoverySummaryRow = {
   source: {
     segment: DiscoverySegment
@@ -33,6 +35,7 @@ export type DiscoverySummaryRow = {
     reviewsCount: number
     hasOpeningHours: boolean
     isClosed: boolean
+    ownershipStatus: DiscoveryOwnershipStatus
     latitude: number | null
     longitude: number | null
   }
