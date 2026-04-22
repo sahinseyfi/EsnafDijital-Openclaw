@@ -1,4 +1,6 @@
 import Link from 'next/link'
+
+export const dynamic = 'force-dynamic'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { getProjectOsDataset } from '@/lib/project-os/service'

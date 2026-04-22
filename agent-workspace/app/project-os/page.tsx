@@ -1,4 +1,6 @@
 import Link from 'next/link'
+
+export const dynamic = 'force-dynamic'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { AuditCreateForm } from '@/components/project-os/AuditCreateForm'
 import { BusinessCreateForm } from '@/components/project-os/BusinessCreateForm'

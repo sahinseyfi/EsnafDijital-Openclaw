@@ -1,4 +1,6 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+
+export const dynamic = 'force-dynamic'
 import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
 import { ConsultationInboxList } from '@/components/consultation-center/ConsultationInboxList'
 import { PromptPreparationEffect } from '@/components/consultation-center/PromptPreparationEffect'

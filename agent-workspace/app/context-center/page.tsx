@@ -1,4 +1,6 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+
+export const dynamic = 'force-dynamic'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
