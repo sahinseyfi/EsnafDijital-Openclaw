@@ -43,6 +43,8 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Eksik kritik bilgi varsa uydurma, acik bosluk veya varsayim olarak etiketle.
 - Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini bozma.
 - Genel framework veya pazarlama dili yazma.
+- Citation, footnote, kaynakca, markdown reference link veya `[1]`, `[2]`, `([GitHub][1])` benzeri atif stili kullanma.
+- Link gerekiyorsa dogrudan URL olarak yaz.
 - Oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta koyma.
 - Prompt kullanicinin degil, promptu okuyacak GPT/ajanin hemen uygulayacagi sekilde yazilsin.
 - finalPromptText alanini dogrudan yaz; ayri kod/template katmani son promptu tekrar kurmayacak varsay.

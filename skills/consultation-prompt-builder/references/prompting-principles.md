@@ -15,7 +15,8 @@
 8. Uygunsa teknik olmayan kisa ozeti JSON disinda, ayri bir ikinci bolum olarak iste.
 9. finalPromptText'i dogrudan son prompt olarak yaz, sonradan template ile toparlanacak taslak gibi birakma.
 10. Sabit rol, acik repo referansi ve uygulanabilir gorev tanimi kullan.
-11. Promptu hemen uygulanabilir yaz.
+11. Citation, footnote veya markdown reference link kullanma; link gerekiyorsa dogrudan URL ver.
+12. Promptu hemen uygulanabilir yaz.
 
 ## Tercih edilen prompt omurgasi
 - rol
@@ -35,3 +36,4 @@
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta tasimak
 - son prompt yerine kodun toparlayacagi yarim taslak uretmek
 - repo linklerini veya runtime gercegini ima edip acik yazmamak
+- `[1]`, `[2]`, `([GitHub][1])` gibi atif/footnote stili kullanmak

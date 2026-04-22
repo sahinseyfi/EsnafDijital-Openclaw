@@ -17,6 +17,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - sinirlar ve basari kosulu yazili mi
 - gerekiyorsa teknik olmayan kisa ozet istegi JSON disinda ayri bir bolum olarak var mi
 - oturum hafizasi veya baglam eksigi meta cumlesi prompta yazilmamis mi
+- citation/footnote veya markdown reference atif stili yok mu
 - finalPromptText dogrudan kullanilacak son prompt gibi mi
 - contextRefs en fazla 4 ogeye dusurulmus mu
 
@@ -27,3 +28,4 @@ Promptu hazir saymadan once sunlari kontrol et:
 - gereksiz teori promptun agirligini artiriyorsa
 - eksik kritik bilgi saklaniyorsa
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleler final promptta geciyorsa
+- `[1]`, `[2]`, `([GitHub][1])` gibi atif veya footnote stili geciyorsa
