@@ -20,12 +20,12 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Supabase ana DB uzerinde ilk gercek Project OS / Consultation Center kayitlarini olusturup veri akisinin DB modunda calistigini operasyon tarafinda kullanarak dogrulamak
+- ilk teklif paketini Project OS uzerindeki gercek kayitlarla esleyip teklif omurgasini daha net operasyon verisine baglamak
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
-- Supabase public schema ve admin runtime baglantisi hazir, fakat DB halen bos; mock fallback'ten tamamen cikmak icin ilk gercek kayitlarin akisa alinmasi gerekiyor
+- Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
