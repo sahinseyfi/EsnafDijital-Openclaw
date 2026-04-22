@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationDetail } from '@/lib/consultation-center/types'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 export function ActionCreateForm({ consultation }: { consultation: ConsultationDetail }) {
   const router = useRouter()
@@ -40,8 +41,8 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
       setTitle('')
       setLinkedEntityId('')
       router.refresh()
-    } catch (error: any) {
-      setErrorText(error?.message || 'Aksiyon eklenemedi')
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Aksiyon eklenemedi'))
     } finally {
       setBusy(false)
     }
@@ -79,7 +80,7 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
-        <span>Hedef kayıt id (opsiyonel)</span>
+        <span>Hedef kayıt kimliği (isteğe bağlı)</span>
         <input value={linkedEntityId} onChange={(event) => setLinkedEntityId(event.target.value)} placeholder="Örn: offer-v1" />
       </label>
 

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationAction, ConsultationOwnerRole } from '@/lib/consultation-center/types'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 function ownerLabel(value: ConsultationOwnerRole) {
   if (value === 'user') return 'Kullanıcı işi'
@@ -36,8 +37,8 @@ export function ActionStatusList({ consultationId, actions }: { consultationId: 
         throw new Error(json.message || 'Aksiyon güncellenemedi')
       }
       router.refresh()
-    } catch (error: any) {
-      setErrorText(error?.message || 'Aksiyon güncellenemedi')
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Aksiyon güncellenemedi'))
     } finally {
       setBusyId(null)
     }
@@ -50,7 +51,7 @@ export function ActionStatusList({ consultationId, actions }: { consultationId: 
       <ul className="list">
         {actions.map((action) => {
           const nextStatus = action.status === 'done' ? 'open' : 'done'
-          const buttonText = action.status === 'done' ? 'Yeniden aç' : 'Tamamlandı işaretle'
+          const buttonText = action.status === 'done' ? 'Yeniden aç' : 'Tamamlandı olarak işaretle'
           return (
             <li key={action.id}>
               <div className="stack-xs">

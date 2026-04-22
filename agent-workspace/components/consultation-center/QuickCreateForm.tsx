@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 export function QuickCreateForm() {
   const router = useRouter()
@@ -46,15 +47,15 @@ export function QuickCreateForm() {
 
       const createdId = json?.created?.id
       if (!createdId) {
-        throw new Error('Yeni kayıt id dönmedi')
+        throw new Error('Yeni kayıt kimliği dönmedi')
       }
 
       setTitle('')
       setNote('')
       router.replace(`/consultation-center?selectedId=${encodeURIComponent(createdId)}`)
       router.refresh()
-    } catch (error: any) {
-      setErrorText(error?.message || 'Kayıt oluşturulamadı')
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Kayıt oluşturulamadı'))
     } finally {
       setBusy(false)
     }
@@ -66,7 +67,7 @@ export function QuickCreateForm() {
         <div>
           <p className="eyebrow">1. İstek metni</p>
           <h3>Neyi değiştirmek istiyorsun?</h3>
-          <p className="muted">Buraya düz metin yaz. Kayıt açılınca sistem otomatik bağlam seçip promptu hazırlayacak.</p>
+          <p className="muted">Buraya düz metin yazın. Kayıt açılınca sistem uygun bağlamı seçip promptu hazırlayacak.</p>
         </div>
         <button
           type="button"
@@ -116,7 +117,7 @@ export function QuickCreateForm() {
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button type="submit" className="button-primary" disabled={busy}>
-                {busy ? 'Kayıt ve prompt hazırlanıyor...' : 'Kaydı aç'}
+                {busy ? 'Kayıt açılıyor, prompt hazırlanıyor...' : 'Kaydı aç'}
               </button>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationDetail } from '@/lib/consultation-center/types'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 export function ConsultationDetailEditor({ consultation }: { consultation: ConsultationDetail }) {
   const router = useRouter()
@@ -50,16 +51,10 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         throw new Error(json.message || rawText || 'Metin kaydedilemedi')
       }
 
-      setSuccessText('Metin kaydedildi')
+      setSuccessText('İstek metni kaydedildi')
       router.refresh()
-    } catch (error: any) {
-      if (error instanceof SyntaxError) {
-        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
-      } else if (error?.name === 'TypeError') {
-        setErrorText('Sunucuya ulaşılamadı. Bağlantı ya da servis geçici olarak düşmüş olabilir.')
-      } else {
-        setErrorText(error?.message || 'Metin kaydedilemedi')
-      }
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'İstek metni kaydedilemedi'))
     } finally {
       setBusyAction(null)
     }
@@ -85,16 +80,10 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         throw new Error(json.message || rawText || 'Prompt hazırlanamadı')
       }
 
-      setSuccessText('Prompt yenilendi')
+      setSuccessText('Prompt güncellendi')
       router.refresh()
-    } catch (error: any) {
-      if (error instanceof SyntaxError) {
-        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
-      } else if (error?.name === 'TypeError') {
-        setErrorText('Sunucuya ulaşılamadı. Bağlantı ya da servis geçici olarak düşmüş olabilir.')
-      } else {
-        setErrorText(error?.message || 'Prompt hazırlanamadı')
-      }
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Prompt hazırlanamadı'))
     } finally {
       setBusyAction(null)
     }
@@ -121,14 +110,8 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
 
       router.replace('/consultation-center')
       router.refresh()
-    } catch (error: any) {
-      if (error instanceof SyntaxError) {
-        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
-      } else if (error?.name === 'TypeError') {
-        setErrorText('Sunucuya ulaşılamadı. Bağlantı ya da servis geçici olarak düşmüş olabilir.')
-      } else {
-        setErrorText(error?.message || 'Kayıt silinemedi')
-      }
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Kayıt silinemedi'))
     } finally {
       setBusyAction(null)
     }
@@ -145,7 +128,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       <div>
         <p className="eyebrow">2. Metni prompta çevir</p>
         <h3>Ne yapmak istediğini yaz</h3>
-        <p className="muted">Metni güncelle. Sistem sıfır hafızalı GPT oturumu için promptu yeniden kursun.</p>
+        <p className="muted">Metni güncelle. Sistem bu kaydı yeniden toparlayıp promptu baştan kursun.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -190,7 +173,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
             {busyAction === 'save' ? 'Kaydediliyor...' : 'Metni kaydet'}
           </button>
           <button type="button" className="button-primary" disabled={busyAction !== null || !summary.trim()} onClick={handleSuggest}>
-            {busyAction === 'suggest' ? 'Prompt hazırlanıyor...' : 'Promptu yenile'}
+            {busyAction === 'suggest' ? 'Prompt hazırlanıyor...' : 'Promptu güncelle'}
           </button>
         </div>
       </div>

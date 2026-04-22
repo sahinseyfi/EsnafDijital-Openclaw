@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { getConsultationClientMessage, humanizeConsultationMessage } from '@/lib/consultation-center/messages'
 
 export function PromptPreviewCard({
   consultationId,
@@ -79,10 +80,10 @@ export function PromptPreviewCard({
       }
 
       setChangeRequest('')
-      setSuccessText('Prompt isteğine göre yeniden düzenlendi')
+      setSuccessText('Prompt isteğine göre güncellendi')
       router.refresh()
-    } catch (error: any) {
-      setChangeError(error?.message || 'Prompt yeniden düzenlenemedi')
+    } catch (error: unknown) {
+      setChangeError(getConsultationClientMessage(error, 'Prompt yeniden düzenlenemedi'))
     } finally {
       setBusy(false)
     }
@@ -102,8 +103,8 @@ export function PromptPreviewCard({
         ) : null}
       </div>
       <p className="muted">{fallbackText}</p>
-      {promptStatus === 'preparing' ? <p className="muted">Sistem promptu şimdi hazırlıyor.</p> : null}
-      {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{promptError || 'Prompt hazırlanırken hata oldu. "Promptu yenile" ile tekrar deneyebilirsin.'}</p> : null}
+      {promptStatus === 'preparing' ? <p className="muted">Prompt şu anda hazırlanıyor.</p> : null}
+      {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{humanizeConsultationMessage(promptError, 'Prompt hazırlanırken bir sorun çıktı. "Promptu güncelle" ile tekrar deneyebilirsiniz.')}</p> : null}
       {promptSummary.length && promptStatus === 'ready' ? (
         <ul className="list">
           {promptSummary.map((item) => (
@@ -118,7 +119,7 @@ export function PromptPreviewCard({
           <form onSubmit={handleSuggestChange} className="card stack-sm">
             <div>
               <strong>Değişiklik öner</strong>
-              <p className="muted">Promptta neyin değişmesini istediğini kısa yaz. Sistem promptu buna göre yeniden düzenlesin.</p>
+              <p className="muted">Promptta neyin değişmesini istediğinizi kısa yazın. Sistem buna göre promptu yeniden kursun.</p>
             </div>
             <textarea
               value={changeRequest}
@@ -130,7 +131,7 @@ export function PromptPreviewCard({
             {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button type="submit" className="button-secondary" disabled={busy}>
-                {busy ? 'Yeniden düzenleniyor...' : 'Promptu yeniden düzenle'}
+                {busy ? 'Yeniden kuruluyor...' : 'Promptu yeniden kur'}
               </button>
             </div>
           </form>

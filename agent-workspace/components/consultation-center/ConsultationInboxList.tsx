@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { ConsultationInboxItem } from '@/lib/consultation-center/types'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
   if (value === 'ready') return 'Prompt hazır'
@@ -39,13 +40,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       }
       router.refresh()
     } catch (error: unknown) {
-      if (error instanceof SyntaxError) {
-        setErrorText('Sunucudan beklenmeyen cevap geldi. Sayfayı yenileyip tekrar dene.')
-      } else if (error instanceof Error) {
-        setErrorText(error.message || 'Kayıt silinemedi')
-      } else {
-        setErrorText('Kayıt silinemedi')
-      }
+      setErrorText(getConsultationClientMessage(error, 'Kayıt silinemedi'))
     } finally {
       setDeletingId(null)
     }
@@ -57,7 +52,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
         <div>
           <p className="eyebrow">Kayıtlar</p>
           <h3>Açık danışma kayıtları</h3>
-          <p className="muted">Bir kayıt seç, metni düzenle, promptu al, cevabı işle.</p>
+          <p className="muted">Bir kayıt seçin, metni düzenleyin, promptu alın, ardından gelen cevabı işleyin.</p>
         </div>
 
         {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}

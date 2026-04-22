@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationDetail } from '@/lib/consultation-center/types'
+import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
 
 export function ResponseCaptureForm({ consultation }: { consultation: ConsultationDetail }) {
   const router = useRouter()
@@ -62,10 +63,10 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
         throw new Error(saveRunJson.message || 'GPT cevabı kaydedilemedi')
       }
 
-      setSuccessText('Cevap ve karar kaydedildi')
+      setSuccessText('Cevap ile karar notu kaydedildi')
       router.refresh()
-    } catch (error: any) {
-      setErrorText(error?.message || 'Cevap ve karar kaydedilemedi')
+    } catch (error: unknown) {
+      setErrorText(getConsultationClientMessage(error, 'Cevap ile karar notu kaydedilemedi'))
     } finally {
       setBusy(false)
     }
@@ -76,7 +77,7 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
       <div>
         <p className="eyebrow">3. Cevap ve karar</p>
         <h3>GPT cevabını işle</h3>
-        <p className="muted">GPT cevabını yapıştır. Altına kendi karar notunu yaz. Bu kayıt artık karar üretmiş olsun.</p>
+        <p className="muted">Gelen cevabı yapıştırın. Altına kendi karar notunuzu yazın. Böylece kayıt net bir karara bağlansın.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -113,7 +114,7 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
 
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <button type="submit" className="button-primary" disabled={busy || !responseText.trim()}>
-          {busy ? 'Kaydediliyor...' : 'Cevap ve kararı kaydet'}
+          {busy ? 'Kaydediliyor...' : 'Cevap ile kararı kaydet'}
         </button>
       </div>
     </form>
