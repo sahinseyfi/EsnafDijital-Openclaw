@@ -52,6 +52,7 @@ Bu satis ve konumlama acisindan degerli bir sinyaldir. Isletmenin Google tarafin
 
 Bu yuzden dedupe sirasinda su bilgi korunacak:
 - hangi arama terimlerinde gorundu
+- hangi arama gruplarinda/segmentlerinde gorundu
 - kac farkli arama teriminde gorundu
 - ilk hangi arama terimiyle yakalandi
 
@@ -69,8 +70,8 @@ Bu komut su dosyalari uretir:
 ## Sonraki adim
 Summary komutu su isi yapar:
 - maps url veya place benzeri benzersiz alanla dedupe
-- dedupe sirasinda `matchedSearchTerms` bilgisini kaybetmeden birlestir
-- `missingSearchTerms` alanini hesapla
+- dedupe sirasinda `matchedSearchTerms` ve `matchedSegments` bilgisini kaybetmeden birlestir
+- `missingSearchTerms` ve `missingSegments` alanlarini hesapla
 - gorunurluk skorunu hesapla
 - summary tabloyu JSON ve CSV olarak yazar
 
