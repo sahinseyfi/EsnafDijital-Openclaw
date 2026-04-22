@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AdminShell } from '@/components/admin/AdminShell'
+import { DiscoveryRowActions } from '@/components/discovery/DiscoveryRowActions'
 import { readDiscoveryRuntimeState } from '@/lib/discovery/runtime'
 import { readDiscoveryRow } from '@/lib/discovery/service'
 import type { DiscoveryOwnershipStatus } from '@/lib/discovery/types'
@@ -71,7 +72,43 @@ export default async function DiscoveryDetailPage({
           {isShortlisted ? <span className="badge">Shortlistte</span> : null}
           {importInfo ? <span className="badge">Project OSa aktarildi</span> : null}
         </div>
+
+        <DiscoveryRowActions
+          placeId={row.candidate.placeId}
+          initiallyShortlisted={isShortlisted}
+          importInfo={importInfo || null}
+          payload={{
+            placeId: row.candidate.placeId,
+            name: row.candidate.name,
+            segment: row.source.segment,
+            district: row.candidate.district,
+            address: row.candidate.address,
+            categoryName: row.candidate.categoryName,
+            phone: row.candidate.phone,
+            websiteUrl: row.candidate.websiteUrl,
+            reviewsCount: row.candidate.reviewsCount,
+            score: row.scoring.score,
+            matchedSearchTerms: row.source.matchedSearchTerms,
+          }}
+        />
       </section>
+
+      {importInfo ? (
+        <section className="card stack-sm">
+          <div>
+            <p className="eyebrow">Project OS baglantisi</p>
+            <h3>Bu aday ana hatta tasindi</h3>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <span className="badge">Business {importInfo.businessId.slice(0, 8)}</span>
+            <span className="badge">Audit {importInfo.auditId.slice(0, 8)}</span>
+            {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarim {importInfo.importedAt}</span> : null}
+          </div>
+          <div className="page-header-actions">
+            <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">Business kaydini ac</Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <article className="card stack-sm">
@@ -148,6 +185,10 @@ export default async function DiscoveryDetailPage({
             <div>
               <dt className="eyebrow">Ilk gorulme</dt>
               <dd>{row.source.collectedAt || 'Yok'}</dd>
+            </div>
+            <div>
+              <dt className="eyebrow">Mevcut scrape ozeti</dt>
+              <dd>{row.source.rawRecordCount} ham kayittan ozetlenmis, {row.source.matchedSearchTermCount} arama teriminde yakalanmis.</dd>
             </div>
           </dl>
         </article>
