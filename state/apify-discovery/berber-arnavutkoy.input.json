@@ -1,0 +1,9 @@
+{
+  "searchStringsArray": [
+    "berber"
+  ],
+  "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
+  "maxCrawledPlacesPerSearch": 60,
+  "scrapePlaceDetailPage": true,
+  "skipClosedPlaces": true
+}

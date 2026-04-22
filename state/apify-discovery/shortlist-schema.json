@@ -1,0 +1,34 @@
+{
+  "source": {
+    "segment": "berber",
+    "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
+    "collectedAt": "ISO-8601"
+  },
+  "candidate": {
+    "name": "",
+    "mapsUrl": "",
+    "placeId": "",
+    "segment": "",
+    "address": "",
+    "district": "Arnavutkoy",
+    "phone": "",
+    "websiteUrl": "",
+    "hasWebsite": false,
+    "rating": null,
+    "reviewsCount": 0,
+    "hasOpeningHours": false,
+    "isClosed": false,
+    "latitude": null,
+    "longitude": null
+  },
+  "scoring": {
+    "score": 0,
+    "bucket": "shortlist|review|drop",
+    "reasons": []
+  },
+  "rules": {
+    "shortlist": "score >= 5",
+    "review": "score 3-4",
+    "drop": "score <= 2"
+  }
+}
