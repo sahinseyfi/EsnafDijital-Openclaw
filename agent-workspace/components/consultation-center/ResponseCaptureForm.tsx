@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationDetail } from '@/lib/consultation-center/types'
 import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
@@ -14,15 +14,6 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
   const [busy, setBusy] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [successText, setSuccessText] = useState<string | null>(null)
-
-  useEffect(() => {
-    setModelName(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
-    setPromptText(consultation.promptRun.promptText || '')
-    setResponseText(consultation.promptRun.responseSummary || '')
-    setDecisionNote(String(consultation.sharedBrief?.kararNotu || ''))
-    setErrorText(null)
-    setSuccessText(null)
-  }, [consultation])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -101,7 +92,7 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
 
       <label style={{ display: 'grid', gap: 6 }}>
         <span>GPT cevabı</span>
-        <textarea value={responseText} onChange={(event) => setResponseText(event.target.value)} rows={8} placeholder="GPT'den gelen cevabı buraya yapıştır." />
+        <textarea value={responseText} onChange={(event) => setResponseText(event.target.value)} rows={8} placeholder="GPT'den gelen cevabı buraya yapıştırın." />
       </label>
 
       <label style={{ display: 'grid', gap: 6 }}>

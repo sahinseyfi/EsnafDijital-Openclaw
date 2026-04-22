@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function POST(_request: NextRequest) {
+export async function POST() {
   return NextResponse.json(
     {
       ok: false,
-      message: 'Bu akış kapatıldı. Yeni workspace/business profili için yeniden auth başlatıp gerçek hesap bağlamıyla kaydet.',
+      message: 'Bu akış kapatıldı. Yeni çalışma alanı veya işletme profili için kimlik doğrulamayı yeniden başlatıp gerçek hesapla kaydedin.',
     },
     { status: 400 },
   )

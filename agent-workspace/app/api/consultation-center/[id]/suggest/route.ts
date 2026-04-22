@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
+import { humanizeConsultationMessage } from '@/lib/consultation-center/messages'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -70,7 +71,8 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     }
 
     return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = humanizeConsultationMessage(error, 'Prompt hazırlanamadı')
     await updateConsultation(id, {
       title: workingCopy.title,
       summary: workingCopy.summary,
@@ -78,11 +80,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       sharedBrief: {
         ...(current.sharedBrief || {}),
         promptStatus: 'error',
-        promptError: error?.message || 'Prompt hazırlığı tamamlanamadı',
+        promptError: message,
         preparedPromptText: '',
       },
     })
 
-    return NextResponse.json({ ok: false, message: error?.message || 'Prompt hazırlığı tamamlanamadı' }, { status: 500 })
+    return NextResponse.json({ ok: false, message }, { status: 500 })
   }
 }

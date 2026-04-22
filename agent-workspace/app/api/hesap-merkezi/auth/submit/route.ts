@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (!displayName && !workspace) {
-    return NextResponse.json({ ok: false, message: 'Profil adı zorunlu' }, { status: 400 })
+    return NextResponse.json({ ok: false, message: 'Profil adı zorunlu. İsterseniz kısa kod veya çalışma alanı da ekleyebilirsiniz.' }, { status: 400 })
   }
 
   const current = await readDashboardState().catch((error: Error) => error)

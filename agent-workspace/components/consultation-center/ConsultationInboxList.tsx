@@ -8,7 +8,7 @@ import { getConsultationClientMessage } from '@/lib/consultation-center/messages
 
 function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
   if (value === 'ready') return 'Prompt hazır'
-  if (value === 'error') return 'Prompt hatası'
+  if (value === 'error') return 'Promptta sorun var'
   return 'Prompt hazırlanıyor'
 }
 
@@ -18,7 +18,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
   const [errorText, setErrorText] = useState<string | null>(null)
 
   const handleDelete = async (item: ConsultationInboxItem) => {
-    const confirmed = window.confirm(`"${item.title}" kaydını silmek istiyor musun?`)
+    const confirmed = window.confirm(`"${item.title}" kaydını silmek istiyor musunuz?`)
     if (!confirmed) return
 
     setDeletingId(item.id)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ConsultationDetail } from '@/lib/consultation-center/types'
 import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
@@ -13,14 +13,6 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   const [busyAction, setBusyAction] = useState<'suggest' | 'save' | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [successText, setSuccessText] = useState<string | null>(null)
-
-  useEffect(() => {
-    setTitle(consultation.title)
-    setSummary(consultation.summary)
-    setTargetModel(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
-    setErrorText(null)
-    setSuccessText(null)
-  }, [consultation])
 
   const handleSave = async () => {
     setBusyAction('save')
@@ -90,7 +82,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   }
 
   const handleDelete = async () => {
-    const confirmed = window.confirm(`"${consultation.title}" kaydını silmek istiyor musun?`)
+    const confirmed = window.confirm(`"${consultation.title}" kaydını silmek istiyor musunuz?`)
     if (!confirmed) return
 
     setBusyAction('save')
@@ -127,7 +119,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     >
       <div>
         <p className="eyebrow">2. Metni prompta çevir</p>
-        <h3>Ne yapmak istediğini yaz</h3>
+        <h3>Ne yapmak istediğinizi yazın</h3>
         <p className="muted">Metni güncelle. Sistem bu kaydı yeniden toparlayıp promptu baştan kursun.</p>
       </div>
 
@@ -142,7 +134,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
           value={summary}
           onChange={(event) => setSummary(event.target.value)}
           rows={8}
-          placeholder="Yapmak istediğin değişikliği, kafandaki soru işaretlerini ve neyi tartmak istediğini düz metin yaz."
+          placeholder="Yapmak istediğiniz değişikliği, kafanızdaki soru işaretlerini ve neyi tartmak istediğinizi düz metin olarak yazın."
         />
       </label>
 

@@ -12,7 +12,7 @@ import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
 function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
   if (value === 'ready') return 'Prompt hazır'
-  if (value === 'error') return 'Prompt hatası'
+  if (value === 'error') return 'Promptta sorun var'
   return 'Prompt hazırlanıyor'
 }
 
@@ -67,26 +67,33 @@ export default async function ConsultationCenterPage({
               promptText={selected.promptRun.promptText}
             />
 
-            <ConsultationDetailEditor consultation={selected} />
+            <ConsultationDetailEditor
+              key={`detail:${selected.id}:${selected.title.length}:${selected.title.slice(0, 40)}:${selected.summary.length}:${selected.summary.slice(0, 80)}:${selected.promptRun.modelName || ''}`}
+              consultation={selected}
+            />
 
             <PromptPreviewCard
+              key={`prompt:${selected.id}:${selected.promptStatus}:${selected.promptRun.promptText.length}:${selected.promptRun.promptText.slice(0, 80)}:${selected.promptError || ''}`}
               consultationId={selected.id}
               title={selected.title}
               summary={selected.summary}
               promptText={selected.promptRun.promptText}
-              fallbackText="Kayıt açılınca prompt otomatik oluşur. Metni, modeli veya değişiklik isteğini güncellersen buradaki prompt yeniden kurulur."
+              fallbackText="Kayıt açılınca prompt otomatik hazırlanır. Metni, modeli ya da değişiklik isteğini güncellerseniz buradaki prompt yeniden kurulur."
               targetModel={selected.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'}
               promptSummary={promptSummary}
               promptStatus={selected.promptStatus}
               promptError={selected.promptError}
             />
 
-            <ResponseCaptureForm consultation={selected} />
+            <ResponseCaptureForm
+              key={`response:${selected.id}:${selected.promptRun.modelName || ''}:${selected.promptRun.promptText.length}:${selected.promptRun.promptText.slice(0, 60)}:${selected.promptRun.responseSummary?.length || 0}:${decisionNote.length}:${decisionNote.slice(0, 80)}`}
+              consultation={selected}
+            />
           </article>
         ) : (
           <article className="card stack-sm">
             <h3>Bir kayıt seç</h3>
-            <p className="muted">Soldan bir kayıt seç veya yukarıdan yeni bir metin girerek başla.</p>
+            <p className="muted">Soldan bir kayıt seçin ya da yukarıdan yeni bir metin girerek başlayın.</p>
           </article>
         )}
       </section>

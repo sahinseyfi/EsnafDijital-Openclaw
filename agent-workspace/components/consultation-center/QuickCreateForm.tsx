@@ -16,7 +16,7 @@ export function QuickCreateForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!note.trim()) {
-      setErrorText('Önce neyi değiştirmek istediğini yaz.')
+      setErrorText('Önce neyi değiştirmek istediğinizi yazın.')
       return
     }
 
@@ -66,7 +66,7 @@ export function QuickCreateForm() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div>
           <p className="eyebrow">1. İstek metni</p>
-          <h3>Neyi değiştirmek istiyorsun?</h3>
+          <h3>Neyi değiştirmek istiyorsunuz?</h3>
           <p className="muted">Buraya düz metin yazın. Kayıt açılınca sistem uygun bağlamı seçip promptu hazırlayacak.</p>
         </div>
         <button
@@ -95,7 +95,7 @@ export function QuickCreateForm() {
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
                 rows={6}
-                placeholder="Ne yapmak istediğini, neden düşündüğünü ve kafandaki soruyu düz metin olarak yaz."
+                placeholder="Ne yapmak istediğinizi, neden düşündüğünüzü ve kafanızdaki soruyu düz metin olarak yazın."
               />
             </label>
 

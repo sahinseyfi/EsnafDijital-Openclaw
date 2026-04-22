@@ -572,11 +572,11 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
               </label>
               <label className={styles.field}>
                 <span>Profil adı</span>
-                <input className={styles.input} value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Örn: Workspace 1" />
+                <input className={styles.input} value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Örn: Merkez ekip" />
               </label>
               <label className={styles.field}>
                 <span>Kısa not</span>
-                <input className={styles.input} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Opsiyonel" />
+                <input className={styles.input} value={note} onChange={(event) => setNote(event.target.value)} placeholder="İsteğe bağlı" />
               </label>
             </div>
 

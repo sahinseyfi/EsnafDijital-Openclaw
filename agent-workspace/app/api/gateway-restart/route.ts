@@ -10,18 +10,22 @@ export async function POST() {
   try {
     await fs.access(HELPER)
   } catch {
-    return NextResponse.json({ ok: false, message: 'Gateway restart helper bulunamadı' }, { status: 404 })
+    return NextResponse.json({ ok: false, message: 'Geçit yeniden başlatma yardımcısı bulunamadı' }, { status: 404 })
   }
 
   try {
     const { stdout, stderr } = await execFileAsync(HELPER)
-    return NextResponse.json({ ok: true, message: 'Gateway restart tetiklendi', stdout, stderr })
-  } catch (error: any) {
+    return NextResponse.json({ ok: true, message: 'Geçit yeniden başlatma işlemi tetiklendi', stdout, stderr })
+  } catch (error: unknown) {
+    const details = typeof error === 'object' && error !== null
+      ? (error as { stderr?: string; message?: string }).stderr || (error as { stderr?: string; message?: string }).message || 'Bilinmeyen hata'
+      : 'Bilinmeyen hata'
+
     return NextResponse.json(
       {
         ok: false,
-        message: 'Gateway restart başarısız oldu',
-        error: error?.stderr || error?.message || 'Bilinmeyen hata',
+        message: 'Geçit yeniden başlatılamadı',
+        error: details,
       },
       { status: 500 },
     )

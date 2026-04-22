@@ -512,7 +512,7 @@ export function CodexProfileDashboard({
                 <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: Merkez hesap" />
               </label>
               <label className={styles.fieldBlock}>
-                <span>Kısa kod / workspace (opsiyonel)</span>
+                <span>Kısa kod / çalışma alanı (isteğe bağlı)</span>
                 <input value={authWorkspace} onChange={(event) => setAuthWorkspace(event.target.value)} placeholder="İstersen ayrıca yaz" />
               </label>
             </div>

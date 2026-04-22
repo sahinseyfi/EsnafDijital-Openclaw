@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getConsultationClientMessage, humanizeConsultationMessage } from '@/lib/consultation-center/messages'
 
 export function PromptPreviewCard({
@@ -32,12 +32,6 @@ export function PromptPreviewCard({
   const [changeError, setChangeError] = useState<string | null>(null)
   const [successText, setSuccessText] = useState<string | null>(null)
 
-  useEffect(() => {
-    setBusy(false)
-    setChangeError(null)
-    setSuccessText(null)
-  }, [consultationId, promptText, promptStatus])
-
   const handleCopy = async () => {
     if (!promptText.trim()) return
     try {
@@ -52,7 +46,7 @@ export function PromptPreviewCard({
   const handleSuggestChange = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!changeRequest.trim()) {
-      setChangeError('Önce promptta neyi değiştirmek istediğini yaz.')
+      setChangeError('Önce promptta neyin değişmesini istediğinizi yazın.')
       return
     }
 
@@ -104,7 +98,7 @@ export function PromptPreviewCard({
       </div>
       <p className="muted">{fallbackText}</p>
       {promptStatus === 'preparing' ? <p className="muted">Prompt şu anda hazırlanıyor.</p> : null}
-      {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{humanizeConsultationMessage(promptError, 'Prompt hazırlanırken bir sorun çıktı. "Promptu güncelle" ile tekrar deneyebilirsiniz.')}</p> : null}
+      {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{humanizeConsultationMessage(promptError, 'Prompt hazırlanırken bir sorun çıktı. "Promptu yeniden kur" ile tekrar deneyebilirsiniz.')}</p> : null}
       {promptSummary.length && promptStatus === 'ready' ? (
         <ul className="list">
           {promptSummary.map((item) => (
