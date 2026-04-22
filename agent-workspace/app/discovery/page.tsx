@@ -1,7 +1,8 @@
+import Link from 'next/link'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { DiscoveryRowActions } from '@/components/discovery/DiscoveryRowActions'
 import { readDiscoveryRuntimeState } from '@/lib/discovery/runtime'
-import { filterDiscoveryRows, normalizeDiscoveryFilters, readDiscoverySummary } from '@/lib/discovery/service'
+import { filterDiscoveryRows, normalizeDiscoveryFilters, readDiscoverySummary, sortDiscoveryRows } from '@/lib/discovery/service'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,10 +45,20 @@ function bucketBadgeStyle(bucket: 'shortlist' | 'review' | 'skip') {
   }
 }
 
+function getSortLabel(isActive: boolean, dir: 'asc' | 'desc') {
+  if (!isActive) return '↕'
+  return dir === 'asc' ? '↑' : '↓'
+}
+
+function getDefaultSortDirection(key: 'segment' | 'score' | 'reviews' | 'contact' | 'coverage' | 'decision' | 'actions') {
+  if (key === 'segment' || key === 'decision') return 'asc' as const
+  return 'desc' as const
+}
+
 export default async function DiscoveryPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ segment?: string; bucket?: string; q?: string }>
+  searchParams?: Promise<{ segment?: string; bucket?: string; q?: string; sort?: string; dir?: string }>
 }) {
   const params = (await searchParams) || {}
   const [rows, runtimeState] = await Promise.all([
@@ -56,6 +67,7 @@ export default async function DiscoveryPage({
   ])
   const filters = normalizeDiscoveryFilters(params)
   const filteredRows = filterDiscoveryRows(rows, params)
+  const sortedRows = sortDiscoveryRows(filteredRows, params, runtimeState)
   const shortlistedPlaceIds = new Set(runtimeState.shortlistedPlaceIds)
 
   const stats = {
@@ -67,6 +79,19 @@ export default async function DiscoveryPage({
     withWebsite: rows.filter((row) => row.candidate.hasWebsite).length,
     withPhone: rows.filter((row) => Boolean(row.candidate.phone.trim())).length,
     multiTerm: rows.filter((row) => row.source.matchedSearchTermCount > 1).length,
+  }
+
+  function buildSortHref(key: 'segment' | 'score' | 'reviews' | 'contact' | 'coverage' | 'decision' | 'actions') {
+    const nextDir = filters.sort === key
+      ? (filters.dir === 'desc' ? 'asc' : 'desc')
+      : getDefaultSortDirection(key)
+    const query = new URLSearchParams()
+    if (filters.q) query.set('q', filters.q)
+    if (filters.segment !== 'all') query.set('segment', filters.segment)
+    if (filters.bucket !== 'all') query.set('bucket', filters.bucket)
+    query.set('sort', key)
+    query.set('dir', nextDir)
+    return `/discovery?${query.toString()}`
   }
 
   return (
@@ -129,6 +154,8 @@ export default async function DiscoveryPage({
                 <option value="skip">Ele</option>
               </select>
             </label>
+            <input type="hidden" name="sort" value={filters.sort} />
+            <input type="hidden" name="dir" value={filters.dir} />
             <div className="page-header-actions" style={{ alignSelf: 'end' }}>
               <button type="submit" className="button-primary">Uygula</button>
               <a href="/discovery" className="button-secondary">Temizle</a>
@@ -156,7 +183,7 @@ export default async function DiscoveryPage({
             <p className="eyebrow">Aday tablosu</p>
             <h3>Discovery listesi</h3>
           </div>
-          <span className="badge">{stats.visible} kayit gosteriliyor</span>
+          <span className="badge">{stats.visible} kayit gosteriliyor, siralama: {filters.sort} {filters.dir}</span>
         </div>
 
         <div className="table-wrap">
@@ -164,17 +191,45 @@ export default async function DiscoveryPage({
             <thead>
               <tr>
                 <th>Isletme</th>
-                <th>Segment</th>
-                <th>Skor</th>
-                <th>Yorum / puan</th>
-                <th>Iletisim</th>
-                <th>Arama kapsami</th>
-                <th>Karar</th>
-                <th>Aksiyon</th>
+                <th>
+                  <Link href={buildSortHref('segment')} className="discovery-sort-link">
+                    Segment <span>{getSortLabel(filters.sort === 'segment', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('score')} className="discovery-sort-link">
+                    Skor <span>{getSortLabel(filters.sort === 'score', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('reviews')} className="discovery-sort-link">
+                    Yorum / puan <span>{getSortLabel(filters.sort === 'reviews', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('contact')} className="discovery-sort-link">
+                    Iletisim <span>{getSortLabel(filters.sort === 'contact', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('coverage')} className="discovery-sort-link">
+                    Arama kapsami <span>{getSortLabel(filters.sort === 'coverage', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('decision')} className="discovery-sort-link">
+                    Karar <span>{getSortLabel(filters.sort === 'decision', filters.dir)}</span>
+                  </Link>
+                </th>
+                <th>
+                  <Link href={buildSortHref('actions')} className="discovery-sort-link">
+                    Aksiyon <span>{getSortLabel(filters.sort === 'actions', filters.dir)}</span>
+                  </Link>
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredRows.length > 0 ? filteredRows.map((row) => (
+              {sortedRows.length > 0 ? sortedRows.map((row) => (
                 <tr key={row.candidate.placeId}>
                   <td>
                     <div className="stack-xs">
