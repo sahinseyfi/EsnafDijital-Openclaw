@@ -9,8 +9,8 @@ Promptu hazir saymadan once sunlari kontrol et:
 - VPS uzerinde calisan OpenClaw ajani baglami var mi
 - gorev mevcut Consultation Center akisina bagli mi
 - sabit rol net mi
-- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa final prompt clone veya esdeger repo incelemesi gorevini acikca dis GPT'ye veriyor mu
-- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa erisim mumkunken clone veya esdeger repo incelemesi gercekten yapildi mi
+- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa final prompt repo inceleme gorevini acikca dis GPT'ye veriyor mu
+- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa repo icerigi gercekten incelendi mi
 
 ## Zorunlu netlik
 - prompt tek bir is mi istiyor
@@ -30,7 +30,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - prompt fazla genel kalmissa
 - repo/runtime baglami yoksa
 - kullanilacak cikti bicimi net degilse
-- dis GPT oturumunda repo analizi istenirken erisim mumkunken clone veya esdeger repo incelemesi hic yapilmadiysa
+- dis GPT oturumunda repo analizi istenirken repo icerigi hic incelenmediyse
 - dosya degerlendirme gorevi toplu rewrite moduna kayiyorsa
 - baglam yapay olarak dar tutulup kritik kaynaklar disarida kalmissa
 - gereksiz teori promptun agirligini artiriyorsa

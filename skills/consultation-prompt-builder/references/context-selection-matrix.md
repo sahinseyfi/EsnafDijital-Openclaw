@@ -29,8 +29,7 @@ Her gorevde asagidaki cizgiler kisa ozet olarak bulunsun:
   - gerekiyorsa ilgili `memory/` notlari
 - Ham oku:
   - evet, degerlendirilen dosyalarin kendisi
-  - dis GPT oturumunda erisim mumkunse once klonlanan repo icindeki ilgili dosyalar
-  - clone mumkun degilse erisilebilen repo dosyalari veya archive icerigi
+  - dis GPT oturumunda erisilebilen repo dosyalari, linkler veya archive icerigi
 - Cikti kur:
   - once `keep | trim | rewrite` karari ver
   - `why` veya esit bir gerekce alani ekle
@@ -92,8 +91,7 @@ Her gorevde asagidaki cizgiler kisa ozet olarak bulunsun:
 - Ham oku:
   - evet, promptu belirleyen consultation kaydi ve ilgili skill referanslari
   - sadece gerekiyorsa ek proje dosyalari
-  - dis GPT oturumunda repo analizi zorunluysa erisim mumkunse once klonlanan repo icindeki ilgili dosyalar
-  - clone mumkun degilse ilgili repo dosyalari, linkler veya archive icerigi
+  - dis GPT oturumunda repo analizi zorunluysa ilgili repo dosyalari, linkler veya archive icerigi
 - Prompta tasima:
   - tum repo geneli
   - ilgisiz memory notlari

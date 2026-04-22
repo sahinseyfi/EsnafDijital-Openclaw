@@ -118,7 +118,6 @@ Asagidaki durumlarda ozet yetmez, ham dosya okunur:
 - ozet dusuk guven veriyorsa
 - kullanici ozellikle dosyanin kendisini degerlendirmeyi istemisse
 - dis GPT oturumunda repo analizi yapiliyorsa ve cikti repo gercegine dayanacaksa
-- erisim mumkunse once repo klonlanip ilgili dosyalar dogrudan incelenecekse
 
 ## Ham dosya ne zaman prompta tasinmaz
 Dosya okunmus olsa bile tam metin prompta tasinmaz, eger:
@@ -161,8 +160,8 @@ Consultation Center prompt uretiminde varsayilan olarak:
 - sonra consultation kaydinin ihtiyacina gore ikincil baglam sec
 - sadece prompt kalitesini gercekten etkiliyorsa ham dosya oku
 - prompta sadece karari etkileyen baglam tasinmali
-- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi erisim mumkunse once repoyu klonlayip ilgili dosyalari incelemeye yonlendirmesini zorunlu varsay
-- clone mumkun degilse final prompt dis GPT'yi ilgili repo dosyasi, link veya archive icerigi uzerinden inceleme yapmaya yonlendirsin
+- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi ilgili repo icerigini incelemeye yonlendirmesini zorunlu varsay
+- bunu ilgili repo dosyasi, link, archive veya erisilebilen baska repo icerigi uzerinden yapmaya yonlendirsin
 - bunlar da mumkun degilse final prompt bunu acik bosluk veya blokaj olarak yazdirsin
 
 ## Hazir sayma kosulu
