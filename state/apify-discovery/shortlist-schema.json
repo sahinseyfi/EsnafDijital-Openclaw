@@ -2,7 +2,11 @@
   "source": {
     "segment": "berber",
     "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
-    "collectedAt": "ISO-8601"
+    "collectedAt": "ISO-8601",
+    "matchedSearchTerms": [],
+    "matchedSearchTermCount": 0,
+    "firstMatchedSearchTerm": "",
+    "searchCoverageNote": "Ornek: beauty salon ile cikti, bayan kuaforu ile cikmadi"
   },
   "candidate": {
     "name": "",
@@ -24,7 +28,8 @@
   "scoring": {
     "score": 0,
     "bucket": "shortlist|review|drop",
-    "reasons": []
+    "reasons": [],
+    "searchCoverageSignal": "genis|sinirli|tek-terim"
   },
   "rules": {
     "shortlist": "score >= 5",
