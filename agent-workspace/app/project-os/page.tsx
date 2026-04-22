@@ -26,21 +26,27 @@ const stageTitles: Record<ProjectOsStage, string> = {
   maintenance: 'Bakımda yaşayan kayıtlar',
 }
 
-function QueueList({ items, emptyText }: { items: ProjectOsQueueItem[]; emptyText: string }) {
+function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQueueItem[]; emptyText: string; updatedBusinessId: string }) {
   if (items.length === 0) {
     return <p className="muted">{emptyText}</p>
   }
 
   return (
     <div className="stack-sm">
-      {items.map((item) => (
-        <article key={item.businessId} className="card stack-sm" style={{ padding: 16 }}>
+      {items.map((item) => {
+        const isUpdated = item.businessId === updatedBusinessId
+
+        return (
+        <article key={item.businessId} className="card stack-sm" style={{ padding: 16, borderColor: isUpdated ? 'var(--success-border)' : undefined, background: isUpdated ? 'linear-gradient(180deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 1))' : undefined }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
             <div className="stack-xs">
               <strong style={{ color: 'var(--ink-title)' }}>{item.businessName}</strong>
               <span className="muted">{segmentLabels[item.segment]} • {item.district}</span>
             </div>
-            <span className="badge">{item.stageLabel}</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              <span className="badge">{item.stageLabel}</span>
+              {isUpdated ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az once guncellendi</span> : null}
+            </div>
           </div>
 
           <div className="stack-xs">
@@ -50,13 +56,13 @@ function QueueList({ items, emptyText }: { items: ProjectOsQueueItem[]; emptyTex
           </div>
 
           <div className="hero-actions">
-            {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} /> : null}
+            {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} businessId={item.businessId} /> : null}
             <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">Kaydı aç</Link>
             <Link href="/consultation-center" className="ghost-link">Consultation</Link>
             <Link href="/context-center" className="ghost-link">Context</Link>
           </div>
         </article>
-      ))}
+      )})}
     </div>
   )
 }
@@ -64,10 +70,11 @@ function QueueList({ items, emptyText }: { items: ProjectOsQueueItem[]; emptyTex
 export default async function ProjectOsPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ businessId?: string }>
+  searchParams?: Promise<{ businessId?: string; updatedBusinessId?: string }>
 }) {
   const params = await searchParams
   const selectedBusinessId = params?.businessId?.trim() || ''
+  const updatedBusinessId = params?.updatedBusinessId?.trim() || ''
 
   const [dataset, consultationPayload] = await Promise.all([
     getProjectOsDataset(),
@@ -76,6 +83,7 @@ export default async function ProjectOsPage({
 
   const businessNames = Object.fromEntries(dataset.businesses.map((business) => [business.id, business.name]))
   const selectedBusiness = dataset.businesses.find((business) => business.id === selectedBusinessId) || null
+  const updatedBusiness = dataset.businesses.find((business) => business.id === updatedBusinessId) || null
   const overview = deriveProjectOsOverview(dataset)
   const consultationStats = {
     blocked: consultationPayload.inbox.filter((item) => item.route === 'blocked').length,
@@ -88,6 +96,18 @@ export default async function ProjectOsPage({
       title="Project OS"
       description="Create form duvarı değil, bugün hangi işi ilerleteceğini söyleyen sade operasyon merkezi."
     >
+      {updatedBusiness ? (
+        <section>
+          <article className="card stack-sm" style={{ borderColor: 'var(--success-border)', background: 'linear-gradient(180deg, rgba(240, 253, 244, 0.96), rgba(255, 255, 255, 1))' }}>
+            <div>
+              <p className="eyebrow">Durum guncellendi</p>
+              <h3>{updatedBusiness.name}</h3>
+            </div>
+            <p className="muted">Kaydin statusu ilerletildi. Ilgili business ustte secili tutuldu ve kuyrukta yesil olarak isaretlendi.</p>
+          </article>
+        </section>
+      ) : null}
+
       <section className="hero">
         <div>
           <p className="eyebrow">Operasyon merkezi</p>
@@ -160,7 +180,7 @@ export default async function ProjectOsPage({
             <p className="eyebrow">Sıradaki işler kuyruğu</p>
             <h3>Önce aksiyon isteyen kayıtlar</h3>
           </div>
-          <QueueList items={overview.queue.slice(0, 6)} emptyText="Henüz aktif operasyon kuyruğu yok." />
+          <QueueList items={overview.queue.slice(0, 6)} updatedBusinessId={updatedBusinessId} emptyText="Henüz aktif operasyon kuyruğu yok." />
         </article>
 
         <article className="card stack-sm" id="quick-actions">
@@ -207,6 +227,7 @@ export default async function ProjectOsPage({
             </div>
             <QueueList
               items={items.slice(0, 4)}
+              updatedBusinessId={updatedBusinessId}
               emptyText={stage === 'maintenance' ? 'Bakımda yaşayan kayıt görünmüyor.' : 'Bu aşamada aksiyon bekleyen kayıt yok.'}
             />
           </article>
@@ -221,6 +242,7 @@ export default async function ProjectOsPage({
               <h3>{selectedBusiness.name}</h3>
             </div>
             <p className="muted">Seçilen işletme alt kayıtlarda işaretlendi. Buradan audit, teklif ve teslimat zincirini kontrol edebilirsin.</p>
+            {selectedBusinessId === updatedBusinessId ? <span className="badge" style={{ background: 'var(--success-bg)', color: 'var(--success-text)', borderColor: 'var(--success-border)' }}>Az once guncellendi</span> : null}
           </article>
         </section>
       ) : null}

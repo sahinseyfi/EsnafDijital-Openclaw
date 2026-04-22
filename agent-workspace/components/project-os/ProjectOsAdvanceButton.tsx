@@ -10,7 +10,7 @@ function getRoute(action: ProjectOsQueueAdvanceAction) {
   return `/api/project-os/delivery-projects/${action.entityId}`
 }
 
-export function ProjectOsAdvanceButton({ action }: { action: ProjectOsQueueAdvanceAction }) {
+export function ProjectOsAdvanceButton({ action, businessId }: { action: ProjectOsQueueAdvanceAction; businessId: string }) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -32,6 +32,7 @@ export function ProjectOsAdvanceButton({ action }: { action: ProjectOsQueueAdvan
       }
 
       setMessage('Durum ilerletildi')
+      router.push(`/project-os?businessId=${businessId}&updatedBusinessId=${businessId}#queue`, { scroll: false })
       router.refresh()
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Durum ilerletilemedi.')
