@@ -20,12 +20,12 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde t
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Admin uygulama runtime `DATABASE_URL` degerini Supabase ana DB'ye cevirip smoke test almak
+- Supabase ana DB uzerinde ilk gercek Project OS / Consultation Center kayitlarini olusturup veri akisinin DB modunda calistigini operasyon tarafinda kullanarak dogrulamak
 
 ## Mevcut Blokajlar
 - ilk teklif paketinin detaylari hala tam keskin degil
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
-- Supabase public schema current Prisma migration zinciriyle temiz sekilde kuruldu, fakat admin runtime hala local DB/env cizgisinde; uygulama baglantisi Supabase'e cevrilmeden gecis tamamlanmis sayilmaz
+- Supabase public schema ve admin runtime baglantisi hazir, fakat DB halen bos; mock fallback'ten tamamen cikmak icin ilk gercek kayitlarin akisa alinmasi gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler

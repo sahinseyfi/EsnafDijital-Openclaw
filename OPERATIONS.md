@@ -14,6 +14,7 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - **Web sitesi kaynak yolu:** `/root/.openclaw/workspace/website`
 - **Web app service:** `esnafdijital-web.service` (su an kapali)
 - **Admin app service:** `esnafdijital-admin.service`
+- **Admin app runtime env dosyasi:** `/etc/esnafdijital/esnafdijital-admin.env`
 - **Reverse proxy:** Caddy
 - **Web app ic portu:** `3011`
 - **Admin app ic portu:** `3012`
