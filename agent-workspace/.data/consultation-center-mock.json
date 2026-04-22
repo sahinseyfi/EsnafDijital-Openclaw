@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "id": "consult_1776848340795",
+    "title": "Prompt Skill mi, Consultation hattı mı?",
+    "type": "shared",
+    "stage": "draft",
+    "route": "blocked",
+    "ownerRole": "shared",
+    "dueAt": null,
+    "updatedAt": "2026-04-22T09:00:43.630Z",
+    "decisionQuestion": "EsnafDigital için prompt üretme işi, ayrı bir Prompt Skill yatırımı olarak mı ele alınmalı, yoksa mevcut Consultation Center içindeki brief ve prompt akışı güçlendirilerek mi sürdürülmeli?",
+    "summary": "Prompt üretme işinin ayrı bir skill olarak mı ele alınacağı, yoksa mevcut Consultation Center brief ve prompt hattı içinde mi güçlendirileceği konusunda sade MVP kararını netleştiren ortak danışma kaydı.",
+    "gptRecommended": false,
+    "promptStatus": "ready",
+    "promptError": null,
+    "whyNow": "Bu karar şimdi netleşirse aynı ihtiyacı iki farklı yüzeyde çözme riski azalır, Consultation Center üzerindeki sonraki patchler daha temiz ilerler ve VPS üzerindeki OpenClaw ajanına verilecek yön tek çizgide kalır.",
+    "desiredOutput": "1) Sıfır hafızalı GPT oturumu için net karar promptu, 2) karar kriterleri ve kısa değerlendirme çerçevesi, 3) önerilen yön ve kısa gerekçesi, 4) seçili bağlam paketi, 5) OpenClaw ajanı için düşük operasyon yüklü uygulanabilir sonraki adımlar.",
+    "missingFields": [],
+    "sharedBrief": {
+      "hamNot": "Prompt üretme skili mi nasıl geliştirebiliriz?",
+      "kararCekirdegi": "Prompt üretme işinin ayrı skill yerine mevcut consultation hattında mı çözüleceğini netleştirmek",
+      "workMode": "decision",
+      "targetSurface": "cross",
+      "outputType": "gpt_prompt",
+      "targetModel": "gpt-5-pro",
+      "workModeLabel": "karar",
+      "targetSurfaceLabel": "çapraz",
+      "outputTypeLabel": "GPT promptu",
+      "targetModelLabel": "GPT-5 Pro",
+      "promptStatus": "ready",
+      "promptError": null,
+      "preparedPromptText": "<role>\nSen küçük işletmeler için teklif yapısı ve hizmet ürünleştirme danışmanı olarak hareket et.\n</role>\n<goal>\nAşağıdaki değişiklik isteğini değerlendir, karar vermeyi kolaylaştıracak net bir cevap üret ve gereksiz teoriye kaçma.\n</goal>\n<task>\n- Önce isteği doğru anla ve 1 cümlede yeniden yaz.\n- Gerekirse makul varsayımlarla ilerle, ama varsayımları açık işaretle.\n- Çözüm önerilerini mevcut repo ve ürün çizgisiyle uyumlu tut.\n- Amaç, karar vermeyi kolaylaştırmak; gereksiz seçenek çoğaltmak değil.\n</task>\n<context>\n- Proje: EsnafDigital\n- Amaç: küçük işletmeler için güven veren dijital görünürlük ve operasyon sistemi kurmak\n- Ana akış: Audit -> Teklif -> Teslimat -> Bakım\n- Çalışma ortamı: website bir VPS üzerinde çalışıyor.\n- Uygulama modeli: kullanıcı bu değişikliği VPS üzerinde çalışan OpenClaw ajanına yaptırıyor.\n- Kullanım şekli: bu promptun çıktısı, ajanı yönlendirmek için kullanılacak.\n- Hafıza varsayımı: karşı GPT oturumu projeyi ilk kez görüyor, önceki konuşmaları ve kararları bilmiyor.\n- Hedef model: GPT-5 Pro\n- Konu: Prompt Skill mi, Consultation hattı mı?\n- Ham değişiklik isteği: Prompt üretme skili mi nasıl geliştirebiliriz?\n- Karar sorusu: EsnafDigital için prompt üretme işi, ayrı bir Prompt Skill yatırımı olarak mı ele alınmalı, yoksa mevcut Consultation Center içindeki brief ve prompt akışı güçlendirilerek mi sürdürülmeli?\n- Neden şimdi: Bu karar şimdi netleşirse aynı ihtiyacı iki farklı yüzeyde çözme riski azalır, Consultation Center üzerindeki sonraki patchler daha temiz ilerler ve VPS üzerindeki OpenClaw ajanına verilecek yön tek çizgide kalır.\n- Beklenen çıktı: 1) Sıfır hafızalı GPT oturumu için net karar promptu, 2) karar kriterleri ve kısa değerlendirme çerçevesi, 3) önerilen yön ve kısa gerekçesi, 4) seçili bağlam paketi, 5) OpenClaw ajanı için düşük operasyon yüklü uygulanabilir sonraki adımlar.\n</context>\n<selected_context_pack>\n- Proje kapsamı ve MVP çizgisi: PROJECT.md\n- Aktif faz ve haftalık öncelik: HEARTBEAT.md\n- Kalıcı karar çizgisi: MEMORY.md\n- Consultation Center Faz 1 yönü: memory/2026-04-20-consultation-consultation-center-phase-1.md\n</selected_context_pack>\n<repo_references>\nRepo referansları:\n- Çalışılan repo: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream referansı (gerektiğinde): https://github.com/openclaw/openclaw\n</repo_references>\n<brief_details>\nOrtak karar brief:\n- hamNot: Prompt üretme skili mi nasıl geliştirebiliriz?\n- kararCekirdegi: Prompt üretme işinin ayrı skill yerine mevcut consultation hattında mı çözüleceğini netleştirmek\n- workMode: decision\n- targetSurface: cross\n- outputType: gpt_prompt\n- targetModel: gpt-5-pro\n- workModeLabel: karar\n- targetSurfaceLabel: çapraz\n- outputTypeLabel: GPT promptu\n- targetModelLabel: GPT-5 Pro\n- promptStatus: ready\n- promptError: —\n- preparedPromptText: —\n- mevcutDurum: Consultation Center içinde brief zenginleştirme ve prompt hazırlama akışı çalışıyor; kayıtlar preparing ve ready hattında yönetiliyor.\n- problemKaniti: Prompt üretme konusu için ayrı skill düşüncesi ile mevcut consultation akışını güçlendirme seçeneği aynı anda masada kaldığı için sonraki ürün ve ajan işleri dağılma riski taşıyor.\n- beklenenDegisiklik: Tek karar çerçevesi netleşsin, gereksiz yeni yüzey açılmasın ve prompt üretimi sade MVP çizgisinde konumlansın.\n- kapsamIci: Consultation Center brief ve prompt akışı, Prompt üretim mantığının ürün içindeki yeri, OpenClaw ajanına verilecek uygulama yönü\n- kapsamDisi: Ağır AI veya RAG altyapısı, Genel amaçlı CRM genişlemesi, Yeni bağımsız operasyon modülü kurulumu\n- basariKriterleri: Karar sorusu tek cümlede netleşmiş olsun, Önerilen yön küçük işletme ve sade MVP çizgisine uysun, Çıktı doğrudan GPT-5 Pro oturumuna verilebilir olsun, Sonuç OpenClaw ajanı için uygulanabilir kısa adımlara dönüşsün\n</brief_details>\n<constraints>\n- Türkçe yaz.\n- Kısa, net ve uygulanabilir ol.\n- Düşük operasyon yükünü önemse.\n- Mümkünse mevcut yapıya uyumlu ilerle; sırf yeni sistem önermek için yeni sistem önerme.\n- Eksik veri varsa en fazla 3 maddede yaz ve geri kalanında makul varsayımlarla devam et.\n- Kod veya repo referansı gerekiyorsa önce verilen repo linklerini temel al.\n- Bu promptun okuyucusunun sıfır hafızalı yeni bir GPT oturumu olduğunu unutma; kritik bağlamı dışarıda bırakma.\n- GPT-5 Pro için yazıyorsun. Cevap geç gelebileceği için hızdan çok doğruluk, eksiksizlik ve düşünülmüş yapı öncelikli olsun.\n</constraints>\n<output_format>\nYanıtı tam olarak şu başlıklarla üret:\n1. İsteğin yeniden yazımı\n2. Varsayımlar / belirsizlikler\n3. Seçenekler\n4. Karşılaştırma (etki / hız / risk / operasyon yükü)\n5. En güçlü öneri\n6. Net karar\n7. İlk adımlar\n8. Teknik olmayan kısa özet (3-5 madde, sade Türkçe)\n</output_format>",
+      "mevcutDurum": "Consultation Center içinde brief zenginleştirme ve prompt hazırlama akışı çalışıyor; kayıtlar preparing ve ready hattında yönetiliyor.",
+      "problemKaniti": "Prompt üretme konusu için ayrı skill düşüncesi ile mevcut consultation akışını güçlendirme seçeneği aynı anda masada kaldığı için sonraki ürün ve ajan işleri dağılma riski taşıyor.",
+      "beklenenDegisiklik": "Tek karar çerçevesi netleşsin, gereksiz yeni yüzey açılmasın ve prompt üretimi sade MVP çizgisinde konumlansın.",
+      "kapsamIci": [
+        "Consultation Center brief ve prompt akışı",
+        "Prompt üretim mantığının ürün içindeki yeri",
+        "OpenClaw ajanına verilecek uygulama yönü"
+      ],
+      "kapsamDisi": [
+        "Ağır AI veya RAG altyapısı",
+        "Genel amaçlı CRM genişlemesi",
+        "Yeni bağımsız operasyon modülü kurulumu"
+      ],
+      "basariKriterleri": [
+        "Karar sorusu tek cümlede netleşmiş olsun",
+        "Önerilen yön küçük işletme ve sade MVP çizgisine uysun",
+        "Çıktı doğrudan GPT-5 Pro oturumuna verilebilir olsun",
+        "Sonuç OpenClaw ajanı için uygulanabilir kısa adımlara dönüşsün"
+      ],
+      "promptPreparedAt": "2026-04-22T09:00:43.629Z"
+    },
+    "contextRefs": [
+      {
+        "kind": "project",
+        "title": "Proje kapsamı ve MVP çizgisi",
+        "ref": "PROJECT.md"
+      },
+      {
+        "kind": "heartbeat",
+        "title": "Aktif faz ve haftalık öncelik",
+        "ref": "HEARTBEAT.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Kalıcı karar çizgisi",
+        "ref": "MEMORY.md"
+      },
+      {
+        "kind": "decision",
+        "title": "Consultation Center Faz 1 yönü",
+        "ref": "memory/2026-04-20-consultation-consultation-center-phase-1.md"
+      }
+    ],
+    "promptRun": {
+      "modelName": "gpt-5-pro",
+      "sentAt": null,
+      "responseSummary": null,
+      "promptText": ""
+    },
+    "actions": []
+  }
+]
