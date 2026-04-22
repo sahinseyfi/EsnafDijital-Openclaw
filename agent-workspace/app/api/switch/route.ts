@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     if (scope === 'all-sessions') {
       if (selected.kind !== 'authProfile' || selected.provider !== 'openai-codex') {
-        throw new Error('Sadece gerçek openai-codex auth profilleri agent varsayılanı yapılabilir')
+        throw new Error('Sadece gerçek openai-codex kimlik profilleri ajan varsayılanı yapılabilir')
       }
 
       const orderedProfiles = state.profiles
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       } else if (selected.kind === 'agent') {
         await execFileAsync(CURRENT_SESSION_SWITCH_HELPER, [selected.agentId, '--clear', sessionKey])
       } else {
-        throw new Error('Bu oturumda sadece agent veya gerçek openai-codex auth profili seçilebilir')
+        throw new Error('Bu oturumda sadece ajan veya gerçek openai-codex kimlik profili seçilebilir')
       }
     }
 
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: scope === 'all-sessions' ? 'Gerçek auth sıra önceliği agent üzerinde güncellendi' : 'Bu oturumun gerçek auth profili değiştirildi',
+    message: scope === 'all-sessions' ? 'Gerçek profil sırası ajan üzerinde güncellendi' : 'Bu oturumun gerçek profil seçimi değiştirildi',
     settings: nextState.settings,
     profiles: nextState.profiles,
   })

@@ -9,6 +9,14 @@ const AUTH_HELPER = '/usr/local/bin/esnafdijital-openclaw-auth'
 
 type HelperSubmitResult = Partial<AuthSessionState>
 
+function getExecErrorMessage(error: unknown) {
+  if (typeof error === 'object' && error !== null) {
+    const maybeError = error as { stderr?: string; message?: string }
+    return maybeError.stderr || maybeError.message || 'unknown error'
+  }
+  return 'unknown error'
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const sessionId = typeof body.sessionId === 'string' ? body.sessionId : ''
@@ -18,7 +26,7 @@ export async function POST(request: NextRequest) {
   const workspace = typeof body.workspace === 'string' ? body.workspace.trim() : ''
 
   if (!sessionId || !callbackValue) {
-    return NextResponse.json({ ok: false, message: 'sessionId ve callback/code zorunlu' }, { status: 400 })
+    return NextResponse.json({ ok: false, message: 'Oturum kimliği ile dönen bağlantı veya kod zorunlu' }, { status: 400 })
   }
 
   if (!displayName && !workspace) {
@@ -30,19 +38,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: current.message }, { status: 400 })
   }
   if (!current.authSession || current.authSession.sessionId !== sessionId) {
-    return NextResponse.json({ ok: false, message: 'Aktif auth session bulunamadı' }, { status: 400 })
+    return NextResponse.json({ ok: false, message: 'Aktif doğrulama oturumu bulunamadı' }, { status: 400 })
   }
 
   let helper: HelperSubmitResult
   try {
     const { stdout } = await execFileAsync(AUTH_HELPER, ['submit', sessionId, callbackValue], { maxBuffer: 1024 * 1024 })
     helper = JSON.parse(stdout) as HelperSubmitResult
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
       {
         ok: false,
-        message: 'OpenClaw openai-codex auth doğrulaması başlatılamadı',
-        error: error?.stderr || error?.message || 'unknown error',
+        message: 'OpenClaw kimlik doğrulaması başlatılamadı',
+        error: getExecErrorMessage(error),
       },
       { status: 500 },
     )
@@ -64,8 +72,8 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     message: displayName || workspace
-      ? 'Auth doğrulaması başlatıldı. Hesap bağlamına göre profil oluşturulacak veya güncellenecek.'
-      : 'Auth doğrulaması başlatıldı. Profil eşleşirse güncellenir, gerekirse yeni kayıt açılır.',
+      ? 'Kimlik doğrulama başlatıldı. Hesap durumuna göre profil oluşturulacak veya güncellenecek.'
+      : 'Kimlik doğrulama başlatıldı. Profil eşleşirse güncellenir, gerekirse yeni kayıt açılır.',
     authSession: nextState.authSession,
     profiles: nextState.profiles,
   })

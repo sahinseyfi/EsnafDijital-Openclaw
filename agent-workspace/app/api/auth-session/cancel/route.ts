@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
   const nextState = await updateDashboardState(async (state) => {
     if (sessionId && state.authSession && state.authSession.sessionId !== sessionId) {
-      throw new Error('Farklı auth session aktif')
+      throw new Error('Farklı bir doğrulama oturumu aktif')
     }
     if (state.authSession?.sessionId) {
       try {
@@ -31,5 +31,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: nextState.message }, { status: 400 })
   }
 
-  return NextResponse.json({ ok: true, message: 'Auth session iptal edildi', authSession: nextState.authSession })
+  return NextResponse.json({ ok: true, message: 'Doğrulama oturumu iptal edildi', authSession: nextState.authSession })
 }

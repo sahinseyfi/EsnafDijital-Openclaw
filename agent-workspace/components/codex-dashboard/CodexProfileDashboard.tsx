@@ -61,6 +61,11 @@ function classNames(...items: Array<string | false | null | undefined>) {
   return items.filter(Boolean).join(' ')
 }
 
+function getErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error && error.message) return error.message
+  return fallback
+}
+
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     ...init,
@@ -125,20 +130,20 @@ function ProfileCard({
         <div className={styles.profileIdentity}>
           <div className={styles.profileTitleRow}>
             <strong className={styles.profileName}>{profile.displayName || profile.profileId}</strong>
-            {profile.isCurrentProfile ? <span className={styles.currentBadge}>Current</span> : null}
+            {profile.isCurrentProfile ? <span className={styles.currentBadge}>Aktif</span> : null}
             {profile.recommended ? <span className={styles.recommendBadge}>Önerilen</span> : null}
             <span className={classNames(styles.healthBadge, styles[`health_${profile.health || 'idle'}`])}>{healthText(profile.health)}</span>
           </div>
           <p className={styles.profileSubline}>{profile.email || profile.profileId}</p>
           <div className={styles.metaRow}>
-            <span className={styles.metaChip}>{profile.kind === 'authProfile' ? 'Gerçek auth' : 'Agent'}</span>
+            <span className={styles.metaChip}>{profile.kind === 'authProfile' ? 'Gerçek kimlik kaydı' : 'Ajan'}</span>
             {profile.workspace ? <span className={styles.metaChip}>{profile.workspace}</span> : null}
             {profile.planType ? <span className={styles.metaChip}>{profile.planType}</span> : null}
           </div>
         </div>
 
         <div className={styles.profileInfoRow}>
-          <span className={styles.infoChip}>Agent: {profile.agentId || 'Yok'}</span>
+          <span className={styles.infoChip}>Ajan: {profile.agentId || 'Yok'}</span>
           {profile.kind === 'authProfile' && visibleUsage?.fiveHourResetAt ? (
             <span className={styles.infoChip}>{profile.isCurrentProfile && currentSessionUsage ? 'Oturum 5 saat' : '5 saat'}: %{usageLeft(visibleUsage.fiveHourPct)} kaldı{timeUntil(visibleUsage.fiveHourResetAt) ? ` · ${timeUntil(visibleUsage.fiveHourResetAt)}` : ''}</span>
           ) : null}
@@ -171,7 +176,7 @@ function ProfileCard({
         <div className={styles.inlineEditor}>
           <label className={styles.fieldBlock}>
             <span>Görünen ad</span>
-            <input value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} placeholder="Örn: Business Ana Hesap" />
+            <input value={editDisplayName} onChange={(event) => setEditDisplayName(event.target.value)} placeholder="Örn: Merkez hesap" />
           </label>
           <label className={styles.fieldBlock}>
             <span>Not</span>
@@ -241,8 +246,8 @@ export function CodexProfileDashboard({
       setAuthSession(authPayload.authSession)
       setStatus(nextStatus)
       if (announce) showFlash('Sayfa yenilendi', 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Veriler alınamadı'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Veriler alınamadı')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -271,7 +276,7 @@ export function CodexProfileDashboard({
         }
 
         if (payload.authSession?.status === 'error') {
-          const message = payload.authSession.error || 'Auth doğrulaması başarısız oldu'
+          const message = payload.authSession.error || 'Kimlik doğrulama başarısız oldu'
           setErrorText(message)
           showFlash(message, 'error')
         }
@@ -283,8 +288,8 @@ export function CodexProfileDashboard({
             setAuthSession(null)
           }
         }
-      } catch (error: any) {
-        setErrorText(error?.message || 'Auth durumu alınamadı')
+      } catch (error: unknown) {
+        setErrorText(getErrorMessage(error, 'Doğrulama durumu alınamadı'))
       }
     }, 2500)
 
@@ -299,8 +304,8 @@ export function CodexProfileDashboard({
       setAuthSession(payload.authSession)
       setCallbackValue('')
       showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Auth başlatılamadı'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Kimlik doğrulama başlatılamadı')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -331,14 +336,14 @@ export function CodexProfileDashboard({
       })
       setAuthSession(payload.authSession)
       showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Auth doğrulaması başlatılamadı'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Kimlik doğrulama başlatılamadı')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
       setBusyKey(null)
     }
-  }, [authDisplayName, authNote, authSession?.sessionId, authWorkspace, callbackValue, showFlash])
+  }, [authDisplayName, authNote, authSession, authWorkspace, callbackValue, showFlash])
 
   const cancelAuth = useCallback(async () => {
     if (!authSession?.sessionId) return
@@ -351,14 +356,14 @@ export function CodexProfileDashboard({
       setAuthSession(null)
       setCallbackValue('')
       showFlash(payload.message, 'info')
-    } catch (error: any) {
-      const message = error?.message || 'Auth session iptal edilemedi'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Doğrulama oturumu iptal edilemedi')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
       setBusyKey(null)
     }
-  }, [authSession?.sessionId, showFlash])
+  }, [authSession, showFlash])
 
   const switchCurrent = useCallback(async (profileId: string) => {
     setBusyKey(`current:${profileId}`)
@@ -369,8 +374,8 @@ export function CodexProfileDashboard({
       })
       await refreshDashboard(false)
       showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Current profil değiştirilemedi'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Aktif profil değiştirilemedi')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -387,8 +392,8 @@ export function CodexProfileDashboard({
       })
       await refreshDashboard(false)
       showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Varsayılan profil değiştirilemedi'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Varsayılan profil değiştirilemedi')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -412,8 +417,8 @@ export function CodexProfileDashboard({
       setEditingProfileId(null)
       await refreshDashboard(false)
       showFlash(payload.message, 'success')
-    } catch (error: any) {
-      const message = error?.message || 'Profil kaydedilemedi'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Profil kaydedilemedi')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -431,8 +436,8 @@ export function CodexProfileDashboard({
       })
       await refreshDashboard(false)
       showFlash(payload.message, 'info')
-    } catch (error: any) {
-      const message = error?.message || 'Profil silinemedi'
+    } catch (error: unknown) {
+      const message = getErrorMessage(error, 'Profil silinemedi')
       setErrorText(message)
       showFlash(message, 'error')
     } finally {
@@ -445,13 +450,13 @@ export function CodexProfileDashboard({
       <section className={styles.hero}>
         <div>
           <span className={styles.eyebrow}>EsnafDigital / Codex Profilleri</span>
-          <h1>Sade operator ekranı</h1>
+          <h1>Sade operatör ekranı</h1>
           <p className={styles.lead}>
-            Burada sadece üç iş var: gerçek auth başlatmak, profili kaydetmek ve hangi profille çalışacağını seçmek.
+            Burada sadece üç iş var: gerçek kimlik doğrulamayı başlatmak, profili kaydetmek ve hangi profille çalışacağını seçmek.
           </p>
         </div>
         <div className={styles.heroMeta}>
-          <span className={styles.metaChip}>Agent: {status.summary.activeAgentId}</span>
+          <span className={styles.metaChip}>Ajan: {status.summary.activeAgentId}</span>
           <span className={styles.metaChip}>Model: {status.summary.currentModel}</span>
           <span className={styles.metaChip}>Güncellendi: {formatDate(status.lastRefreshedAt)}</span>
         </div>
@@ -463,7 +468,7 @@ export function CodexProfileDashboard({
       <section className={styles.summaryGrid}>
         <SummaryCard label="Toplam profil" value={status.summary.totalProfiles} />
         <SummaryCard label="Sağlıklı" value={status.summary.healthyProfiles} />
-        <SummaryCard label="Current" value={currentProfile?.displayName || 'Yok'} note={currentProfile?.workspace || currentProfile?.email || ''} />
+        <SummaryCard label="Aktif profil" value={currentProfile?.displayName || 'Yok'} note={currentProfile?.workspace || currentProfile?.email || ''} />
         <SummaryCard label="Önerilen" value={status.summary.recommendedProfile || 'Yok'} />
       </section>
 
@@ -471,7 +476,7 @@ export function CodexProfileDashboard({
         <div className={styles.sectionHeader}>
           <div>
             <h2>1. Yeni profil ekle</h2>
-            <p>Tek akış bu. Auth linkini aç, giriş yap, dönen linki buraya yapıştır, profil adını ve notunu yaz, kaydet.</p>
+            <p>Tek akış bu. Giriş bağlantısını aç, giriş yap, dönen bağlantıyı buraya yapıştır, profil adını ve notunu yaz, kaydet.</p>
           </div>
           <button className={styles.secondaryButton} disabled={busyKey === 'refresh'} onClick={() => refreshDashboard(true)}>
             Yenile
@@ -480,21 +485,21 @@ export function CodexProfileDashboard({
 
         {!authSession ? (
           <div className={styles.emptyBox}>
-            <p>Yeni bir profil eklemek için auth başlat.</p>
+            <p>Yeni bir profil eklemek için kimlik doğrulamayı başlatın.</p>
             <button className={styles.primaryButton} disabled={busyKey === 'start-auth'} onClick={startAuth}>
-              Yeni auth linki üret
+              Yeni giriş bağlantısı üret
             </button>
           </div>
         ) : (
           <div className={styles.authBox}>
             <div className={styles.authRow}>
-              <span className={styles.metaChip}>Session: {authSession.sessionId}</span>
+              <span className={styles.metaChip}>Oturum: {authSession.sessionId}</span>
               <span className={styles.metaChip}>Durum: {authStatusText(authSession.status)}</span>
               <span className={styles.metaChip}>Başlangıç: {formatDate(authSession.startedAt)}</span>
             </div>
 
             <label className={styles.fieldBlock}>
-              <span>Auth linki</span>
+              <span>Giriş bağlantısı</span>
               <div className={styles.linkRow}>
                 <input value={authSession.authUrl} readOnly />
                 <a className={styles.secondaryButton} href={authSession.authUrl} target="_blank" rel="noreferrer">Aç</a>
@@ -504,7 +509,7 @@ export function CodexProfileDashboard({
             <div className={styles.formGrid}>
               <label className={styles.fieldBlock}>
                 <span>Profil adı</span>
-                <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: ChatGptBusiness" />
+                <input value={authDisplayName} onChange={(event) => setAuthDisplayName(event.target.value)} placeholder="Örn: Merkez hesap" />
               </label>
               <label className={styles.fieldBlock}>
                 <span>Kısa kod / workspace (opsiyonel)</span>
@@ -518,8 +523,8 @@ export function CodexProfileDashboard({
             </label>
 
             <label className={styles.fieldBlock}>
-              <span>Callback URL veya code</span>
-              <textarea value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} placeholder="Auth sonrası dönen linki ya da code'u yapıştır" />
+              <span>Dönen bağlantı veya kod</span>
+              <textarea value={callbackValue} onChange={(event) => setCallbackValue(event.target.value)} placeholder="Giriş sonrası dönen bağlantıyı ya da kodu yapıştırın" />
             </label>
 
             <div className={styles.cardActions}>
@@ -538,7 +543,7 @@ export function CodexProfileDashboard({
         <div className={styles.sectionHeader}>
           <div>
             <h2>2. Profiller</h2>
-            <p>Şu an kayıtlı profil sayısı {status.summary.totalProfiles}, current profil de {currentProfile?.displayName || 'yok'}.</p>
+            <p>Şu an kayıtlı profil sayısı {status.summary.totalProfiles}, aktif profil de {currentProfile?.displayName || 'yok'}.</p>
           </div>
         </div>
 

@@ -10,7 +10,7 @@ export default async function HesapMerkeziPage() {
   return (
     <AdminShell
       title="Hesap Merkezi"
-      description="Yeni auth/profil sisteminin temiz başlangıç ekranı. Burada sadece gerçek hesap kaydı ve görünen operatör adı ilişkisi var."
+      description="Yeni kimlik doğrulama ve profil sisteminin sade başlangıç ekranı. Burada sadece gerçek hesap kaydı ve görünen operatör adı ilişkisi var."
     >
       <AccountCenter initialPayload={payload} />
     </AdminShell>

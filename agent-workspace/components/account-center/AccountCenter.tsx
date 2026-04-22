@@ -24,6 +24,11 @@ function cx(...items: Array<string | false | null | undefined>) {
   return items.filter(Boolean).join(' ')
 }
 
+function getErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error && error.message) return error.message
+  return fallback
+}
+
 function formatDate(value?: string | null) {
   if (!value) return '—'
   return new Intl.DateTimeFormat('tr-TR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value))
@@ -194,7 +199,7 @@ function ProfileCard({
                 </div>
                 <div className={styles.limitBar}>
                   <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${hasLimits ? resetProgress(profile.limits?.fiveHourResetAt, 5) : 100}%`, opacity: hasLimits ? 1 : 0.18 }} />
-                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır` : 'Reset bilgisi yükleniyor'}</span>
+                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.fiveHourResetAt)} sonra sıfır` : 'Sıfırlanma bilgisi yükleniyor'}</span>
                 </div>
               </div>
 
@@ -206,7 +211,7 @@ function ProfileCard({
                 </div>
                 <div className={styles.limitBar}>
                   <div className={cx(styles.limitFill, styles.limitFillReset)} style={{ width: `${hasLimits ? resetProgress(profile.limits?.weekResetAt, 24 * 7) : 100}%`, opacity: hasLimits ? 1 : 0.18 }} />
-                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır` : 'Reset bilgisi yükleniyor'}</span>
+                  <span className={styles.limitText}>{hasLimits ? `${formatRemainingTime(profile.limits?.weekResetAt)} sonra sıfır` : 'Sıfırlanma bilgisi yükleniyor'}</span>
                 </div>
               </div>
             </div>
@@ -350,8 +355,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
             setNote('')
           }
         }
-      } catch (error: any) {
-        setErrorText(error?.message || 'Auth durumu alınamadı')
+      } catch (error: unknown) {
+        setErrorText(getErrorMessage(error, 'Doğrulama durumu alınamadı'))
       }
     }, 2500)
 
@@ -369,8 +374,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         systemNotice: result.systemNotice,
       }))
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Auth başlatılamadı')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Kimlik doğrulama başlatılamadı'))
     } finally {
       setBusyKey(null)
     }
@@ -401,8 +406,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         systemNotice: result.systemNotice,
       }))
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Auth kaydı başlatılamadı')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Kimlik doğrulama kaydı başlatılamadı'))
     } finally {
       setBusyKey(null)
     }
@@ -425,8 +430,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       setDisplayName('')
       setNote('')
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Auth iptal edilemedi')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Doğrulama iptal edilemedi'))
     } finally {
       setBusyKey(null)
     }
@@ -445,8 +450,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         systemNotice: result.systemNotice,
       }))
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Profil değiştirilemedi')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Profil değiştirilemedi'))
     } finally {
       setBusyKey(null)
     }
@@ -466,8 +471,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         systemNotice: result.systemNotice,
       }))
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Profil silinemedi')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Profil silinemedi'))
     } finally {
       setBusyKey(null)
     }
@@ -493,8 +498,8 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       }))
       setEditingProfileId(null)
       setFlash(result.message)
-    } catch (error: any) {
-      setErrorText(error?.message || 'Profil güncellenemedi')
+    } catch (error: unknown) {
+      setErrorText(getErrorMessage(error, 'Profil güncellenemedi'))
     } finally {
       setBusyKey(null)
     }
@@ -506,7 +511,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <div>
           <p className={styles.eyebrow}>Yeni sistem / V2</p>
           <h1>Hesap Merkezi</h1>
-          <p className={styles.lead}>Bu ekran gerçek auth kaydı, aktif seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
+          <p className={styles.lead}>Bu ekran gerçek kimlik kaydı, aktif seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
         </div>
         <div className={styles.heroMeta}>
           <span className={styles.metaChip}>Toplam profil: {payload.state.totalProfiles}</span>
@@ -529,14 +534,14 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
       <section className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
           <div>
-            <h3>Yeni auth ekle</h3>
-            <p className={styles.sectionText}>Link üretin, giriş yapın, dönen callback’i yapıştırın, profil adını verin ve kaydedin.</p>
+            <h3>Yeni profil ekle</h3>
+            <p className={styles.sectionText}>Bağlantıyı üretin, giriş yapın, dönen bağlantıyı yapıştırın, profil adını verin ve kaydedin.</p>
           </div>
-          <button className="button-primary" disabled={busyKey === 'start-auth'} onClick={startAuth}>Yeni auth başlat</button>
+          <button className="button-primary" disabled={busyKey === 'start-auth'} onClick={startAuth}>Yeni giriş bağlantısı üret</button>
         </div>
 
         {!payload.authSession ? (
-          <div className={styles.emptyState}>Şu an aktif auth oturumu yok.</div>
+          <div className={styles.emptyState}>Şu an aktif doğrulama oturumu yok.</div>
         ) : (
           <div className={styles.stack}>
             <div className={styles.authGrid}>
@@ -550,7 +555,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
 
               <div className={styles.authPanel}>
                 <label className={styles.field}>
-                  <span>Auth linki</span>
+                  <span>Giriş bağlantısı</span>
                   <input className={styles.input} value={payload.authSession.authUrl} readOnly />
                 </label>
                 <div className={styles.actionRow} style={{ marginTop: 12 }}>
@@ -616,7 +621,7 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
         <div className={styles.sectionHeader}>
           <div>
             <h3>Aynı teknik kayda bağlı profiller</h3>
-            <p className={styles.sectionText}>Aynı auth kimliğinden operatör tarafında ayrı kayıt açılmış gruplar burada görünür.</p>
+            <p className={styles.sectionText}>Aynı teknik kimlikten operatör tarafında ayrı kayıt açılmış gruplar burada görünür.</p>
           </div>
         </div>
 

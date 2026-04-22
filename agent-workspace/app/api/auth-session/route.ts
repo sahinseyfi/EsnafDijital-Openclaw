@@ -104,7 +104,7 @@ export async function GET() {
         rawProfileIdToCleanup = canonical.previousProfileId !== canonical.canonicalProfileId ? canonical.previousProfileId : null
 
         const canonicalDisplayName = displayName || workspace || rawProfile?.displayName || canonical.email || canonical.canonicalProfileId
-        const canonicalNote = note || rawProfile?.note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
+        const canonicalNote = note || rawProfile?.note || `Gerçek kimlik doğrulama profili, ajan=${sourceAgentId}, kip=oauth`
         const canonicalWorkspace = workspace || rawProfile?.workspace || null
         const existingCanonical = current.profiles.find((profile) => profile.profileId === canonical.canonicalProfileId)
 

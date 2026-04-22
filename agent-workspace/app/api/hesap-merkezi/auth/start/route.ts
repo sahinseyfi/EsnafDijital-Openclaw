@@ -16,14 +16,22 @@ type HelperStartResult = {
   result?: string | null
 }
 
+function getExecErrorMessage(error: unknown) {
+  if (typeof error === 'object' && error !== null) {
+    const maybeError = error as { stderr?: string; message?: string }
+    return maybeError.stderr || maybeError.message || 'unknown error'
+  }
+  return 'unknown error'
+}
+
 export async function POST() {
   let helper: HelperStartResult
   try {
     const { stdout } = await execFileAsync(AUTH_HELPER, ['start'])
     helper = JSON.parse(stdout) as HelperStartResult
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { ok: false, message: 'Gerçek OpenClaw auth akışı başlatılamadı', error: error?.stderr || error?.message || 'unknown error' },
+      { ok: false, message: 'Gerçek OpenClaw kimlik doğrulama akışı başlatılamadı', error: getExecErrorMessage(error) },
       { status: 500 },
     )
   }
@@ -41,5 +49,5 @@ export async function POST() {
   }))
 
   const payload = await getAccountCenterPayload()
-  return NextResponse.json({ ok: true, message: 'Gerçek auth linki üretildi', ...payload })
+  return NextResponse.json({ ok: true, message: 'Gerçek giriş bağlantısı üretildi', ...payload })
 }

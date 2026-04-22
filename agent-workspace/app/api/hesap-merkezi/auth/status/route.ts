@@ -99,7 +99,7 @@ export async function GET() {
         rawProfileIdToCleanup = materialized.previousProfileId !== materialized.targetProfileId ? materialized.previousProfileId : null
 
         const targetDisplayName = displayName || workspace || rawProfile?.displayName || materialized.email || materialized.targetProfileId
-        const targetNote = note || rawProfile?.note || `Gerçek auth profile, agent=${sourceAgentId}, mode=oauth`
+        const targetNote = note || rawProfile?.note || `Gerçek kimlik doğrulama profili, ajan=${sourceAgentId}, kip=oauth`
         const targetWorkspace = workspace || rawProfile?.workspace || null
         const existingTarget = current.profiles.find((profile) => profile.profileId === materialized.targetProfileId)
 
