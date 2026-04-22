@@ -123,15 +123,25 @@ export function getOfferAddons(keys: string[]) {
 export function buildDeliveryScopeSuggestion(offer: Pick<OfferRecord, 'packageName' | 'addonKeys' | 'domainPreference' | 'customDomain'>) {
   const packageInfo = getOfferPackageByName(offer.packageName)
   const addons = getOfferAddons(offer.addonKeys)
+  const needsInstagram = offer.packageName === 'Paket 3 - Guclu Dijital Kimlik' || offer.packageName === 'Paket 4 - Duzenli Icerik' || offer.addonKeys.includes('kucuk-sosyal-medya-duzenleme')
   const domainLine = offer.domainPreference === 'custom-domain'
-    ? `Domain plani: ozel domain bagla${offer.customDomain ? ` (${offer.customDomain})` : ''}`
-    : 'Domain plani: subdomain ile yayinla'
+    ? `- Ozel domain bagla${offer.customDomain ? ` (${offer.customDomain})` : ' ve DNS yonlendirmesini netlestir'}`
+    : '- Subdomain ile yayinla'
 
   const sections = [
     `Secili teklif: ${offer.packageName}`,
     'Cekirdek teslimler:',
     ...(packageInfo ? packageInfo.includes.map((item) => `- ${item}`) : ['- Teklif kapsam maddeleri netlestirilecek']),
+    'Domain ve yayin plani:',
     domainLine,
+    'Gerekli assetler:',
+    '- Isletme adi, telefon, adres, calisma saatleri',
+    '- Kullanilacak logo, gorsel ve kisa tanitim metni',
+    '- Kartvizit veya yorum materyali icin baski metni/onayi',
+    'Gerekli erisimler:',
+    '- Google Isletme Profili erisimi veya dogrulama destegi',
+    '- Domain gerekiyorsa registrar / DNS erisimi',
+    ...(needsInstagram ? ['- Instagram giris bilgisi veya profil duzenleme onayi'] : []),
   ]
 
   if (addons.length > 0) {
@@ -139,7 +149,14 @@ export function buildDeliveryScopeSuggestion(offer: Pick<OfferRecord, 'packageNa
     sections.push(...addons.map((item) => `- ${item.label}`))
   }
 
-  sections.push('Teslim oncesi kontrol: asset, erisim, metin ve yayin adimini netlestir.')
+  sections.push('Kickoff sonrasi operasyon adimlari:')
+  sections.push('- Asset ve erisim eksiklerini tamamla')
+  sections.push('- Ilk taslak / kurulum cikisini hazirla')
+  sections.push('- Isletme onayi sonrasi yayin / teslim adimini gec')
+  sections.push('Yayin oncesi kontrol:')
+  sections.push('- Telefon, adres, harita ve buton linklerini kontrol et')
+  sections.push('- Mobil gorunum ve temel yazim duzenini kontrol et')
+  sections.push('- Isletme sahibinden son onayi al')
 
   return sections.join('\n')
 }

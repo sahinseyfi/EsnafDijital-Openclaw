@@ -64,7 +64,7 @@ function mapOfferStatus(value: string): OfferRecord['status'] {
 }
 
 function mapOfferDomainPreference(value: string | undefined): OfferRecord['domainPreference'] {
-  if (value === 'custom-domain') return 'custom-domain'
+  if (value === 'custom-domain' || value === 'custom_domain') return 'custom-domain'
   return 'subdomain'
 }
 
