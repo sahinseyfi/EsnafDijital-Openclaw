@@ -12,6 +12,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 1. Consultation kaydindan tek anlik hedefi cikar.
    - Prompt tek is istesin.
    - Hedef tek cumlede yazilamiyorsa once onu netlestir.
+   - Eger is bir dosya setini, skill'i veya baglam omurgasini degerlendirmekse varsayilan mod `once degerlendir, sonra sadece gerekeni degistir` olsun.
 
 2. Gorevi guvenle kurmak icin gereken baglami sec.
    - Tum kaydi, tum tarihi veya tum dosyalari otomatik olarak prompta basma.
@@ -31,6 +32,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Belirsiz yumusak dil kullanma.
    - Ilk kisimda amac, sonra secili baglam, sonra gorev, sonra sinirlar, sonra beklenen cikti ver.
    - Teknik olmayan kisa ozet gerekiyorsa bunu JSON icinde alan olarak isteme. Final promptta JSON disinda ayri bir ikinci bolum olarak iste.
+   - Eger gorev dosya seti degerlendirmesi ise cikti kontratina `decision` ve `why` benzeri karar alanlari ekle; guclu olan parcayi rewrite'a zorlama.
 
 5. Promptu fail-closed kontrol et.
    - Repo/runtime baglami yoksa
@@ -43,6 +45,8 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Kisa, yapilandirilmis ve gorev odakli yaz.
 - Tek promptta birden fazla farkli is isteme.
 - Eksik kritik bilgi varsa uydurma, acik bosluk veya varsayim olarak etiketle.
+- Dosya-seti veya skill degerlendirmelerinde varsayilan karar `keep` olsun; ancak net gerekce varsa `trim` veya `rewrite` oner.
+- Dosya-seti degerlendirmelerinde tum dosyalari otomatik rewrite ettiren dil kurma.
 - Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini bozma.
 - Genel framework veya pazarlama dili yazma.
 - Citation, footnote, kaynakca, markdown reference link veya `[1]`, `[2]`, `([GitHub][1])` benzeri atif stili kullanma.
@@ -54,6 +58,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - finalPromptText icinde sabit ve sade rol kullan: `Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.`
 - finalPromptText icinde su repo referanslarini acikca gecir: `https://github.com/sahinseyfi/EsnafDijital-Openclaw` ve `https://github.com/openclaw/openclaw`.
 - finalPromptText icinde teknik olmayan kisa ozeti JSON disinda, ayri ve sade bir ikinci bolum olarak acikca iste.
+- Eger prompt dosya-seti degerlendirmesi uretiyorsa `finalContent` benzeri alanlari sadece `trim` veya `rewrite` kararinda doldurt; `keep` kararinda bos birak veya isteme.
 
 ## Uygulama entegrasyon kontrati
 

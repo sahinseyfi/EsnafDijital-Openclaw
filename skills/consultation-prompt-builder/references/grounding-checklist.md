@@ -13,6 +13,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 ## Zorunlu netlik
 - prompt tek bir is mi istiyor
 - once cekirdek baglam ozeti kurulmus mu
+- dosya veya skill degerlendirmesinde `keep | trim | rewrite` benzeri karar cizgisi net mi
 - secili baglam istenen degisikligi guvenle kurmaya yetecek kadar genis mi
 - karari etkilemeyen tekrarlar prompta tasinmamis mi
 - beklenen cikti tipi acik mi
@@ -27,6 +28,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - prompt fazla genel kalmissa
 - repo/runtime baglami yoksa
 - kullanilacak cikti bicimi net degilse
+- dosya degerlendirme gorevi toplu rewrite moduna kayiyorsa
 - baglam yapay olarak dar tutulup kritik kaynaklar disarida kalmissa
 - gereksiz teori promptun agirligini artiriyorsa
 - eksik kritik bilgi saklaniyorsa

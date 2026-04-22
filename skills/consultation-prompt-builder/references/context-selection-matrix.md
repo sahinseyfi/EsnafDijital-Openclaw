@@ -29,9 +29,14 @@ Her gorevde asagidaki cizgiler kisa ozet olarak bulunsun:
   - gerekiyorsa ilgili `memory/` notlari
 - Ham oku:
   - evet, degerlendirilen dosyalarin kendisi
+- Cikti kur:
+  - once `keep | trim | rewrite` karari ver
+  - `why` veya esit bir gerekce alani ekle
+  - `finalContent` sadece `trim` veya `rewrite` ise iste
 - Prompta tasima:
   - ilgisiz deploy detaylari
   - gorevi etkilemeyen eski gunluk notlar
+  - tum dosyalari otomatik yeniden yazdiran dil
 
 ### 2) Skill iyilestirme veya prompt kalitesi
 - Ek baglam:
