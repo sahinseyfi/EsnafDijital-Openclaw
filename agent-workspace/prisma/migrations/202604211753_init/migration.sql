@@ -37,6 +37,51 @@ CREATE TYPE "ConsultationActionType" AS ENUM ('decision_note', 'project_task', '
 -- CreateEnum
 CREATE TYPE "ConsultationActionStatus" AS ENUM ('open', 'done', 'cancelled');
 
+-- DropForeignKey
+ALTER TABLE "public"."Audit" DROP CONSTRAINT "Audit_businessId_fkey";
+
+-- DropForeignKey
+ALTER TABLE "public"."Consultation" DROP CONSTRAINT "Consultation_businessId_fkey";
+
+-- DropForeignKey
+ALTER TABLE "public"."DeliveryProject" DROP CONSTRAINT "DeliveryProject_businessId_fkey";
+
+-- DropForeignKey
+ALTER TABLE "public"."DeliveryProject" DROP CONSTRAINT "DeliveryProject_offerId_fkey";
+
+-- DropForeignKey
+ALTER TABLE "public"."Offer" DROP CONSTRAINT "Offer_businessId_fkey";
+
+-- AlterTable
+ALTER TABLE "Consultation" DROP COLUMN "businessId",
+DROP COLUMN "generatedPrompt",
+DROP COLUMN "outputSummary",
+DROP COLUMN "request",
+DROP COLUMN "selectedContext",
+ADD COLUMN     "consultRoute" "ConsultationRoute",
+ADD COLUMN     "decisionQuestion" TEXT,
+ADD COLUMN     "dueAt" TIMESTAMP(3),
+ADD COLUMN     "goal" TEXT,
+ADD COLUMN     "ownerRole" "ConsultationOwnerRole",
+ADD COLUMN     "stage" "ConsultationStage" NOT NULL DEFAULT 'draft',
+ADD COLUMN     "status" "ConsultationStatus" NOT NULL DEFAULT 'open',
+ADD COLUMN     "title" TEXT NOT NULL,
+ADD COLUMN     "type" "ConsultationType" NOT NULL,
+ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL,
+ADD COLUMN     "whyNow" TEXT;
+
+-- DropTable
+DROP TABLE "public"."Audit";
+
+-- DropTable
+DROP TABLE "public"."Business";
+
+-- DropTable
+DROP TABLE "public"."DeliveryProject";
+
+-- DropTable
+DROP TABLE "public"."Offer";
+
 -- CreateTable
 CREATE TABLE "businesses" (
     "id" TEXT NOT NULL,
@@ -87,25 +132,6 @@ CREATE TABLE "delivery_projects" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "delivery_projects_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Consultation" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "type" "ConsultationType" NOT NULL,
-    "stage" "ConsultationStage" NOT NULL DEFAULT 'draft',
-    "status" "ConsultationStatus" NOT NULL DEFAULT 'open',
-    "ownerRole" "ConsultationOwnerRole",
-    "consultRoute" "ConsultationRoute",
-    "decisionQuestion" TEXT,
-    "goal" TEXT,
-    "whyNow" TEXT,
-    "dueAt" TIMESTAMP(3),
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Consultation_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -183,4 +209,3 @@ ALTER TABLE "ConsultationRun" ADD CONSTRAINT "ConsultationRun_consultationId_fke
 
 -- AddForeignKey
 ALTER TABLE "ConsultationAction" ADD CONSTRAINT "ConsultationAction_consultationId_fkey" FOREIGN KEY ("consultationId") REFERENCES "Consultation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
