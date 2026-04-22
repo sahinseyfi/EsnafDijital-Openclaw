@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT_DIR"
+
+MODE="full"
+DRY_RUN=0
+CLEAN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --schema-only) MODE="schema" ;;
+    --data-only) MODE="data" ;;
+    --full) MODE="full" ;;
+    --dry-run) DRY_RUN=1 ;;
+    --clean) CLEAN=1 ;;
+    -h|--help)
+      cat <<'EOF'
+Usage:
+  SUPABASE_DATABASE_URL='postgresql://postgres:***@db....supabase.co:5432/postgres' \
+  ./bin/sync-db-to-supabase [--schema-only|--data-only|--full] [--clean] [--dry-run]
+
+Notes:
+- Source DB vars are read from current env first, then /etc/esnafdijital/esnafdijital.env
+- Target DB is read from SUPABASE_DATABASE_URL or TARGET_DATABASE_URL
+- Secrets are not written into the workspace
+- --clean adds DROP statements before recreate/import, use carefully
+EOF
+      exit 0
+      ;;
+    *)
+      echo "Bilinmeyen arguman: $arg" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z "${DATABASE_URL:-}" && -f /etc/esnafdijital/esnafdijital.env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source /etc/esnafdijital/esnafdijital.env
+  set +a
+fi
+
+SOURCE_URL="${SOURCE_DATABASE_URL:-${DATABASE_URL:-}}"
+TARGET_URL="${SUPABASE_DATABASE_URL:-${TARGET_DATABASE_URL:-}}"
+
+if [[ -z "$SOURCE_URL" ]]; then
+  echo "Kaynak DATABASE_URL bulunamadi." >&2
+  exit 1
+fi
+
+if [[ -z "$TARGET_URL" ]]; then
+  echo "SUPABASE_DATABASE_URL veya TARGET_DATABASE_URL gerekli." >&2
+  exit 1
+fi
+
+if [[ "$TARGET_URL" == *"[YOUR-PASSWORD]"* ]]; then
+  echo "Supabase sifresi placeholder durumda. Gercek sifre ile env verin." >&2
+  exit 1
+fi
+
+sanitize_url() {
+  python3 - "$1" <<'PY'
+from urllib.parse import urlsplit, urlunsplit
+import sys
+url = sys.argv[1]
+parts = urlsplit(url)
+print(urlunsplit((parts.scheme, parts.netloc, parts.path, '', '')))
+PY
+}
+
+mask_url() {
+  python3 - "$1" <<'PY'
+from urllib.parse import urlsplit, urlunsplit
+import sys
+url = sys.argv[1]
+parts = urlsplit(url)
+netloc = parts.netloc
+if '@' in netloc:
+    auth, host = netloc.rsplit('@', 1)
+    if ':' in auth:
+        user = auth.split(':', 1)[0]
+        netloc = f'{user}:***@{host}'
+    else:
+        netloc = f'***@{host}'
+print(urlunsplit((parts.scheme, netloc, parts.path, '', '')))
+PY
+}
+
+SOURCE_URL_CLEAN="$(sanitize_url "$SOURCE_URL")"
+TARGET_URL_CLEAN="$(sanitize_url "$TARGET_URL")"
+SOURCE_URL_MASKED="$(mask_url "$SOURCE_URL")"
+TARGET_URL_MASKED="$(mask_url "$TARGET_URL")"
+
+PG_DUMP_ARGS=(--no-owner --no-privileges)
+if [[ "$CLEAN" -eq 1 ]]; then
+  PG_DUMP_ARGS+=(--clean --if-exists)
+fi
+
+case "$MODE" in
+  schema) PG_DUMP_ARGS+=(--schema-only) ;;
+  data) PG_DUMP_ARGS+=(--data-only --inserts) ;;
+  full) ;;
+  *) echo "Gecersiz mode: $MODE" >&2; exit 1 ;;
+esac
+
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  echo "MODE=$MODE"
+  echo "CLEAN=$CLEAN"
+  echo "SOURCE=$SOURCE_URL_MASKED"
+  echo "TARGET=$TARGET_URL_MASKED"
+  echo "COMMAND=pg_dump ${PG_DUMP_ARGS[*]} <source> | psql <target>"
+  exit 0
+fi
+
+echo "Kaynak: $SOURCE_URL_MASKED"
+echo "Hedef: $TARGET_URL_MASKED"
+echo "Mode: $MODE"
+[[ "$CLEAN" -eq 1 ]] && echo "Clean: acik"
+
+pg_dump "${PG_DUMP_ARGS[@]}" "$SOURCE_URL_CLEAN" | psql "$TARGET_URL_CLEAN"
+
+echo "Supabase sync tamam"

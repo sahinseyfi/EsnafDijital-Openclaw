@@ -37,6 +37,7 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - Apify CLI surum kontrolu: `apify --version`
 - Apify hesap dogrulama: `apify info`
 - Apify login yenileme: `apify login`
+- Supabase DB sync dry-run: `cd /root/.openclaw/workspace/agent-workspace && SUPABASE_DATABASE_URL='postgresql://postgres:***@db.<project>.supabase.co:5432/postgres' npm run db:sync:supabase -- --dry-run`
 
 ## GitHub Workspace Sync
 - yalnizca `/root/.openclaw/workspace` GitHub'a senkronize edilir, tum `/root/.openclaw` degil

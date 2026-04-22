@@ -10,6 +10,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:bootstrap:local": "./bin/bootstrap-prisma-local",
+    "db:sync:supabase": "./bin/sync-db-to-supabase",
     "verify:hesap-merkezi-v2": "./bin/verify-hesap-merkezi-v2",
     "deploy:hesap-merkezi-v2": "./bin/deploy-hesap-merkezi-v2"
   },
