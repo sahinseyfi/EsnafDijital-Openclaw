@@ -12,7 +12,7 @@
 5. Repo ve runtime gercegine bagla.
 6. Eksik kritik bilgiyi uydurma.
 7. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
-8. Uygunsa teknik olmayan kisa ozet istegini promptun icine koy.
+8. Uygunsa teknik olmayan kisa ozeti JSON disinda, ayri bir ikinci bolum olarak iste.
 9. finalPromptText'i dogrudan son prompt olarak yaz, sonradan template ile toparlanacak taslak gibi birakma.
 10. Sabit rol, acik repo referansi ve uygulanabilir gorev tanimi kullan.
 11. Promptu hemen uygulanabilir yaz.
@@ -24,6 +24,7 @@
 - gorev
 - sinirlar
 - beklenen cikti
+- JSON disi kisa teknik olmayan ozet bolumu
 
 ## Anti-patternler
 - genel strateji yazip uygulamaya inmemek

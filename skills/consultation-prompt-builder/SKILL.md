@@ -28,7 +28,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Beklenen cikti tipini acik yaz: karar cercevesi, JSON, plan, teklif vb.
    - Belirsiz yumusak dil kullanma.
    - Ilk kisimda amac, sonra secili baglam, sonra gorev, sonra sinirlar, sonra beklenen cikti ver.
-   - Uygunsa final prompt icinde teknik olmayan kisa ozet istegini de acikca ekle.
+   - Teknik olmayan kisa ozet gerekiyorsa bunu JSON icinde alan olarak isteme. Final promptta JSON disinda ayri bir ikinci bolum olarak iste.
 
 5. Promptu fail-closed kontrol et.
    - Repo/runtime baglami yoksa
@@ -48,7 +48,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - finalPromptText alanini dogrudan yaz; ayri kod/template katmani son promptu tekrar kurmayacak varsay.
 - finalPromptText icinde sabit ve sade rol kullan: `Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.`
 - finalPromptText icinde su repo referanslarini acikca gecir: `https://github.com/sahinseyfi/EsnafDijital-Openclaw` ve `https://github.com/openclaw/openclaw`.
-- finalPromptText icinde teknik olmayan kisa ozet istegini uygun yerde acikca ekle.
+- finalPromptText icinde teknik olmayan kisa ozeti JSON disinda, ayri ve sade bir ikinci bolum olarak acikca iste.
 
 ## Uygulama entegrasyon kontrati
 

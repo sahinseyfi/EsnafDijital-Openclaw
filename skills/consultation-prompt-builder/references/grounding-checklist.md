@@ -15,7 +15,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 - secili baglam en fazla 3-5 oge mi
 - beklenen cikti tipi acik mi
 - sinirlar ve basari kosulu yazili mi
-- gerekiyorsa teknik olmayan kisa ozet istegi var mi
+- gerekiyorsa teknik olmayan kisa ozet istegi JSON disinda ayri bir bolum olarak var mi
 - oturum hafizasi veya baglam eksigi meta cumlesi prompta yazilmamis mi
 - finalPromptText dogrudan kullanilacak son prompt gibi mi
 - contextRefs en fazla 4 ogeye dusurulmus mu
