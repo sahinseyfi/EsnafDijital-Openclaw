@@ -1,0 +1,9 @@
+{
+  "searchStringsArray": [
+    "guzellik salonu"
+  ],
+  "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
+  "maxCrawledPlacesPerSearch": 60,
+  "scrapePlaceDetailPage": true,
+  "skipClosedPlaces": true
+}
