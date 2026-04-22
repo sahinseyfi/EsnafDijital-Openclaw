@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Business detail icinde activity timeline ilk haliyle acildi; siradaki adim bu zaman akisini dis veri yenileme, audit snapshot ve operator notlariyla birlestirecek veri kontratini netlestirmek
+- Business detail veri kontrati V1 referans dokumanina indirildi; siradaki adim bu kontrata gore `audit snapshot` kartini acmak ve dis veri yenileme aksiyonunun ilk UI girisini baglamak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
