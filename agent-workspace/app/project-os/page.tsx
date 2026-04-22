@@ -106,7 +106,7 @@ export default async function ProjectOsPage() {
           </div>
           <ul className="list">
             <li>Önce işletme, sonra audit, sonra teklif, sonra teslimat aynı omurgaya bağlanır</li>
-            <li>Veritabanı varsa gerçek kayıt, yoksa `.data/project-os-mock.json` üstünden mock kalıcılık kullanılır</li>
+            <li>Tüm kayıtlar doğrudan veritabanı omurgasına yazılır ve aynı zincirde izlenir</li>
             <li>Bu fazda amaç geniş CRM değil, teslimat hattını tek yerde görünür başlatmak</li>
           </ul>
         </article>

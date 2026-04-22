@@ -6,7 +6,7 @@ Admin paneli, ic operasyon ekranlari ve ilgili servis mantigi burada yasar.
 ## Ne zaman okunur?
 - kod degisikligi yapilacaksa
 - ekran veya API akisi incelenecekse
-- veri modeli veya mock/db servis katmani degisecekse
+- veri modeli veya servis katmani degisecekse
 
 ## Ilk bakilacak yerler
 - `package.json` -> uygulama komutlari ve bagimliliklar
@@ -14,14 +14,13 @@ Admin paneli, ic operasyon ekranlari ve ilgili servis mantigi burada yasar.
 - `components/` -> arayuz parcaciklari
 - `lib/` -> domain, servis ve evaluator mantigi
 - `prisma/` -> veri modeli
-- `.data/` -> mock modda kalici veriler
 - `deploy/` ve `bin/` -> uygulama-ozel operasyon/script alanlari
 
 ## Yazma kurallari
 - yeni ekran veya route mantigi once ilgili mevcut akis icinde aranir
 - ortak mantik `lib/` altinda tutulur, sayfa icine dagitilmaz
 - veri sekli degisiyorsa `prisma/` ve kullanan servis birlikte kontrol edilir
-- mock kalicilik gerekiyorsa `.data/` tarafi da dusunulur
+- yazma akislarinda dogrudan veritabani ve ilgili servis katmani birlikte dusunulur
 
 ## Not
 Repo kokundeki `deploy/` ve `bin/`, workspace geneli icindir.

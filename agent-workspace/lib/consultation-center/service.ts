@@ -2,7 +2,6 @@ import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationR
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { prisma } from '@/lib/prisma'
-import { addMockConsultationAction, addMockConsultationRun, createMockConsultation, deleteMockConsultation, getConsultationCenterPayload as getMockConsultationCenterPayload, getConsultationDetail as getMockConsultationDetail, updateMockConsultation, updateMockConsultationActionStatus } from '@/lib/consultation-center/mock'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
 import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationPromptStatus, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/consultation-center/types'
 
@@ -50,8 +49,17 @@ type ConsultationRecord = Consultation & {
   actions: ConsultationAction[]
 }
 
-function hasDatabaseUrl() {
-  return Boolean(process.env.DATABASE_URL?.trim())
+function ensureDatabaseUrl() {
+  if (!process.env.DATABASE_URL?.trim()) {
+    throw new Error('DATABASE_URL bulunamadi.')
+  }
+}
+
+function emptyConsultationPayload(): ConsultationCenterPayload {
+  return {
+    inbox: [],
+    selected: null,
+  }
 }
 
 function mapConsultationType(value: string): ConsultationType {
@@ -238,47 +246,35 @@ async function readConsultationsFromDb(): Promise<ConsultationRecord[]> {
 }
 
 export async function getConsultationCenterPayload(selectedId?: string): Promise<ConsultationCenterPayload> {
-  if (!hasDatabaseUrl()) {
-    return getMockConsultationCenterPayload(selectedId)
+  ensureDatabaseUrl()
+
+  const records = await readConsultationsFromDb()
+  if (records.length === 0) {
+    return emptyConsultationPayload()
   }
 
-  try {
-    const records = await readConsultationsFromDb()
-    if (records.length === 0) {
-      return getMockConsultationCenterPayload(selectedId)
-    }
+  const inbox = records.map(mapRecordToInboxItem)
+  const selectedRecord = records.find((record) => record.id === selectedId) || records[0] || null
 
-    const inbox = records.map(mapRecordToInboxItem)
-    const selectedRecord = records.find((record) => record.id === selectedId) || records[0] || null
-
-    return {
-      inbox,
-      selected: selectedRecord ? mapRecordToDetail(selectedRecord) : null,
-    }
-  } catch {
-    return getMockConsultationCenterPayload(selectedId)
+  return {
+    inbox,
+    selected: selectedRecord ? mapRecordToDetail(selectedRecord) : null,
   }
 }
 
 export async function getConsultationDetail(id: string): Promise<ConsultationDetail | null> {
-  if (!hasDatabaseUrl()) {
-    return getMockConsultationDetail(id)
-  }
+  ensureDatabaseUrl()
 
-  try {
-    const record = await prisma.consultation.findUnique({
-      where: { id },
-      include: {
-        brief: true,
-        runs: true,
-        actions: true,
-      },
-    })
+  const record = await prisma.consultation.findUnique({
+    where: { id },
+    include: {
+      brief: true,
+      runs: true,
+      actions: true,
+    },
+  })
 
-    return record ? mapRecordToDetail(record) : null
-  } catch {
-    return getMockConsultationDetail(id)
-  }
+  return record ? mapRecordToDetail(record) : null
 }
 
 export async function createConsultation(input: {
@@ -290,245 +286,191 @@ export async function createConsultation(input: {
   outputType?: string
   targetModel?: ConsultationTargetModel
 }) {
-  if (!hasDatabaseUrl()) {
-    const created = await createMockConsultation(input)
-    return {
-      created,
-      payload: await getMockConsultationCenterPayload(created.id),
-    }
-  }
+  ensureDatabaseUrl()
 
-  try {
-    const suggestion = suggestConsultationBrief(input)
-    const created = await prisma.consultation.create({
-      data: {
-        title: suggestion.title,
-        type: mapConsultationType(suggestion.type),
-        stage: 'draft',
-        status: 'open',
-        ownerRole: suggestion.type === 'sales' ? 'user' : suggestion.type === 'technical' ? 'tech_agent' : 'shared',
-        consultRoute: 'blocked',
-        decisionQuestion: suggestion.decisionQuestion,
-        goal: suggestion.desiredOutput,
-        whyNow: suggestion.whyNow,
-        brief: {
-          create: {
-            businessJson: suggestion.businessBrief,
-            technicalJson: suggestion.technicalBrief,
-            sharedJson: {
-              ...(suggestion.sharedBrief || {}),
-              targetModel: mapTargetModel(input.targetModel),
-              promptStatus: 'preparing',
-              promptError: null,
-              preparedPromptText: '',
-            },
-            contextRefsJson: suggestion.contextRefs,
+  const suggestion = suggestConsultationBrief(input)
+  const created = await prisma.consultation.create({
+    data: {
+      title: suggestion.title,
+      type: mapConsultationType(suggestion.type),
+      stage: 'draft',
+      status: 'open',
+      ownerRole: suggestion.type === 'sales' ? 'user' : suggestion.type === 'technical' ? 'tech_agent' : 'shared',
+      consultRoute: 'blocked',
+      decisionQuestion: suggestion.decisionQuestion,
+      goal: suggestion.desiredOutput,
+      whyNow: suggestion.whyNow,
+      brief: {
+        create: {
+          businessJson: suggestion.businessBrief,
+          technicalJson: suggestion.technicalBrief,
+          sharedJson: {
+            ...(suggestion.sharedBrief || {}),
+            targetModel: mapTargetModel(input.targetModel),
+            promptStatus: 'preparing',
+            promptError: null,
+            preparedPromptText: '',
           },
+          contextRefsJson: suggestion.contextRefs,
         },
       },
-      include: {
-        brief: true,
-        runs: true,
-        actions: true,
-      },
-    })
+    },
+    include: {
+      brief: true,
+      runs: true,
+      actions: true,
+    },
+  })
 
-    return {
-      created: mapRecordToDetail(created),
-      payload: await getConsultationCenterPayload(created.id),
-    }
-  } catch {
-    const created = await createMockConsultation(input)
-    return {
-      created,
-      payload: await getMockConsultationCenterPayload(created.id),
-    }
+  return {
+    created: mapRecordToDetail(created),
+    payload: await getConsultationCenterPayload(created.id),
   }
 }
 
 export async function updateConsultation(id: string, input: ConsultationUpdateInput) {
-  if (!hasDatabaseUrl()) {
-    const updated = await updateMockConsultation(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
+  ensureDatabaseUrl()
+
+  const current = await prisma.consultation.findUnique({
+    where: { id },
+    include: {
+      brief: true,
+    },
+  })
+
+  const currentSharedBrief = (current?.brief?.sharedJson as Record<string, string | string[] | null> | null) || {}
+  const nextSharedBrief = {
+    ...currentSharedBrief,
+    ...(input.sharedBrief || {}),
+    ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
+    ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
   }
 
-  try {
-    const current = await prisma.consultation.findUnique({
-      where: { id },
-      include: {
-        brief: true,
-      },
-    })
-
-    const currentSharedBrief = (current?.brief?.sharedJson as Record<string, string | string[] | null> | null) || {}
-    const nextSharedBrief = {
-      ...currentSharedBrief,
-      ...(input.sharedBrief || {}),
-      ...(input.summary?.trim() ? { hamNot: input.summary.trim() } : {}),
-      ...(input.targetModel ? { targetModel: mapTargetModel(input.targetModel) } : {}),
-    }
-
-    const updated = await prisma.consultation.update({
-      where: { id },
-      data: {
-        title: input.title?.trim(),
-        decisionQuestion: input.decisionQuestion?.trim(),
-        whyNow: input.whyNow?.trim(),
-        goal: input.desiredOutput?.trim(),
-        stage: input.stage,
-        dueAt: input.dueAt === undefined ? undefined : (input.dueAt ? new Date(input.dueAt) : null),
-        brief: {
-          upsert: {
-            create: {
-              businessJson: input.businessBrief,
-              technicalJson: input.technicalBrief,
-              sharedJson: nextSharedBrief,
-              contextRefsJson: input.contextRefs,
-            },
-            update: {
-              businessJson: input.businessBrief,
-              technicalJson: input.technicalBrief,
-              sharedJson: nextSharedBrief,
-              contextRefsJson: input.contextRefs,
-            },
+  const updated = await prisma.consultation.update({
+    where: { id },
+    data: {
+      title: input.title?.trim(),
+      decisionQuestion: input.decisionQuestion?.trim(),
+      whyNow: input.whyNow?.trim(),
+      goal: input.desiredOutput?.trim(),
+      stage: input.stage,
+      dueAt: input.dueAt === undefined ? undefined : (input.dueAt ? new Date(input.dueAt) : null),
+      brief: {
+        upsert: {
+          create: {
+            businessJson: input.businessBrief,
+            technicalJson: input.technicalBrief,
+            sharedJson: nextSharedBrief,
+            contextRefsJson: input.contextRefs,
+          },
+          update: {
+            businessJson: input.businessBrief,
+            technicalJson: input.technicalBrief,
+            sharedJson: nextSharedBrief,
+            contextRefsJson: input.contextRefs,
           },
         },
       },
-      include: {
-        brief: true,
-        runs: true,
-        actions: true,
-      },
-    })
+    },
+    include: {
+      brief: true,
+      runs: true,
+      actions: true,
+    },
+  })
 
-    return {
-      updated: mapRecordToDetail(updated),
-      payload: await getConsultationCenterPayload(id),
-    }
-  } catch {
-    const updated = await updateMockConsultation(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
+  return {
+    updated: mapRecordToDetail(updated),
+    payload: await getConsultationCenterPayload(id),
   }
 }
 
 export async function addConsultationAction(id: string, input: ConsultationActionInput) {
-  if (!hasDatabaseUrl()) {
-    const updated = await addMockConsultationAction(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  ensureDatabaseUrl()
 
-  try {
-    await prisma.consultationAction.create({
-      data: {
-        consultationId: id,
-        ownerRole: input.ownerRole || 'shared',
-        actionType: mapActionType(input),
-        title: input.title?.trim() || 'Yeni aksiyon',
-        linkedEntityType: input.linkedEntityType,
-        linkedEntityId: input.linkedEntityId?.trim() || null,
-      },
-    })
+  await prisma.consultationAction.create({
+    data: {
+      consultationId: id,
+      ownerRole: input.ownerRole || 'shared',
+      actionType: mapActionType(input),
+      title: input.title?.trim() || 'Yeni aksiyon',
+      linkedEntityType: input.linkedEntityType,
+      linkedEntityId: input.linkedEntityId?.trim() || null,
+    },
+  })
 
-    const updated = await getConsultationDetail(id)
-    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
-  } catch {
-    const updated = await addMockConsultationAction(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  const updated = await getConsultationDetail(id)
+  return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
 }
 
 export async function addConsultationRun(id: string, input: ConsultationRunInput) {
-  if (!hasDatabaseUrl()) {
-    const updated = await addMockConsultationRun(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  ensureDatabaseUrl()
 
-  try {
-    const current = await getConsultationDetail(id)
-    const promptText = input.promptText?.trim() || current?.promptRun.promptText || ''
+  const current = await getConsultationDetail(id)
+  const promptText = input.promptText?.trim() || current?.promptRun.promptText || ''
 
-    await prisma.consultationRun.create({
-      data: {
-        consultationId: id,
-        modelName: mapTargetModel(input.modelName || current?.promptRun.modelName),
-        promptText,
-        sentAt: new Date(),
-        responseSummary: input.responseSummary?.trim() || null,
-      },
-    })
+  await prisma.consultationRun.create({
+    data: {
+      consultationId: id,
+      modelName: mapTargetModel(input.modelName || current?.promptRun.modelName),
+      promptText,
+      sentAt: new Date(),
+      responseSummary: input.responseSummary?.trim() || null,
+    },
+  })
 
-    await prisma.consultation.update({
-      where: { id },
-      data: {
-        stage: 'answered',
-        brief: {
-          update: {
-            sharedJson: {
-              ...((current?.sharedBrief || {}) as Record<string, string | string[] | null>),
-              promptStatus: 'ready',
-              promptError: null,
-            },
+  await prisma.consultation.update({
+    where: { id },
+    data: {
+      stage: 'answered',
+      brief: {
+        update: {
+          sharedJson: {
+            ...((current?.sharedBrief || {}) as Record<string, string | string[] | null>),
+            promptStatus: 'ready',
+            promptError: null,
           },
         },
       },
-    })
+    },
+  })
 
-    const updated = await getConsultationDetail(id)
-    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
-  } catch {
-    const updated = await addMockConsultationRun(id, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  const updated = await getConsultationDetail(id)
+  return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
 }
 
 export async function deleteConsultation(id: string) {
-  if (!hasDatabaseUrl()) {
-    const deleted = await deleteMockConsultation(id)
-    return deleted ? { payload: await getMockConsultationCenterPayload() } : null
-  }
+  ensureDatabaseUrl()
 
-  try {
-    await prisma.consultationAction.deleteMany({ where: { consultationId: id } })
-    await prisma.consultationRun.deleteMany({ where: { consultationId: id } })
-    await prisma.consultationBrief.deleteMany({ where: { consultationId: id } })
-    await prisma.consultation.delete({ where: { id } })
-    return { payload: await getConsultationCenterPayload() }
-  } catch {
-    const deleted = await deleteMockConsultation(id)
-    return deleted ? { payload: await getMockConsultationCenterPayload() } : null
-  }
+  await prisma.consultationAction.deleteMany({ where: { consultationId: id } })
+  await prisma.consultationRun.deleteMany({ where: { consultationId: id } })
+  await prisma.consultationBrief.deleteMany({ where: { consultationId: id } })
+  await prisma.consultation.delete({ where: { id } })
+  return { payload: await getConsultationCenterPayload() }
 }
 
 export async function updateConsultationActionStatus(id: string, actionId: string, input: ConsultationActionStatusInput) {
-  if (!hasDatabaseUrl()) {
-    const updated = await updateMockConsultationActionStatus(id, actionId, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  ensureDatabaseUrl()
 
-  try {
-    await prisma.consultationAction.update({
-      where: { id: actionId },
-      data: {
-        status: input.status === 'done' ? 'done' : 'open',
-      },
-    })
+  await prisma.consultationAction.update({
+    where: { id: actionId },
+    data: {
+      status: input.status === 'done' ? 'done' : 'open',
+    },
+  })
 
-    const actionRows = await prisma.consultationAction.findMany({
-      where: { consultationId: id },
-      select: { status: true },
-    })
+  const actionRows = await prisma.consultationAction.findMany({
+    where: { consultationId: id },
+    select: { status: true },
+  })
 
-    await prisma.consultation.update({
-      where: { id },
-      data: {
-        stage: actionRows.length > 0 && actionRows.every((action) => action.status === 'done') ? 'actioned' : undefined,
-      },
-    })
+  await prisma.consultation.update({
+    where: { id },
+    data: {
+      stage: actionRows.length > 0 && actionRows.every((action) => action.status === 'done') ? 'actioned' : undefined,
+    },
+  })
 
-    const updated = await getConsultationDetail(id)
-    return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
-  } catch {
-    const updated = await updateMockConsultationActionStatus(id, actionId, input)
-    return updated ? { updated, payload: await getMockConsultationCenterPayload(id) } : null
-  }
+  const updated = await getConsultationDetail(id)
+  return updated ? { updated, payload: await getConsultationCenterPayload(id) } : null
 }

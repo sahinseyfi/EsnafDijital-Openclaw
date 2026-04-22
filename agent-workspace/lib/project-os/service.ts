@@ -1,6 +1,4 @@
-import { randomUUID } from 'crypto'
 import { prisma } from '@/lib/prisma'
-import { readProjectOsMockStore, writeProjectOsMockStore } from '@/lib/project-os/mock-store'
 import type { AuditRecord, BusinessRecord, DeliveryProjectRecord, OfferRecord, ProjectOsDataset } from '@/lib/project-os/types'
 
 type BusinessInput = {
@@ -31,8 +29,10 @@ type DeliveryProjectInput = {
   scope?: string
 }
 
-function hasDatabaseUrl() {
-  return Boolean(process.env.DATABASE_URL?.trim())
+function ensureDatabaseUrl() {
+  if (!process.env.DATABASE_URL?.trim()) {
+    throw new Error('DATABASE_URL bulunamadi.')
+  }
 }
 
 function mapBusinessSegment(value: string): BusinessRecord['segment'] {
@@ -104,22 +104,16 @@ function mapDataset(dataset: {
 }
 
 export async function getProjectOsDataset(): Promise<ProjectOsDataset> {
-  if (!hasDatabaseUrl()) {
-    return readProjectOsMockStore()
-  }
+  ensureDatabaseUrl()
 
-  try {
-    const [businesses, audits, offers, deliveryProjects] = await Promise.all([
-      prisma.business.findMany({ orderBy: { createdAt: 'desc' } }),
-      prisma.audit.findMany({ orderBy: { createdAt: 'desc' } }),
-      prisma.offer.findMany({ orderBy: { createdAt: 'desc' } }),
-      prisma.deliveryProject.findMany({ orderBy: { createdAt: 'desc' } }),
-    ])
+  const [businesses, audits, offers, deliveryProjects] = await Promise.all([
+    prisma.business.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.audit.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.offer.findMany({ orderBy: { createdAt: 'desc' } }),
+    prisma.deliveryProject.findMany({ orderBy: { createdAt: 'desc' } }),
+  ])
 
-    return mapDataset({ businesses, audits, offers, deliveryProjects })
-  } catch {
-    return readProjectOsMockStore()
-  }
+  return mapDataset({ businesses, audits, offers, deliveryProjects })
 }
 
 export async function createBusiness(input: BusinessInput): Promise<ProjectOsDataset> {
@@ -131,67 +125,28 @@ export async function createBusiness(input: BusinessInput): Promise<ProjectOsDat
     throw new Error('İşletme adı, ilçe ve işletme sahibi zorunlu.')
   }
 
+  ensureDatabaseUrl()
+
   const segment = mapBusinessSegment(input.segment || 'diger')
   const status = mapBusinessStatus(input.status || 'lead')
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    dataset.businesses.unshift({
-      id: `biz-${randomUUID().slice(0, 8)}`,
+  await prisma.business.create({
+    data: {
       name,
-      segment,
+      segment: segment === 'kafe-restoran' ? 'kafe_restoran' : segment,
       district,
       ownerName,
       status,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+    },
+  })
 
-  try {
-    await prisma.business.create({
-      data: {
-        name,
-        segment: segment === 'kafe-restoran' ? 'kafe_restoran' : segment,
-        district,
-        ownerName,
-        status,
-      },
-    })
-
-    return getProjectOsDataset()
-  } catch {
-    const dataset = await readProjectOsMockStore()
-    dataset.businesses.unshift({
-      id: `biz-${randomUUID().slice(0, 8)}`,
-      name,
-      segment,
-      district,
-      ownerName,
-      status,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  return getProjectOsDataset()
 }
 
 export async function updateBusiness(id: string, input: BusinessInput): Promise<ProjectOsDataset | null> {
   if (!id.trim()) return null
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.businesses.find((business) => business.id === id)
-    if (!target) return null
-
-    target.name = input.name?.trim() || target.name
-    target.segment = input.segment ? mapBusinessSegment(input.segment) : target.segment
-    target.district = input.district?.trim() || target.district
-    target.ownerName = input.ownerName?.trim() || target.ownerName
-    target.status = input.status ? mapBusinessStatus(input.status) : target.status
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  ensureDatabaseUrl()
 
   try {
     await prisma.business.update({
@@ -204,22 +159,11 @@ export async function updateBusiness(id: string, input: BusinessInput): Promise<
         status: input.status ? mapBusinessStatus(input.status) : undefined,
       },
     })
-
-    return getProjectOsDataset()
   } catch {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.businesses.find((business) => business.id === id)
-    if (!target) return null
-
-    target.name = input.name?.trim() || target.name
-    target.segment = input.segment ? mapBusinessSegment(input.segment) : target.segment
-    target.district = input.district?.trim() || target.district
-    target.ownerName = input.ownerName?.trim() || target.ownerName
-    target.status = input.status ? mapBusinessStatus(input.status) : target.status
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
+    return null
   }
+
+  return getProjectOsDataset()
 }
 
 export async function createAudit(input: AuditInput): Promise<ProjectOsDataset> {
@@ -230,63 +174,24 @@ export async function createAudit(input: AuditInput): Promise<ProjectOsDataset> 
     throw new Error('İşletme ve audit özeti zorunlu.')
   }
 
-  const status = mapAuditStatus(input.status || 'new')
-  const channelReadiness = mapChannelReadiness(input.channelReadiness || 'dusuk')
+  ensureDatabaseUrl()
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    dataset.audits.unshift({
-      id: `aud-${randomUUID().slice(0, 8)}`,
+  await prisma.audit.create({
+    data: {
       businessId,
-      status,
-      channelReadiness,
+      status: mapAuditStatus(input.status || 'new'),
+      channelReadiness: mapChannelReadiness(input.channelReadiness || 'dusuk'),
       summary,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+    },
+  })
 
-  try {
-    await prisma.audit.create({
-      data: {
-        businessId,
-        status,
-        channelReadiness,
-        summary,
-      },
-    })
-
-    return getProjectOsDataset()
-  } catch {
-    const dataset = await readProjectOsMockStore()
-    dataset.audits.unshift({
-      id: `aud-${randomUUID().slice(0, 8)}`,
-      businessId,
-      status,
-      channelReadiness,
-      summary,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  return getProjectOsDataset()
 }
 
 export async function updateAudit(id: string, input: AuditInput): Promise<ProjectOsDataset | null> {
   if (!id.trim()) return null
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.audits.find((audit) => audit.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapAuditStatus(input.status) : target.status
-    target.channelReadiness = input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : target.channelReadiness
-    target.summary = input.summary?.trim() || target.summary
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  ensureDatabaseUrl()
 
   try {
     await prisma.audit.update({
@@ -298,21 +203,11 @@ export async function updateAudit(id: string, input: AuditInput): Promise<Projec
         summary: input.summary?.trim(),
       },
     })
-
-    return getProjectOsDataset()
   } catch {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.audits.find((audit) => audit.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapAuditStatus(input.status) : target.status
-    target.channelReadiness = input.channelReadiness ? mapChannelReadiness(input.channelReadiness) : target.channelReadiness
-    target.summary = input.summary?.trim() || target.summary
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
+    return null
   }
+
+  return getProjectOsDataset()
 }
 
 export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> {
@@ -324,64 +219,24 @@ export async function createOffer(input: OfferInput): Promise<ProjectOsDataset> 
     throw new Error('İşletme, paket adı ve geçerli teklif tutarı zorunlu.')
   }
 
-  const status = mapOfferStatus(input.status || 'draft')
+  ensureDatabaseUrl()
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    dataset.offers.unshift({
-      id: `off-${randomUUID().slice(0, 8)}`,
+  await prisma.offer.create({
+    data: {
       businessId,
-      status,
+      status: mapOfferStatus(input.status || 'draft'),
       packageName,
       amountTry,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+    },
+  })
 
-  try {
-    await prisma.offer.create({
-      data: {
-        businessId,
-        status,
-        packageName,
-        amountTry,
-      },
-    })
-
-    return getProjectOsDataset()
-  } catch {
-    const dataset = await readProjectOsMockStore()
-    dataset.offers.unshift({
-      id: `off-${randomUUID().slice(0, 8)}`,
-      businessId,
-      status,
-      packageName,
-      amountTry,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  return getProjectOsDataset()
 }
 
 export async function updateOffer(id: string, input: OfferInput): Promise<ProjectOsDataset | null> {
   if (!id.trim()) return null
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.offers.find((offer) => offer.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapOfferStatus(input.status) : target.status
-    target.packageName = input.packageName?.trim() || target.packageName
-    if (Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0) {
-      target.amountTry = Number(input.amountTry)
-    }
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  ensureDatabaseUrl()
 
   try {
     await prisma.offer.update({
@@ -393,23 +248,11 @@ export async function updateOffer(id: string, input: OfferInput): Promise<Projec
         amountTry: Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0 ? Number(input.amountTry) : undefined,
       },
     })
-
-    return getProjectOsDataset()
   } catch {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.offers.find((offer) => offer.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapOfferStatus(input.status) : target.status
-    target.packageName = input.packageName?.trim() || target.packageName
-    if (Number.isFinite(Number(input.amountTry)) && Number(input.amountTry) > 0) {
-      target.amountTry = Number(input.amountTry)
-    }
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
+    return null
   }
+
+  return getProjectOsDataset()
 }
 
 export async function createDeliveryProject(input: DeliveryProjectInput): Promise<ProjectOsDataset> {
@@ -420,58 +263,23 @@ export async function createDeliveryProject(input: DeliveryProjectInput): Promis
     throw new Error('İşletme ve teslimat kapsamı zorunlu.')
   }
 
-  const status = mapDeliveryProjectStatus(input.status || 'kickoff')
+  ensureDatabaseUrl()
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    dataset.deliveryProjects.unshift({
-      id: `del-${randomUUID().slice(0, 8)}`,
+  await prisma.deliveryProject.create({
+    data: {
       businessId,
-      status,
+      status: mapDeliveryProjectStatus(input.status || 'kickoff'),
       scope,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+    },
+  })
 
-  try {
-    await prisma.deliveryProject.create({
-      data: {
-        businessId,
-        status,
-        scope,
-      },
-    })
-
-    return getProjectOsDataset()
-  } catch {
-    const dataset = await readProjectOsMockStore()
-    dataset.deliveryProjects.unshift({
-      id: `del-${randomUUID().slice(0, 8)}`,
-      businessId,
-      status,
-      scope,
-    })
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  return getProjectOsDataset()
 }
 
 export async function updateDeliveryProject(id: string, input: DeliveryProjectInput): Promise<ProjectOsDataset | null> {
   if (!id.trim()) return null
 
-  if (!hasDatabaseUrl()) {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.deliveryProjects.find((project) => project.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapDeliveryProjectStatus(input.status) : target.status
-    target.scope = input.scope?.trim() || target.scope
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
-  }
+  ensureDatabaseUrl()
 
   try {
     await prisma.deliveryProject.update({
@@ -482,18 +290,9 @@ export async function updateDeliveryProject(id: string, input: DeliveryProjectIn
         scope: input.scope?.trim(),
       },
     })
-
-    return getProjectOsDataset()
   } catch {
-    const dataset = await readProjectOsMockStore()
-    const target = dataset.deliveryProjects.find((project) => project.id === id)
-    if (!target) return null
-
-    target.businessId = input.businessId?.trim() || target.businessId
-    target.status = input.status ? mapDeliveryProjectStatus(input.status) : target.status
-    target.scope = input.scope?.trim() || target.scope
-
-    await writeProjectOsMockStore(dataset)
-    return dataset
+    return null
   }
+
+  return getProjectOsDataset()
 }

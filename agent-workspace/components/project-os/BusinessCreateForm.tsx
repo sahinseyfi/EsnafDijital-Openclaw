@@ -51,7 +51,7 @@ export function BusinessCreateForm() {
       <div>
         <p className="eyebrow">Hızlı kayıt</p>
         <h3>Yeni işletme aç</h3>
-        <p className="muted">Project OS hattına yeni işletmeyi hızlıca ekler. Veritabanı yoksa mock store’a yazar.</p>
+        <p className="muted">Project OS hattına yeni işletmeyi hızlıca ekler ve doğrudan veritabanına yazar.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
