@@ -10,14 +10,15 @@
 3. Beklenen cikti tipini acik ver.
 4. Kisa ama yapilandirilmis kal.
 5. Dosya veya skill degerlendirme gorevlerinde once karar ver, sonra sadece gereken yerde degisiklik oner.
-6. Repo ve runtime gercegine bagla.
-7. Eksik kritik bilgiyi uydurma.
-8. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
-9. Uygunsa teknik olmayan kisa ozeti JSON disinda, ayri bir ikinci bolum olarak iste.
-10. finalPromptText'i dogrudan son prompt olarak yaz, sonradan template ile toparlanacak taslak gibi birakma.
-11. Sabit rol, acik repo referansi ve uygulanabilir gorev tanimi kullan.
-12. Citation, footnote veya markdown reference link kullanma; link gerekiyorsa dogrudan URL ver.
-13. Promptu hemen uygulanabilir yaz.
+6. Dis GPT oturumunda repo analizi gerekiyorsa repo icerigini incelemeyi varsayilan kabul et; erisim yoksa bunu acik bosluk veya blokaj olarak yaz.
+7. Repo ve runtime gercegine bagla.
+8. Eksik kritik bilgiyi uydurma.
+9. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
+10. Uygunsa teknik olmayan kisa ozeti JSON disinda, ayri bir ikinci bolum olarak iste.
+11. finalPromptText'i dogrudan son prompt olarak yaz, sonradan template ile toparlanacak taslak gibi birakma.
+12. Sabit rol, acik repo referansi ve uygulanabilir gorev tanimi kullan.
+13. Citation, footnote veya markdown reference link kullanma; link gerekiyorsa dogrudan URL ver.
+14. Promptu hemen uygulanabilir yaz.
 
 ## Tercih edilen prompt omurgasi
 - rol
@@ -36,6 +37,7 @@
 - dosya degerlendirme gorevini butun dosyalari rewrite etmeye zorlamak
 - `keep | trim | rewrite` ayrimi gerekirken sadece toplu yeniden yazim istemek
 - teori ve jargonla promptu sisirmek
+- dis GPT oturumunda repo analizi isterken repo icerigini hic incelemeden kesin konusmak
 - oturum hafizasi veya baglam eksigiyle ilgili meta cumleleri final prompta tasimak
 - son prompt yerine kodun toparlayacagi yarim taslak uretmek
 - repo linklerini veya runtime gercegini ima edip acik yazmamak

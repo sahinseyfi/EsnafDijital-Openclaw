@@ -20,6 +20,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
    - Karari etkilemeyen tekrarları prompta tasima.
    - Isletme gercegi, mevcut faz, kritik sinir, beklenen cikti ve davranisi belirleyen asil kaynaklari one al.
    - Once cekirdek baglam ozetini kur, sonra goreve gore ikincil kaynak sec, sadece gerekirse ham dosya oku.
+   - Eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa repo icerigini incelemeyi varsayilan kabul et; verilen baglam yetmiyorsa ilgili dosya, link veya archive iste ya da erisim varsa repo icerigini ac.
 
 3. Promptu repo ve runtime gercegine bagla.
    - Gerekliyse uygulama reposu ve OpenClaw upstream referanslarini acik ver.
@@ -45,6 +46,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 - Kisa, yapilandirilmis ve gorev odakli yaz.
 - Tek promptta birden fazla farkli is isteme.
 - Eksik kritik bilgi varsa uydurma, acik bosluk veya varsayim olarak etiketle.
+- Dis GPT oturumunda repo analizi gerekiyorsa, yalnizca promptta verilen kisa ozetle yetinme; repo icerigini incelemeden kesin analiz yapma.
 - Dosya-seti veya skill degerlendirmelerinde varsayilan karar `keep` olsun; ancak net gerekce varsa `trim` veya `rewrite` oner.
 - Dosya-seti degerlendirmelerinde tum dosyalari otomatik rewrite ettiren dil kurma.
 - Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini bozma.
