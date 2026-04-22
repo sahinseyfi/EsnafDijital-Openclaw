@@ -60,6 +60,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- Promptun sonucunun VPS uzerinde calisan OpenClaw ajanina yon verecegini unutma.',
     '- finalPromptText alanini sen dogrudan uret. Son promptu ayri bir kod/template katmani kurmayacak.',
     '- finalPromptText icinde abartili veya dar domain role uydurma. Sabit ve sade bir rol kullan: "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin."',
+    '- finalPromptText icinde repo referanslari acikca yer alsin. En az su iki linki uygun yerde ver: https://github.com/sahinseyfi/EsnafDijital-Openclaw ve https://github.com/openclaw/openclaw',
     '',
     'Beklenen JSON sekli:',
     '{',
@@ -87,6 +88,10 @@ function buildPrompt(consultation: ConsultationDetail) {
     'Mevcut context refs:',
     formatContextRefs(consultation.contextRefs),
     '',
+    'Zorunlu repo referanslari:',
+    '- Uygulama reposu | https://github.com/sahinseyfi/EsnafDijital-Openclaw',
+    '- OpenClaw upstream | https://github.com/openclaw/openclaw',
+    '',
     'Mevcut businessBrief:',
     formatBriefRecord(consultation.businessBrief),
     '',
@@ -103,6 +108,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- gerekirse context refleri iyilestir',
     '- brief alanlarini bu consultation turune gore doldur',
     '- finalPromptText alaninda kullaniciya verilecek son promptu sen yaz',
+    '- finalPromptText icinde repo linklerini acik referans olarak gecir',
     '- finalPromptText, sifir hafizali baska bir GPT oturumuna gonderilmeye hazir olmali',
   ].join('\n')
 }
