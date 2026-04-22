@@ -11,7 +11,25 @@ echo "[2/3] servis restart ediliyor"
 systemctl restart esnafdijital-admin.service
 systemctl is-active --quiet esnafdijital-admin.service
 
-echo "[3/3] hesap merkezi doğrulanıyor"
+echo "[3/3] servis hazirligi bekleniyor"
+for i in $(seq 1 15); do
+  if python3 - <<'PY'
+import urllib.request
+urllib.request.urlopen('http://127.0.0.1:3012/api/health', timeout=2)
+PY
+  then
+    break
+  fi
+
+  if [ "$i" -eq 15 ]; then
+    echo "servis health cevabi vermedi"
+    exit 1
+  fi
+
+  sleep 1
+done
+
+echo "[4/4] hesap merkezi doğrulanıyor"
 ./bin/verify-hesap-merkezi-v2
 
 echo "deploy tamam"
