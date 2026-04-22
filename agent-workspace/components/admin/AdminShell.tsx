@@ -30,12 +30,6 @@ const navGroups: NavGroup[] = [
       { href: '/context-center', label: 'Bağlam', note: 'Dosya, veri ve karar yüzeyi' },
     ],
   },
-  {
-    title: 'Eski ekran',
-    items: [
-      { href: '/codex-profilleri', label: 'Profil araçları', note: 'Eski profil ekranı' },
-    ],
-  },
 ]
 
 function classNames(...items: Array<string | false | null | undefined>) {
