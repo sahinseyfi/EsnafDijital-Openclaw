@@ -1,24 +1,24 @@
 [
   {
     "id": "consult_1776862633172",
-    "title": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini de...",
+    "title": "Consultation Center skill.md iyileştirme kararı",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T12:57:13.406Z",
-    "decisionQuestion": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini de... konusu için en doğru karar çerçevesi nasıl kurulmalı?",
-    "summary": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini değerlendirip daha güçlü nasıl hale getirebilirz?",
+    "updatedAt": "2026-04-22T13:00:08.273Z",
+    "decisionQuestion": "Consultation Center’da consultation kaydıyla birlikte çalışan skillin SKILL.md yapısını, doğru bağlam seçimi, net grounding ve uygulanabilir çıktı kalitesi sağlayacak şekilde en sade nasıl iyileştirmeliyiz?",
+    "summary": "Consultation Center içinde kayıtla beraber çalışan skillin SKILL.md yapısını, tetikleme mantığını ve çıktı kalitesini sade ama güçlü hale getirmek için net bir karar çerçevesi gerekiyor.",
     "gptRecommended": false,
-    "promptStatus": "preparing",
+    "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini de... konusu şu an netleşirse sonraki iş adımları daha temiz ilerler. İlk girişte iş modu karar, hedef yüzey çapraz ve çıktı tipi GPT promptu olarak işaretlendi.",
-    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi",
+    "whyNow": "Bu konu şimdi netleşirse Consultation Center içindeki prompt üretimi ve skill davranışı daha tutarlı ilerler, fazla genel prompt üretimi ve gereksiz bağlam yükleme erken engellenir, sonraki uygulama adımları daha düşük operasyon yüküyle yürür.",
+    "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini değerlendirip daha güçlü nasıl hale getirebilirz?",
-      "kararCekirdegi": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini de...",
+      "hamNot": "Consultation Center'da kayıt ile beraber çalışan skillin skill.mdsini değerlendirip daha güçlü nasıl hale getirebiliriz?",
+      "kararCekirdegi": "Consultation Center içinde kayıtla beraber çalışan skillin SKILL.md yapısını güçlendirme",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -27,9 +27,11 @@
       "targetSurfaceLabel": "çapraz",
       "outputTypeLabel": "GPT promptu",
       "targetModelLabel": "GPT-5 Pro",
-      "promptStatus": "preparing",
+      "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": ""
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nConsultation Center icinde consultation kaydi ile birlikte calisan skillin SKILL.md yapisini daha guclu ve daha tutarli hale getirmek icin en sade karar cercevesini netlestir.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku.\n- Konu, Consultation Center icinde consultation kaydi ile birlikte calisan skillin SKILL.md kalitesini ve davranis netligini iyilestirmekle ilgilidir.\n- Mevcut ihtiyac: skillin ne zaman tetiklenecegini, hangi baglami sececegini, nasil grounding yapacagini ve nasil daha guclu prompt uretecegini daha net hale getirmek.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Gorev, Consultation Center icinde kayitla birlikte calisan skillin SKILL.md tasarimina uygulanacak karar mantigidir.\n\nGorev:\nConsultation Center icinde consultation kaydi ile birlikte calisan bir skillin SKILL.md dosyasini daha guclu hale getirmek icin en sade karar cercevesini kur. Hangi bolumlerin netlestirilmesi gerektigini, hangi yazim ve grounding kurallarinin zorunlu oldugunu, hangi anti-patternlerin engellenmesi gerektigini ve ilk hangi iyilestirmelerin yapilmasi gerektigini belirle.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Gereksiz yeni sistem veya katman onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n- Repo veya runtime grounding yoksa ya da cikti tipi net degilse oneriyi hazir sayma.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"skillMdImprovements\": {\n    \"mustKeep\": [\"string\"],\n    \"mustChange\": [\"string\"],\n    \"mustAdd\": [\"string\"],\n    \"mustRemove\": [\"string\"]\n  },\n  \"groundingRules\": [\"string\"],\n  \"promptQualityRules\": [\"string\"],\n  \"antiPatterns\": [\"string\"],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"firstActions\": [\"string\"]\n}\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Bir is sahibi teknik bilmeden okuyunca ne karar verildigini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Oneri uygulanabilir olmali.\n- Skill.md icin net iyilestirme alanlari cikmali.\n- Gereksiz teori ve sistem buyumesi engellenmeli.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
+      "promptRevisionRequest": null,
+      "promptPreparedAt": "2026-04-22T13:00:08.273Z"
     },
     "contextRefs": [
       {
@@ -43,7 +45,7 @@
         "ref": "HEARTBEAT.md"
       },
       {
-        "kind": "project",
+        "kind": "decision",
         "title": "Kalıcı karar çizgisi",
         "ref": "MEMORY.md"
       }
@@ -54,6 +56,27 @@
       "responseSummary": null,
       "promptText": ""
     },
-    "actions": []
+    "actions": [],
+    "technicalBrief": {
+      "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
+      "implementationFocus": "Consultation Center içinde kayıtla beraber çalışan skillin SKILL.md kalitesini ve davranışını iyileştirme",
+      "repoRefs": [
+        {
+          "title": "Uygulama reposu",
+          "ref": "https://github.com/sahinseyfi/EsnafDijital-Openclaw"
+        },
+        {
+          "title": "OpenClaw upstream",
+          "ref": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "focusAreas": [
+        "skill tetikleme netliği",
+        "bağlam seçimi",
+        "repo/runtime grounding",
+        "çıktı kontratı",
+        "anti-pattern engelleme"
+      ]
+    }
   }
 ]
