@@ -1,24 +1,24 @@
 [
   {
-    "id": "consult_1776872773183",
-    "title": "Apify CLI ile düşük görünürlüklü işletmeleri bulma kararı",
+    "id": "consult_1776876276861",
+    "title": "Project OS sayfası için karar çerçevesi",
     "type": "shared",
     "stage": "draft",
     "route": "blocked",
     "ownerRole": "shared",
     "dueAt": null,
-    "updatedAt": "2026-04-22T15:48:06.620Z",
-    "decisionQuestion": "Apify CLI ile Google Maps Scraper kullanarak hedef bölgede dijital görünürlüğü düşük işletmeleri bulmak için en sade, uygulanabilir ve düşük operasyon yüklü karar çerçevesi nasıl kurulmalı?",
-    "summary": "Apify CLI ve Google Maps Scraper kullanarak bölgedeki işletmeleri tarayıp dijital görünürlüğü düşük olanları bulmak için sade, ölçülebilir ve düşük operasyon yüklü bir ilerleme çerçevesi netleştirilmeli.",
+    "updatedAt": "2026-04-22T16:46:24.659Z",
+    "decisionQuestion": "EsnafDigital için Project OS sayfası, mevcut faza ve sade MVP çizgisine uygun olacak şekilde en doğru kapsam, yapı ve kullanım mantığıyla nasıl kurulmalı?",
+    "summary": "EsnafDigital iç sisteminde Project OS sayfasının neyi göstermesi, hangi probleme hizmet etmesi ve MVP seviyesinde nasıl kurulması gerektiğini netleştirecek dış danışma promptu.",
     "gptRecommended": false,
     "promptStatus": "ready",
     "promptError": null,
-    "whyNow": "Bu konu şimdi netleşirse işletme keşfi ve audit giriş havuzu daha temiz kurulur, yanlış veri toplama ve dağınık tarama riski erken azalır, sonraki satış ve operasyon adımları daha net ilerler.",
+    "whyNow": "Bu konu şimdi netleşirse iç operasyon sistemi, bağlam merkezi ve Consultation Center daha tutarlı ilerler, ekran çoğaltma riski azalır ve sonraki teknik adımlar daha net sıraya girer.",
     "desiredOutput": "Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi.",
     "missingFields": [],
     "sharedBrief": {
-      "hamNot": "Apify cli kurduk Google Maps Scraper için bölgedeki tüm işletmeleri taratıp görünürürlüğü düşük olanları belirlemek istiyorum nasıl ilerlemeliyim",
-      "kararCekirdegi": "Apify CLI ile bölgedeki işletmeleri tarayıp düşük görünürlüklü olanları bulma yaklaşımı",
+      "hamNot": "project os sayfası nasıl kurulmalı?",
+      "kararCekirdegi": "Project OS sayfasının MVP kapsamı, bilgi modeli ve kullanım mantığı",
       "workMode": "decision",
       "targetSurface": "cross",
       "outputType": "gpt_prompt",
@@ -29,14 +29,14 @@
       "targetModelLabel": "GPT-5 Pro",
       "promptStatus": "ready",
       "promptError": null,
-      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nApify CLI ve Google Maps Scraper kullanarak hedef bolgedeki isletmeleri tarayip dijital gorunurlugu dusuk olanlari bulmak icin en sade ve uygulanabilir ilerleme cercevesini netlestir.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Ilk hedef bolge: Istanbul Arnavutkoy ve cevresi.\n- Ilk oncelikli segmentler: berber, guzellik salonu, kafe ve restoran.\n- Korunacak cizgi: sade MVP, dusuk operasyon yuku, genel CRM’e kaymama.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Mevcut teknik cizgi: veri toplama ve isletme kesfi tarafinda Apify CLI tercih ediliyor.\n- Hedef, tum isletmeleri toplamak degil; gorunurlugu dusuk, guven sinyali zayif ve audit girisi icin anlamli adaylari bulmak.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Eger onerinde mevcut uygulamaya entegrasyon, veri modeli, komut akisina baglama veya repo degisikligi varsa yukaridaki repo baglantilarindaki ilgili icerigi gercekten incele. Eger buna erisimin yoksa bunu acik blokaj olarak yaz ve sadece repo bagimsiz kararlari netlestir.\n\nGorev:\nApify CLI ve Google Maps Scraper ile bolgesel isletme tarama isini nasil kurmamiz gerektigini belirle. Hangi yaklasimla ilerlenmeli, hangi veri alanlari toplanmali, dusuk gorunurluk nasil tanimlanmali, hangi filtre ve skor mantigi kullanilmali, hangi secenekler var ve ilk hangi aksiyonlar alinmali, netlestir.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Gereksiz yeni sistem veya agir altyapi onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n- Tum bolgeyi anlamsiz sekilde sisiren veri toplama onerme.\n- Sadece toplanabilir veri degil, is kararina donusecek sade bir secme mantigi oner.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"options\": [\n    {\n      \"name\": \"string\",\n      \"whenToChoose\": \"string\",\n      \"pros\": [\"string\"],\n      \"cons\": [\"string\"]\n    }\n  ],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"dataCollectionPlan\": {\n    \"mustHaveFields\": [\"string\"],\n    \"niceToHaveFields\": [\"string\"],\n    \"avoidFields\": [\"string\"]\n  },\n  \"visibilityScoring\": {\n    \"signals\": [\"string\"],\n    \"redFlags\": [\"string\"],\n    \"simpleScoringRule\": [\"string\"]\n  },\n  \"firstActions\": [\"string\"],\n  \"risks\": [\"string\"],\n  \"openQuestionsOrBlockers\": [\"string\"]\n}\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Teknik bilmeyen biri de nasil ilerlememiz gerektigini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Oneri uygulanabilir olmali.\n- Veri toplama plani sade olmali.\n- Dusuk gorunurluk secimi is kararina donusecek kadar net olmali.\n- Ilk aksiyonlar dogrudan uygulanabilir olmali.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
+      "preparedPromptText": "Sen, EsnafDigital icin VPS uzerinde calisan OpenClaw uygulama ajaniyla calisacak kidemli urun ve teknik dusunme partnerisin.\n\nAmac:\nEsnafDigital icin Project OS sayfasinin MVP seviyesinde nasil kurulmasi gerektigini netlestir.\n\nSecili baglam:\n- EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kuruyor.\n- Cekirdek akis: Audit -> Teklif -> Teslimat -> Bakim.\n- Aktif faz: ic operasyon ve baglam omurgasini kurma.\n- Ic sistem hedefi: Proje Yonetimi, Baglam Merkezi ve GPT Pro Consultation Center yapisini ayni admin panel mantiginda birlestirmek.\n- Project OS sayfasi, genel CRM olmayacak; aktif isleri, siradaki adimlari, blokajlari ve karar netligini gosteren sade bir operasyon merkezi olacak.\n- Korunacak cizgi: kucuk isletme odagi, sade MVP, dusuk operasyon yuku, gereksiz ekran ve alan cogaltmama.\n- Teknik cizgi: Next.js, Postgres, Prisma, dosya tabanli baglam + operasyonel kayitlarin panelde takibi.\n\nRepo ve runtime gercegi:\n- Uygulama reposu: https://github.com/sahinseyfi/EsnafDijital-Openclaw\n- OpenClaw upstream: https://github.com/openclaw/openclaw\n- Hedef runtime: VPS uzerinde calisan OpenClaw ajani.\n- Bu gorev repo analizi gerektiriyorsa ilgili repo icerigini gercekten incele. Eger dogrudan erisimin yoksa, elindeki baglama gore karar ver ama repo icine dayanan kisimlari acik bosluk veya blokaj olarak isaretle.\n\nGorev:\nProject OS sayfasi icin en sade karar cercevesini kur. Sayfanin amaci ne olmali, hangi kutular veya bolumler MVP icin zorunlu olmali, hangi veriler dosyadan hangi veriler veritabanindan gelmeli, hangi alanlar ertelenmeli ve bu sayfa diger ekranlarla nasil iliski kurmali, netlestir.\n\nSinirlar:\n- Tek is coz.\n- Genel teori verme.\n- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.\n- Project OS sayfasini genel CRM paneline cevirme.\n- Gereksiz yeni sistem veya agir mimari onerme.\n- Eksik kritik bilgi varsa uydurma, varsayim veya acik bosluk olarak etiketle.\n- Citation, footnote, kaynakca veya markdown reference link kullanma.\n- Link gerekiyorsa dogrudan URL kullan.\n\nBeklenen cikti:\n1. Bolumda sadece gecerli JSON don ve su alanlari uret:\n{\n  \"decisionFramework\": {\n    \"coreDecision\": \"string\",\n    \"decisionSteps\": [\"string\"],\n    \"stopCriteria\": [\"string\"]\n  },\n  \"recommendedScope\": {\n    \"pagePurpose\": \"string\",\n    \"mustHaveSections\": [\"string\"],\n    \"shouldWait\": [\"string\"]\n  },\n  \"informationModel\": {\n    \"fromFiles\": [\"string\"],\n    \"fromDatabase\": [\"string\"],\n    \"derivedOrComputed\": [\"string\"]\n  },\n  \"uiStructure\": {\n    \"topSummary\": [\"string\"],\n    \"mainBlocks\": [\"string\"],\n    \"actions\": [\"string\"]\n  },\n  \"options\": [\n    {\n      \"name\": \"string\",\n      \"whenToChoose\": \"string\",\n      \"pros\": [\"string\"],\n      \"cons\": [\"string\"]\n    }\n  ],\n  \"recommendedApproach\": {\n    \"choice\": \"string\",\n    \"why\": \"string\"\n  },\n  \"firstActions\": [\"string\"],\n  \"risks\": [\"string\"],\n  \"openQuestionsOrBlockers\": [\"string\"]\n}\n\n2. Bolumda JSON disinda ayri ve sade bir ikinci bolum olarak teknik olmayan kisa ozet ver.\n- En fazla 3 kisa madde olsun.\n- Teknik bilmeyen biri de bu sayfanin ne ise yarayacagini ve nasil baslanacagini anlayabilsin.\n\nBasari kosulu:\n- Karar sorusu tek cumlede netlesmeli.\n- Sayfa amaci net olmali.\n- MVP kapsam ile ertelenecek alanlar ayrismali.\n- Dosya tabanli baglam ile veritabani siniri netlesmeli.\n- Ilk aksiyonlar dogrudan uygulanabilir olmali.\n- Teknik olmayan ikinci bolum kisa ve anlasilir olmali.",
       "promptRevisionRequest": null,
-      "promptPreparedAt": "2026-04-22T15:48:06.620Z"
+      "promptPreparedAt": "2026-04-22T16:46:24.658Z"
     },
     "contextRefs": [
       {
         "kind": "project",
-        "title": "Proje çizgisi ve hedef pazar",
+        "title": "Proje çizgisi ve iç sistem hedefi",
         "ref": "PROJECT.md"
       },
       {
@@ -51,7 +51,7 @@
       },
       {
         "kind": "decision",
-        "title": "Araç ve operasyon notları",
+        "title": "Teknik ortam ve araç çizgisi",
         "ref": "TOOLS.md"
       }
     ],
@@ -63,18 +63,21 @@
     },
     "actions": [],
     "businessBrief": {
-      "goal": "Hedef bölgede dijital görünürlüğü düşük işletmeleri bulup audit giriş havuzu oluşturmak",
-      "targetRegion": "İstanbul Arnavutköy ve çevresi",
-      "prioritySegments": [
-        "berber",
-        "güzellik salonu",
-        "kafe / restoran"
+      "goal": "Project OS sayfasını, kurucunun ve ajan tarafının aktif işi tek bakışta görebileceği sade operasyon merkezi olarak tanımlamak",
+      "constraints": [
+        "genel CRM olmayacak",
+        "küçük işletme ve sade MVP çizgisi korunacak",
+        "operasyon yükü düşük kalacak"
       ],
-      "selectionIntent": "Düşük görünürlük, düşük güven sinyali ve zayıf dijital vitrin taşıyan işletmeleri önceliklemek"
+      "successSignals": [
+        "aktif işler görünür olur",
+        "sıradaki adım ve blokaj net görünür",
+        "bağlam merkezi ve consultation merkeziyle uyumlu çalışır"
+      ]
     },
     "technicalBrief": {
       "runtimeTarget": "VPS üzerinde çalışan OpenClaw ajanı",
-      "implementationFocus": "Apify CLI ve Google Maps Scraper ile işletme tarama, filtreleme ve shortlist mantığını belirleme",
+      "implementationFocus": "Next.js admin panel içinde Project OS sayfasının kapsam, bilgi modeli ve MVP yapısını netleştirmek",
       "repoRefs": [
         {
           "title": "Uygulama reposu",
@@ -85,15 +88,11 @@
           "ref": "https://github.com/openclaw/openclaw"
         }
       ],
-      "tooling": [
-        "Apify CLI",
-        "Google Maps Scraper"
-      ],
       "outputConstraints": [
         "Citation, footnote ve markdown reference link kullanılmayacak",
         "Link gerekiyorsa doğrudan URL yazılacak",
         "Teknik olmayan kısa özet JSON dışında ayrı ikinci bölüm olarak istenecek",
-        "Repo entegrasyonu gerekiyorsa dış GPT ilgili repo içeriğini gerçekten inceleyecek, erişim yoksa blokaj yazacak"
+        "Repo analizi gerekiyorsa dış GPT repo içeriğini gerçekten inceleyecek, erişim yoksa blokaj yazacak"
       ]
     }
   }
