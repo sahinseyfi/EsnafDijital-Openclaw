@@ -42,12 +42,20 @@ function getHotStage(input: {
   return `${input.maintenanceProjects} bakım kaydı var. Hat sakin ama kapanmış değil.`
 }
 
-export default async function ProjectOsPage() {
+export default async function ProjectOsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ businessId?: string }>
+}) {
+  const params = await searchParams
+  const selectedBusinessId = params?.businessId?.trim() || ''
+
   const [dataset, consultationPayload] = await Promise.all([
     getProjectOsDataset(),
     getConsultationCenterPayload(),
   ])
   const businessNames = Object.fromEntries(dataset.businesses.map((business) => [business.id, business.name]))
+  const selectedBusiness = dataset.businesses.find((business) => business.id === selectedBusinessId) || null
 
   const stats = {
     businesses: dataset.businesses.length,
@@ -195,8 +203,20 @@ export default async function ProjectOsPage() {
         </article>
       </section>
 
+      {selectedBusiness ? (
+        <section>
+          <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.95), rgba(255, 255, 255, 1))' }}>
+            <div>
+              <p className="eyebrow">Seçili kayıt</p>
+              <h3>{selectedBusiness.name}</h3>
+            </div>
+            <p className="muted">Discovery ekranından açılan işletme kaydı aşağıdaki tabloda işaretlendi. Buradan audit, teklif ve teslimat hattını devam ettirebilirsin.</p>
+          </article>
+        </section>
+      ) : null}
+
       <section className="grid-2">
-        <article className="card">
+        <article className="card" id="businesses">
           <h3>İşletmeler</h3>
           <div className="table-wrap">
             <table>
@@ -209,14 +229,26 @@ export default async function ProjectOsPage() {
                 </tr>
               </thead>
               <tbody>
-                {dataset.businesses.length > 0 ? dataset.businesses.map((business) => (
-                  <tr key={business.id}>
-                    <td>{business.name}</td>
-                    <td>{segmentLabels[business.segment]}</td>
-                    <td>{business.district}</td>
-                    <td>{business.status}</td>
-                  </tr>
-                )) : (
+                {dataset.businesses.length > 0 ? dataset.businesses.map((business) => {
+                  const isSelected = business.id === selectedBusinessId
+
+                  return (
+                    <tr
+                      key={business.id}
+                      style={isSelected ? { background: 'rgba(219, 234, 254, 0.45)' } : undefined}
+                    >
+                      <td>
+                        <div className="stack-xs">
+                          <strong style={{ color: 'var(--ink-title)' }}>{business.name}</strong>
+                          {isSelected ? <span className="badge">Discoveryden acilan kayit</span> : null}
+                        </div>
+                      </td>
+                      <td>{segmentLabels[business.segment]}</td>
+                      <td>{business.district}</td>
+                      <td>{business.status}</td>
+                    </tr>
+                  )
+                }) : (
                   <tr>
                     <td colSpan={4} className="muted">Henüz işletme kaydı yok.</td>
                   </tr>

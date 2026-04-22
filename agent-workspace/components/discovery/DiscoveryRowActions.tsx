@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -96,7 +97,12 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
         </button>
       </div>
       {currentImport ? (
-        <span className="muted">Business {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} acildi.</span>
+        <div className="stack-xs">
+          <span className="muted">Business {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} acildi.</span>
+          <Link href={`/project-os?businessId=${currentImport.businessId}#businesses`} className="ghost-link" style={{ minHeight: 36, padding: '8px 12px', width: 'fit-content' }}>
+            Business kaydini ac
+          </Link>
+        </div>
       ) : null}
       {message ? <span className="muted">{message}</span> : null}
     </div>
