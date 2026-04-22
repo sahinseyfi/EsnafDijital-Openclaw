@@ -42,6 +42,15 @@ const deliveryStatusLabels = {
   maintenance: 'Bakım',
 } as const
 
+function formatTimelineDate(value: string) {
+  return new Intl.DateTimeFormat('tr-TR', {
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(value))
+}
+
 export default async function BusinessDetailPage({
   params,
 }: {
@@ -74,6 +83,71 @@ export default async function BusinessDetailPage({
   const queueItem = overview.queue.find((item) => item.businessId === business.id) || null
   const latestOffer = offers[0] || null
   const latestDelivery = deliveryProjects[0] || null
+  const activityTimeline = [
+    {
+      id: `business-created-${business.id}`,
+      occurredAt: business.createdAt,
+      title: 'İşletme kaydı açıldı',
+      text: `${business.name} işletmesi ${segmentLabels[business.segment]} segmentiyle kayda alındı.`,
+    },
+    ...audits.flatMap((audit) => {
+      const createdItem = {
+        id: `audit-created-${audit.id}`,
+        occurredAt: audit.createdAt,
+        title: 'Audit kaydı açıldı',
+        text: `${audit.channelReadiness} hazırlık sinyali ile audit başlatıldı. ${audit.summary}`,
+      }
+
+      const updatedItem = audit.updatedAt !== audit.createdAt
+        ? {
+            id: `audit-updated-${audit.id}`,
+            occurredAt: audit.updatedAt,
+            title: 'Audit durumu güncellendi',
+            text: `Audit durumu ${auditStatusLabels[audit.status]} seviyesine taşındı.`,
+          }
+        : null
+
+      return updatedItem ? [createdItem, updatedItem] : [createdItem]
+    }),
+    ...offers.flatMap((offer) => {
+      const createdItem = {
+        id: `offer-created-${offer.id}`,
+        occurredAt: offer.createdAt,
+        title: 'Teklif kaydı açıldı',
+        text: `${offer.packageName} paketi ${offer.amountTry.toLocaleString('tr-TR')} ₺ ile kaydedildi.`,
+      }
+
+      const updatedItem = offer.updatedAt !== offer.createdAt
+        ? {
+            id: `offer-updated-${offer.id}`,
+            occurredAt: offer.updatedAt,
+            title: 'Teklif durumu güncellendi',
+            text: `Teklif durumu ${offerStatusLabels[offer.status]} olarak güncellendi.`,
+          }
+        : null
+
+      return updatedItem ? [createdItem, updatedItem] : [createdItem]
+    }),
+    ...deliveryProjects.flatMap((project) => {
+      const createdItem = {
+        id: `delivery-created-${project.id}`,
+        occurredAt: project.createdAt,
+        title: 'Teslimat kaydı açıldı',
+        text: `${deliveryStatusLabels[project.status]} durumunda teslimat zinciri başlatıldı.`,
+      }
+
+      const updatedItem = project.updatedAt !== project.createdAt
+        ? {
+            id: `delivery-updated-${project.id}`,
+            occurredAt: project.updatedAt,
+            title: 'Teslimat durumu güncellendi',
+            text: `Teslimat durumu ${deliveryStatusLabels[project.status]} olarak güncellendi.`,
+          }
+        : null
+
+      return updatedItem ? [createdItem, updatedItem] : [createdItem]
+    }),
+  ].sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())
 
   return (
     <AdminShell
@@ -248,6 +322,30 @@ export default async function BusinessDetailPage({
             </div>
           ) : (
             <p className="muted">Bu bölüm teslimat veya bakım kaydı açıldığında dolacak.</p>
+          )}
+        </article>
+      </section>
+
+      <section>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Activity timeline</p>
+            <h3>Bu kayıttaki son hareketler</h3>
+          </div>
+          {activityTimeline.length > 0 ? (
+            <div className="stack-sm">
+              {activityTimeline.map((item) => (
+                <div key={item.id} style={{ paddingBottom: 12, borderBottom: '1px solid var(--line)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                    <strong style={{ color: 'var(--ink-title)' }}>{item.title}</strong>
+                    <span className="muted">{formatTimelineDate(item.occurredAt)}</span>
+                  </div>
+                  <p className="muted">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="muted">Bu işletme için henüz zaman akışında gösterilecek hareket yok.</p>
           )}
         </article>
       </section>

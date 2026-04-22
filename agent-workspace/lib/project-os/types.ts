@@ -7,6 +7,8 @@ export interface BusinessRecord {
   district: string
   ownerName: string
   status: 'lead' | 'active' | 'paused'
+  createdAt: string
+  updatedAt: string
 }
 
 export interface AuditRecord {
@@ -15,6 +17,8 @@ export interface AuditRecord {
   status: 'new' | 'reviewed' | 'offered'
   channelReadiness: 'dusuk' | 'orta' | 'iyi'
   summary: string
+  createdAt: string
+  updatedAt: string
 }
 
 export type OfferDomainPreference = 'subdomain' | 'custom-domain'
@@ -28,6 +32,8 @@ export interface OfferRecord {
   addonKeys: string[]
   domainPreference: OfferDomainPreference
   customDomain: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface DeliveryProjectRecord {
@@ -35,6 +41,8 @@ export interface DeliveryProjectRecord {
   businessId: string
   status: 'kickoff' | 'building' | 'live' | 'maintenance'
   scope: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface ProjectOsDataset {

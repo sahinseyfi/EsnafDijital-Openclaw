@@ -74,10 +74,10 @@ function mapDeliveryProjectStatus(value: string): DeliveryProjectRecord['status'
 }
 
 function mapDataset(dataset: {
-  businesses: Array<{ id: string; name: string; segment: string; district: string; ownerName: string; status: string }>
-  audits: Array<{ id: string; businessId: string; status: string; channelReadiness: string; summary: string }>
-  offers: Array<{ id: string; businessId: string; status: string; packageName: string; amountTry: number; addonKeys: string[]; domainPreference: string; customDomain: string | null }>
-  deliveryProjects: Array<{ id: string; businessId: string; status: string; scope: string }>
+  businesses: Array<{ id: string; name: string; segment: string; district: string; ownerName: string; status: string; createdAt: Date; updatedAt: Date }>
+  audits: Array<{ id: string; businessId: string; status: string; channelReadiness: string; summary: string; createdAt: Date; updatedAt: Date }>
+  offers: Array<{ id: string; businessId: string; status: string; packageName: string; amountTry: number; addonKeys: string[]; domainPreference: string; customDomain: string | null; createdAt: Date; updatedAt: Date }>
+  deliveryProjects: Array<{ id: string; businessId: string; status: string; scope: string; createdAt: Date; updatedAt: Date }>
 }): ProjectOsDataset {
   return {
     businesses: dataset.businesses.map((business) => ({
@@ -87,6 +87,8 @@ function mapDataset(dataset: {
       district: business.district,
       ownerName: business.ownerName,
       status: mapBusinessStatus(business.status),
+      createdAt: business.createdAt.toISOString(),
+      updatedAt: business.updatedAt.toISOString(),
     })),
     audits: dataset.audits.map((audit) => ({
       id: audit.id,
@@ -94,6 +96,8 @@ function mapDataset(dataset: {
       status: mapAuditStatus(audit.status),
       channelReadiness: mapChannelReadiness(audit.channelReadiness),
       summary: audit.summary,
+      createdAt: audit.createdAt.toISOString(),
+      updatedAt: audit.updatedAt.toISOString(),
     })),
     offers: dataset.offers.map((offer) => ({
       id: offer.id,
@@ -104,12 +108,16 @@ function mapDataset(dataset: {
       addonKeys: Array.isArray(offer.addonKeys) ? offer.addonKeys : [],
       domainPreference: mapOfferDomainPreference(offer.domainPreference),
       customDomain: offer.customDomain || '',
+      createdAt: offer.createdAt.toISOString(),
+      updatedAt: offer.updatedAt.toISOString(),
     })),
     deliveryProjects: dataset.deliveryProjects.map((project) => ({
       id: project.id,
       businessId: project.businessId,
       status: mapDeliveryProjectStatus(project.status),
       scope: project.scope,
+      createdAt: project.createdAt.toISOString(),
+      updatedAt: project.updatedAt.toISOString(),
     })),
   }
 }
