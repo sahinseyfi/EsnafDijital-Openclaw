@@ -319,6 +319,9 @@ export async function createConsultation(input: {
             sharedJson: {
               ...(suggestion.sharedBrief || {}),
               targetModel: mapTargetModel(input.targetModel),
+              promptStatus: 'preparing',
+              promptError: null,
+              preparedPromptText: '',
             },
             contextRefsJson: suggestion.contextRefs,
           },

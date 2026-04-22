@@ -1,26 +1,17 @@
 import { AdminShell } from '@/components/admin/AdminShell'
 import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
 import { ConsultationInboxList } from '@/components/consultation-center/ConsultationInboxList'
+import { PromptPreparationEffect } from '@/components/consultation-center/PromptPreparationEffect'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { buildPromptSummary } from '@/lib/consultation-center/prompt'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
-function stageLabel(value: string) {
-  const labels: Record<string, string> = {
-    draft: 'Taslak',
-    clarifying: 'Netleşiyor',
-    goal_set: 'Hazırlanıyor',
-    context_ready: 'Prompt hazır',
-    blocked: 'Eksik var',
-    internal: 'İçeride çöz',
-    external: 'GPT ile düşün',
-    ready_to_send: 'Gönderime hazır',
-    answered: 'Cevap geldi',
-    actioned: 'Karar çıktı',
-  }
-  return labels[value] || value
+function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
+  if (value === 'ready') return 'Prompt hazır'
+  if (value === 'error') return 'Prompt hatası'
+  return 'Prompt hazırlanıyor'
 }
 
 export default async function ConsultationCenterPage({
@@ -65,7 +56,7 @@ export default async function ConsultationCenterPage({
               <div>
                 <p className="eyebrow">Seçili kayıt</p>
                 <h3>{selected.title}</h3>
-                <p className="muted">Durum: {stageLabel(selected.stage)}</p>
+                <p className="muted">Prompt durumu: {promptStatusLabel(selected.promptStatus)}</p>
               </div>
               {decisionNote ? (
                 <div className="card stack-xs">
@@ -77,6 +68,15 @@ export default async function ConsultationCenterPage({
               )}
             </section>
 
+            <PromptPreparationEffect
+              consultationId={selected.id}
+              title={selected.title}
+              summary={selected.summary}
+              targetModel={selected.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'}
+              promptStatus={selected.promptStatus}
+              promptText={selected.promptRun.promptText}
+            />
+
             <ConsultationDetailEditor consultation={selected} />
 
             <PromptPreviewCard
@@ -84,6 +84,8 @@ export default async function ConsultationCenterPage({
               fallbackText="Kayıt açılınca prompt otomatik oluşur. Metni veya modeli değiştirirsen buradaki prompt yeniden kurulur."
               targetModel={selected.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'}
               promptSummary={promptSummary}
+              promptStatus={selected.promptStatus}
+              promptError={selected.promptError}
             />
 
             <ResponseCaptureForm consultation={selected} />

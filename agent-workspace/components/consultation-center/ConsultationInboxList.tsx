@@ -5,20 +5,10 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { ConsultationInboxItem } from '@/lib/consultation-center/types'
 
-function stageLabel(value: string) {
-  const labels: Record<string, string> = {
-    draft: 'Taslak',
-    clarifying: 'Netleşiyor',
-    goal_set: 'Hazırlanıyor',
-    context_ready: 'Prompt hazır',
-    blocked: 'Eksik var',
-    internal: 'İçeride çöz',
-    external: 'GPT ile düşün',
-    ready_to_send: 'Gönderime hazır',
-    answered: 'Cevap geldi',
-    actioned: 'Karar çıktı',
-  }
-  return labels[value] || value
+function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
+  if (value === 'ready') return 'Prompt hazır'
+  if (value === 'error') return 'Prompt hatası'
+  return 'Prompt hazırlanıyor'
 }
 
 export function ConsultationInboxList({ items, selectedId }: { items: ConsultationInboxItem[]; selectedId?: string }) {
@@ -80,7 +70,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
                   <div className="stack-xs">
                     <strong>{item.title}</strong>
                     <p className="muted">{item.summary}</p>
-                    <span className="muted">Durum: {stageLabel(item.stage)}</span>
+                    <span className="muted">{promptStatusLabel(item.promptStatus)}</span>
                   </div>
                 </Link>
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
+import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -22,8 +23,40 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     summary: body.summary?.trim() || current.summary,
   }
 
+  await updateConsultation(id, {
+    title: workingCopy.title,
+    summary: workingCopy.summary,
+    targetModel: body.targetModel,
+    sharedBrief: {
+      ...(current.sharedBrief || {}),
+      promptStatus: 'preparing',
+      promptError: null,
+      preparedPromptText: '',
+    },
+  })
+
   try {
     const suggestion = await generateConsultationBriefWithAgent(workingCopy)
+    const targetModel = body.targetModel || workingCopy.promptRun.modelName || 'gpt-5-pro'
+    const nextSharedBrief = {
+      ...(workingCopy.sharedBrief || {}),
+      ...(suggestion.sharedBrief || {}),
+      targetModel,
+      promptStatus: 'ready',
+      promptError: null,
+    }
+    const promptText = buildConsultationPrompt({
+      type: workingCopy.type,
+      title: suggestion.title || workingCopy.title,
+      decisionQuestion: suggestion.decisionQuestion,
+      whyNow: suggestion.whyNow,
+      desiredOutput: suggestion.desiredOutput,
+      contextRefs: suggestion.contextRefs,
+      businessBrief: suggestion.businessBrief,
+      technicalBrief: suggestion.technicalBrief,
+      sharedBrief: nextSharedBrief,
+    })
+
     const result = await updateConsultation(id, {
       title: suggestion.title || workingCopy.title,
       summary: suggestion.summary || workingCopy.summary,
@@ -32,7 +65,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       desiredOutput: suggestion.desiredOutput,
       businessBrief: suggestion.businessBrief,
       technicalBrief: suggestion.technicalBrief,
-      sharedBrief: suggestion.sharedBrief,
+      sharedBrief: {
+        ...nextSharedBrief,
+        preparedPromptText: promptText,
+        promptPreparedAt: new Date().toISOString(),
+      },
       contextRefs: suggestion.contextRefs,
       targetModel: body.targetModel,
     })
@@ -43,6 +80,18 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
 
     return NextResponse.json({ ok: true, updated: result.updated, payload: result.payload })
   } catch (error: any) {
+    await updateConsultation(id, {
+      title: workingCopy.title,
+      summary: workingCopy.summary,
+      targetModel: body.targetModel,
+      sharedBrief: {
+        ...(current.sharedBrief || {}),
+        promptStatus: 'error',
+        promptError: error?.message || 'AI brief üretilemedi',
+        preparedPromptText: '',
+      },
+    })
+
     return NextResponse.json({ ok: false, message: error?.message || 'AI brief üretilemedi' }, { status: 500 })
   }
 }

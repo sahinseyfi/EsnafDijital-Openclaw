@@ -7,11 +7,15 @@ export function PromptPreviewCard({
   fallbackText,
   targetModel,
   promptSummary,
+  promptStatus,
+  promptError,
 }: {
   promptText: string
   fallbackText: string
   targetModel: 'gpt-5' | 'gpt-5-pro'
   promptSummary: string[]
+  promptStatus: 'preparing' | 'ready' | 'error'
+  promptError: string | null
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -40,17 +44,19 @@ export function PromptPreviewCard({
         ) : null}
       </div>
       <p className="muted">{fallbackText}</p>
-      {promptSummary.length ? (
+      {promptStatus === 'preparing' ? <p className="muted">Agent promptu şimdi hazırlıyor.</p> : null}
+      {promptStatus === 'error' ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{promptError || 'Prompt hazırlanırken hata oldu. "Promptu yenile" ile tekrar deneyebilirsin.'}</p> : null}
+      {promptSummary.length && promptStatus === 'ready' ? (
         <ul className="list">
           {promptSummary.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
       ) : null}
-      {promptText.trim() ? (
+      {promptText.trim() && promptStatus === 'ready' ? (
         <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 13 }}>{promptText}</pre>
       ) : (
-        <p className="muted">Bu kayıt için GPT Pro prompt'u gerekmiyor.</p>
+        <p className="muted">Henüz hazır prompt yok.</p>
       )}
     </div>
   )

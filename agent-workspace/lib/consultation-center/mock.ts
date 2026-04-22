@@ -1,9 +1,8 @@
 import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
-import { buildConsultationPrompt } from '@/lib/consultation-center/prompt'
 import { inferConsultationStage } from '@/lib/consultation-center/stage'
 import { readMockStore, writeMockStore } from '@/lib/consultation-center/mock-store'
 import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
-import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationTargetModel } from '@/lib/consultation-center/types'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationPromptStatus, ConsultationTargetModel } from '@/lib/consultation-center/types'
 
 type ConsultationUpdateInput = {
   title?: string
@@ -41,6 +40,24 @@ function normalizeTargetModel(value?: string | null): ConsultationTargetModel {
   return value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
 }
 
+function mapPromptStatus(value?: string | null, promptText?: string | null): ConsultationPromptStatus {
+  if (value === 'preparing' || value === 'ready' || value === 'error') return value
+  return promptText?.trim() ? 'ready' : 'preparing'
+}
+
+function getPreparedPromptText(sharedBrief?: Record<string, string | string[] | null>, latestPromptText?: string | null) {
+  const latest = latestPromptText?.trim() || ''
+  if (latest) return latest
+
+  return typeof sharedBrief?.preparedPromptText === 'string' ? sharedBrief.preparedPromptText.trim() : ''
+}
+
+function getPromptError(sharedBrief?: Record<string, string | string[] | null>) {
+  return typeof sharedBrief?.promptError === 'string' && sharedBrief.promptError.trim()
+    ? sharedBrief.promptError.trim()
+    : null
+}
+
 const seedConsultations: ConsultationDetail[] = [
   {
     id: 'consult_shared_offer_v1',
@@ -54,6 +71,8 @@ const seedConsultations: ConsultationDetail[] = [
     decisionQuestion: 'Audit sonrası teklif yapısını 3 sade pakete nasıl düşürelim?',
     summary: 'Teklif dili hem saha tarafında kolay anlatılmalı hem teknik teslimat yükünü taşınabilir tutmalı.',
     gptRecommended: true,
+    promptStatus: 'ready',
+    promptError: null,
     whyNow: 'İlk teklif omurgası hâlâ tam keskin değil ve bu karar hem satış konuşmasını hem teslimat standardını etkiliyor.',
     desiredOutput: '3 paket yapısı, ne var/ne yok sınırı, geçiş cümleleri ve ilk uygulama sırası',
     missingFields: [],
@@ -91,6 +110,8 @@ const seedConsultations: ConsultationDetail[] = [
     decisionQuestion: 'Audit’i ilk görüşmede hangi dille anlatırsak randevu açmak kolaylaşır?',
     summary: 'Saha tarafında güven bariyeri yüksek. Kısa ve anlaşılır giriş cümlesi gerekiyor.',
     gptRecommended: true,
+    promptStatus: 'ready',
+    promptError: null,
     whyNow: 'Saha konuşmaları başladı ve ilk temas cümlesi henüz standardize değil.',
     desiredOutput: 'Açılış cümleleri, itiraz cevapları, 1 haftalık saha testi',
     missingFields: [],
@@ -125,6 +146,8 @@ const seedConsultations: ConsultationDetail[] = [
     decisionQuestion: 'Consultation Center v1 için minimum tablo ve API sınırı ne olmalı?',
     summary: 'Önce iskelet lazım, sonra gerçek Postgres bağlantısı gelecek.',
     gptRecommended: false,
+    promptStatus: 'preparing',
+    promptError: null,
     whyNow: 'Consultation Center v1 spec yazıldı. Bunu repo içinde çalışan iskelete çevirmek gerekiyor.',
     desiredOutput: 'Prisma schema, dummy API, ilk ekran akışı',
     missingFields: [],
@@ -166,6 +189,7 @@ function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
     technicalBrief: consultation.technicalBrief,
     sharedBrief: consultation.sharedBrief,
   })
+  const promptText = getPreparedPromptText(consultation.sharedBrief, consultation.promptRun.promptText)
   const stage = inferConsultationStage({
     currentStage: consultation.stage,
     decisionQuestion: consultation.decisionQuestion,
@@ -173,7 +197,7 @@ function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
     desiredOutput: consultation.desiredOutput,
     missingFields: evaluation.missingFields,
     route: evaluation.route,
-    promptText: consultation.promptRun.promptText,
+    promptText,
     sentAt: consultation.promptRun.sentAt,
     responseSummary: consultation.promptRun.responseSummary,
     actions: consultation.actions,
@@ -191,6 +215,8 @@ function toInboxItem(consultation: ConsultationDetail): ConsultationInboxItem {
     decisionQuestion: consultation.decisionQuestion,
     summary: consultation.summary,
     gptRecommended: evaluation.gptRecommended,
+    promptStatus: mapPromptStatus(consultation.sharedBrief?.promptStatus as string | undefined, promptText),
+    promptError: getPromptError(consultation.sharedBrief),
   }
 }
 
@@ -215,19 +241,7 @@ export async function getConsultationDetail(id: string): Promise<ConsultationDet
     sharedBrief: item.sharedBrief,
   })
 
-  const promptText = item.promptRun.promptText || (evaluation.route === 'external'
-    ? buildConsultationPrompt({
-        type: item.type,
-        title: item.title,
-        decisionQuestion: item.decisionQuestion,
-        whyNow: item.whyNow,
-        desiredOutput: item.desiredOutput,
-        contextRefs: item.contextRefs,
-        businessBrief: item.businessBrief,
-        technicalBrief: item.technicalBrief,
-        sharedBrief: item.sharedBrief,
-      })
-    : '')
+  const promptText = getPreparedPromptText(item.sharedBrief, item.promptRun.promptText)
   const stage = inferConsultationStage({
     currentStage: item.stage,
     decisionQuestion: item.decisionQuestion,
@@ -248,6 +262,8 @@ export async function getConsultationDetail(id: string): Promise<ConsultationDet
     ownerRole: evaluation.ownerRole,
     gptRecommended: evaluation.gptRecommended,
     missingFields: evaluation.missingFields,
+    promptStatus: mapPromptStatus(item.sharedBrief?.promptStatus as string | undefined, promptText),
+    promptError: getPromptError(item.sharedBrief),
     promptRun: {
       ...item.promptRun,
       promptText,
@@ -285,6 +301,8 @@ export async function createMockConsultation(input: {
     decisionQuestion: suggestion.decisionQuestion,
     summary: suggestion.summary,
     gptRecommended: false,
+    promptStatus: 'preparing',
+    promptError: null,
     whyNow: suggestion.whyNow,
     desiredOutput: suggestion.desiredOutput,
     missingFields: [],
@@ -293,6 +311,9 @@ export async function createMockConsultation(input: {
     sharedBrief: {
       ...(suggestion.sharedBrief || {}),
       targetModel: normalizeTargetModel(input.targetModel),
+      promptStatus: 'preparing',
+      promptError: null,
+      preparedPromptText: '',
     },
     contextRefs: suggestion.contextRefs,
     promptRun: {
