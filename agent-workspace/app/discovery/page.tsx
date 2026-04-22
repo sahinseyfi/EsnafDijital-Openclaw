@@ -1,4 +1,6 @@
 import { AdminShell } from '@/components/admin/AdminShell'
+import { DiscoveryRowActions } from '@/components/discovery/DiscoveryRowActions'
+import { readDiscoveryRuntimeState } from '@/lib/discovery/runtime'
 import { filterDiscoveryRows, normalizeDiscoveryFilters, readDiscoverySummary } from '@/lib/discovery/service'
 
 export const dynamic = 'force-dynamic'
@@ -48,14 +50,20 @@ export default async function DiscoveryPage({
   searchParams?: Promise<{ segment?: string; bucket?: string; q?: string }>
 }) {
   const params = (await searchParams) || {}
-  const rows = await readDiscoverySummary()
+  const [rows, runtimeState] = await Promise.all([
+    readDiscoverySummary(),
+    readDiscoveryRuntimeState(),
+  ])
   const filters = normalizeDiscoveryFilters(params)
   const filteredRows = filterDiscoveryRows(rows, params)
+  const shortlistedPlaceIds = new Set(runtimeState.shortlistedPlaceIds)
 
   const stats = {
     total: rows.length,
     visible: filteredRows.length,
     shortlist: rows.filter((row) => row.scoring.bucket === 'shortlist').length,
+    manualShortlist: runtimeState.shortlistedPlaceIds.length,
+    imported: Object.keys(runtimeState.imports).length,
     withWebsite: rows.filter((row) => row.candidate.hasWebsite).length,
     withPhone: rows.filter((row) => Boolean(row.candidate.phone.trim())).length,
     multiTerm: rows.filter((row) => row.source.matchedSearchTermCount > 1).length,
@@ -84,12 +92,12 @@ export default async function DiscoveryPage({
           <p className="muted">kisa liste sinyalinde aday</p>
         </article>
         <article className="card stat-card">
-          <strong>{stats.withPhone}</strong>
-          <p className="muted">telefonu dolu aday</p>
+          <strong>{stats.manualShortlist}</strong>
+          <p className="muted">elle shortlist edilen aday</p>
         </article>
         <article className="card stat-card">
-          <strong>{stats.withWebsite}</strong>
-          <p className="muted">web sitesi gorunen aday</p>
+          <strong>{stats.imported}</strong>
+          <p className="muted">Project OSa aktarilan aday</p>
         </article>
       </section>
 
@@ -136,7 +144,7 @@ export default async function DiscoveryPage({
           <ul className="list">
             <li>Skor ve kova ilk eleme sinyalidir, son karar degil.</li>
             <li>Coklu arama teriminde gorunen adaylar daha guclu gorunurluk sinyali verir.</li>
-            <li>Buradan secilen adaylari sonra Business ve Audit olarak Project OSa tasiriz.</li>
+            <li>Shortlist butonu manuel secimi saklar, Project OS butonu ise Business ve Audit acarak adaylari ana hatta tasir.</li>
           </ul>
           <p className="muted">Su an {stats.visible} aday gorunuyor, bunlarin {stats.multiTerm} tanesi birden fazla arama teriminde yakalandi.</p>
         </article>
@@ -162,6 +170,7 @@ export default async function DiscoveryPage({
                 <th>Iletisim</th>
                 <th>Arama kapsami</th>
                 <th>Karar</th>
+                <th>Aksiyon</th>
               </tr>
             </thead>
             <tbody>
@@ -213,13 +222,34 @@ export default async function DiscoveryPage({
                   <td>
                     <div className="stack-xs">
                       <span className="badge" style={bucketBadgeStyle(row.scoring.bucket)}>{bucketLabels[row.scoring.bucket]}</span>
+                      {shortlistedPlaceIds.has(row.candidate.placeId) ? <span className="badge">Shortlistte</span> : null}
                       <span className="muted">{row.scoring.reasons.slice(0, 2).join(', ') || 'Not yok'}</span>
                     </div>
+                  </td>
+                  <td>
+                    <DiscoveryRowActions
+                      placeId={row.candidate.placeId}
+                      initiallyShortlisted={shortlistedPlaceIds.has(row.candidate.placeId)}
+                      importInfo={runtimeState.imports[row.candidate.placeId] || null}
+                      payload={{
+                        placeId: row.candidate.placeId,
+                        name: row.candidate.name,
+                        segment: row.source.segment,
+                        district: row.candidate.district,
+                        address: row.candidate.address,
+                        categoryName: row.candidate.categoryName,
+                        phone: row.candidate.phone,
+                        websiteUrl: row.candidate.websiteUrl,
+                        reviewsCount: row.candidate.reviewsCount,
+                        score: row.scoring.score,
+                        matchedSearchTerms: row.source.matchedSearchTerms,
+                      }}
+                    />
                   </td>
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={7} className="muted">Bu filtreyle eslesen aday yok.</td>
+                  <td colSpan={8} className="muted">Bu filtreyle eslesen aday yok.</td>
                 </tr>
               )}
             </tbody>
