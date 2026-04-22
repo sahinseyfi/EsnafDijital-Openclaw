@@ -1,6 +1,13 @@
 {
   "searchStringsArray": [
-    "guzellik salonu"
+    "guzellik salonu",
+    "kuafor",
+    "kuaför",
+    "bayan kuaforu",
+    "bayan kuaförü",
+    "sac tasarim",
+    "saç tasarım",
+    "beauty salon"
   ],
   "locationQuery": "Arnavutkoy, Istanbul, Turkiye",
   "maxCrawledPlacesPerSearch": 60,
