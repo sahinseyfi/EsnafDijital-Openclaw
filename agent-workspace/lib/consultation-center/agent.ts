@@ -46,8 +46,42 @@ function formatBriefRecord(value?: Record<string, string | string[] | null>) {
 }
 
 function formatContextRefs(refs: ConsultationContextRef[]) {
-  if (!refs.length) return '- yok'
+  if (!refs.length) return ''
   return refs.map((ref) => `- ${ref.kind} | ${ref.title} | ${ref.ref}`).join('\n')
+}
+
+function formatConsultationPayload(consultation: ConsultationDetail) {
+  const lines = [
+    `- targetModel: ${consultation.promptRun.modelName || 'gpt-5-pro'}`,
+    `- title: ${consultation.title || '—'}`,
+    `- type: ${consultation.type || '—'}`,
+    `- summary: ${consultation.summary || '—'}`,
+    `- decisionQuestion: ${consultation.decisionQuestion || '—'}`,
+    `- whyNow: ${consultation.whyNow || '—'}`,
+    `- desiredOutput: ${consultation.desiredOutput || '—'}`,
+  ]
+
+  const contextRefs = formatContextRefs(consultation.contextRefs)
+  if (contextRefs) {
+    lines.push('', 'Context refs:', contextRefs)
+  }
+
+  const businessBrief = formatBriefRecord(consultation.businessBrief)
+  if (businessBrief !== '- yok') {
+    lines.push('', 'Business brief:', businessBrief)
+  }
+
+  const technicalBrief = formatBriefRecord(consultation.technicalBrief)
+  if (technicalBrief !== '- yok') {
+    lines.push('', 'Technical brief:', technicalBrief)
+  }
+
+  const sharedBrief = formatBriefRecord(consultation.sharedBrief)
+  if (sharedBrief !== '- yok') {
+    lines.push('', 'Shared brief:', sharedBrief)
+  }
+
+  return lines.join('\n')
 }
 
 function readRequiredReference(filePath: string, label: string) {
@@ -76,8 +110,8 @@ function buildPrompt(consultation: ConsultationDetail) {
   const skillContext = getPromptSkillContext()
 
   return [
-    'Bu gorev workspace skilli `consultation-prompt-builder` cizgisine net uyar.',
-    'Davranis, yazim ve kalite kurallarini asagidaki skill ve referanslardan al. Kod icinde ayri prompt policy uydurma.',
+    'Bu gorevde yalnizca workspace skilli `consultation-prompt-builder` ve onun referanslarini uygula.',
+    'Davranis kurali uydurma, skill icerigini ana kaynak kabul et.',
     '',
     'SKILL.md:',
     skillContext.skillMd,
@@ -88,45 +122,14 @@ function buildPrompt(consultation: ConsultationDetail) {
     'Grounding checklist:',
     skillContext.groundingChecklist,
     '',
-    'Uygulama entegrasyon kontrati:',
-    '- Bu entegrasyon icin sadece gecerli JSON don.',
-    '- Markdown, kod fence, onsoz, sonsoz veya ek aciklama donme.',
-    '- JSON alanlari tam olarak su sekilde olsun:',
-    '{',
-    '  "title": "string",',
-    '  "summary": "string",',
-    '  "decisionQuestion": "string",',
-    '  "whyNow": "string",',
-    '  "desiredOutput": "string",',
-    '  "finalPromptText": "string",',
-    '  "contextRefs": [{ "kind": "project|heartbeat|decision|roadmap", "title": "string", "ref": "string" }],',
-    '  "businessBrief": { ... } | null,',
-    '  "technicalBrief": { ... } | null,',
-    '  "sharedBrief": { ... } | null',
-    '}',
-    '- contextRefs en fazla 4 oge olsun.',
-    '- finalPromptText, kullaniciya verilecek son promptu tasir.',
+    'Uygulama kontrati:',
+    '- Yalnizca gecerli JSON don.',
+    '- Ek aciklama veya serbest metin donme.',
+    '- Su alanlari uret: title, summary, decisionQuestion, whyNow, desiredOutput, finalPromptText, contextRefs, businessBrief, technicalBrief, sharedBrief.',
+    '- finalPromptText kullaniciya verilecek son prompttur.',
     '',
-    'Consultation kaydi:',
-    `- targetModel: ${consultation.promptRun.modelName || 'gpt-5-pro'}`,
-    `- title: ${consultation.title}`,
-    `- type: ${consultation.type}`,
-    `- summary: ${consultation.summary}`,
-    `- decisionQuestion: ${consultation.decisionQuestion}`,
-    `- whyNow: ${consultation.whyNow}`,
-    `- desiredOutput: ${consultation.desiredOutput}`,
-    '',
-    'Mevcut context refs:',
-    formatContextRefs(consultation.contextRefs),
-    '',
-    'Mevcut businessBrief:',
-    formatBriefRecord(consultation.businessBrief),
-    '',
-    'Mevcut technicalBrief:',
-    formatBriefRecord(consultation.technicalBrief),
-    '',
-    'Mevcut sharedBrief:',
-    formatBriefRecord(consultation.sharedBrief),
+    'Consultation payload:',
+    formatConsultationPayload(consultation),
   ].join('\n')
 }
 
