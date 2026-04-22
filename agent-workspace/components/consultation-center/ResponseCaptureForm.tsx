@@ -6,7 +6,7 @@ import type { ConsultationDetail } from '@/lib/consultation-center/types'
 
 export function ResponseCaptureForm({ consultation }: { consultation: ConsultationDetail }) {
   const router = useRouter()
-  const [modelName, setModelName] = useState(consultation.promptRun.modelName || 'gpt-5')
+  const [modelName, setModelName] = useState<'gpt-5' | 'gpt-5-pro'>(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
   const [promptText, setPromptText] = useState(consultation.promptRun.promptText || '')
   const [responseText, setResponseText] = useState(consultation.promptRun.responseSummary || '')
   const [decisionNote, setDecisionNote] = useState(String(consultation.sharedBrief?.kararNotu || ''))
@@ -15,7 +15,7 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
   const [successText, setSuccessText] = useState<string | null>(null)
 
   useEffect(() => {
-    setModelName(consultation.promptRun.modelName || 'gpt-5')
+    setModelName(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
     setPromptText(consultation.promptRun.promptText || '')
     setResponseText(consultation.promptRun.responseSummary || '')
     setDecisionNote(String(consultation.sharedBrief?.kararNotu || ''))
@@ -81,8 +81,17 @@ export function ResponseCaptureForm({ consultation }: { consultation: Consultati
 
       <label style={{ display: 'grid', gap: 6 }}>
         <span>Model</span>
-        <input value={modelName} onChange={(event) => setModelName(event.target.value)} placeholder="gpt-5" />
+        <select value={modelName} onChange={(event) => setModelName(event.target.value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')}>
+          <option value="gpt-5-pro">GPT-5 Pro</option>
+          <option value="gpt-5">GPT-5</option>
+        </select>
       </label>
+
+      {modelName === 'gpt-5-pro' ? (
+        <p className="muted">Bu kayıtta hedef model GPT-5 Pro. Cevabı kaydederken aynı model bilgisini koruyacağız.</p>
+      ) : (
+        <p className="muted">Bu kayıtta hedef model GPT-5. Daha hızlı akış için bu seçim korunacak.</p>
+      )}
 
       <label style={{ display: 'grid', gap: 6 }}>
         <span>Gönderilen prompt</span>

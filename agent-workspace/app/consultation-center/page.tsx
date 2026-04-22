@@ -4,6 +4,7 @@ import { ConsultationInboxList } from '@/components/consultation-center/Consulta
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
 import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
+import { buildPromptSummary } from '@/lib/consultation-center/prompt'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
 function stageLabel(value: string) {
@@ -32,11 +33,12 @@ export default async function ConsultationCenterPage({
   const payload = await getConsultationCenterPayload(selectedId)
   const selected = payload.selected
   const decisionNote = String(selected?.sharedBrief?.kararNotu || '')
+  const promptSummary = selected ? buildPromptSummary({ title: selected.title, sharedBrief: selected.sharedBrief }) : []
 
   return (
     <AdminShell
       title="Consultation Center"
-      description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar."
+      description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar. Sade V1 akışı budur."
     >
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <QuickCreateForm />
@@ -47,10 +49,10 @@ export default async function ConsultationCenterPage({
           </div>
           <ol className="list">
             <li>Yapmak istediğin değişikliği düz metin yaz</li>
-            <li>Sistem bunu GPT-5 promptuna çevirsin</li>
+            <li>Sistem uygun bağlamı otomatik seçip promptu hazırlasın</li>
             <li>Gelen cevabı yapıştır ve çıkan kararı kaydet</li>
           </ol>
-          <p className="muted">Başka meta akış, route yorumu ve gereksiz panel yok.</p>
+          <p className="muted">Sıfır hafızalı GPT oturumu varsayılır. VPS ve OpenClaw çalışma bağlamı promptun içine otomatik taşınır.</p>
         </article>
       </section>
 
@@ -79,7 +81,9 @@ export default async function ConsultationCenterPage({
 
             <PromptPreviewCard
               promptText={selected.promptRun.promptText}
-              fallbackText="Metni kaydet ve promptu yenile. Sistem burada GPT-5 için kullanıma hazır prompt gösterecek."
+              fallbackText="Kayıt açılınca prompt otomatik oluşur. Metni veya modeli değiştirirsen buradaki prompt yeniden kurulur."
+              targetModel={selected.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'}
+              promptSummary={promptSummary}
             />
 
             <ResponseCaptureForm consultation={selected} />

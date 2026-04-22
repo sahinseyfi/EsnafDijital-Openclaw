@@ -4,7 +4,7 @@ import { addConsultationRun } from '@/lib/consultation-center/service'
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
   const body = await request.json().catch(() => ({})) as {
-    modelName?: string
+    modelName?: 'gpt-5' | 'gpt-5-pro'
     promptText?: string
     responseSummary?: string
   }

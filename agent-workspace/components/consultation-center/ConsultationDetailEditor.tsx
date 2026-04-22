@@ -8,6 +8,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   const router = useRouter()
   const [title, setTitle] = useState(consultation.title)
   const [summary, setSummary] = useState(consultation.summary)
+  const [targetModel, setTargetModel] = useState<'gpt-5' | 'gpt-5-pro'>(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
   const [busyAction, setBusyAction] = useState<'suggest' | 'save' | null>(null)
   const [errorText, setErrorText] = useState<string | null>(null)
   const [successText, setSuccessText] = useState<string | null>(null)
@@ -15,6 +16,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
   useEffect(() => {
     setTitle(consultation.title)
     setSummary(consultation.summary)
+    setTargetModel(consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')
     setErrorText(null)
     setSuccessText(null)
   }, [consultation])
@@ -33,9 +35,11 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         body: JSON.stringify({
           title,
           summary,
+          targetModel,
           sharedBrief: {
             ...(consultation.sharedBrief || {}),
             hamNot: summary.trim(),
+            targetModel,
           },
         }),
       })
@@ -72,7 +76,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, summary }),
+        body: JSON.stringify({ title, summary, targetModel }),
       })
       const rawText = await response.text()
       const json = rawText ? JSON.parse(rawText) : {}
@@ -141,7 +145,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       <div>
         <p className="eyebrow">2. Metni prompta çevir</p>
         <h3>Ne yapmak istediğini yaz</h3>
-        <p className="muted">Buradaki metni güncelle. Sonra "Promptu yenile" deyince sistem GPT-5 için daha temiz bir prompt hazırlasın.</p>
+        <p className="muted">Metni güncelle. Sistem sıfır hafızalı GPT oturumu için promptu yeniden kursun.</p>
       </div>
 
       <label style={{ display: 'grid', gap: 6 }}>
@@ -159,6 +163,20 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         />
       </label>
 
+      <label style={{ display: 'grid', gap: 6 }}>
+        <span>Hedef model</span>
+        <select value={targetModel} onChange={(event) => setTargetModel(event.target.value === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro')}>
+          <option value="gpt-5-pro">GPT-5 Pro</option>
+          <option value="gpt-5">GPT-5</option>
+        </select>
+      </label>
+
+      {targetModel === 'gpt-5-pro' ? (
+        <p className="muted">GPT-5 Pro seçili. Cevap geç gelebilir, bu yüzden prompt daha eksiksiz hazırlanır.</p>
+      ) : (
+        <p className="muted">GPT-5 seçili. Prompt daha kısa ve daha hızlı akışa göre kurulur.</p>
+      )}
+
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
 
@@ -172,7 +190,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
             {busyAction === 'save' ? 'Kaydediliyor...' : 'Metni kaydet'}
           </button>
           <button type="button" className="button-primary" disabled={busyAction !== null || !summary.trim()} onClick={handleSuggest}>
-            {busyAction === 'suggest' ? 'Hazırlanıyor...' : 'Promptu yenile'}
+            {busyAction === 'suggest' ? 'Prompt hazırlanıyor...' : 'Promptu yenile'}
           </button>
         </div>
       </div>

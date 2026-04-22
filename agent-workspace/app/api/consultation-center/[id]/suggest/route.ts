@@ -13,6 +13,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   const body = await request.json().catch(() => ({})) as {
     title?: string
     summary?: string
+    targetModel?: 'gpt-5' | 'gpt-5-pro'
   }
 
   const workingCopy = {
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       technicalBrief: suggestion.technicalBrief,
       sharedBrief: suggestion.sharedBrief,
       contextRefs: suggestion.contextRefs,
+      targetModel: body.targetModel,
     })
 
     if (!result) {

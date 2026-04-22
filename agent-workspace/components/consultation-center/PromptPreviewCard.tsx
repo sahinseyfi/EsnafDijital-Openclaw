@@ -2,7 +2,17 @@
 
 import { useState } from 'react'
 
-export function PromptPreviewCard({ promptText, fallbackText }: { promptText: string; fallbackText: string }) {
+export function PromptPreviewCard({
+  promptText,
+  fallbackText,
+  targetModel,
+  promptSummary,
+}: {
+  promptText: string
+  fallbackText: string
+  targetModel: 'gpt-5' | 'gpt-5-pro'
+  promptSummary: string[]
+}) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -19,7 +29,10 @@ export function PromptPreviewCard({ promptText, fallbackText }: { promptText: st
   return (
     <div className="card stack-sm">
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
-        <h3>Prompt / sonuç</h3>
+        <div>
+          <h3>Prompt</h3>
+          <p className="muted">Hedef model: {targetModel === 'gpt-5-pro' ? 'GPT-5 Pro' : 'GPT-5'}</p>
+        </div>
         {promptText.trim() ? (
           <button type="button" className="button-secondary" onClick={handleCopy}>
             {copied ? 'Kopyalandı' : 'Promptu kopyala'}
@@ -27,6 +40,13 @@ export function PromptPreviewCard({ promptText, fallbackText }: { promptText: st
         ) : null}
       </div>
       <p className="muted">{fallbackText}</p>
+      {promptSummary.length ? (
+        <ul className="list">
+          {promptSummary.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : null}
       {promptText.trim() ? (
         <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 13 }}>{promptText}</pre>
       ) : (

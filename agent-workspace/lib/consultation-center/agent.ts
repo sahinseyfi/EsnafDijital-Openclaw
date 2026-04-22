@@ -36,7 +36,7 @@ function formatContextRefs(refs: ConsultationContextRef[]) {
 function buildPrompt(consultation: ConsultationDetail) {
   return [
     'Sen EsnafDigital icin consultation brief hazirlayan ajansin.',
-    'Gorevin mevcut consultation kaydini GPT Proya gidecek kadar netlestirmek.',
+    'Gorevin mevcut consultation kaydini sifir hafizali GPT oturumuna gidecek kadar netlestirmek.',
     'Ayrica gereksiz teori verme, kisa ve uygulanabilir kal.',
     'Mevcut baglami oku, eksikleri mantikli sekilde tamamla, ama gereksiz yeni alan uretme.',
     '',
@@ -46,6 +46,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '- Context refleri en fazla 4 adet tut.',
     '- Output Turkce olsun.',
     '- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.',
+    '- Promptun sonucunun VPS uzerinde calisan OpenClaw ajanina yon verecegini unutma.',
     '',
     'Beklenen JSON sekli:',
     '{',
@@ -61,6 +62,7 @@ function buildPrompt(consultation: ConsultationDetail) {
     '}',
     '',
     'Consultation kaydi:',
+    `- targetModel: ${consultation.promptRun.modelName || 'gpt-5-pro'}`,
     `- title: ${consultation.title}`,
     `- type: ${consultation.type}`,
     `- summary: ${consultation.summary}`,
