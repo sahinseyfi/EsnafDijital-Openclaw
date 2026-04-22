@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT_DIR"
+
+DRY_RUN="${1:-}"
+
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
+if [[ -f .env.local ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env.local
+  set +a
+fi
+
+if [[ "$DRY_RUN" == "--dry-run" ]]; then
+  if [[ -n "${DATABASE_URL:-}" ]]; then
+    echo "[dry-run] DATABASE_URL bulundu"
+  else
+    echo "[dry-run] DATABASE_URL henuz yok"
+  fi
+  echo "[dry-run] npx prisma migrate deploy"
+  echo "[dry-run] npx prisma generate"
+  exit 0
+fi
+
+if [[ -z "${DATABASE_URL:-}" ]]; then
+  echo "DATABASE_URL bulunamadi. Once .env / .env.local icine ekleyin veya env olarak verin." >&2
+  exit 1
+fi
+
+echo "[1/2] migration deploy calisiyor"
+npx prisma migrate deploy
+
+echo "[2/2] prisma client generate calisiyor"
+npx prisma generate
+
+echo "local prisma bootstrap tamam"
