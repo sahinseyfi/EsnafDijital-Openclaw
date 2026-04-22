@@ -125,6 +125,18 @@ textarea:focus-visible {
   gap: 22px;
 }
 
+.sidebar-backdrop,
+.sidebar-mobile-header,
+.mobile-nav-trigger {
+  display: none;
+}
+
+.sidebar-backdrop {
+  border: 0;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.42);
+}
+
 .sidebar-brand,
 .sidebar-footer,
 .nav-link {
@@ -777,11 +789,51 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+    display: block;
+  }
+
+  .sidebar-backdrop-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .sidebar {
-    position: static;
-    min-height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(88vw, 320px);
+    min-height: 100vh;
+    border-right: 1px solid rgba(203, 213, 225, 0.8);
+    border-bottom: 0;
+    transform: translateX(calc(-100% - 16px));
+    transition: transform 180ms ease;
+    z-index: 40;
+    overflow-y: auto;
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .sidebar-close {
+    width: auto;
+    min-height: 40px;
+    padding: 0 14px;
   }
 
   .content {
@@ -798,8 +850,13 @@ code {
   }
 
   .profile-actions,
-  .page-header-actions {
+  .page-header-actions,
+  .topbar-actions {
     width: 100%;
+  }
+
+  .mobile-nav-trigger {
+    display: inline-flex;
   }
 
   .button-primary,
@@ -808,6 +865,10 @@ code {
   .ghost-link,
   .cta-link {
     width: 100%;
+  }
+
+  .sidebar-mobile-header .sidebar-close {
+    width: auto;
   }
 
   .consultation-inbox-main {

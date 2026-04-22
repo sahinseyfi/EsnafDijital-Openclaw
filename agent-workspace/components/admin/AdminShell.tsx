@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 type NavItem = {
   href: string
@@ -46,10 +46,60 @@ export function AdminShell({
   children: ReactNode
 }) {
   const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const previousOverflow = document.body.style.overflow
+
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    if (!isMenuOpen || typeof window === 'undefined') {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isMenuOpen])
 
   return (
     <div className="page-shell">
-      <aside className="sidebar">
+      <button
+        type="button"
+        className={classNames('sidebar-backdrop', isMenuOpen && 'sidebar-backdrop-visible')}
+        aria-label="Menüyü kapat"
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      <aside id="admin-sidebar" className={classNames('sidebar', isMenuOpen && 'sidebar-open')}>
+        <div className="sidebar-mobile-header">
+          <span className="eyebrow">Menü</span>
+          <button type="button" className="button-secondary sidebar-close" onClick={() => setIsMenuOpen(false)}>
+            Kapat
+          </button>
+        </div>
+
         <div className="sidebar-brand">
           <div className="brand-mark">
             <span className="brand-dot" />
@@ -92,6 +142,15 @@ export function AdminShell({
               <span className="topbar-note">Sade akış menüsü aktif</span>
             </div>
             <div className="topbar-actions">
+              <button
+                type="button"
+                className="button-secondary mobile-nav-trigger"
+                aria-expanded={isMenuOpen}
+                aria-controls="admin-sidebar"
+                onClick={() => setIsMenuOpen(true)}
+              >
+                Menü
+              </button>
               <Link href="/project-os" className="ghost-link">İş Takibi</Link>
             </div>
           </div>
