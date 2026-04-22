@@ -88,22 +88,22 @@ export const OFFER_ADDONS: OfferAddonDefinition[] = [
   {
     key: 'ozel-domain',
     label: 'Ozel domain baglama',
-    description: 'Subdomain yerine veya yanina ozel domain baglama hazirligi ekler.',
+    description: 'Tum paketlerde ayri ek olarak kalir. Varsayilan teslim subdomaindir.',
   },
   {
     key: 'ek-kartvizit',
     label: 'Ek kartvizit varyasyonu',
-    description: 'Farkli kartvizit varyasyonu veya ikinci duzen cikisi ekler.',
+    description: 'Paket 1 icindeki tek kartvizit tasarimi disinda ikinci varyasyon veya ekstra cikis isterse kullanilir.',
   },
   {
     key: 'ek-yorum-materyali',
     label: 'Ek yorum materyali',
-    description: 'QR/NFC disinda ek yorum yonlendirme materyali ihtiyacini kapsar.',
+    description: 'Paket 2-3 icindeki temel yorum akisi disinda ek QR/NFC materyali isterse kullanilir.',
   },
   {
     key: 'kucuk-sosyal-medya-duzenleme',
     label: 'Kucuk sosyal medya duzenleme',
-    description: 'Profil biyografi, link veya kapak gibi kucuk sosyal medya dokunuslari ekler.',
+    description: 'Paket 1-2 tarafinda hafif profil dokunusu icin eklenir. Paket 3 icinde temel Instagram kurulumu zaten vardir.',
   },
 ]
 

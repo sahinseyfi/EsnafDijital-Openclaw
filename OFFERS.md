@@ -131,6 +131,12 @@ Not:
 - ek yorum materyalleri
 - kucuk sosyal medya duzenlemeleri
 
+Operasyon karari:
+- `ozel domain` tum paketlerde ayri ek olarak kalir; varsayilan teslim modeli subdomaindir
+- `ek kartvizit varyasyonu`, Paket 1 icindeki tek kartvizit tasariminin ustune ikinci varyasyon veya ekstra cikis istendiginde acilir
+- `ek yorum materyali`, Paket 2 ve Paket 3 icindeki temel QR / NFC yorum akisinin ustune ek fiziksel materyal istendiginde acilir
+- `kucuk sosyal medya duzenleme`, Paket 1 veya Paket 2 tarafinda hafif profil dokunusu gerektiginde eklenir; Paket 3 icinde temel Instagram kurulumu zaten paket icidir
+
 Domain cizgisi:
 - varsayilan model subdomain: `isletmeadi.esnafdijital.com.tr`
 - ozel domain ayri ek secenektir, sadece Paket 3'e bagli zorunlu bir kosul degildir
