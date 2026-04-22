@@ -568,6 +568,22 @@ th {
   letter-spacing: 0.08em;
 }
 
+.discovery-sort-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+}
+
+.discovery-sort-link span {
+  font-size: 12px;
+  color: var(--brand-700);
+}
+
+.discovery-sort-link:hover {
+  color: var(--brand-700);
+}
+
 td {
   color: var(--ink-body);
 }
