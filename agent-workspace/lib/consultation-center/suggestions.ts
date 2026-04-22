@@ -39,9 +39,16 @@ function normalizeType(value?: string): ConsultationType {
   return 'shared'
 }
 
-function normalizeTitle(value?: string) {
+function normalizeTitle(value?: string, note?: string) {
   const title = value?.trim()
-  return title || 'Yeni danışma konusu'
+  if (title) return title
+
+  const raw = note?.trim() || ''
+  if (!raw) return 'Yeni danışma konusu'
+
+  const firstLine = raw.split('\n')[0]?.trim() || raw
+  const shortened = firstLine.length > 72 ? `${firstLine.slice(0, 72).trim()}...` : firstLine
+  return shortened || 'Yeni danışma konusu'
 }
 
 function normalizeWorkMode(value?: string): WorkMode {
@@ -318,7 +325,7 @@ function getGenericSharedSuggestion(title: string, note: string): SuggestionOutp
 
 export function suggestConsultationBrief(input: SuggestionInput): SuggestionOutput {
   const type = normalizeType(input.type)
-  const title = normalizeTitle(input.title)
+  const title = normalizeTitle(input.title, input.note)
   const note = normalizeNote(input.note)
   const signals = detectSignals(title, note)
   const workMode = normalizeWorkMode(input.workMode)

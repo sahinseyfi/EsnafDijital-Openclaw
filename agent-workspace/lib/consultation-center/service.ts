@@ -152,19 +152,17 @@ function mapRecordToDetail(record: ConsultationRecord): ConsultationDetail {
     technicalBrief,
     sharedBrief,
   })
-  const promptText = latestRun?.promptText || (evaluation.route === 'external'
-    ? buildConsultationPrompt({
-        type: inbox.type,
-        title: record.title,
-        decisionQuestion: record.decisionQuestion || 'Karar sorusu henüz yazılmadı',
-        whyNow: record.whyNow || 'Henüz yazılmadı',
-        desiredOutput: record.goal || 'Henüz seçilmedi',
-        contextRefs,
-        businessBrief,
-        technicalBrief,
-        sharedBrief,
-      })
-    : '')
+  const promptText = latestRun?.promptText || buildConsultationPrompt({
+    type: inbox.type,
+    title: record.title,
+    decisionQuestion: record.decisionQuestion || 'Bu değişiklik için en doğru yaklaşım ne olmalı?',
+    whyNow: record.whyNow || 'Kullanıcı bu değişikliği şimdi değerlendirmek istiyor.',
+    desiredOutput: record.goal || 'Net öneri, kısa gerekçe ve uygulanabilir sonraki adımlar',
+    contextRefs,
+    businessBrief,
+    technicalBrief,
+    sharedBrief,
+  })
   const actions: ConsultationDetail['actions'] = record.actions.map((action) => ({
     id: action.id,
     ownerRole: mapOwnerRole(action.ownerRole),

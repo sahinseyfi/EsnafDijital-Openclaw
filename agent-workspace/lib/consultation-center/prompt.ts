@@ -50,13 +50,20 @@ function formatBriefBlock(title: string, value?: Record<string, string | string[
 }
 
 export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'whyNow' | 'desiredOutput' | 'contextRefs' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {
+  const rawRequest = typeof detail.sharedBrief?.hamNot === 'string' && detail.sharedBrief.hamNot.trim()
+    ? detail.sharedBrief.hamNot.trim()
+    : 'Ham istek metni yok.'
+
   const blocks = [
     `Rolün: ${roleLabel(detail)}.`,
     '',
-    'Bağlam:',
+    'Aşağıdaki değişiklik isteğini değerlendir ve karar hazırlığı üret.',
+    '',
+    'Temel bağlam:',
     '- Proje: EsnafDigital',
     '- Amaç: küçük işletmeler için güven veren dijital görünürlük ve operasyon sistemi kurmak',
     `- Konu: ${detail.title}`,
+    `- Ham değişiklik isteği: ${rawRequest}`,
     `- Karar sorusu: ${detail.decisionQuestion}`,
     `- Neden şimdi: ${detail.whyNow}`,
     `- Beklenen çıktı: ${detail.desiredOutput}`,
@@ -68,13 +75,14 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     formatBriefBlock('Teknik brief', detail.technicalBrief),
     formatBriefBlock('Ortak karar brief', detail.sharedBrief),
     '',
-    'İstenen çıktı:',
-    '1. Problemi 1 cümlede yeniden tanımla',
-    '2. 2-4 seçenek üret',
-    '3. Seçenekleri etki / hız / risk / operasyon yükü açısından karşılaştır',
-    '4. En güçlü öneriyi ver',
-    '5. İlk aksiyonları kullanıcı / teknik ajan / ortak olarak ayır',
-    '6. Eksik kritik veri varsa açıkça söyle',
+    'Çıktı formatı:',
+    '1. İsteği 1 cümlede yeniden yaz',
+    '2. Varsa en önemli belirsizlikleri kısa yaz',
+    '3. 2-4 yaklaşım üret',
+    '4. Yaklaşımları etki / hız / risk / operasyon yükü açısından karşılaştır',
+    '5. En güçlü öneriyi ver',
+    '6. Sonunda net bir karar paragrafı yaz',
+    '7. Hemen atılacak ilk adımları kısa maddeler halinde yaz',
     '',
     'Kurallar:',
     '- Türkçe yaz',
