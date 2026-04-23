@@ -2,11 +2,13 @@ import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
+import { BusinessYzReportButton } from '@/components/businesses/BusinessYzReportButton'
 import { getBusinessAgentScanHistory, getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { getProjectOsDataset } from '@/lib/project-os/service'
+import { getLatestBusinessYzReport } from '@/lib/businesses/yz-report'
 
 export const dynamic = 'force-dynamic'
 
@@ -54,11 +56,12 @@ export default async function BusinessDetailPage({
     permanentRedirect(canonicalHref)
   }
 
-  const [discoverySnapshot, latestAgentScan, agentScanHistory, apifyRefreshHistory] = await Promise.all([
+  const [discoverySnapshot, latestAgentScan, agentScanHistory, apifyRefreshHistory, latestYzReport] = await Promise.all([
     getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district }),
     getLatestBusinessAgentScan(business.id),
     getBusinessAgentScanHistory(business.id),
     getBusinessRefreshHistory(business.id),
+    getLatestBusinessYzReport(business.id),
   ])
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
 
@@ -138,11 +141,50 @@ export default async function BusinessDetailPage({
         <article className="card stack-sm">
           <div>
             <p className="eyebrow">Y.Z raporu</p>
-            <h3>Henüz rapor yok</h3>
+            <h3>{latestYzReport ? latestYzReport.status : 'Henüz rapor yok'}</h3>
           </div>
-          <p className="muted">Bu alan ilk durumda boş durur. Rapor oluştur akışı ve skill detayları sonra bağlanacak.</p>
+
+          {latestYzReport ? (
+            <>
+              <div className="detail-field">
+                <p className="eyebrow">Genel durum</p>
+                <p>{latestYzReport.summary}</p>
+              </div>
+
+              {latestYzReport.strengths.length > 0 ? (
+                <div className="detail-field">
+                  <p className="eyebrow">Güçlü sinyaller</p>
+                  <ul className="compact-list">
+                    {latestYzReport.strengths.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                </div>
+              ) : null}
+
+              {latestYzReport.weaknesses.length > 0 ? (
+                <div className="detail-field">
+                  <p className="eyebrow">Zayıf sinyaller</p>
+                  <ul className="compact-list">
+                    {latestYzReport.weaknesses.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                </div>
+              ) : null}
+
+              <div className="detail-field">
+                <p className="eyebrow">Dijital görünüm özeti</p>
+                <p>{latestYzReport.visibilitySummary}</p>
+              </div>
+
+              <div className="detail-field">
+                <p className="eyebrow">Öncelikli aksiyon</p>
+                <p>{latestYzReport.nextAction}</p>
+              </div>
+            </>
+          ) : (
+            <p className="muted">Ajan tarama, Apify tarama ve notlardan rapor üretmek için hazır.</p>
+          )}
+
           <div className="page-header-actions">
-            <button type="button" className="button-secondary" disabled>Rapor oluştur</button>
+            <BusinessYzReportButton businessId={business.id} />
           </div>
         </article>
       </section>
