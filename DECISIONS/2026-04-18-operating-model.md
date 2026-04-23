@@ -12,7 +12,7 @@ EsnafDigital'in iç sistemi MVP aşamasında üç çekirdek amaca göre kurulaca
 - Tüm bağlamı her göreve yüklemek kaliteyi düşürür.
 
 ## Uygulama Etkisi
-- Dashboard, Businesses, Offers, Delivery, Project OS, Context Center, Consultation Center ekranları önceliklendirilecek.
+- Dashboard, Businesses, Offers, Delivery, Project OS, Context Center, Prompt Üretimi ekranları önceliklendirilecek.
 - Postgres + Prisma operasyonel kayıtların ana deposu olacak.
 - Sabit bağlam markdown/yaml/json dosyalarında tutulacak.
 

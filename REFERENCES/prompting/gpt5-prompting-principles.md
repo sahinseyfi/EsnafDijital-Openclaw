@@ -1,13 +1,13 @@
 # GPT-5 Prompting Principles Reference
 
-Bu dosya, Consultation Center prompt uretimi icin calisma referansidir.
+Bu dosya, Prompt Üretimi prompt uretimi icin calisma referansidir.
 Ham kaynak degil, uygulanabilir ozet tutulur.
 
 ## Kaynak
 - OpenAI GPT-5 Prompting Guide: https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_prompting_guide
 - Raw notebook source: https://raw.githubusercontent.com/openai/openai-cookbook/main/examples/gpt-5/gpt-5_prompting_guide.ipynb
 
-## Consultation Center icin uygulanacak ana ilkeler
+## Prompt Üretimi icin uygulanacak ana ilkeler
 1. Gorevi tek ve net tanimla.
    - Tek prompt tek is istesin.
    - Ajanin ne uretmesi gerektigi ilk kisimda acik olsun.
@@ -44,7 +44,7 @@ Ham kaynak degil, uygulanabilir ozet tutulur.
    - Beklenen cikti net degilse
    - Prompt hazir sayilmasin.
 
-## Consultation Center icin anti-patternler
+## Prompt Üretimi icin anti-patternler
 - Genel strateji yazip repo gercegine inmemek
 - Tum consultation tarihcesini prompta basmak
 - Tek promptta birden fazla farkli is istemek

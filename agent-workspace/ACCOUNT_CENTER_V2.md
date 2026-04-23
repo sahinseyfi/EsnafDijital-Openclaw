@@ -12,7 +12,7 @@ Kullanıcının gerçekten neye sahip olduğunu net göstermek:
 ## Kapsam dışı
 - Project OS
 - Context Center
-- Consultation Center
+- Prompt Üretimi
 - eski `/codex-profilleri` ekranının kavramsal yükü
 
 ## Çekirdek dil

@@ -1,6 +1,6 @@
 # Context Injection Policy
 
-Bu dosya, Consultation Center prompt uretiminde hangi baglamin nasil secilecegini belirler.
+Bu dosya, Prompt Üretimi prompt uretiminde hangi baglamin nasil secilecegini belirler.
 
 ## Amac
 - Gerekli cekirdek proje cizgisini korumak
@@ -103,7 +103,7 @@ Bu cizgiler tipik olarak su kaynaklardan gelir:
 - Prompta tasima:
   - gereksiz teknik altyapi detaylari
 
-### 6) Consultation Center prompt uretimi veya revizyonu
+### 6) Prompt Üretimi prompt uretimi veya revizyonu
 - Ek baglam:
   - consultation kaydi
   - ilgili skill reference dosyalari
@@ -165,7 +165,7 @@ Onun yerine su sekilde isaretle:
 - baglami dosya sayisina gore yapay olarak daraltmak
 - once `primaryTask` secmeden baglam toplamaya baslamak
 
-## Consultation Center icin ozel not
+## Prompt Üretimi icin ozel not
 - once ham notu parcala
 - sonra `primaryTask` icin cekirdek baglam ozeti kur
 - sonra consultation kaydinin ihtiyacina gore ikincil baglam sec

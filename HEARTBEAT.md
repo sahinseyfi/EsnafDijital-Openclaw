@@ -15,7 +15,7 @@ Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni
 
 ## Bu Hafta Oncelik
 1. ilk teklif omurgasini keskinlestirmek
-2. Project OS / Context Center / Consultation Center akislarini gercek veriyle baglamak
+2. Project OS / Context Center / Prompt Üretimi akislarini gercek veriyle baglamak
 3. gercek `DATABASE_URL` ile Postgres + Prisma hattini ayaga kaldirmak
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
@@ -25,7 +25,7 @@ Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
-- Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
+- Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Prompt Üretimi DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Gecici Operasyon Kurali

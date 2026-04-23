@@ -186,7 +186,7 @@ Aşağıdaki sınır, Project OS’un kuyruk/hot-ops rolünü koruyup Business D
 - Cross-business kuyruk ve stage bazlı çalışma görünümü  
 - Bulk operasyonlar  
 - Ham tüm kayıt tabloları  
-- Consultation Center  
+- Prompt Üretimi  
 - Context Center  
 - Discovery explorer / kaynak bazlı inceleme  
 - Ayrı filtreli listeler
@@ -368,7 +368,7 @@ Bunlar ya drawer/modal içinde kalır ya da ayrı yüzeye taşınır.
 ### Ayrı yuzeyler
 
 - Project OS: kuyruk, hızlı operasyon, bulk görünüm, ham kayıtlar
-- Consultation Center: kararsız veya blokajlı durumlar
+- Prompt Üretimi: kararsız veya blokajlı durumlar
 - Context Center: geniş bağlam ve referans ihtiyacı
 - Discovery explorer: gerekirse detaylı external inceleme
 

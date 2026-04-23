@@ -1,14 +1,14 @@
-# 2026-04-19 - Consultation Center v1
+# 2026-04-19 - Prompt Üretimi v1
 
 ## Karar
-Consultation Center, EsnafDigital içinde not toplama ekranı veya genel prompt ekranı olmayacak.
+Prompt Üretimi, EsnafDigital içinde not toplama ekranı veya genel prompt ekranı olmayacak.
 
 Net rol ayrımı:
 - **Context Center = hafıza**
-- **Consultation Center = karar hazırlama katmanı**
+- **Prompt Üretimi = karar hazırlama katmanı**
 - **Project OS = uygulama katmanı**
 
-Consultation Center v1'in işi:
+Prompt Üretimi v1'in işi:
 1. dağınık konuyu karar brief'ine çevirmek
 2. dış danışma gerekliliğini filtrelemek
 3. gerekirse GPT Pro prompt'u üretmek
@@ -84,7 +84,7 @@ Alanlar:
 - bağlam paketi
 - beklenen cevap
 
-## Consultation Center v1 UI
+## Prompt Üretimi v1 UI
 ### Ekranlar
 1. **Consultation Inbox**
    - kayıt listesi
@@ -113,7 +113,7 @@ Alanlar:
 - eksik alanları net söyle
 - prompt üretmeden önce route kararını görünür yap
 
-## Consultation Center Detail Akışı
+## Prompt Üretimi Detail Akışı
 1. konu aç
 2. karar sorusunu netleştir
 3. hedef / çıktı tipini seç
@@ -312,4 +312,4 @@ Kontroller:
 7. Context Center / Project OS bağlantısı
 
 ## Ürün Cümlesi
-Consultation Center v1, EsnafDigital içinde danışma isteme ekranı değil; doğru konuyu seçen, doğru bağlamla soran ve sonucu doğrudan işe çeviren karar hazırlama modülüdür.
+Prompt Üretimi v1, EsnafDigital içinde danışma isteme ekranı değil; doğru konuyu seçen, doğru bağlamla soran ve sonucu doğrudan işe çeviren karar hazırlama modülüdür.

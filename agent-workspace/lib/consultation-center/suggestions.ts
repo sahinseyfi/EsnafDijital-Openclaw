@@ -48,11 +48,11 @@ function normalizeTitle(value?: string, note?: string) {
   if (title) return title
 
   const raw = note?.trim() || ''
-  if (!raw) return 'Yeni danışma konusu'
+  if (!raw) return 'Yeni prompt isteği'
 
   const firstLine = raw.split('\n')[0]?.trim() || raw
   const shortened = firstLine.length > 72 ? `${firstLine.slice(0, 72).trim()}...` : firstLine
-  return shortened || 'Yeni danışma konusu'
+  return shortened || 'Yeni prompt isteği'
 }
 
 function normalizeWorkMode(value?: string): WorkMode {
@@ -137,7 +137,7 @@ function outputTypeLabel(value: OutputType) {
 function desiredOutputFromMeta(value: OutputType) {
   if (value === 'decision_summary') return 'Net karar özeti, kısa gerekçe ve sonraki adımlar'
   if (value === 'patch_plan') return 'Küçük patch planı, bakılacak alanlar, riskler ve kabul kriterleri'
-  if (value === 'gpt_prompt') return 'Dış danışmaya uygun net GPT promptu ve seçili bağlam paketi'
+  if (value === 'gpt_prompt') return 'Doğrudan kullanılabilir net GPT promptu ve seçili bağlam paketi'
   return 'Uygulanabilir aksiyon planı, sahiplikler ve ilk çalışma sırası'
 }
 

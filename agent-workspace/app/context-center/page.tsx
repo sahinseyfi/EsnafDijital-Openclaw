@@ -14,14 +14,14 @@ const sourceRules = [
   {
     title: 'Veri tabanı omurgası',
     source: 'Postgres / Prisma',
-    scope: ['İşletmeler', 'Audit kayıtları', 'Teklifler', 'Teslimatlar', 'Danışma kayıtları'],
+    scope: ['İşletmeler', 'Audit kayıtları', 'Teklifler', 'Teslimatlar', 'Prompt kayıtları'],
     reason: 'Durumu değişen, liste ve ilişki gerektiren operasyon nesneleri veri katmanında tutulur.',
   },
   {
-    title: 'Prompt ve karar katmanı',
+    title: 'Prompt katmanı',
     source: 'Hibrit',
-    scope: ['Danışma özeti JSON', 'Bağlam referansı seçimi', 'Prompt önizlemesi ve cevap özeti'],
-    reason: 'Karar kaydı veri içinde yaşar ama başvurduğu sabit bağlam dosya katmanından seçilir.',
+    scope: ['Prompt özeti JSON', 'Bağlam referansı seçimi', 'Prompt önizlemesi'],
+    reason: 'Prompt kaydı veri içinde yaşar ama başvurduğu sabit bağlam dosya katmanından seçilir.',
   },
 ]
 
@@ -39,10 +39,10 @@ const decisionRows = [
     why: 'Liste, durum ve ilişki gerektiren çekirdek operasyon hattı.',
   },
   {
-    domain: 'Danışma kayıtları',
+    domain: 'Prompt kayıtları',
     source: 'Veri',
-    owner: 'Karar Hazırlığı',
-    why: 'Stage, route, action ve run geçmişi olan karar nesneleri.',
+    owner: 'Prompt Üretimi',
+    why: 'Prompt durumu ve seçili bağlamı olan üretim kayıtları.',
   },
   {
     domain: 'Prompta girecek sabit referans',
@@ -87,11 +87,11 @@ export default async function ContextCenterPage() {
         </article>
         <article className="card stat-card">
           <strong>{stats.consultationRecords}</strong>
-          <p className="muted">danışma kaydı</p>
+          <p className="muted">prompt kaydı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.gptReady}</strong>
-          <p className="muted">GPT Pro için hazır karar kaydı</p>
+          <p className="muted">GPT Pro için hazır prompt kaydı</p>
         </article>
       </section>
 

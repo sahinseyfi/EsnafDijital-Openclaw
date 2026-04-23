@@ -6,7 +6,7 @@
   "main_goal": "Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak",
   "top_priorities": [
     "Ilk teklif omurgasini keskinlestirmek",
-    "Project OS / Context Center / Consultation Center akislarini gercek veriyle baglamak",
+    "Project OS / Context Center / Prompt Uretimi akislarini gercek veriyle baglamak",
     "Gercek DATABASE_URL ile Postgres + Prisma hattini ayaga kaldirmak",
     "Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak"
   ],
@@ -29,5 +29,5 @@
     "Temel veri modeli calisiyor olacak",
     "Admin tarafinda ana akislarin nerede yasadigi netlesmis olacak"
   ],
-  "last_updated": "2026-04-22"
+  "last_updated": "2026-04-23"
 }

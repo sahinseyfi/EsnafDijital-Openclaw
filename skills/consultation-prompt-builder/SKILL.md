@@ -1,11 +1,11 @@
 ---
 name: consultation-prompt-builder
-description: Build, revise, or audit EsnafDigital Consultation Center prompts from a consultation record. Use when a raw consultation note, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'consultation promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
+description: Build, revise, or audit EsnafDigital Prompt Üretimi prompts from a consultation record. Use when a raw consultation note, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'consultation promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
 ---
 
 # Consultation Prompt Builder
 
-Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgisini ve repo/runtime gercegini korur.
+Bu skill, EsnafDigital Prompt Üretimi icin prompt uretirken sade MVP cizgisini ve repo/runtime gercegini korur.
 
 ## Workflow
 
@@ -74,7 +74,7 @@ Bu skill, EsnafDigital Consultation Center icin prompt uretirken sade MVP cizgis
 
 ## Uygulama entegrasyon kontrati
 
-Bu skill Consultation Center icinden cagirildiginda:
+Bu skill Prompt Üretimi icinden cagirildiginda:
 - Sadece gecerli JSON don.
 - Markdown, kod fence, onsoz, sonsoz veya ek aciklama donme.
 - JSON alanlari en az su alanlari icermeli: `title`, `summary`, `primaryTask`, `secondaryTasks`, `parkedQuestions`, `whyPrimaryNow`, `promptStrategy`, `decisionQuestion`, `whyNow`, `desiredOutput`, `finalPromptText`, `contextRefs`, `businessBrief`, `technicalBrief`, `sharedBrief`.
@@ -92,5 +92,5 @@ Bu skill Consultation Center icinden cagirildiginda:
 ## Cikti stili
 
 - once kullanilacak promptu uret
-- prompt Consultation Center kaydina dogrudan yazilabilecek kadar hazir olsun
+- prompt Prompt Üretimi kaydina dogrudan yazilabilecek kadar hazir olsun
 - kalite notu ayri serbest metin olarak degil, gerekiyorsa JSON alanlari icindeki net icerikle yansisin

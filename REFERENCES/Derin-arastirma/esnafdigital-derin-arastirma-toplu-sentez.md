@@ -58,7 +58,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 **Projeye alinacaklar**
 - merkez yuzey `Project OS` olmali
 - `Context Center` hafiza/referans katmani olarak kalmali
-- `Consultation Center` karar hazirligi katmani olarak kalmali
+- `Prompt Üretimi` karar hazirligi katmani olarak kalmali
 - panel, iliski gecmisi degil, sonraki operator adimini netlestirmeli
 
 **Disarida kalacaklar**

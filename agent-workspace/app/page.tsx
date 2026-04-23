@@ -28,10 +28,10 @@ function getActiveFocus(input: {
   if (input.blockedConsultations > 0) {
     return {
       eyebrow: 'Şimdi aktif',
-      title: 'Karar bekleyen işler var',
-      text: `${input.blockedConsultations} danışma kaydı netleşmeyi bekliyor. Kısa özet eksiklerini kapatıp hattı tekrar hareket ettir.`,
+      title: 'Netleşmeyi bekleyen prompt işleri var',
+      text: `${input.blockedConsultations} prompt kaydı netleşmeyi bekliyor. Kısa özet eksiklerini kapatıp promptu temiz hale getir.`,
       primaryHref: '/consultation-center',
-      primaryLabel: 'Karar hattına git',
+      primaryLabel: 'Prompt Üretimine git',
       secondaryHref: '/businesses',
       secondaryLabel: 'İşletmeleri aç',
     }
@@ -45,7 +45,7 @@ function getActiveFocus(input: {
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/consultation-center',
-      secondaryLabel: 'Gerekirse danışma hazırla',
+      secondaryLabel: 'Gerekirse prompt üret',
     }
   }
 
@@ -69,7 +69,7 @@ function getActiveFocus(input: {
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/consultation-center',
-      secondaryLabel: 'Karar hattını kontrol et',
+      secondaryLabel: 'Gerekirse prompt üret',
     }
   }
 
@@ -95,8 +95,8 @@ export default async function HomePage() {
   const activeDeliveries = projectOs.deliveryProjects.filter((project) => project.status === 'kickoff' || project.status === 'building' || project.status === 'live').length
   const maintenanceProjects = projectOs.deliveryProjects.filter((project) => project.status === 'maintenance').length
   const blockedConsultations = consultationPayload.inbox.filter((item) => item.route === 'blocked').length
-  const readyConsultations = consultationPayload.inbox.filter((item) => item.stage === 'ready_to_send').length
-  const answeredConsultations = consultationPayload.inbox.filter((item) => item.stage === 'answered').length
+  const readyPrompts = consultationPayload.inbox.filter((item) => item.promptStatus === 'ready').length
+  const promptErrors = consultationPayload.inbox.filter((item) => item.promptStatus === 'error').length
   const activeFocus = getActiveFocus({
     blockedConsultations,
     pendingOffers,
@@ -150,24 +150,24 @@ export default async function HomePage() {
           </div>
           <ul className="list">
             <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
-            <li>Blokajdaki danışma kayıtlarında özet eksiklerini tamamla, sonra dış danışmaya çık.</li>
+            <li>Prompt gerektiren işlerde kısa özet eksiklerini tamamla, sonra hazır promptu al.</li>
             <li>Bağlam eksikse Bağlam Merkezine git, operasyon kaydını orada tekrar etme.</li>
           </ul>
         </article>
 
         <article className="card stack-sm">
           <div>
-            <p className="eyebrow">Karar ve bağlam sinyali</p>
+            <p className="eyebrow">Prompt ve bağlam sinyali</p>
             <h3>Yan yüzeyler ne durumda?</h3>
           </div>
           <ul className="list">
-            <li>{blockedConsultations} danışma kaydı blokajda</li>
-            <li>{readyConsultations} danışma kaydı gönderime hazır</li>
-            <li>{answeredConsultations} danışma kaydı cevap almış durumda</li>
+            <li>{blockedConsultations} prompt kaydı netleşme bekliyor</li>
+            <li>{readyPrompts} prompt kaydı hazır</li>
+            <li>{promptErrors} prompt kaydında hata var</li>
             <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
           </ul>
           <div className="hero-actions">
-            <Link href="/consultation-center" className="ghost-link">Karar Hazırlığına git</Link>
+            <Link href="/consultation-center" className="ghost-link">Prompt Üretimine git</Link>
             <Link href="/context-center" className="ghost-link">Bağlam Merkezine git</Link>
           </div>
         </article>

@@ -6,7 +6,6 @@ import { ConsultationInboxList } from '@/components/consultation-center/Consulta
 import { PromptPreparationEffect } from '@/components/consultation-center/PromptPreparationEffect'
 import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
 import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
-import { ResponseCaptureForm } from '@/components/consultation-center/ResponseCaptureForm'
 import { buildPromptSummary } from '@/lib/consultation-center/prompt'
 import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
 
@@ -25,7 +24,6 @@ export default async function ConsultationCenterPage({
   const selectedId = params?.selectedId
   const payload = await getConsultationCenterPayload(selectedId)
   const selected = payload.selected
-  const decisionNote = String(selected?.sharedBrief?.kararNotu || '')
   const promptSummary = selected ? buildPromptSummary({ title: selected.title, sharedBrief: selected.sharedBrief }) : []
   const primaryTask = typeof selected?.sharedBrief?.primaryTask === 'string' ? selected.sharedBrief.primaryTask : ''
   const whyPrimaryNow = typeof selected?.sharedBrief?.whyPrimaryNow === 'string' ? selected.sharedBrief.whyPrimaryNow : ''
@@ -39,8 +37,8 @@ export default async function ConsultationCenterPage({
 
   return (
     <AdminShell
-      title="Karar Hazırlığı"
-      description="Metni yaz, promptu al, GPT cevabını işle, kararı çıkar. Sade ilk akış budur."
+      title="Prompt Üretimi"
+      description="Metni yaz, doğru bağlamla promptu al. Bu ekranın tek işi budur."
     >
       <section>
         <QuickCreateForm />
@@ -57,14 +55,7 @@ export default async function ConsultationCenterPage({
                 <h3>{selected.title}</h3>
                 <p className="muted">Prompt durumu: {promptStatusLabel(selected.promptStatus)}</p>
               </div>
-              {decisionNote ? (
-                <div className="card stack-xs">
-                  <strong>Son karar</strong>
-                  <p className="muted">{decisionNote}</p>
-                </div>
-              ) : (
-                <p className="muted">Henüz karar kaydedilmedi.</p>
-              )}
+              <p className="muted">Bu kayıt sadece prompt üretmek için tutulur. Cevap yapıştırma veya karar işleme bu yüzeyin parçası değil.</p>
             </section>
 
             <PromptPreparationEffect
@@ -98,16 +89,11 @@ export default async function ConsultationCenterPage({
               secondaryTasks={secondaryTasks}
               parkedQuestions={parkedQuestions}
             />
-
-            <ResponseCaptureForm
-              key={`response:${selected.id}:${selected.promptRun.modelName || ''}:${selected.promptRun.promptText.length}:${selected.promptRun.promptText.slice(0, 60)}:${selected.promptRun.responseSummary?.length || 0}:${decisionNote.length}:${decisionNote.slice(0, 80)}`}
-              consultation={selected}
-            />
           </article>
         ) : (
           <article className="card stack-sm">
             <h3>Bir kayıt seç</h3>
-            <p className="muted">Soldan bir kayıt seçin ya da yukarıdan yeni bir metin girerek başlayın.</p>
+            <p className="muted">Soldan bir prompt kaydı seçin ya da yukarıdan yeni bir metin girerek başlayın.</p>
           </article>
         )}
       </section>

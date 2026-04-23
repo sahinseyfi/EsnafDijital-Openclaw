@@ -51,8 +51,8 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       <div className="stack-sm">
         <div>
           <p className="eyebrow">Kayıtlar</p>
-          <h3>Açık danışma kayıtları</h3>
-          <p className="muted">Bir kayıt seçin, metni düzenleyin, promptu alın, ardından gelen cevabı işleyin.</p>
+          <h3>Açık prompt kayıtları</h3>
+          <p className="muted">Bir kayıt seçin, metni düzenleyin ve kullanılabilir promptu alın.</p>
         </div>
 
         {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}

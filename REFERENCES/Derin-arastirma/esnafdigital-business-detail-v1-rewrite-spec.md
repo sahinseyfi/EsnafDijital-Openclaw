@@ -27,7 +27,7 @@ Birincil dosyayı göremediğim için burada “mevcut dokümandan korunacak par
 - **Project OS ile Business Detail ayrımı.** Repo, Businesses / Audits / Offers / Delivery alanlarını ilk fazda ayrı üst seviye CRM sayfaları yapmak yerine Project OS altında omurganın alt görünümleri olarak ele alıyor; Business Detail ise sonraki aşama. Bu ayrım çok değerli. citeturn22view0turn25view3
 - **Audit scorecard’ın somut boyutları.** Harita doğruluğu, güven sinyalleri, web vitrini, dönüşüm hazırlığı ve güncellik, Business Detail above-the-fold için zaten hazır bilgi hiyerarşisi veriyor. citeturn26view0
 - **“Önce görünürlük ve düzen, sonra otomasyon” yönü.** Bu, ağır otomasyon ve akıllı sihir yerine operatör netliği önceliğini doğru yerde tutuyor. citeturn24view0
-- **“Tüm notları toplamak değil” disiplini.** Consultation Center için yazılan bu ilke, Business Detail için de geçerli olmalı: yüzeyin işi bilgi biriktirmek değil, dağınık durumu karar verilebilir hale getirmek. citeturn22view0
+- **“Tüm notları toplamak değil” disiplini.** Prompt Üretimi için yazılan bu ilke, Business Detail için de geçerli olmalı: yüzeyin işi bilgi biriktirmek değil, dağınık durumu karar verilebilir hale getirmek. citeturn22view0
 
 **4. En problemli kisimlar**
 
@@ -38,7 +38,7 @@ Birincil dokümanı görmediğim için aşağıdakiler “mevcut metinde kesin v
 - **Belirsiz kontratlar.** Canonical veri, external snapshot ve derived öneri birbirine karışıyorsa sayfanın güvenilirliği biter. “External silently overrides canonical” modeli burada doğrudan hatalıdır; çünkü brief’inize de repo’nun “tek kanonik yer” disiplinine de ters düşer. citeturn28view0
 - **UX riskleri.** Ana karar bilgisini tab, subpage, secondary route ya da uzun accordion mezarlığına itmek yanlış. Baymard, ana içerik ayrı alt sayfalara bölündüğünde kullanıcıların kritik bilgiyi kaçırdığını ve geri gezinmede yönünü kaybettiğini gösteriyor. NN/g de durumun görünür, seçeneklerin hatırlamayı gerektirmeyecek kadar görünür ve arayüzün gereksiz bilgi yükünden arınmış olmasını temel ilke sayıyor. citeturn20view0turn19search1turn19search2
 - **Ürün savrulma riski.** Project OS’nin sıcak operasyon işini Detail sayfasına taşımak, tek işletme yüzeyini kuyruk/dispatch yüzeyine çevirir. Repo tersini söylüyor: Project OS ayrı omurga, Business Detail ayrı sonraki yüzey. citeturn22view0turn25view3
-- **Not duvarı riski.** Serbest metin her şeyi yutar. Consultation Center için bile “tüm notları toplamak değil” denmişken, Business Detail’i note dump’a çevirmek kötü üründür. citeturn22view0
+- **Not duvarı riski.** Serbest metin her şeyi yutar. Prompt Üretimi için bile “tüm notları toplamak değil” denmişken, Business Detail’i note dump’a çevirmek kötü üründür. citeturn22view0
 
 ## Eksikler ve kapsam
 

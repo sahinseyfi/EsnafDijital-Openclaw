@@ -58,7 +58,7 @@ Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değil
 - yorum yönlendirme akışı
 - operasyonel kayıtların panelde takibi
 - proje ve bağlam yönetimi
-- GPT Pro danışma için bağlamlı prompt üretimi
+- GPT Pro icin baglamli ve dogrudan kullanilabilir prompt uretimi
 
 ## MVP Dışı
 - bağımsız, yatay ve herkese satılan genel amaçlı SaaS CRM ürünleşmesi
@@ -72,14 +72,14 @@ Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değil
 İç sistem tek yerde şu üç şeyi birleştirmelidir:
 1. **CRM-evrilebilir operasyon sistemi** — işletme, görüşme, not, aktivite, görev, teklif, teslimat ve bakım işlerinde neredeyiz, sırada ne var, blokaj ne
 2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
-3. **Consultation Center** — kararı netleştirip doğru bağlamla danışma brief'i ve prompt üretme
+3. **Prompt Üretimi** — daginik istegi netlestirip dogru baglamla kullanilabilir prompt uretme
 
 ## Admin Panelde Olması Gereken Ana Sayfalar
 ### Faz 1 cekirdek yuzeyler
 - Dashboard / Ana Sayfa
 - Project OS
 - Context Center
-- GPT Pro Consultation Center
+- GPT Pro Prompt Üretimi
 - Hesap Merkezi
 
 ### Faz 1 icindeki operasyon alt yuzeyleri
@@ -96,8 +96,8 @@ Not: Bu dort operasyon alani ilk fazda `Project OS` icinde baslayabilir, ancak i
 - Gerekirse ayrik filtreli liste yuzeyleri
 - Gorev ve takip yuzeyleri
 
-## Consultation Center / Prompt Üretim Mantığı
-Consultation Center'ın amacı tüm notları toplamak değil; dağınık konuyu karar brief'ine çevirmek, danışma gerekliliğini filtrelemek ve gerekirse güçlü prompt üretmektir.
+## Prompt Üretimi / Prompt Üretim Mantığı
+Prompt Üretimi'nin amacı tum notlari toplamak degil; daginik istegi netlestirip dogru baglamla tek parca guclu prompt uretmektir.
 
 Prompt üretimi, yalnızca serbest metin alanından gelen talebe göre değil; aşağıdaki bağlamı kullanarak çalışmalıdır:
 - proje tanımı
@@ -108,12 +108,10 @@ Prompt üretimi, yalnızca serbest metin alanından gelen talebe göre değil; a
 - kullanıcı tercihleri
 - araç ve ortam notları
 
-Amaç, "uzun prompt" üretmek değil; **doğru bağlamı seçen, net hedef veren, uygulamaya dönük güçlü prompt** üretmektir.
+Amac, "uzun prompt" uretmek degil; **dogru baglami secen, net hedef veren, dogrudan kullanilabilir guclu prompt** uretmektir.
 
-Consultation Center sonucu üç yere route eder:
-- kullanıcı işi
-- teknik ajan işi
-- ortak karar
+Bu yuzeyin isi prompt uretiminde biter.
+Cevap toplama, karar yazma veya aksiyon takibi baska yuzeylerde cozulur.
 
 ## Teknik Varsayımlar
 - **frontend/admin:** Next.js

@@ -11,7 +11,7 @@ Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama pan
 - admin paneli iş akışına göre kurmak
 - proje/bağlam dosyalarını yaşayan sisteme dönüştürmek
 - operasyonel veri modelini başlatmak
-- GPT Pro consultation / prompt üretim merkezini tanımlamak
+- GPT Pro icin prompt uretim yuzeyini netlestirmek
 
 ## 0–30 Gün
 ### Hedef
@@ -35,7 +35,7 @@ Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama pan
 - mevcut `businesses`, `audits`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak
 - dashboard/home icin aktif is + kritik aksiyon + kompakt hat ozeti
 - Project OS icinde asama bazli operasyon gorunumu
-- Project OS ile Consultation / Context el sikismasini gorunur hale getirmek
+- Project OS ile Prompt Uretimi / Context el sikismasini gorunur hale getirmek
 
 ## 30–60 Gün
 ### Hedef
@@ -54,7 +54,7 @@ Teslimat sonrası canlılık ve tekrar edilebilirlik katmanını eklemek.
 
 ### Öncelikler
 - bakım / canlılık akışını eklemek
-- consultation kayıtlarını düzenli hale getirmek
+- prompt kayitlarini sade ve tekrar edilebilir hale getirmek
 - saha geri bildirimine göre teklifleri daraltmak
 - operasyon playbook'larını tamamlamak
 

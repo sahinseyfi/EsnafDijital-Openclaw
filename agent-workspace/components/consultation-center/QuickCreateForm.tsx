@@ -66,8 +66,8 @@ export function QuickCreateForm() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div>
           <p className="eyebrow">1. İstek metni</p>
-          <h3>Neyi değiştirmek istiyorsunuz?</h3>
-          <p className="muted">Buraya düz metin yazın. Kayıt açılınca sistem uygun bağlamı seçip promptu hazırlayacak.</p>
+          <h3>Hangi promptu üretelim?</h3>
+          <p className="muted">Buraya düz metin yazın. Kayıt açılınca sistem uygun bağlamı seçip sadece promptu hazırlayacak.</p>
         </div>
         <button
           type="button"
@@ -85,17 +85,17 @@ export function QuickCreateForm() {
         <>
           <label style={{ display: 'grid', gap: 6 }}>
             <span>Kısa başlık (isteğe bağlı)</span>
-            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgasını sadeleştir" />
+            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgası için GPT promptu" />
           </label>
 
           <div id="consultation-quick-create-fields" style={{ display: 'grid', gap: 12 }}>
             <label style={{ display: 'grid', gap: 6 }}>
-              <span>Değişiklik isteği</span>
+              <span>Prompt isteği</span>
               <textarea
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
                 rows={6}
-                placeholder="Ne yapmak istediğinizi, neden düşündüğünüzü ve kafanızdaki soruyu düz metin olarak yazın."
+                placeholder="Ne için prompt istediğinizi, neden şimdi gerektiğini ve kafanızdaki soruyu düz metin olarak yazın."
               />
             </label>
 
@@ -117,7 +117,7 @@ export function QuickCreateForm() {
 
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button type="submit" className="button-primary" disabled={busy}>
-                {busy ? 'Kayıt açılıyor, prompt hazırlanıyor...' : 'Kaydı aç'}
+                {busy ? 'Kayıt açılıyor, prompt hazırlanıyor...' : 'Prompt kaydını aç'}
               </button>
             </div>
           </div>
