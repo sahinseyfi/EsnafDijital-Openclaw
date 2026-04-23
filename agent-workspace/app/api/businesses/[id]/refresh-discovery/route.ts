@@ -12,11 +12,33 @@ const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discove
 export const runtime = 'nodejs'
 export const maxDuration = 300
 
+const LIGHT_SOURCES = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
+const DEEP_SOURCES = ['maps-refresh', 'instagram', 'yandex', 'apple-maps', 'review-enrichment'] as const
+
+type RefreshMode = 'light' | 'deep'
+
+type RefreshRequestPayload = {
+  mode?: RefreshMode
+  sources?: string[]
+}
+
 function buildSearchTerms(input: { name: string; district: string }) {
   return Array.from(new Set([
     input.name.trim(),
     `${input.name.trim()} ${input.district.trim()}`.trim(),
   ].filter(Boolean)))
+}
+
+function normalizeRefreshRequest(payload: RefreshRequestPayload | null | undefined) {
+  const mode: RefreshMode = payload?.mode === 'deep' ? 'deep' : 'light'
+  const allowedSources = mode === 'deep' ? DEEP_SOURCES : LIGHT_SOURCES
+  const requestedSources = Array.isArray(payload?.sources) ? payload.sources : []
+  const filteredSources = requestedSources.filter((item): item is string => typeof item === 'string' && allowedSources.includes(item as never))
+
+  return {
+    mode,
+    selectedSources: filteredSources.length > 0 ? filteredSources : [...allowedSources],
+  }
 }
 
 async function runApifyManualRefresh(inputPath: string, rawPath: string) {
@@ -54,8 +76,9 @@ async function runApifyManualRefresh(inputPath: string, rawPath: string) {
   })
 }
 
-export async function POST(_request: Request, context: { params: Promise<{ id: string }> }) {
+export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
+  const requestPayload = await request.json().catch(() => null) as RefreshRequestPayload | null
 
   const business = await prisma.business.findUnique({
     where: { id },
@@ -66,12 +89,13 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
     return NextResponse.json({ ok: false, message: 'İşletme kaydı bulunamadı.' }, { status: 404 })
   }
 
+  const refreshConfig = normalizeRefreshRequest(requestPayload)
   const searchTerms = buildSearchTerms(business)
   const locationQuery = `${business.district}, Istanbul, Turkiye`
   const inputPayload = {
     searchStringsArray: searchTerms,
     locationQuery,
-    maxCrawledPlacesPerSearch: 5,
+    maxCrawledPlacesPerSearch: refreshConfig.mode === 'deep' ? 8 : 3,
     scrapePlaceDetailPage: true,
     skipClosedPlaces: false,
   }
@@ -93,6 +117,8 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
       rows,
       searchTerms,
       locationQuery,
+      refreshMode: refreshConfig.mode,
+      selectedSources: refreshConfig.selectedSources,
     })
 
     if (!entry) {
@@ -109,6 +135,8 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
         inputPath,
         rawPath,
         searchTerms,
+        mode: refreshConfig.mode,
+        selectedSources: refreshConfig.selectedSources,
       },
     })
   } catch (error) {

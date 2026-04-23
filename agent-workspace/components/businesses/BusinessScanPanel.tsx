@@ -83,6 +83,10 @@ function getFreshnessLabel(snapshot: DiscoverySummaryEntry | null) {
   return 'Eski snapshot'
 }
 
+function formatModeLabel(mode?: string) {
+  return mode === 'deep' ? 'Derin' : 'Hafif'
+}
+
 function buildDiffLines(current: DiscoverySummaryEntry | null, previous: DiscoverySummaryEntry | null) {
   if (!current || !previous) return []
 
@@ -130,7 +134,8 @@ export function BusinessScanPanel({
       : [...current, key])
   }
 
-  const activeSourceCount = mode === 'light' ? lightSources.length : selectedDeepSources.length
+  const selectedSources = mode === 'light' ? lightSources.map((item) => item.key) : selectedDeepSources
+  const activeSourceCount = selectedSources.length
 
   return (
     <section>
@@ -147,7 +152,8 @@ export function BusinessScanPanel({
               <span className="badge">Son calisma: {currentSnapshot ? formatTimelineDate(currentSnapshot.candidate.capturedAt || currentSnapshot.source.collectedAt) : 'Henuz yok'}</span>
               <span className="badge">Tazelik: {getFreshnessLabel(currentSnapshot)}</span>
               <span className="badge">Durum: {runState.label}</span>
-              <span className="badge">Son mod: {refreshHistory.length > 0 ? 'Derin' : 'Hafif'}</span>
+              <span className="badge">Son mod: {formatModeLabel(currentSnapshot?.source.refreshMode)}</span>
+              <span className="badge">Son kaynak sayisi: {currentSnapshot?.source.selectedSources?.length || lightSources.length}</span>
             </div>
             <span className="muted">Kanonik business kaydi otomatik override edilmez.</span>
           </div>
@@ -205,7 +211,8 @@ export function BusinessScanPanel({
                 idleLabel="Tarama baslat"
                 loadingLabel="Tarama calisiyor..."
                 successLabel="Tarama tamamlandi"
-                helperText={mode === 'light' ? 'Yaklasik 1 dk. Maps + arama sinyali ile hizli hazirlik paketi uretir.' : "Yaklasik 1-3 dk. Secmeli kaynaklar gorunur, V1'de arka plan yine tekli yenileme hattina baglidir."}
+                helperText={mode === 'light' ? 'Yaklasik 1 dk. Maps + arama sinyali ile hizli hazirlik paketi uretir.' : "Yaklasik 1-3 dk. Secmeli kaynaklar gorunur, V1'de secim metadata olarak run'a yazilir ve daha genis arama limitiyle calisir."}
+                requestBody={{ mode, sources: selectedSources }}
               />
             </article>
           </div>
@@ -254,7 +261,7 @@ export function BusinessScanPanel({
                 <div key={`${item.source.collectedAt}-${index}`} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', paddingBottom: 10, borderBottom: '1px solid var(--line-soft)' }}>
                   <div className="stack-xs">
                     <strong style={{ color: 'var(--ink-title)' }}>{index === 0 ? 'Son calisma' : 'Manuel yenileme'}</strong>
-                    <span className="muted">{item.source.matchedSearchTerms.length > 0 ? item.source.matchedSearchTerms.join(', ') : 'Genel arama'} · {item.source.rawRecordCount || 0} kaynak kaydi</span>
+                    <span className="muted">{formatModeLabel(item.source.refreshMode)} tarama · {(item.source.selectedSources || []).length || lightSources.length} kaynak · {item.source.matchedSearchTerms.length > 0 ? item.source.matchedSearchTerms.join(', ') : 'Genel arama'}</span>
                   </div>
                   <div className="stack-xs" style={{ alignItems: 'flex-end' }}>
                     <span className="badge">{formatTimelineDate(item.candidate.capturedAt || item.source.collectedAt)}</span>

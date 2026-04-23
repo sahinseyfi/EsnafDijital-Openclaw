@@ -9,12 +9,14 @@ export function BusinessDiscoveryRefreshButton({
   loadingLabel = 'Yenileniyor...',
   successLabel = 'Dış veri yenilendi',
   helperText,
+  requestBody,
 }: {
   businessId: string
   idleLabel?: string
   loadingLabel?: string
   successLabel?: string
   helperText?: string
+  requestBody?: Record<string, unknown>
 }) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,6 +29,8 @@ export function BusinessDiscoveryRefreshButton({
     try {
       const response = await fetch(`/api/businesses/${businessId}/refresh-discovery`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody || {}),
       })
 
       const result = await response.json().catch(() => ({})) as { ok?: boolean; message?: string }
