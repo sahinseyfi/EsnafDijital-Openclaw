@@ -96,15 +96,23 @@ function formatRepoRefs(detail: Pick<ConsultationDetail, 'title' | 'decisionQues
 
 export function buildPromptSummary(detail: Pick<ConsultationDetail, 'title' | 'sharedBrief'>) {
   const targetModel = resolveTargetModel(detail.sharedBrief)
+  const primaryTask = typeof detail.sharedBrief?.primaryTask === 'string' ? detail.sharedBrief.primaryTask.trim() : ''
+  const promptStrategy = typeof detail.sharedBrief?.promptStrategy === 'string' ? detail.sharedBrief.promptStrategy.trim() : 'single_prompt'
+  const parkedQuestions = Array.isArray(detail.sharedBrief?.parkedQuestions) ? detail.sharedBrief.parkedQuestions.filter((item): item is string => Boolean(item)) : []
 
   return [
     `Bu prompt, ${detail.title} konusu için hazırlanıyor ve sonucu VPS'te çalışan OpenClaw ajanına yön vermek için kullanılacak.`,
+    primaryTask ? `Bu turda tek odak: ${primaryTask}.` : '',
+    promptStrategy === 'split_recommended'
+      ? 'Not çok parçalı görüldüğü için sistem tek ana prompt kurdu, kalan başlıkları ayrı takip için park etti.'
+      : 'Varsayılan çizgi korundu, sistem tek ana prompt kurdu ve diğer başlıkları prompta taşırmadı.',
+    parkedQuestions.length > 0 ? `Bu tur dışında bırakılan ${parkedQuestions.length} soru ayrıca park edildi.` : '',
     'Karşı GPT oturumunun hiçbir hafızası olmadığı varsayılıyor, bu yüzden gerekli proje bağlamı promptun içine taşınıyor.',
     targetModel === 'gpt-5-pro'
       ? 'GPT-5 Pro seçili olduğu için prompt daha dikkatli, daha eksiksiz ve daha iyi düşünülmüş kuruluyor. Cevap daha geç gelebilir.'
       : 'GPT-5 seçili olduğu için prompt daha kompakt tutuluyor ama yine de kritik bağlam korunuyor.',
     'Karşı taraftan teknik önerinin yanında, teknik olmayan kısa bir özet de isteniyor.',
-  ]
+  ].filter(Boolean)
 }
 
 export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' | 'title' | 'decisionQuestion' | 'whyNow' | 'desiredOutput' | 'contextRefs' | 'businessBrief' | 'technicalBrief' | 'sharedBrief'>) {

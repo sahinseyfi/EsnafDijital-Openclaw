@@ -8,12 +8,15 @@ Bu dosya, Consultation Center prompt uretiminde hangi baglamin nasil secilecegin
 - Ham dosyalari her seferinde yukleyip baglami sisirmemek
 - Goreve gore dogru ikincil kaynaklari secmek
 - Eksik kritik baglam varsa bunu acik bosluk olarak gostermek
+- Geniş notu once parcalayip yalnizca `primaryTask` icin baglam secmek
 
 ## Varsayilan akis
-1. Once cekirdek baglam ozeti kur.
-2. Sonra goreve gore gerekli ikincil baglami sec.
-3. Sadece gerekirse ham dosya oku.
-4. Karari etkilemeyen tekrarları prompta tasima.
+1. Once ham notu parcala ve `primaryTask` sec.
+2. Sonra cekirdek baglam ozeti kur.
+3. Goreve gore gerekli ikincil baglami sec.
+4. Sadece gerekirse ham dosya oku.
+5. Karari etkilemeyen tekrarları prompta tasima.
+6. `secondaryTasks` ve `parkedQuestions` icin gereksiz ek baglam toplamaya girme.
 
 ## Her gorevde zorunlu cekirdek ozet
 Asagidaki cizgiler kisa operasyon ozeti olarak gorunsun, ama varsayilan olarak ham metinleri prompta girme:
@@ -113,6 +116,7 @@ Bu cizgiler tipik olarak su kaynaklardan gelir:
 - Prompta tasima:
   - tum repo geneli
   - ilgisiz memory notlari
+  - `secondaryTasks` veya `parkedQuestions` icin gereken ama `primaryTask` icin kritik olmayan dosyalar
 
 ## Ham dosya ne zaman okunur
 - dosyanin kendisi duzenlenecekse
@@ -129,17 +133,19 @@ Dosya okunmus olsa bile tam metin prompta tasinmaz, eger:
 - bilgi tekrari uretiyorsa
 - gorevi dogrudan etkilemiyorsa
 - ayni bilgi cekirdek ozette zaten varsa
+- yalnizca `secondaryTasks` veya `parkedQuestions` icin lazimsa
 
 ## Prompt icine baglam nasil yerlestirilir
 Tercih edilen sira:
 1. amac
-2. karar sorusu veya hedef
-3. cekirdek baglam ozeti
-4. goreve ozel secili ikincil baglam
-5. acik bosluklar veya varsayimlar
-6. gorev
-7. sinirlar
-8. beklenen cikti
+2. `primaryTask`
+3. karar sorusu veya hedef
+4. cekirdek baglam ozeti
+5. goreve ozel secili ikincil baglam
+6. acik bosluklar veya varsayimlar
+7. gorev
+8. sinirlar
+9. beklenen cikti
 
 ## Acik bosluk kurali
 Kritik bilgi eksikse uydurma.
@@ -157,9 +163,11 @@ Onun yerine su sekilde isaretle:
 - exact kaynak gerekmeyen durumda tum belgeyi yuklemek
 - aktif faz ile kalici kararlari birbirine karistirmak
 - baglami dosya sayisina gore yapay olarak daraltmak
+- once `primaryTask` secmeden baglam toplamaya baslamak
 
 ## Consultation Center icin ozel not
-- once cekirdek baglam ozeti kur
+- once ham notu parcala
+- sonra `primaryTask` icin cekirdek baglam ozeti kur
 - sonra consultation kaydinin ihtiyacina gore ikincil baglam sec
 - prompta sadece karari etkileyen baglam tasinmali
 - eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi ilgili repo icerigini incelemeye yonlendirmesi zorunlu varsay
@@ -167,6 +175,7 @@ Onun yerine su sekilde isaretle:
 
 ## Hazir sayma kosulu
 Baglam paketi ancak su durumda hazir sayilir:
+- `primaryTask` net secildiyse
 - cekirdek proje cizgisi gorunuyorsa
 - aktif faz ile kalici yon karismiyorsa
 - goreve uygun ikincil kaynaklar secildiyse

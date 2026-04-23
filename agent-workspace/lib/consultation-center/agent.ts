@@ -21,9 +21,16 @@ function getConsultationPromptAgentId() {
   return agentId
 }
 
+type PromptStrategy = 'single_prompt' | 'split_recommended'
+
 type AgentSuggestion = {
   title?: string
   summary?: string
+  primaryTask?: string
+  secondaryTasks?: string[]
+  parkedQuestions?: string[]
+  whyPrimaryNow?: string
+  promptStrategy?: PromptStrategy
   decisionQuestion: string
   whyNow: string
   desiredOutput: string
@@ -194,6 +201,18 @@ function stripCodeFence(value: string) {
     .trim()
 }
 
+function normalizeStringArray(value: unknown) {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter(Boolean)
+}
+
+function normalizePromptStrategy(value: unknown): PromptStrategy {
+  return value === 'split_recommended' ? 'split_recommended' : 'single_prompt'
+}
+
 function parseAgentJson(raw: string): AgentSuggestion {
   const cleaned = stripCodeFence(raw)
   const parsed = JSON.parse(cleaned) as AgentSuggestion
@@ -206,9 +225,20 @@ function parseAgentJson(raw: string): AgentSuggestion {
     throw new Error('AI cevabi zorunlu alanlari doldurmadi')
   }
 
+  const primaryTask = parsed.primaryTask?.trim() || parsed.decisionQuestion.trim()
+  const secondaryTasks = normalizeStringArray(parsed.secondaryTasks)
+  const parkedQuestions = normalizeStringArray(parsed.parkedQuestions)
+  const whyPrimaryNow = parsed.whyPrimaryNow?.trim() || parsed.whyNow.trim()
+  const promptStrategy = normalizePromptStrategy(parsed.promptStrategy)
+
   return {
     title: parsed.title?.trim(),
     summary: parsed.summary?.trim(),
+    primaryTask,
+    secondaryTasks,
+    parkedQuestions,
+    whyPrimaryNow,
+    promptStrategy,
     decisionQuestion: parsed.decisionQuestion.trim(),
     whyNow: parsed.whyNow.trim(),
     desiredOutput: parsed.desiredOutput.trim(),
@@ -216,7 +246,14 @@ function parseAgentJson(raw: string): AgentSuggestion {
     contextRefs: Array.isArray(parsed.contextRefs) ? parsed.contextRefs.slice(0, 4) : [],
     businessBrief: parsed.businessBrief || undefined,
     technicalBrief: parsed.technicalBrief || undefined,
-    sharedBrief: parsed.sharedBrief || undefined,
+    sharedBrief: {
+      ...(parsed.sharedBrief || {}),
+      primaryTask,
+      secondaryTasks,
+      parkedQuestions,
+      whyPrimaryNow,
+      promptStrategy,
+    },
   }
 }
 
