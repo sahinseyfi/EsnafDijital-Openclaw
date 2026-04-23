@@ -14,6 +14,7 @@ type SearchSerpApiQueriesInput = {
   num?: number
   gl?: string
   hl?: string
+  location?: string
 }
 
 type SearchSerpApiQueryResult = {
@@ -28,6 +29,7 @@ export async function searchSerpApiQueries({
   num = 5,
   gl = 'tr',
   hl = 'tr',
+  location,
 }: SearchSerpApiQueriesInput): Promise<SearchSerpApiQueryResult[]> {
   const apiKey = process.env.SERPAPI_API_KEY?.trim()
   if (!apiKey) {
@@ -46,6 +48,9 @@ export async function searchSerpApiQueries({
     url.searchParams.set('hl', hl)
     url.searchParams.set('num', String(num))
     url.searchParams.set('google_domain', 'google.com')
+    if (location?.trim()) {
+      url.searchParams.set('location', location.trim())
+    }
 
     const response = await fetch(url, {
       method: 'GET',
