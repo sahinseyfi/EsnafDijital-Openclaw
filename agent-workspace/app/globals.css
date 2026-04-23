@@ -188,7 +188,7 @@ textarea:focus-visible {
 .page-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 296px minmax(0, 1fr);
+  grid-template-columns: 280px minmax(0, 1fr);
 }
 
 .sidebar {
@@ -196,13 +196,13 @@ textarea:focus-visible {
   top: 0;
   align-self: start;
   min-height: 100vh;
-  padding: 28px 22px;
+  padding: 20px 16px;
   background: var(--sidebar-shell-bg);
   backdrop-filter: blur(18px);
   border-right: 1px solid var(--sidebar-shell-border);
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -231,7 +231,7 @@ textarea:focus-visible {
 
 .sidebar-brand,
 .sidebar-footer {
-  padding: 18px;
+  padding: 14px;
 }
 
 .brand-mark {
@@ -271,12 +271,20 @@ textarea:focus-visible {
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+}
+
+.sidebar-nav > .stack-sm {
+  gap: 12px;
+}
+
+.sidebar-nav > .stack-sm > .stack-sm {
+  gap: 8px;
 }
 
 .nav-link {
   display: block;
-  padding: 14px;
+  padding: 12px;
 }
 
 .nav-link:hover {
