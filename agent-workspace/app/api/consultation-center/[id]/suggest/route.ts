@@ -1,14 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
+import { acquireConsultationPromptLock, hasConsultationPromptLock, releaseConsultationPromptLock } from '@/lib/consultation-center/prompt-lock'
 import { humanizeConsultationMessage } from '@/lib/consultation-center/messages'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
+
+  if (hasConsultationPromptLock(id)) {
+    return NextResponse.json({ ok: false, message: 'Bu kayıt için prompt hazırlama zaten sürüyor.' }, { status: 409 })
+  }
+
   const current = await getConsultationDetail(id)
 
   if (!current) {
     return NextResponse.json({ ok: false, message: 'Danışma kaydı bulunamadı' }, { status: 404 })
+  }
+
+  if (!acquireConsultationPromptLock(id)) {
+    return NextResponse.json({ ok: false, message: 'Bu kayıt için prompt hazırlama zaten sürüyor.' }, { status: 409 })
   }
 
   const body = await request.json().catch(() => ({})) as {
@@ -86,5 +96,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     })
 
     return NextResponse.json({ ok: false, message }, { status: 500 })
+  } finally {
+    releaseConsultationPromptLock(id)
   }
 }
