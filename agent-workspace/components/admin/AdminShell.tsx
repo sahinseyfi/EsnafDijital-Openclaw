@@ -135,15 +135,6 @@ export function AdminShell({
           </button>
         </div>
 
-        <div className="sidebar-brand">
-          <div className="brand-mark">
-            <span className="brand-dot" />
-            EsnafDigital Yönetim
-          </div>
-          <h1>İç operasyon paneli</h1>
-          <p className="muted">Güven veren, sade ve okunur bir operator yüzeyi. Her ekranda tek ana iş daha net görünür.</p>
-        </div>
-
         <nav className="sidebar-nav">
           {navGroups.map((group) => (
             <div key={group.title} className="stack-sm">
@@ -164,10 +155,6 @@ export function AdminShell({
         </nav>
 
         <div className="sidebar-footer stack-sm">
-          <div>
-            <p className="eyebrow">Kısa kural</p>
-            <p className="muted">Önce iş, sonra karar, sonra bağlam. Menü akışı da bu sırayı izler.</p>
-          </div>
           <button type="button" className="button-secondary" onClick={toggleTheme} aria-pressed={theme === 'dark'}>
             {theme === 'dark' ? 'Açık moda geç' : 'Koyu moda geç'}
           </button>
