@@ -20,9 +20,10 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Manuel yenileme akisinin ana runtime'da da ayni sonucu verdigini dogrula, sonra Business Detail icindeki `Hafif tarama / Derin tarama` bolumunun V1 sayfa yapisini referans dokumana indir
+- Ana runtime `3012` uzerinde halen eski build calistigi icin once guncel build'i normal oturumda devreye al, sonra manuel yenileme akisinin ana runtime smoke testini tamamla ve ardindan `Hafif tarama / Derin tarama` bolumunun V1 sayfa yapisini referans dokumana indir
 
 ## Mevcut Blokajlar
+- Ana runtime `3012` uzerindeki mevcut Next sureci `refresh-discovery` route'unu tanimiyor ve POST istegi `404` donuyor; izole runtime'da fix dogrulandi ama normal oturumda deploy/restart olmadan kapanmis sayilamaz
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
