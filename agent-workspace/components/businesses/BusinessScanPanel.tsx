@@ -5,8 +5,10 @@ import { useState } from 'react'
 
 import { BusinessAgentScanButton } from '@/components/businesses/BusinessAgentScanButton'
 import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
+import { BusinessYzReportButton } from '@/components/businesses/BusinessYzReportButton'
 import type { BusinessAgentScanResult } from '@/lib/businesses/agent-scan'
 import type { DiscoverySummaryEntry } from '@/lib/businesses/discovery'
+import type { BusinessYzReport } from '@/lib/businesses/yz-report'
 
 const lightSources = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
 
@@ -84,6 +86,7 @@ export function BusinessScanPanel({
   latestAgentScan,
   agentScanHistory,
   apifyRefreshHistory,
+  latestYzReport,
 }: {
   businessId: string
   scanDetailHref: string
@@ -91,6 +94,7 @@ export function BusinessScanPanel({
   latestAgentScan: BusinessAgentScanResult | null
   agentScanHistory: BusinessAgentScanResult[]
   apifyRefreshHistory: DiscoverySummaryEntry[]
+  latestYzReport: BusinessYzReport | null
 }) {
   const [mode, setMode] = useState<ScanMode>('light')
   const [selectedSources, setSelectedSources] = useState<string[]>(apifySources.map((item) => item.key))
@@ -202,6 +206,37 @@ export function BusinessScanPanel({
                 }}
               />
             </div>
+
+            {currentSnapshot ? (
+              <div className="card stack-sm" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+                <div>
+                  <p className="eyebrow">Derived karar aksiyonu</p>
+                  <h3 style={{ margin: 0 }}>{latestYzReport ? latestYzReport.status : 'Y.Z raporu hazirlanabilir'}</h3>
+                </div>
+
+                {latestYzReport ? (
+                  <>
+                    <div className="detail-field">
+                      <p className="eyebrow">Genel durum</p>
+                      <p>{latestYzReport.summary}</p>
+                    </div>
+                    <div className="detail-field">
+                      <p className="eyebrow">Oncelikli aksiyon</p>
+                      <p>{latestYzReport.nextAction}</p>
+                    </div>
+                  </>
+                ) : (
+                  <p className="muted">Hafif tarama sonrasi tek tikla Y.Z raporu uretip karar tarafini ayni akis icinde netlestirebilirsin.</p>
+                )}
+
+                <BusinessYzReportButton
+                  businessId={businessId}
+                  idleLabel={latestYzReport ? 'Raporu yenile' : 'Y.Z raporu olustur'}
+                  helperText="Hafif tarama, ajan tarama ve notlari birlestirip kisa karar ozeti uretir. Supheli eslesme varsa bunu korur."
+                  align="flex-start"
+                />
+              </div>
+            ) : null}
           </article>
         ) : mode === 'agent' ? (
           <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>

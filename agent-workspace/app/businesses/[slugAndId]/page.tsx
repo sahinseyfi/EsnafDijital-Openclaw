@@ -199,10 +199,20 @@ export default async function BusinessDetailPage({
         </article>
       </section>
 
+      <BusinessScanPanel
+        businessId={business.id}
+        scanDetailHref={scanDetailHref}
+        currentSnapshot={discoverySnapshot}
+        latestAgentScan={latestAgentScan}
+        agentScanHistory={agentScanHistory}
+        apifyRefreshHistory={apifyRefreshHistory}
+        latestYzReport={latestYzReport}
+      />
+
       <section>
         <article className="card stack-sm">
           <div>
-            <p className="eyebrow">Y.Z raporu</p>
+            <p className="eyebrow">Y.Z raporu detayı</p>
             <h3>{latestYzReport ? latestYzReport.status : 'Henüz rapor yok'}</h3>
           </div>
 
@@ -242,7 +252,7 @@ export default async function BusinessDetailPage({
               </div>
             </>
           ) : (
-            <p className="muted">Ajan tarama, Apify tarama ve notlardan rapor üretmek için hazır.</p>
+            <p className="muted">Hafif tarama ve diger sinyaller geldikten sonra detay rapor burada gorunur.</p>
           )}
 
           <div className="page-header-actions">
@@ -250,15 +260,6 @@ export default async function BusinessDetailPage({
           </div>
         </article>
       </section>
-
-      <BusinessScanPanel
-        businessId={business.id}
-        scanDetailHref={scanDetailHref}
-        currentSnapshot={discoverySnapshot}
-        latestAgentScan={latestAgentScan}
-        agentScanHistory={agentScanHistory}
-        apifyRefreshHistory={apifyRefreshHistory}
-      />
     </AdminShell>
   )
 }
