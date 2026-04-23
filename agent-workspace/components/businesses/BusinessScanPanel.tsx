@@ -7,6 +7,8 @@ import { BusinessDiscoveryRefreshButton } from '@/components/businesses/Business
 import type { BusinessAgentScanResult } from '@/lib/businesses/agent-scan'
 import type { DiscoverySummaryEntry } from '@/lib/businesses/discovery'
 
+const lightSources = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
+
 const apifySources = [
   {
     key: 'google-maps',
@@ -30,7 +32,7 @@ const apifySources = [
   },
 ] as const
 
-type ScanMode = 'agent' | 'apify'
+type ScanMode = 'light' | 'agent' | 'apify'
 type GoogleMapsOptions = {
   details: boolean
   reviews: boolean
@@ -63,10 +65,12 @@ function getApifyFieldLabels(entry: DiscoverySummaryEntry) {
 
   for (const source of selectedSources) {
     if (source === 'google-maps') labels.push('Google Maps')
-    if (source === 'maps-refresh') labels.push('Google Maps')
+    if (source === 'maps-refresh' || source === 'maps-snapshot') labels.push('Google Maps snapshot')
+    if (source === 'website-check') labels.push('Website kontrolü')
+    if (source === 'google-search') labels.push('Google Search')
+    if (source === 'serp-signals') labels.push('Arama sinyali')
     if (source === 'yandex') labels.push('Yandex')
     if (source === 'apple-maps') labels.push('Apple Maps')
-    if (source === 'google-search') labels.push('Google Search')
     if (source === 'instagram') labels.push('Instagram')
   }
 
@@ -78,16 +82,18 @@ function getApifyFieldLabels(entry: DiscoverySummaryEntry) {
 
 export function BusinessScanPanel({
   businessId,
+  currentSnapshot,
   latestAgentScan,
   agentScanHistory,
   apifyRefreshHistory,
 }: {
   businessId: string
+  currentSnapshot: DiscoverySummaryEntry | null
   latestAgentScan: BusinessAgentScanResult | null
   agentScanHistory: BusinessAgentScanResult[]
   apifyRefreshHistory: DiscoverySummaryEntry[]
 }) {
-  const [mode, setMode] = useState<ScanMode>('agent')
+  const [mode, setMode] = useState<ScanMode>('light')
   const [selectedSources, setSelectedSources] = useState<string[]>(apifySources.map((item) => item.key))
   const [googleMapsOptions, setGoogleMapsOptions] = useState<GoogleMapsOptions>({
     details: false,
@@ -129,7 +135,7 @@ export function BusinessScanPanel({
     ...apifyRefreshHistory.map((entry) => ({
       kind: 'apify' as const,
       createdAt: entry.source.collectedAt,
-      label: 'Apify tarama',
+      label: entry.source.refreshMode === 'light' ? 'Hafif tarama' : 'Apify tarama',
       scannedFields: getApifyFieldLabels(entry),
     })),
   ].sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime())
@@ -138,20 +144,64 @@ export function BusinessScanPanel({
     <section>
       <article className="card stack-sm">
         <div>
-          <p className="eyebrow">Tarama paneli</p>
-          <h3>Tarama tipini seç</h3>
+          <p className="eyebrow">Hazırlık / Tarama</p>
+          <h3>Önce hafif tarama ile dış sinyali netleştir</h3>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button type="button" className={mode === 'light' ? 'button-primary' : 'button-secondary'} onClick={() => setMode('light')}>
+            Hafif tarama
+          </button>
           <button type="button" className={mode === 'agent' ? 'button-primary' : 'button-secondary'} onClick={() => setMode('agent')}>
             Ajan tarama
           </button>
           <button type="button" className={mode === 'apify' ? 'button-primary' : 'button-secondary'} onClick={() => setMode('apify')}>
-            Apify tarama
+            Derin tarama
           </button>
         </div>
 
-        {mode === 'agent' ? (
+        {mode === 'light' ? (
+          <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+            <div>
+              <p className="eyebrow">Hafif tarama</p>
+              <h3>Maps, website ve arama sinyalini hızlıca yenile</h3>
+            </div>
+            <p className="muted">Hazırlık adımıdır. Önce temel eşleşme, website ve görünürlük sinyali tazelenir. Derin tarama sadece ihtiyaç varsa açılır.</p>
+
+            {currentSnapshot ? (
+              <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+                <div className="detail-field">
+                  <p className="eyebrow">Son dış sinyal</p>
+                  <p>{currentSnapshot.source.searchCoverageNote || 'Dış sinyal notu yok'}</p>
+                </div>
+                <div className="detail-field">
+                  <p className="eyebrow">Website / telefon</p>
+                  <p>{currentSnapshot.candidate.hasWebsite ? 'Website var' : 'Website yok'} · {currentSnapshot.candidate.phone ? 'Telefon var' : 'Telefon yok'}</p>
+                </div>
+                <div className="detail-field">
+                  <p className="eyebrow">Puan / yorum</p>
+                  <p>{typeof currentSnapshot.candidate.rating === 'number' ? `${currentSnapshot.candidate.rating} · ${currentSnapshot.candidate.reviewsCount} yorum` : 'Puan verisi sınırlı'}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="muted">Henüz hafif tarama snapshotı yok.</p>
+            )}
+
+            <div className="page-header-actions">
+              <BusinessDiscoveryRefreshButton
+                businessId={businessId}
+                idleLabel="Hafif taramayı başlat"
+                loadingLabel="Hafif tarama çalışıyor..."
+                successLabel="Hafif tarama tamamlandı"
+                helperText="Maps snapshot, website kontrolü ve arama sinyali yenilenir."
+                requestBody={{
+                  mode: 'light',
+                  sources: lightSources,
+                }}
+              />
+            </div>
+          </article>
+        ) : mode === 'agent' ? (
           <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
             <div>
               <p className="eyebrow">Ajan tarama</p>
@@ -201,8 +251,8 @@ export function BusinessScanPanel({
         ) : (
           <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
             <div>
-              <p className="eyebrow">Apify tarama</p>
-              <h3>Kaynakları seç ve tarat</h3>
+              <p className="eyebrow">Derin tarama</p>
+              <h3>Ek kaynakları seç ve gerektiğinde derinleş</h3>
             </div>
 
             <div className="stack-sm">
@@ -302,46 +352,46 @@ export function BusinessScanPanel({
                 }}
               />
             </div>
-
-            {scanHistory.length > 0 ? (
-              <div className="card stack-sm" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
-                <div>
-                  <p className="eyebrow">Tarama geçmişi</p>
-                  <p className="muted">Bu işletme için daha önce çalışan ajan ve Apify taramaları.</p>
-                </div>
-
-                <div className="stack-xs">
-                  {scanHistory.map((entry, index) => (
-                    <div key={`${entry.kind}-${entry.createdAt}-${index}`} className="scan-history-row">
-                      <div className="detail-field">
-                        <p className="eyebrow">Tarama</p>
-                        <p>{entry.label}</p>
-                      </div>
-                      <div className="detail-field">
-                        <p className="eyebrow">Zaman</p>
-                        <p>{formatScanTime(entry.createdAt)}</p>
-                      </div>
-                      {entry.status ? (
-                        <div className="detail-field">
-                          <p className="eyebrow">Durum</p>
-                          <p>{entry.status}</p>
-                        </div>
-                      ) : null}
-                      {entry.scannedFields && entry.scannedFields.length > 0 ? (
-                        <div className="detail-field" style={{ gridColumn: '1 / -1' }}>
-                          <p className="eyebrow">Taranan alanlar</p>
-                          <ul className="compact-list">
-                            {entry.scannedFields.map((item) => <li key={item}>{item}</li>)}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
           </article>
         )}
+
+        {scanHistory.length > 0 ? (
+          <div className="card stack-sm" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+            <div>
+              <p className="eyebrow">Tarama geçmişi</p>
+              <p className="muted">Bu işletme için daha önce çalışan hafif, ajan ve derin taramalar.</p>
+            </div>
+
+            <div className="stack-xs">
+              {scanHistory.map((entry, index) => (
+                <div key={`${entry.kind}-${entry.createdAt}-${index}`} className="scan-history-row">
+                  <div className="detail-field">
+                    <p className="eyebrow">Tarama</p>
+                    <p>{entry.label}</p>
+                  </div>
+                  <div className="detail-field">
+                    <p className="eyebrow">Zaman</p>
+                    <p>{formatScanTime(entry.createdAt)}</p>
+                  </div>
+                  {entry.status ? (
+                    <div className="detail-field">
+                      <p className="eyebrow">Durum</p>
+                      <p>{entry.status}</p>
+                    </div>
+                  ) : null}
+                  {entry.scannedFields && entry.scannedFields.length > 0 ? (
+                    <div className="detail-field" style={{ gridColumn: '1 / -1' }}>
+                      <p className="eyebrow">Taranan alanlar</p>
+                      <ul className="compact-list">
+                        {entry.scannedFields.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </article>
     </section>
   )
