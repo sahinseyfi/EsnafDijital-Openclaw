@@ -25,19 +25,24 @@ function formatDateTime(value: string, emptyText = 'Henüz yok') {
   }).format(date)
 }
 
+function formatSourceLabel(source: string) {
+  if (source === 'google-maps') return 'Google Maps'
+  if (source === 'maps-refresh' || source === 'maps-snapshot') return 'Google Maps snapshot'
+  if (source === 'website-check') return 'Website kontrolü'
+  if (source === 'google-search') return 'Google Search'
+  if (source === 'serp-signals') return 'Arama sinyali'
+  if (source === 'yandex') return 'Yandex'
+  if (source === 'apple-maps') return 'Apple Maps'
+  if (source === 'instagram') return 'Instagram'
+  return source
+}
+
 function formatSelectedSources(entry: DiscoverySummaryEntry) {
   const labels: string[] = []
   const selectedSources = entry.source.selectedSources || []
 
   for (const source of selectedSources) {
-    if (source === 'google-maps') labels.push('Google Maps')
-    if (source === 'maps-refresh' || source === 'maps-snapshot') labels.push('Google Maps snapshot')
-    if (source === 'website-check') labels.push('Website kontrolü')
-    if (source === 'google-search') labels.push('Google Search')
-    if (source === 'serp-signals') labels.push('Arama sinyali')
-    if (source === 'yandex') labels.push('Yandex')
-    if (source === 'apple-maps') labels.push('Apple Maps')
-    if (source === 'instagram') labels.push('Instagram')
+    labels.push(formatSourceLabel(source))
   }
 
   if (entry.source.googleMapsOptions?.details) labels.push('Google Maps tüm detaylar')
@@ -171,6 +176,18 @@ function DiscoveryCard({ entry, label }: { entry: DiscoverySummaryEntry, label: 
               <p className="eyebrow">Arama terimleri</p>
               <p>Eşleşen: {entry.source.matchedSearchTerms.join(', ') || '—'}</p>
               <p className="muted" style={{ marginTop: 6 }}>Eksik: {entry.source.missingSearchTerms.join(', ') || '—'}</p>
+            </div>
+          ) : null}
+          {entry.source.sourceRuns && entry.source.sourceRuns.length > 0 ? (
+            <div className="detail-field">
+              <p className="eyebrow">Kaynak çalışma durumu</p>
+              <ul className="compact-list">
+                {entry.source.sourceRuns.map((item) => (
+                  <li key={`${item.source}-${item.actorId || 'actor'}`}>
+                    {formatSourceLabel(item.source)} · {item.status === 'success' ? 'ok' : 'hata'} · {item.rawCount || 0} ham kayıt{item.error ? ` · ${item.error}` : ''}
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : null}
         </div>
