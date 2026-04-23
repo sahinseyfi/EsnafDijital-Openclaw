@@ -253,10 +253,6 @@ export default async function BusinessDetailPage({
               <dt className="eyebrow">Kayıt durumu</dt>
               <dd>{businessStatusLabels[business.status]}</dd>
             </div>
-            <div>
-              <dt className="eyebrow">Kanonik route</dt>
-              <dd><code>{canonicalHref}</code></dd>
-            </div>
           </dl>
         </article>
       </section>
