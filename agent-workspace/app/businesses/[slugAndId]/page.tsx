@@ -3,6 +3,7 @@ import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
+import { getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
 import { getBusinessDiscoverySnapshot } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { getProjectOsDataset } from '@/lib/project-os/service'
@@ -53,7 +54,10 @@ export default async function BusinessDetailPage({
     permanentRedirect(canonicalHref)
   }
 
-  const discoverySnapshot = await getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district })
+  const [discoverySnapshot, latestAgentScan] = await Promise.all([
+    getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district }),
+    getLatestBusinessAgentScan(business.id),
+  ])
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
 
   const rawWebsiteUrl = discoverySnapshot?.candidate.websiteUrl?.trim() || ''
@@ -141,7 +145,7 @@ export default async function BusinessDetailPage({
         </article>
       </section>
 
-      <BusinessScanPanel businessId={business.id} />
+      <BusinessScanPanel businessId={business.id} latestAgentScan={latestAgentScan} />
     </AdminShell>
   )
 }

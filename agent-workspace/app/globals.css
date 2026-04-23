@@ -465,6 +465,13 @@ a.button-secondary[aria-disabled='true'] {
   margin: 0;
 }
 
+.compact-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
 .consultation-inbox-main {
   display: flex;
   justify-content: space-between;

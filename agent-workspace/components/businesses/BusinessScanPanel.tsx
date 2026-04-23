@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 
+import { BusinessAgentScanButton } from '@/components/businesses/BusinessAgentScanButton'
 import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
+import type { BusinessAgentScanResult } from '@/lib/businesses/agent-scan'
 
 const apifySources = [
   {
@@ -31,8 +33,10 @@ type GoogleMapsOptions = {
 
 export function BusinessScanPanel({
   businessId,
+  latestAgentScan,
 }: {
   businessId: string
+  latestAgentScan: BusinessAgentScanResult | null
 }) {
   const [mode, setMode] = useState<ScanMode>('agent')
   const [selectedSources, setSelectedSources] = useState<string[]>(apifySources.map((item) => item.key))
@@ -88,11 +92,47 @@ export function BusinessScanPanel({
           <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
             <div>
               <p className="eyebrow">Ajan tarama</p>
-              <h3>Skill ile çalışacak tarama</h3>
+              <h3>Skill ile çalışan tarama</h3>
             </div>
-            <p className="muted">Bu alan sonradan eklenecek skill ile çalışacak. Skill bağlandığında bu işletme için ajan tarama buradan tetiklenecek.</p>
+            <p className="muted">Tek işletme için kısa operasyon özeti üretir. Website, arama ve temel görünürlük sinyalini ajan tarafında yorumlar.</p>
+
+            {latestAgentScan ? (
+              <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+                <div className="detail-field">
+                  <p className="eyebrow">Son durum</p>
+                  <p>{latestAgentScan.status}</p>
+                </div>
+                <div className="detail-field">
+                  <p className="eyebrow">Kısa özet</p>
+                  <p>{latestAgentScan.summary}</p>
+                </div>
+                {latestAgentScan.findings.length > 0 ? (
+                  <div className="detail-field">
+                    <p className="eyebrow">Bulgular</p>
+                    <ul className="compact-list">
+                      {latestAgentScan.findings.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </div>
+                ) : null}
+                {latestAgentScan.risks.length > 0 ? (
+                  <div className="detail-field">
+                    <p className="eyebrow">Eksikler / riskler</p>
+                    <ul className="compact-list">
+                      {latestAgentScan.risks.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </div>
+                ) : null}
+                <div className="detail-field">
+                  <p className="eyebrow">Önerilen sonraki adım</p>
+                  <p>{latestAgentScan.nextStep}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="muted">Henüz ajan tarama sonucu yok.</p>
+            )}
+
             <div className="page-header-actions">
-              <button type="button" className="button-secondary" disabled>Ajan taramayı başlat</button>
+              <BusinessAgentScanButton businessId={businessId} />
             </div>
           </article>
         ) : (
