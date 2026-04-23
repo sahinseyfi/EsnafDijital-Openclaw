@@ -300,9 +300,13 @@ function normalizeYandexRows(rows: DiscoveryRow[]) {
   return normalized.filter((row) => toCleanString(row.title))
 }
 
+function limitSearchTerms(searchTerms: string[], maxCount: number) {
+  return searchTerms.slice(0, maxCount)
+}
+
 function buildGoogleMapsInput(searchTerms: string[], locationQuery: string, refreshConfig: ReturnType<typeof normalizeRefreshRequest>) {
   return {
-    searchStringsArray: searchTerms,
+    searchStringsArray: limitSearchTerms(searchTerms, refreshConfig.mode === 'apify' ? 3 : 2),
     locationQuery,
     maxCrawledPlacesPerSearch: refreshConfig.mode === 'apify' ? 8 : 3,
     scrapePlaceDetailPage: refreshConfig.mode === 'light' ? true : refreshConfig.googleMaps.details,
@@ -314,7 +318,7 @@ function buildGoogleMapsInput(searchTerms: string[], locationQuery: string, refr
 
 function buildGoogleSearchInput(searchTerms: string[]) {
   return {
-    queries: searchTerms.join('\n'),
+    queries: limitSearchTerms(searchTerms, 2).join('\n'),
     maxPagesPerQuery: 1,
     countryCode: 'tr',
     languageCode: 'tr',
@@ -339,8 +343,8 @@ function buildYandexInput(searchTerm: string, locationQuery: string, includeRevi
 function buildAppleMapsInput(searchTerms: string[]) {
   return {
     demoMode: false,
-    searchQueries: searchTerms,
-    maxResults: 8,
+    searchQueries: limitSearchTerms(searchTerms, 1),
+    maxResults: 5,
   }
 }
 

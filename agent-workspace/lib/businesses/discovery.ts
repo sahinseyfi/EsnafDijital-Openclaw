@@ -176,7 +176,9 @@ function isOwnedWebsiteUrl(value: string) {
       'm.facebook.com',
       'maps.apple.com',
       'google.com',
+      'google.com.tr',
       'yandex.com',
+      'yandex.com.tr',
       'yandex.ru',
       'tiktok.com',
       'youtube.com',
@@ -188,6 +190,10 @@ function isOwnedWebsiteUrl(value: string) {
   } catch {
     return false
   }
+}
+
+function isSearchResultRow(row: DiscoveryRawRow) {
+  return Array.isArray(row.webResults)
 }
 
 function extractWebsite(row: DiscoveryRawRow) {
@@ -261,9 +267,12 @@ function getOwnershipStatus(row: DiscoveryRawRow): 'claimed' | 'unclaimed' | 'un
 function detectDistrict(row: DiscoveryRawRow, locationQuery: string) {
   const address = [row.address, row.city, row.state].map((item) => String(item || '')).join(' ')
   const addressNorm = normalizeDiscoveryText(address)
+  const city = String(row.city || '').trim()
+
   if (addressNorm.includes('arnavutkoy')) return 'Arnavutkoy'
-  if (normalizeDiscoveryText(locationQuery).includes('arnavutkoy')) return 'Arnavutkoy'
-  return String(row.city || '')
+  if (city) return city
+  if (!addressNorm && normalizeDiscoveryText(locationQuery).includes('arnavutkoy')) return 'Arnavutkoy'
+  return ''
 }
 
 function categoryList(row: DiscoveryRawRow) {
@@ -303,6 +312,7 @@ function scoreCandidateMatch(row: DiscoveryRawRow, business: BusinessLookup) {
   if (String(row.searchString || '').trim() === business.name.trim()) score += 1
   if (String(row.phone || '').trim()) score += 1
   if (extractWebsite(row).hasWebsite) score += 1
+  if (isSearchResultRow(row)) score -= 4
 
   return score
 }
