@@ -25,7 +25,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
     setErrorText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(item.id)}`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(item.id)}`, {
         method: 'DELETE',
       })
       const rawText = await response.text()

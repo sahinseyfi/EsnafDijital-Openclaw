@@ -28,7 +28,7 @@ export function PromptPreparationEffect({
 
     attemptedRef.current = consultationId
 
-    void fetch(`/api/consultation-center/${encodeURIComponent(consultationId)}/suggest`, {
+    void fetch(`/api/prompt-uretimi/${encodeURIComponent(consultationId)}/suggest`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

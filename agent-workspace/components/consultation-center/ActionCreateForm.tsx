@@ -20,7 +20,7 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
     setErrorText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}/actions`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultation.id)}/actions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

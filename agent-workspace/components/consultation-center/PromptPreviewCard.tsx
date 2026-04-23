@@ -65,7 +65,7 @@ export function PromptPreviewCard({
     setSuccessText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultationId)}/suggest`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultationId)}/suggest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

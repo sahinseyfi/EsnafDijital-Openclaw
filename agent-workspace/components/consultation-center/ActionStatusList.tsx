@@ -25,7 +25,7 @@ export function ActionStatusList({ consultationId, actions }: { consultationId: 
     setErrorText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultationId)}/actions/${encodeURIComponent(actionId)}`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultationId)}/actions/${encodeURIComponent(actionId)}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ export function QuickCreateForm() {
     setErrorText(null)
 
     try {
-      const response = await fetch('/api/consultation-center', {
+      const response = await fetch('/api/prompt-uretimi', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

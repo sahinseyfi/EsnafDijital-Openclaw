@@ -20,7 +20,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     setSuccessText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultation.id)}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     setSuccessText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}/suggest`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultation.id)}/suggest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
     setSuccessText(null)
 
     try {
-      const response = await fetch(`/api/consultation-center/${encodeURIComponent(consultation.id)}`, {
+      const response = await fetch(`/api/prompt-uretimi/${encodeURIComponent(consultation.id)}`, {
         method: 'DELETE',
       })
       const rawText = await response.text()
