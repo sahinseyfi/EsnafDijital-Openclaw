@@ -287,16 +287,21 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Sayfada ne gosterilecek**
 - secili oldugunda 3 kaynaklik sade set
 - dusuk maliyet notu
+- Google arama sonucundan toplanan temel tutarlilik ozeti
 
 **Tam olarak ne yapacagiz**
 - website kontrolu
 - Google Search gorunurluk aramasi
 - mevcut Google Maps/discovery snapshot okuma
+- isletme adiyla Google'da aratip ilk sonuc sayfalarindan temel bilgileri toplayacagiz
+- bu sayfalardan ad, adres, telefon, website, sosyal link ve kisa hizmet sinyali gibi alanlari cikarip tutarlilik karsilastirmasi yapacagiz
 - eldeki veriyle demo uretimine yetecek minimum business ozetini cikarma
 
 **Net cizgi**
 - bu mod tek isletme pilotu icin varsayilan olacak
 - Apify'siz veya minimum dis maliyetle ilerleyebilmesi tercih edilecek
+- derin crawl yapmayacak; ilk sonuc sayfalari ve isletmeyle dogrudan ilgili yuzeyler okunacak
+- amac SERP arastirma raporu degil, isletmeye gitmeden once hizli veri toplama ve tutarlilik kontrolu yapmak
 
 ### 3.0.2 Derin tarama modu
 **Sayfada ne gosterilecek**
