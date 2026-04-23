@@ -1,11 +1,10 @@
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
-
 import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
+import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
 import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
+import { getBusinessDiscoverySnapshot } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { deriveProjectOsOverview } from '@/lib/project-os/derived'
 import { getOfferAddons, getOfferPackageByName } from '@/lib/project-os/offer-packages'
@@ -44,66 +43,6 @@ const deliveryStatusLabels = {
   live: 'Yayında',
   maintenance: 'Bakım',
 } as const
-
-type DiscoverySummaryEntry = {
-  source: {
-    collectedAt: string
-    matchedSearchTerms: string[]
-    missingSearchTerms: string[]
-    searchCoverageNote: string
-  }
-  candidate: {
-    name: string
-    categoryName: string
-    address: string
-    district: string
-    city: string
-    phone: string
-    websiteUrl: string
-    hasWebsite: boolean
-    rating: number | null
-    reviewsCount: number
-    hasOpeningHours: boolean
-    ownershipStatus: 'claimed' | 'unclaimed' | 'unknown'
-    capturedAt?: string
-  }
-  scoring: {
-    bucket: string
-    reasons: string[]
-  }
-}
-
-function normalizeDiscoveryText(value: string) {
-  return value
-    .toLocaleLowerCase('tr-TR')
-    .replace(/ç/g, 'c')
-    .replace(/ğ/g, 'g')
-    .replace(/ı/g, 'i')
-    .replace(/ö/g, 'o')
-    .replace(/ş/g, 's')
-    .replace(/ü/g, 'u')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-}
-
-async function getBusinessDiscoverySnapshot(business: { name: string; district: string }) {
-  try {
-    const summaryPath = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'summary', 'candidates-summary.json')
-    const raw = await readFile(summaryPath, 'utf8')
-    const records = JSON.parse(raw) as DiscoverySummaryEntry[]
-    const businessName = normalizeDiscoveryText(business.name)
-    const businessDistrict = normalizeDiscoveryText(business.district)
-
-    return records.find((record) => {
-      const candidateName = normalizeDiscoveryText(record.candidate.name)
-      const candidateDistrict = normalizeDiscoveryText(record.candidate.district || record.candidate.city || '')
-
-      return candidateName === businessName && (!businessDistrict || candidateDistrict.includes(businessDistrict))
-    }) || null
-  } catch {
-    return null
-  }
-}
 
 function formatTimelineDate(value: string) {
   return new Intl.DateTimeFormat('tr-TR', {
@@ -147,7 +86,7 @@ export default async function BusinessDetailPage({
   const latestOffer = offers[0] || null
   const latestDelivery = deliveryProjects[0] || null
   const latestAudit = audits[0] || null
-  const discoverySnapshot = await getBusinessDiscoverySnapshot(business)
+  const discoverySnapshot = await getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district })
   const auditSnapshotReasons = discoverySnapshot?.scoring.reasons?.slice(0, 4) || []
   const activityTimeline = [
     {
@@ -360,12 +299,10 @@ export default async function BusinessDetailPage({
               <p className="eyebrow">Audit snapshot</p>
               <h3>Dış dünya ve audit özetini tek bakışta oku</h3>
             </div>
-            <button type="button" className="button-secondary" disabled>
-              Detaylı işletme verilerini al
-            </button>
+            <BusinessDiscoveryRefreshButton businessId={business.id} />
           </div>
 
-          <p className="muted">İlk UI girişi hazır. Yenileme aksiyonu bir sonraki turda Apify akışına bağlanacak.</p>
+          <p className="muted">Bu aksiyon Apify ile seçili işletme için dış veri snapshot'ını yeniden çeker. Kanonik işletme kaydı otomatik ezilmez.</p>
 
           <div className="grid-2" style={{ alignItems: 'start' }}>
             <div className="stack-sm">
