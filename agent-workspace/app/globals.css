@@ -472,6 +472,19 @@ a.button-secondary[aria-disabled='true'] {
   gap: 6px;
 }
 
+.scan-history-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.scan-history-row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
 .consultation-inbox-main {
   display: flex;
   justify-content: space-between;
