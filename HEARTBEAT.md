@@ -20,9 +20,10 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Business detail activity timeline artik dis veri yenileme eventlerini de gosteriyor; siradaki adim ilk canli smoke testi yapip manuel yenileme akisinin UI + timeline sonucunu gercek kayitta dogrulamak
+- Business detail icinde manuel yenileme butonunu gercek kayitta tekrar kapatmak icin Next runtime altindaki `refresh-discovery` 500 hatasini coz ve ayni kayitta UI tetigi + timeline sonucunu tek akista yeniden smoke test et
 
 ## Mevcut Blokajlar
+- Business detail timeline smoke testinde `Berber Serkan` kaydinda snapshot karti ve `Dis veri snapshot yenilendi` eventi dogrulandi; fakat manuel yenileme API route'u Next runtime icinde halen 500 donuyor, bu yuzden UI akisi tam kapanmadi
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
