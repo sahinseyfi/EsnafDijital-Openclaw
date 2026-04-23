@@ -40,6 +40,22 @@ type GeneratePromptOptions = {
   changeRequest?: string
 }
 
+function getAgentRuntimeConfig(consultation: ConsultationDetail) {
+  const targetModel = consultation.promptRun.modelName === 'gpt-5' ? 'gpt-5' : 'gpt-5-pro'
+
+  if (targetModel === 'gpt-5') {
+    return {
+      thinking: 'medium' as const,
+      timeoutSeconds: 600,
+    }
+  }
+
+  return {
+    thinking: 'high' as const,
+    timeoutSeconds: 1800,
+  }
+}
+
 function formatBriefRecord(value?: Record<string, string | string[] | null>) {
   if (!value || Object.keys(value).length === 0) return '- yok'
 
@@ -98,8 +114,9 @@ function readRequiredReference(filePath: string, label: string) {
     }
 
     return content
-  } catch (error: any) {
-    throw new Error(`${label} okunamadi: ${filePath} (${error?.message || 'bilinmeyen hata'})`)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'bilinmeyen hata'
+    throw new Error(`${label} okunamadi: ${filePath} (${message})`)
   }
 }
 
@@ -151,19 +168,30 @@ function buildPrompt(consultation: ConsultationDetail, options?: GeneratePromptO
   ].join('\n')
 }
 
-function extractAssistantText(payload: any) {
-  const fromPayloads = Array.isArray(payload?.result?.payloads)
-    ? payload.result.payloads
-        .map((item: any) => (typeof item?.text === 'string' ? item.text : ''))
+type OpenClawAgentPayload = {
+  result?: {
+    payloads?: Array<{ text?: string }>
+    finalAssistantVisibleText?: string
+    finalAssistantRawText?: string
+  }
+  finalAssistantVisibleText?: string
+  finalAssistantRawText?: string
+}
+
+function extractAssistantText(payload: unknown) {
+  const data = (payload || {}) as OpenClawAgentPayload
+  const fromPayloads = Array.isArray(data.result?.payloads)
+    ? data.result.payloads
+        .map((item) => (typeof item?.text === 'string' ? item.text : ''))
         .join('\n')
         .trim()
     : ''
 
   return fromPayloads
-    || payload?.result?.finalAssistantVisibleText
-    || payload?.result?.finalAssistantRawText
-    || payload?.finalAssistantVisibleText
-    || payload?.finalAssistantRawText
+    || data.result?.finalAssistantVisibleText
+    || data.result?.finalAssistantRawText
+    || data.finalAssistantVisibleText
+    || data.finalAssistantRawText
     || ''
 }
 
@@ -204,6 +232,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
 
 export async function generateConsultationBriefWithAgent(consultation: ConsultationDetail, options?: GeneratePromptOptions) {
   const agentId = getConsultationPromptAgentId()
+  const runtimeConfig = getAgentRuntimeConfig(consultation)
 
   const { stdout } = await execFileAsync(
     'openclaw',
@@ -212,8 +241,8 @@ export async function generateConsultationBriefWithAgent(consultation: Consultat
       '--agent', agentId,
       '--session-id', randomUUID(),
       '--message', buildPrompt(consultation, options),
-      '--thinking', 'high',
-      '--timeout', '180',
+      '--thinking', runtimeConfig.thinking,
+      '--timeout', String(runtimeConfig.timeoutSeconds),
       '--json',
     ],
     {
