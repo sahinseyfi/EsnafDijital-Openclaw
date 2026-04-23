@@ -30,7 +30,7 @@ function getActiveFocus(input: {
       eyebrow: 'Şimdi aktif',
       title: 'Netleşmeyi bekleyen prompt işleri var',
       text: `${input.blockedConsultations} prompt kaydı netleşmeyi bekliyor. Kısa özet eksiklerini kapatıp promptu temiz hale getir.`,
-      primaryHref: '/consultation-center',
+      primaryHref: '/prompt-uretimi',
       primaryLabel: 'Prompt Üretimine git',
       secondaryHref: '/businesses',
       secondaryLabel: 'İşletmeleri aç',
@@ -44,7 +44,7 @@ function getActiveFocus(input: {
       text: `${input.pendingOffers} teklif kaydı taslak veya gönderim aşamasında. Teklif hattını kapatmak şu an en sıcak iş.`,
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
-      secondaryHref: '/consultation-center',
+      secondaryHref: '/prompt-uretimi',
       secondaryLabel: 'Gerekirse prompt üret',
     }
   }
@@ -68,7 +68,7 @@ function getActiveFocus(input: {
       text: `${input.activeDeliveries} teslimat kaydı başlangıç, yapım veya yayın aşamasında. Yayın ve bakım geçişi ana takip noktası.`,
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
-      secondaryHref: '/consultation-center',
+      secondaryHref: '/prompt-uretimi',
       secondaryLabel: 'Gerekirse prompt üret',
     }
   }
@@ -167,7 +167,7 @@ export default async function HomePage() {
             <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
           </ul>
           <div className="hero-actions">
-            <Link href="/consultation-center" className="ghost-link">Prompt Üretimine git</Link>
+            <Link href="/prompt-uretimi" className="ghost-link">Prompt Üretimine git</Link>
             <Link href="/context-center" className="ghost-link">Bağlam Merkezine git</Link>
           </div>
         </article>

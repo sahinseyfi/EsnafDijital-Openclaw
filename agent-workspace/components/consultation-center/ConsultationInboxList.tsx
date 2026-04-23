@@ -36,7 +36,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
       }
 
       if (selectedId === item.id) {
-        router.replace('/consultation-center')
+        router.replace('/prompt-uretimi')
       }
       router.refresh()
     } catch (error: unknown) {
@@ -61,7 +61,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
           {items.map((item) => (
             <div key={item.id} className="card consultation-inbox-item" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
               <div className="consultation-inbox-main">
-                <Link prefetch={false} href={`/consultation-center?selectedId=${encodeURIComponent(item.id)}`} className="consultation-inbox-link">
+                <Link prefetch={false} href={`/prompt-uretimi?selectedId=${encodeURIComponent(item.id)}`} className="consultation-inbox-link">
                   <div className="stack-xs">
                     <strong>{item.title}</strong>
                     <p className="muted">{item.summary}</p>

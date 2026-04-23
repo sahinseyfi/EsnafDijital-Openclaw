@@ -52,7 +52,7 @@ export function QuickCreateForm() {
 
       setTitle('')
       setNote('')
-      router.replace(`/consultation-center?selectedId=${encodeURIComponent(createdId)}`)
+      router.replace(`/prompt-uretimi?selectedId=${encodeURIComponent(createdId)}`)
       router.refresh()
     } catch (error: unknown) {
       setErrorText(getConsultationClientMessage(error, 'Kayıt oluşturulamadı'))

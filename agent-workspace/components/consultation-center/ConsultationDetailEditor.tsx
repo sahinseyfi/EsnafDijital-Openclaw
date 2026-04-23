@@ -100,7 +100,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         throw new Error(json.message || rawText || 'Kayıt silinemedi')
       }
 
-      router.replace('/consultation-center')
+      router.replace('/prompt-uretimi')
       router.refresh()
     } catch (error: unknown) {
       setErrorText(getConsultationClientMessage(error, 'Kayıt silinemedi'))
