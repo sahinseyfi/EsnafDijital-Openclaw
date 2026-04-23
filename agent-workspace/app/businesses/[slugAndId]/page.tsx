@@ -227,37 +227,6 @@ export default async function BusinessDetailPage({
       </section>
 
       <section>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Temel profil</p>
-            <h3>Kanonik işletme bilgisi</h3>
-          </div>
-          <dl className="stack-sm">
-            <div>
-              <dt className="eyebrow">İşletme adı</dt>
-              <dd>{business.name}</dd>
-            </div>
-            <div>
-              <dt className="eyebrow">Tür / segment</dt>
-              <dd>{segmentLabels[business.segment]}</dd>
-            </div>
-            <div>
-              <dt className="eyebrow">İlçe</dt>
-              <dd>{business.district}</dd>
-            </div>
-            <div>
-              <dt className="eyebrow">İşletme sahibi</dt>
-              <dd>{business.ownerName}</dd>
-            </div>
-            <div>
-              <dt className="eyebrow">Kayıt durumu</dt>
-              <dd>{businessStatusLabels[business.status]}</dd>
-            </div>
-          </dl>
-        </article>
-      </section>
-
-      <section>
         <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
           <div>
             <p className="eyebrow">Dış veri özeti</p>
