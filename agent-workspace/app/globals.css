@@ -123,6 +123,9 @@ textarea:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sidebar-backdrop,
@@ -856,13 +859,33 @@ code {
     left: 0;
     bottom: 0;
     width: min(88vw, 320px);
-    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100dvh;
+    padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
     border-right: 1px solid rgba(203, 213, 225, 0.8);
     border-bottom: 0;
     transform: translateX(calc(-100% - 16px));
     transition: transform 180ms ease;
     z-index: 40;
     overflow-y: auto;
+  }
+
+  .sidebar-brand {
+    padding: 14px 16px;
+  }
+
+  .sidebar h1,
+  .sidebar-brand .muted,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .brand-mark {
+    margin-bottom: 0;
+  }
+
+  .sidebar-nav {
+    gap: 8px;
   }
 
   .sidebar-open {
