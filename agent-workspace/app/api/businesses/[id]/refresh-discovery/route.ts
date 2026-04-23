@@ -12,7 +12,7 @@ const execFileAsync = promisify(execFile)
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
 export const runtime = 'nodejs'
-export const maxDuration = 120
+export const maxDuration = 300
 
 function buildSearchTerms(input: { name: string; district: string }) {
   return Array.from(new Set([
@@ -57,7 +57,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
         INPUT_PATH: inputPath,
         RAW_PATH: rawPath,
       },
-      timeout: 120_000,
+      timeout: 300_000,
       maxBuffer: 10 * 1024 * 1024,
     })
 
