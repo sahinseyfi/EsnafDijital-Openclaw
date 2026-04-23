@@ -233,6 +233,88 @@ Bu alan ayri bir tam sayfa degil, Business Detail icinde bir bolum olarak acilir
 - `Hafif tarama` (varsayilan)
 - `Derin tarama`
 
+### Panel rolu
+Bu bolum, operatorun "bu kayit icin baska hangi dis sinyali simdi cekmeye deger" sorusunu cevaplar.
+Amaci ham scrape yonetmek degil, audit oncesi veya teklif oncesi tek kayit bazli hazirlik paketini kontrollu sekilde genisletmektir.
+
+### V1 sayfa yapisi
+Panel tek bir kart olarak acilir ve kendi icinde su sirayla akar:
+1. ust ozet bari
+2. mod secici
+3. kaynak secimi
+4. tek primary calistir aksiyonu
+5. sonuc ozeti
+6. fark alani
+7. kisa gecmis
+
+#### Ust ozet bari
+- son calisma zamani
+- veri tazeligi etiketi
+- son calisma durumu (`hazir`, `yenileniyor`, `basarili`, `uyari`, `hatali`)
+- son mod (`Hafif` / `Derin`)
+
+Amac: operator karti acmadan once bu alanin ne kadar guncel oldugunu gormek.
+
+#### Mod secici
+- segmented control veya iki butonlu secici
+- varsayilan secim `Hafif tarama`
+- `Derin tarama` secildiginde kisa maliyet / sure uyari satiri gorunur
+
+Kural: sekme mantigi olabilir ama tam tab layout'a donmemeli; mod degisikligi ayni kart icinde kalmali.
+
+#### Kaynak secimi
+Varsayilan gorunur alan kisa tutulur.
+
+##### Hafif tarama varsayilan kaynaklari
+- mevcut Maps / discovery snapshot
+- website kontrolu
+- Google Search gorunurluk aramasi
+- ilk sonuc sayfalarindan temel sinyal toplama
+
+##### Derin tarama secmeli kaynaklari
+- Google Maps detay yenileme
+- Instagram
+- Yandex
+- Apple Maps
+- ek review / website enrichment
+
+Kural:
+- `Hafif` modda kaynaklar varsayilan acik ve kilitli olabilir; operator sadece neyin kosacagini gorur
+- `Derin` modda kaynaklar secmeli gelir
+- uzun aciklama yerine her kaynak altinda tek satir amac notu kullanilir
+
+#### Primary aksiyon alani
+- tek ana buton: `Tarama baslat`
+- buton altinda kisa calisma beklentisi: `yaklasik sure`, `dis kaynak`, `kanonik veri override edilmez`
+- ikinci aksiyon olarak ancak gerekirse `Demo sayfasi uret` sonra eklenir, V1'de zorunlu degil
+
+#### Sonuc ozeti
+Calisma bittiginde kartin orta bolumunde ilk bakista su alanlar gorunur:
+- ozet sonuc metni
+- website / telefon / sosyal / randevu sinyali
+- isim / adres / website tutarlilik durumu
+- kritik eksik listesine eklenecek 3-5 bulgu
+
+Kural: ham SERP dump veya tam scrape JSON'u burada gosterilmez.
+
+#### Fark alani
+Yeni calisma onceki snapshot veya onceki tarama ile anlamli fark urettiyse kisa fark satirlari gosterilir:
+- yeni bulunan website
+- kaybolan telefon
+- yorum / puan farki
+- sahiplik veya kapanma sinyali degisimi
+
+Kural: fark alani sadece degisim varsa gorunur; bos ise sessiz kalir.
+
+#### Kisa gecmis
+Kartin en altinda compact bir gecmis listesi tutulur:
+- calisma zamani
+- mod
+- kaynak sayisi
+- sonuc etiketi
+
+Kural: tam run log'u acilmaz; detay gerekirse sonra drawer/modal dusunulur.
+
 ### Hafif tarama
 Amac, tek isletme icin dusuk maliyetli audit on hazirligi cikarmaktir.
 
@@ -268,18 +350,27 @@ Amac, operator acarsa secmeli sekilde daha pahali / daha yavas veri toplamak.
 - operator secmeden kosmaz
 - gereksiz toplu scrape'e donusmez
 
-### Panelde gosterilecekler
-- checkbox'li kaynak listesi
-- her kaynak icin kisa amac notu
+### V1'de gosterilecekler
+- ust ozet bari
+- mod secici
+- kisa kaynak listesi
 - tek toplu calistir aksiyonu
-- son calisma zamani
-- durum etiketi
-- gerekiyorsa `Demo sayfasi uret` aksiyonu
+- sonuc ozeti
+- fark alani
+- kisa gecmis
+
+### V1 disinda kalacaklar
+- tam scrape console
+- cok kolonlu kaynak bazli veri tablosu
+- ham HTML / raw JSON gorunumu
+- ayni kart icinde not, task ve message duvari
+- otomatik surekli tarama veya toplu schedule mantigi
 
 ### Kural
 - bu panel genel CRM otomasyon duvari olmayacak
 - isletmeye gitmeden once hazirlik paketi cikarmak hedef
 - maliyet kontrolu icin minimum set varsayilan olacak
+- kart ilk bakista karar verir, detay ancak ikincil katmanda acilir
 
 ## 2.6 Son teklif karti
 ### Gosterilecekler
