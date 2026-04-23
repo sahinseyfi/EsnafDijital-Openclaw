@@ -14,6 +14,18 @@ export type DiscoverySummaryEntry = {
       details?: boolean
       reviews?: boolean
     }
+    instagramSignal?: {
+      searched?: boolean
+      query?: string
+      candidateCount?: number
+      matchedUsername?: string
+      matchedProfileUrl?: string
+      matchReason?: string
+      followersCount?: number | null
+      isVerified?: boolean
+      isBusinessAccount?: boolean
+      businessCategory?: string
+    }
   }
   candidate: {
     name: string
@@ -23,6 +35,7 @@ export type DiscoverySummaryEntry = {
     city: string
     phone: string
     websiteUrl: string
+    instagramUrl?: string
     hasWebsite: boolean
     rating: number | null
     reviewsCount: number
@@ -62,6 +75,18 @@ type RefreshEntryOptions = {
   googleMapsOptions?: {
     details?: boolean
     reviews?: boolean
+  }
+  instagramSignal?: {
+    searched?: boolean
+    query?: string
+    candidateCount?: number
+    matchedUsername?: string
+    matchedProfileUrl?: string
+    matchReason?: string
+    followersCount?: number | null
+    isVerified?: boolean
+    isBusinessAccount?: boolean
+    businessCategory?: string
   }
 }
 
@@ -155,6 +180,39 @@ function extractWebsite(row: DiscoveryRawRow) {
   }
 
   return { websiteUrl: '', hasWebsite: false }
+}
+
+function extractInstagramUrlFromValue(value: unknown) {
+  if (typeof value !== 'string') return ''
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  return /instagram\.com/i.test(trimmed) ? trimmed : ''
+}
+
+function extractInstagramUrl(row: DiscoveryRawRow) {
+  for (const key of ['instagramUrl', 'instagram', 'profileUrl']) {
+    const direct = extractInstagramUrlFromValue(row[key])
+    if (direct) return direct
+  }
+
+  const website = extractInstagramUrlFromValue(row.website) || extractInstagramUrlFromValue(row.websiteUrl)
+  if (website) return website
+
+  const webResults = row.webResults
+  if (Array.isArray(webResults)) {
+    for (const item of webResults) {
+      const direct = extractInstagramUrlFromValue(item)
+      if (direct) return direct
+
+      if (item && typeof item === 'object') {
+        const url = extractInstagramUrlFromValue((item as Record<string, unknown>).url)
+          || extractInstagramUrlFromValue((item as Record<string, unknown>).link)
+        if (url) return url
+      }
+    }
+  }
+
+  return ''
 }
 
 function getOwnershipStatus(row: DiscoveryRawRow): 'claimed' | 'unclaimed' | 'unknown' {
@@ -286,7 +344,7 @@ export async function getBusinessDiscoverySnapshot(business: BusinessLookup) {
   return summary.find((record) => matchesBusiness(record, business)) || null
 }
 
-export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources, googleMapsOptions }: RefreshEntryOptions): DiscoverySummaryEntry | null {
+export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources, googleMapsOptions, instagramSignal }: RefreshEntryOptions): DiscoverySummaryEntry | null {
   if (rows.length === 0) return null
 
   const rankedRows = rows
@@ -307,6 +365,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
   const groupedRows = rows.filter((row) => businessKey(row) === businessKey(best.row))
   const firstRow = groupedRows[0]
   const website = extractWebsite(firstRow)
+  const instagramFromMaps = extractInstagramUrl(firstRow)
   const location = (firstRow.location && typeof firstRow.location === 'object') ? firstRow.location as Record<string, unknown> : {}
   const matchedSearchTerms = Array.from(new Set(groupedRows
     .map((row) => String(row.searchString || '').trim())
@@ -327,6 +386,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
       refreshMode: refreshMode || 'manual-single-business',
       selectedSources: selectedSources || [],
       googleMapsOptions: googleMapsOptions || { details: false, reviews: false },
+      instagramSignal,
     },
     candidate: {
       name: String(firstRow.title || business.name),
@@ -336,6 +396,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
       city: String(firstRow.city || ''),
       phone: String(firstRow.phone || ''),
       websiteUrl: website.websiteUrl,
+      instagramUrl: instagramSignal?.matchedProfileUrl || instagramFromMaps || '',
       hasWebsite: website.hasWebsite,
       rating: toNumber(firstRow.totalScore),
       reviewsCount: Number(firstRow.reviewsCount || 0),
@@ -362,6 +423,10 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
     if (!entry.candidate.hasWebsite && extraWebsite.hasWebsite) {
       entry.candidate.hasWebsite = true
       entry.candidate.websiteUrl = extraWebsite.websiteUrl
+    }
+
+    if (!entry.candidate.instagramUrl) {
+      entry.candidate.instagramUrl = extractInstagramUrl(row)
     }
 
     const rating = toNumber(row.totalScore)
@@ -420,6 +485,7 @@ export async function appendPlaceSnapshot(entry: DiscoverySummaryEntry) {
     address: entry.candidate.address,
     phone: entry.candidate.phone,
     websiteUrl: entry.candidate.websiteUrl,
+    instagramUrl: entry.candidate.instagramUrl || '',
     hasWebsite: entry.candidate.hasWebsite,
     rating: entry.candidate.rating,
     reviewsCount: entry.candidate.reviewsCount,
