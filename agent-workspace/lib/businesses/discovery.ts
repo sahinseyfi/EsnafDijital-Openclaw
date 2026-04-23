@@ -9,6 +9,7 @@ export type DiscoverySummaryEntry = {
     searchCoverageNote: string
     rawRecordCount?: number
     refreshMode?: string
+    selectedSources?: string[]
   }
   candidate: {
     name: string
@@ -52,6 +53,8 @@ type RefreshEntryOptions = {
   rows: DiscoveryRawRow[]
   searchTerms: string[]
   locationQuery: string
+  refreshMode?: string
+  selectedSources?: string[]
 }
 
 const DISCOVERY_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery')
@@ -237,7 +240,7 @@ export async function getBusinessDiscoverySnapshot(business: BusinessLookup) {
   return summary.find((record) => matchesBusiness(record, business)) || null
 }
 
-export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery }: RefreshEntryOptions): DiscoverySummaryEntry | null {
+export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources }: RefreshEntryOptions): DiscoverySummaryEntry | null {
   if (rows.length === 0) return null
 
   const rankedRows = rows
@@ -267,7 +270,8 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
           : `${matchedSearchTerms.join(', ')} ile bulundu`
         : 'Arama terimi bilgisi yok',
       rawRecordCount: groupedRows.length,
-      refreshMode: 'manual-single-business',
+      refreshMode: refreshMode || 'manual-single-business',
+      selectedSources: selectedSources || [],
     },
     candidate: {
       name: String(firstRow.title || business.name),
