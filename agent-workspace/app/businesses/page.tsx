@@ -196,7 +196,7 @@ export default async function BusinessesPage({
             <li>Sıcak iş sırası ve ilerletme butonları esas olarak İş Takibi içindedir.</li>
             <li>Detay sayfası tek kayıt odaklıdır, bu ekran ise envanter ve filtreleme yüzeyidir.</li>
           </ul>
-          <p className="muted">İstersen buradan işletme detayına geç, istersen aynı kaydı İş Takibinde açıp audit, teklif ve teslimat zincirini gör.</p>
+          <p className="muted">İşletme adına tıklayarak doğrudan profil detayına geçebilirsin.</p>
         </article>
       </section>
 
@@ -229,13 +229,9 @@ export default async function BusinessesPage({
                 return (
                   <tr key={business.id}>
                     <td>
-                      <div className="stack-xs">
-                        <Link href={buildBusinessDetailHref(business)} style={{ color: 'var(--ink-title)', fontWeight: 700 }}>{business.name}</Link>
-                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                          <Link href={buildBusinessDetailHref(business)} className="ghost-link">Profili aç</Link>
-                          <Link href={`/project-os?businessId=${business.id}#records`} className="ghost-link">İş Takibinde aç</Link>
-                        </div>
-                      </div>
+                      <Link href={buildBusinessDetailHref(business)} style={{ color: 'var(--ink-title)', fontWeight: 700, textDecoration: 'none' }}>
+                        {business.name}
+                      </Link>
                     </td>
                     <td>{business.ownerName}</td>
                     <td>{segmentLabels[business.segment]}</td>
