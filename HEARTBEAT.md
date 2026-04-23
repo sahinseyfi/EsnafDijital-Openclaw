@@ -20,13 +20,13 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- `refresh-discovery` eslesme filtresini sikilastirip pilot berber kaydinda gelen yanlis `Pilot Garage` eslesmesini engellemek
+- sikilastirilan `refresh-discovery` match guard'ini `3012` runtime'ina deploy edip pilot berber kaydinda `Pilot Garage` yanlis pozitifinin artik donmedigini smoke test ile dogrulamak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
 - operasyonel kayitlar henuz tam veritabanina tasinmadi
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
-- manuel tarama metadata deploy edildi ve `3012` deep-mode smoke test gecti; fakat pilot berber kaydinda arama terimi `Pilot Garage` icin yanlis pozitif eslesme uretti, bu yuzden match quality guard gerekiyor
+- manuel tarama metadata deploy edildi ve `3012` deep-mode smoke test gecti; pilot berber kaydindaki `Pilot Garage` yanlis pozitifi icin workspace tarafinda match quality guard sikilastirildi, fakat `3012` runtime deploy + smoke test henuz alinmadi
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
