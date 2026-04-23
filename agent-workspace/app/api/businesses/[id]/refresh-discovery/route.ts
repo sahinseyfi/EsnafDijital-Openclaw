@@ -130,6 +130,7 @@ async function runApifyActor({ actorId, inputPath, rawPath, errorLabel }: { acto
 }
 
 function parseApifyRows(raw: string) {
+  if (!raw.trim()) return []
   const parsed = JSON.parse(raw) as unknown
   return Array.isArray(parsed) ? parsed as DiscoveryRow[] : []
 }
@@ -331,9 +332,9 @@ function buildGoogleSearchInput(searchTerms: string[]) {
 
 function buildYandexInput(searchTerm: string, locationQuery: string, includeReviews: boolean) {
   return {
-    query: searchTerm,
-    locations: [locationQuery],
-    language: 'turkish',
+    query: [searchTerm],
+    locations: locationQuery,
+    language: 'TR',
     maxItems: 8,
     maxReviews: includeReviews ? 50 : 0,
     maxPhotos: 0,
