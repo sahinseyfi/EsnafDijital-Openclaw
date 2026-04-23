@@ -74,10 +74,27 @@ export function BusinessScanPanel({
               <h3>Kaynakları seç ve tarat</h3>
             </div>
 
-            <div className="stack-xs">
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {apifySources.map((item) => (
-                <label key={item.key} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                  <input type="checkbox" checked={selectedSources.includes(item.key)} onChange={() => toggleSource(item.key)} />
+                <label
+                  key={item.key}
+                  style={{
+                    display: 'inline-flex',
+                    gap: 8,
+                    alignItems: 'center',
+                    padding: '8px 12px',
+                    border: '1px solid var(--line-soft)',
+                    borderRadius: 12,
+                    background: 'var(--surface)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedSources.includes(item.key)}
+                    onChange={() => toggleSource(item.key)}
+                    style={{ width: 16, height: 16, margin: 0 }}
+                  />
                   <span>{item.label}</span>
                 </label>
               ))}
