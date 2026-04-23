@@ -24,6 +24,8 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
   - Kucuk esnaf icin paketleme, fiyat capasi ve 3 kademeli teklif yapisi ozeti.
 - `esnafdigital-crm-yonu-derin-arastirma.md`
   - EsnafDigital'in yatay CRM'e savrulmadan dar operator paneli cizgisinde kalmasi gerektigini savunur.
+- `esnafdigital-teklif-omurgasi-sentez.md`
+  - Mevcut teklif yapisini derin arastirma ve operasyon cizgisiyle birlestirip netlestirir.
 
 ### Web vitrini ve dijital yuzey
 - `esnafdigital-ana-sayfa-derin-arastirma.md`
