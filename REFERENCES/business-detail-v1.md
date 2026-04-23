@@ -22,17 +22,19 @@ Bu sayfa su bes soruya 30-60 saniye icinde cevap vermelidir:
 - bugun hangi is hareket etmeli
 - kuyruk ve sicak asama gorunumu
 - hizli status ilerletme
+- coklu business arasinda operasyon onceligi secme
 
 ### Business Detail
 - bu isletme kim
-- hangi kayitlari var
-- dis veri ile kanonik veri ne kadar tutarli
+- kanonik veri ile dis sinyal ne kadar tutarli
 - son teklif ve teslimat resmi ne
-- bu kayit icin sonraki operator katmanlari nasil acilacak
+- bu tek kayit icin sonraki operator karari ne
+- bu kayit icin yan yuzeyler nasil acilacak
 
 Kisa kural:
 - `Project OS` = liste ve akis merkezi
-- `Business Detail` = tek kaydin kontrol paneli
+- `Business Detail` = tek isletme karar yuzeyi
+- `Business Detail`, `Project OS`'un ikinci kopyasi veya mini CRM'i olmaz
 
 ## Bu sayfa ne olmamali
 - tam CRM form duvari olmamali
@@ -49,14 +51,24 @@ Kisa kural:
 
 ---
 
-# 1. Veri katmanlari
+# 1. Veri kontrati cizgisi
 
-## 1.1 Kanonik operator verisi
+Business Detail V1'in veri mantigi uc ana katmana ayrilir:
+- `canonical` = operatorun dogru kabul ettigi ic veri
+- `external` = dis dunyadan gelen snapshot ve sinyal
+- `derived` = ekrana karar verdiren ozet, fark ve next-step ciktilari
+
+Bu uc katman birbirine karistirilmaz.
+
+## 1.1 Canonical katman
 ### Kaynak
 - `businesses`
+- `audits`
+- `offers`
+- `delivery_projects`
 - gerekirse daha sonra genisletilecek operator metadata alani
 
-### V1 alanlari
+### V1 canonical alanlari
 - `id`
 - `name`
 - `segment`
@@ -67,17 +79,19 @@ Kisa kural:
 - `updatedAt`
 
 ### Kural
-- ust profil karti bu katmandan okunur
+- ust profil karti ve ana business kimligi bu katmandan okunur
+- teklif ve teslimat gercegi de canonical operasyon kaydi olarak burada baglanir
 - dis kaynaktan gelen veriyle cakisma olursa son karar operatorundur
+- external veri canonical kaydi sessizce override etmez
 
-## 1.2 Dis veri snapshot'i
+## 1.2 External katman
 ### Kaynak
 - `state/apify-discovery/summary/candidates-summary.json`
 - `state/apify-discovery/snapshots/<placeId>.json`
 - business'e bagli refresh snapshot dosyalari
 - sonraki asamada DB tablosu veya metadata alani
 
-### V1 snapshot alanlari
+### V1 external snapshot alanlari
 - `placeId`
 - `mapsUrl`
 - `categoryName`
@@ -103,47 +117,44 @@ Kisa kural:
 - `Detayli isletme verilerini al` aksiyonunun son calisma zamani
 
 ### Kural
-- snapshot dis dunya resmi olarak okunur
-- operator isterse business kaydini buna bakarak duzeltir
-- snapshot sessizce business kaydini ezmez
+- external katman dis dunya resmi olarak okunur
+- operator isterse canonical kaydi buna bakarak duzeltir
+- external veri fark, uyari ve sinyal uretir; gercek kaydi tek basina degistirmez
 
-## 1.3 Audit snapshot katmani
-### Kaynak
-- discovery snapshot verisi
-- website kontrolu sonucu
-- Google Search / sonuc sayfasi sinyalleri
-- operatorun duzelttigi eksik listesi
-- audit kaydi veya audit metadata alani
+## 1.3 Derived katman
+### Kaynak mantigi
+Derived ciktilar canonical + external + kompakt hareket gecmisinden turetilir.
+Bu katman operatoru 30-60 saniyede karara goturmek icin vardir.
 
-### V1 ciktilari
+### V1 derived ciktilari
+- next step karti
 - kisa audit ozeti
 - 3 ila 7 maddelik eksik listesi
 - bilgi tutarliligi sinyali
 - yorum / puan ozeti
-- website durumu
+- website durumu ozeti
 - sosyal / randevu sinyali varsa ozet
 - uygun paket yonu
+- canonical/external fark satirlari
+- compact activity timeline
 
 ### Kural
-- puansiz da calisabilmeli
-- eksik listesi operator tarafindan duzenlenebilir olmali
+- derived katman source of truth degildir
 - paket yonu oneridir, secim operatorundur
+- uzun audit metni veya ham scrape dump'i derived katmana yigilmamalidir
 
-## 1.4 Activity timeline katmani
-### V1 kaynaklari
+## 1.4 Destek katmanlari
+### Activity timeline
+V1 timeline'i ayri truth katmani degil, compact derived/ref destek alanidir.
+
+#### V1 kaynaklari
 - `business.createdAt`
 - `audit.createdAt`, `audit.updatedAt`
 - `offer.createdAt`, `offer.updatedAt`
 - `deliveryProject.createdAt`, `deliveryProject.updatedAt`
+- dis veri yenileme eventi varsa onun kompakt kaydi
 
-### Sonraki kaynaklar
-- dis veri yenileme eventi
-- scrape / website tarama eventi
-- operator notu eventi
-- demo sayfasi acildi / kapandi eventi
-- domain baglama durumu degisti eventi
-
-### Event kontrati
+#### Event kontrati
 - `id`
 - `type`
 - `occurredAt`
@@ -152,15 +163,15 @@ Kisa kural:
 - `source`
 - `entityId` (opsiyonel)
 
-### Kural
+#### Kural
 - timeline yorum degil hareket gosterir
-- uzun audit metni timeline'i bogmaz
-- kayitlar compact kalir
+- compact kalir
+- karar destekler, ekrani bogmaz
 
-## 1.5 Operator notu katmani
+### Operator notu
 Bu katman V1 ekraninda tam editor olarak acilmaz, ama veri yeri korunur.
 
-### Onerilen alanlar
+#### Onerilen alanlar
 - `id`
 - `businessId`
 - `body`
@@ -168,9 +179,17 @@ Bu katman V1 ekraninda tam editor olarak acilmaz, ama veri yeri korunur.
 - `updatedAt`
 - `authorRole`
 
-### Kural
-- note business ana verisini sessizce degistirmez
+#### Kural
+- note canonical business verisini sessizce degistirmez
 - not eklendiginde timeline eventi uretilebilir
+- note ana ekranin merkezine gecmez
+
+## 1.5 Tek cumlelik veri kurali
+- `canonical` = operatorun dogru kabul ettigi ic gercek
+- `external` = dis snapshot ve sinyal
+- `derived` = karar verdiren ozet katmani
+
+Bu ucunun ayrimi bozulursa Business Detail hizli karar yuzeyi olmaktan cikar.
 
 ---
 
@@ -194,12 +213,12 @@ Bu katman V1 ekraninda tam editor olarak acilmaz, ama veri yeri korunur.
 ### Amac
 Tek bakista hangi kayitta olundugunu ve bu kaydin hangi operasyon asamasinda oldugunu anlatmak.
 
-## 2.2 Kisa ozet kartlari
-- audit kaydi sayisi
-- teklif kaydi sayisi
-- teslimat / bakim kaydi sayisi
+## 2.2 Kisa ozet satiri
+- canonical durum ozeti
+- external tazelik / uyumsuzluk ozeti
+- derived risk / next-step ozeti
 
-Amaç, kaydin operasyon yogunlugunu hizli gostermektir.
+Amac, tek isletmenin gercek kaydi, dis sinyali ve karar resmi arasindaki farki hizli gostermektir.
 
 ## 2.3 Next Step karti
 ### Gosterilecekler
@@ -212,6 +231,7 @@ Amaç, kaydin operasyon yogunlugunu hizli gostermektir.
 ### Kural
 - bu sayfanin en guclu karar karti budur
 - coklu aksiyon duvarina donmemeli
+- `Project OS` kuyrugunu tekrar etmez, sadece bu kayit icin ne yapilacagini soyler
 
 ## 2.4 Audit Snapshot karti
 ### Gosterilecekler

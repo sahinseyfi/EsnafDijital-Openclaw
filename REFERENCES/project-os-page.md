@@ -182,3 +182,9 @@ Ustte aksiyon ve oncelik gorunur, altta tam kayitlar kontrol edilir.
 Formlar vardir ama sayfayi ele gecirmez.
 Tablolar vardir ama ana odak olmaz.
 Sayfanin esas gorevi sudur: hangi business, hangi asamada, simdi ne hareket etmeli?
+
+## Business Detail ile sinir
+- `Project OS` = coklu business arasinda kuyruk ve sicak is onceligi
+- `Business Detail` = tek isletmede canonical / external / derived resmi okuyup karar verme
+- `Project OS`, tek isletme karar duvarina donmez
+- `Business Detail`, Project OS'un ikinci kuyruk ekrani olmaz
