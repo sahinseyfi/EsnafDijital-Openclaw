@@ -85,7 +85,6 @@ export default async function BusinessDetailPage({
   const queueItem = overview.queue.find((item) => item.businessId === business.id) || null
   const latestOffer = offers[0] || null
   const latestDelivery = deliveryProjects[0] || null
-  const latestAudit = audits[0] || null
   const discoverySnapshot = await getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district })
   const refreshHistory = await getBusinessRefreshHistory(business.id)
   const auditSnapshotReasons = discoverySnapshot?.scoring.reasons?.slice(0, 4) || []
@@ -194,21 +193,6 @@ export default async function BusinessDetailPage({
         </div>
       </section>
 
-      <section className="stats-grid">
-        <article className="card stat-card">
-          <strong>{audits.length}</strong>
-          <p className="muted">audit kaydı</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{offers.length}</strong>
-          <p className="muted">teklif kaydı</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{deliveryProjects.length}</strong>
-          <p className="muted">teslimat / bakım kaydı</p>
-        </article>
-      </section>
-
       <section>
         <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
           <div>
@@ -280,20 +264,14 @@ export default async function BusinessDetailPage({
       <section>
         <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
           <div>
-            <p className="eyebrow">Audit snapshot</p>
-            <h3>Dış dünya ve audit özetini tek bakışta oku</h3>
+            <p className="eyebrow">Dış veri özeti</p>
+            <h3>Dış sinyali tek bakışta oku</h3>
           </div>
 
-          <p className="muted">Bu kart dis dunya ve audit ozetini toplar. Manuel tarama aksiyonu alttaki Hazirlik / Tarama panelinde durur.</p>
+          <p className="muted">Bu kart dis kaynaklardan gelen son resmi toplar. Audit detayi ve operasyon gecmisi alttaki kayitlarda durur.</p>
 
           <div className="grid-2" style={{ alignItems: 'start' }}>
             <div className="stack-sm">
-              <div className="stack-xs">
-                <p><strong>Audit özeti:</strong> {latestAudit ? latestAudit.summary : 'Henüz yazılmış audit özeti yok.'}</p>
-                <p><strong>Hazırlık sinyali:</strong> {latestAudit ? latestAudit.channelReadiness : 'Belirsiz'}</p>
-                <p><strong>Audit durumu:</strong> {latestAudit ? auditStatusLabels[latestAudit.status] : 'Henüz audit açılmadı'}</p>
-              </div>
-
               {discoverySnapshot ? (
                 <div className="stack-xs">
                   <p><strong>Dış veri resmi:</strong> {discoverySnapshot.candidate.categoryName} · {discoverySnapshot.candidate.address}</p>
