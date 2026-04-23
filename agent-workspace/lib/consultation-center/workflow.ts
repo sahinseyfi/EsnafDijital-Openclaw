@@ -14,44 +14,33 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
 
   if (detail.route === 'internal') {
     return {
-      title: 'Önerilen çalışma modu: İç aksiyon / küçük patch',
+      title: 'Önerilen çalışma modu: Prompt gerekmiyor',
       items: [
-        'İşletmeler veya Bağlam Merkezi hedefli aksiyon aç',
-        'Gerekiyorsa teknik uygulama notunu sade bir karar cümlesine indir',
-        'Bu iş için dış danışma açma, aksiyon listesi üzerinden ilerle',
+        'Bu işi Prompt Üretimi dışında ilgili yüzeyde çöz',
+        'Gerekiyorsa teknik notu sadeleştirip doğrudan uygulama işine çevir',
+        'Prompt açmadan ilerle',
       ],
     }
   }
 
-  if (!detail.promptRun.sentAt && detail.route === 'external') {
+  if (!detail.promptRun.promptText.trim() && detail.route === 'external') {
     return {
-      title: 'Önerilen çalışma modu: Dış danışma + sonra aksiyon',
+      title: 'Önerilen çalışma modu: Promptu hazırla',
       items: [
-        'Prompt önizlemesini gözden geçir ve gerekirse kopyalayarak GPT Pro oturumuna taşı',
-        'Gelen cevabı kısa özet halinde sonuç kaydı formuna işle',
-        'Cevap geldikten sonra aksiyonları kullanıcı / teknik / ortak diye ayır',
+        'Prompt önizlemesini kontrol et',
+        'Eksik bağlam veya hedef varsa metni düzelt',
+        'Hazır olunca promptu kopyalayıp dış GPT oturumunda kullan',
       ],
     }
   }
 
-  const openActions = detail.actions.filter((action) => action.status === 'open')
-  if (detail.promptRun.responseSummary && openActions.length > 0) {
+  if (detail.promptRun.promptText.trim()) {
     return {
-      title: 'Önerilen çalışma modu: Cevabı işe çevir',
+      title: 'Prompt hazır',
       items: [
-        `${openActions.length} açık aksiyonu kapat veya sahipliğini netleştir`,
-        'Karar notu çıkacaksa Bağlam Merkezi hedefine yaz',
-        'Uygulama işi çıkacaksa işletme kaydına bağla',
-      ],
-    }
-  }
-
-  if (detail.stage === 'actioned') {
-    return {
-      title: 'Bu danışma tamamlandı',
-      items: [
-        'Karar ve aksiyonların hedef sistemlere yazıldığını doğrula',
-        'Gerekirse yeni bir danışma kaydı açarak devam konusunu ayır',
+        'Promptu kopyala',
+        'Dış GPT oturumunda kullan',
+        'Sonraki işi gerekiyorsa ilgili operasyon yüzeyinde takip et',
       ],
     }
   }
@@ -59,8 +48,8 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
   return {
     title: 'Sonraki adımı netleştir',
     items: [
-      'Özet, prompt ve aksiyon akışını tekrar gözden geçir',
-      'Bu kaydın hangi sistemde devam edeceğini kesinleştir',
+      'Özet ve hedefi tekrar gözden geçir',
+      'Bu kaydın prompta dönüp dönemeyeceğini kesinleştir',
     ],
   }
 }

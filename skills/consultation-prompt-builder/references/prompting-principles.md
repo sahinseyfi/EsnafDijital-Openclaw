@@ -70,7 +70,7 @@ Promptu hazir saymadan once sunlari kontrol et:
 
 ## Anti-patternler
 - genel strateji yazip uygulamaya inmemek
-- tum consultation tarihcesini basmak
+- tum prompt kaydi gecmisini basmak
 - tek promptta birden fazla is istemek
 - decomposition yapmadan genis notu dogrudan prompta cevirmek
 - cikti tipini acik tanimlamamak

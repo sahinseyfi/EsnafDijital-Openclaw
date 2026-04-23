@@ -4,7 +4,7 @@
 EsnafDigital'in iç sistemi MVP aşamasında üç çekirdek amaca göre kurulacak:
 1. proje yönetimi
 2. bağlam / doküman merkezi
-3. GPT Pro consultation hazırlığı
+3. GPT Pro prompt uretimi
 
 ## Gerekçe
 - İç operasyon görünürlüğü olmadan araç çoğalması dağınıklık üretir.

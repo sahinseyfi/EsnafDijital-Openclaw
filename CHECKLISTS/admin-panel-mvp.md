@@ -16,7 +16,7 @@
 ## Ic Operasyon Yuzeyi
 - [ ] project os ekrani
 - [ ] context center ekrani
-- [ ] consultation center ekrani
+- [ ] prompt uretimi ekrani
 
 ## Veri Temeli
 - [ ] postgres + prisma kurulumu

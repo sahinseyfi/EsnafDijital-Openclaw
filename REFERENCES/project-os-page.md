@@ -45,7 +45,7 @@ Kartlarda su sayilar gorunur:
 - teklif asamasindaki aktif is
 - teslimattaki aktif is
 - bakimdaki kayit
-- blocked consultation sinyali
+- blocked prompt sinyali
 
 Amac raporlama degil, bugun hangi tarafta yigilma oldugunu hemen fark ettirmektir.
 
@@ -141,7 +141,7 @@ Sayfa su ana veri setlerini kullanir:
 - `audits`
 - `offers`
 - `delivery_projects`
-- consultation center blocked sinyali
+- prompt uretimi blocked sinyali
 
 Bu veriler `getProjectOsDataset()` ve turetilmis overview mantigi ile okunur.
 

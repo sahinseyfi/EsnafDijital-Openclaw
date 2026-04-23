@@ -45,7 +45,7 @@ Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bi
 İç sistem üç ana çekirdeğe göre kurulur:
 1. proje yönetimi
 2. bağlam / doküman merkezi
-3. GPT Pro consultation hazırlığı / prompt üretimi
+3. GPT Pro prompt uretimi
 - Panel, dar bir operasyon masası değil, EsnafDigital için CRM-evrilebilir bir operasyon sistemi olarak kurulur.
 - Audit, teklif, teslimat ve bakım kayıtları bu yapının ilk güçlü iş tipleridir, sistem sınırı değildir.
 

@@ -46,7 +46,7 @@ Ham kaynak degil, uygulanabilir ozet tutulur.
 
 ## Prompt Üretimi icin anti-patternler
 - Genel strateji yazip repo gercegine inmemek
-- Tum consultation tarihcesini prompta basmak
+- Tum prompt kaydi gecmisini prompta basmak
 - Tek promptta birden fazla farkli is istemek
 - Cikti tipini acik tanimlamamak
 - Kucuk isletme / sade MVP / dusuk operasyon yuku cizgisini kaybetmek

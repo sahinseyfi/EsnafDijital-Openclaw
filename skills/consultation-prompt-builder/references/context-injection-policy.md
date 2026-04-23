@@ -105,12 +105,12 @@ Bu cizgiler tipik olarak su kaynaklardan gelir:
 
 ### 6) Prompt Üretimi prompt uretimi veya revizyonu
 - Ek baglam:
-  - consultation kaydi
+  - prompt kaydi
   - ilgili skill reference dosyalari
   - gerekiyorsa `README.md` veya `PROJECT.md`
   - runtime veya davranis gercegi gerekiyorsa uygun uygulama dosyalari
 - Ham oku:
-  - promptu belirleyen consultation kaydi ve ilgili skill referanslari
+  - promptu belirleyen prompt kaydi ve ilgili skill referanslari
   - sadece gerekiyorsa ek proje dosyalari
   - dis GPT oturumunda repo analizi zorunluysa ilgili repo dosyalari, linkler veya archive icerigi
 - Prompta tasima:
@@ -168,7 +168,7 @@ Onun yerine su sekilde isaretle:
 ## Prompt Üretimi icin ozel not
 - once ham notu parcala
 - sonra `primaryTask` icin cekirdek baglam ozeti kur
-- sonra consultation kaydinin ihtiyacina gore ikincil baglam sec
+- sonra prompt kaydinin ihtiyacina gore ikincil baglam sec
 - prompta sadece karari etkileyen baglam tasinmali
 - eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi ilgili repo icerigini incelemeye yonlendirmesi zorunlu varsay
 - bu da mumkun degilse final prompt bunu acik bosluk veya blokaj olarak yazdirsin

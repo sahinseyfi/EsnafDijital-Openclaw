@@ -1,9 +1,9 @@
 ---
 name: consultation-prompt-builder
-description: Build, revise, or audit EsnafDigital Prompt Üretimi prompts from a consultation record. Use when a raw consultation note, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'consultation promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
+description: Build, revise, or audit EsnafDigital Prompt Uretimi prompts from a prompt record. Use when a raw prompt request, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
 ---
 
-# Consultation Prompt Builder
+# Prompt Uretimi Prompt Builder
 
 Bu skill, EsnafDigital Prompt Üretimi icin prompt uretirken sade MVP cizgisini ve repo/runtime gercegini korur.
 
@@ -17,7 +17,7 @@ Bu skill, EsnafDigital Prompt Üretimi icin prompt uretirken sade MVP cizgisini 
    - Eger not tek prompta sikistirilmayacak kadar ayri iki is tasiyorsa `promptStrategy` alanini `split_recommended` yap, ama yine de otomatik iki prompt yazma. Yalnizca `primaryTask` icin tek `finalPromptText` uret.
    - Eger is bir dosya setini, skill'i veya baglam omurgasini degerlendirmekse varsayilan mod `once degerlendir, sonra sadece gerekeni degistir` olsun.
 
-2. Consultation kaydindan bu turdaki tek anlik hedefi kur.
+2. Prompt kaydindan bu turdaki tek anlik hedefi kur.
    - `decisionQuestion`, `whyNow` ve `desiredOutput` alanlari `primaryTask` etrafinda yazilsin.
    - `whyPrimaryNow` alaninda neden o isin once geldigi acikca yazilsin.
    - Prompt tek is istesin.

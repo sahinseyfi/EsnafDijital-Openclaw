@@ -16,7 +16,7 @@
 
 - **Karar: rewrite.**
 - Bunun birinci nedeni erişim problemi değil; repo gerçekliğiyle uyum ihtiyacı. Repo, Business Detail’i mevcut operasyon omurgası kurulduktan sonra açılacak kanonik yüzey olarak konumluyor. Eğer mevcut spec bunun üstüne ayrı bir mini-OS, CRM veya context duvarı kuruyorsa, yön sapmıştır. citeturn29view0turn30view0turn39view0
-- İkinci neden, sınırların zaten belgelenmiş olması. `Project OS` sıcak operasyon yüzeyi; `Context Center` kaynak ve referans seçimi; `Prompt Üretimi` karar hazırlama ve prompt rotası. Business Detail bunların yerine geçmemeli. citeturn29view3turn39view0
+- İkinci neden, sınırların zaten belgelenmiş olması. `Project OS` sıcak operasyon yüzeyi; `Context Center` kaynak ve referans seçimi; `Prompt Üretimi` ise yalnizca prompt hazirlama yuzeyi. Business Detail bunların yerine geçmemeli. citeturn29view3turn39view0
 - Üçüncü neden, repo seviyesinde tek-kanonik-yer disiplini var. README açıkça “aynı bilgi iki kanonik dosyada yaşamasın” ve “yeni dosya açmadan önce mevcut kanonik yeri kontrol et” diyor. Bu, Business Detail’in veri sahibi olmak yerine kanonik kaydı **okunur ve yönetilebilir** kılması gerektiği anlamına gelir. citeturn38view0turn38view1turn38view2
 - Dördüncü neden, mevcut küçük işletme MVP’sinin zaten yeterince dar olması. Audit scorecard, teklif paketleri ve ilk segment odağı Business Detail’i dar bir karar yüzeyi olarak tasarlamak için yeterli veri veriyor; buna rağmen daha geniş bir sayfa tasarlamak ürün savrulması olur. citeturn40view3turn32view0turn37view0
 - Beşinci neden, implementasyon gerçekçiligi. Ayrı bir admin Next.js uygulaması, systemd servisi, db-or-mock katmanı ve Prisma omurgası zaten yayında. Bu zeminde en gerçekçi hamle, yeni soyut sistemler değil, mevcut kayıtları tek işletme seviyesinde hızlı karar ekranına dönüştürmektir. citeturn30view2turn30view1
@@ -40,7 +40,7 @@ _Birincil spec dosyasını görmediğim için aşağıdakiler “belgede kesin v
 
 - **Tekrarlar**
   - Business Detail içinde tekrar bir aşama boru hattı, queue özeti veya çoklu işletme işi görünümü açmak hatalı olur; bunlar zaten `Project OS`’ın işi. Aynı operasyon bilgisini iki yüzde yaşatmak, repo’nun kanonik-yer disiplinine ters düşer. citeturn29view3turn38view0
-  - Context kaynak matrisi, consultation brief yapısı veya prompt rotası ana sayfaya taşınırsa sayfa karar yüzeyi olmaktan çıkar ve yan yüzeyleri kopyalamaya başlar. Repo bu yüzeyleri zaten ayrı amaçlarla tanımlamış durumda. citeturn29view3turn39view0
+  - Context kaynak matrisi, prompt brief yapısı veya prompt rotası ana sayfaya taşınırsa sayfa karar yüzeyi olmaktan çıkar ve yan yüzeyleri kopyalamaya başlar. Repo bu yüzeyleri zaten ayrı amaçlarla tanımlamış durumda. citeturn29view3turn39view0
 - **Fazla erken acilan kisimlar**
   - Bakım/canlılık katmanını V1 Business Detail’in merkezine almak erken. Roadmap bunu 60–90 gün katmanı olarak görüyor; ilk önce audit/teklif/teslimat görünürlüğü isteniyor. citeturn30view0
   - Deep scrape’i varsayılan davranış yapmak da erken olur. Verdiğin ürün ilkeleri zaten light scrape default, deep scrape opt-in diyor; repo tarafında da MVP dışı listesi ağır AI/RAG tarzı genişlemelere kapıyı kapatıyor. citeturn40view0
@@ -253,7 +253,7 @@ _Aşağıdaki metin, mevcut doküman yerine geçecek şekilde sıfırdan yazılm
 
 Business Detail, tek bir işletme için kanonik kontrol yüzeyidir. Bu yüzeyin amacı, operatörün 30–60 saniye içinde işletmenin mevcut durumunu anlaması ve bir sonraki en mantıklı aksiyonu seçmesidir.
 
-Business Detail bir CRM duvarı değildir. Project OS’un queue ve sıcak operasyon işini devralmaz. Context Center’ın kaynak matrisi veya Prompt Üretimi’ın karar hazırlama akışını da içine çekmez. Bu yüzeyin işi, tek işletmede doğru bilgi hiyerarşisi kurmak ve aksiyon seçimini hızlandırmaktır. Repo düzeyindeki ürün çizgisi zaten genel CRM’i MVP dışı saymakta, sıcak operasyonu önce Project OS içinde tutmakta ve Business Detail’i bunun üstüne gelen kanonik tek-işletme yüzeyi olarak konumlamaktadır. citeturn40view0turn29view0turn30view0turn39view0
+Business Detail bir CRM duvarı değildir. Project OS’un queue ve sıcak operasyon işini devralmaz. Context Center’ın kaynak matrisi veya Prompt Üretimi’nin prompt hazirlama akislarini da içine çekmez. Bu yüzeyin işi, tek işletmede doğru bilgi hiyerarşisi kurmak ve aksiyon seçimini hızlandırmaktır. Repo düzeyindeki ürün çizgisi zaten genel CRM’i MVP dışı saymakta, sıcak operasyonu önce Project OS içinde tutmakta ve Business Detail’i bunun üstüne gelen kanonik tek-işletme yüzeyi olarak konumlamaktadır. citeturn40view0turn29view0turn30view0turn39view0
 
 **Amac**
 
@@ -267,7 +267,7 @@ Bu sayfa şu dört soruyu hızlıca cevaplamalıdır:
 Bu sayfa şu soruları ana yüzde çözmeye çalışmamalıdır:
 
 - Tüm işletmeler arasında bugün en sıcak iş hangisi?
-- Hangi consultation kaydı nasıl hazırlanacak?
+- Hangi prompt kaydi nasıl hazırlanacak?
 - Hangi dosya veya referans seti seçilmeli?
 - Teslimat operasyonunun tam detay planı nedir?
 - Bu işletme ile ilgili bütün geçmiş notlar nelerdir?
@@ -464,7 +464,7 @@ V1’de aşağıdakiler yoktur:
 
 - genel CRM activity duvarı
 - tam not ve belge arşivi
-- consultation prompt ve cevap akışının sayfa içine gömülmesi
+- prompt ve cevap akışının sayfa içine gömülmesi
 - context kaynak matrisi
 - deep scrape default akışı
 - bakım/canlılık operasyonlarını yöneten tam modül
@@ -488,7 +488,7 @@ Bu V1, yeni evren kurmaz; mevcut omurganın üstüne inşa edilir.
 - sonra light external snapshot ve mismatch badge’lerini ekle,
 - en son compact activity strip’i bağla.
 
-Deep scrape, bakım modülü veya consultation gömülmesi bu sıraya girmez. Repo heartbeat’i zaten mevcut CRUD ve db-or-mock katmanlarının açıldığını; roadmap ise asıl yakın hedefin audit/teklif/teslimat görünürlüğü olduğunu gösteriyor. citeturn30view1turn30view0turn39view0
+Deep scrape, bakım modülü veya prompt gömülmesi bu sıraya girmez. Repo heartbeat’i zaten mevcut CRUD ve db-or-mock katmanlarının açıldığını; roadmap ise asıl yakın hedefin audit/teklif/teslimat görünürlüğü olduğunu gösteriyor. citeturn30view1turn30view0turn39view0
 
 **Kabul kriterleri**
 
@@ -513,7 +513,7 @@ V1 tamamlandı sayılır, eğer:
 - **4. daha dusuk CRM-style scope drift riski**
   - Bu versiyon not duvarı, activity wall, document heap, generic contact/task yapıları açmıyor. Bu, repo’nun hem “genel CRM MVP dışı” çizgisine hem de “CRM’e kayma” risk notuna doğrudan cevap veriyor. citeturn40view0turn39view0
 - **5. daha temiz V1 siniri**
-  - Bakım/canlılık, deep scrape, consultation gömülmesi ve ayrı liste yüzeyleri net biçimde dışarı alındı. Roadmap’in 30–60 gün ve 60–90 gün ayrımıyla daha uyumlu. citeturn30view0
+  - Bakım/canlılık, deep scrape, prompt gömülmesi ve ayrı liste yüzeyleri net biçimde dışarı alındı. Roadmap’in 30–60 gün ve 60–90 gün ayrımıyla daha uyumlu. citeturn30view0
 - **6. daha gercekci implementasyon sirasi**
   - Yeni versiyon mevcut `businesses`, `audits`, `offers`, `delivery_projects` omurgasını ve db-or-mock yaklaşımını reuse ediyor. Yeni soyut sistem icat etmiyor; bugünkü implementasyon gerçekliğine dayanıyor. citeturn30view1turn30view2
 - **7. daha dusuk operasyon yuku**
