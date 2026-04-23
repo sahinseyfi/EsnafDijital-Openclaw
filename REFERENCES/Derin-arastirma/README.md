@@ -4,6 +4,7 @@ Bu klasor, EsnafDigital icin hazirlanmis derin arastirma raporlarini konu bazli 
 Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir.
 
 ## Hizli okuma rotasi
+- tum klasoru tek yerde karar verilebilir okumak icin: `esnafdigital-derin-arastirma-toplu-sentez.md`
 - teklif ve urun omurgasi icin once: `esnafdigital-ilk-hedef-sektorler-derin-saha-arastirmasi.md`
 - web vitrini ve landing kurgusu icin: `esnafdigital-ana-sayfa-derin-arastirma.md`
 - tek sayfa site urunu icin: `esnafdigital-tek-sayfa-yerel-isletme-sitesi-arastirmasi.md`
@@ -14,13 +15,15 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
 ## Dosya indexi
 
 ### Pazar, teklif ve urun omurgasi
+- `esnafdigital-derin-arastirma-toplu-sentez.md`
+  - Tum derin arastirma dosyalarini tek yerde sentezler ve projeye alinacak cekirdek kararlari ayiklar.
 - `esnafdigital-ilk-hedef-sektorler-derin-saha-arastirmasi.md`
   - Ilk hedef sektorleri, siralama mantigini ve genisleme havuzunu analiz eder.
 - `esnafdigital-ilk-hedef-sektorler-dogrulanmis-kaynaklar.md`
   - Ilk hedef sektorler arastirmasindaki satista kullanilabilecek dogrulanmis kaynaklari ve ayiklanmasi gereken sayilari toplar.
 - `esnafdigital-ilk-hedef-sektorler-sentez.md`
   - Ham arastirma ile dogrulama notunu birlestirip projeye alinacak gercek degeri ayiklar.
-- `esnafdigital-paketleme-ve-fiyatlandirma-ozeti.docx`
+- `esnafdigital-paketleme-ve-fiyatlandirma-ozeti.md`
   - Kucuk esnaf icin paketleme, fiyat capasi ve 3 kademeli teklif yapisi ozeti.
 - `esnafdigital-crm-yonu-derin-arastirma.md`
   - EsnafDigital'in yatay CRM'e savrulmadan dar operator paneli cizgisinde kalmasi gerektigini savunur.
