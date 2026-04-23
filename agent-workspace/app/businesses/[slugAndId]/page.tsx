@@ -84,42 +84,42 @@ export default async function BusinessDetailPage({
 
           <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
             <div style={{ display: 'grid', gap: 14 }}>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">İşletme adı</p>
                 <p>{business.name}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Adres</p>
                 <p>{address}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Telefon</p>
                 <p>{phone}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">İşletme türü</p>
                 <p>{businessType}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">İşletme sahibi / muhatap</p>
                 <p>{business.ownerName}</p>
               </div>
             </div>
 
             <div style={{ display: 'grid', gap: 14 }}>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Google Maps linki</p>
                 <p>{renderLink(mapsUrl)}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Website</p>
                 <p>{renderLink(websiteUrl)}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Instagram</p>
                 <p>{instagramUrl ? renderLink(instagramUrl, 'Yok') : 'Yok'}</p>
               </div>
-              <div className="stack-xs">
+              <div className="detail-field">
                 <p className="eyebrow">Ek not / kısa iç not</p>
                 <p className="muted">{note}</p>
               </div>

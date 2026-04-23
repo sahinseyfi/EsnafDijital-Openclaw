@@ -455,6 +455,16 @@ a.button-secondary[aria-disabled='true'] {
   min-width: 0;
 }
 
+.detail-field {
+  display: grid;
+  gap: 4px;
+}
+
+.detail-field .eyebrow,
+.detail-field p {
+  margin: 0;
+}
+
 .consultation-inbox-main {
   display: flex;
   justify-content: space-between;
