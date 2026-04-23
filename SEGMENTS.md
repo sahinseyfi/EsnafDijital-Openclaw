@@ -1,46 +1,120 @@
 # SEGMENTS.md
 
-## Öncelik Sırası
+Bu dosya, EsnafDigital'in cekirdek hedef segmentlerini operasyon acisindan sade ve uygulanabilir sekilde tanimlar.
+
+## Cekirdek segmentler
+Kanonik ilk segment seti su an degismiyor:
 1. berber
-2. güzellik salonu
+2. guzellik salonu
 3. kafe / restoran
 
-## Berber
-### Tipik ihtiyaç
+Ancak operasyon yorumu V2 itibariyla daha net:
+- **guzellik salonu** en guclu teklif uyumunu verir
+- **berber** hizli satis ve hizli teslim icin gucludur
+- **kafe / restoran** firsatlidir ama bakim ve guncelleme yuku daha yuksektir
+
+## Segment secim mantigi
+Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
+- audit acigi kolay gorunuyor mu
+- teklif sade anlatilabiliyor mu
+- teslimat standartlastirilabiliyor mu
+- bakim yuku ilk faz icin tasinabilir mi
+
+## 1) Berber
+### Neden cekirdek segment
+- kolay bulunurluk problemi net gorunur
+- audit acigi hizli gosterilir
+- teslimat dusuk karmasayla kurulabilir
+- QR yorum akisi dogal sekilde calisir
+
+### Tipik ihtiyac
 - kolay bulunurluk
-- güven veren ilk izlenim
-- adres / telefon / çalışma saati netliği
-- yorum görünürlüğü
+- guven veren ilk izlenim
+- adres / telefon / calisma saati netligi
+- yorum gorunurlugu
+- hizli arama / yol tarifi
 
-### Audit'te özellikle bak
-- Maps kaydı kalitesi
-- öncesi/sonrası görseller yerine mekan ve hizmet güveni
-- hızlı arama / yol tarifi aksiyonu
+### Audit'te ozellikle bak
+- Maps kaydi kalitesi
+- kategori ve temel bilgi dogrulugu
+- telefon / saat / konum tutarliligi
+- mekan ve hizmet guveni veren fotograf eksigi
+- yorum gorunurlugu ve cevap sinyali
 
-## Güzellik Salonu
-### Tipik ihtiyaç
-- güven ve hijyen algısı
-- hizmet çeşitliliğini sade anlatım
-- görsel düzen
-- yorum ve değerlendirme görünürlüğü
+### Teklifte one cikar
+- sizi bulmalari kolaylasir
+- ilk bakista daha guven veren dijital vitrin olusur
+- yorum isteme akisiyla guven daha hizli birikir
 
-### Audit'te özellikle bak
-- görsel kalite
-- hizmet başlıklarının netliği
-- iletişim ve randevu aksiyonu
+## 2) Guzellik salonu
+### Neden cekirdek segment
+- EsnafDigital teklifine en dogal oturan erken segmentlerden biridir
+- gorsel kalite, yorum, guven ve hizmet anlatimi ayni anda deger uretir
+- once/sonra etkisi ve vitrin gucu daha gorunurdur
 
-## Kafe / Restoran
-### Tipik ihtiyaç
-- konum ve açık/kapalı durumu
-- menü / ürün hissi
-- mekan güveni
-- hızlı karar verdirecek temel bilgi
+### Tipik ihtiyac
+- guven ve hijyen algisi
+- hizmet cesitliligini sade anlatim
+- gorsel duzen
+- yorum ve degerlendirme gorunurlugu
+- iletisim ve randevu aksiyonu
 
-### Audit'te özellikle bak
-- harita doğruluğu
-- fotoğraf kalitesi
-- temel menü / ürün gösterimi
-- iletişim / yol tarifi / çalışma saatleri
+### Audit'te ozellikle bak
+- gorsel kalite
+- hizmet basliklarinin netligi
+- telefon / WhatsApp / randevu aksiyonu
+- yorum kalitesi ve guven sinyali
+- konum, saat ve profil butunlugu
+
+### Teklifte one cikar
+- hizmetleri daha guven veren sekilde gosterme
+- gorsel ve yorum gucuyle karar vermeyi kolaylastirma
+- tek sayfa vitrin + profil duzeni + yorum akisini birlikte kurma
+
+## 3) Kafe / Restoran
+### Neden cekirdek segmentte kalir
+- gorunur dijital deger potansiyeli yuksektir
+- menu, fotograf, yorum, konum, siparis ve rezervasyon etkisi vardir
+- satis hikayesi gucludur
+
+### Neden dikkatli ele alinir
+- menü, saat, kampanya, fotograf ve yorum tarafinda guncelleme ihtiyaci daha yuksektir
+- bu segment berber veya guzellik kadar dusuk bakimli degildir
+
+### Tipik ihtiyac
+- konum ve acik/kapali durumu
+- menu / urun hissi
+- mekan guveni
+- hizli karar verdirecek temel bilgi
+- yorum, siparis ve rezervasyon etkisi
+
+### Audit'te ozellikle bak
+- harita dogrulugu
+- fotograf kalitesi
+- temel menu / urun gosterimi
+- iletisim / yol tarifi / calisma saatleri
+- siparis veya rezervasyon akisinda kirik nokta olup olmadigi
+
+### Teklifte one cikar
+- sadece bulunurluk degil, secilmeyi kolaylastiran dijital vitrin
+- menu ve fotografla karar verme hizini artirma
+- yorum, siparis ve rezervasyon akislarini daha temiz hale getirme
+
+## Ikinci dalga test adaylari
+Bunlar kanonik ilk 3 degildir, ama sonraki saha testleri icin kenarda tutulur:
+- oto servis / detailing
+- telefon / bilgisayar tamiri
+
+Bu adaylar ancak su durumda yukariya cekilir:
+- cekirdek 3 segmentte tekrar edilebilir vaka uretilirse
+- teklif omurgasi ve bakim yuku net tasinabilir hale gelirse
+- sahada gercek satis sinyali gelirse
+
+## Kirmizi cizgi
+- ilk fazda herkese ayni anda hitap eden yatay sektor listesi acma
+- kanonik 3 segment netlesmeden yeni ana segment ekleme
+- dogrulanmamis sayilarla satis anlatisi kurma
 
 ## Not
-İlk mimari ve audit mantığı önce bu üç segmente göre optimize edilecek. Genişleme daha sonra yapılacak.
+Ilk mimari, audit mantigi ve teklif dili once bu uc cekirdek segmente gore optimize edilir.
+Genisleme ancak ikinci dalga test karariyla yapilir.
