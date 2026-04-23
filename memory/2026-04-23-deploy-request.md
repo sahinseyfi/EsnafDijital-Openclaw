@@ -60,3 +60,8 @@ user: System (untrusted): [2026-04-23 22:18:46 UTC] Exec completed (neat-gul, co
 An async command you ran earlier has completed. The result is shown in the system messages above. Handle the result internally. Do not relay it to the user unless explicitly requested.
 Current time: Thursday, April 23rd, 2026 - 10:19 PM (UTC) / 2026-04-23 22:19 UTC
 assistant: NO_REPLY
+
+## Sonuc notu
+- `Kaldır admin sayfa geri dönüş linkini` commitinden sonra deploy alinmadigi fark edildi ve kural netlestirildi.
+- Gecici cizgi: site gelistirme asamasinda admin/site tarafinda atilan her committen hemen sonra deploy + canli saglik kontrolu zorunlu.
+- Bu kural aktif baglam icin `HEARTBEAT.md` icine tasindi; faz bitince kaldirilacak.

@@ -28,6 +28,10 @@ Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni
 - Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Consultation Center DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
+## Gecici Operasyon Kurali
+- Site gelistirme asamasinda admin/site tarafinda atilan her committen hemen sonra deploy alinacak ve canli saglik kontrolu yapilacak.
+- Bu cizgi site gelistirme asamasindan cikinca kaldirilacak.
+
 ## Dikkat Edilecek Riskler
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
 - teklif netlesmeden ekran cogaltmak
