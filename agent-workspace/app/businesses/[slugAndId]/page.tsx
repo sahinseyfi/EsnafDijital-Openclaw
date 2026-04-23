@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
+import { BusinessInstagramProfileButton } from '@/components/businesses/BusinessInstagramProfileButton'
 import { BusinessYzReportButton } from '@/components/businesses/BusinessYzReportButton'
 import { getBusinessAgentScanHistory, getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
+import { getLatestBusinessInstagramProfile } from '@/lib/businesses/instagram-profile'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
@@ -70,12 +72,13 @@ export default async function BusinessDetailPage({
     permanentRedirect(canonicalHref)
   }
 
-  const [discoverySnapshot, latestAgentScan, agentScanHistory, apifyRefreshHistory, latestYzReport] = await Promise.all([
+  const [discoverySnapshot, latestAgentScan, agentScanHistory, apifyRefreshHistory, latestYzReport, latestInstagramProfile] = await Promise.all([
     getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district }),
     getLatestBusinessAgentScan(business.id),
     getBusinessAgentScanHistory(business.id),
     getBusinessRefreshHistory(business.id),
     getLatestBusinessYzReport(business.id),
+    getLatestBusinessInstagramProfile(business.id),
   ])
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
   const latestOffer = dataset.offers.find((item) => item.businessId === business.id) || null
@@ -217,8 +220,51 @@ export default async function BusinessDetailPage({
                 <p>{renderLink(websiteUrl)}</p>
               </div>
               <div className="detail-field">
-                <p className="eyebrow">Instagram</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                  <p className="eyebrow">Instagram</p>
+                  {instagramUrl ? <BusinessInstagramProfileButton businessId={business.id} /> : null}
+                </div>
                 <p>{instagramUrl ? renderLink(instagramUrl, 'Yok') : 'Yok'}</p>
+                {latestInstagramProfile ? (
+                  <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
+                    <div className="detail-field">
+                      <p className="eyebrow">Son Instagram ozeti</p>
+                      <p>{latestInstagramProfile.fullName || latestInstagramProfile.username || 'Profil'}</p>
+                    </div>
+                    <div className="detail-field">
+                      <p className="eyebrow">Takipci / gonderi</p>
+                      <p>{typeof latestInstagramProfile.followersCount === 'number' ? latestInstagramProfile.followersCount.toLocaleString('tr-TR') : '—'} takipci · {typeof latestInstagramProfile.postsCount === 'number' ? latestInstagramProfile.postsCount.toLocaleString('tr-TR') : '—'} gonderi</p>
+                    </div>
+                    <div className="detail-field">
+                      <p className="eyebrow">Hesap tipi</p>
+                      <p>{latestInstagramProfile.isBusinessAccount ? 'Business account' : 'Standart hesap'} · {latestInstagramProfile.isVerified ? 'Verified' : 'Verified degil'} · {latestInstagramProfile.isPrivate ? 'Private' : 'Public'}</p>
+                    </div>
+                    {latestInstagramProfile.businessCategory ? (
+                      <div className="detail-field">
+                        <p className="eyebrow">Kategori</p>
+                        <p>{latestInstagramProfile.businessCategory}</p>
+                      </div>
+                    ) : null}
+                    {latestInstagramProfile.websiteUrl ? (
+                      <div className="detail-field">
+                        <p className="eyebrow">Profil linki / website</p>
+                        <p>{renderLink(latestInstagramProfile.websiteUrl, 'Yok')}</p>
+                      </div>
+                    ) : null}
+                    {latestInstagramProfile.biography ? (
+                      <div className="detail-field">
+                        <p className="eyebrow">Bio</p>
+                        <p>{latestInstagramProfile.biography}</p>
+                      </div>
+                    ) : null}
+                    <div className="detail-field">
+                      <p className="eyebrow">Son cekim</p>
+                      <p>{formatDateTime(latestInstagramProfile.createdAt)}</p>
+                    </div>
+                  </div>
+                ) : instagramUrl ? (
+                  <p className="muted">Bilinen profil var. Istersen `Tara` ile vitrin sinyalini cekebilirsin.</p>
+                ) : null}
               </div>
               <div className="detail-field">
                 <p className="eyebrow">Ek not / kısa iç not</p>
