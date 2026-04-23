@@ -1,6 +1,16 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
+export type DiscoverySourceRun = {
+  source: string
+  actorId?: string
+  status: 'success' | 'error'
+  rawCount?: number
+  inputPath?: string
+  rawPath?: string
+  error?: string
+}
+
 export type DiscoverySummaryEntry = {
   source: {
     collectedAt: string
@@ -14,6 +24,7 @@ export type DiscoverySummaryEntry = {
       details?: boolean
       reviews?: boolean
     }
+    sourceRuns?: DiscoverySourceRun[]
     instagramSignal?: {
       searched?: boolean
       query?: string
@@ -76,6 +87,7 @@ type RefreshEntryOptions = {
     details?: boolean
     reviews?: boolean
   }
+  sourceRuns?: DiscoverySourceRun[]
   instagramSignal?: {
     searched?: boolean
     query?: string
@@ -154,26 +166,51 @@ function businessKey(row: DiscoveryRawRow) {
   return `${normalizeDiscoveryText(String(row.title || ''))}::${normalizeDiscoveryText(String(row.address || ''))}`
 }
 
+function isOwnedWebsiteUrl(value: string) {
+  try {
+    const url = new URL(value)
+    const hostname = url.hostname.replace(/^www\./, '').toLowerCase()
+    const blockedHosts = [
+      'instagram.com',
+      'facebook.com',
+      'm.facebook.com',
+      'maps.apple.com',
+      'google.com',
+      'yandex.com',
+      'yandex.ru',
+      'tiktok.com',
+      'youtube.com',
+      'wa.me',
+      'linktr.ee',
+    ]
+
+    return !blockedHosts.some((host) => hostname === host || hostname.endsWith(`.${host}`))
+  } catch {
+    return false
+  }
+}
+
 function extractWebsite(row: DiscoveryRawRow) {
   for (const key of ['website', 'websiteUrl']) {
     const value = row[key]
-    if (typeof value === 'string' && value.trim()) {
+    if (typeof value === 'string' && value.trim() && isOwnedWebsiteUrl(value.trim())) {
       return { websiteUrl: value.trim(), hasWebsite: true }
     }
   }
 
   const webResults = row.webResults
   if (Array.isArray(webResults) && webResults.length > 0) {
-    const first = webResults[0]
-    if (typeof first === 'string' && first.trim()) {
-      return { websiteUrl: first.trim(), hasWebsite: true }
-    }
+    for (const item of webResults) {
+      if (typeof item === 'string' && item.trim() && isOwnedWebsiteUrl(item.trim())) {
+        return { websiteUrl: item.trim(), hasWebsite: true }
+      }
 
-    if (first && typeof first === 'object') {
-      for (const key of ['url', 'link']) {
-        const value = (first as Record<string, unknown>)[key]
-        if (typeof value === 'string' && value.trim()) {
-          return { websiteUrl: value.trim(), hasWebsite: true }
+      if (item && typeof item === 'object') {
+        for (const key of ['url', 'link']) {
+          const value = (item as Record<string, unknown>)[key]
+          if (typeof value === 'string' && value.trim() && isOwnedWebsiteUrl(value.trim())) {
+            return { websiteUrl: value.trim(), hasWebsite: true }
+          }
         }
       }
     }
@@ -344,7 +381,7 @@ export async function getBusinessDiscoverySnapshot(business: BusinessLookup) {
   return summary.find((record) => matchesBusiness(record, business)) || null
 }
 
-export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources, googleMapsOptions, instagramSignal }: RefreshEntryOptions): DiscoverySummaryEntry | null {
+export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources, googleMapsOptions, sourceRuns, instagramSignal }: RefreshEntryOptions): DiscoverySummaryEntry | null {
   if (rows.length === 0) return null
 
   const rankedRows = rows
@@ -386,6 +423,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
       refreshMode: refreshMode || 'manual-single-business',
       selectedSources: selectedSources || [],
       googleMapsOptions: googleMapsOptions || { details: false, reviews: false },
+      sourceRuns: sourceRuns || [],
       instagramSignal,
     },
     candidate: {
