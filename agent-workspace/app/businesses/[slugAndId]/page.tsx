@@ -81,9 +81,6 @@ export default async function BusinessDetailPage({
     getLatestBusinessInstagramProfile(business.id),
   ])
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
-  const latestOffer = dataset.offers.find((item) => item.businessId === business.id) || null
-  const latestDelivery = dataset.deliveryProjects.find((item) => item.businessId === business.id) || null
-  const latestRefresh = apifyRefreshHistory[apifyRefreshHistory.length - 1] || null
 
   const rawWebsiteUrl = discoverySnapshot?.candidate.websiteUrl?.trim() || ''
   const rawInstagramUrl = discoverySnapshot?.candidate.instagramUrl?.trim() || ''
@@ -94,9 +91,6 @@ export default async function BusinessDetailPage({
   const phone = discoverySnapshot?.candidate.phone?.trim() || 'Görünmüyor'
   const businessType = discoverySnapshot?.candidate.categoryName?.trim() || segmentLabels[business.segment]
   const note = latestAudit?.summary?.trim() || 'Henüz ek not yok.'
-  const derivedStatus = latestYzReport?.status || latestAgentScan?.status || 'Henüz türetilmiş karar yok'
-  const derivedSummary = latestYzReport?.summary || latestAgentScan?.summary || note
-  const derivedNextAction = latestYzReport?.nextAction || latestAgentScan?.nextStep || 'Önce hafif tarama ve audit özeti netleşmeli.'
 
   return (
     <AdminShell
@@ -113,77 +107,6 @@ export default async function BusinessDetailPage({
             <div className="page-header-actions">
               <Link href={`/project-os?businessId=${business.id}#records`} className="button-secondary">İş Takibinde aç</Link>
             </div>
-          </div>
-
-          <div className="grid-3" style={{ alignItems: 'start', gap: 16 }}>
-            <article className="card stack-xs" style={{ padding: 16, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
-              <div>
-                <p className="eyebrow">Canonical</p>
-                <h3>Kayıt gerçeği</h3>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Durum</p>
-                <p>{business.status}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Segment / ilçe</p>
-                <p>{segmentLabels[business.segment]} · {business.district}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Son teklif</p>
-                <p>{latestOffer ? `${latestOffer.packageName} · ₺${latestOffer.amountTry.toLocaleString('tr-TR')}` : 'Henüz teklif yok'}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Son teslimat</p>
-                <p>{latestDelivery ? latestDelivery.status : 'Henüz teslimat yok'}</p>
-              </div>
-            </article>
-
-            <article className="card stack-xs" style={{ padding: 16, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
-              <div>
-                <p className="eyebrow">External</p>
-                <h3>Dış sinyal</h3>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Son tarama</p>
-                <p>{latestRefresh ? formatDateTime(latestRefresh.source.collectedAt) : 'Henüz tarama yok'}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Görünürlük notu</p>
-                <p>{discoverySnapshot?.source.searchCoverageNote || 'Henüz dış sinyal yok'}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Website / yorum</p>
-                <p>{websiteUrl ? 'Website var' : 'Website yok'} · {typeof discoverySnapshot?.candidate.rating === 'number' ? `${discoverySnapshot.candidate.rating} / ${discoverySnapshot.candidate.reviewsCount} yorum` : 'Yorum verisi sınırlı'}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Telefon / Instagram</p>
-                <p>{phone !== 'Görünmüyor' ? 'Telefon var' : 'Telefon yok'} · {instagramUrl ? 'Instagram var' : 'Instagram yok'}</p>
-              </div>
-            </article>
-
-            <article className="card stack-xs" style={{ padding: 16, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
-              <div>
-                <p className="eyebrow">Derived</p>
-                <h3>Karar özeti</h3>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Durum</p>
-                <p>{derivedStatus}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Kısa özet</p>
-                <p>{derivedSummary}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Sonraki adım</p>
-                <p>{derivedNextAction}</p>
-              </div>
-              <div className="detail-field">
-                <p className="eyebrow">Audit özeti</p>
-                <p>{note}</p>
-              </div>
-            </article>
           </div>
 
           <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
