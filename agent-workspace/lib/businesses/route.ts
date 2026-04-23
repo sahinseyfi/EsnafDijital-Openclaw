@@ -65,6 +65,20 @@ export function buildBusinessDetailHref({
   return `/businesses/${buildBusinessSlug({ name, segment, postalCode })}--${id}`
 }
 
+export function buildBusinessScanDetailHref({
+  id,
+  name,
+  segment,
+  postalCode,
+}: {
+  id: string
+  name: string
+  segment?: BusinessRecord['segment']
+  postalCode?: string | null
+}) {
+  return `${buildBusinessDetailHref({ id, name, segment, postalCode })}/tarama`
+}
+
 export function parseBusinessSlugAndId(slugAndId: string) {
   const value = slugAndId.trim()
   const separatorIndex = value.lastIndexOf('--')

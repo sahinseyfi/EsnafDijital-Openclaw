@@ -8,7 +8,7 @@ import { getBusinessAgentScanHistory, getLatestBusinessAgentScan } from '@/lib/b
 import { getLatestBusinessInstagramProfile } from '@/lib/businesses/instagram-profile'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
-import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
+import { buildBusinessDetailHref, buildBusinessScanDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 import { getLatestBusinessYzReport } from '@/lib/businesses/yz-report'
 
@@ -67,6 +67,7 @@ export default async function BusinessDetailPage({
   }
 
   const canonicalHref = buildBusinessDetailHref(business)
+  const scanDetailHref = buildBusinessScanDetailHref(business)
 
   if (canonicalHref !== `/businesses/${decodeURIComponent(slugAndId)}`) {
     permanentRedirect(canonicalHref)
@@ -252,6 +253,7 @@ export default async function BusinessDetailPage({
 
       <BusinessScanPanel
         businessId={business.id}
+        scanDetailHref={scanDetailHref}
         currentSnapshot={discoverySnapshot}
         latestAgentScan={latestAgentScan}
         agentScanHistory={agentScanHistory}

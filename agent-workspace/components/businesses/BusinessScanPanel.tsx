@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { BusinessAgentScanButton } from '@/components/businesses/BusinessAgentScanButton'
@@ -82,12 +83,14 @@ function getApifyFieldLabels(entry: DiscoverySummaryEntry) {
 
 export function BusinessScanPanel({
   businessId,
+  scanDetailHref,
   currentSnapshot,
   latestAgentScan,
   agentScanHistory,
   apifyRefreshHistory,
 }: {
   businessId: string
+  scanDetailHref: string
   currentSnapshot: DiscoverySummaryEntry | null
   latestAgentScan: BusinessAgentScanResult | null
   agentScanHistory: BusinessAgentScanResult[]
@@ -143,9 +146,12 @@ export function BusinessScanPanel({
   return (
     <section>
       <article className="card stack-sm">
-        <div>
-          <p className="eyebrow">Hazırlık / Tarama</p>
-          <h3>Önce hafif tarama ile dış sinyali netleştir</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div>
+            <p className="eyebrow">Hazırlık / Tarama</p>
+            <h3>Önce hafif tarama ile dış sinyali netleştir</h3>
+          </div>
+          <Link href={scanDetailHref} className="button-secondary">Tarama detayı</Link>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
