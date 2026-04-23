@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useEffect, useState } from 'react'
 
+type ThemeMode = 'light' | 'dark'
+
 type NavItem = {
   href: string
   label: string
@@ -38,6 +40,30 @@ function classNames(...items: Array<string | false | null | undefined>) {
   return items.filter(Boolean).join(' ')
 }
 
+function getInitialTheme(): ThemeMode {
+  if (typeof document !== 'undefined') {
+    const current = document.documentElement.dataset.theme
+    if (current === 'dark' || current === 'light') return current
+  }
+
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark'
+  }
+
+  return 'light'
+}
+
+function applyTheme(theme: ThemeMode) {
+  if (typeof document !== 'undefined') {
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.colorScheme = theme
+  }
+
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem('esnafdijital-admin-theme', theme)
+  }
+}
+
 export function AdminShell({
   title,
   description,
@@ -49,10 +75,11 @@ export function AdminShell({
 }) {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme())
 
   useEffect(() => {
-    setIsMenuOpen(false)
-  }, [pathname])
+    applyTheme(theme)
+  }, [theme])
 
   useEffect(() => {
     if (typeof document === 'undefined') {
@@ -84,6 +111,12 @@ export function AdminShell({
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isMenuOpen])
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(nextTheme)
+    applyTheme(nextTheme)
+  }
 
   return (
     <div className="page-shell">
@@ -119,7 +152,7 @@ export function AdminShell({
                 {group.items.map((item) => {
                   const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
                   return (
-                    <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')}>
+                    <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')} onClick={() => setIsMenuOpen(false)}>
                       <strong>{item.label}</strong>
                       <p className="muted">{item.note}</p>
                     </Link>
@@ -130,9 +163,14 @@ export function AdminShell({
           ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <p className="eyebrow">Kısa kural</p>
-          <p className="muted">Önce iş, sonra karar, sonra bağlam. Menü akışı da bu sırayı izler.</p>
+        <div className="sidebar-footer stack-sm">
+          <div>
+            <p className="eyebrow">Kısa kural</p>
+            <p className="muted">Önce iş, sonra karar, sonra bağlam. Menü akışı da bu sırayı izler.</p>
+          </div>
+          <button type="button" className="button-secondary" onClick={toggleTheme} aria-pressed={theme === 'dark'}>
+            {theme === 'dark' ? 'Açık moda geç' : 'Koyu moda geç'}
+          </button>
         </div>
       </aside>
 
@@ -144,6 +182,9 @@ export function AdminShell({
               <span className="topbar-note">Sade akış menüsü aktif</span>
             </div>
             <div className="topbar-actions">
+              <button type="button" className="button-secondary" onClick={toggleTheme} aria-pressed={theme === 'dark'}>
+                {theme === 'dark' ? 'Açık moda geç' : 'Koyu moda geç'}
+              </button>
               <button
                 type="button"
                 className="button-secondary mobile-nav-trigger"

@@ -28,6 +28,7 @@
 
   --line: #e2e8f0;
   --line-strong: #cbd5e1;
+  --line-soft: #e2e8f0;
 
   --success-fill: #15803d;
   --success-text: #166534;
@@ -52,6 +53,85 @@
   --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
   --shadow-soft-hover: 0 2px 6px rgba(15, 23, 42, 0.08), 0 14px 32px rgba(15, 23, 42, 0.1);
   --focus-ring: 0 0 0 4px rgba(37, 99, 235, 0.14);
+
+  --body-glow-brand: rgba(37, 99, 235, 0.08);
+  --body-glow-accent: rgba(20, 184, 166, 0.08);
+  --sidebar-shell-bg: rgba(255, 255, 255, 0.82);
+  --sidebar-shell-border: rgba(203, 213, 225, 0.8);
+  --sidebar-backdrop-bg: rgba(15, 23, 42, 0.42);
+  --panel-glass-bg: rgba(255, 255, 255, 0.92);
+  --nav-link-active-border: rgba(37, 99, 235, 0.26);
+  --nav-link-active-bg: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(240, 253, 250, 0.98));
+  --topbar-border: rgba(186, 230, 253, 0.9);
+  --topbar-bg: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(240, 253, 250, 0.92));
+  --topbar-badge-border: rgba(37, 99, 235, 0.18);
+  --topbar-badge-bg: rgba(255, 255, 255, 0.86);
+  --topbar-note-border: rgba(20, 184, 166, 0.2);
+  --topbar-note-bg: rgba(255, 255, 255, 0.66);
+  --hero-border: rgba(37, 99, 235, 0.12);
+  --hero-bg: linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(240, 253, 250, 0.95));
+  --primary-shadow: 0 10px 26px rgba(29, 78, 216, 0.18);
+  --profile-current-border: rgba(37, 99, 235, 0.26);
+  --profile-current-bg: linear-gradient(180deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 1));
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: #08111f;
+  --surface: #0f172a;
+  --surface-subtle: #111c31;
+  --surface-strong: #1d2a44;
+
+  --ink-title: #e2e8f0;
+  --ink-body: #cbd5e1;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --ink-disabled: #64748b;
+  --ink-inverse: #f8fafc;
+
+  --line: #24324b;
+  --line-strong: #334155;
+  --line-soft: #1e293b;
+
+  --success-text: #86efac;
+  --success-bg: rgba(20, 83, 45, 0.28);
+  --success-border: rgba(34, 197, 94, 0.28);
+
+  --danger-text: #fca5a5;
+  --danger-bg: rgba(127, 29, 29, 0.28);
+  --danger-border: rgba(248, 113, 113, 0.28);
+
+  --warning-text: #fcd34d;
+  --warning-bg: rgba(120, 53, 15, 0.28);
+  --warning-border: rgba(245, 158, 11, 0.28);
+
+  --info-text: #7dd3fc;
+  --info-bg: rgba(12, 74, 110, 0.28);
+  --info-border: rgba(14, 165, 233, 0.28);
+
+  --shadow-soft: 0 1px 2px rgba(2, 6, 23, 0.28), 0 14px 32px rgba(2, 6, 23, 0.32);
+  --shadow-soft-hover: 0 2px 6px rgba(2, 6, 23, 0.36), 0 20px 36px rgba(2, 6, 23, 0.44);
+  --focus-ring: 0 0 0 4px rgba(59, 130, 246, 0.24);
+
+  --body-glow-brand: rgba(37, 99, 235, 0.16);
+  --body-glow-accent: rgba(20, 184, 166, 0.12);
+  --sidebar-shell-bg: rgba(8, 15, 30, 0.9);
+  --sidebar-shell-border: rgba(51, 65, 85, 0.9);
+  --sidebar-backdrop-bg: rgba(2, 6, 23, 0.72);
+  --panel-glass-bg: rgba(15, 23, 42, 0.92);
+  --nav-link-active-border: rgba(59, 130, 246, 0.34);
+  --nav-link-active-bg: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(13, 33, 37, 0.98));
+  --topbar-border: rgba(56, 189, 248, 0.22);
+  --topbar-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 45, 49, 0.92));
+  --topbar-badge-border: rgba(59, 130, 246, 0.28);
+  --topbar-badge-bg: rgba(15, 23, 42, 0.84);
+  --topbar-note-border: rgba(45, 212, 191, 0.24);
+  --topbar-note-bg: rgba(15, 23, 42, 0.68);
+  --hero-border: rgba(59, 130, 246, 0.2);
+  --hero-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(12, 74, 110, 0.16));
+  --primary-shadow: 0 14px 32px rgba(8, 47, 73, 0.34);
+  --profile-current-border: rgba(59, 130, 246, 0.34);
+  --profile-current-bg: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 1));
 }
 
 * {
@@ -68,8 +148,8 @@ body {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 24%),
-    radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 22%),
+    radial-gradient(circle at top left, var(--body-glow-brand), transparent 24%),
+    radial-gradient(circle at top right, var(--body-glow-accent), transparent 22%),
     var(--canvas);
   color: var(--ink-body);
   font-family: var(--font-inter), Inter, Arial, Helvetica, sans-serif;
@@ -117,9 +197,9 @@ textarea:focus-visible {
   align-self: start;
   min-height: 100vh;
   padding: 28px 22px;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--sidebar-shell-bg);
   backdrop-filter: blur(18px);
-  border-right: 1px solid rgba(203, 213, 225, 0.8);
+  border-right: 1px solid var(--sidebar-shell-border);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -137,7 +217,7 @@ textarea:focus-visible {
 .sidebar-backdrop {
   border: 0;
   padding: 0;
-  background: rgba(15, 23, 42, 0.42);
+  background: var(--sidebar-backdrop-bg);
 }
 
 .sidebar-brand,
@@ -145,7 +225,7 @@ textarea:focus-visible {
 .nav-link {
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--panel-glass-bg);
   box-shadow: var(--shadow-soft);
 }
 
@@ -205,8 +285,8 @@ textarea:focus-visible {
 }
 
 .nav-link-active {
-  border-color: rgba(37, 99, 235, 0.26);
-  background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(240, 253, 250, 0.98));
+  border-color: var(--nav-link-active-border);
+  background: var(--nav-link-active-bg);
 }
 
 .nav-link strong {
@@ -232,9 +312,9 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: 16px;
   padding: 14px 18px;
-  border: 1px solid rgba(186, 230, 253, 0.9);
+  border: 1px solid var(--topbar-border);
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(240, 253, 250, 0.92));
+  background: var(--topbar-bg);
   box-shadow: var(--shadow-soft);
 }
 
@@ -264,14 +344,14 @@ textarea:focus-visible {
 }
 
 .topbar-badge {
-  border: 1px solid rgba(37, 99, 235, 0.18);
-  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid var(--topbar-badge-border);
+  background: var(--topbar-badge-bg);
   color: var(--brand-700);
 }
 
 .topbar-note {
-  border: 1px solid rgba(20, 184, 166, 0.2);
-  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid var(--topbar-note-border);
+  background: var(--topbar-note-bg);
   color: var(--accent-700);
 }
 
@@ -313,10 +393,10 @@ textarea:focus-visible {
 
 .hero {
   padding: 28px;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  border: 1px solid var(--hero-border);
   border-radius: 16px;
   background:
-    linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(240, 253, 250, 0.95)),
+    var(--hero-bg),
     var(--surface);
   box-shadow: var(--shadow-soft);
 }
@@ -364,7 +444,7 @@ textarea:focus-visible {
   border: 1px solid rgba(37, 99, 235, 0.16);
   background: linear-gradient(135deg, var(--brand-600), var(--accent-600));
   color: var(--ink-inverse);
-  box-shadow: 0 10px 26px rgba(29, 78, 216, 0.18);
+  box-shadow: var(--primary-shadow);
 }
 
 .cta-link:hover,
@@ -732,8 +812,8 @@ textarea {
 }
 
 .profile-row-current {
-  border-color: rgba(37, 99, 235, 0.26);
-  background: linear-gradient(180deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 1));
+  border-color: var(--profile-current-border);
+  background: var(--profile-current-bg);
 }
 
 .profile-main {
@@ -862,7 +942,7 @@ code {
     min-height: 100dvh;
     height: 100dvh;
     padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
-    border-right: 1px solid rgba(203, 213, 225, 0.8);
+    border-right: 1px solid var(--sidebar-shell-border);
     border-bottom: 0;
     transform: translateX(calc(-100% - 16px));
     transition: transform 180ms ease;
