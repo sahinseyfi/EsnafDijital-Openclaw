@@ -1,14 +1,12 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
+import { spawn } from 'node:child_process'
 
 import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry } from '@/lib/businesses/discovery'
 
-const execFileAsync = promisify(execFile)
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
 export const runtime = 'nodejs'
@@ -19,6 +17,41 @@ function buildSearchTerms(input: { name: string; district: string }) {
     input.name.trim(),
     `${input.name.trim()} ${input.district.trim()}`.trim(),
   ].filter(Boolean)))
+}
+
+async function runApifyManualRefresh(inputPath: string, rawPath: string) {
+  await new Promise<void>((resolve, reject) => {
+    const child = spawn('/bin/bash', ['-lc', 'apify call compass/crawler-google-places --input-file "$INPUT_PATH" --output-dataset --silent > "$RAW_PATH"'], {
+      env: {
+        ...process.env,
+        INPUT_PATH: inputPath,
+        RAW_PATH: rawPath,
+      },
+      stdio: 'ignore',
+    })
+
+    const timeout = setTimeout(() => {
+      child.kill('SIGTERM')
+      reject(new Error('Apify yenilemesi zaman asimina ugradi.'))
+    }, 300_000)
+
+    child.on('error', (error) => {
+      clearTimeout(timeout)
+      reject(error)
+    })
+
+    child.on('close', (code, signal) => {
+      clearTimeout(timeout)
+      if (code === 0) {
+        resolve()
+        return
+      }
+
+      reject(new Error(signal
+        ? `Apify yenilemesi ${signal} ile sonlandi.`
+        : `Apify yenilemesi ${code ?? 'bilinmeyen'} koduyla sonlandi.`))
+    })
+  })
 }
 
 export async function POST(_request: Request, context: { params: Promise<{ id: string }> }) {
@@ -51,15 +84,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
     await mkdir(MANUAL_RUN_DIR, { recursive: true })
     await writeFile(inputPath, JSON.stringify(inputPayload, null, 2), 'utf8')
 
-    await execFileAsync('/bin/bash', ['-lc', 'apify call compass/crawler-google-places --input-file "$INPUT_PATH" --output-dataset --silent > "$RAW_PATH"'], {
-      env: {
-        ...process.env,
-        INPUT_PATH: inputPath,
-        RAW_PATH: rawPath,
-      },
-      timeout: 300_000,
-      maxBuffer: 10 * 1024 * 1024,
-    })
+    await runApifyManualRefresh(inputPath, rawPath)
 
     const raw = await readFile(rawPath, 'utf8')
     const rows = JSON.parse(raw) as Array<Record<string, unknown>>
@@ -87,16 +112,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
       },
     })
   } catch (error) {
-    const stderr = typeof error === 'object' && error !== null && 'stderr' in error && typeof error.stderr === 'string'
-      ? error.stderr.trim()
-      : ''
-    const stdout = typeof error === 'object' && error !== null && 'stdout' in error && typeof error.stdout === 'string'
-      ? error.stdout.trim()
-      : ''
-    const baseMessage = error instanceof Error ? error.message : 'Apify yenilemesi başarısız oldu.'
-    const detail = stderr || stdout
-    const message = detail ? `${baseMessage}
-${detail}` : baseMessage
+    const message = error instanceof Error ? error.message : 'Apify yenilemesi başarısız oldu.'
     return NextResponse.json({ ok: false, message }, { status: 500 })
   }
 }
