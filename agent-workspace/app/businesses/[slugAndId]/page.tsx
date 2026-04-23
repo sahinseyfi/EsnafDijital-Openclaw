@@ -191,9 +191,6 @@ export default async function BusinessDetailPage({
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           <span className="badge">Durum: {businessStatusLabels[business.status]}</span>
           {queueItem ? <span className="badge">Aşama: {queueItem.stageLabel}</span> : null}
-          {audits[0] ? <span className="badge">Audit: {auditStatusLabels[audits[0].status]}</span> : <span className="badge">Audit açılmadı</span>}
-          {latestOffer ? <span className="badge">Teklif: {offerStatusLabels[latestOffer.status]}</span> : <span className="badge">Teklif yok</span>}
-          {latestDelivery ? <span className="badge">Teslimat: {deliveryStatusLabels[latestDelivery.status]}</span> : <span className="badge">Teslimat yok</span>}
         </div>
       </section>
 
@@ -245,7 +242,7 @@ export default async function BusinessDetailPage({
         </article>
       </section>
 
-      <section className="grid-2" style={{ alignItems: 'start' }}>
+      <section>
         <article className="card stack-sm">
           <div>
             <p className="eyebrow">Temel profil</p>
@@ -277,33 +274,6 @@ export default async function BusinessDetailPage({
               <dd><code>{canonicalHref}</code></dd>
             </div>
           </dl>
-        </article>
-
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Operasyon özeti</p>
-            <h3>Şu anki kısa durum</h3>
-          </div>
-          {queueItem ? (
-            <>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                <span className="badge">{queueItem.stageLabel}</span>
-                <span className="badge">{queueItem.statusLabel}</span>
-              </div>
-              <div className="stack-xs">
-                <p><strong>Sıradaki adım:</strong> {queueItem.nextAction}</p>
-                <p className="muted">{queueItem.summary}</p>
-              </div>
-            </>
-          ) : (
-            <p className="muted">Bu işletme henüz ana operasyon kuyruğunda görünmüyor.</p>
-          )}
-
-          <div className="stack-xs">
-            <p><strong>Son audit:</strong> {latestAudit ? `${auditStatusLabels[latestAudit.status]} · ${latestAudit.summary}` : 'Henüz audit yok'}</p>
-            <p><strong>Son teklif:</strong> {latestOffer ? `${latestOffer.packageName} · ${offerStatusLabels[latestOffer.status]}` : 'Henüz teklif yok'}</p>
-            <p><strong>Son teslimat:</strong> {latestDelivery ? deliveryStatusLabels[latestDelivery.status] : 'Henüz teslimat yok'}</p>
-          </div>
         </article>
       </section>
 
