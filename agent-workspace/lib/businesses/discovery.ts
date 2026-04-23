@@ -214,7 +214,7 @@ async function readJsonFile<T>(filePath: string, fallback: T): Promise<T> {
   }
 }
 
-async function readBusinessRefreshHistory(businessId: string) {
+export async function getBusinessRefreshHistory(businessId: string) {
   return readJsonFile<DiscoverySummaryEntry[]>(path.join(BUSINESS_REFRESH_DIR, `${businessId}.json`), [])
 }
 
@@ -228,7 +228,7 @@ function matchesBusiness(record: DiscoverySummaryEntry, business: Pick<BusinessL
 }
 
 export async function getBusinessDiscoverySnapshot(business: BusinessLookup) {
-  const refreshHistory = await readBusinessRefreshHistory(business.id)
+  const refreshHistory = await getBusinessRefreshHistory(business.id)
   if (refreshHistory.length > 0) {
     return refreshHistory[refreshHistory.length - 1] || null
   }
@@ -328,7 +328,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
 export async function appendBusinessRefreshSnapshot(businessId: string, entry: DiscoverySummaryEntry) {
   await mkdir(BUSINESS_REFRESH_DIR, { recursive: true })
   const snapshotPath = path.join(BUSINESS_REFRESH_DIR, `${businessId}.json`)
-  const history = await readBusinessRefreshHistory(businessId)
+  const history = await getBusinessRefreshHistory(businessId)
   const last = history[history.length - 1]
 
   if (last) {

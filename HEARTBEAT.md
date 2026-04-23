@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Business detail icinde manuel `Detayli isletme verilerini al` aksiyonu gercek Apify yenileme hattina baglandi; siradaki adim ilk canli smoke testi yapip yenileme eventini activity timeline'a dusurmek
+- Business detail activity timeline artik dis veri yenileme eventlerini de gosteriyor; siradaki adim ilk canli smoke testi yapip manuel yenileme akisinin UI + timeline sonucunu gercek kayitta dogrulamak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir

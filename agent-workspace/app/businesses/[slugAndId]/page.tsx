@@ -4,7 +4,7 @@ import { notFound, permanentRedirect } from 'next/navigation'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
 import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
-import { getBusinessDiscoverySnapshot } from '@/lib/businesses/discovery'
+import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { deriveProjectOsOverview } from '@/lib/project-os/derived'
 import { getOfferAddons, getOfferPackageByName } from '@/lib/project-os/offer-packages'
@@ -87,6 +87,7 @@ export default async function BusinessDetailPage({
   const latestDelivery = deliveryProjects[0] || null
   const latestAudit = audits[0] || null
   const discoverySnapshot = await getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district })
+  const refreshHistory = await getBusinessRefreshHistory(business.id)
   const auditSnapshotReasons = discoverySnapshot?.scoring.reasons?.slice(0, 4) || []
   const activityTimeline = [
     {
@@ -152,6 +153,20 @@ export default async function BusinessDetailPage({
 
       return updatedItem ? [createdItem, updatedItem] : [createdItem]
     }),
+    ...refreshHistory.map((entry, index) => ({
+      id: `refresh-discovery-${business.id}-${index}`,
+      occurredAt: entry.candidate.capturedAt || entry.source.collectedAt,
+      title: 'Dış veri snapshot yenilendi',
+      text: [
+        entry.source.matchedSearchTerms.length > 0
+          ? `${entry.source.matchedSearchTerms.join(', ')} aramasıyla eşleşme bulundu`
+          : 'Manuel yenileme çalıştı',
+        entry.candidate.reviewsCount > 0
+          ? `${entry.candidate.reviewsCount} yorum${typeof entry.candidate.rating === 'number' ? ` · ${entry.candidate.rating.toLocaleString('tr-TR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} puan` : ''}`
+          : 'yorum sinyali görünmedi',
+        entry.candidate.hasWebsite ? 'website sinyali var' : 'website sinyali yok',
+      ].join(' · '),
+    })),
   ].sort((left, right) => new Date(right.occurredAt).getTime() - new Date(left.occurredAt).getTime())
 
   return (
