@@ -67,7 +67,9 @@ function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQu
         <article key={item.businessId} className="card stack-sm" style={{ padding: 16, borderColor: isUpdated ? 'var(--success-border)' : undefined, background: isUpdated ? 'linear-gradient(180deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 1))' : undefined }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
             <div className="stack-xs">
-              <strong style={{ color: 'var(--ink-title)' }}>{item.businessName}</strong>
+              <Link href={buildBusinessDetailHref({ id: item.businessId, name: item.businessName, segment: item.segment })} style={{ color: 'var(--ink-title)', fontWeight: 700, textDecoration: 'none' }}>
+                {item.businessName}
+              </Link>
               <span className="muted">{segmentLabels[item.segment]} • {item.district}</span>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -84,8 +86,6 @@ function QueueList({ items, emptyText, updatedBusinessId }: { items: ProjectOsQu
 
           <div className="hero-actions">
             {item.advanceAction ? <ProjectOsAdvanceButton action={item.advanceAction} businessId={item.businessId} /> : null}
-            <Link href={buildBusinessDetailHref({ id: item.businessId, name: item.businessName, segment: item.segment })} className="ghost-link">Profili aç</Link>
-            <Link href={`/project-os?businessId=${item.businessId}#records`} className="ghost-link">İş Takibinde aç</Link>
             <Link href="/consultation-center" className="ghost-link">Danışma</Link>
             <Link href="/context-center" className="ghost-link">Bağlam</Link>
           </div>
