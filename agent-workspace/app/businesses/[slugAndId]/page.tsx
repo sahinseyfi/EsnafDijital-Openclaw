@@ -173,55 +173,35 @@ export default async function BusinessDetailPage({
       title="İşletme profili"
       description="Seçili işletmenin kanonik profil yüzeyi. Kim olduğu, hangi aşamada olduğu ve sıradaki iş tek yerde görünür."
     >
-      <section className="card stack-sm">
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-          <div>
-            <p className="eyebrow">İşletme detay</p>
-            <h3>{business.name}</h3>
-            <p className="muted">{segmentLabels[business.segment]} · {business.district} · İşletme sahibi: {business.ownerName}</p>
-          </div>
-          <div className="page-header-actions">
-            <Link href={`/project-os?businessId=${business.id}#records`} className="button-secondary">İş Takibinde aç</Link>
-            <Link href="/consultation-center" className="ghost-link">Danışma</Link>
-            <Link href="/context-center" className="ghost-link">Bağlam</Link>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          <span className="badge">Durum: {businessStatusLabels[business.status]}</span>
-          {queueItem ? <span className="badge">Aşama: {queueItem.stageLabel}</span> : null}
-        </div>
-      </section>
-
       <section>
         <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
-          <div>
-            <p className="eyebrow">Next step</p>
-            <h3>Bu kayıtta sıradaki mantıklı hareket</h3>
-          </div>
-          {queueItem ? (
-            <>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                <span className="badge">{queueItem.stageLabel}</span>
-                <span className="badge">{queueItem.statusLabel}</span>
-              </div>
-              <div className="stack-xs">
-                <p><strong>Sıradaki adım:</strong> {queueItem.nextAction}</p>
-                <p className="muted">{queueItem.summary}</p>
-              </div>
-              <div className="hero-actions">
-                {queueItem.advanceAction ? <ProjectOsAdvanceButton action={queueItem.advanceAction} businessId={business.id} redirectHref={canonicalHref} /> : null}
-                <Link href={`/project-os?businessId=${business.id}#records`} className="ghost-link">Tüm hattı aç</Link>
-                <Link href="/consultation-center" className="ghost-link">Karar gerekiyorsa danışma aç</Link>
-              </div>
-            </>
-          ) : (
-            <div className="stack-xs">
-              <p className="muted">Bu işletme için henüz türetilmiş bir sonraki adım görünmüyor.</p>
-              <div className="hero-actions">
-                <Link href={`/project-os?businessId=${business.id}#records`} className="ghost-link">İş Takibinde aç</Link>
-              </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+            <div>
+              <p className="eyebrow">İşletme</p>
+              <h3>{business.name}</h3>
+              <p className="muted">{segmentLabels[business.segment]} · {business.district} · İşletme sahibi: {business.ownerName}</p>
             </div>
+            <div className="page-header-actions">
+              {queueItem?.advanceAction ? <ProjectOsAdvanceButton action={queueItem.advanceAction} businessId={business.id} redirectHref={canonicalHref} /> : null}
+              <Link href={`/project-os?businessId=${business.id}#records`} className="button-secondary">İş Takibinde aç</Link>
+              <Link href="/consultation-center" className="ghost-link">Danışma</Link>
+              <Link href="/context-center" className="ghost-link">Bağlam</Link>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <span className="badge">Durum: {businessStatusLabels[business.status]}</span>
+            {queueItem ? <span className="badge">Aşama: {queueItem.stageLabel}</span> : null}
+            {queueItem ? <span className="badge">{queueItem.statusLabel}</span> : null}
+          </div>
+
+          {queueItem ? (
+            <div className="stack-xs">
+              <p><strong>Sıradaki adım:</strong> {queueItem.nextAction}</p>
+              <p className="muted">{queueItem.summary}</p>
+            </div>
+          ) : (
+            <p className="muted">Bu işletme için henüz türetilmiş bir sonraki adım görünmüyor.</p>
           )}
         </article>
       </section>
