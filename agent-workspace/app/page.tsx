@@ -20,8 +20,8 @@ function getActiveFocus(input: {
       text: 'Operasyon hattı boş. Önce keşiften bir işletme içeri alıp gerçek veriyle başlangıç yap.',
       primaryHref: '/discovery',
       primaryLabel: 'Keşfe git',
-      secondaryHref: '/context-center',
-      secondaryLabel: 'Bağlam yüzeyini gör',
+      secondaryHref: '/prompt-uretimi',
+      secondaryLabel: 'Prompt Üretimini gör',
     }
   }
 
@@ -56,8 +56,8 @@ function getActiveFocus(input: {
       text: `${input.pendingAudits} audit kaydı yeni veya inceleme aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
-      secondaryHref: '/context-center',
-      secondaryLabel: 'Eksik bağlama bak',
+      secondaryHref: '/prompt-uretimi',
+      secondaryLabel: 'Gerekirse prompt üret',
     }
   }
 
@@ -79,8 +79,8 @@ function getActiveFocus(input: {
     text: `${input.maintenanceProjects} bakım kaydıyla hat sakin görünüyor. Ana ekran artık işi anlatmak değil, bir sonraki doğru aksiyonu göstermek için burada.`,
     primaryHref: '/businesses',
     primaryLabel: 'İşletmeleri aç',
-    secondaryHref: '/context-center',
-    secondaryLabel: 'Bağlam yüzeyini aç',
+    secondaryHref: '/prompt-uretimi',
+    secondaryLabel: 'Prompt Üretimini aç',
   }
 }
 
@@ -151,7 +151,7 @@ export default async function HomePage() {
           <ul className="list">
             <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
             <li>Prompt gerektiren işlerde kısa özet eksiklerini tamamla, sonra hazır promptu al.</li>
-            <li>Bağlam eksikse Bağlam Merkezine git, operasyon kaydını orada tekrar etme.</li>
+            <li>Bağlam eksikse ilgili dokümana git, operasyon kaydını referans dosyalarıyla karıştırma.</li>
           </ul>
         </article>
 
@@ -168,7 +168,6 @@ export default async function HomePage() {
           </ul>
           <div className="hero-actions">
             <Link href="/prompt-uretimi" className="ghost-link">Prompt Üretimine git</Link>
-            <Link href="/context-center" className="ghost-link">Bağlam Merkezine git</Link>
           </div>
         </article>
       </section>

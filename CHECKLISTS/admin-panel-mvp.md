@@ -15,7 +15,6 @@
 
 ## Ic Operasyon Yuzeyi
 - [ ] project os ekrani
-- [ ] context center ekrani
 - [ ] prompt uretimi ekrani
 
 ## Veri Temeli

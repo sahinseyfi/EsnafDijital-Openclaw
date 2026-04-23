@@ -15,7 +15,7 @@ Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni
 
 ## Bu Hafta Oncelik
 1. ilk teklif omurgasini keskinlestirmek
-2. Project OS / Context Center / Prompt Üretimi akislarini gercek veriyle baglamak
+2. Project OS / Prompt Üretimi akislarini gercek veriyle baglamak
 3. gercek `DATABASE_URL` ile Postgres + Prisma hattini ayaga kaldirmak
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 

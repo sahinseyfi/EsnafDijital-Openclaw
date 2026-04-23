@@ -30,7 +30,6 @@ const navGroups: NavGroup[] = [
     title: 'Sistem',
     items: [
       { href: '/hesap-merkezi', label: 'Hesaplar', note: 'Giriş doğrulaması ve operatör kayıtları' },
-      { href: '/context-center', label: 'Bağlam', note: 'Dosya, veri ve karar yüzeyi' },
     ],
   },
 ]

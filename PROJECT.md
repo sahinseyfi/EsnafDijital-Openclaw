@@ -71,14 +71,13 @@ Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değil
 ## İç Sistem Hedefi
 İç sistem tek yerde şu üç şeyi birleştirmelidir:
 1. **CRM-evrilebilir operasyon sistemi** — işletme, görüşme, not, aktivite, görev, teklif, teslimat ve bakım işlerinde neredeyiz, sırada ne var, blokaj ne
-2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
+2. **Baglam dosyalari** — proje, karar, hafiza, araclar ve kalici referanslar
 3. **Prompt Üretimi** — daginik istegi netlestirip dogru baglamla kullanilabilir prompt uretme
 
 ## Admin Panelde Olması Gereken Ana Sayfalar
 ### Faz 1 cekirdek yuzeyler
 - Dashboard / Ana Sayfa
 - Project OS
-- Context Center
 - GPT Pro Prompt Üretimi
 - Hesap Merkezi
 
