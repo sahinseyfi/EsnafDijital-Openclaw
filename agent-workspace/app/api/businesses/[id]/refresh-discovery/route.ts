@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process'
 import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
-import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry, normalizeDiscoveryText, type DiscoverySummaryEntry } from '@/lib/businesses/discovery'
+import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry, type DiscoverySummaryEntry } from '@/lib/businesses/discovery'
 
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
@@ -27,6 +27,39 @@ type RefreshRequestPayload = {
 }
 
 type InstagramSignal = NonNullable<DiscoverySummaryEntry['source']['instagramSignal']>
+
+function extractInstagramUrlFromValue(value: unknown) {
+  if (typeof value !== 'string') return ''
+  const trimmed = value.trim()
+  if (!trimmed) return ''
+  return /instagram\.com/i.test(trimmed) ? trimmed : ''
+}
+
+function extractKnownInstagramProfileUrl(rows: Array<Record<string, unknown>>) {
+  for (const row of rows) {
+    for (const key of ['instagramUrl', 'instagram', 'profileUrl']) {
+      const direct = extractInstagramUrlFromValue(row[key])
+      if (direct) return direct
+    }
+
+    const website = extractInstagramUrlFromValue(row.website) || extractInstagramUrlFromValue(row.websiteUrl)
+    if (website) return website
+
+    const webResults = Array.isArray(row.webResults) ? row.webResults : []
+    for (const item of webResults) {
+      const direct = extractInstagramUrlFromValue(item)
+      if (direct) return direct
+
+      if (item && typeof item === 'object') {
+        const candidate = item as Record<string, unknown>
+        const url = extractInstagramUrlFromValue(candidate.url) || extractInstagramUrlFromValue(candidate.link)
+        if (url) return url
+      }
+    }
+  }
+
+  return ''
+}
 
 function buildSearchTerms(input: { name: string; district: string }) {
   return Array.from(new Set([
@@ -95,67 +128,6 @@ function parseApifyRows(raw: string) {
   return Array.isArray(parsed) ? parsed as Array<Record<string, unknown>> : []
 }
 
-function buildInstagramSearchQuery(business: { name: string; district: string }) {
-  return Array.from(new Set([
-    `${business.name.trim()} ${business.district.trim()}`.trim(),
-    `${business.name.trim()} Istanbul`.trim(),
-    business.name.trim(),
-  ].filter(Boolean))).join(', ')
-}
-
-function scoreInstagramCandidate(row: Record<string, unknown>, business: { name: string; district: string }) {
-  const businessName = normalizeDiscoveryText(business.name)
-  const businessDistrict = normalizeDiscoveryText(business.district)
-  const businessTokens = businessName.split(' ').filter(Boolean)
-  const haystack = normalizeDiscoveryText([
-    row.username,
-    row.fullName,
-    row.bio,
-    row.businessCategory,
-    row.city,
-    row.address,
-  ].map((item) => String(item || '')).join(' '))
-
-  let score = 0
-  if (haystack.includes(businessName)) score += 4
-
-  const sharedTokenCount = businessTokens.filter((token) => haystack.includes(token)).length
-  score += sharedTokenCount * 2
-
-  if (businessDistrict && haystack.includes(businessDistrict)) score += 2
-  if (row.isBusinessAccount === true) score += 1
-  if (row.isVerified === true) score += 1
-  if (typeof row.businessCategory === 'string' && row.businessCategory.trim()) score += 1
-
-  return score
-}
-
-function buildInstagramSignal(rows: Array<Record<string, unknown>>, business: { name: string; district: string }, query: string): InstagramSignal {
-  const ranked = rows
-    .map((row) => ({ row, score: scoreInstagramCandidate(row, business) }))
-    .sort((left, right) => right.score - left.score)
-
-  const best = ranked[0]
-  const profileUrl = typeof best?.row.profileUrl === 'string' && best.row.profileUrl.trim()
-    ? best.row.profileUrl.trim()
-    : typeof best?.row.url === 'string' && best.row.url.trim()
-      ? best.row.url.trim()
-      : ''
-
-  return {
-    searched: true,
-    query,
-    candidateCount: rows.length,
-    matchedUsername: typeof best?.row.username === 'string' ? best.row.username.trim() : '',
-    matchedProfileUrl: best && best.score >= 4 ? profileUrl : '',
-    matchReason: best && best.score >= 4 ? `search-user skoru ${best.score}` : 'guclu aday bulunamadi',
-    followersCount: typeof best?.row.followersCount === 'number' ? best.row.followersCount : Number(best?.row.followersCount || 0) || null,
-    isVerified: best?.row.isVerified === true,
-    isBusinessAccount: best?.row.isBusinessAccount === true,
-    businessCategory: typeof best?.row.businessCategory === 'string' ? best.row.businessCategory.trim() : '',
-  }
-}
-
 export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
   const requestPayload = await request.json().catch(() => null) as RefreshRequestPayload | null
@@ -185,9 +157,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const slug = `${business.id}-${Date.now()}`
   const inputPath = path.join(MANUAL_RUN_DIR, `${slug}.maps.input.json`)
   const rawPath = path.join(MANUAL_RUN_DIR, `${slug}.maps.raw.json`)
-  const instagramInputPath = path.join(MANUAL_RUN_DIR, `${slug}.instagram.input.json`)
-  const instagramRawPath = path.join(MANUAL_RUN_DIR, `${slug}.instagram.raw.json`)
-
   try {
     await mkdir(MANUAL_RUN_DIR, { recursive: true })
     await writeFile(inputPath, JSON.stringify(inputPayload, null, 2), 'utf8')
@@ -204,34 +173,20 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     let instagramSignal: InstagramSignal | undefined
 
     if (refreshConfig.mode === 'apify' && refreshConfig.selectedSources.includes('instagram')) {
-      const instagramQuery = buildInstagramSearchQuery(business)
-      const instagramInputPayload = {
-        search: instagramQuery,
-        searchType: 'user',
-        searchLimit: 10,
-      }
+      const knownInstagramProfileUrl = extractKnownInstagramProfileUrl(rows)
 
-      await writeFile(instagramInputPath, JSON.stringify(instagramInputPayload, null, 2), 'utf8')
-
-      try {
-        await runApifyActor({
-          actorId: 'apify/instagram-search-scraper',
-          inputPath: instagramInputPath,
-          rawPath: instagramRawPath,
-          errorLabel: 'Instagram taramasi',
-        })
-
-        const instagramRaw = await readFile(instagramRawPath, 'utf8')
-        const instagramRows = parseApifyRows(instagramRaw)
-        instagramSignal = buildInstagramSignal(instagramRows, business, instagramQuery)
-      } catch (error) {
-        instagramSignal = {
-          searched: true,
-          query: instagramQuery,
-          candidateCount: 0,
-          matchReason: error instanceof Error ? error.message : 'instagram taramasi basarisiz oldu',
-        }
-      }
+      instagramSignal = knownInstagramProfileUrl
+        ? {
+            searched: false,
+            candidateCount: 1,
+            matchedProfileUrl: knownInstagramProfileUrl,
+            matchReason: 'bilinen profil linki bulundu, profil arama yapilmadi',
+          }
+        : {
+            searched: false,
+            candidateCount: 0,
+            matchReason: 'bilinen instagram profili yok, profil arama yapilmadi',
+          }
     }
 
     const entry = buildBusinessRefreshEntry({
@@ -258,8 +213,8 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       run: {
         inputPath,
         rawPath,
-        instagramInputPath: refreshConfig.selectedSources.includes('instagram') ? instagramInputPath : null,
-        instagramRawPath: refreshConfig.selectedSources.includes('instagram') ? instagramRawPath : null,
+        instagramInputPath: null,
+        instagramRawPath: null,
         searchTerms,
         mode: refreshConfig.mode,
         selectedSources: refreshConfig.selectedSources,

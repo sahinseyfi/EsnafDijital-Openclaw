@@ -368,6 +368,7 @@ Amac, operator acarsa secmeli sekilde daha pahali / daha yavas veri toplamak.
 #### Kural
 - varsayilan acik gelmez
 - operator secmeden kosmaz
+- Instagram taramasi profil bulmak icin kullanilmaz; sadece bilinen profil linki varsa o profil uzerinden ilerler
 - gereksiz toplu scrape'e donusmez
 
 ### V1'de gosterilecekler
