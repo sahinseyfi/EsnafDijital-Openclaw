@@ -29,8 +29,9 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
     const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
 
     const rawWebsiteUrl = discoverySnapshot?.candidate.websiteUrl?.trim() || ''
-    const instagramUrl = /instagram\.com/i.test(rawWebsiteUrl) ? rawWebsiteUrl : ''
-    const websiteUrl = instagramUrl ? '' : rawWebsiteUrl
+    const rawInstagramUrl = discoverySnapshot?.candidate.instagramUrl?.trim() || ''
+    const instagramUrl = rawInstagramUrl || (/instagram\.com/i.test(rawWebsiteUrl) ? rawWebsiteUrl : '')
+    const websiteUrl = instagramUrl && rawWebsiteUrl === instagramUrl ? '' : rawWebsiteUrl
 
     const entry = await generateBusinessAgentScan({
       business: {

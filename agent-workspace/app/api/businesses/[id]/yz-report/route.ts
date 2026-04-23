@@ -35,8 +35,9 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
     const latestApifyScan = [...apifyRefreshHistory].reverse().find((item) => item.source.refreshMode === 'apify') || apifyRefreshHistory[apifyRefreshHistory.length - 1] || null
 
     const rawWebsiteUrl = discoverySnapshot?.candidate.websiteUrl?.trim() || ''
-    const instagramUrl = /instagram\.com/i.test(rawWebsiteUrl) ? rawWebsiteUrl : ''
-    const websiteUrl = instagramUrl ? '' : rawWebsiteUrl
+    const rawInstagramUrl = discoverySnapshot?.candidate.instagramUrl?.trim() || ''
+    const instagramUrl = rawInstagramUrl || (/instagram\.com/i.test(rawWebsiteUrl) ? rawWebsiteUrl : '')
+    const websiteUrl = instagramUrl && rawWebsiteUrl === instagramUrl ? '' : rawWebsiteUrl
 
     const entry = await generateBusinessYzReport({
       business: {
