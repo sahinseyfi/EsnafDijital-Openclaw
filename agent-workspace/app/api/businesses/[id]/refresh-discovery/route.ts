@@ -85,6 +85,13 @@ function buildSearchTerms(input: { name: string; district: string }) {
   ].filter(Boolean)))
 }
 
+function buildSerpApiSearchTerms(input: { name: string; district: string }) {
+  const name = input.name.trim()
+  const district = input.district.trim()
+
+  return [`${name} ${district} Istanbul`.trim()].filter(Boolean)
+}
+
 function normalizeRefreshRequest(payload: RefreshRequestPayload | null | undefined) {
   const mode: RefreshMode = payload?.mode === 'apify' ? 'apify' : 'light'
   const allowedSources = mode === 'apify' ? APIFY_SOURCES : LIGHT_SOURCES
@@ -387,9 +394,9 @@ function buildAppleMapsInput(searchTerms: string[], costProfile: RefreshCostProf
   }
 }
 
-function buildSerpApiInput(searchTerms: string[], costProfile: RefreshCostProfile) {
+function buildSerpApiInput(searchTerms: string[]) {
   return {
-    queries: limitSearchTerms(searchTerms, costProfile.googleSearchTermLimit),
+    queries: limitSearchTerms(searchTerms, 1),
     gl: 'tr',
     hl: 'tr',
     num: 5,
@@ -399,11 +406,13 @@ function buildSerpApiInput(searchTerms: string[], costProfile: RefreshCostProfil
 function buildSourceSpecs({
   slug,
   searchTerms,
+  serpApiSearchTerms,
   locationQuery,
   refreshConfig,
 }: {
   slug: string
   searchTerms: string[]
+  serpApiSearchTerms: string[]
   locationQuery: string
   refreshConfig: ReturnType<typeof normalizeRefreshRequest>
 }): SourceRunSpec[] {
@@ -430,7 +439,7 @@ function buildSourceSpecs({
         actorId: 'serpapi/google-search',
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.raw.json`),
-        input: buildSerpApiInput(searchTerms, costProfile),
+        input: buildSerpApiInput(serpApiSearchTerms),
         errorLabel: 'SerpApi taramasi',
         normalizeRows: normalizeGoogleSearchRows,
         runner: 'serpapi',
@@ -566,12 +575,13 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
 
   const refreshConfig = normalizeRefreshRequest(requestPayload)
   const searchTerms = buildSearchTerms(business)
+  const serpApiSearchTerms = buildSerpApiSearchTerms(business)
   const locationQuery = `${business.district}, Istanbul, Turkiye`
   const slug = `${business.id}-${Date.now()}`
 
   try {
     await mkdir(MANUAL_RUN_DIR, { recursive: true })
-    const sourceSpecs = buildSourceSpecs({ slug, searchTerms, locationQuery, refreshConfig })
+    const sourceSpecs = buildSourceSpecs({ slug, searchTerms, serpApiSearchTerms, locationQuery, refreshConfig })
     const sourceResults = await Promise.all(sourceSpecs.map((spec) => runSourceActor(spec)))
     const successfulRows = sourceResults.flatMap((result) => result.rows)
 
