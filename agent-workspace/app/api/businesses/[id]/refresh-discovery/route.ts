@@ -13,9 +13,9 @@ export const runtime = 'nodejs'
 export const maxDuration = 300
 
 const LIGHT_SOURCES = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
-const DEEP_SOURCES = ['maps-refresh', 'instagram', 'yandex', 'apple-maps', 'review-enrichment'] as const
+const APIFY_SOURCES = ['google-maps', 'yandex', 'apple-maps', 'google-search'] as const
 
-type RefreshMode = 'light' | 'deep'
+type RefreshMode = 'light' | 'apify'
 
 type RefreshRequestPayload = {
   mode?: RefreshMode
@@ -30,8 +30,8 @@ function buildSearchTerms(input: { name: string; district: string }) {
 }
 
 function normalizeRefreshRequest(payload: RefreshRequestPayload | null | undefined) {
-  const mode: RefreshMode = payload?.mode === 'deep' ? 'deep' : 'light'
-  const allowedSources = mode === 'deep' ? DEEP_SOURCES : LIGHT_SOURCES
+  const mode: RefreshMode = payload?.mode === 'apify' ? 'apify' : 'light'
+  const allowedSources = mode === 'apify' ? APIFY_SOURCES : LIGHT_SOURCES
   const requestedSources = Array.isArray(payload?.sources) ? payload.sources : []
   const filteredSources = requestedSources.filter((item): item is string => typeof item === 'string' && allowedSources.includes(item as never))
 
@@ -95,7 +95,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const inputPayload = {
     searchStringsArray: searchTerms,
     locationQuery,
-    maxCrawledPlacesPerSearch: refreshConfig.mode === 'deep' ? 8 : 3,
+    maxCrawledPlacesPerSearch: refreshConfig.mode === 'apify' ? 8 : 3,
     scrapePlaceDetailPage: true,
     skipClosedPlaces: false,
   }
