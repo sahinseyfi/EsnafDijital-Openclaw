@@ -1,55 +1,86 @@
 # OFFERS.md
 
-Bu dosya EsnafDigital'in aktif teklif omurgasini tutar.
+Bu dosya EsnafDigital'in kanonik teklif omurgasini tutar.
 Ana stratejik cizgi korunur:
 `Audit -> Teklif -> Teslimat -> Bakim`
 
-Buradaki paketler ajans menusu gibi sinirsiz cogaltilmaz.
-Cekirdek akista su ayrim korunur:
-- Paket 0 -> giris / demo
-- Paket 1-3 -> ana kurulum serisi
-- Paket 4 -> icerik devami
-- Bakim -> ayri devam hizmeti
+Amac, cok paketli bir ajans menusu kurmak degil;
+satilabilir, teslim edilebilir ve tekrar eden bir teklif sistemi kurmaktir.
 
-## 1) Paket 0 - Ucretsiz Audit / Demo
+## 1) Teklif omurgasinin kisa hukmu
+- **Audit** giris kapisidir.
+- **Paket 0** teklif oncesi filtre ve demo katmanidir.
+- **Paket 1-3** ana kurulum serisidir.
+- **Paket 4** icerik devami hizmetidir.
+- **Bakim** ayri bir guncellik ve canlilik hizmetidir.
+
+Bu ayrim bozulmaz.
+
+## 2) Teklif ilkeleri
+- her teklif audit cikisina baglanir
+- paket sayisi sisirilmez
+- 3 ana kurulum seviyesi korunur
+- temel paket bilerek eksik birakilmaz
+- segment bazli satis dili degisebilir, paket yapisi degismez
+- genel CRM, ozel yazilim ve ajans menusu mantigina kayilmaz
+
+## 3) Audit olmadan teklif verilmez
+Audit, tanisma jesti degil; teklifin girdisidir.
+
+Audit cikisinda su netlesir:
+- isletmede hangi gorunurluk eksigi var
+- hangi guven sinyali zayif
+- hangi paket uygun
+- ne teslim edilecek
+- ne teslim edilmeyecek
+
+## 4) Paket 0 - Giris urunu
 ### Dijital Gorunurluk Kontrolu
-Amac: isletmenin dijitalde nasil gorundugunu hizlica gostermek ve dogru pakete baglamak.
+Amac: sorunu gorunur kilmak ve isletmeyi dogru pakete baglamak.
 
 Kapsam:
-- Google Maps durumu kontrolu
+- Google Maps / profil gorunumu kontrolu
 - temel bilgi tutarliligi kontrolu
 - yorum / puan gorunumu
-- website var mi / guven veriyor mu
-- Instagram var mi / bos mu
+- website varligi ve ilk guven kontrolu
+- Instagram varligi ve bosluk kontrolu
 - temel eksiklerin kisa ozeti
-- hangi paketin daha uygun olduguna dair yonlendirme
-- ornek website taslagi / onizleme gosterimi
+- uygun paket yonlendirmesi
+- gerekiyorsa tek yonlu ornek vitrin / demo gosterimi
 
 Teslim:
-- kisa audit puani veya ozet
-- eksik listesi
+- kisa audit ozeti veya puani
+- kritik eksik listesi
 - uygun paket yonu
-- tek yonlu demo website onizlemesi
+- gerekiyorsa ornek demo onizlemesi
 
-Hariçler:
+Haricler:
 - canli website yayini
 - sinirsiz revize
 - detayli danismanlik oturumu
 - ozel yazilim gelistirme
 
-## 2) Paket 1 - Temel Dijital Varlik
+## 5) Ana kurulum serisi
+Bu seri teklifin cekirdegidir.
+
+### Paket 1 - Temel Dijital Varlik
 Amac: isletmenin internette duzenli ve guven veren temel yuzeyini kurmak.
 
+Ana deger:
+- Google profili duzeni
+- temel web vitrini
+- guven veren temel dijital gorunum
+
 Kapsam:
-- Google Maps isletme kaydi duzenleme
-- `isletmeadi.esnafdijital.com.tr` web sayfasi
-- logo tasarimi
-- kartvizit tasarimi
+- Google Maps / isletme profili duzenleme
+- `isletmeadi.esnafdijital.com.tr` temel web vitrini
+- gerekiyorsa destekleyici temel logo duzeni
+- gerekiyorsa tek kartvizit cikisi
 
 Teslim:
 - yayinlanmis temel web vitrini
 - duzeltilmis Google isletme profili
-- kullanilabilir logo ve kartvizit ciktilari
+- temel dijital kimlik duzeni
 
 Haricler:
 - ozel domain dahil degil
@@ -58,26 +89,39 @@ Haricler:
 - ileri entegrasyon yok
 - premium branding calismasi yok
 
-## 3) Paket 2 - Gorunurluk Plus
-Amac: temel kurulumun ustune coklu harita gorunurlugu ve yorum akis girisini eklemek.
+Not:
+- logo ve kartvizit bu paketin ana vaadi degil, destekleyici kalemidir
+
+### Paket 2 - Gorunurluk Plus
+Amac: temel kurulumun ustune yerel gorunurluk tutarliligi ve yorum akis girisi eklemek.
+
+Ana deger:
+- birden fazla harita yuzeyinde daha tutarli gorunum
+- yorum isteme akisinin kurulmasi
 
 Kapsam:
 - Paket 1'deki her sey
 - Yandex kaydi
 - Apple Maps kaydi
-- QR yorum isteme akisi
+- temel QR yorum isteme akisi
 
 Teslim:
-- isletmenin birden fazla harita yuzeyinde daha tutarli gorunmesi
-- QR ile kolay yorum isteme kurulumu
+- coklu harita gorunurlugu kurulumu
+- QR ile yorum isteme akisi
+- daha guclu yerel bulunurluk duzeni
 
 Haricler:
 - yorum sayisi garantisi yok
 - sinirsiz profil guncellemesi yok
 - ileri sosyal medya yonetimi yok
 
-## 4) Paket 3 - Guclu Dijital Kimlik
+### Paket 3 - Guclu Dijital Kimlik
 Amac: isletmenin dijitalde daha tamam, daha duzenli ve daha guclu gorunmesini saglamak.
+
+Ana deger:
+- sosyal profil duzeni
+- yorum isteme akisinin daha guclu fiziksel/dijital butunlugu
+- daha tamam bir dijital vitrin
 
 Kapsam:
 - Paket 2'deki her sey
@@ -85,7 +129,7 @@ Kapsam:
 - NFC yorum isteme akisi
 
 Teslim:
-- kurulmus ve duzenlenmis Instagram yuzeyi
+- duzenlenmis Instagram yuzeyi
 - NFC ile yorum akisi kurulumu
 - daha guclu dijital kimlik butunlugu
 
@@ -94,7 +138,9 @@ Haricler:
 - reklam yonetimi yok
 - sinirsiz sosyal medya yonetimi yok
 
-## 5) Paket 4 - Duzenli Icerik
+## 6) Devam urunleri
+
+### Paket 4 - Duzenli Icerik
 Amac: kurulan yapinin bos kalmamasini ve sosyal yuzeyin canli gorunmesini saglamak.
 
 Kapsam:
@@ -111,43 +157,77 @@ Haricler:
 - reklam yonetimi yok
 - sinirsiz tasarim / video uretimi yok
 
-## 6) Devam Hizmeti - Bakim / Guncel Tutma
+### Bakim - Guncel Tutma / Canlilik
 Amac: kurulan dijital yapinin zamanla bozulmamasini saglamak.
 
 Kapsam:
 - harita bilgileri guncelleme
 - telefon / saat / adres duzeltmeleri
 - site uzerindeki kucuk guncellemeler
-- temel icerik ve gorsel yenilemeleri
+- temel gorsel ve bilgi yenilemeleri
 - gorunurluk ve yorum akisina kisa kontrol
 
-Not:
-- Bu, Paket 4 ile ayni sey degildir.
-- Paket 4 daha cok icerik devami, bu hizmet ise genel guncellik ve canlilik bakimidir.
+Teslim:
+- guncel kalan temel dijital yuzeyler
+- kucuk degisikliklerin duzenli takibi
+- canlilik ve bilgi dogrulugu
 
-## 7) Opsiyonel Ekler
-- ozel domain baglama (`atakuafor.com.tr` gibi)
-- ek kartvizit varyasyonlari
-- ek yorum materyalleri
-- kucuk sosyal medya duzenlemeleri
+Not:
+- Paket 4 ile ayni sey degildir
+- Paket 4 sosyal icerik devami verir
+- Bakim genel guncellik ve dijital canlilik verir
+
+## 7) Opsiyonel ekler
+Opsiyonel ekler cekirdek paketin yerini almaz.
+Ihtiyac varsa acilir.
+
+- ozel domain baglama
+- ek kartvizit varyasyonu
+- ek yorum materyali
+- kucuk sosyal medya duzenlemesi
 
 Operasyon karari:
-- `ozel domain` tum paketlerde ayri ek olarak kalir; varsayilan teslim modeli subdomaindir
-- `ek kartvizit varyasyonu`, Paket 1 icindeki tek kartvizit tasariminin ustune ikinci varyasyon veya ekstra cikis istendiginde acilir
-- `ek yorum materyali`, Paket 2 ve Paket 3 icindeki temel QR / NFC yorum akisinin ustune ek fiziksel materyal istendiginde acilir
-- `kucuk sosyal medya duzenleme`, Paket 1 veya Paket 2 tarafinda hafif profil dokunusu gerektiginde eklenir; Paket 3 icinde temel Instagram kurulumu zaten paket icidir
+- varsayilan teslim modeli subdomaindir: `isletmeadi.esnafdijital.com.tr`
+- ozel domain tum paketlerde ayri ek olarak kalir
+- ek yorum materyali, Paket 2-3 icindeki temel QR / NFC akisinin ustune acilir
+- kucuk sosyal medya duzenlemesi, Paket 1-2 tarafinda hafif profil dokunusu gerektiginde acilir
 
-Domain cizgisi:
-- varsayilan model subdomain: `isletmeadi.esnafdijital.com.tr`
-- ozel domain ayri ek secenektir, sadece Paket 3'e bagli zorunlu bir kosul degildir
+## 8) Segment bazli satis vurgu farklari
+Paket yapisi ayni kalir, anlatim farklanir.
 
-## 8) Sonraki Asama Icin Not Edilen Premium Fikirler
-Bunlar aktif cekirdek teklif degil, sonraya not edilmis fikirlerdir:
+### Berber
+- bulunurluk
+- yol tarifi / telefon / saat netligi
+- yorum guveni
+- hizli ve sade vitrin
+
+### Guzellik salonu
+- gorsel guven
+- hizmetlerin net anlatimi
+- yorum ve sosyal profil butunlugu
+- daha premium gorunen dijital yuz
+
+### Kafe / restoran
+- menu ve fotograf
+- konum ve acik/kapali bilgisi
+- yorum etkisi
+- siparis / rezervasyon akisina yakinlik
+- daha yuksek bakim ihtiyaci
+
+## 9) Simdilik cekirdekte olmayan fikirler
+Bunlar aktif teklif omurgasi degildir:
 - isletmeye ozel OpenClaw ajani
-- kafe / restoran icin online menu
-- cok sade kalabilirse basit gelir / gider ekrani
+- online menu urunu
+- gelir / gider ekrani
+- genel CRM veya ozel panel gelistirme
 
-## Kisa Kural
-Ilk amac cok sayida paket degil; net, satilabilir ve teslim edilebilir omurgadir.
-Her teklif audit sonucuna baglanir.
-Genel CRM'e veya agir isletme yazilimina kayilmaz.
+## 10) Kirmizi cizgiler
+- her segmente ayri paket ailesi acmak
+- paket sayisini gereksiz buyutmek
+- temel paketi bilerek zayif birakmak
+- teklifi ajans hizmet listesine cevirmek
+- premium fikirleri erken cekirdege sokmak
+- teklif netlesmeden ekran cogaltmak
+
+## 11) Saha icin tek cümlelik satis mantigi
+Once audit ile sorun gorunur olur, sonra 3 seviyeli kurulum serisinden uygun paket secilir, devam ihtiyaci varsa icerik veya bakim ayri konusulur.

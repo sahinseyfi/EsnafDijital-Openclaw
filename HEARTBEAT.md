@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- `OFFERS.md` icinde 3 kademeli teklif omurgasini kanoniklestirip audit / Paket 0 / Paket 1-3 / Paket 4 / Bakim ayrimini netlestirmek
+- Business Detail / Project OS V1 spec'inde `canonical / external / derived` veri ayrimini ve tek-isletme karar yuzeyi sinirini kanoniklestirmek
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
