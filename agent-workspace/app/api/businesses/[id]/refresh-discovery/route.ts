@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
 export const maxDuration = 300
 
 const LIGHT_SOURCES = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
-const APIFY_SOURCES = ['google-maps', 'yandex', 'apple-maps', 'google-search'] as const
+const APIFY_SOURCES = ['google-maps', 'yandex', 'apple-maps', 'google-search', 'instagram'] as const
 
 type RefreshMode = 'light' | 'apify'
 

@@ -24,6 +24,10 @@ const apifySources = [
     key: 'google-search',
     label: 'Google Search',
   },
+  {
+    key: 'instagram',
+    label: 'Instagram',
+  },
 ] as const
 
 type ScanMode = 'agent' | 'apify'
