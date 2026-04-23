@@ -181,9 +181,6 @@ export function AdminShell({
               <h2>{title}</h2>
               <p className="muted">{description}</p>
             </div>
-            <div className="page-header-actions">
-              <Link href="/project-os" className="ghost-link">Ana akışa dön</Link>
-            </div>
           </header>
 
           {children}
