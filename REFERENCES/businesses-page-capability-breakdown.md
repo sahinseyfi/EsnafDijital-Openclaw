@@ -15,6 +15,10 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - sayfada `Detayli isletme verilerini al` butonu olacak
 - bu buton Apify CLI ile secili isletmenin detay verilerini yeniden cekecek ve elde edilebilen alanlari guncelleyecek
 - yorum / puan ve benzeri dis sinyaller bu yenileme akisinin parcasi olacak
+- bu yenileme alani tek buton degil, kaynak secimli bir `scrape` paneline dogru acilacak
+- panelde kaynaklar checkbox ile secilecek: Google Maps, Google Search, website kontrolu, Instagram, Yandex, Apple Maps, demo sayfasi uretimi
+- tum kaynaklar varsayilan secili gelmeyecek; operator maliyet ve hiz kontrolu icin hangi taramanin kosacagini sececek
+- demo sayfasi uretimi scrape ile ayni panelde tetiklenebilir ama yalnizca secili veri kaynaklari tamamlandiktan sonra acilacak
 
 ### Operator yetkisi
 - operator business sayfasindaki tum bilgileri duzenleyebilmeli
@@ -248,6 +252,31 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 **Net cizgi**
 - demo ayri bir skill ile scrape edilen detaylardan isletmeye ozel uretilecek
 - demo acilisi manuel olacak
+
+## 3.0 Isletmeye gitmeden once hazirlik paneli
+**Sayfada ne gosterilecek**
+- checkbox'li scrape kaynak listesi
+- her kaynak icin kisa amac notu
+- tek toplu calistir aksiyonu
+- son calisma zamani ve durum etiketi
+
+**Tam olarak ne yapacagiz**
+- operator business detail icinde hangi veri kaynaklarinin kosacagini sececek
+- secilen scrape kosulari ayni isletme icin tek hazirlik akisi gibi calisacak
+- scrape bittikten sonra demo sayfasi uretimi opsiyonel son adim olarak tetiklenebilecek
+- boylece operator sahaya gitmeden once tek isletme icin on hazirlik paketi olusturabilecek
+
+**Bunun icin gereken veri**
+- business kimligi ve temel kanonik alanlar
+- Google referansi veya placeId
+- checkbox bazli secili kaynaklar
+- her kaynak icin son run durumu ve zaman bilgisi
+- demo uretimi icin scrape sonucunda cikan normalize veri
+
+**Net cizgi**
+- bu panel genel CRM otomasyon duvari olmayacak; yalnizca audit oncesi veri toplama ve demo hazirlama aksiyonu olacak
+- maliyet kontrolu icin tum checkbox'lar varsayilan olarak kapali veya minimum set ile acik gelmeli
+- isletmeye gitmeden once "hazirlik paketi" cikarmak hedef, sinirsiz veri toplamak degil
 
 ### 3.2 Tek yonlu demo website onizlemesi
 **Sayfada ne gosterilecek**
