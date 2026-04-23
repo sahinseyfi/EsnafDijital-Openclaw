@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateConsultationBriefWithAgent } from '@/lib/consultation-center/agent'
-import { acquireConsultationPromptLock, hasConsultationPromptLock, releaseConsultationPromptLock } from '@/lib/consultation-center/prompt-lock'
-import { humanizeConsultationMessage } from '@/lib/consultation-center/messages'
-import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
+import { generateConsultationBriefWithAgent } from '@/lib/prompt-uretimi/agent'
+import { acquireConsultationPromptLock, hasConsultationPromptLock, releaseConsultationPromptLock } from '@/lib/prompt-uretimi/prompt-lock'
+import { humanizeConsultationMessage } from '@/lib/prompt-uretimi/messages'
+import { getConsultationDetail, updateConsultation } from '@/lib/prompt-uretimi/service'
 
 function normalizeLine(value: string) {
   return value

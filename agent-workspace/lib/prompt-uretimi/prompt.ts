@@ -1,4 +1,4 @@
-import type { ConsultationContextRef, ConsultationDetail, ConsultationTargetModel } from '@/lib/consultation-center/types'
+import type { ConsultationContextRef, ConsultationDetail, ConsultationTargetModel } from '@/lib/prompt-uretimi/types'
 
 function containsAny(value: string, keywords: string[]) {
   return keywords.some((keyword) => value.includes(keyword))

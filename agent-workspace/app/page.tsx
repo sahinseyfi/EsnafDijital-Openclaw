@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 import { AdminShell } from '@/components/admin/AdminShell'
-import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import { getConsultationCenterPayload } from '@/lib/prompt-uretimi/service'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
 function getActiveFocus(input: {

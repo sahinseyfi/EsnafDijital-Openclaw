@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { deleteConsultation, getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
+import { deleteConsultation, getConsultationDetail, updateConsultation } from '@/lib/prompt-uretimi/service'
 
 export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params

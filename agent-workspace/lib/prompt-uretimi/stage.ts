@@ -1,4 +1,4 @@
-import type { ConsultationAction, ConsultationStage } from '@/lib/consultation-center/types'
+import type { ConsultationAction, ConsultationStage } from '@/lib/prompt-uretimi/types'
 
 type InferStageInput = {
   currentStage?: ConsultationStage

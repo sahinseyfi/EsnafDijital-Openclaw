@@ -1,13 +1,13 @@
 import { AdminShell } from '@/components/admin/AdminShell'
 
 export const dynamic = 'force-dynamic'
-import { ConsultationDetailEditor } from '@/components/consultation-center/ConsultationDetailEditor'
-import { ConsultationInboxList } from '@/components/consultation-center/ConsultationInboxList'
-import { PromptPreparationEffect } from '@/components/consultation-center/PromptPreparationEffect'
-import { PromptPreviewCard } from '@/components/consultation-center/PromptPreviewCard'
-import { QuickCreateForm } from '@/components/consultation-center/QuickCreateForm'
-import { buildPromptSummary } from '@/lib/consultation-center/prompt'
-import { getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import { ConsultationDetailEditor } from '@/components/prompt-uretimi/ConsultationDetailEditor'
+import { ConsultationInboxList } from '@/components/prompt-uretimi/ConsultationInboxList'
+import { PromptPreparationEffect } from '@/components/prompt-uretimi/PromptPreparationEffect'
+import { PromptPreviewCard } from '@/components/prompt-uretimi/PromptPreviewCard'
+import { QuickCreateForm } from '@/components/prompt-uretimi/QuickCreateForm'
+import { buildPromptSummary } from '@/lib/prompt-uretimi/prompt'
+import { getConsultationCenterPayload } from '@/lib/prompt-uretimi/service'
 
 function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
   if (value === 'ready') return 'Prompt hazır'

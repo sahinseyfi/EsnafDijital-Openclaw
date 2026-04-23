@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createConsultation, getConsultationCenterPayload } from '@/lib/consultation-center/service'
+import { createConsultation, getConsultationCenterPayload } from '@/lib/prompt-uretimi/service'
 
 export async function GET(request: NextRequest) {
   const selectedId = request.nextUrl.searchParams.get('selectedId') || undefined

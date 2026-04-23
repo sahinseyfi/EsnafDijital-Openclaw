@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { updateConsultationActionStatus } from '@/lib/consultation-center/service'
+import { updateConsultationActionStatus } from '@/lib/prompt-uretimi/service'
 
 export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string; actionId: string }> }) {
   const { id, actionId } = await context.params

@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { ConsultationDetail } from '@/lib/consultation-center/types'
-import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
+import type { ConsultationDetail } from '@/lib/prompt-uretimi/types'
+import { getConsultationClientMessage } from '@/lib/prompt-uretimi/messages'
 
 export function ConsultationDetailEditor({ consultation }: { consultation: ConsultationDetail }) {
   const router = useRouter()

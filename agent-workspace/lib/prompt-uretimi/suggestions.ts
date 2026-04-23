@@ -1,4 +1,4 @@
-import type { ConsultationContextRef, ConsultationType } from '@/lib/consultation-center/types'
+import type { ConsultationContextRef, ConsultationType } from '@/lib/prompt-uretimi/types'
 
 type SuggestionInput = {
   title?: string

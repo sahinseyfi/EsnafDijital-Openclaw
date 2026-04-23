@@ -1,4 +1,4 @@
-import type { ConsultationDetail } from '@/lib/consultation-center/types'
+import type { ConsultationDetail } from '@/lib/prompt-uretimi/types'
 
 export function getConsultationNextSteps(detail: ConsultationDetail) {
   if (detail.missingFields.length > 0) {

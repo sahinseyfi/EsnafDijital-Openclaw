@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { getConsultationClientMessage, humanizeConsultationMessage } from '@/lib/consultation-center/messages'
+import { getConsultationClientMessage, humanizeConsultationMessage } from '@/lib/prompt-uretimi/messages'
 
 export function PromptPreviewCard({
   consultationId,

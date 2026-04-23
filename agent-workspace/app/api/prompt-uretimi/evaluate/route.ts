@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
-import type { ConsultationContextRef, ConsultationType } from '@/lib/consultation-center/types'
+import { evaluateConsultation } from '@/lib/prompt-uretimi/evaluator'
+import type { ConsultationContextRef, ConsultationType } from '@/lib/prompt-uretimi/types'
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({})) as {

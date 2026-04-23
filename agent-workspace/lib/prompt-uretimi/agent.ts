@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { promisify } from 'util'
-import type { ConsultationContextRef, ConsultationDetail } from '@/lib/consultation-center/types'
+import type { ConsultationContextRef, ConsultationDetail } from '@/lib/prompt-uretimi/types'
 
 const execFileAsync = promisify(execFile)
 const CONSULTATION_PROMPT_SKILL_DIR = path.resolve(process.cwd(), '../skills/consultation-prompt-builder')

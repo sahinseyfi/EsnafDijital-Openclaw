@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { ConsultationAction, ConsultationOwnerRole } from '@/lib/consultation-center/types'
-import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
+import type { ConsultationAction, ConsultationOwnerRole } from '@/lib/prompt-uretimi/types'
+import { getConsultationClientMessage } from '@/lib/prompt-uretimi/messages'
 
 function ownerLabel(value: ConsultationOwnerRole) {
   if (value === 'user') return 'Kullanıcı işi'

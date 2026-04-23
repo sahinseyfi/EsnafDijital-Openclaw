@@ -1,4 +1,4 @@
-import type { ConsultationContextRef, ConsultationOwnerRole, ConsultationRoute, ConsultationType } from '@/lib/consultation-center/types'
+import type { ConsultationContextRef, ConsultationOwnerRole, ConsultationRoute, ConsultationType } from '@/lib/prompt-uretimi/types'
 
 type BriefRecord = Record<string, string | string[] | null> | undefined
 

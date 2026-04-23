@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
+import { getConsultationClientMessage } from '@/lib/prompt-uretimi/messages'
 
 export function QuickCreateForm() {
   const router = useRouter()

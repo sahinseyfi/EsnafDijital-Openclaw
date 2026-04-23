@@ -1,9 +1,9 @@
 import type { Consultation, ConsultationAction, ConsultationBrief, ConsultationRun } from '@prisma/client'
-import { evaluateConsultation } from '@/lib/consultation-center/evaluator'
-import { inferConsultationStage } from '@/lib/consultation-center/stage'
+import { evaluateConsultation } from '@/lib/prompt-uretimi/evaluator'
+import { inferConsultationStage } from '@/lib/prompt-uretimi/stage'
 import { prisma } from '@/lib/prisma'
-import { suggestConsultationBrief } from '@/lib/consultation-center/suggestions'
-import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationPromptStatus, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/consultation-center/types'
+import { suggestConsultationBrief } from '@/lib/prompt-uretimi/suggestions'
+import type { ConsultationCenterPayload, ConsultationContextRef, ConsultationDetail, ConsultationInboxItem, ConsultationOwnerRole, ConsultationPromptStatus, ConsultationRoute, ConsultationStage, ConsultationTargetModel, ConsultationType } from '@/lib/prompt-uretimi/types'
 
 type ConsultationUpdateInput = {
   title?: string

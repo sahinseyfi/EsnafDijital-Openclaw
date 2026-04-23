@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { addConsultationAction } from '@/lib/consultation-center/service'
+import { addConsultationAction } from '@/lib/prompt-uretimi/service'
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params

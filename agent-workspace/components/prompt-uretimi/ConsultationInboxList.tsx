@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import type { ConsultationInboxItem } from '@/lib/consultation-center/types'
-import { getConsultationClientMessage } from '@/lib/consultation-center/messages'
+import type { ConsultationInboxItem } from '@/lib/prompt-uretimi/types'
+import { getConsultationClientMessage } from '@/lib/prompt-uretimi/messages'
 
 function promptStatusLabel(value: 'preparing' | 'ready' | 'error') {
   if (value === 'ready') return 'Prompt hazır'
