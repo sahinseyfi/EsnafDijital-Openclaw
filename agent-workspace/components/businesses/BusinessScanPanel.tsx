@@ -180,7 +180,7 @@ export function BusinessScanPanel({
                     </label>
                   </div>
 
-                  <p className="muted">`Yorumlar` seçilirse Google Maps tarafında tüm yorumlar alınır.</p>
+                  <p className="muted">Yorumlar seçilirse Google Maps tarafında tüm yorumlar alınır.</p>
                 </div>
               ) : null}
             </div>

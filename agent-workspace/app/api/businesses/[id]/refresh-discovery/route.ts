@@ -20,6 +20,10 @@ type RefreshMode = 'light' | 'apify'
 type RefreshRequestPayload = {
   mode?: RefreshMode
   sources?: string[]
+  googleMaps?: {
+    details?: boolean
+    reviews?: boolean
+  }
 }
 
 function buildSearchTerms(input: { name: string; district: string }) {
@@ -34,10 +38,17 @@ function normalizeRefreshRequest(payload: RefreshRequestPayload | null | undefin
   const allowedSources = mode === 'apify' ? APIFY_SOURCES : LIGHT_SOURCES
   const requestedSources = Array.isArray(payload?.sources) ? payload.sources : []
   const filteredSources = requestedSources.filter((item): item is string => typeof item === 'string' && allowedSources.includes(item as never))
+  const selectedSources = filteredSources.length > 0 ? filteredSources : [...allowedSources]
+  const googleMapsSelected = selectedSources.includes('google-maps')
+  const requestedGoogleMaps = payload?.googleMaps
 
   return {
     mode,
-    selectedSources: filteredSources.length > 0 ? filteredSources : [...allowedSources],
+    selectedSources,
+    googleMaps: {
+      details: googleMapsSelected && (requestedGoogleMaps?.details === true || requestedGoogleMaps?.reviews === true),
+      reviews: googleMapsSelected && requestedGoogleMaps?.reviews === true,
+    },
   }
 }
 
@@ -96,7 +107,9 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     searchStringsArray: searchTerms,
     locationQuery,
     maxCrawledPlacesPerSearch: refreshConfig.mode === 'apify' ? 8 : 3,
-    scrapePlaceDetailPage: true,
+    scrapePlaceDetailPage: refreshConfig.mode === 'light' ? true : refreshConfig.googleMaps.details,
+    maxReviews: refreshConfig.mode === 'apify' && refreshConfig.googleMaps.reviews ? 99999 : 0,
+    reviewsOrigin: 'all',
     skipClosedPlaces: false,
   }
 
@@ -137,6 +150,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
         searchTerms,
         mode: refreshConfig.mode,
         selectedSources: refreshConfig.selectedSources,
+        googleMaps: refreshConfig.googleMaps,
       },
     })
   } catch (error) {
