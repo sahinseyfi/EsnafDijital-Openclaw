@@ -140,6 +140,9 @@ export default async function ProjectOsPage({
           <h1>Bugün hangi işi ilerleteceğin net olsun</h1>
           <p className="muted">Bu ekran genel CRM değil. Sadece aktif audit → teklif → teslimat → bakım zincirinde hangi işin sıcak olduğunu ve bir sonraki aksiyonu görünür kılar.</p>
         </div>
+        <div className="hero-actions">
+          <Link href="/businesses" className="ghost-link">İşletme listesini aç</Link>
+        </div>
       </section>
 
       <section className="stats-grid">

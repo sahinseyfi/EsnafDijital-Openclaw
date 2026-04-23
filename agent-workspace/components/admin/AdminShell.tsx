@@ -20,6 +20,7 @@ const navGroups: NavGroup[] = [
     title: 'Ana akış',
     items: [
       { href: '/project-os', label: 'İş Takibi', note: 'Audit, teklif ve teslimat akışı' },
+      { href: '/businesses', label: 'İşletmeler', note: 'Tüm kayıt listesi ve detay geçişi' },
       { href: '/consultation-center', label: 'Karar Hazırlığı', note: 'Prompt ve danışma hazırlığı' },
       { href: '/discovery', label: 'Keşif', note: 'Apify aday tablosu ve ön eleme görünümü' },
     ],
@@ -116,7 +117,7 @@ export function AdminShell({
               <p className="eyebrow">{group.title}</p>
               <div className="stack-sm">
                 {group.items.map((item) => {
-                  const isActive = pathname === item.href
+                  const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
                   return (
                     <Link key={item.href} href={item.href} className={classNames('nav-link', isActive && 'nav-link-active')}>
                       <strong>{item.label}</strong>
