@@ -346,7 +346,7 @@ export function BusinessScanPanel({
                 idleLabel="Apify taramayı başlat"
                 loadingLabel="Apify tarama çalışıyor..."
                 successLabel="Apify tarama tamamlandı"
-                helperText="İşaretlenen kaynaklar için Apify taraması başlatılır. Google Maps detay ve yorum kapsamı ayrı açılabilir."
+                helperText="İşaretlenen kaynaklar ayrı ayrı çalıştırılır. Google Maps detay ve yorum kapsamı ayrıca açılabilir."
                 requestBody={{
                   mode: 'apify',
                   sources: selectedSources,
