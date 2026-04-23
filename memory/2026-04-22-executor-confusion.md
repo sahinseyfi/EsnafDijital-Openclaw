@@ -247,7 +247,7 @@ Considering session restart and HEARTBEAT
 The issue of session or gateway restarts seems to be open, but it might not be critical for the user's file evaluation request. While the IDENTITY/SOUL changes may require a restart, I think it’s safe to avoid focusing on that. I'll review HEARTBEAT-related docs about heartbeat behavior and potential prompt bloat.
 
 Preparing final answer and validation
-I don't need to check some files, like CONSULTATION_LOG.md, as they're not necessary. I’ll format the final answer in two parts. The first will contain valid JSON, structured exactly as specified. For the second section, I'll keep it simple with no more than three short points. I'll add a heading, as the user requested.
+I don't need to check some files, like eski-danisma-logu, as they're not necessary. I’ll format the final answer in two parts. The first will contain valid JSON, structured exactly as specified. For the second section, I'll keep it simple with no more than three short points. I'll add a heading, as the user requested.
 
 Ensuring proper citation and brevity
 I need to be careful with citations in the final answer. Since the response includes web-sourced info, it’s safer to include citations in relevant parts of the JSON. For the second section, I could make it a concise summary without citations, as it stems from what’s already covered in the JSON.
@@ -581,7 +581,7 @@ data = {
  "ROADMAP.md",
  "memory/YYYY-MM-DD*.md",
  "HEARTBEAT.json",
- "CONSULTATION_LOG.md"
+ "eski-danisma-logu"
  ],
  "finalContent": "# HEARTBEAT.md\n\n## Mevcut faz\nFaz 1 - ic operasyon ve baglam omurgasini kurma\n\n## Su anki ana hedef\nTeklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak.\n\n## Bu hafta odak\n- ilk teklif omurgasini keskinlestir\n- Project OS / Context Center / Consultation Center akislarini gercek veriyle bagla\n- gercek DATABASE_URL ile Postgres + Prisma bootstrap hattini calistir\n\n## Siradaki tek somut adim\n- gercek DATABASE_URL ile npm run prisma:bootstrap:local calistir ve DB baglantisini dogrula\n\n## Blokajlar\n- ilk teklif paketinin detaylari tam keskin degil\n- prod dogrulama icin normal oturum yetkisi gerekiyor\n- operasyonel kayitlar tam veritabanina tasinmadi\n\n## Riskler\n- MVP'nin genel CRM'e kaymasi\n- teklif netlesmeden ekran cogaltmak\n- baglam dosyalarinin tekrar ve cop ile buyumesi\n\n## Son guncelleme\n2026-04-22"
  }
