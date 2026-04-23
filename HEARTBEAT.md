@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- Business Detail icindeki yeni `Hazirlik / Tarama` akisini `3012` runtime'inda smoke test edip hafif tarama -> derived karar akisinin mikro metinlerini son kez sertlestirmek
+- Business Detail icinde hafif tarama sonrasi `Y.Z raporu` / karar uretim aksiyonunu ayni operator akisinda birlestirip derived tarafini tek bloktan ilerletmek
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir

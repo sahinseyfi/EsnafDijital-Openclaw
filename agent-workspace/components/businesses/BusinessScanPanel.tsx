@@ -344,7 +344,7 @@ export function BusinessScanPanel({
                 idleLabel="Apify taramayı başlat"
                 loadingLabel="Apify tarama çalışıyor..."
                 successLabel="Apify tarama tamamlandı"
-                helperText="İşaretlenen kaynaklar için Apify taraması başlatılır."
+                helperText="İşaretlenen kaynaklar için Apify taraması başlatılır. Instagram seçilirse profil arama yapılmaz, sadece bilinen profil linki üzerinden ilerlenir."
                 requestBody={{
                   mode: 'apify',
                   sources: selectedSources,
