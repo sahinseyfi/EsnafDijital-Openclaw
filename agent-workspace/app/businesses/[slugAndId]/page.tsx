@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
-import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
+import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { ProjectOsAdvanceButton } from '@/components/project-os/ProjectOsAdvanceButton'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
@@ -309,15 +309,12 @@ export default async function BusinessDetailPage({
 
       <section>
         <article className="card stack-sm" style={{ borderColor: 'var(--brand-200)', background: 'linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(255, 255, 255, 1))' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            <div>
-              <p className="eyebrow">Audit snapshot</p>
-              <h3>Dış dünya ve audit özetini tek bakışta oku</h3>
-            </div>
-            <BusinessDiscoveryRefreshButton businessId={business.id} />
+          <div>
+            <p className="eyebrow">Audit snapshot</p>
+            <h3>Dış dünya ve audit özetini tek bakışta oku</h3>
           </div>
 
-          <p className="muted">Bu aksiyon Apify ile seçili işletme için dış veri snapshot'ını yeniden çeker. Kanonik işletme kaydı otomatik ezilmez.</p>
+          <p className="muted">Bu kart dis dunya ve audit ozetini toplar. Manuel tarama aksiyonu alttaki Hazirlik / Tarama panelinde durur.</p>
 
           <div className="grid-2" style={{ alignItems: 'start' }}>
             <div className="stack-sm">
@@ -365,6 +362,8 @@ export default async function BusinessDetailPage({
           </div>
         </article>
       </section>
+
+      <BusinessScanPanel businessId={business.id} discoverySnapshot={discoverySnapshot} refreshHistory={refreshHistory} />
 
       <section className="grid-2" style={{ alignItems: 'start' }}>
         <article className="card stack-sm">

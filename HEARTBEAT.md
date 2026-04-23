@@ -20,7 +20,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
 
 ## Siradaki Somut Adim
-- `Hafif tarama / Derin tarama` panelinin V1 UI iskeletini `REFERENCES/business-detail-v1.md` cizgisine gore Business Detail icinde ac
+- Business Detail icindeki `Hafif tarama / Derin tarama` paneli acildi; siradaki adim mod secici ve kaynak listesini gercek tarama davranisina baglamak, sonra panel uzerinden ikinci smoke test almak
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir

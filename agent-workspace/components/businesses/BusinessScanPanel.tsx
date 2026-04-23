@@ -205,7 +205,7 @@ export function BusinessScanPanel({
                 idleLabel="Tarama baslat"
                 loadingLabel="Tarama calisiyor..."
                 successLabel="Tarama tamamlandi"
-                helperText={mode === 'light' ? 'Yaklasik 1 dk. Maps + arama sinyali ile hizli hazirlik paketi uretir.' : 'Yaklasik 1-3 dk. Secmeli kaynaklar gorunur, V1'de arka plan yine tekli yenileme hattina baglidir.'}
+                helperText={mode === 'light' ? 'Yaklasik 1 dk. Maps + arama sinyali ile hizli hazirlik paketi uretir.' : "Yaklasik 1-3 dk. Secmeli kaynaklar gorunur, V1'de arka plan yine tekli yenileme hattina baglidir."}
               />
             </article>
           </div>
