@@ -387,7 +387,7 @@ function buildAppleMapsInput(searchTerms: string[], costProfile: RefreshCostProf
   }
 }
 
-function buildSerperInput(searchTerms: string[], costProfile: RefreshCostProfile) {
+function buildSerpApiInput(searchTerms: string[], costProfile: RefreshCostProfile) {
   return {
     queries: limitSearchTerms(searchTerms, costProfile.googleSearchTermLimit),
     gl: 'tr',
@@ -430,7 +430,7 @@ function buildSourceSpecs({
         actorId: 'serpapi/google-search',
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.raw.json`),
-        input: buildSerperInput(searchTerms, costProfile),
+        input: buildSerpApiInput(searchTerms, costProfile),
         errorLabel: 'SerpApi taramasi',
         normalizeRows: normalizeGoogleSearchRows,
         runner: 'serpapi',
