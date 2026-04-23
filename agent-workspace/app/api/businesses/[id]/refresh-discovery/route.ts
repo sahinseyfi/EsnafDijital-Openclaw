@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry, normalizeDiscoveryText, type DiscoverySourceRun } from '@/lib/businesses/discovery'
-import { searchSerperQueries } from '@/lib/discovery/serper'
+import { searchSerpApiQueries } from '@/lib/discovery/serpapi'
 
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
@@ -46,7 +46,7 @@ type SourceRunSpec = {
   input: Record<string, unknown>
   errorLabel: string
   normalizeRows: (rows: DiscoveryRow[]) => DiscoveryRow[]
-  runner?: 'apify' | 'serper'
+  runner?: 'apify' | 'serpapi'
 }
 
 type RefreshCostProfile = {
@@ -140,9 +140,9 @@ async function runApifyActor({ actorId, inputPath, rawPath, errorLabel }: { acto
   })
 }
 
-async function runSerperSearch({ input, rawPath }: { input: Record<string, unknown>; rawPath: string }) {
+async function runSerpApiSearch({ input, rawPath }: { input: Record<string, unknown>; rawPath: string }) {
   const queries = Array.isArray(input.queries) ? input.queries.map((item) => String(item)) : []
-  const rows = await searchSerperQueries({
+  const rows = await searchSerpApiQueries({
     queries,
     num: Number(input.num) || 5,
     gl: typeof input.gl === 'string' ? input.gl : 'tr',
@@ -427,13 +427,13 @@ function buildSourceSpecs({
     if (refreshConfig.selectedSources.includes('google-search') || refreshConfig.selectedSources.includes('serp-signals')) {
       specs.push({
         source: 'google-search',
-        actorId: 'serper/google-search',
-        inputPath: path.join(MANUAL_RUN_DIR, `${slug}.serper.input.json`),
-        rawPath: path.join(MANUAL_RUN_DIR, `${slug}.serper.raw.json`),
+        actorId: 'serpapi/google-search',
+        inputPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.input.json`),
+        rawPath: path.join(MANUAL_RUN_DIR, `${slug}.serpapi.raw.json`),
         input: buildSerperInput(searchTerms, costProfile),
-        errorLabel: 'Serper taramasi',
+        errorLabel: 'SerpApi taramasi',
         normalizeRows: normalizeGoogleSearchRows,
-        runner: 'serper',
+        runner: 'serpapi',
       })
     }
 
@@ -512,8 +512,8 @@ async function runSourceActor(spec: SourceRunSpec): Promise<SourceRunResult> {
   await writeFile(spec.inputPath, JSON.stringify(spec.input, null, 2), 'utf8')
 
   try {
-    const actorRows = spec.runner === 'serper'
-      ? await runSerperSearch({ input: spec.input, rawPath: spec.rawPath })
+    const actorRows = spec.runner === 'serpapi'
+      ? await runSerpApiSearch({ input: spec.input, rawPath: spec.rawPath })
       : await (async () => {
         await runApifyActor({
           actorId: spec.actorId,
