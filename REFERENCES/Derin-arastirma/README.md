@@ -18,6 +18,8 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
   - Ilk hedef sektorleri, siralama mantigini ve genisleme havuzunu analiz eder.
 - `esnafdigital-ilk-hedef-sektorler-dogrulanmis-kaynaklar.md`
   - Ilk hedef sektorler arastirmasindaki satista kullanilabilecek dogrulanmis kaynaklari ve ayiklanmasi gereken sayilari toplar.
+- `esnafdigital-ilk-hedef-sektorler-sentez.md`
+  - Ham arastirma ile dogrulama notunu birlestirip projeye alinacak gercek degeri ayiklar.
 - `esnafdigital-paketleme-ve-fiyatlandirma-ozeti.docx`
   - Kucuk esnaf icin paketleme, fiyat capasi ve 3 kademeli teklif yapisi ozeti.
 - `esnafdigital-crm-yonu-derin-arastirma.md`
