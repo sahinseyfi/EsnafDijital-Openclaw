@@ -163,26 +163,16 @@ export function AdminShell({
 
       <main className="content">
         <div className="page-body">
-          <div className="topbar">
-            <div className="topbar-meta">
-              <span className="topbar-badge">Faz 1</span>
-              <span className="topbar-note">Sade akış menüsü aktif</span>
-            </div>
-            <div className="topbar-actions">
-              <button type="button" className="button-secondary" onClick={toggleTheme} aria-pressed={theme === 'dark'}>
-                {theme === 'dark' ? 'Açık moda geç' : 'Koyu moda geç'}
-              </button>
-              <button
-                type="button"
-                className="button-secondary mobile-nav-trigger"
-                aria-expanded={isMenuOpen}
-                aria-controls="admin-sidebar"
-                onClick={() => setIsMenuOpen(true)}
-              >
-                Menü
-              </button>
-              <Link href="/project-os" className="ghost-link">İş Takibi</Link>
-            </div>
+          <div className="mobile-topbar">
+            <button
+              type="button"
+              className="button-secondary mobile-nav-trigger"
+              aria-expanded={isMenuOpen}
+              aria-controls="admin-sidebar"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              Menü
+            </button>
           </div>
 
           <header className="page-header">

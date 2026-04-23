@@ -210,7 +210,8 @@ textarea:focus-visible {
 
 .sidebar-backdrop,
 .sidebar-mobile-header,
-.mobile-nav-trigger {
+.mobile-nav-trigger,
+.mobile-topbar {
   display: none;
 }
 
@@ -1020,6 +1021,11 @@ code {
     padding: 22px 18px 32px;
   }
 
+  .mobile-topbar {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .page-header,
   .hero,
   .topbar,
@@ -1039,16 +1045,17 @@ code {
     display: inline-flex;
   }
 
+  .mobile-topbar .mobile-nav-trigger,
+  .sidebar-mobile-header .sidebar-close {
+    width: auto;
+  }
+
   .button-primary,
   .button-secondary,
   .button-danger,
   .ghost-link,
   .cta-link {
     width: 100%;
-  }
-
-  .sidebar-mobile-header .sidebar-close {
-    width: auto;
   }
 
   .consultation-inbox-main {
