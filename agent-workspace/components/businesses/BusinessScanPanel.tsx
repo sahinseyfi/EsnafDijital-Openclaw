@@ -135,7 +135,7 @@ export function BusinessScanPanel({
     ...apifyRefreshHistory.map((entry) => ({
       kind: 'apify' as const,
       createdAt: entry.source.collectedAt,
-      label: entry.source.refreshMode === 'light' ? 'Hafif tarama' : 'Apify tarama',
+      label: entry.source.refreshMode === 'light' ? 'Hafif tarama' : 'Derin tarama',
       scannedFields: getApifyFieldLabels(entry),
     })),
   ].sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime())
@@ -362,32 +362,51 @@ export function BusinessScanPanel({
               <p className="muted">Bu işletme için daha önce çalışan hafif, ajan ve derin taramalar.</p>
             </div>
 
-            <div className="stack-xs">
+            <div style={{ display: 'grid', gap: 10 }}>
               {scanHistory.map((entry, index) => (
-                <div key={`${entry.kind}-${entry.createdAt}-${index}`} className="scan-history-row">
-                  <div className="detail-field">
-                    <p className="eyebrow">Tarama</p>
-                    <p>{entry.label}</p>
-                  </div>
-                  <div className="detail-field">
-                    <p className="eyebrow">Zaman</p>
-                    <p>{formatScanTime(entry.createdAt)}</p>
-                  </div>
-                  {entry.status ? (
-                    <div className="detail-field">
-                      <p className="eyebrow">Durum</p>
-                      <p>{entry.status}</p>
+                <article
+                  key={`${entry.kind}-${entry.createdAt}-${index}`}
+                  className="card stack-xs"
+                  style={{
+                    padding: 12,
+                    borderColor: 'var(--line-soft)',
+                    background: 'var(--surface-subtle)',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <div>
+                      <p className="eyebrow">{entry.label}</p>
+                      <p style={{ margin: 0 }}>{formatScanTime(entry.createdAt)}</p>
                     </div>
-                  ) : null}
+
+                    {entry.status ? (
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          minHeight: 28,
+                          padding: '4px 10px',
+                          borderRadius: 999,
+                          border: '1px solid var(--line-soft)',
+                          background: 'var(--surface)',
+                          fontSize: 13,
+                          color: 'var(--text-muted)',
+                        }}
+                      >
+                        {entry.status}
+                      </span>
+                    ) : null}
+                  </div>
+
                   {entry.scannedFields && entry.scannedFields.length > 0 ? (
-                    <div className="detail-field" style={{ gridColumn: '1 / -1' }}>
+                    <div className="detail-field">
                       <p className="eyebrow">Taranan alanlar</p>
-                      <ul className="compact-list">
+                      <ul className="compact-list" style={{ marginTop: 0 }}>
                         {entry.scannedFields.map((item) => <li key={item}>{item}</li>)}
                       </ul>
                     </div>
                   ) : null}
-                </div>
+                </article>
               ))}
             </div>
           </div>
