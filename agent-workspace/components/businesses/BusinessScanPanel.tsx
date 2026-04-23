@@ -27,10 +27,6 @@ const apifySources = [
     key: 'google-search',
     label: 'Google Search',
   },
-  {
-    key: 'instagram',
-    label: 'Instagram',
-  },
 ] as const
 
 type ScanMode = 'light' | 'agent' | 'apify'
@@ -350,7 +346,7 @@ export function BusinessScanPanel({
                 idleLabel="Apify taramayı başlat"
                 loadingLabel="Apify tarama çalışıyor..."
                 successLabel="Apify tarama tamamlandı"
-                helperText="İşaretlenen kaynaklar için Apify taraması başlatılır. Instagram seçilirse profil arama yapılmaz, sadece bilinen profil linki üzerinden ilerlenir."
+                helperText="İşaretlenen kaynaklar için Apify taraması başlatılır. Google Maps detay ve yorum kapsamı ayrı açılabilir."
                 requestBody={{
                   mode: 'apify',
                   sources: selectedSources,

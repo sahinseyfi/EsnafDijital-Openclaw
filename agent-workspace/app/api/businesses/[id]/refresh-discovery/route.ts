@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process'
 import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
-import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry, type DiscoverySummaryEntry } from '@/lib/businesses/discovery'
+import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry } from '@/lib/businesses/discovery'
 
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
 export const maxDuration = 300
 
 const LIGHT_SOURCES = ['maps-snapshot', 'website-check', 'google-search', 'serp-signals'] as const
-const APIFY_SOURCES = ['google-maps', 'yandex', 'apple-maps', 'google-search', 'instagram'] as const
+const APIFY_SOURCES = ['google-maps', 'yandex', 'apple-maps', 'google-search'] as const
 
 type RefreshMode = 'light' | 'apify'
 
@@ -24,41 +24,6 @@ type RefreshRequestPayload = {
     details?: boolean
     reviews?: boolean
   }
-}
-
-type InstagramSignal = NonNullable<DiscoverySummaryEntry['source']['instagramSignal']>
-
-function extractInstagramUrlFromValue(value: unknown) {
-  if (typeof value !== 'string') return ''
-  const trimmed = value.trim()
-  if (!trimmed) return ''
-  return /instagram\.com/i.test(trimmed) ? trimmed : ''
-}
-
-function extractKnownInstagramProfileUrl(rows: Array<Record<string, unknown>>) {
-  for (const row of rows) {
-    for (const key of ['instagramUrl', 'instagram', 'profileUrl']) {
-      const direct = extractInstagramUrlFromValue(row[key])
-      if (direct) return direct
-    }
-
-    const website = extractInstagramUrlFromValue(row.website) || extractInstagramUrlFromValue(row.websiteUrl)
-    if (website) return website
-
-    const webResults = Array.isArray(row.webResults) ? row.webResults : []
-    for (const item of webResults) {
-      const direct = extractInstagramUrlFromValue(item)
-      if (direct) return direct
-
-      if (item && typeof item === 'object') {
-        const candidate = item as Record<string, unknown>
-        const url = extractInstagramUrlFromValue(candidate.url) || extractInstagramUrlFromValue(candidate.link)
-        if (url) return url
-      }
-    }
-  }
-
-  return ''
 }
 
 function buildSearchTerms(input: { name: string; district: string }) {
@@ -170,24 +135,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
 
     const raw = await readFile(rawPath, 'utf8')
     const rows = parseApifyRows(raw)
-    let instagramSignal: InstagramSignal | undefined
-
-    if (refreshConfig.mode === 'apify' && refreshConfig.selectedSources.includes('instagram')) {
-      const knownInstagramProfileUrl = extractKnownInstagramProfileUrl(rows)
-
-      instagramSignal = knownInstagramProfileUrl
-        ? {
-            searched: false,
-            candidateCount: 1,
-            matchedProfileUrl: knownInstagramProfileUrl,
-            matchReason: 'bilinen profil linki bulundu, profil arama yapilmadi',
-          }
-        : {
-            searched: false,
-            candidateCount: 0,
-            matchReason: 'bilinen instagram profili yok, profil arama yapilmadi',
-          }
-    }
 
     const entry = buildBusinessRefreshEntry({
       business,
@@ -197,7 +144,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       refreshMode: refreshConfig.mode,
       selectedSources: refreshConfig.selectedSources,
       googleMapsOptions: refreshConfig.googleMaps,
-      instagramSignal,
     })
 
     if (!entry) {
