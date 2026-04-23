@@ -61,6 +61,14 @@ const DISCOVERY_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discover
 const DISCOVERY_SUMMARY_PATH = path.join(DISCOVERY_DIR, 'summary', 'candidates-summary.json')
 const DISCOVERY_SNAPSHOTS_DIR = path.join(DISCOVERY_DIR, 'snapshots')
 const BUSINESS_REFRESH_DIR = path.join(DISCOVERY_DIR, 'business-refreshes')
+const DISCOVERY_LOCATION_TOKENS = new Set(['arnavutkoy', 'istanbul', 'turkiye'])
+const DISCOVERY_CATEGORY_TOKEN_GROUPS = [
+  ['berber', 'barber'],
+  ['kuafor', 'kuaforu', 'hair'],
+  ['guzellik', 'salon', 'salonu'],
+  ['kafe', 'cafe'],
+  ['restoran', 'restaurant'],
+]
 
 export function normalizeDiscoveryText(value: string) {
   return value
@@ -73,6 +81,34 @@ export function normalizeDiscoveryText(value: string) {
     .replace(/ü/g, 'u')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
+}
+
+function discoveryTokens(value: string) {
+  return normalizeDiscoveryText(value)
+    .split(' ')
+    .filter(Boolean)
+}
+
+function getDiscoveryNameSignals(candidateName: string, businessName: string) {
+  const candidateNormalized = normalizeDiscoveryText(candidateName)
+  const businessNormalized = normalizeDiscoveryText(businessName)
+  const candidateTokens = discoveryTokens(candidateName)
+  const businessTokens = discoveryTokens(businessName)
+    .filter((token) => !DISCOVERY_LOCATION_TOKENS.has(token))
+  const candidateTokenSet = new Set(candidateTokens)
+  const sharedTokens = businessTokens.filter((token) => candidateTokenSet.has(token))
+  const sharedTokenCount = Array.from(new Set(sharedTokens)).length
+  const requiredCategoryGroups = DISCOVERY_CATEGORY_TOKEN_GROUPS.filter((group) => businessTokens.some((token) => group.includes(token)))
+  const categoryAligned = requiredCategoryGroups.length === 0
+    || requiredCategoryGroups.some((group) => candidateTokens.some((token) => group.includes(token)))
+
+  return {
+    exactMatch: candidateNormalized === businessNormalized,
+    partialMatch: candidateNormalized.includes(businessNormalized) || businessNormalized.includes(candidateNormalized),
+    sharedTokenCount,
+    businessTokenCount: businessTokens.length,
+    categoryAligned,
+  }
 }
 
 function businessKey(row: DiscoveryRawRow) {
@@ -149,14 +185,16 @@ function toIsoNow() {
 }
 
 function scoreCandidateMatch(row: DiscoveryRawRow, business: BusinessLookup) {
-  const title = normalizeDiscoveryText(String(row.title || ''))
-  const name = normalizeDiscoveryText(business.name)
+  const nameSignals = getDiscoveryNameSignals(String(row.title || ''), business.name)
   const districtNeedle = normalizeDiscoveryText(business.district)
   const address = normalizeDiscoveryText([row.address, row.city, row.state].map((item) => String(item || '')).join(' '))
 
   let score = 0
-  if (title === name) score += 8
-  else if (title.includes(name) || name.includes(title)) score += 5
+  if (nameSignals.exactMatch) score += 8
+  else if (nameSignals.partialMatch) score += 5
+  else if (nameSignals.categoryAligned && nameSignals.sharedTokenCount >= 2) score += 4
+  else if (nameSignals.categoryAligned && nameSignals.sharedTokenCount === 1 && nameSignals.businessTokenCount === 1) score += 3
+  else if (!nameSignals.categoryAligned || nameSignals.sharedTokenCount === 0) score -= 4
 
   if (districtNeedle && address.includes(districtNeedle)) score += 2
   if (String(row.searchString || '').trim() === business.name.trim()) score += 1
@@ -249,6 +287,14 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
 
   const best = rankedRows[0]
   if (!best || best.score < 4) return null
+
+  const bestNameSignals = getDiscoveryNameSignals(String(best.row.title || ''), business.name)
+  const hasStrongNameAlignment = bestNameSignals.exactMatch
+    || bestNameSignals.partialMatch
+    || (bestNameSignals.categoryAligned && bestNameSignals.sharedTokenCount >= 2)
+    || (bestNameSignals.categoryAligned && bestNameSignals.sharedTokenCount === 1 && bestNameSignals.businessTokenCount === 1)
+
+  if (!hasStrongNameAlignment) return null
 
   const groupedRows = rows.filter((row) => businessKey(row) === businessKey(best.row))
   const firstRow = groupedRows[0]
