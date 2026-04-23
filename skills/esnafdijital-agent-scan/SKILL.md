@@ -1,85 +1,73 @@
 ---
 name: esnafdijital-agent-scan
-description: [TODO: Complete and informative explanation of what the skill does and when to use it. Include WHEN to use this skill - specific scenarios, file types, or tasks that trigger it.]
+description: Agent-side single-business scan for EsnafDigital. Use when the user selects `Ajan tarama`, asks to scan or enrich one business without Apify, wants website/maps/search/social signals reviewed by the agent, or needs a compact operator-facing scan summary and next action for a business record.
 ---
 
 # Esnafdijital Agent Scan
 
-## Overview
+Bu skill, tek isletme icin ajan tarafinda yapilan taramayi standardize eder.
+Amaç ham veri yigmak degil, operatorun hemen kullanabilecegi kisa ve guvenilir sinyal cikarmaktir.
 
-[TODO: 1-2 sentences explaining what this skill enables]
+## Cekirdek akis
 
-## Structuring This Skill
+1. Tek isletme uzerinde calis.
+2. Once mevcut kaydi oku: isim, ilce, kategori, website, maps linki, notlar.
+3. Hizli sinyali dusuk maliyetle topla.
+4. Gerekirse agent-browser-core ile sayfa ici gezinme yap.
+5. Ciktiyi kisa operasyon ozetine donustur.
+6. Belirsiz alanlari acikca `dogrulanmadi` diye isaretle.
 
-[TODO: Choose the structure that best fits this skill's purpose. Common patterns:
+## Tarama sirasi
 
-**1. Workflow-Based** (best for sequential processes)
-- Works well when there are clear step-by-step procedures
-- Example: DOCX skill with "Workflow Decision Tree" -> "Reading" -> "Creating" -> "Editing"
-- Structure: ## Overview -> ## Workflow Decision Tree -> ## Step 1 -> ## Step 2...
+### 1. Temel dogrulama
+- isletme adi
+- kategori / is kolu
+- ilce / konum uyumu
+- aktif mi kapali mi sinyali
+- ayni isimli baska isletme riski var mi
 
-**2. Task-Based** (best for tool collections)
-- Works well when the skill offers different operations/capabilities
-- Example: PDF skill with "Quick Start" -> "Merge PDFs" -> "Split PDFs" -> "Extract Text"
-- Structure: ## Overview -> ## Quick Start -> ## Task Category 1 -> ## Task Category 2...
+### 2. Web vitrini sinyali
+- resmi website var mi
+- site aciliyor mu
+- iletisim bilgisi net mi
+- hizmet anlatimi yeterli mi
+- bariz guven eksigi var mi
 
-**3. Reference/Guidelines** (best for standards or specifications)
-- Works well for brand guidelines, coding standards, or requirements
-- Example: Brand styling with "Brand Guidelines" -> "Colors" -> "Typography" -> "Features"
-- Structure: ## Overview -> ## Guidelines -> ## Specifications -> ## Usage...
+### 3. Harita ve arama sinyali
+- Google Maps temel kalite sinyali
+- markali aramada resmi yuzeyler cikiyor mu
+- Yandex / Apple Maps sadece anlamliysa kontrol et
+- sonuc yoksa bunu negatif veri gibi degil `gorunmedi` olarak yaz
 
-**4. Capabilities-Based** (best for integrated systems)
-- Works well when the skill provides multiple interrelated features
-- Example: Product Management with "Core Capabilities" -> numbered capability list
-- Structure: ## Overview -> ## Core Capabilities -> ### 1. Feature -> ### 2. Feature...
+### 4. Sosyal sinyal
+- Instagram varsa aktiflik, link duzeni, temel guven izi
+- hesap yoksa `yok` yaz, tahmin uretme
 
-Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
+## Cikti formati
 
-Delete this entire "Structuring This Skill" section when done - it's just guidance.]
+Her ajan tarama sonunda sonucu su bloklarla ver:
+- `Durum`
+- `Kisa ozet`
+- `Bulgular`
+- `Eksikler / riskler`
+- `Onerilen sonraki adim`
 
-## [TODO: Replace with the first main section based on chosen structure]
+Detayli alan listesi icin `references/scan-contract.md` oku.
 
-[TODO: Add content here. See examples in existing skills:
-- Code samples for technical skills
-- Decision trees for complex workflows
-- Concrete examples with realistic user requests
-- References to scripts/templates/references as needed]
+## Karar cizgisi
+- Kucuk isletme, sade MVP ve dusuk operasyon yuku cizgisini koru.
+- Tam scrape console gibi davranma.
+- Gereksiz ham HTML / uzun dump donme.
+- Tek kayit icin operatora yarayan sinyali cikar.
+- Emin olmadigin seyi kesin bilgi gibi yazma.
+- Discovery ile Project OS sinirini bozma; bu skill veri toplar, operator karari yerine gecmez.
 
-## Resources (optional)
+## Arac secimi
+- Statik ve hafif sayfalar icin once `web_fetch` dusun.
+- Etkilesim, popup, lazy content veya gezinme gerekiyorsa `agent-browser-core` kullan.
+- Apify gerektiren isler bu skillin disindadir; onlar `Apify tarama` akisinda kalir.
 
-Create only the resource directories this skill actually needs. Delete this section if no resources are required.
-
-### scripts/
-Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
-
-**Examples from other skills:**
-- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
-- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
-
-**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
-
-**Note:** Scripts may be executed without loading into context, but can still be read by Codex for patching or environment adjustments.
-
-### references/
-Documentation and reference material intended to be loaded into context to inform Codex's process and thinking.
-
-**Examples from other skills:**
-- Product management: `communication.md`, `context_building.md` - detailed workflow guides
-- BigQuery: API reference documentation and query examples
-- Finance: Schema documentation, company policies
-
-**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Codex should reference while working.
-
-### assets/
-Files not intended to be loaded into context, but rather used within the output Codex produces.
-
-**Examples from other skills:**
-- Brand styling: PowerPoint template files (.pptx), logo files
-- Frontend builder: HTML/React boilerplate project directories
-- Typography: Font files (.ttf, .woff2)
-
-**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
-
----
-
-**Not every skill requires all three types of resources.**
+## Sonlandirma standardi
+- Kisa bir operasyon ozetini uret.
+- En az bir net sonraki adim yaz.
+- Supheli eslesme varsa bunu en ustte belirt.
