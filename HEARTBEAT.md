@@ -11,7 +11,7 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 **Faz 1 - ic operasyon ve baglam omurgasini kurma**
 
 ## Su Anki Ana Hedef
-Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisleyebilen ayni sistemde toplamak.
+Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni sistemde toplamak.
 
 ## Bu Hafta Oncelik
 1. ilk teklif omurgasini keskinlestirmek
@@ -29,7 +29,7 @@ Teklif omurgasi, veri temeli ve admin operasyon ekranlarini CRM yonunde genisley
 - yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
 
 ## Dikkat Edilecek Riskler
-- yatay ve her yone dagilan genel CRM urunune savrulmak
+- genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 

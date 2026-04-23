@@ -14,13 +14,14 @@ Küçük işletmelerin dijitalde daha görünür, daha güvenilir ve daha kolay 
 ## Çekirdek Değer Önerisi
 EsnafDigital, küçük işletmeye ağır ajans dili değil; hızlı anlaşılır, güven veren ve doğrudan işe yarayan dijital düzen sunar.
 
-## Ana Operasyon Akışı
+## İlk Hizmet Omurgası
 1. **Audit** — işletmenin mevcut dijital görünümünü analiz et
 2. **Teklif** — ihtiyaca uygun net kapsam üret
 3. **Teslimat** — görünen iyileştirmeyi hızlıca hayata geçir
 4. **Bakım** — canlılığı ve güncelliği koru
 
-Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akışı desteklemelidir.
+Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değildir.
+İç sistem, işletmeyle ilgili not, görüşme, aktivite, görev, teklif, teslimat ve bakım işlerini tek yerde toplayan CRM-evrilebilir bir operasyon sistemi olarak kurulacaktır.
 
 ## İlk Pazar Odağı
 - **Bölge:** İstanbul Arnavutköy ve çevresi
@@ -60,7 +61,7 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 - GPT Pro danışma için bağlamlı prompt üretimi
 
 ## MVP Dışı
-- yatay ve herkes için genel amaçlı SaaS CRM
+- bağımsız, yatay ve herkese satılan genel amaçlı SaaS CRM ürünleşmesi
 - tüm sektörleri aynı anda hedefleyen yapı
 - ağır AI / RAG / vector DB katmanları
 - stok / tahsilat / gelir-gider modülleri
@@ -69,7 +70,7 @@ Bu projede tüm ekranlar, veri modeli, kayıt yapıları ve otomasyonlar bu akı
 
 ## İç Sistem Hedefi
 İç sistem tek yerde şu üç şeyi birleştirmelidir:
-1. **Operasyonel CRM / Proje Yönetimi** — işletme, görüşme, not, teklif, teslimat ve bakım hattında neredeyiz, sırada ne var, blokaj ne
+1. **CRM-evrilebilir operasyon sistemi** — işletme, görüşme, not, aktivite, görev, teklif, teslimat ve bakım işlerinde neredeyiz, sırada ne var, blokaj ne
 2. **Bağlam Merkezi** — proje, karar, hafıza, araçlar, dosyalar
 3. **Consultation Center** — kararı netleştirip doğru bağlamla danışma brief'i ve prompt üretme
 

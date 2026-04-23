@@ -3,7 +3,8 @@
 ## Kisa Ozet
 - EsnafDigital, kucuk isletmeler icin dijital gorunurluk ve guven altyapisi kurar.
 - Ilk odak Arnavutkoy ve ilk segmentler berber, guzellik salonu, kafe/restorandir.
-- Ana akis: `Audit -> Teklif -> Teslimat -> Bakim`
+- Ilk hizmet omurgasi: `Audit -> Teklif -> Teslimat -> Bakim`, ama sistem buna kilitlenmez.
+- Panel dar operasyon masasi degil, CRM-evrilebilir ic sistem olarak kurulur.
 - Varsayilan stack: Next.js + Postgres + Prisma
 - Kullanici satis ve sahada, ajan teknik sistem ve operasyondadir.
 - Ic sistem uc cekirdege gore kurulur: proje yonetimi, baglam merkezi, prompt uretim merkezi.

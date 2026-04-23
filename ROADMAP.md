@@ -4,6 +4,7 @@
 **Faz 1 — İç operasyon ve bağlam omurgasını kurma**
 
 Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmaktır. Önce görünürlük ve düzen, sonra otomasyon.
+Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama panel tasarımında tek zorunlu hat değildir.
 
 ## Şimdi Odaklandıklarımız
 - teklif omurgasını keskinleştirmek
@@ -24,7 +25,7 @@ Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmak
 ### Doing
 - proje kayıtlarının standardize edilmesi
 - admin panel bilgi mimarisinin netleştirilmesi
-- teklif ve audit omurgasının sadeleştirilmesi
+- ilk hizmet omurgasının sadeleştirilmesi
 - home ekraninin sistem anlatısından aktif is ve kritik aksiyon yuzeyine cekilmesi
 - Project OS icinde businesses / audits / offers / delivery hattinin daha net gorunur hale getirilmesi
 - operator panelini CRM yonune genisletecek cekirdek nesnelerin sinirini cizmek
@@ -38,7 +39,7 @@ Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmak
 
 ## 30–60 Gün
 ### Hedef
-Audit -> teklif -> teslimat akışını panelde görünür hale getirmek.
+Satıştan operasyona geçişi panelde görünür hale getirmek.
 
 ### Öncelikler
 - gerçek işletme kayıtlarını tutmak
@@ -66,14 +67,14 @@ Teslimat sonrası canlılık ve tekrar edilebilirlik katmanını eklemek.
 
 ## Karar Kuralı
 Yeni bir fikir geldiğinde şu sorularla filtrelenir:
-1. Audit -> teklif -> teslimat -> bakım akışına hizmet ediyor mu?
+1. İşletmeyle ilgili satış, karar veya operasyon akışını daha görünür ve yönetilebilir yapıyor mu?
 2. Şu anki faz için gerekli mi?
 3. Satılabilirliği veya operasyon görünürlüğünü artırıyor mu?
 4. Daha basit bir versiyonla çözülebilir mi?
 
 ## Şimdilik Ertelenenler
 - ağır AI / RAG katmanları
-- yatay SaaS tipi genel CRM ürünleşmesi
+- bağımsız yatay SaaS tipi genel CRM ürünleşmesi
 - çok rollü kullanıcı sistemi
 - ileri müşteri portalı
 - muhasebe / gelir-gider / stok modülleri

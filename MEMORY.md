@@ -5,8 +5,9 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
 ## 1) Proje Omurgası
 - EsnafDigital, küçük işletmelerin dijitalde daha görünür, daha güvenilir ve daha kolay ulaşılabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
 - Esas odak yalnızca site yapmak değil, güven veren dijital kimlik ve görünürlük oluşturmaktır.
-- Çekirdek akış her zaman şunu destekler:
+- İlk hizmet omurgası şudur:
   `Audit -> Teklif -> Teslimat -> Bakım`
+- Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
 
 ## 2) İlk Pazar ve İlk Segmentler
 - İlk hedef bölge: İstanbul Arnavutköy
@@ -29,7 +30,7 @@ Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bi
 
 ## 4) İş Modeli Çizgisi
 - Düşük bariyerli giriş ürünü ile temas kurulur.
-- Audit, teklifin temel girdisi olarak çalışır.
+- Audit, teklif için güçlü bir giriş yolu olarak çalışır, ama her iş zorunlu olarak audit ile başlamaz.
 - Teslimat görünür ve hızlı olmalıdır.
 - Sonrasında bakım / güncelleme geliriyle devam edilir.
 
@@ -45,6 +46,8 @@ Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bi
 1. proje yönetimi
 2. bağlam / doküman merkezi
 3. GPT Pro consultation hazırlığı / prompt üretimi
+- Panel, dar bir operasyon masası değil, EsnafDigital için CRM-evrilebilir bir operasyon sistemi olarak kurulur.
+- Audit, teklif, teslimat ve bakım kayıtları bu yapının ilk güçlü iş tipleridir, sistem sınırı değildir.
 
 ## 7) İş Bölümü
 - Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
