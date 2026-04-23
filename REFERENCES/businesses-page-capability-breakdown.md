@@ -265,11 +265,15 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - secilen scrape kosulari ayni isletme icin tek hazirlik akisi gibi calisacak
 - scrape bittikten sonra demo sayfasi uretimi opsiyonel son adim olarak tetiklenebilecek
 - boylece operator sahaya gitmeden once tek isletme icin on hazirlik paketi olusturabilecek
+- panel iki modda calisacak: `Hafif tarama` ve `Derin tarama`
+- `Hafif tarama` tek isletme icin dusuk maliyetli ve Apify'siz de ilerleyebilen hazirlik seti olacak
+- `Derin tarama` ise harita, sosyal ve ek kaynaklari secmeli sekilde genisletecek
 
 **Bunun icin gereken veri**
 - business kimligi ve temel kanonik alanlar
 - Google referansi veya placeId
 - checkbox bazli secili kaynaklar
+- secili mod bilgisi: `hafif` | `derin`
 - her kaynak icin son run durumu ve zaman bilgisi
 - demo uretimi icin scrape sonucunda cikan normalize veri
 
@@ -277,6 +281,39 @@ Bir baslik ancak veri kaynagi, operator aksiyonu ve cikisi netse ekrana tasinmal
 - bu panel genel CRM otomasyon duvari olmayacak; yalnizca audit oncesi veri toplama ve demo hazirlama aksiyonu olacak
 - maliyet kontrolu icin tum checkbox'lar varsayilan olarak kapali veya minimum set ile acik gelmeli
 - isletmeye gitmeden once "hazirlik paketi" cikarmak hedef, sinirsiz veri toplamak degil
+- varsayilan acilis `Hafif tarama` olacak, `Derin tarama` operator tercihiyle acilacak
+
+### 3.0.1 Hafif tarama modu
+**Sayfada ne gosterilecek**
+- secili oldugunda 3 kaynaklik sade set
+- dusuk maliyet notu
+
+**Tam olarak ne yapacagiz**
+- website kontrolu
+- Google Search gorunurluk aramasi
+- mevcut Google Maps/discovery snapshot okuma
+- eldeki veriyle demo uretimine yetecek minimum business ozetini cikarma
+
+**Net cizgi**
+- bu mod tek isletme pilotu icin varsayilan olacak
+- Apify'siz veya minimum dis maliyetle ilerleyebilmesi tercih edilecek
+
+### 3.0.2 Derin tarama modu
+**Sayfada ne gosterilecek**
+- checkbox'li genis kaynak listesi
+- daha fazla veri, daha fazla maliyet uyarisi
+
+**Tam olarak ne yapacagiz**
+- Google Maps detay yenileme
+- Instagram
+- Yandex
+- Apple Maps
+- gerekiyorsa ek review / website zenginlestirme
+
+**Net cizgi**
+- bu mod varsayilan olmayacak
+- operator secmeden kosmayacak
+- amac gereksiz toplu scrape degil, teklif oncesi gerekli derinligi secmeli acmak
 
 ### 3.2 Tek yonlu demo website onizlemesi
 **Sayfada ne gosterilecek**
