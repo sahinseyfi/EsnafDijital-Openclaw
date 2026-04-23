@@ -10,6 +10,10 @@ export type DiscoverySummaryEntry = {
     rawRecordCount?: number
     refreshMode?: string
     selectedSources?: string[]
+    googleMapsOptions?: {
+      details?: boolean
+      reviews?: boolean
+    }
   }
   candidate: {
     name: string
@@ -55,6 +59,10 @@ type RefreshEntryOptions = {
   locationQuery: string
   refreshMode?: string
   selectedSources?: string[]
+  googleMapsOptions?: {
+    details?: boolean
+    reviews?: boolean
+  }
 }
 
 const DISCOVERY_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery')
@@ -278,7 +286,7 @@ export async function getBusinessDiscoverySnapshot(business: BusinessLookup) {
   return summary.find((record) => matchesBusiness(record, business)) || null
 }
 
-export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources }: RefreshEntryOptions): DiscoverySummaryEntry | null {
+export function buildBusinessRefreshEntry({ business, rows, searchTerms, locationQuery, refreshMode, selectedSources, googleMapsOptions }: RefreshEntryOptions): DiscoverySummaryEntry | null {
   if (rows.length === 0) return null
 
   const rankedRows = rows
@@ -318,6 +326,7 @@ export function buildBusinessRefreshEntry({ business, rows, searchTerms, locatio
       rawRecordCount: groupedRows.length,
       refreshMode: refreshMode || 'manual-single-business',
       selectedSources: selectedSources || [],
+      googleMapsOptions: googleMapsOptions || { details: false, reviews: false },
     },
     candidate: {
       name: String(firstRow.title || business.name),

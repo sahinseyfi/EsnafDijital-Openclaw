@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
+import { getBusinessAgentScanHistory, getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
-import { getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
-import { getBusinessDiscoverySnapshot } from '@/lib/businesses/discovery'
+import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 
@@ -54,9 +54,11 @@ export default async function BusinessDetailPage({
     permanentRedirect(canonicalHref)
   }
 
-  const [discoverySnapshot, latestAgentScan] = await Promise.all([
+  const [discoverySnapshot, latestAgentScan, agentScanHistory, apifyRefreshHistory] = await Promise.all([
     getBusinessDiscoverySnapshot({ id: business.id, name: business.name, district: business.district }),
     getLatestBusinessAgentScan(business.id),
+    getBusinessAgentScanHistory(business.id),
+    getBusinessRefreshHistory(business.id),
   ])
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
 
@@ -145,7 +147,12 @@ export default async function BusinessDetailPage({
         </article>
       </section>
 
-      <BusinessScanPanel businessId={business.id} latestAgentScan={latestAgentScan} />
+      <BusinessScanPanel
+        businessId={business.id}
+        latestAgentScan={latestAgentScan}
+        agentScanHistory={agentScanHistory}
+        apifyRefreshHistory={apifyRefreshHistory}
+      />
     </AdminShell>
   )
 }

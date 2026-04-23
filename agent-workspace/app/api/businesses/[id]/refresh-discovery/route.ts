@@ -132,6 +132,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       locationQuery,
       refreshMode: refreshConfig.mode,
       selectedSources: refreshConfig.selectedSources,
+      googleMapsOptions: refreshConfig.googleMaps,
     })
 
     if (!entry) {
