@@ -14,6 +14,11 @@ export function PromptPreviewCard({
   promptSummary,
   promptStatus,
   promptError,
+  primaryTask,
+  whyPrimaryNow,
+  promptStrategy,
+  secondaryTasks,
+  parkedQuestions,
 }: {
   consultationId: string
   title: string
@@ -24,6 +29,11 @@ export function PromptPreviewCard({
   promptSummary: string[]
   promptStatus: 'preparing' | 'ready' | 'error'
   promptError: string | null
+  primaryTask: string
+  whyPrimaryNow: string
+  promptStrategy: 'single_prompt' | 'split_recommended'
+  secondaryTasks: string[]
+  parkedQuestions: string[]
 }) {
   const router = useRouter()
   const [copied, setCopied] = useState(false)
@@ -105,6 +115,44 @@ export function PromptPreviewCard({
             <li key={item}>{item}</li>
           ))}
         </ul>
+      ) : null}
+      {promptStatus === 'ready' ? (
+        <div className="card stack-xs">
+          <div>
+            <strong>Ana görev</strong>
+            <p className="muted">{primaryTask || 'Henüz çıkarılmadı.'}</p>
+          </div>
+          <div>
+            <strong>Prompt stratejisi</strong>
+            <p className="muted">{promptStrategy === 'split_recommended' ? 'Bölmek daha sağlıklı, bu tur tek ana prompt kuruldu.' : 'Tek prompt çizgisi korundu.'}</p>
+          </div>
+          {whyPrimaryNow ? (
+            <div>
+              <strong>Neden şimdi bu görev?</strong>
+              <p className="muted">{whyPrimaryNow}</p>
+            </div>
+          ) : null}
+          {secondaryTasks.length > 0 ? (
+            <div>
+              <strong>İkincil görevler</strong>
+              <ul className="list">
+                {secondaryTasks.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {parkedQuestions.length > 0 ? (
+            <div>
+              <strong>Park edilen sorular</strong>
+              <ul className="list">
+                {parkedQuestions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
       ) : null}
       {promptText.trim() && promptStatus === 'ready' ? (
         <>

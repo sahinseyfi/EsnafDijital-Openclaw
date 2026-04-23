@@ -27,6 +27,15 @@ export default async function ConsultationCenterPage({
   const selected = payload.selected
   const decisionNote = String(selected?.sharedBrief?.kararNotu || '')
   const promptSummary = selected ? buildPromptSummary({ title: selected.title, sharedBrief: selected.sharedBrief }) : []
+  const primaryTask = typeof selected?.sharedBrief?.primaryTask === 'string' ? selected.sharedBrief.primaryTask : ''
+  const whyPrimaryNow = typeof selected?.sharedBrief?.whyPrimaryNow === 'string' ? selected.sharedBrief.whyPrimaryNow : ''
+  const promptStrategy = selected?.sharedBrief?.promptStrategy === 'split_recommended' ? 'split_recommended' : 'single_prompt'
+  const secondaryTasks = Array.isArray(selected?.sharedBrief?.secondaryTasks)
+    ? selected.sharedBrief.secondaryTasks.filter((item): item is string => Boolean(item))
+    : []
+  const parkedQuestions = Array.isArray(selected?.sharedBrief?.parkedQuestions)
+    ? selected.sharedBrief.parkedQuestions.filter((item): item is string => Boolean(item))
+    : []
 
   return (
     <AdminShell
@@ -83,6 +92,11 @@ export default async function ConsultationCenterPage({
               promptSummary={promptSummary}
               promptStatus={selected.promptStatus}
               promptError={selected.promptError}
+              primaryTask={primaryTask}
+              whyPrimaryNow={whyPrimaryNow}
+              promptStrategy={promptStrategy}
+              secondaryTasks={secondaryTasks}
+              parkedQuestions={parkedQuestions}
             />
 
             <ResponseCaptureForm

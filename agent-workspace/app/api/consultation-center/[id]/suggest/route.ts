@@ -4,6 +4,44 @@ import { acquireConsultationPromptLock, hasConsultationPromptLock, releaseConsul
 import { humanizeConsultationMessage } from '@/lib/consultation-center/messages'
 import { getConsultationDetail, updateConsultation } from '@/lib/consultation-center/service'
 
+function normalizeLine(value: string) {
+  return value
+    .toLocaleLowerCase('tr-TR')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function findPromptLeak(promptText: string, items: string[]) {
+  const normalizedPrompt = normalizeLine(promptText)
+
+  return items.find((item) => {
+    const normalizedItem = normalizeLine(item)
+    return normalizedItem.length >= 16 && normalizedPrompt.includes(normalizedItem)
+  })
+}
+
+function validateSuggestion(suggestion: Awaited<ReturnType<typeof generateConsultationBriefWithAgent>>) {
+  const primaryTask = suggestion.primaryTask?.trim()
+
+  if (!primaryTask) {
+    throw new Error('Prompt guard: ana gorev cikarilmadi.')
+  }
+
+  const promptText = suggestion.finalPromptText?.trim()
+  if (!promptText) {
+    throw new Error('Prompt guard: hazir prompt bos dondu.')
+  }
+
+  const leakCandidate = findPromptLeak(promptText, [
+    ...(suggestion.secondaryTasks || []),
+    ...(suggestion.parkedQuestions || []),
+  ])
+
+  if (leakCandidate) {
+    throw new Error(`Prompt guard: park edilen baslik prompta sizdi (${leakCandidate}).`)
+  }
+}
+
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
 
@@ -49,6 +87,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   try {
     const changeRequest = body.changeRequest?.trim() || undefined
     const suggestion = await generateConsultationBriefWithAgent(workingCopy, { changeRequest })
+    validateSuggestion(suggestion)
     const targetModel = body.targetModel || workingCopy.promptRun.modelName || 'gpt-5-pro'
     const nextSharedBrief = {
       ...(workingCopy.sharedBrief || {}),
