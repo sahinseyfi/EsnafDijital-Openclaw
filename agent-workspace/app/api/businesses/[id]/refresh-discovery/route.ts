@@ -87,7 +87,16 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
       },
     })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Apify yenilemesi başarısız oldu.'
+    const stderr = typeof error === 'object' && error !== null && 'stderr' in error && typeof error.stderr === 'string'
+      ? error.stderr.trim()
+      : ''
+    const stdout = typeof error === 'object' && error !== null && 'stdout' in error && typeof error.stdout === 'string'
+      ? error.stdout.trim()
+      : ''
+    const baseMessage = error instanceof Error ? error.message : 'Apify yenilemesi başarısız oldu.'
+    const detail = stderr || stdout
+    const message = detail ? `${baseMessage}
+${detail}` : baseMessage
     return NextResponse.json({ ok: false, message }, { status: 500 })
   }
 }
