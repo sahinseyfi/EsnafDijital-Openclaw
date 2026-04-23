@@ -82,44 +82,44 @@ export default async function BusinessDetailPage({
             </div>
           </div>
 
-          <div className="grid-2" style={{ alignItems: 'start' }}>
-            <div className="stack-sm">
-              <div>
+          <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
+            <div style={{ display: 'grid', gap: 14 }}>
+              <div className="stack-xs">
                 <p className="eyebrow">İşletme adı</p>
                 <p>{business.name}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">Adres</p>
                 <p>{address}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">Telefon</p>
                 <p>{phone}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">İşletme türü</p>
                 <p>{businessType}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">İşletme sahibi / muhatap</p>
                 <p>{business.ownerName}</p>
               </div>
             </div>
 
-            <div className="stack-sm">
-              <div>
+            <div style={{ display: 'grid', gap: 14 }}>
+              <div className="stack-xs">
                 <p className="eyebrow">Google Maps linki</p>
                 <p>{renderLink(mapsUrl)}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">Website</p>
                 <p>{renderLink(websiteUrl)}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">Instagram</p>
                 <p>{instagramUrl ? renderLink(instagramUrl, 'Yok') : 'Yok'}</p>
               </div>
-              <div>
+              <div className="stack-xs">
                 <p className="eyebrow">Ek not / kısa iç not</p>
                 <p className="muted">{note}</p>
               </div>
