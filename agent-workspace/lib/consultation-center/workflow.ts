@@ -16,7 +16,7 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
     return {
       title: 'Önerilen çalışma modu: İç aksiyon / küçük patch',
       items: [
-        'İş Takibi veya Bağlam Merkezi hedefli aksiyon aç',
+        'İşletmeler veya Bağlam Merkezi hedefli aksiyon aç',
         'Gerekiyorsa teknik uygulama notunu sade bir karar cümlesine indir',
         'Bu iş için dış danışma açma, aksiyon listesi üzerinden ilerle',
       ],
@@ -41,7 +41,7 @@ export function getConsultationNextSteps(detail: ConsultationDetail) {
       items: [
         `${openActions.length} açık aksiyonu kapat veya sahipliğini netleştir`,
         'Karar notu çıkacaksa Bağlam Merkezi hedefine yaz',
-        'Uygulama işi çıkacaksa İş Takibi kaydına bağla',
+        'Uygulama işi çıkacaksa işletme kaydına bağla',
       ],
     }
   }

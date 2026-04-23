@@ -59,7 +59,7 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
     }
   }
 
-  async function importToProjectOs() {
+  async function importToBusiness() {
     setIsSubmitting(true)
     setMessage(null)
 
@@ -72,15 +72,15 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
       const result = await response.json()
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.message || 'İş Takibine aktarım başarısız oldu.')
+        throw new Error(result.message || 'İşletme aktarımı başarısız oldu.')
       }
 
       setCurrentImport(result.import)
       setIsShortlisted(true)
-      setMessage('İş Takibine aktarıldı')
+      setMessage('İşletme kaydı açıldı')
       router.refresh()
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'İş Takibine aktarım başarısız oldu.')
+      setMessage(error instanceof Error ? error.message : 'İşletme aktarımı başarısız oldu.')
     } finally {
       setIsSubmitting(false)
     }
@@ -92,14 +92,14 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
         <button type="button" className="button-secondary" style={{ minHeight: 36, padding: '8px 12px' }} onClick={toggleShortlist} disabled={isSubmitting}>
           {isShortlisted ? 'Kısa listeden çıkar' : 'Kısa listeye al'}
         </button>
-        <button type="button" className="button-primary" style={{ minHeight: 36, padding: '8px 12px' }} onClick={importToProjectOs} disabled={isSubmitting || Boolean(currentImport)}>
-          {currentImport ? 'Aktarıldı' : 'İş Takibine aktar'}
+        <button type="button" className="button-primary" style={{ minHeight: 36, padding: '8px 12px' }} onClick={importToBusiness} disabled={isSubmitting || Boolean(currentImport)}>
+          {currentImport ? 'Aktarıldı' : 'İşletmeye aktar'}
         </button>
       </div>
       {currentImport ? (
         <div className="stack-xs">
           <span className="muted">İşletme {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} açıldı.</span>
-          <Link href={`/project-os?businessId=${currentImport.businessId}#businesses`} className="ghost-link" style={{ minHeight: 36, padding: '8px 12px', width: 'fit-content' }}>
+          <Link href={`/businesses/${currentImport.businessId}`} className="ghost-link" style={{ minHeight: 36, padding: '8px 12px', width: 'fit-content' }}>
             İşletme kaydını aç
           </Link>
         </div>

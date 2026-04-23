@@ -106,7 +106,7 @@ export default async function BusinessDetailPage({
               <h3>{business.name}</h3>
             </div>
             <div className="page-header-actions">
-              <Link href={`/project-os?businessId=${business.id}#records`} className="button-secondary">İş Takibinde aç</Link>
+              <Link href="/businesses" className="button-secondary">Listeye dön</Link>
             </div>
           </div>
 

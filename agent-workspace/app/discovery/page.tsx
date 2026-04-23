@@ -111,7 +111,7 @@ export default async function DiscoveryPage({
         <div>
           <p className="eyebrow">Keşif ön elemesi</p>
           <h1>Ham tarama değil, işlenmiş aday tablosu</h1>
-          <p className="muted">Bu ekran Google Maps verisini doğrudan İş Takibi kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve audit tarafına taşırız.</p>
+          <p className="muted">Bu ekran Google Maps verisini doğrudan işletme kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve audit tarafına taşırız.</p>
         </div>
       </section>
 
@@ -130,7 +130,7 @@ export default async function DiscoveryPage({
         </article>
         <article className="card stat-card">
           <strong>{stats.imported}</strong>
-          <p className="muted">İş Takibine aktarılan aday</p>
+          <p className="muted">işletmeye aktarılan aday</p>
         </article>
       </section>
 
@@ -180,7 +180,7 @@ export default async function DiscoveryPage({
             <li>Skor ve kova ilk eleme sinyalidir, son karar değil.</li>
             <li>Çoklu arama teriminde görünen adaylar daha güçlü görünürlük sinyali verir.</li>
             <li>Sahiplik durumu, kaydın alınıp alınmadığını sonraki taramalarda hızlıca ayırmak için tutulur.</li>
-            <li>Kısa liste butonu manuel seçimi saklar, İş Takibi butonu ise işletme ve audit açarak adayları ana hatta taşır.</li>
+            <li>Kısa liste butonu manuel seçimi saklar, işletmeye aktar butonu ise işletme ve audit açarak adayı ana hatta taşır.</li>
           </ul>
           <p className="muted">Şu an {stats.visible} aday görünüyor, bunların {stats.multiTerm} tanesi birden fazla arama teriminde yakalandı, {stats.unclaimed} tanesinde kayıt alınmamış sinyali var.</p>
         </article>

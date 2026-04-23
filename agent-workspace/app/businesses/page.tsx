@@ -101,17 +101,17 @@ export default async function BusinessesPage({
   return (
     <AdminShell
       title="İşletmeler"
-      description="Project OS içindeki dar operasyon kuyruğundan ayrı, tüm işletme kayıtlarını toplu görüp detaya inmek için sade liste yüzeyi."
+      description="Tüm işletme kayıtlarını toplu görüp detaya inmek için sade liste yüzeyi."
     >
       <section className="hero">
         <div>
           <p className="eyebrow">Tüm kayıt görünümü</p>
           <h1>İşletmeleri ayrı bir listede gör</h1>
-          <p className="muted">Bu sayfa işletme envanteri içindir. Sıcak operasyon sırası yine İş Takibi içinde kalır, ama tüm kayıtları filtreleyip detay sayfasına buradan daha rahat geçersin.</p>
+          <p className="muted">Bu sayfa işletme envanteri içindir. Tüm kayıtları filtreleyip detay sayfasına buradan daha rahat geçersin.</p>
         </div>
         <div className="hero-actions">
-          <Link href="/project-os#quick-actions" className="cta-link">Yeni işletme aç</Link>
-          <Link href="/project-os" className="ghost-link">İş Takibine dön</Link>
+          <Link href="/discovery" className="cta-link">Keşiften işletme ekle</Link>
+          <Link href="/" className="ghost-link">Ana ekrana dön</Link>
         </div>
       </section>
 
@@ -193,8 +193,8 @@ export default async function BusinessesPage({
           </div>
           <ul className="list">
             <li>Burada tüm işletme kayıtlarını görür ve detaya inersin.</li>
-            <li>Sıcak iş sırası ve ilerletme butonları esas olarak İş Takibi içindedir.</li>
             <li>Detay sayfası tek kayıt odaklıdır, bu ekran ise envanter ve filtreleme yüzeyidir.</li>
+            <li>Yeni kayıt ihtiyacı varsa keşif tarafında aday içeri alıp sonra buradan takip edersin.</li>
           </ul>
           <p className="muted">İşletme adına tıklayarak doğrudan profil detayına geçebilirsin.</p>
         </article>

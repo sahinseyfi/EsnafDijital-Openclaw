@@ -35,7 +35,7 @@ const decisionRows = [
   {
     domain: 'İşletme, audit, teklif, teslimat',
     source: 'Veri',
-    owner: 'İş Takibi',
+    owner: 'İşletmeler',
     why: 'Liste, durum ve ilişki gerektiren çekirdek operasyon hattı.',
   },
   {
@@ -83,7 +83,7 @@ export default async function ContextCenterPage() {
         </article>
         <article className="card stat-card">
           <strong>{stats.projectOsRecords}</strong>
-          <p className="muted">İş Takibi kayıt toplamı</p>
+          <p className="muted">işletme hattı kayıt toplamı</p>
         </article>
         <article className="card stat-card">
           <strong>{stats.consultationRecords}</strong>

@@ -251,7 +251,7 @@ export default async function BusinessScanDetailPage({
             </div>
             <div className="page-header-actions">
               <Link href={detailHref} className="button-secondary">Profile dön</Link>
-              <Link href={`/project-os?businessId=${business.id}#records`} className="button-secondary">İş Takibi</Link>
+              <Link href="/businesses" className="button-secondary">İşletmeler</Link>
             </div>
           </div>
 

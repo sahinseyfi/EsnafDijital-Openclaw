@@ -17,9 +17,9 @@ function getActiveFocus(input: {
     return {
       eyebrow: 'Şimdi aktif',
       title: 'İlk işletme kaydını aç',
-      text: 'Operasyon hattı boş. Önce işletme kaydı açıp audit -> teklif -> teslimat akışını gerçek veriyle başlat.',
-      primaryHref: '/project-os',
-      primaryLabel: 'İş Takibine git',
+      text: 'Operasyon hattı boş. Önce keşiften bir işletme içeri alıp gerçek veriyle başlangıç yap.',
+      primaryHref: '/discovery',
+      primaryLabel: 'Keşfe git',
       secondaryHref: '/context-center',
       secondaryLabel: 'Bağlam yüzeyini gör',
     }
@@ -32,8 +32,8 @@ function getActiveFocus(input: {
       text: `${input.blockedConsultations} danışma kaydı netleşmeyi bekliyor. Kısa özet eksiklerini kapatıp hattı tekrar hareket ettir.`,
       primaryHref: '/consultation-center',
       primaryLabel: 'Karar hattına git',
-      secondaryHref: '/project-os',
-      secondaryLabel: 'Operasyon akışını aç',
+      secondaryHref: '/businesses',
+      secondaryLabel: 'İşletmeleri aç',
     }
   }
 
@@ -42,8 +42,8 @@ function getActiveFocus(input: {
       eyebrow: 'Şimdi aktif',
       title: 'Teklife dönmesi gereken işler var',
       text: `${input.pendingOffers} teklif kaydı taslak veya gönderim aşamasında. Teklif hattını kapatmak şu an en sıcak iş.`,
-      primaryHref: '/project-os',
-      primaryLabel: 'Teklif hattını aç',
+      primaryHref: '/businesses',
+      primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/consultation-center',
       secondaryLabel: 'Gerekirse danışma hazırla',
     }
@@ -54,8 +54,8 @@ function getActiveFocus(input: {
       eyebrow: 'Şimdi aktif',
       title: 'Audit hattı ilerlemeyi bekliyor',
       text: `${input.pendingAudits} audit kaydı yeni veya inceleme aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
-      primaryHref: '/project-os',
-      primaryLabel: 'Audit hattını aç',
+      primaryHref: '/businesses',
+      primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/context-center',
       secondaryLabel: 'Eksik bağlama bak',
     }
@@ -66,8 +66,8 @@ function getActiveFocus(input: {
       eyebrow: 'Şimdi aktif',
       title: 'Teslimat hattı canlı',
       text: `${input.activeDeliveries} teslimat kaydı başlangıç, yapım veya yayın aşamasında. Yayın ve bakım geçişi ana takip noktası.`,
-      primaryHref: '/project-os',
-      primaryLabel: 'Teslimat hattını aç',
+      primaryHref: '/businesses',
+      primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/consultation-center',
       secondaryLabel: 'Karar hattını kontrol et',
     }
@@ -77,8 +77,8 @@ function getActiveFocus(input: {
     eyebrow: 'Şimdi aktif',
     title: 'Bakım ve netlik dönemi',
     text: `${input.maintenanceProjects} bakım kaydıyla hat sakin görünüyor. Ana ekran artık işi anlatmak değil, bir sonraki doğru aksiyonu göstermek için burada.`,
-    primaryHref: '/project-os',
-    primaryLabel: 'İş Takibine git',
+    primaryHref: '/businesses',
+    primaryLabel: 'İşletmeleri aç',
     secondaryHref: '/context-center',
     secondaryLabel: 'Bağlam yüzeyini aç',
   }

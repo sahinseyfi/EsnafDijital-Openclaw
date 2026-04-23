@@ -21,7 +21,6 @@ const navGroups: NavGroup[] = [
   {
     title: 'Ana akış',
     items: [
-      { href: '/project-os', label: 'İş Takibi', note: 'Audit, teklif ve teslimat akışı' },
       { href: '/businesses', label: 'İşletmeler', note: 'Tüm kayıt listesi ve detay geçişi' },
       { href: '/consultation-center', label: 'Karar Hazırlığı', note: 'Prompt ve danışma hazırlığı' },
       { href: '/discovery', label: 'Keşif', note: 'Apify aday tablosu ve ön eleme görünümü' },

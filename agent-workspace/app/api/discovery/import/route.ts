@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
   const state = await readDiscoveryRuntimeState()
   if (state.imports[placeId]) {
-    return NextResponse.json({ ok: false, message: 'Bu aday zaten İş Takibine aktarıldı.', import: state.imports[placeId] }, { status: 409 })
+    return NextResponse.json({ ok: false, message: 'Bu aday zaten işletmeye aktarıldı.', import: state.imports[placeId] }, { status: 409 })
   }
 
   try {

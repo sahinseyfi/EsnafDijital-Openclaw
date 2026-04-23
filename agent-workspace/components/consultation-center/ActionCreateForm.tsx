@@ -73,7 +73,7 @@ export function ActionCreateForm({ consultation }: { consultation: ConsultationD
         <label style={{ display: 'grid', gap: 6 }}>
           <span>Yazılacağı yer</span>
           <select value={linkedEntityType} onChange={(event) => setLinkedEntityType(event.target.value as 'project_os' | 'context_center')}>
-            <option value="project_os">İş Takibi</option>
+            <option value="project_os">İşletmeler</option>
             <option value="context_center">Bağlam Merkezi</option>
           </select>
         </label>

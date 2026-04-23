@@ -87,7 +87,7 @@ export default async function DiscoveryDetailPage({
           <span className="badge">Skor {row.scoring.score}</span>
           <span className="badge">Sahiplik: {ownershipLabels[row.candidate.ownershipStatus]}</span>
           {isShortlisted ? <span className="badge">Kısa listede</span> : null}
-          {importInfo ? <span className="badge">İş Takibine aktarıldı</span> : null}
+          {importInfo ? <span className="badge">İşletmeye aktarıldı</span> : null}
         </div>
 
         <DiscoveryRowActions
@@ -113,8 +113,8 @@ export default async function DiscoveryDetailPage({
       {importInfo ? (
         <section className="card stack-sm">
           <div>
-            <p className="eyebrow">İş Takibi bağlantısı</p>
-            <h3>Bu aday ana hatta taşındı</h3>
+            <p className="eyebrow">İşletme bağlantısı</p>
+            <h3>Bu aday işletme kaydına taşındı</h3>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <span className="badge">İşletme {importInfo.businessId.slice(0, 8)}</span>
@@ -122,7 +122,7 @@ export default async function DiscoveryDetailPage({
             {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarım {importInfo.importedAt}</span> : null}
           </div>
           <div className="page-header-actions">
-            <Link href={`/project-os?businessId=${importInfo.businessId}#businesses`} className="button-primary">İşletme kaydını aç</Link>
+            <Link href={`/businesses/${importInfo.businessId}`} className="button-primary">İşletme kaydını aç</Link>
           </div>
         </section>
       ) : null}
