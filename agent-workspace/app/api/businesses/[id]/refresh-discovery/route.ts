@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 import { appendBusinessRefreshSnapshot, appendPlaceSnapshot, buildBusinessRefreshEntry, normalizeDiscoveryText, type DiscoverySourceRun } from '@/lib/businesses/discovery'
+import { searchSerperQueries } from '@/lib/discovery/serper'
 
 const MANUAL_RUN_DIR = path.resolve(process.cwd(), '..', 'state', 'apify-discovery', 'manual-runs')
 
@@ -45,6 +46,7 @@ type SourceRunSpec = {
   input: Record<string, unknown>
   errorLabel: string
   normalizeRows: (rows: DiscoveryRow[]) => DiscoveryRow[]
+  runner?: 'apify' | 'serper'
 }
 
 type RefreshCostProfile = {
@@ -136,6 +138,19 @@ async function runApifyActor({ actorId, inputPath, rawPath, errorLabel }: { acto
         : `${errorLabel} ${code ?? 'bilinmeyen'} koduyla sonlandi.`))
     })
   })
+}
+
+async function runSerperSearch({ input, rawPath }: { input: Record<string, unknown>; rawPath: string }) {
+  const queries = Array.isArray(input.queries) ? input.queries.map((item) => String(item)) : []
+  const rows = await searchSerperQueries({
+    queries,
+    num: Number(input.num) || 5,
+    gl: typeof input.gl === 'string' ? input.gl : 'tr',
+    hl: typeof input.hl === 'string' ? input.hl : 'tr',
+  })
+
+  await writeFile(rawPath, JSON.stringify(rows, null, 2), 'utf8')
+  return rows as DiscoveryRow[]
 }
 
 function parseApifyRows(raw: string) {
@@ -372,6 +387,15 @@ function buildAppleMapsInput(searchTerms: string[], costProfile: RefreshCostProf
   }
 }
 
+function buildSerperInput(searchTerms: string[], costProfile: RefreshCostProfile) {
+  return {
+    queries: limitSearchTerms(searchTerms, costProfile.googleSearchTermLimit),
+    gl: 'tr',
+    hl: 'tr',
+    num: 5,
+  }
+}
+
 function buildSourceSpecs({
   slug,
   searchTerms,
@@ -386,7 +410,34 @@ function buildSourceSpecs({
   const costProfile = buildRefreshCostProfile(refreshConfig)
 
   if (refreshConfig.mode !== 'apify') {
-    return [
+    const specs: SourceRunSpec[] = []
+
+    if (refreshConfig.selectedSources.includes('maps-snapshot')) {
+      specs.push({
+        source: 'google-maps',
+        actorId: GOOGLE_MAPS_ACTOR,
+        inputPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.input.json`),
+        rawPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.raw.json`),
+        input: buildGoogleMapsInput(searchTerms, locationQuery, refreshConfig, costProfile),
+        errorLabel: 'Google Maps taramasi',
+        normalizeRows: (rows) => rows,
+      })
+    }
+
+    if (refreshConfig.selectedSources.includes('google-search') || refreshConfig.selectedSources.includes('serp-signals')) {
+      specs.push({
+        source: 'google-search',
+        actorId: 'serper/google-search',
+        inputPath: path.join(MANUAL_RUN_DIR, `${slug}.serper.input.json`),
+        rawPath: path.join(MANUAL_RUN_DIR, `${slug}.serper.raw.json`),
+        input: buildSerperInput(searchTerms, costProfile),
+        errorLabel: 'Serper taramasi',
+        normalizeRows: normalizeGoogleSearchRows,
+        runner: 'serper',
+      })
+    }
+
+    return specs.length > 0 ? specs : [
       {
         source: 'google-maps',
         actorId: GOOGLE_MAPS_ACTOR,
@@ -461,15 +512,20 @@ async function runSourceActor(spec: SourceRunSpec): Promise<SourceRunResult> {
   await writeFile(spec.inputPath, JSON.stringify(spec.input, null, 2), 'utf8')
 
   try {
-    await runApifyActor({
-      actorId: spec.actorId,
-      inputPath: spec.inputPath,
-      rawPath: spec.rawPath,
-      errorLabel: spec.errorLabel,
-    })
+    const actorRows = spec.runner === 'serper'
+      ? await runSerperSearch({ input: spec.input, rawPath: spec.rawPath })
+      : await (async () => {
+        await runApifyActor({
+          actorId: spec.actorId,
+          inputPath: spec.inputPath,
+          rawPath: spec.rawPath,
+          errorLabel: spec.errorLabel,
+        })
 
-    const raw = await readFile(spec.rawPath, 'utf8')
-    const actorRows = parseApifyRows(raw)
+        const raw = await readFile(spec.rawPath, 'utf8')
+        return parseApifyRows(raw)
+      })()
+
     const rows = spec.normalizeRows(actorRows)
 
     return {

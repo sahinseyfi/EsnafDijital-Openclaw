@@ -195,7 +195,7 @@ export function BusinessScanPanel({
                 idleLabel="Hafif taramayı başlat"
                 loadingLabel="Hafif tarama çalışıyor..."
                 successLabel="Hafif tarama tamamlandı"
-                helperText="Maps snapshot, website kontrolü ve arama sinyali yenilenir."
+                helperText="Maps snapshot yenilenir, Google arama sinyali Serper ile cekilir. Website kontrolu sonraki adimda ayrilacak."
                 requestBody={{
                   mode: 'light',
                   sources: lightSources,
