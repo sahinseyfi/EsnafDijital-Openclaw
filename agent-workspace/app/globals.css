@@ -858,20 +858,22 @@ code {
     top: 0;
     left: 0;
     bottom: 0;
-    width: min(88vw, 320px);
+    width: min(84vw, 296px);
     min-height: 100dvh;
     height: 100dvh;
-    padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+    padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
     border-right: 1px solid rgba(203, 213, 225, 0.8);
     border-bottom: 0;
     transform: translateX(calc(-100% - 16px));
     transition: transform 180ms ease;
     z-index: 40;
     overflow-y: auto;
+    gap: 14px;
   }
 
   .sidebar-brand {
-    padding: 14px 16px;
+    padding: 12px 14px;
+    border-radius: 14px;
   }
 
   .sidebar h1,
@@ -882,10 +884,30 @@ code {
 
   .brand-mark {
     margin-bottom: 0;
+    font-size: 12px;
+    gap: 8px;
   }
 
   .sidebar-nav {
     gap: 8px;
+  }
+
+  .sidebar-nav .stack-sm {
+    gap: 10px;
+  }
+
+  .nav-link {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .nav-link strong {
+    font-size: 14px;
+  }
+
+  .nav-link .muted {
+    font-size: 13px;
+    line-height: 1.45;
   }
 
   .sidebar-open {
@@ -897,6 +919,7 @@ code {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    padding: 2px 2px 0;
   }
 
   .sidebar-close {
