@@ -3,7 +3,19 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export function BusinessDiscoveryRefreshButton({ businessId }: { businessId: string }) {
+export function BusinessDiscoveryRefreshButton({
+  businessId,
+  idleLabel = 'Detaylı işletme verilerini al',
+  loadingLabel = 'Yenileniyor...',
+  successLabel = 'Dış veri yenilendi',
+  helperText,
+}: {
+  businessId: string
+  idleLabel?: string
+  loadingLabel?: string
+  successLabel?: string
+  helperText?: string
+}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -22,7 +34,7 @@ export function BusinessDiscoveryRefreshButton({ businessId }: { businessId: str
         throw new Error(result.message || 'Dış veri yenilemesi başarısız oldu.')
       }
 
-      setMessage('Dış veri yenilendi')
+      setMessage(successLabel)
       router.refresh()
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Dış veri yenilemesi başarısız oldu.')
@@ -34,8 +46,9 @@ export function BusinessDiscoveryRefreshButton({ businessId }: { businessId: str
   return (
     <div className="stack-xs" style={{ alignItems: 'flex-end' }}>
       <button type="button" className="button-secondary" onClick={handleClick} disabled={isSubmitting}>
-        {isSubmitting ? 'Yenileniyor...' : 'Detaylı işletme verilerini al'}
+        {isSubmitting ? loadingLabel : idleLabel}
       </button>
+      {helperText ? <span className="muted">{helperText}</span> : null}
       {message ? <span className="muted">{message}</span> : null}
     </div>
   )
