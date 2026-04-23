@@ -4,6 +4,10 @@
     "clawhub-local": {
       "version": "1.0.0",
       "installedAt": 1776855399341
+    },
+    "agent-browser-core": {
+      "version": "1.0.1",
+      "installedAt": 1776905036517
     }
   }
 }
