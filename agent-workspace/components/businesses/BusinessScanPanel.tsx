@@ -288,7 +288,7 @@ export function BusinessScanPanel({
                 <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
                   <div>
                     <p className="eyebrow">Google Maps seçenekleri</p>
-                    <p className="muted">Google Maps seçiliyken detay ve yorum kapsamını buradan aç.</p>
+                    <p className="muted">Google Maps seçiliyken detay ve yorum kapsamını buradan aç. Maliyet için yorumlar örneklemeli tutulur.</p>
                   </div>
 
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -335,7 +335,7 @@ export function BusinessScanPanel({
                     </label>
                   </div>
 
-                  <p className="muted">Yorumlar seçilirse Google Maps tarafında tüm yorumlar alınır.</p>
+                  <p className="muted">Yorumlar seçilirse Google Maps tarafında sınırlı yorum örneği alınır, tüm yorumlar çekilmez.</p>
                 </div>
               ) : null}
             </div>
@@ -346,7 +346,7 @@ export function BusinessScanPanel({
                 idleLabel="Apify taramayı başlat"
                 loadingLabel="Apify tarama çalışıyor..."
                 successLabel="Apify tarama tamamlandı"
-                helperText="İşaretlenen kaynaklar ayrı ayrı çalıştırılır. Google Maps detay ve yorum kapsamı ayrıca açılabilir."
+                helperText="İşaretlenen kaynaklar düşük maliyet profiliyle ayrı ayrı çalıştırılır. Çoklu seçimde query kapsamı otomatik daraltılır."
                 requestBody={{
                   mode: 'apify',
                   sources: selectedSources,

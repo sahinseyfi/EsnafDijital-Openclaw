@@ -47,6 +47,15 @@ type SourceRunSpec = {
   normalizeRows: (rows: DiscoveryRow[]) => DiscoveryRow[]
 }
 
+type RefreshCostProfile = {
+  googleMapsSearchTermLimit: number
+  googleMapsPlaceLimit: number
+  googleMapsReviewLimit: number
+  googleSearchTermLimit: number
+  yandexMaxItems: number
+  appleMaxResults: number
+}
+
 function summarizeSourceResult(result: SourceRunResult): DiscoverySourceRun {
   return {
     source: result.source,
@@ -305,21 +314,35 @@ function limitSearchTerms(searchTerms: string[], maxCount: number) {
   return searchTerms.slice(0, maxCount)
 }
 
-function buildGoogleMapsInput(searchTerms: string[], locationQuery: string, refreshConfig: ReturnType<typeof normalizeRefreshRequest>) {
+function buildRefreshCostProfile(refreshConfig: ReturnType<typeof normalizeRefreshRequest>): RefreshCostProfile {
+  const selectedSourceCount = refreshConfig.mode === 'apify' ? refreshConfig.selectedSources.length : 1
+  const isMultiSource = selectedSourceCount > 1
+
   return {
-    searchStringsArray: limitSearchTerms(searchTerms, refreshConfig.mode === 'apify' ? 3 : 2),
+    googleMapsSearchTermLimit: refreshConfig.mode === 'light' ? 2 : isMultiSource ? 1 : 2,
+    googleMapsPlaceLimit: refreshConfig.mode === 'light' ? 3 : isMultiSource ? 3 : 5,
+    googleMapsReviewLimit: refreshConfig.mode === 'apify' && refreshConfig.googleMaps.reviews ? (isMultiSource ? 20 : 40) : 0,
+    googleSearchTermLimit: isMultiSource ? 1 : 2,
+    yandexMaxItems: isMultiSource ? 4 : 6,
+    appleMaxResults: isMultiSource ? 3 : 4,
+  }
+}
+
+function buildGoogleMapsInput(searchTerms: string[], locationQuery: string, refreshConfig: ReturnType<typeof normalizeRefreshRequest>, costProfile: RefreshCostProfile) {
+  return {
+    searchStringsArray: limitSearchTerms(searchTerms, costProfile.googleMapsSearchTermLimit),
     locationQuery,
-    maxCrawledPlacesPerSearch: refreshConfig.mode === 'apify' ? 8 : 3,
+    maxCrawledPlacesPerSearch: costProfile.googleMapsPlaceLimit,
     scrapePlaceDetailPage: refreshConfig.mode === 'light' ? true : refreshConfig.googleMaps.details,
-    maxReviews: refreshConfig.mode === 'apify' && refreshConfig.googleMaps.reviews ? 99999 : 0,
+    maxReviews: costProfile.googleMapsReviewLimit,
     reviewsOrigin: 'all',
     skipClosedPlaces: false,
   }
 }
 
-function buildGoogleSearchInput(searchTerms: string[]) {
+function buildGoogleSearchInput(searchTerms: string[], costProfile: RefreshCostProfile) {
   return {
-    queries: limitSearchTerms(searchTerms, 2).join('\n'),
+    queries: limitSearchTerms(searchTerms, costProfile.googleSearchTermLimit).join('\n'),
     maxPagesPerQuery: 1,
     countryCode: 'tr',
     languageCode: 'tr',
@@ -330,22 +353,22 @@ function buildGoogleSearchInput(searchTerms: string[]) {
   }
 }
 
-function buildYandexInput(searchTerm: string, locationQuery: string, includeReviews: boolean) {
+function buildYandexInput(searchTerm: string, locationQuery: string, costProfile: RefreshCostProfile) {
   return {
     query: [searchTerm],
     locations: locationQuery,
     language: 'TR',
-    maxItems: 8,
-    maxReviews: includeReviews ? 50 : 0,
+    maxItems: costProfile.yandexMaxItems,
+    maxReviews: 0,
     maxPhotos: 0,
   }
 }
 
-function buildAppleMapsInput(searchTerms: string[]) {
+function buildAppleMapsInput(searchTerms: string[], costProfile: RefreshCostProfile) {
   return {
     demoMode: false,
     searchQueries: limitSearchTerms(searchTerms, 1),
-    maxResults: 5,
+    maxResults: costProfile.appleMaxResults,
   }
 }
 
@@ -360,6 +383,8 @@ function buildSourceSpecs({
   locationQuery: string
   refreshConfig: ReturnType<typeof normalizeRefreshRequest>
 }): SourceRunSpec[] {
+  const costProfile = buildRefreshCostProfile(refreshConfig)
+
   if (refreshConfig.mode !== 'apify') {
     return [
       {
@@ -367,7 +392,7 @@ function buildSourceSpecs({
         actorId: GOOGLE_MAPS_ACTOR,
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.raw.json`),
-        input: buildGoogleMapsInput(searchTerms, locationQuery, refreshConfig),
+        input: buildGoogleMapsInput(searchTerms, locationQuery, refreshConfig, costProfile),
         errorLabel: 'Google Maps taramasi',
         normalizeRows: (rows) => rows,
       },
@@ -383,7 +408,7 @@ function buildSourceSpecs({
         actorId: GOOGLE_MAPS_ACTOR,
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.maps.raw.json`),
-        input: buildGoogleMapsInput(searchTerms, locationQuery, refreshConfig),
+        input: buildGoogleMapsInput(searchTerms, locationQuery, refreshConfig, costProfile),
         errorLabel: 'Google Maps taramasi',
         normalizeRows: (rows) => rows,
       })
@@ -396,7 +421,7 @@ function buildSourceSpecs({
         actorId: GOOGLE_SEARCH_ACTOR,
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.google-search.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.google-search.raw.json`),
-        input: buildGoogleSearchInput(searchTerms),
+        input: buildGoogleSearchInput(searchTerms, costProfile),
         errorLabel: 'Google Search taramasi',
         normalizeRows: normalizeGoogleSearchRows,
       })
@@ -409,7 +434,7 @@ function buildSourceSpecs({
         actorId: YANDEX_MAPS_ACTOR,
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.yandex.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.yandex.raw.json`),
-        input: buildYandexInput(searchTerms[0] || locationQuery, locationQuery, refreshConfig.googleMaps.reviews),
+        input: buildYandexInput(searchTerms[0] || locationQuery, locationQuery, costProfile),
         errorLabel: 'Yandex taramasi',
         normalizeRows: normalizeYandexRows,
       })
@@ -422,7 +447,7 @@ function buildSourceSpecs({
         actorId: APPLE_MAPS_ACTOR,
         inputPath: path.join(MANUAL_RUN_DIR, `${slug}.apple-maps.input.json`),
         rawPath: path.join(MANUAL_RUN_DIR, `${slug}.apple-maps.raw.json`),
-        input: buildAppleMapsInput(searchTerms),
+        input: buildAppleMapsInput(searchTerms, costProfile),
         errorLabel: 'Apple Maps taramasi',
         normalizeRows: normalizeAppleMapsRows,
       })
