@@ -3,8 +3,7 @@
 Bu dosya, bu workspace icinde calisan ajanin okuma sirasini, calisma duzenini ve repo-ozel kurallarini belirler.
 
 ## 1) Amac
-EsnafDigital'in teknik ve operasyonel omurgasini sade, izlenebilir ve ilerleyen bir yapi olarak kurmak ve surdurmek.
-Proje omurgasi ve ana is akis referansi `PROJECT.md` ile `MEMORY.md` cizgisinde tutulur.
+EsnafDigital icin sade, izlenebilir ve calisan bir teknik ve operasyon duzeni kurmak.
 
 ## 2) Oturum Acilis Sirasi
 Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
