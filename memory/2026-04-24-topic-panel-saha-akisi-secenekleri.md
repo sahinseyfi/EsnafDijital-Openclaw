@@ -2608,10 +2608,146 @@ Bu kart:
 - ayri ziyaret sayfasi acmadan saha hazirligini tasir
 - audit ve teklif zincirine kopmeden baglanir
 
+## On altinci okuma - Business Detail icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
+Bu soru, onceki `ziyaret karti` ve `gorusme notu vs kickoff bilgisi` ayrimini zincir seviyesinde birlestirdi.
+
+### 1) Referans ve kod bize ne diyor?
+`REFERENCES/business-detail-v1.md` acikca sunu istiyor:
+- `Audit Snapshot` karti olsun
+- `Son teklif` karti olsun
+- `Son teslimat` karti olsun
+- ama sayfa form duvarina donmesin
+
+Kod gercegi ise bugun su durumda:
+- Project OS queue, audit / offer / delivery asamalarini net turetiyor
+- offer tarafinda dogrudan gorunen ana alanlar: `packageName`, `amountTry`, `addonKeys`, `domainPreference`, `customDomain`
+- delivery tarafinda queue seviyesinde gorunen ana alan fiilen `scope`
+
+Yani zincir verisi var ama detail ekraninda operatora karar verdiren hafif kart dili henuz zayif.
+
+### 2) Uc model
+
+#### C1) Sadece durum kartlari
+- audit var / yok
+- teklif var / yok
+- kickoff var / yok
+
+Artisi:
+- cok hafif
+
+Eksisi:
+- `neden` ve `neye donustu` hikayesini tasimaz
+- kullanicinin sordugu `girilen bilgi nasil sonuca donusur` sorusunu tam cozmez
+
+#### C2) Dengeli zincir kartlari
+- her kartta durum + neden + primary aksiyon + kisa operasyon girdisi
+
+Artisi:
+- karar hizi verir
+- Business Detail rolune uyar
+- form duvarina donmez
+
+Eksisi:
+- iyi sinir cizgisi ister
+
+#### C3) Tam detay kartlari
+- her kartta tum alanlar, tum gecmis, tum notlar
+
+Artisi:
+- hic sey kacmaz
+
+Eksisi:
+- erken ve agir
+- mini CRM duvari riski cok yuksek
+
+Ara yorum:
+- su an en saglikli yol `C2`
+
+### 3) Audit kartinin minimum alanlari
+Audit kartinin isi su olmali:
+- sorunu gorunur kilmak
+- teklif yonune zemin kurmak
+
+V1 minimum alanlar:
+- `hazirlik seviyesi` veya audit statusu
+- `kisa audit ozeti`
+- `ilk 3 eksik / zayif sinyal`
+- `onerilen paket yonu`
+- `primary aksiyon` = incelemeye al / teklife gecir
+
+Bilerek disarida:
+- uzun audit raporu
+- ham scrape dump
+- tum yorum / puan ayrintisi
+
+### 4) Teklif kartinin minimum alanlari
+Teklif kartinin isi sadece fiyat gostermek degil, teslim oncesi operasyon kararini okunur yapmak.
+
+V1 minimum alanlar:
+- `onerilen veya son paket`
+- `tutar`
+- `neden bu paket` (1-2 satir derived aciklama)
+- `domain tercihi`
+- `secili ekler` (varsa)
+- `primary aksiyon` = teklifi ac / guncelle / gonder
+
+Burada kritik nokta:
+- `neden bu paket` satiri olmadan teklif karti yine eksik kalir
+- cunku operator paketin auditten nasil dogdugunu gormez
+
+### 5) Kickoff kartinin minimum alanlari
+Kickoff kartinin isi `scope`u teslim baslangicina baglamak.
+
+V1 minimum alanlar:
+- `teslim durumu` = kickoff / yapim / yayinda gibi
+- `scope ozeti`
+- `asset durumu` = geldi / eksik gibi cok hafif sinyal
+- `erisim durumu` = maps / instagram / domain tarafinda durum sinyali
+- `ilk yayin hedefi` veya teslim hedefi
+- `primary aksiyon` = kickoff baslat / yapima gecir
+
+Burada bilerek tam checklist acilmiyor.
+Ama kart sadece `scope`tan ibaret de kalmiyor.
+
+### 6) Kartlar arasindaki ayrim nasil korunur?
+Bu en kritik kural:
+- `Audit` = sorun ve uygun yon
+- `Teklif` = secilen cozum ve ticari/operasyonel cerceve
+- `Kickoff` = onayli cozumun nasil baslayacagi
+
+Eger bu ayrim bozulursa:
+- audit karti teklife tasar
+- teklif karti kickoff checklistine donar
+- detail sayfa sisip odagini kaybeder
+
+### 7) Bu zincir ziyaret kartiyla nasil yanyana durur?
+En saglikli sira su gibi gorunuyor:
+- Next Step
+- Audit Snapshot
+- Ziyaret Karti
+- Hazirlik / Tarama
+- Teklif Karti
+- Kickoff Karti
+
+Neden:
+- once sorun ve saha karari netlesir
+- sonra ek sinyal gerekirse cekilir
+- sonra cozum ve teslim zinciri okunur
+
+### 8) Gecici net kanaat
+Su an Business Detail icin en mantikli minimum zincir su:
+- Audit karti = hazirlik seviyesi + ozet + 3 eksik + paket yonu + primary aksiyon
+- Teklif karti = paket + tutar + neden bu paket + domain + ekler + primary aksiyon
+- Kickoff karti = durum + scope ozeti + asset durumu + erisim durumu + ilk yayin hedefi + primary aksiyon
+
+Bu model:
+- `girilen bilgi nasil sonuca donusur` sorusunu okunur kilar
+- ama detail'i erken CRM duvarina cevirmez
+
 ## Sonraki arastirma basliklari
-- `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
 - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
 - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
+- `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
