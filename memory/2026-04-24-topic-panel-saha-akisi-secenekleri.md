@@ -1653,6 +1653,219 @@ Bu model su riskleri de azaltir:
 - sayfanin kaynak dump'ina donmesi
 - operatorun neye guvenecegini sasirmasi
 
+## Onuncu okuma - Y.Z skill tum veriden eksiksiz ozet nasil cikarmali?
+Kurucunun son sorusu su ayrimi netlestirdi:
+- mesele sadece `kisa rapor yazmak` degil
+- `veri nasil toplanir, nasil ayiklanir, nasil karar katmanina doner` zincirini dusunmek gerekiyor
+
+### 1) Bugunku akisin gercek durumu
+`/api/businesses/[id]/yz-report/route.ts` ve `lib/businesses/yz-report.ts` bugun su akisi kuruyor:
+1. business kaydi cekilir
+2. discovery snapshot cekilir
+3. latest agent scan cekilir
+4. refresh history icinden latest Apify scan secilir
+5. latest audit summary alinır
+6. bunlar skill promptuna metin bloklari halinde konur
+7. skill tek seferde JSON rapor dondurur
+8. rapor `state/yz-reports/<businessId>.json` altina history olarak yazilir
+
+Bu iyi cunku:
+- calisan bir uctan uca zincir var
+- Y.Z raporu zaten kod tabaninda ilk sinif cikti haline gelmis
+- Business Detail icinde kullaniliyor
+
+Ama eksik cunku:
+- kaynaklar arasi uzlastirma ayri adim degil
+- `ne dogrulandi / ne eksik / ne celiskili` sistematik uretilmiyor
+- prompt girdisi agirlikla duz metin bloklari
+- `eksiksiz ozet` hissi operator sozune degil, checklist temeline baglanmamis
+
+### 2) Uc farkli skill modeli
+
+#### Y1) Tek asamali kisa rapor modeli
+Su an buna yakin:
+- tum girdiyi bir promptta ver
+- final Y.Z raporunu dogrudan yaz
+
+Artisi:
+- hizli
+- basit
+
+Eksisi:
+- veri kaybi ve atlama riski yuksek
+- celiski ve eksik alanlar kolayca gomulur
+- model final metne erken atlar
+
+#### Y2) Iki asamali uzlastirma + rapor modeli
+- once kaynaklar yapisal bir `normalized bundle`a doner
+- sonra bu bundle uzerinden final operator raporu yazilir
+
+Artisi:
+- neyin kanit, neyin yorum oldugu daha net ayrilir
+- eksik ve celiski listesi sistematik cikar
+- final rapor daha guvenilir olur
+
+Eksisi:
+- daha fazla tasarim ister
+- bir ara kontrat gerekir
+
+#### Y3) Tam pipeline modeli
+- toplama
+- normalize etme
+- duplicate / eslesme kontrolu
+- field-level confidence
+- karar raporu
+- UI katmani
+
+Artisi:
+- en saglam model
+
+Eksisi:
+- bugun icin agirlasma riski var
+- onceki faz icin fazla buyuk olabilir
+
+Ara yorum:
+- simdilik en dengeli yol `Y2`
+- `Y1` fazla kirilgan
+- `Y3` dogru yon ama hemen tam kurulursa agir olabilir
+
+### 3) En mantikli V2 akisi
+Su an en guclu zincir su gorunuyor:
+
+#### Adim 1 - kaynak toplama
+- canonical business
+- latest audit summary
+- discovery/maps snapshot
+- latest agent scan
+- latest Apify/deep scan
+- varsa Instagram profili
+- ileride teklif / delivery baglami da opsiyonel eklenebilir
+
+#### Adim 2 - normalize bundle uret
+Tek prompttan once alanlari ortak forma getir:
+- ad
+- ilce/adres
+- telefon
+- website
+- Instagram
+- kategori/segment
+- maps linki
+- rating/reviews
+- source freshness
+- audit notes
+
+Bu adimda her alan icin kaynak etiketi korunmali.
+
+#### Adim 3 - alan bazli siniflandirma
+Her kritik alan su sepetlere dusmeli:
+- `verified`
+- `missing`
+- `conflicting`
+- `weak-signal`
+
+Ornek:
+- website externalda var ama canonicalda yok = `conflicting` veya `missing in canonical`
+- telefon hicbir yerde yok = `missing`
+- Maps ve agent scan ayni yone isaret ediyor = `verified`
+
+#### Adim 4 - eksiksizlik checklisti calistir
+`eksiksiz` kelimesi yoruma birakilmamali.
+Minimum checklist baglanmali:
+- isletme adi
+- konum/adres
+- telefon
+- website
+- Instagram
+- maps baglantisi
+- kategori
+- puan/yorum
+- muhatap
+- audit notu
+- sonraki aksiyon icin yeterli veri var mi
+
+#### Adim 5 - karar ozetini uret
+Ancak bu asamada final Y.Z raporu yazilmali:
+- genel durum
+- guclu sinyaller
+- zayif sinyaller
+- dijital gorunum ozeti
+- oncelikli aksiyon
+
+#### Adim 6 - ikili cikti ver
+Tek cikti yerine iki katman daha mantikli:
+- `operatorSummary` = bugunku kisa Y.Z raporu
+- `evidencePack` = verified/missing/conflicting/checklist/freshness ozeti
+
+Bu sayede ustte hizli okuma, altta gerekce olur.
+
+### 4) Skill nasil gelistirilmeli?
+`esnafdijital-yz-report` skill'i sadece yazim kurali degil, workflow skill'i haline gelmeli.
+
+#### G1) SKILL.md icinde iki asamali workflow net yazilmali
+- once uzlastir
+- sonra rapor yaz
+- final cevaba erken atlama
+
+#### G2) reference dosyalari ayrilmali
+Bugun sadece `report-contract.md` var.
+Su iki referans daha mantikli gorunuyor:
+- `references/input-bundle-contract.md`
+- `references/reconciliation-rules.md`
+
+Boylece skill kisalir, kural seti referansa tasinir.
+
+#### G3) cikti kontrati genislemeli
+Bugunku JSON alanlari:
+- status
+- summary
+- strengths
+- weaknesses
+- visibilitySummary
+- nextAction
+
+V2 tarafinda ek dusunulebilecek alanlar:
+- `verifiedFacts`
+- `missingFacts`
+- `conflicts`
+- `freshnessSummary`
+- `coverageScore` veya en az `coverageState`
+- `confidence`
+
+Hepsi UI'de aynen gosterilmek zorunda degil.
+Ama skill'in icte daha saglam dusunmesini saglar.
+
+#### G4) prompt girdisi metin bloklarindan yapisal pakete donmeli
+Bugun `formatPayload`, `formatAgentScan`, `formatApifyScan` metin satiri uretip prompta ekiyor.
+Bu calisir ama kirilgan.
+Daha saglam yol:
+- JSON benzeri sabit bloklar
+- alan adlari tutarli
+- null/empty durumlari acik
+- kaynak etiketi korunmus
+
+### 5) En kritik risk
+Burada asiri buyume riski var.
+Y.Z skill'i su hataya dusmemeli:
+- mini CRM motoruna donusmek
+- tum alanlari sonsuz toplamak
+- rapor yerine ham dump uretmek
+
+Bu yuzden guclu ama dar cizgi su olmali:
+- tek isletme
+- operator odagi
+- karar hizlandirma
+- checklist tabanli eksiksizlik
+- kanit ile yorumu ayirma
+
+### 6) Bu wake sonrasi guclenen kanaat
+Su an en mantikli gelisim cizgisi:
+- kisa Y.Z raporu fikrini koru
+- ama once `normalized evidence bundle` ve `reconciliation` katmani ekle
+- tam pipeline motoruna hemen gecme
+- `iki asamali uzlastirma + rapor` modeliyle ilerle
+
+Bu, hem skill'i guclendirir hem de panelde `ic gercek -> dis sinyal -> fark -> karar` cizgisiyle uyumlu kalir.
+
 ## Sonraki arastirma basliklari
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
