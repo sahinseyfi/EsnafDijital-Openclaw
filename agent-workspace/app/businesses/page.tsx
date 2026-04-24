@@ -209,7 +209,41 @@ export default async function BusinessesPage({
           <span className="badge">{stats.visible} kayıt gösteriliyor</span>
         </div>
 
-        <div className="table-wrap">
+        <div className="mobile-only stack-sm">
+          {filteredBusinesses.length > 0 ? filteredBusinesses.map((business) => {
+            const queueEntry = queueMap.get(business.id)?.item
+
+            return (
+              <article key={business.id} className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
+                <div className="stack-xs">
+                  <Link href={buildBusinessDetailHref(business)} style={{ color: 'var(--ink-title)', fontWeight: 700, textDecoration: 'none' }}>
+                    {business.name}
+                  </Link>
+                  <span className="muted">{business.ownerName} · {segmentLabels[business.segment]}</span>
+                  <span className="muted">{business.district} · {businessStatusLabels[business.status]}</span>
+                </div>
+
+                <div className="detail-field">
+                  <p className="eyebrow">Hat aşaması</p>
+                  <p>{queueEntry ? stageLabels[queueEntry.stage] : '—'}</p>
+                </div>
+
+                <div className="detail-field">
+                  <p className="eyebrow">Sıradaki adım</p>
+                  <p>{queueEntry?.nextAction || '—'}</p>
+                </div>
+
+                <div className="page-header-actions">
+                  <Link href={buildBusinessDetailHref(business)} className="button-secondary">Detayı aç</Link>
+                </div>
+              </article>
+            )
+          }) : (
+            <p className="muted">Bu filtreyle eşleşen işletme kaydı yok.</p>
+          )}
+        </div>
+
+        <div className="table-wrap desktop-only">
           <table>
             <thead>
               <tr>

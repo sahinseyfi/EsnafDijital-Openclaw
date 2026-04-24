@@ -195,7 +195,67 @@ export default async function DiscoveryPage({
           <span className="badge">{stats.visible} kayıt gösteriliyor, sıralama: {filters.sort} {filters.dir}</span>
         </div>
 
-        <div className="table-wrap">
+        <div className="mobile-only stack-sm">
+          {sortedRows.length > 0 ? sortedRows.map((row) => (
+            <article key={row.candidate.placeId} className="card stack-sm" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
+              <div className="stack-xs">
+                <Link href={`/discovery/${encodeURIComponent(row.candidate.placeId)}`} style={{ color: 'var(--ink-title)', fontWeight: 700 }}>
+                  {row.candidate.name}
+                </Link>
+                <span className="muted">{row.candidate.categoryName || 'Kategori yok'}</span>
+                <span className="muted">{segmentLabels[row.source.segment]} · {row.candidate.district || 'İlçe yok'}</span>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                <span className="badge" style={bucketBadgeStyle(row.scoring.bucket)}>{bucketLabels[row.scoring.bucket]}</span>
+                <span className="badge">Skor {row.scoring.score}</span>
+                {shortlistedPlaceIds.has(row.candidate.placeId) ? <span className="badge">Kısa listede</span> : null}
+              </div>
+
+              <div className="detail-field">
+                <p className="eyebrow">İletişim</p>
+                <p>{row.candidate.phone || 'Telefon yok'}</p>
+                <p className="muted">{row.candidate.hasWebsite ? 'Web sitesi var' : 'Web sitesi yok'} · {ownershipLabels[row.candidate.ownershipStatus]}</p>
+              </div>
+
+              <div className="detail-field">
+                <p className="eyebrow">Arama kapsamı</p>
+                <p>{row.source.matchedSearchTerms.join(', ') || 'Terim yok'}</p>
+                <p className="muted">{row.candidate.reviewsCount} yorum · {formatRating(row.candidate.rating)} puan</p>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <a href={row.candidate.mapsUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Harita</a>
+                {row.candidate.websiteUrl ? (
+                  <a href={row.candidate.websiteUrl} target="_blank" rel="noreferrer" className="ghost-link" style={{ minHeight: 36, padding: '8px 12px' }}>Web sitesi</a>
+                ) : null}
+              </div>
+
+              <DiscoveryRowActions
+                placeId={row.candidate.placeId}
+                initiallyShortlisted={shortlistedPlaceIds.has(row.candidate.placeId)}
+                importInfo={runtimeState.imports[row.candidate.placeId] || null}
+                payload={{
+                  placeId: row.candidate.placeId,
+                  name: row.candidate.name,
+                  segment: row.source.segment,
+                  district: row.candidate.district,
+                  address: row.candidate.address,
+                  categoryName: row.candidate.categoryName,
+                  phone: row.candidate.phone,
+                  websiteUrl: row.candidate.websiteUrl,
+                  reviewsCount: row.candidate.reviewsCount,
+                  score: row.scoring.score,
+                  matchedSearchTerms: row.source.matchedSearchTerms,
+                }}
+              />
+            </article>
+          )) : (
+            <p className="muted">Bu filtreyle eşleşen aday yok.</p>
+          )}
+        </div>
+
+        <div className="table-wrap desktop-only">
           <table>
             <thead>
               <tr>

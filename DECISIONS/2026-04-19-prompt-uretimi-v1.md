@@ -1,11 +1,16 @@
 # 2026-04-19 - Prompt Uretimi v1
 
+## Durum Notu
+- Bu karar dosyasinin kanonik adi `Prompt Uretimi` cizgisine gore rename edildi.
+- Eski `consultation-center` adlari artik aktif urun adi degil; repo icinde sadece uyumluluk/redirect izleri kalabilir.
+- Ayri bir `Context Center` sayfasi guncel cizgide yoktur; baglam secimi dokuman akisi ve `Prompt Uretimi` icindeki referans secimiyle yurur.
+
 ## Karar
 EsnafDigital icindeki bu yuzeyin adi `Prompt Uretimi` olacak.
 Bu yuzeyin tek isi, kullanicinin verdigi daginik istegi netlestirip dogru baglamla kullanilabilir GPT promptu uretmektir.
 
 ## Rol Siniri
-- **Context Center = baglam ve kaynak secimi**
+- **Baglam secimi = ayri bir urun yuzeyi degil; dokuman akisi ve Prompt Uretimi icindeki referans secimi**
 - **Prompt Uretimi = prompt hazirlama**
 - **Project OS / Businesses = uygulama ve operasyon takibi**
 

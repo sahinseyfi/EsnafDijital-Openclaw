@@ -208,3 +208,7 @@ blocker
 - Gerekce: kokteki kanonik ajan kontrati zaten `AGENTS.md` dosyasinda tutuluyor; klasor altindaki tek dosya eski cizgi ve drift riski tasiyordu.
 - Rootteki `AUDIT_SCORECARD.json` dosyasi `REFERENCES/AUDIT_SCORECARD.json` yoluna tasindi.
 - Gerekce: bu dosya karar kaydi veya kok giris dosyasi degil; audit tarafi icin referans materyal oldugu icin `REFERENCES/` altinda tutulmasi daha dogru.
+- `DECISIONS/2026-04-19-consultation-center-v1.md` dosyasi `DECISIONS/2026-04-19-prompt-uretimi-v1.md` olarak rename edildi.
+- Gerekce: kanonik urun adi artik `Prompt Uretimi`; eski `consultation-center` adini karar dosyasi adinda tasimak gereksiz drift uretıyordu.
+- `DECISIONS/2026-04-18-operating-model.md` icine durum notu eklendi.
+- Gerekce: dosya erken MVP kararini saklarken `genel CRM ozellikleri` ifadesinin 2026-04-22 kararindan sonra tek basina guncel karar gibi okunmasi engellendi.

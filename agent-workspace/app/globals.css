@@ -668,6 +668,14 @@ a.button-secondary[aria-disabled='true'] {
   border-radius: 14px;
 }
 
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -1086,6 +1094,14 @@ code {
 }
 
 @media (max-width: 640px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
   .stats-grid,
   .grid-2,
   .grid-3,

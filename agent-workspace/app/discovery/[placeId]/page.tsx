@@ -70,7 +70,7 @@ export default async function DiscoveryDetailPage({
       description="Seçili aday için şu ana kadar çekilen ön eleme verisini tek yerde gösterir."
     >
       <section className="card stack-sm">
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', alignItems: 'flex-start' }}>
           <div>
             <p className="eyebrow">Aday detay</p>
             <h3>{row.candidate.name}</h3>
@@ -82,7 +82,7 @@ export default async function DiscoveryDetailPage({
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
           <span className="badge">{bucketLabels[row.scoring.bucket]}</span>
           <span className="badge">Skor {row.scoring.score}</span>
           <span className="badge">Sahiplik: {ownershipLabels[row.candidate.ownershipStatus]}</span>
@@ -116,7 +116,7 @@ export default async function DiscoveryDetailPage({
             <p className="eyebrow">İşletme bağlantısı</p>
             <h3>Bu aday işletme kaydına taşındı</h3>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             <span className="badge">İşletme {importInfo.businessId.slice(0, 8)}</span>
             <span className="badge">Audit {importInfo.auditId.slice(0, 8)}</span>
             {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarım {importInfo.importedAt}</span> : null}
@@ -133,7 +133,7 @@ export default async function DiscoveryDetailPage({
             <p className="eyebrow">Çekim geçmişi</p>
             <h3>Önce ve şimdi</h3>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             <span className="badge">Toplam çekim {snapshots.length}</span>
             <span className="badge">Son kayıt {latestSnapshot.capturedAt}</span>
             {previousSnapshot ? <span className="badge">Bir önceki {previousSnapshot.capturedAt}</span> : null}
@@ -160,7 +160,7 @@ export default async function DiscoveryDetailPage({
             <p className="eyebrow">Temel bilgi</p>
             <h3>Cekilen aday verisi</h3>
           </div>
-          <dl className="stack-sm">
+          <dl className="stack-xs">
             <div>
               <dt className="eyebrow">Adres</dt>
               <dd>{row.candidate.address || 'Yok'}</dd>
@@ -201,7 +201,7 @@ export default async function DiscoveryDetailPage({
             <p className="eyebrow">Keşif sinyali</p>
             <h3>Neden burada gorunuyor?</h3>
           </div>
-          <dl className="stack-sm">
+          <dl className="stack-xs">
             <div>
               <dt className="eyebrow">Arama kapsami</dt>
               <dd>{row.source.searchCoverageNote || 'Yok'}</dd>

@@ -151,7 +151,7 @@ export function BusinessScanPanel({
   return (
     <section>
       <article className="card stack-sm">
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <div>
             <p className="eyebrow">Hazırlık / Tarama</p>
             <h3>Önce hafif tarama ile dış sinyali netleştir</h3>
@@ -159,7 +159,7 @@ export function BusinessScanPanel({
           <Link href={scanDetailHref} className="button-secondary">Tarama detayı</Link>
         </div>
 
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           <button type="button" className={mode === 'light' ? 'button-primary' : 'button-secondary'} onClick={() => setMode('light')}>
             Hafif tarama
           </button>
@@ -180,7 +180,7 @@ export function BusinessScanPanel({
             <p className="muted">Hazırlık adımıdır. Önce temel eşleşme, website ve görünürlük sinyali tazelenir. Derin tarama sadece ihtiyaç varsa açılır.</p>
 
             {currentSnapshot ? (
-              <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
                 <div className="detail-field">
                   <p className="eyebrow">Son dış sinyal</p>
                   <p>{currentSnapshot.source.searchCoverageNote || 'Dış sinyal notu yok'}</p>
@@ -213,7 +213,7 @@ export function BusinessScanPanel({
             </div>
 
             {currentSnapshot ? (
-              <div className="card stack-sm" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="card stack-sm" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
                 <div>
                   <p className="eyebrow">Derived karar aksiyonu</p>
                   <h3 style={{ margin: 0 }}>{latestYzReport ? latestYzReport.status : 'Y.Z raporu hazirlanabilir'}</h3>
@@ -259,7 +259,7 @@ export function BusinessScanPanel({
                   </>
                 ) : null}
 
-                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-start' }}>
                   <BusinessYzReportButton
                     businessId={businessId}
                     idleLabel={latestYzReport ? 'Raporu yenile' : 'Y.Z raporu olustur'}
@@ -285,7 +285,7 @@ export function BusinessScanPanel({
             <p className="muted">Tek işletme için kısa operasyon özeti üretir. Website, arama ve temel görünürlük sinyalini ajan tarafında yorumlar.</p>
 
             {latestAgentScan ? (
-              <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
                 <div className="detail-field">
                   <p className="eyebrow">Son durum</p>
                   <p>{latestAgentScan.status}</p>
@@ -331,7 +331,7 @@ export function BusinessScanPanel({
             </div>
 
             <div className="stack-sm">
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 {apifySources.map((item) => (
                   <label
                     key={item.key}
@@ -339,7 +339,7 @@ export function BusinessScanPanel({
                       display: 'inline-flex',
                       gap: 8,
                       alignItems: 'center',
-                      padding: '8px 12px',
+                      padding: '7px 10px',
                       border: '1px solid var(--line-soft)',
                       borderRadius: 12,
                       background: 'var(--surface)',
@@ -358,19 +358,19 @@ export function BusinessScanPanel({
               </div>
 
               {hasGoogleMapsSelected ? (
-                <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+                <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
                   <div>
                     <p className="eyebrow">Google Maps seçenekleri</p>
                     <p className="muted">Google Maps seçiliyken detay ve yorum kapsamını buradan aç. Maliyet için yorumlar örneklemeli tutulur.</p>
                   </div>
 
-                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <label
                       style={{
                         display: 'inline-flex',
                         gap: 8,
                         alignItems: 'center',
-                        padding: '8px 12px',
+                        padding: '7px 10px',
                         border: '1px solid var(--line-soft)',
                         borderRadius: 12,
                         background: 'var(--surface-subtle)',
@@ -391,7 +391,7 @@ export function BusinessScanPanel({
                         display: 'inline-flex',
                         gap: 8,
                         alignItems: 'center',
-                        padding: '8px 12px',
+                        padding: '7px 10px',
                         border: '1px solid var(--line-soft)',
                         borderRadius: 12,
                         background: 'var(--surface-subtle)',
@@ -431,24 +431,24 @@ export function BusinessScanPanel({
         )}
 
         {scanHistory.length > 0 ? (
-          <div className="card stack-sm" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+          <div className="card stack-sm" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
             <div>
               <p className="eyebrow">Tarama geçmişi</p>
               <p className="muted">Bu işletme için daha önce çalışan hafif, ajan ve derin taramalar.</p>
             </div>
 
-            <div style={{ display: 'grid', gap: 10 }}>
+            <div style={{ display: 'grid', gap: 8 }}>
               {scanHistory.map((entry, index) => (
                 <article
                   key={`${entry.kind}-${entry.createdAt}-${index}`}
                   className="card stack-xs"
                   style={{
-                    padding: 12,
+                    padding: 10,
                     borderColor: 'var(--line-soft)',
                     background: 'var(--surface-subtle)',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
                     <div>
                       <p className="eyebrow">{entry.label}</p>
                       <p style={{ margin: 0 }}>{formatScanTime(entry.createdAt)}</p>
