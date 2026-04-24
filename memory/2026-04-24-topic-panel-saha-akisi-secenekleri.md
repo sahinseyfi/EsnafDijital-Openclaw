@@ -7307,10 +7307,156 @@ Kisa formda:
 Bu model hem urun dilini tutarli kiliyor,
 hem de audit summary alanini sade ama daha faydali hale getiriyor.
 
+## Kirk sekizinci okuma - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
+Bu soru onceki iki kararin yuzey yerlesimini birlestiriyor:
+- `kapsam teyidi` normal haliyle approved-sonrasi kickoff kartinin dogal evi
+- approval oncesi delivery benzeri bir kopukluk gorulecekse bu ayni adla degil, daha hafif `scope/hazirlik riski` dilinde kalmali
+
+Ama hala acik bir nokta vardi:
+- bu hafif risk sinyali gerekiyorsa nerede durmali?
+- teklif kartinin icinde mi?
+- yoksa teklif ile kickoff arasina yeni bir `hazirlik satiri` mi acilmali?
+
+Bu onemli.
+Cunku ayni bilgiye farkli ev secmek,
+urunun stage disiplinini dogrudan etkiliyor.
+
+### 1) Referanslar hangi yone itiyor?
+Mevcut referanslar birlikte su cizgiyi veriyor:
+- `business-detail-v1.md` kart zincirini audit / son teklif / son teslimat olarak kuruyor, araya ekstra operasyon kati eklemiyor
+- onceki minimum zincir kararinda `Teklif karti` ve `Kickoff karti` ayrildi; arada ayri bir pre-kickoff yuzey onerilmedi
+- `Project OS` mantigi `audit -> teklif -> teslimat -> bakim` sirasini sert tutuyor
+- delivery create formu zaten son tekliften otomatik scope taslagi uretiyor, yani kickoff hazirligi teknik olarak tekliften tureyen bir kopru
+- skill kirmizi cizgisi yine ayni: teklif netlesmeden ekran cogaltma yok
+
+Buradan cikan ilk kuvvetli his su:
+- ayri bir `pre-kickoff` satiri kolayca hayalet bir besinci asamaya donusebilir
+
+### 2) Uc model
+
+#### ADR1) Erken risk sinyali teklif kartinin icinde ikincil satir olarak dursun
+Ornek:
+- `Scope/hazirlik riski var`
+- `Paket netlesince kickoff notu gozden gecirilmeli`
+
+Artisi:
+- yeni stage acmaz
+- ticari karar ile ona bagli operasyon riski ayni kayitta okunur
+- teklif karti zaten teslimati besleyen operasyon girdisi olarak tanimli
+- UI buyumez
+
+Eksisi:
+- doz kacarsa teklif karti yarim kickoff kartina doner
+- iyi isimlendirme ister
+
+#### ADR2) Teklif ile kickoff arasina ayri `hazirlik satiri` veya mini kart girsin
+Ornek:
+- `Kickoff oncesi hazirlik`
+- `Teslim riskleri`
+- `Scope netligi`
+
+Artisi:
+- delivery dilini teklif kartindan ayirir gibi gorunur
+- gelecekte eksik asset / erisim sinyallerini burada toplama hissi verebilir
+
+Eksisi:
+- fiilen yeni bir ara asama acar
+- `audit -> teklif -> teslimat` hattini `audit -> teklif -> hazirlik -> teslimat` gibi hissettirir
+- tekrar riski yuksektir
+- Business Detail'i daha erken mini operasyon panosuna cevirir
+
+#### ADR3) Approval oncesi hic gosterme, sadece approved sonrasi kickoff kartina birak
+Artisi:
+- en sade ve en temiz stage disiplini budur
+- V1 scope'u korur
+
+Eksisi:
+- bazi kopukluklar gec fark edilir
+- operator bazen teklifi kapatmadan once `teslimata tasinir mi` sorusunu hic gormez
+
+Ara yorum:
+- genel kural olarak `ADR3` V1 default icin en guvenli
+- ama erken sinyal gercekten lazim olursa, yer olarak `ADR1` daha saglikli
+- `ADR2` en riskli secenek
+
+### 3) Neden ayri hazirlik satiri zayif gorunuyor?
+Cunku urunun omurgasi zaten dar:
+- audit = sorun ve yon
+- teklif = secilen cozum
+- teslimat = onayli cozumu uygulama
+
+Araya `hazirlik satiri` sokunca su belirsizlesir:
+- bu yeni bir asama mi?
+- kim ne zaman bu satira bakacak?
+- kickoff yoksa bu satir neyi temsil ediyor?
+
+Bu da onceki `pipeline fetish` riskine dokunur.
+Kucuk bir uyari icin yeni bir ara katman acmak,
+uyaridan daha buyuk tasarim maliyeti dogurur.
+
+### 4) Neden teklif karti icindeki ikincil satir daha dogal?
+Cunku approval oncesi sorun hala esasen su sorudur:
+- bu paket ve bugunku notlar teslimata tasinirken kopma riski uretiyor mu?
+
+Bu soru henuz tam delivery sorusu degil,
+teklifin operasyonel saglamligi sorusu.
+Dolayisiyla eger erken uyari verilecekse,
+onun en dogal evi `son teklif` kartinin ikincil alani olur.
+
+Bu model su ayrimi korur:
+- ana teklif karti = paket, tutar, neden bu paket
+- ikincil hafif risk satiri = `teslimata inerken dikkat`
+- kickoff karti = approved sonrasi asil kapsam teyidi
+
+### 5) Teklif karti delivery kartina kaymadan bu nasil yapilir?
+Bence iki sinir gerekli:
+- dil hafif kalmali: `hazirlik riski`, `scope notu eksik`, `paket netlesince kontrol et`
+- teslimat detayina girmemeli: asset listesi, yayin hedefi, erisim checklist'i burada acilmamali
+
+Yani teklif kartindaki erken sinyal,
+`teslimat paneli acilisi` degil,
+yalniz `kopma olabilir` uyarisi olmali.
+
+### 6) Peki hic erken sinyal olmamasi neden hala guclu aday?
+Cunku bugunku veri modeli ve ekran siniri dusunulunce,
+once approved-sonrasi kickoff kartini dogru kurmak daha degerli olabilir.
+Erken sinyal ancak su durumda anlam kazanir:
+- teklif kartinda `neden bu paket` ve diger alanlar zaten okunur hale gelmis
+- operator hala tekrarlayan sekilde ayni teslim kopuklugunu yasiyor
+
+Bu kanit olmadan erken sinyal acmak,
+ongorulu ama gereksiz bir komplikasyon olabilir.
+
+### 7) O zaman en saglikli V1 cizgisi ne?
+Bence su net siralama dogru:
+- V1 default: approval oncesi ayri delivery risk sinyali hic acma
+- eger gercek kullanimda tekrar eden kopukluk kaniti cikarsa,
+  bunu ayri `hazirlik satiri` olarak degil, `son teklif` karti icinde hafif ikincil satir olarak ekle
+- approved sonrasi asil `kapsam teyidi` yine kickoff kartinda yasasin
+
+Bu sayede:
+- stage zinciri bozulmaz
+- ekstra ara yuzey acilmaz
+- ama gerekirse erken uyari icin dogal bir yuva hazir olur
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- approval oncesi delivery risk sinyali gerekiyorsa bunun yeri ayri bir kickoff-oncesi `hazirlik satiri` degil, `son teklif` karti icindeki hafif ikincil satir olmali
+- ancak V1 baslangicinda en guvenli yol bunu hic erken acmamak, once approved-sonrasi kickoff kartini dogru oturtmak
+- ayri hazirlik satiri yeni bir ara asama hissi urettigi icin gereksiz scope ve tekrar riski tasiyor
+
+Kisa formda:
+- V1 default = no early delivery-risk row
+- if needed later = small secondary line inside offer card
+- not recommended = separate pre-kickoff prep row
+
+Bu model hem `audit -> teklif -> teslimat` omurgasini koruyor,
+hem de erken delivery dilinin urunu yeni bir stage'e savurmasini onluyor.
+
 ## Sonraki arastirma basliklari
-- approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
+- teklif kartindaki olasi erken risk satiri hangi dilde daha guvenli olur: `hazirlik riski`, `scope notu eksik`, `kickoff oncesi kontrol` benzeri hangisi en az delivery-asamasi hissi verir?
