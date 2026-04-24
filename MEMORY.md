@@ -6,8 +6,8 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
 - EsnafDigital, küçük işletmelerin dijitalde daha görünür, daha güvenilir, daha kolay ulaşılabilir ve işlerini adım adım dijitale taşıyabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
 - Esas odak yalnızca site yapmak değil, işletmeyi teknik karmaşa ile boğmadan güven veren dijital kimlik, görünürlük ve temel dijital düzen kurmaktır.
 - Uzun vadede amaç, küçük işletmelerin teknik araçlarla boğuşmadan, OpenClaw tabanlı ajan desteği sayesinde dijital işlerini sohbet ederek yönetebileceği sade bir işletme altyapısı kurmaktır.
-- İlk hizmet omurgası şudur:
-  `Audit -> Teklif -> Teslimat -> Bakım`
+- İlk iş akış omurgası şudur:
+  `Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
 - Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
 
 ## 2) İlk Pazar ve İlk Segmentler
@@ -17,24 +17,33 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
   - güzellik salonu
   - kafe / restoran
 
-## 3) Ürün Omurgası
-### Giriş ürünü
-Dijital Görünürlük Kontrolü / Audit
+## 3) Hizmet Omurgası
+### Ana hizmet
+- isletmenin dijitalde guven veren, duzenli ve ulasilabilir hale gelmesini saglayan kurulum ve toparlama isi
 
-### Ana ürün
-Güven Veren Dijital Varlık
+### Devam hizmeti
+- Bakim / Canlilik / Kucuk Guncelleme
 
-### Devam ürünü
-Bakım / Canlılık / Küçük Güncelleme
+### Genisleme alani
+- hafif panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune sonra eklenebilecek genisleme alanidir
 
-Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bir üçlü omurgadır.
-Bu omurga ilk ticari giriş katmanıdır; hafif panel ve ajan destekli işletme yönetimi ise bunun uzerine sonra eklenebilecek genisleme alanidir.
+Amac, cok secenekli paket karmasasi degil, anlasilir ve satilabilir bir hizmet cizgisi kurmaktir.
 
-## 4) İş Modeli Çizgisi
-- Düşük bariyerli giriş ürünü ile temas kurulur.
-- Audit, teklif için güçlü bir giriş yolu olarak çalışır, ama her iş zorunlu olarak audit ile başlamaz.
-- Teslimat görünür ve hızlı olmalıdır.
-- Sonrasında bakım / güncelleme geliriyle devam edilir.
+## 4) Is Akis Omurgasi
+`Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
+
+- Bu akis satis ve operasyon omurgasidir, dogrudan satilan urun listesi degildir.
+- Dijital gorunurluk kontrolu / audit, satilan ana urun degil; isletme secimi, onceliklendirme ve teklif hazirligi icin kullanilan ic tarama adimidir.
+- Teklif, satilan urun degil; kapsam ve teslimatin nasil yapilacagini netlestiren ara asamadir.
+- Teslimat gorunur ve hizli olmalidir.
+- Sonrasinda bakim / guncelleme geliriyle devam edilir.
+
+### Satis Destek Araclari
+- demo site hazirligi
+- ornek ekran / ornek calisma
+- hizli mockup / on gosterim
+- ajan destegiyle isletme verilerini okuyup satis, teklif ve konumlandirma konusunda destek almak
+- Bunlar ana ve kalici olarak garanti edilen hizmetler degildir; gerektiginde teklif ve karar surecini destekleyen satis araclaridir.
 
 ## 5) Teknik Çizgi
 - Teknik omurga VPS üzerinde kurulur.
@@ -55,6 +64,8 @@ Bu omurga ilk ticari giriş katmanıdır; hafif panel ve ajan destekli işletme 
 ## 7) İş Bölümü
 - Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
 - Ajan: teknik sistem, operasyon omurgası, bağlam düzeni, panel, veri modeli, bakım
+- Ilk asamada satisi dogrudan kurucu yapar; teklif dili, saha geri bildirimi ve ticari dogrulama once buradan oturur.
+- Ileride satis, sahada calisan temsilciler veya yonlendiren kisilerle genisleyebilir; bu yapida kar payi / paylasimli kazanc modeli operasyonun dogal genisleme seceneklerinden biridir.
 
 ## 8) Korunacak Çalışma İlkeleri
 - önce netlik, sonra araç
