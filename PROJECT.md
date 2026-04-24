@@ -114,11 +114,7 @@ Bu yuzeyin isi istem uretiminde biter.
 Cevap toplama, karar yazma veya aksiyon takibi baska yuzeylerde cozulur.
 
 ## Teknik Varsayimlar
-- **frontend/admin:** Next.js
-- **veritabani:** Postgres
-- **ORM:** Prisma
-- **sabit baglam:** Markdown / YAML / JSON
-- **kucuk otomasyonlar:** cron / basit jobs
+Teknik tercih ve ortam varsayimlari icin `TOOLS.md` esas alinir.
 
 ## Is Bolumu
 - **Kurucu:** satis, saha, teklif dogrulama, yon belirleme, kritik ticari kararlar

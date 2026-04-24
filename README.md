@@ -40,10 +40,10 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 - `memory/` -> tarihlenmis gelismeler, session ve incident notlari
 - `REFERENCES/` -> kaynak materyaller ve referanslar
 - `skills/` -> gorev odakli workspace skill'leri
-- `deploy/` -> repo kokundeki operasyon/deploy referanslari
-- `bin/` -> repo kokundeki yardimci scriptler
+- `deploy/` -> repo kokundeki operasyon/deploy referanslari, servis veya canliya alim detayina bakarken
+- `bin/` -> repo kokundeki yardimci scriptler, bir isi elle degil mevcut script ile yapmak gerekirken
 - `ARCHIVE/` -> aktif kullanilmayan ama saklanan materyaller
-- `state/` -> gecici ama takip edilmesi gereken uretim artefaktlari
+- `state/` -> gecici ama takip edilmesi gereken uretim artefaktlari, uygulama oncesi/sonrasi uretilen ara durum kayitlarini incelerken
 
 ## Goreve gore nereye gidilir?
 - Kod veya admin ekran gorevi -> `agent-workspace/README.md`

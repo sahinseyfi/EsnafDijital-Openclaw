@@ -17,24 +17,20 @@ Bu fazin amaci, satisi destekleyecek sade ama saglam bir ic sistem kurmaktir. On
 ### Hedef
 Ic sistemin ilk calisan omurgasini ayaga kaldirmak.
 
-### Done
-- login + admin panel v1 mevcut
-- proje icin temel baglam dosyalari olusturuldu
-
-### Doing
+### Bu donemin oncelikleri
 - ana domain placeholder modundan cikacak yeni tanitim sitesi cizgisini netlestirmek
-- proje kayitlarinin standardize edilmesi
-- admin panel bilgi mimarisinin netlestirilmesi
-- ilk hizmet omurgasinin sadelestirilmesi
+- proje kayitlarini standardize etmek
+- admin panel bilgi mimarisini netlestirmek
+- ilk hizmet omurgasini sadelestirmek
 - home ekranini sistem anlatisindan aktif is ve kritik aksiyon yuzeyine cekmek
 - Project OS icinde isletmeler / on degerlendirmeler / teklifler / teslimat hattini daha net gorunur hale getirmek
-- operator panelini yatay urune savurmadan cekirdek nesnelerin sinirini cizmek
+- operasyonel CRM genislemesini yatay urune savurmadan cekirdek nesnelerin sinirini cizmek
 
-### Next
+### Bu donemde netlesmesi gereken kararlar
 - operator paneli icin cekirdek nesneleri netlestirmek (`isletme detay`, `aktivite`, `not`, `sonraki adim`, `gorev`)
 - mevcut `businesses`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak ve `on degerlendirme` kaydini kanoniklestirmek
-- dashboard / home icin aktif is + kritik aksiyon + kompakt hat ozeti
-- Project OS icinde asama bazli operasyon gorunumu
+- dashboard / home icin aktif is + kritik aksiyon + kompakt hat ozeti cizgisini kalicilastirmak
+- Project OS icinde asama bazli operasyon gorunumunun sinirini belirlemek
 - Project OS ile Istem Uretimi el sikismasini gorunur hale getirmek
 
 ## 30-60 Gun
@@ -78,3 +74,5 @@ Yeni bir fikir geldiginde su sorularla filtrelenir:
 - cok rollu kullanici sistemi
 - ileri musteri portali
 - muhasebe / gelir-gider / stok modulleri
+
+Not: EsnafDigital icindeki operasyonel CRM genislemesi bu erteleme kapsamina girmez. Ertelenen sey, herkese satilan yatay bir genel CRM urunudur.
