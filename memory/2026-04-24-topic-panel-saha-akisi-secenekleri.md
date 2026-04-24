@@ -7016,10 +7016,155 @@ Kisa formda:
 Bu model hem mevcut repo gercegine uyuyor,
 hem de `audit teyidi` icindeki `ince audit` sinyalini daha akilli hale getiriyor.
 
+## Kirk altinci okuma - audit ozetindeki mikro iskelet yardimi operatora gorunur placeholder olarak mi verilmeli, yoksa yalniz arka planda kalite kontrolu olarak mi kalmali?
+Bir onceki karar sunu netlestirmisti:
+- `ince audit` esigi yalniz uzunlukla belirlenmemeli
+- ama tam yapili alan zorunluluguna da gidilmemeli
+- en mantikli yol, tek `summary` icinde `ana eksik + cozum yonu + beklenen sonuc` omurgasini hafifce aramak
+
+Simdi asil soru su:
+- bu mikro iskelet operatora yazarken gorunmeli mi?
+- yoksa sistem bunu sessizce arkada kontrol edip yalniz sonradan `ince audit` uyarisina mi cevirmeli?
+
+Bu karar kucuk gibi gorunuyor ama davranis tasarimi acisindan kritik.
+Cunku operator neyi nasil yazacagini hic gormezse kalite artmayabilir.
+Ama fazla gorunur yaparsak yine yarim-form duvarina kayariz.
+
+### 1) Repo ve referanslar hangi yone itiyor?
+Mevcut cizgi su:
+- Project OS formlari `dar form alani` mantiginda, sayfayi ele gecirmemeli
+- `business-detail-v1.md` ana yuzeyi karar ve ozet alaninda tutuyor, detay veya editor duvarina cevirmiyor
+- playbook ise audit cikisinin teklife neden ve beklenen sonuc bagiyla gitmesini istiyor
+- bugunku veri modeli tek `summary` alaniyla calisiyor, ayri audit alt alanlari yok
+
+Buradan iki guclu sonuc cikiyor:
+- operatora hic rehber vermemek zayif kalabilir
+- ama rehberi tam gorunur mini form gibi acmak da V1 sadeligini bozar
+
+### 2) Uc model
+
+#### MIK1) Yalniz arka plan kalite kontrolu olsun
+Mantik:
+- operator bos textarea gorur
+- sistem arka planda `ince audit` kontrolu yapar
+- zayifsa sonra uyari verir
+
+Artisi:
+- UI cok sade kalir
+- yeni gorunur metin eklenmez
+- form duvari riski dusuktur
+
+Eksisi:
+- operator neye gore daha iyi audit yazacagini basktan anlamaz
+- uyari ancak yazildiktan sonra gelir
+- ayni hata tekrarlanabilir
+
+#### MIK2) Mikro iskelet tam gorunur placeholder / yardim metni olarak verilsin
+Ornek:
+- placeholder: `Ana eksik nedir? Hangi cozum yone uygun? Beklenen sonuc ne?`
+- veya kisa yardim satiri: `Eksik + cozum yonu + beklenen sonuc yaz.`
+
+Artisi:
+- operatoru dogru dusunmeye iter
+- kalite kontrolunu proaktif hale getirir
+- yeni tablo acmadan davranis kalitesini artirabilir
+
+Eksisi:
+- kotu yazilirsa yapay ve ogretmenvari durur
+- placeholder fazla belirgin olursa audit alanini yari-yapili forma cevirir
+- mobil veya hizli kullanimda gorsel yuk artabilir
+
+#### MIK3) Hibrit model: hafif gorunur ipucu + arka plan kalite kontrolu
+Mantik:
+- textarea serbest kalir
+- placeholder veya yardim metni cok kisa olur
+- sistem yine arka planda kalite kontrolu yapar
+- yalniz zayif durumda `audit teyidi` veya `gozden gecir` sinyali cikar
+
+Artisi:
+- davranisi basta yonlendirir
+- ama tam form hissi vermez
+- kalite kontrolunu sonradan da korur
+
+Eksisi:
+- metnin tonu iyi ayarlanmazsa ya etkisiz kalir ya da fazla ogretici durur
+- iki katmanli model oldugu icin isimlendirme disiplini ister
+
+Ara yorum:
+- su an en saglikli yol `MIK3`
+
+### 3) Neden yalniz arka plan kontrolu zayif?
+Cunku audit kalitesini yalniz hata aninda uyarmak,
+operatoru iyi ornege yonlendirmekten daha zayif bir mekanizma.
+Ozellikle bugunki veri modeli tek `summary` oldugu icin,
+kullanicinin zihninde su soru acik kalir:
+- ne yazmami bekliyorsun?
+
+Sistem bunu hic soylemezse,
+`Dijital taraf zayif.` gibi bos ama teknik olarak gecerli cumleler artabilir.
+
+### 4) Neden tam gorunur placeholder da tek basina yeterli degil?
+Cunku placeholder faydali olsa bile,
+operator onu her zaman izlemez.
+Ayrica placeholder tek basina kalite kontrolu yapmaz.
+Uzun ama bos bir metin yine yazilabilir.
+Yani yalniz placeholder koyup denetimi birakmak da eksik olur.
+
+### 5) O zaman en saglikli gorunur yardim ne kadar gorunur olmali?
+Bence burada doz cok onemli.
+V1 icin en guvenli cizgi su:
+- tek satirlik hafif placeholder veya yardim metni
+- ornekten cok yon veren bir dil
+- mini checklist veya ek alanlar yok
+
+Ornek uygun ton:
+- `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.`
+
+Ornek fazla agir ton:
+- `1. Ana eksik 2. Paket yonu 3. Beklenen sonuc 4. Notlar`
+
+Ikinci secenek audit alanini hemen yari-forma cevirir.
+Birinci secenek ise dusunme yonu verir ama ekran buyutmez.
+
+### 6) Bu yardim nerede durmali?
+Bence en dogru yer audit `summary` alaninin placeholder'i veya hemen altindaki tek satir yardim metni.
+Ayri kart, drawer veya acik checklist gereksiz.
+Cunku problem tek alanda cozuluyor:
+- audit summary nasil daha faydali yazilir?
+
+Ayni seyi baska yuzeye tasimak V1 mantigina ters.
+
+### 7) En buyuk risk ne?
+Mikro yardimi zamanla gizli schema'ya cevirmek.
+Eger sonra sunlar gelirse risk baslar:
+- zorunlu ikonlar
+- eksik alan chipleri
+- mini form breakdown
+- audit composer drawer
+
+Bu noktada hafif yardim,
+mini audit editorune donusur.
+Bu da `teklif netlesmeden ekran cogaltma` cizgisine ters.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- audit ozetinde mikro iskelet yardimi tamamen gizli kalmamali
+- ama tam gorunur yari-form haline de getirilmemeli
+- en saglikli V1 model, operatora tek satirlik hafif placeholder/yardim verip kalite kontrolunu arkada surduren hibrit yaklasim
+- yani rehber gorunur olur, denetim ise sessizce devam eder
+
+Kisa formda:
+- not enough = hidden-only quality control
+- too much = visible mini-template/form
+- recommended = subtle prompt + background check
+
+Bu model hem operatoru bastan dogru yone iter,
+hem de UI'yi audit editorune cevirmeden kaliteyi korur.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
-- audit ozetinde mikro iskelet yardimi operatora gorunur placeholder olarak mi verilmeli, yoksa yalniz arka planda kalite kontrolu olarak mi kalmali?
+- audit summary icin uygun placeholder dili soru formunda mi, yoksa yon veren duz cumle formunda mi daha guvenli olur?
