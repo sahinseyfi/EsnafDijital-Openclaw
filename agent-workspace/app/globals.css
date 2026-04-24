@@ -219,6 +219,7 @@ textarea:focus-visible {
   border: 0;
   padding: 0;
   background: var(--sidebar-backdrop-bg);
+  visibility: hidden;
 }
 
 .sidebar-brand,
@@ -941,6 +942,7 @@ code {
     inset: 0;
     z-index: 30;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transition: opacity 160ms ease;
     display: block;
@@ -948,6 +950,7 @@ code {
 
   .sidebar-backdrop-visible {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
@@ -963,7 +966,10 @@ code {
     border-right: 1px solid var(--sidebar-shell-border);
     border-bottom: 0;
     transform: translateX(calc(-100% - 16px));
-    transition: transform 180ms ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease;
     z-index: 40;
     overflow-y: auto;
     gap: 14px;
@@ -1010,6 +1016,9 @@ code {
 
   .sidebar-open {
     transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .sidebar-mobile-header {
@@ -1020,20 +1029,38 @@ code {
     padding: 2px 2px 0;
   }
 
-  .sidebar-close {
-    width: auto;
-    min-height: 40px;
-    padding: 0 14px;
-  }
+.sidebar-close {
+  width: auto;
+  min-height: 40px;
+  padding: 0 14px;
+}
 
-  .content {
-    padding: 18px 14px 24px;
-  }
+.menu-trigger-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 18px;
+}
 
-  .mobile-topbar {
-    display: flex;
-    justify-content: flex-end;
-  }
+.menu-trigger-icon span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.content {
+  padding: 18px 14px 24px;
+}
+
+.mobile-topbar {
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 20;
+}
 
   .page-header,
   .hero,
@@ -1056,11 +1083,20 @@ code {
 
   .mobile-nav-trigger {
     display: inline-flex;
+    position: relative;
+    z-index: 21;
   }
 
   .mobile-topbar .mobile-nav-trigger,
   .sidebar-mobile-header .sidebar-close {
     width: auto;
+  }
+
+  .mobile-nav-trigger {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+    border-radius: 999px;
   }
 
   .button-primary,

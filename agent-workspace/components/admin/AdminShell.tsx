@@ -167,9 +167,14 @@ export function AdminShell({
               className="button-secondary mobile-nav-trigger"
               aria-expanded={isMenuOpen}
               aria-controls="admin-sidebar"
+              aria-label={isMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
               onClick={() => setIsMenuOpen(true)}
             >
-              Menü
+              <span className="menu-trigger-icon" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
             </button>
           </div>
 
