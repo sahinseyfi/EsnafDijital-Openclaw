@@ -21,10 +21,9 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- Asama B icin rename + paired update artefaktlari hazir oldugu icin, 4 ek baglantili `memory/` dosyasini ikinci paketle tasimak uzere kisa onay alip `state/repo-cleanup-asama-b-rename.sh` ve `state/repo-cleanup-asama-b-post-rename-sync.py` akisini uygulamak
+- Asama A ve Asama B rename paketleri tamamlandigi icin, aktif cleanup notu olan `2026-04-24-repo-cleanup.md` dosyasini Asama C olarak ayri tutup bu hat kapandiginda naming kararini verecek son kontrolu hazirlamak
 
 ## Mevcut Blokajlar
-- Asama B dosyalari ek memory/reference baglantilari tasidigi icin paired update olmadan rename edilemez
 - aktif cleanup notu olan `2026-04-24-repo-cleanup.md` Asama C olarak ayrildigi icin bu hatta henuz dahil edilmeyecek
 
 ## Dikkat Edilecek Riskler
@@ -32,7 +31,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 - HEARTBEAT.md'nin aktif pano yerine gecmis, politika ve daginik notlarla sisip odagini kaybetmesi
-- Asama B rename'inde ek baglanti tasiyan dosyalari eksik guncelleyip yeni referans drift'i uretmek
+- Asama C aktif notunu erken rename edip ayni gun baglantilarinda yeni drift uretmek
 
 ## Bu Fazin Done Tanimi
 - teklif omurgasi netlesmis olacak

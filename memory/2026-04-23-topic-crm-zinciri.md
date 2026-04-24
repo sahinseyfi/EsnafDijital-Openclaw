@@ -20,7 +20,7 @@ user: Sender (untrusted metadata):
 [Thu 2026-04-23 22:43 UTC] genel CRM olmama. Sadece aktif audit → teklif → teslimat → bakım zinciri mantığını değiştirmek istiyorum bu bizi çok kısıtlıyor
 assistant: Katılıyorum, sorun “genel CRM olmama” değil, akışın fazla lineer olması.
 
-Şu an mantık butonlarda ve durumlarda sert zincire bağlanmış görünüyor, örneğin `reviewed -> offered`, `draft -> sent`, `building -> live` gibi sabit geçişler var. Bu da işi doğal akış yerine ekrana uyduruyor. Source: memory/2026-04-22-crm-panel.md#L181-L245
+Şu an mantık butonlarda ve durumlarda sert zincire bağlanmış görünüyor, örneğin `reviewed -> offered`, `draft -> sent`, `building -> live` gibi sabit geçişler var. Bu da işi doğal akış yerine ekrana uyduruyor. Source: memory/2026-04-22-topic-crm-panel.md#L181-L245
 
 Bence 3 seçenek var:
 

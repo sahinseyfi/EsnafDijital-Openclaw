@@ -159,8 +159,8 @@ Her dosya icin su alanlar cikarilacak:
 - kural: konu notlari `YYYY-MM-DD-topic-slug.md`, incident notlari `YYYY-MM-DD-incident-slug.md`, consultation notlari `YYYY-MM-DD-consultation-slug.md`
 - bulgu: mevcut `memory/` altinda bu kurala uymayan 25 dosya var
 - ornekler:
-  - `2026-04-19-github-sync.md`
-  - `2026-04-20-page-error.md`
+  - `2026-04-19-topic-github-sync.md`
+  - `2026-04-20-incident-page-error.md`
   - `2026-04-22-topic-context-cleanup.md`
   - `2026-04-23-topic-dark-mode.md`
   - `2026-04-24-repo-cleanup.md`
@@ -453,12 +453,12 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 
 | Mevcut ad | Onerilen tip | Onerilen yeni ad |
 | --- | --- | --- |
-| `2026-04-19-github-sync.md` | topic | `2026-04-19-topic-github-sync.md` |
-| `2026-04-20-page-error.md` | incident | `2026-04-20-incident-page-error.md` |
-| `2026-04-20-repo-structure.md` | consultation | `2026-04-20-consultation-repo-structure.md` |
+| `2026-04-19-topic-github-sync.md` | topic | `2026-04-19-topic-github-sync.md` |
+| `2026-04-20-incident-page-error.md` | incident | `2026-04-20-incident-page-error.md` |
+| `2026-04-20-consultation-repo-structure.md` | consultation | `2026-04-20-consultation-repo-structure.md` |
 | `2026-04-22-topic-cold-start.md` | topic | `2026-04-22-topic-cold-start.md` |
 | `2026-04-22-topic-context-cleanup.md` | topic | `2026-04-22-topic-context-cleanup.md` |
-| `2026-04-22-crm-panel.md` | topic | `2026-04-22-topic-crm-panel.md` |
+| `2026-04-22-topic-crm-panel.md` | topic | `2026-04-22-topic-crm-panel.md` |
 | `2026-04-22-topic-executor-confusion.md` | topic | `2026-04-22-topic-executor-confusion.md` |
 | `2026-04-22-topic-gateway-summary.md` | topic | `2026-04-22-topic-gateway-summary.md` |
 | `2026-04-22-topic-old-profile.md` | topic | `2026-04-22-topic-old-profile.md` |
@@ -493,21 +493,21 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 - 1 dosya aktif calisma notu oldugu icin heartbeat ve ayni gun notlari tarafindan referanslaniyor
 
 ### Ek baglantili dosyalar
-1. `2026-04-19-github-sync.md`
+1. `2026-04-19-topic-github-sync.md`
    - ek referanslar: `memory/2026-04-19.md`, `memory/2026-04-22-topic-old-profile.md`
    - karar: paired update ile ikinci asamada rename
 
-2. `2026-04-20-page-error.md`
+2. `2026-04-20-incident-page-error.md`
    - ek referanslar: `memory/2026-04-20.md`
    - non-kanonik cache referansi: `memory/.dreams/short-term-recall.json`
    - karar: daily note guncellemesiyle birlikte ikinci asamada rename, `.dreams` cache'i kanonik sayilmayacak
 
-3. `2026-04-20-repo-structure.md`
+3. `2026-04-20-consultation-repo-structure.md`
    - ek referanslar: `memory/2026-04-20.md`, `memory/2026-04-22-topic-old-profile.md`
    - non-kanonik cache referansi: `memory/.dreams/short-term-recall.json`
    - karar: paired update ile ikinci asamada rename
 
-4. `2026-04-22-crm-panel.md`
+4. `2026-04-22-topic-crm-panel.md`
    - ek referanslar: `memory/2026-04-23-topic-crm-zinciri.md`, `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
    - karar: reference + memory birlikte guncellenmeden rename yapilmayacak
 
@@ -523,7 +523,7 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 ### Asama A icin uygun dosyalar
 - `2026-04-22-topic-cold-start.md`
 - `2026-04-22-topic-context-cleanup.md`
-- `2026-04-22-crm-panel.md` haric tum 2026-04-22 tekil notlari icinden yalniz cleanup notunda gecenler:
+- `2026-04-22-topic-crm-panel.md` haric tum 2026-04-22 tekil notlari icinden yalniz cleanup notunda gecenler:
   - `2026-04-22-topic-executor-confusion.md`
   - `2026-04-22-topic-gateway-summary.md`
   - `2026-04-22-topic-old-profile.md`
@@ -659,6 +659,21 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 3. eski ad kalip kalmadigini grep ile dogrula
 4. Asama C aktif notunu ayri tutmaya devam et
 
+## Asama B uygulama sonucu
+
+### Uygulanan komutlar
+- `bash /root/.openclaw/workspace/state/repo-cleanup-asama-b-rename.sh`
+- `python3 /root/.openclaw/workspace/state/repo-cleanup-asama-b-post-rename-sync.py`
+
+### Sonuc
+- Asama B kapsamindaki 4 baglantili `memory/` dosyasi yeni naming cizgisine gore fiziksel olarak rename edildi
+- bagli dosyalar (`memory/2026-04-19.md`, `memory/2026-04-20.md`, `memory/2026-04-22-topic-old-profile.md`, `memory/2026-04-23-topic-crm-zinciri.md`, `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`, `memory/2026-04-24-repo-cleanup.md`) yeni adlarla senkronize edildi
+- hizli grep dogrulamasinda kanonik memory/reference yuzeylerinde eski Asama B adlari kalmadi
+
+### Sonraki kontrollu adim
+- Asama C aktif cleanup notunu ayri tutmaya devam et
+- `state/repo-cleanup-asama-a-*` ve `state/repo-cleanup-asama-b-*` artefaktlarini silme/arsivleme adayi olarak ayri karar ver
+
 ## 2026-04-24 ek ilerleme - kontrollu kok dosya uyum duzeltmeleri
 
 Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. Amac, eski bulgu listesi ile fiili repo durumu arasinda fark birakmamaktir.
@@ -700,7 +715,7 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 1. `HEARTBEAT.md`
    - genel iskelet dogru
    - `Siradaki Somut Adim` satiri fiili akisla yeniden hizalandi
-   - bir sonraki durak artik Asama B rename'i icin kisa onay almak
+   - bir sonraki durak artik Asama C aktif notunu ayri tutup state artefaktlari icin karar vermek
 
 2. `MEMORY.md`
    - `Promoted From Short-Term Memory` blogu ayiklanip kaldirildi
@@ -714,7 +729,7 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 
 4. `memory/` naming drift rename paketi
    - Asama A fiziksel rename + dar referans patch'i tamamlandi
-   - Asama B icin paired update plani ve artefaktlari hazirlandi
+   - Asama B fiziksel rename + paired update tamamlandi
    - Asama C aktif cleanup notu olarak ayri tutuluyor
 
 ### Guncel durum notu
@@ -723,5 +738,5 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 - aktif kok zincirde `MEMORY_SUMMARY.md` yerine dogrudan `MEMORY.md` referans aliniyor
 - `MEMORY_SUMMARY.md` kolu bu cleanup hattinda kapatildi; yeniden olusturma karari alinmadi
 - Asama A rename batch'i ve `memory/2026-04-24-repo-cleanup.md` senkronu tamamlandi
-- Asama B icin paired update plani ve artefaktlari hazirlandi
-- Bu cleanup hattinin sonraki kontrollu duragi: Asama B rename'i icin kisa onay almak
+- Asama B fiziksel rename'i ve paired update senkronu tamamlandi
+- Bu cleanup hattinin sonraki kontrollu duragi: Asama C aktif notunu ayri tutup state artefaktlari icin silme/arsivleme karari vermek

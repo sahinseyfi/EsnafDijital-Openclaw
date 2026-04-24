@@ -96,15 +96,15 @@ assistant: Bende kayıtlı son dış GPT raporları şunlar:
 
 2. **Repo yapısı / onboarding / hafızasız GPT için giriş rotası raporu**  
    - Konu: repo kökü fazla dağınık, giriş rotası sertleştirilmeli, klasör README’leri ve source-of-truth netleşmeli  
-   - Kayıt: `memory/2026-04-20-repo-structure.md`  
+   - Kayıt: `memory/2026-04-20-consultation-repo-structure.md`  
    - Kısa sonuç: kök sadeleşsin, giriş rotası netleşsin, gerçek repo yapısı esas alınsın.  
-   - Source: `memory/2026-04-20-repo-structure.md#L23`
+   - Source: `memory/2026-04-20-consultation-repo-structure.md#L23`
 
 3. **Tasarım Sistemi ve Marka Kimliği raporu**  
    - Konu: EsnafDigital’in kalıcı marka ve UI dili  
    - Karar kaydı: `DECISIONS/2026-04-19-brand-design-system.md`  
    - Kısa sonuç: güven veren mavi + turkuaz, sade ve yüksek okunabilirlikli dil.  
-   - Source: `memory/2026-04-19-github-sync.md#L114`, `MEMORY.md#L70`
+   - Source: `memory/2026-04-19-topic-github-sync.md#L114`, `MEMORY.md#L70`
 
 İstersen bunları sana bir de **tek satırlık özet + hangi dosyaya işlendi** formatında çıkarayım.
 user: Sender (untrusted metadata):
@@ -127,7 +127,7 @@ Bunu büyük ölçüde uyguladık:
 - klasör bazlı `README`’ler eklendi
 - `memory/` naming standardı yazıldı
 
-Kaynak: `memory/2026-04-20-repo-structure.md#L23`
+Kaynak: `memory/2026-04-20-consultation-repo-structure.md#L23`
 
 ### 2) Admin bilgi mimarisi raporu, **büyük ölçüde evet**
 Faz 1 tarafında uygulandı:
