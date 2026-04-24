@@ -20,17 +20,11 @@ Repo genel temizlik oncesi source-of-truth cizgisini netlestirip tum dosyalari y
 4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
 
 ## Siradaki Somut Adim
-- `memory/2026-04-24-repo-cleanup.md` icindeki Batch 2 planina gore `state/README.md`, `MEMORY_SUMMARY.md`, `ROADMAP.md`, `TOOLS.yaml` ve `OPERATIONS.md` uzerindeki dusuk riskli drift duzeltmelerini uygulayip `memory/` naming rename tablosunu cikarmak
+- `memory/2026-04-24-repo-cleanup.md` icindeki rename tablosuna gore `memory/` capraz referans taramasini yapip staged rename karar notunu cikarmak, sonra `AGENTS.md` ve `HEARTBEAT.md` scope temizligini son bir batch ile kapatmak
 
 ## Mevcut Blokajlar
-- delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
-- operasyonel kayitlar henuz tam veritabanina tasinmadi
-- Supabase uzerinde pilot gercek kayitlar acildi ve Project OS / Prompt Üretimi DB modunda calisiyor, fakat veri henuz pilot seviyede; anlamli operasyon gecisi icin daha gercekci kayit ve teklif baglama gerekiyor
-- yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda
-
-## Gecici Operasyon Kurali
-- Site gelistirme asamasinda admin/site tarafinda atilan her committen hemen sonra deploy alinacak ve canli saglik kontrolu yapilacak.
-- Bu cizgi site gelistirme asamasindan cikinca kaldirilacak.
+- `memory/` altindaki 25 driftli dosya icin fiziksel rename oncesi capraz referans taramasi henuz tamamlanmadi
+- standing policy olarak ayrilan yayin kurali artik `OPERATIONS.md` icine tasindi; heartbeat tarafinda cleanup odagini korumak icin bundan sonra orasi referans alinacak
 
 ## Dikkat Edilecek Riskler
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak

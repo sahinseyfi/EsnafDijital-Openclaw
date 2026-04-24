@@ -9,8 +9,8 @@ tools:
     default_stack: ["Next.js"]
     use_when:
       - "dashboard ve admin ekranlari"
-      - "context center"
-      - "consultation center"
+      - "prompt uretimi yuzeyi"
+      - "dokuman ve baglam akisi"
       - "is akisi gorunurlugu"
 
   database:

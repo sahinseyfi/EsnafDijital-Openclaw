@@ -7,8 +7,12 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - **Admin domain:** admin.esnafdijital.com.tr
 - **DNS saglayicisi:** Natro
 
+## Gecici Yayin Kurali
+- Site gelistirme asamasinda admin/site tarafinda atilan her committen hemen sonra deploy alinacak ve canli saglik kontrolu yapilacak.
+- Bu cizgi site gelistirme asamasindan cikinca kaldirilacak.
+
 ## Mevcut Servis Referanslari
-- **Canli web app eski calisma yolu:** `/opt/esnafdijital/web`
+- **Onceki web app calisma yolu (artik aktif degil):** `/opt/esnafdijital/web`
 - **Arsivlenen eski web app yolu:** `/opt/esnafdijital/archive/web-20260418-182221`
 - **Ajan calisma ortami kaynak yolu:** `/root/.openclaw/workspace/agent-workspace`
 - **Web sitesi kaynak yolu:** `/root/.openclaw/workspace/website`

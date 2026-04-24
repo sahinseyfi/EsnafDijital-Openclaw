@@ -404,3 +404,71 @@ Not: Bu batch'te hedef duzeltme ve siniflandirma; silme veya toplu rename ancak 
 - driftli wording dosyalari guncellenmis olacak
 - `memory/` rename listesi tablo halinde hazir olacak
 - `HEARTBEAT.md` sonraki somut adim fiziksel uygulama batch'ine donmus olacak
+
+## Batch 2 uygulama - dusuk riskli drift duzeltmeleri
+
+### Uygulanan degisiklikler
+1. `state/README.md` eklendi
+   - `state/` klasorunun gecici/uretim artefakti rolu netlestirildi
+   - kok `README.md` icindeki yonlendirme boslugu kapanmis oldu
+
+2. `MEMORY_SUMMARY.md` guncellendi
+   - turetilmis 1 dakikalik ozet rolu en basa yazildi
+   - `dokuman/baglam sistemi` diliyle guncel source-of-truth cizgisine yaklastirildi
+
+3. `ROADMAP.md` guncellendi
+   - `Context` adlandirma izi kaldirildi
+   - `ilk tanitim sitesi yayinda` drifti temizlenip mevcut placeholder gercegi `Doing` tarafina cekildi
+
+4. `TOOLS.yaml` guncellendi
+   - `context center` ve `consultation center` kalintilari temizlendi
+   - `prompt uretimi yuzeyi` ve `dokuman ve baglam akisi` diliyle `TOOLS.md` cizgisine yaklastirildi
+
+5. `OPERATIONS.md` guncellendi
+   - `/opt/esnafdijital/web` satiri aktif referans gibi durmayacak sekilde etiketlendi
+   - heartbeat icinden tasinan gecici yayin kurali operasyon referansina alindi
+
+6. `HEARTBEAT.md` guncellendi
+   - cleanup disi blokajlar ayiklandi
+   - sonraki adim rename referans taramasi + son scope temizligi olarak daraltildi
+
+### Hizli dogrulama
+- `state/README.md` artik mevcut
+- `MEMORY_SUMMARY.md`, `ROADMAP.md`, `TOOLS.yaml`, `OPERATIONS.md`, `HEARTBEAT.md` Batch 2 planindaki dusuk riskli drift duzeltmelerini yansitiyor
+
+## memory naming rename tablosu (onerilen)
+
+Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz referans taramasi tamamlaninca verilecek.
+
+| Mevcut ad | Onerilen tip | Onerilen yeni ad |
+| --- | --- | --- |
+| `2026-04-19-github-sync.md` | topic | `2026-04-19-topic-github-sync.md` |
+| `2026-04-20-page-error.md` | incident | `2026-04-20-incident-page-error.md` |
+| `2026-04-20-repo-structure.md` | consultation | `2026-04-20-consultation-repo-structure.md` |
+| `2026-04-22-cold-start.md` | topic | `2026-04-22-topic-cold-start.md` |
+| `2026-04-22-context-cleanup.md` | topic | `2026-04-22-topic-context-cleanup.md` |
+| `2026-04-22-crm-panel.md` | topic | `2026-04-22-topic-crm-panel.md` |
+| `2026-04-22-executor-confusion.md` | topic | `2026-04-22-topic-executor-confusion.md` |
+| `2026-04-22-gateway-summary.md` | topic | `2026-04-22-topic-gateway-summary.md` |
+| `2026-04-22-old-profile.md` | topic | `2026-04-22-topic-old-profile.md` |
+| `2026-04-22-skill-creator.md` | topic | `2026-04-22-topic-skill-creator.md` |
+| `2026-04-22-telegram-group.md` | topic | `2026-04-22-topic-telegram-group.md` |
+| `2026-04-23-crm-zinciri.md` | topic | `2026-04-23-topic-crm-zinciri.md` |
+| `2026-04-23-dark-mode.md` | topic | `2026-04-23-topic-dark-mode.md` |
+| `2026-04-23-deploy-request.md` | topic | `2026-04-23-topic-deploy-request.md` |
+| `2026-04-23-evaluation-prompt.md` | consultation | `2026-04-23-consultation-evaluation-prompt.md` |
+| `2026-04-23-filename-slug.md` | topic | `2026-04-23-topic-filename-slug.md` |
+| `2026-04-23-heartbeat-update.md` | topic | `2026-04-23-topic-heartbeat-update.md` |
+| `2026-04-23-instagram-manual.md` | topic | `2026-04-23-topic-instagram-manual.md` |
+| `2026-04-23-memory-flush.md` | topic | `2026-04-23-topic-memory-flush.md` |
+| `2026-04-23-photo-upload.md` | topic | `2026-04-23-topic-photo-upload.md` |
+| `2026-04-23-research-outputs.md` | consultation | `2026-04-23-consultation-research-outputs.md` |
+| `2026-04-24-context-cleanup.md` | topic | `2026-04-24-topic-context-cleanup.md` |
+| `2026-04-24-deploy-rule.md` | topic | `2026-04-24-topic-deploy-rule.md` |
+| `2026-04-24-filename-slug.md` | topic | `2026-04-24-topic-filename-slug.md` |
+| `2026-04-24-repo-cleanup.md` | topic | `2026-04-24-topic-repo-cleanup.md` |
+
+### Rename tablo notu
+- drift sayisi pattern taramasi ile yeniden dogrulandi: `25`
+- fiziksel rename bu batch'te yapilmadi
+- bir sonraki adim her dosyanin repo icindeki capraz referanslarini tarayip staged rename risk haritasini cikarmak

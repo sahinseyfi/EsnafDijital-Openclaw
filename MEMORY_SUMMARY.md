@@ -1,5 +1,8 @@
 # MEMORY_SUMMARY.md
 
+Bu dosya, `MEMORY.md` icindeki kalici cizginin turetilmis 1 dakikalik ozetidir.
+Bagimsiz karar kaynagi degildir; hizli yon bulmak icin kullanilir.
+
 ## Kisa Ozet
 - EsnafDigital, kucuk isletmelerin dijitalde daha gorunur, daha guvenilir, daha kolay ulasilabilir ve islerini adim adim dijitale tasiyabilir hale gelmesini hedefler.
 - Ilk odak Arnavutkoy ve ilk segmentler berber, guzellik salonu, kafe/restorandir.
@@ -7,7 +10,7 @@
 - Panel dar operasyon masasi degil, CRM-evrilebilir ic sistem olarak kurulur.
 - Varsayilan stack: Next.js + Postgres + Prisma
 - Kullanici satis ve sahada, ajan teknik sistem ve operasyondadir.
-- Ic sistem uc cekirdege gore kurulur: proje yonetimi, baglam sistemi ve prompt uretimi.
+- Ic sistem uc cekirdege gore kurulur: proje yonetimi, dokuman/baglam sistemi ve prompt uretimi.
 - Uzun vadede hedef, kucuk isletmelerin teknik araclarla bogusmadan OpenClaw tabanli ajan destegiyle dijital islerini sohbet ederek yonetebilmesidir.
 - MVP cizgisi sadedir, agir AI / RAG / mikroservis yoktur.
 - Hesap merkezi tarafinda gercek auth kimligi korunur, operator gorunurlugu metadata katmaninda tutulur.

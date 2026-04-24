@@ -10,11 +10,12 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
   `Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
 - Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
 
-## 2) İlk Pazar ve İlk Segmentler
-- İlk hedef bölge: İstanbul Arnavutköy
-- İlk öncelikli segmentler:
+## 2) Ilk Pazar ve Ilk Segmentler
+- Ilk saha ve erisim avantaji bolgesi: Istanbul Arnavutkoy ve cevresi
+- Bu secim, pazarin kesin en dogru bolgesi oldugu varsayimindan degil; kurucunun hizli temas kurabilmesi ve sahada kolay hareket edebilmesi nedeniyle yapildi.
+- Ilk saha ve teklif denemesi icin uygun gorulen segmentler:
   - berber
-  - güzellik salonu
+  - guzellik salonu
   - kafe / restoran
 
 ## 3) Hizmet Omurgası

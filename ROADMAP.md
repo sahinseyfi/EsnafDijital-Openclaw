@@ -18,11 +18,11 @@ Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama pan
 İç sistemin ilk çalışan omurgasını ayağa kaldırmak.
 
 ### Done
-- ilk tanıtım sitesi yayında
 - login + admin panel v1 mevcut
 - proje için temel bağlam dosyaları oluşturuldu
 
 ### Doing
+- ana domain placeholder modundan cikacak yeni tanitim sitesi cizgisini netlestirmek
 - proje kayıtlarının standardize edilmesi
 - admin panel bilgi mimarisinin netleştirilmesi
 - ilk hizmet omurgasının sadeleştirilmesi
@@ -35,7 +35,7 @@ Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama pan
 - mevcut `businesses`, `audits`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak
 - dashboard/home icin aktif is + kritik aksiyon + kompakt hat ozeti
 - Project OS icinde asama bazli operasyon gorunumu
-- Project OS ile Prompt Uretimi / Context el sikismasini gorunur hale getirmek
+- Project OS ile Prompt Uretimi el sikismasini gorunur hale getirmek
 
 ## 30–60 Gün
 ### Hedef
