@@ -42,7 +42,7 @@ Bu akis satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir
 - Bakim / Canlilik / Kucuk Guncelleme
 
 ### Genisleme alani
-- hafif panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune sonra eklenebilecek genisleme katmanidir
+- operasyonel CRM yonunde genisleyebilen panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune asamali olarak eklenebilecek genisleme katmanidir
 
 ### Satis destek araclari
 - ornek site hazirligi
