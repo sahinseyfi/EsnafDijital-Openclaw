@@ -71,16 +71,7 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - kalıcı kararları yazılı hale getir
 - bitmiş saymak için gerçek çıktı ve kısa doğrulama gerekir
 
-## 8) İstem Üretim İlkesi
-İstem üretim sistemi, tüm dosyaları kaba biçimde birleştiren bir yapı olmayacaktır.
-Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü istem üretmektir.
-
-## 9) Hesap Merkezi Yön Kararı
-- Gerçek kimlik doğrulama kaydı, gerçek hesap/kimliği temsil eder.
-- Operatörün görmek istediği ad, not ve ayrımlar üst veri katmanında tutulur.
-- Aynı teknik kimlik tekrar geldiğinde operatör tarafında ayrı kayıt ihtiyacı olabilir; bu, sahte yeni kimlik üretmekten daha doğru bir operatör katmanı yaklaşımıdır.
-
-## 10) Marka ve Tasarım Sistemi Kararı
+## 8) Marka ve Tasarım Sistemi Kararı
 - EsnafDigital'in kalıcı görsel dili güven veren net mavi (`brand`) + destekleyici turkuaz (`accent`) ekseninde kurulacaktır.
 - Arayüz dili steril SaaS değil, sade, güven veren, yüksek okunabilirlikli ve esnaf dostu olacaktır.
 - Tek tipografi ailesi `Inter` olarak korunacaktır.
@@ -92,11 +83,11 @@ Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü i
 - Tanıtım sitesi ve yönetim paneli için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
 
-## 11) Güvenlik ve Bağlam Hijyeni
+## 9) Güvenlik ve Bağlam Hijyeni
 - Gizli bilgi kuralı için `TOOLS.md` çizgisi geçerlidir.
 - `HEARTBEAT.md` aktif durumu, `memory/YYYY-MM-DD.md` tarihlenmiş gelişmeleri, bu dosya ise yalnızca kalıcı çizgiyi taşır.
 
-## 12) Mevcut Operasyonel Gerçekler
+## 10) Mevcut Operasyonel Gerçekler
 - Ana alan adı: `esnafdijital.com.tr`
 - Yönetim paneli alan adı: `admin.esnafdijital.com.tr`
 - DNS yönetimi: Natro
