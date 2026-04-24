@@ -1276,6 +1276,133 @@ Bu yeni okuma sunu guclendiriyor:
 Yani burada yeni guclenen varyasyon:
 - `Business Detail + ziyaret karti + audit/teklif/kickoff zincir kartlari`
 
+## Yedinci okuma - admin paneline ilk girince hangi ekran acilmali?
+Navigasyon ve mevcut ana sayfa yapisini birlikte okuyunca yeni bir netlik cikti.
+
+### 1) Kod gerceginde uc farkli giris mantigi var
+Su an sistemde fiilen 3 giris mantigi ayni anda yasiyor:
+- `/` ana sayfa = bugunku aktif odagi soyluyor, yonlendiriyor
+- `/businesses` = ana akis nav'inde ilk siradaki gercek kayit listesi
+- `/discovery` = aday bulma ve on eleme yuzeyi
+
+Ama `AdminShell` nav gruplarinda dikkat ceken sey su:
+- nav'de `Home` yok
+- ilk ana akis linki `Isletmeler`
+- `Keşif` ve `Prompt Uretimi` onun yaninda
+
+Bu ne demek:
+- root sayfa var ama kalici ana merkez gibi tasinmiyor
+- nav mantigi bize aslen `businesses` tabanli bir omurga dusunuldugunu soyluyor
+
+### 2) Ana sayfa ilk ekran olarak faydali ama kalici calisma merkezi gibi degil
+`/` su an iyi yaptigi seyler:
+- aktif odagi soyler
+- audit/teklif/teslim sayilarini verir
+- dogru yere yonlendirir
+
+Ama yapmadigi seyler:
+- isletme sectirmez
+- aday buldurmaz
+- saha gunu listesi vermez
+- kayit uzerinde calistirmaz
+
+Yorum:
+- ana sayfa `giris panosu` olabilir
+- ama `calisma ekrani` olmamali
+- bu zaten mevcut kod cizgisiyle uyumlu
+
+### 3) `Isletmeler` su an en dogal operasyon girisi
+`/businesses` sayfasi:
+- nav'de birinci
+- tum kayitlari listeliyor
+- filtre veriyor
+- hat asamasini gosteriyor
+- siradaki adimi gosteriyor
+- detail'e gecis sagliyor
+
+Bu yuzden su soruya en yakin cevap burada:
+- paneline girince takip ettigin gercek isletmeleri nasil bulacaksin?
+
+Eksigi:
+- aday bulma burada degil
+- discovery ile gelen yeni havuz ayri yuzeyde
+
+### 4) `Discovery` ilk ekran ancak ozel modda mantikli
+`/discovery` sayfasi iyi cunku:
+- aday havuzunu temiz tutuyor
+- ham veriyi business'e hemen yazmiyor
+- shortlist/import aksiyonlari var
+
+Ama herkese varsayilan ilk ekran olursa risk:
+- mevcut operasyon kayitlarini ikinci plana iter
+- sanki panelin omurgasi hep yeni aday aramakmis gibi his verir
+- teklif / teslim / bakim tarafini gozlestirir
+
+Yorum:
+- discovery varsayilan genel home olmamali
+- `aday bulma modu` veya bos sistem modu icin once cikabilir
+
+### 5) Uc olasi ilk ekran modeli
+
+#### H1) Her zaman Home ile ac
+Artisi:
+- yon verir
+- sade
+
+Eksisi:
+- ikinci tik olmadan gercek is uretmez
+- nav'de merkezi rol tasimadigi icin yarim kalir
+
+#### H2) Her zaman Businesses ile ac
+Artisi:
+- gercek operasyon kayitlarina indirir
+- mevcut nav ile tam uyumlu
+- detail'e hizli gecis verir
+
+Eksisi:
+- hic aday yoksa veya yeni gun discovery agirlikliysa eksik hissettirebilir
+
+#### H3) Duruma gore adaptif giris
+Ornek:
+- hic business yoksa `/discovery`
+- aktif bekleyen audit/teklif varsa `/businesses`
+- sadece sistem yonlendirmesi gerekiyorsa `/`
+
+Artisi:
+- kullanicinin anlik ihtiyacina daha yakin
+
+Eksisi:
+- davranis gorunmezse kafa karistirabilir
+- bir gun bir yer, diger gun baska yer acilmasi sabitlik hissini azaltabilir
+
+### 6) En guclu ara cozum
+Su an en dengeli model su gorunuyor:
+- kalici ana calisma ekrani = `Businesses`
+- yonlendirme panosu = `/`
+- aday bulma modu = `Discovery`
+
+Yani kullanici sorusuna net cevap:
+- panelde gercek takip edecegin kaydi `Businesses` tarafinda bulursun
+- yeni aday arayacaksan `Discovery`ye gecersin
+- sistem seni once neye bakman gerektigine `/` sayfasinda yonlendirebilir ama asil is burada bitmez
+
+Bu model onceki finalistlerle de uyumlu:
+- B ve C gucleniyor
+- A discovery girisini koruyor ama merkeze koymuyor
+
+### 7) Hala acik risk
+Bir risk hala var:
+- nav'de home olmamasi ama root sayfanin var olmasi kullanicida `esas ekran hangisi` belirsizligi yaratabilir
+
+Bu da iki yoldan biriyle cozulmeli:
+- ya root sadece gecici giris panosu gibi tutulur
+- ya nav'de rolu acik yazilir
+
+Ama bu wake'in sonucu olarak su kanaat guclendi:
+- `admin paneline ilk girince` genel cevap `Businesses`e daha yakin
+- `hic veri yoksa` veya `aday bulma modundaysan` discovery onde olabilir
+- root ekran tek basina ana omurga olmamali
+
 ## Sonraki arastirma basliklari
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
