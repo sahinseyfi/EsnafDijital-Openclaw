@@ -1866,10 +1866,194 @@ Su an en mantikli gelisim cizgisi:
 
 Bu, hem skill'i guclendirir hem de panelde `ic gercek -> dis sinyal -> fark -> karar` cizgisiyle uyumlu kalir.
 
+## On birinci okuma - sahada ne soylenir, paket nasil sunulur?
+`PLAYBOOKS/audit-offer-delivery.md`, `OFFERS.md` ve `SEGMENTS.md` birlikte okununca saha konusmasi icin onemli bir sinir netlesti.
+
+### 1) Ilk temasin amaci paket satmak degil, audit zemini kurmak
+En kritik cizgi `OFFERS.md` icinde acik:
+- audit teklifin girdisidir
+- audit olmadan teklif verilmez
+- paket dili audit cikisina baglanir
+
+Bu neyi disliyor:
+- daha ilk dakikada `bizde 3 paket var` diye giren ajans dili
+- sahada ezbere fiyat ve kapsam sayma
+- segment bazli ayri paket aileleri uretme
+
+Yani ilk temasin amaci su olmali:
+- isletmenin dijital gorunum sorununu fark ettirmek
+- audit cikisi icin izin ve zemin kurmak
+- sonra uygun pakete baglamak
+
+### 2) Saha konusmasi icin 3 model
+
+#### K1) Paket-first konusma
+- kendini tanit
+- paketleri say
+- fiyat araligina gir
+
+Artisi:
+- kisa
+
+Eksisi:
+- OFFERS cizgisine ters
+- soguk ve ajansimsi durur
+- isletmeye ozel sorun cikmadan paket anlami zayif kalir
+
+#### K2) Audit-first konusma
+- isletmeyi kisa gozlemle ac
+- 1-2 somut eksigi soyle
+- `isterseniz bunu size kisa kontrol olarak netlestireyim` cizgisine gel
+- paket ancak audit cikisinda konusulur
+
+Artisi:
+- mevcut teklif omurgasiyla uyumlu
+- sahada daha dogal
+- guven veren giris saglar
+
+Eksisi:
+- operatorun iyi gozlem yapmasini ister
+- cok uzun konusulursa dagilabilir
+
+#### K3) Karma model
+- audit gozlemiyle gir
+- ama son 1-2 cumlede uygun paket serisini cok kisa ima et
+
+Artisi:
+- audit-first kalirken satis kopmaz
+
+Eksisi:
+- cizgi kotu korunursa erken tekliflesmeye kayabilir
+
+Ara yorum:
+- su an en guclu model `K2`
+- ama saha kapanisi icin `K3`ten kisa bir son baglama cumlesi alinabilir
+
+### 3) Tek bir sabit script yerine moduler konusma kartlari daha mantikli
+Bu onceki sorularla da uyusuyor.
+Neden:
+- berber, guzellik ve kafe ayni acilis cumlesini tasimaz
+- ama paket mantigi ayni kalmali
+- fark satis hikayesinde olmali, paket ailesinde degil
+
+Bu yuzden daha saglikli model:
+- cekirdek ortak iskelet
+- ustune segmente gore vurgu karti
+
+### 4) Ortak saha iskeleti nasil olmali?
+Su 5 adimli cizgi en dengeli gorunuyor:
+
+#### S1) Giris
+- cok kisa tanisma
+- neden baktigini tek cumlede soyle
+
+#### S2) Somut gozlem
+- Maps/website/yorum/iletisim tarafindan 1-2 net eksik veya firsat soyle
+- genel pazarlama lafi etme
+
+#### S3) Audit teklifi
+- `isterseniz size bunu kisa bir dijital gorunurluk kontrolu olarak netlestireyim`
+
+#### S4) Paket koprusu
+- audit cikisinda bunun temel kurulum mu, plus mi, daha guclu vitrin mi gerektirdigini soyleyebilecegini belirt
+
+#### S5) Sonraki adim
+- geri donus, kisa not alma veya tekrar gorusme aksiyonuna bagla
+
+Bu modelin artisi:
+- ilk temas satis gibi degil, yardim eden teshis gibi baslar
+- ama tamamen havada da kalmaz
+
+### 5) Segment bazli vurgu farklari ne olmali?
+Paket yapisi ayni, ama konusma vurgusu segmentten etkilenmeli.
+
+#### Berber
+Ilk vurgu:
+- bulunurluk
+- saat/telefon/yol tarifi netligi
+- yorum guveni
+
+Sahada dil:
+- hizli, sade, direkt
+
+#### Guzellik salonu
+Ilk vurgu:
+- gorsel guven
+- hizmetlerin daha net anlatimi
+- yorum + sosyal profil butunlugu
+
+Sahada dil:
+- biraz daha premium ama yine sade
+
+#### Kafe/restoran
+Ilk vurgu:
+- menu/fotograf/konum bilgisi
+- acik/kapali ve yorum etkisi
+- daha yuksek guncellik ihtiyaci
+
+Sahada dil:
+- firsat buyuk ama bakim yuku de vurgulanmadan dikkatli secilmeli
+
+### 6) Paket nasil sunulmali?
+Burada da 3 model var:
+
+#### P1) Tum paketleri tek seferde anlat
+Eksisi:
+- menu okur gibi olur
+- sahada agir kacabilir
+
+#### P2) Yalniz onerilen seviyeyi anlat
+Artisi:
+- daha sade
+
+Eksisi:
+- operator neden alt/ust paketi degil de bunu sectigini anlatmakta zorlanabilir
+
+#### P3) Onerilen paketi merkeze koy, sadece bir alt ve bir ust seviye capasi ver
+Ornek mantik:
+- size en cok su seviye oturuyor
+- bunun bir daha hafif giris versiyonu var
+- bir de daha guclu ust seviye var ama bugun buna mecbur degilsiniz
+
+Artisi:
+- secim hissi verir
+- ama paket menusu duvarina donmez
+
+Ara yorum:
+- saha icin en dengeli yol `P3`
+
+### 7) Saha konusmasi ile teslimat kopmamali
+Playbook cizgisine gore konusma su sorulara baglanmali:
+- gorulen eksik ne
+- hangi paket onu kapatir
+- ne teslim edilecek
+- ne edilmeyecek
+
+Yani saha dilinde bile `neden bu paket` ve `ne teslim` isareti olmali.
+Aksi halde satis alinsa bile kickoff'ta kopma olur.
+
+### 8) Bu wake sonrasi finalistlere etkisi
+Bu yeni okuma su varyasyonlari guclendiriyor:
+- `audit-first moduler konusma kartlari`
+- `onerilen paket + alt/ust capasi` sunumu
+- `Business Detail icinde audit ozeti -> teklif yonu` zinciri
+
+Zayiflayan varyasyonlar:
+- `script-first tek sabit metin`
+- `tum paketleri sahada menu gibi anlatma`
+- `audit gormeden erken teklif baskisi`
+
+### 9) Gecici net kanaat
+Su an en mantikli saha cizgisi:
+- sabit script degil, audit-first moduler konusma kartlari
+- ilk temas paket satmak icin degil, sorunu gorunur kilmak icin
+- paket sunumunda sadece onerilen seviye merkeze alinip bir alt ve bir ust capasi kisa verilmeli
+- segment farki paket yapisinda degil, vurgu ve orneklerde yasanmali
+
 ## Sonraki arastirma basliklari
-- `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
 - `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
 - `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
+- `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
