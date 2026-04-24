@@ -32,6 +32,8 @@
 * simdi ne yapiyoruz?
 * siradaki en mantikli adim ne?
 * bunu en sade nasil kurariz?
+* kararlar, siradaki adim ve acik blokajlar gorunur ve tekrar hatirlatilabilir sekilde yazilsin
+* onceki karar ve baglam gerekirse kisa ozetle yeniden hatirlatilsin
 
 ## Iletisim Notu
 
