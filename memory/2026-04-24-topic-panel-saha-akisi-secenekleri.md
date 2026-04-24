@@ -5238,6 +5238,143 @@ Kisa formda:
 
 Bu model hem teklif kartini sade tutar hem de gerekce zincirini daha guvenli hale getirir.
 
+## Otuz besinci okuma - biriken mikro kararlar sonrasi 5 finalistin tazelenmis cekirdegi
+Artik tek tek mikro kararlar biriktigi icin finalistleri yeniden okumak gerekli oldu.
+Cunku ilk finalist listesi daha genis varyasyonlar tasiyordu,
+ama sonraki okumalar bazi varyasyonlari fiilen zayiflatti:
+- ayri ziyaret sayfasi erken gorunuyor
+- `bugun git` sinyali Businesses listesinde ve lead/audit bandinda daha dogru duruyor
+- Business Detail tek kayit karar merkezi olarak daha da guclendi
+- timeline/history event-first olmali
+- teklif ve kickoff zinciri Business Detail kartlari icinde okunur hale gelmeli
+- teklif/delivery terimleri stage sinirlarini asmamali
+
+Bu yeni kararlar finalistleri tamamen degistirmiyor,
+ama her finalistin artik hangi varyasyonla yasadigini daha netlestiriyor.
+
+### Finalist 1 - Kontrollu hibrit cekirdek
+Bilesenler:
+- `Discovery` = aday eleme ve temiz on eleme
+- `Businesses` = sahiplenilen kayit havuzu ve secim listesi
+- `Business Detail` = tek kayit karar merkezi
+- `Project OS` = sicak operasyon kuyrugu
+- ziyaret hazirlik = ayri sayfa degil, Detail icinde kart/mod
+
+Neden en guclu:
+- neredeyse tum son kararlarla uyumlu
+- her yuzeye net rol veriyor
+- `bugun git`, operator notu, timeline, audit/teklif/kickoff zinciri ayni cekirdekte mantikli yere oturuyor
+
+Ana risk:
+- yuzey sayisi teorik olarak fazla gorunebilir
+- rol adlari ve gecisler iyi yazilmazsa kullanici gereksiz karma hissedebilir
+
+Guncel hukmu:
+- su an en guclu finalist bu
+- ama `5 yuzeyli` degil, `4 yuzey + detail icinde ziyaret modu` varyasyonuyla
+
+### Finalist 2 - Businesses-first operasyon modeli
+Bilesenler:
+- varsayilan calisma girisi `Businesses`
+- secim ve filtreleme burada
+- Detail tek kayit karar duvari
+- Project OS yalniz sicak is ve stage kuyrugu
+
+Neden guclu:
+- saha ve manuel aday yakalama gercegine yakin
+- `bugun git` gibi sinyaller Businesses icinde dogal duruyor
+- Home veya Discovery'yi zorunlu giris yapmiyor
+
+Ana risk:
+- discovery kaynakli temiz on eleme degerini ikinci plana itebilir
+- kirlilik kontrolu icin duplicate/sahiplenme disiplini ister
+
+Guncel hukmu:
+- hibrit modele cok yaklasti
+- discovery agirligi dusuk kurumlar icin en pratik finalist olabilir
+
+### Finalist 3 - Discovery -> Detail kontrollu gecis modeli
+Bilesenler:
+- aday once Discovery tarafinda temizlenir
+- uygun aday business olur
+- karar Detail'de verilir
+- Project OS daha sonra devreye girer
+
+Neden guclu:
+- cop kayit riskini dusurur
+- dis veri ile kanonik kayit ayrimini temiz korur
+
+Ana risk:
+- yolda bulunan veya discovery disi gelen adaylarda ekstra adim hissi yaratir
+- saha hizi gereken gunde fazla on eleme davranisi dogurabilir
+
+Guncel hukmu:
+- hala mantikli finalist
+- ama artik varsayilan omurga olmaktan cok `temiz havuz oncelikli` varyasyona donusuyor
+
+### Finalist 4 - Ziyaret hazirlik odakli model
+Bilesenler:
+- gidilecek kayit secimi
+- ilk acilis satiri
+- alinacak bilgi listesi
+- beklenen paket yonu
+- gorusme sonucu/temas ozeti
+
+Neden hala finalist:
+- kurucunun sahada `nereye gideyim, ne diyeyim, donunce neye baglayayim` sorusuna en direkt vuran hat bu
+
+Ana risk:
+- ayri pano olursa erken ve agir kalir
+- kendi basina urun merkezi degil, destek moduna kayiyor
+
+Guncel hukmu:
+- artik bagimsiz ana model olmaktan cok,
+  `Business Detail icinde ziyaret hazirlik modu` varyasyonuyla yasiyor
+- ayri sayfa varyasyonu belirgin sekilde zayifladi
+
+### Finalist 5 - Audit/teklif zinciri modeli
+Bilesenler:
+- audit ozeti
+- teklif gerekcesi
+- paket yonu
+- kickoff scope / kapsam teyidi
+- audit teyidi gibi kalite sinyalleri
+
+Neden hala finalist:
+- `girilen bilgi nasil sonuca donusur` sorusunun en temiz operasyon cevabi burada
+- teklif omurgasi ve delivery baglantisini en net bu model tasiyor
+
+Ana risk:
+- tek basina kullanilinca fazla metin ve zincir odakli kalabiliyor
+- saha secimi ve kayit bulma sorusunu tek basina cozmez
+
+Guncel hukmu:
+- artik bagimsiz shell olmaktan cok,
+  finalist 1 ve 2'nin icinde yasayan `zincir kartlari ve yumusak kural sistemi`ne donusuyor
+
+### Tazelenmis siralama
+Su anki bilgiyle finalistleri boyle okuyorum:
+1. Kontrollu hibrit cekirdek
+2. Businesses-first operasyon modeli
+3. Discovery -> Detail kontrollu gecis modeli
+4. Ziyaret hazirlik odakli model (detail modu olarak)
+5. Audit/teklif zinciri modeli (destek iskeleti olarak)
+
+### Bu tazelemeden cikan asil sonuc
+Aslinda 5 finalist hala duruyor,
+ama bunlarin ikisi giderek `ana shell`, ikisi `guc veren mod`, biri de `destek iskeleti` karakterine kayiyor.
+Bu onemli.
+Cunku son karar belki `5 esit alternatif` arasindan degil,
+`2 ana omurga + 3 entegre mod` arasindan cikacak.
+
+Yani bugun itibariyla:
+- asil omurga adayi = `Kontrollu hibrit` veya `Businesses-first`
+- entegre mod adayi = `ziyaret hazirlik`
+- zincir disiplini = `audit/teklif/kickoff kartlari`
+
+Bu, erken karara kilitlenmek degil.
+Ama artik finalistlerin esit agirlikta olmadigini kabul etmek demek.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
