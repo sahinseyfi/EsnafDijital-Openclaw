@@ -1017,10 +1017,127 @@ Bu yeni okuma finalistleri su sekilde etkiliyor:
 - A tek basina yetersiz kaliyor, cunku discovery skoru ile fiziksel ziyaret karari ayni sey degil
 - E ziyaret secimi sorusunu dogrudan cozmedigi icin biraz geride kaliyor
 
+## Besinci okuma - ziyaret hazirligi ayri sayfa mi, detail modu mu?
+Business Detail referansi ile mevcut kodu yanyana okuyunca onemli bir fark cikti.
+
+### 1) Referans belge Business Detail'i daha buyuk dusunuyor, kod ise daha hafif
+`REFERENCES/business-detail-v1.md` tarafinda sayfaya su katmanlar dusunulmus:
+- next step
+- audit snapshot
+- hazirlik / tarama
+- son teklif
+- son teslimat
+- timeline
+- alt kayitlar
+
+Ama mevcut `app/businesses/[slugAndId]/page.tsx` bugun daha hafif:
+- temel isletme karti
+- baglanti / link / Instagram ozeti
+- kisa ic not
+- `BusinessScanPanel`
+
+Yani gercek durum su:
+- Business Detail referans dokumandaki kadar dolu degil
+- halen yeni 1-2 kart tasiyabilecek kadar boslugu var
+
+Bu cok kritik cunku:
+- `ziyaret hazirlik` icin hemen ayri sayfa acmak zorunlu gorunmuyor
+- once detail icinde hafif bir kart / mod denenebilir
+
+### 2) Kod tabaninda zaten bir desen var: ana detail + ayri derin detay
+Su anki pattern:
+- ana detail sayfasi = hizli karar ve ozet
+- `/tarama` alt sayfasi = daha derin tarama gecmisi ve ham veri
+
+Bu desenden cikan ders:
+- EsnafDigital zaten `ana karar yuzeyi + gerekiyorsa alt detay sayfasi` modelini kullaniyor
+- bu, ziyaret hazirligi icin de dogal bir yol sunuyor
+
+Olası kurgu:
+- asama 1: Business Detail icinde `ziyaret karti`
+- asama 2: ihtiyac buyurse `/ziyaret` veya benzeri alt detay sayfasi
+
+### 3) Ayri sayfa acmak icin bugun yeterli veri yogunlugu yok
+Ziyaret hazirlik icin su alanlar henuz yok:
+- tekrarli gorusme gecmisi
+- rota planlari
+- ayni gunde coklu ziyaret listesi
+- zengin itiraz bankasi
+- toplu saha notlari
+
+Boyle bir durumda ayri sayfa acmanin riski:
+- sayfa olur ama ici zayif kalir
+- ekran cogaltma riski gerceklesir
+- HEARTBEAT ve MEMORY cizgisindeki `teklif netlesmeden ekran cogaltma` riskine yaklasir
+
+### 4) Detail modu icin en hafif kurulum
+Business Detail icinde su bloklar tek kartta toplanabilir:
+- `ziyarete uygun mu?` (git / uzaktan ilerlet / beklet)
+- `ziyaret nedeni`
+- `sahada ilk acilis`
+- `alinacak bilgi listesi`
+- `beklenen sonraki adim`
+
+Bu kart tek kayit sorusunu cevaplar:
+- bu isletmeye gidilir mi
+- gidilirse neden gidilir
+- gidince ne konusulur
+- donunce neye baglanir
+
+Bu, sayfanin mevcut rolune uyuyor.
+Cunku Business Detail zaten `tek isletme icin sonraki mantikli operator karari` yuzeyi olmaya aday.
+
+### 5) Ayri ziyaret sayfasi hangi kosulda mantikli olur?
+Su kosullardan en az biri gerceklesirse:
+- ayni gunde 5-10 ziyaretlik toplu plan mantigi dogarsa
+- rota / bolge gruplanmasi lazim olursa
+- tekrarli gorusme gecmisi buyurse
+- gorusme sonucu karsilastirma ve toplu takip ihtiyaci artarsa
+- saha calismasi ayri operasyon moduna donerse
+
+Yani ayri sayfa V2/V3 adayi olabilir, ama V1 zorunlulugu gibi durmuyor.
+
+### 6) Iki modelin net karsilastirmasi
+
+#### M1) Business Detail modu olarak ziyaret hazirlik
+Artisi:
+- mevcut sayfa rolune uyuyor
+- yeni navigasyon acmiyor
+- veri zayifken bile anlamli
+- kullanicinin `tek isletmede simdi ne yapacagim` sorusunu cozer
+
+Eksisi:
+- toplu ziyaret gunu icin tek basina yetmeyebilir
+- detail sayfasi zamanla sisebilir
+
+#### M2) Ayri ziyaret hazirlik sayfasi
+Artisi:
+- toplu saha gunu icin daha guclu olabilir
+- rota ve karsilastirma mantigi kurmaya uygun
+
+Eksisi:
+- bugun erken
+- mevcut veri yogunlugu bunu tasimiyor
+- yeni sayfa yeni sinir problemi dogurur
+
+### 7) Bu wake sonrasi guclenen kanaat
+Bu eksende su an en guclu cizgi:
+- once `Business Detail icinde ziyaret hazirlik modu/karti`
+- sonra ancak veri ve kullanim yogunlugu artarsa ayri ziyaret sayfasi
+
+Bu, finalistler icinde en cok su varyasyonlari guclendiriyor:
+- `B2 Detail icinde ziyarete uygunluk karti`
+- `C1/C3 Hibrit ama ziyaret hazirlik detail modu`
+- `D2 Business detail icinde ziyaret modu`
+
+Buna karsilik su varyasyonlar biraz zayifliyor:
+- `C2 Bes yuzeyli model`
+- `D1 Ayri ziyaret panosu`
+
 ## Sonraki arastirma basliklari
-- `ziyaret hazirligi` ayri sayfa mi, business detail modu mu?
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
 - `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
+- `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `audit -> paket onerisi -> teklif -> delivery kickoff` zinciri ekranda nasil gorunur hale getirilmeli?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
