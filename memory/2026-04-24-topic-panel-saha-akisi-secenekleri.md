@@ -5080,10 +5080,168 @@ Kisa formda:
 
 Bu model hem fazla duzlesmeyi engeller hem de script bankasina savrulmadan baglami korur.
 
+## Otuz dorduncu okuma - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
+Bu soru onceki teklif gerekcesi kararinin form tasarimi katmani.
+Daha once su cizgiyi netlestirmistim:
+- `neden bu paket` alani teklif snapshot'inin parcasi olmali
+- `draft/sent` asamasinda guncellenebilmeli
+- `approved` olduktan sonra frozen snapshot'a donmeli
+
+Simdi asil soru su:
+- bu alan operatorun bos textarea'si mi olmali?
+- yoksa kisa ama yari-yapili bir kalipla mi tutulmali?
+
+### 1) Referanslar hangi yone itiyor?
+Birden fazla kaynak ayni seyi destekliyor:
+- `business-detail-v1.md` teklifte `teklif gerekcesi` ve `hangi eksigi kapattigi` acik capability olarak geciyor
+- `OFFERS.md` teklifin audit cikisina baglanmasini ve `hangi eksik`, `hangi paket`, `ne teslim` zincirini netlestiriyor
+- delivery scope karari, ayrik alanlara dagilmak yerine `yari-yapili` text-first formatin MVP'de daha saglikli oldugunu gostermis durumda
+- onceki notlarda da `neden bu paket` bos yorum alani olmamali cizgisi zaten acildi
+
+Bu dordunu birlikte okuyunca iki guclu sinyal var:
+- tam serbest metin fazla dagitabilir
+- ama ayri ayri birden cok form alani acmak da teklif duvarina kaydirabilir
+
+### 2) Uc model
+
+#### N1) Tam serbest metin
+Artisi:
+- operator esnek yazar
+- farkli sahne ve itirazlari rahat anlatir
+
+Eksisi:
+- kalite ve tutarlilik cok degisir
+- bazen sadece `uygun goruldu` gibi bos metinler kalir
+- delivery ve sonraki okuma icin sebep zinciri zayiflar
+- not coplugune kayma riski yuksek
+
+#### N2) Tam alanlara bolunmus mini form
+Ornek:
+- ana eksik
+- secilen paket nedeni
+- beklenen sonuc
+- muhatap itirazi
+- domain notu
+
+Artisi:
+- veri daha temiz yakalanir
+- analiz etmek kolaylasir
+
+Eksisi:
+- teklif ekranini gereksiz form duvarina cevirir
+- MVP icin fazla workflow hissi verir
+- kullanici daha fazla alan doldururken akisi kaybeder
+
+#### N3) Tek alanda yari-yapili mikro sablon
+Ornek mantik:
+- `Ana eksik:` ...
+- `Bu paket:` ...
+- `Beklenen sonuc:` ...
+
+Artisi:
+- tek alan sadeligini korur
+- operatoru bos ve zayif yazi yerine net sebep zincirine iter
+- delivery ve sonradan okuma icin daha guvenli snapshot verir
+
+Eksisi:
+- fazla sertse operatoru mekanik hissettirebilir
+- sablon kotu tasarlanirsa yine copy-paste metnine doner
+
+Ara yorum:
+- su an en saglikli yol `N3`
+
+### 3) Neden tam serbest metin zayif?
+Cunku `neden bu paket` alani yorum yazmak icin degil,
+teklif kararinin omurgasini kisa ve okunur sekilde sabitlemek icin var.
+
+Tam serbest metinde en buyuk risk su:
+- bazen sebep yerine sadece slogan yazilir
+- bazen `paket 2 daha uygun` gibi eksik bir cumle kalir
+- bazen saha itirazi, fiyat savunmasi ve operasyon notu ayni yere yigilir
+
+Bu da snapshot niteligini bozar.
+
+### 4) Neden mini form da fazla gelebilir?
+Cunku bu kez baska uca kayariz.
+Ayrik inputlar su riskleri getirir:
+- operator daha cok alan doldurur, daha az karar verir
+- teklif ekraninda gereksiz burokrasi hissi artar
+- skill'in kirmizi cizgisi olan `teklif netlesmeden ekran cogaltma` tetiklenir
+
+Delivery scope kararinda nasil yari-yapili text-first daha iyi calistiysa,
+burada da benzer mantik daha saglikli gorunuyor.
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence en temiz yol su:
+- `neden bu paket` tek alan olarak kalsin
+- ama bos serbest metin olmasin
+- varsayilan mikro sablon operatoru uc kisa parcaya yonlendirsin:
+  - `Ana eksik`
+  - `Bu paket`
+  - `Beklenen sonuc`
+
+Yani veri modeli ayri alanlara bolunmez,
+ama yazim disiplini yari-yapili tutulur.
+
+### 6) Bu mikro sablon neden iyi calisabilir?
+Cunku dogrudan teklif omurgasina oturuyor:
+- audit neyi gosterdi?
+- hangi paket neden secildi?
+- teslim veya etki olarak ne bekleniyor?
+
+Bu, `OFFERS.md` icindeki zincirle bire bir uyumlu:
+- hangi eksik kritik
+- hangi paket uygun
+- ne teslim edilecek
+
+Yani mikro sablon uydurma degil,
+mevcut is akisinin text-first yansimasi.
+
+### 7) Sablon ne kadar sert olmali?
+V1 icin bence yumusak ama belirgin olmali.
+Yani operator isterse cumleyi dogal Turkceyle yazabilsin,
+ama sistem placeholder veya onek olarak su iskeleti versin:
+- `Ana eksik: ...`
+- `Bu paket: ...`
+- `Beklenen sonuc: ...`
+
+Isterse bunlari tek paragrafta da yazabilir,
+ama zihinsel iskelet bu uc sorudan sasmasin.
+
+### 8) En buyuk risk ne?
+Mikro sablon faydali diye zamanla bunun da mini checklist'e donmesi.
+Mesela su yone kaymasi riskli:
+- ana eksik
+- ikinci eksik
+- itiraz tipi
+- kanal hazirligi
+- domain notu
+- ek materyal
+
+Bu durumda yine form duvarina geliriz.
+V1 kuralı sert olmali:
+- tek alan
+- en fazla uc mikro baslik
+- 1-2 cumlelik kisa mantik
+- fiyat savunmasi ve gunluk notlar ayni alana yigilmamali
+
+### 9) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `neden bu paket` alani tam serbest metin olarak birakilmamali
+- ama ayri inputlara bolunmus mini forma da donmemeli
+- en saglikli V1 model, tek alanda `ana eksik + bu paket + beklenen sonuc` mantigiyla calisan yari-yapili mikro sablon
+
+Kisa formda:
+- storage = single field
+- writing mode = semi-structured
+- scope = short decision snapshot
+
+Bu model hem teklif kartini sade tutar hem de gerekce zincirini daha guvenli hale getirir.
+
 ## Sonraki arastirma basliklari
-- `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
 - `bugun git` filtresi `lead` ve `audit` icinde de tum kayitlara mi acik olmali, yoksa yalniz belirli ziyaret sinyalleri olan alt grupta mi onerilmeli?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
+- yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
