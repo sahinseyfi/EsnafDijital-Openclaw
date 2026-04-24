@@ -477,4 +477,70 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 ### Rename tablo notu
 - drift sayisi pattern taramasi ile yeniden dogrulandi: `25`
 - fiziksel rename bu batch'te yapilmadi
-- bir sonraki adim her dosyanin repo icindeki capraz referanslarini tarayip staged rename risk haritasini cikarmak
+- capraz referans taramasi tamamlandi; staged rename risk haritasi cikti
+
+## memory capraz referans taramasi sonucu
+
+### Ozet
+- 25 driftli dosyanin tamami repo icinde filename bazli tarandi
+- 20 dosya sadece bu cleanup notunda referansli gorunuyor
+- 4 dosya ek memory/reference baglantilari tasiyor
+- 1 dosya aktif calisma notu oldugu icin heartbeat ve ayni gun notlari tarafindan referanslaniyor
+
+### Ek baglantili dosyalar
+1. `2026-04-19-github-sync.md`
+   - ek referanslar: `memory/2026-04-19.md`, `memory/2026-04-22-old-profile.md`
+   - karar: paired update ile ikinci asamada rename
+
+2. `2026-04-20-page-error.md`
+   - ek referanslar: `memory/2026-04-20.md`
+   - non-kanonik cache referansi: `memory/.dreams/short-term-recall.json`
+   - karar: daily note guncellemesiyle birlikte ikinci asamada rename, `.dreams` cache'i kanonik sayilmayacak
+
+3. `2026-04-20-repo-structure.md`
+   - ek referanslar: `memory/2026-04-20.md`, `memory/2026-04-22-old-profile.md`
+   - non-kanonik cache referansi: `memory/.dreams/short-term-recall.json`
+   - karar: paired update ile ikinci asamada rename
+
+4. `2026-04-22-crm-panel.md`
+   - ek referanslar: `memory/2026-04-23-crm-zinciri.md`, `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
+   - karar: reference + memory birlikte guncellenmeden rename yapilmayacak
+
+5. `2026-04-24-repo-cleanup.md`
+   - ek referanslar: `HEARTBEAT.md`, `memory/2026-04-24-context-cleanup.md`, `memory/2026-04-24-filename-slug.md`
+   - karar: aktif calisma notu oldugu icin bu cleanup hattı kapanana kadar rename ertelenecek
+
+### Staged rename karari
+- Asama A, dusuk risk: sadece bu cleanup notunda referansli kalan 20 dosya
+- Asama B, orta risk: ek memory/reference baglantisi tasiyan 4 dosya
+- Asama C, ertele: aktif calisma notu olan `2026-04-24-repo-cleanup.md`
+
+### Asama A icin uygun dosyalar
+- `2026-04-22-cold-start.md`
+- `2026-04-22-context-cleanup.md`
+- `2026-04-22-crm-panel.md` haric tum 2026-04-22 tekil notlari icinden yalniz cleanup notunda gecenler:
+  - `2026-04-22-executor-confusion.md`
+  - `2026-04-22-gateway-summary.md`
+  - `2026-04-22-old-profile.md`
+  - `2026-04-22-skill-creator.md`
+  - `2026-04-22-telegram-group.md`
+- `2026-04-23-crm-zinciri.md`
+- `2026-04-23-dark-mode.md`
+- `2026-04-23-deploy-request.md`
+- `2026-04-23-evaluation-prompt.md`
+- `2026-04-23-filename-slug.md`
+- `2026-04-23-heartbeat-update.md`
+- `2026-04-23-instagram-manual.md`
+- `2026-04-23-memory-flush.md`
+- `2026-04-23-photo-upload.md`
+- `2026-04-23-research-outputs.md`
+- `2026-04-24-context-cleanup.md`
+- `2026-04-24-deploy-rule.md`
+- `2026-04-24-filename-slug.md`
+
+Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsar. Fiziksel rename bu not ve ilgili referanslar tek patch'te guncellenmeden uygulanmayacak.
+
+### Sonraki adim
+- Asama A rename patch'ini hazirla
+- `AGENTS.md` ve `HEARTBEAT.md` scope temizligini kapat
+- fiziksel rename oncesi kullanicidan kisa onay iste

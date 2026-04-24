@@ -43,7 +43,9 @@ Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerlem
 - `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
 - `DECISIONS/` -> tekil kalici karar kayitlari
 - `memory/YYYY-MM-DD.md` -> tarihlenmis gunluk ozet, ayni gun icin mevcut dosyaya ek yap
-- `memory/YYYY-MM-DD-topic.md` -> session, incident veya konu-ozel kayit
+- `memory/YYYY-MM-DD-topic-slug.md` -> tekil konu notu
+- `memory/YYYY-MM-DD-incident-slug.md` -> hata, kirilma veya prod issue kaydi
+- `memory/YYYY-MM-DD-consultation-slug.md` -> dis analiz, danisma veya degerlendirme kaydi
 - `TOOLS.md` ve `OPERATIONS.md` -> ortam, servis ve operasyon referansi
 - `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` -> teklif, segment ve kaynak materyal
 - `ARCHIVE/` -> aktif kullanilmayan ama saklanacak icerik

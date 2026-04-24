@@ -20,11 +20,11 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
 
 ## Siradaki Somut Adim
-- `memory/2026-04-24-repo-cleanup.md` icindeki rename tablosuna gore `memory/` capraz referans taramasini yapip staged rename karar notunu cikarmak, sonra `AGENTS.md` ve `HEARTBEAT.md` scope temizligini son bir batch ile kapatmak
+- `memory/2026-04-24-repo-cleanup.md` icindeki staged rename kararina gore Asama A icin approval-ready rename patch'ini hazirlamak, Asama B/C dosyalarini erteleme notuyla ayri tutmak
 
 ## Mevcut Blokajlar
-- `memory/` altindaki 25 driftli dosya icin fiziksel rename oncesi capraz referans taramasi henuz tamamlanmadi
-- standing policy olarak ayrilan yayin kurali artik `OPERATIONS.md` icine tasindi; heartbeat tarafinda cleanup odagini korumak icin bundan sonra orasi referans alinacak
+- fiziksel rename uygulamasi, referans guncellemesiyle birlikte toplu dosya tasima sayilacagi icin kisa onay gerektiriyor
+- Asama B dosyalari ek memory/reference baglantilari tasidigi icin ilk patch'e alinmayacak
 
 ## Dikkat Edilecek Riskler
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak

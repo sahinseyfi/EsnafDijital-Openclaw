@@ -7,7 +7,7 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
 - Esas odak yalnızca site yapmak değil, işletmeyi teknik karmaşa ile boğmadan güven veren dijital kimlik, görünürlük ve temel dijital düzen kurmaktır.
 - Uzun vadede amaç, küçük işletmelerin teknik araçlarla boğuşmadan, OpenClaw tabanlı ajan desteği sayesinde dijital işlerini sohbet ederek yönetebileceği sade bir işletme altyapısı kurmaktır.
 - İlk iş akış omurgası şudur:
-  `Keşif / Ön değerlendirme -> Teklif -> Teslimat -> Bakım`
+  `Aday işletme bulma -> Veri toplama -> Ön değerlendirme -> Ziyaret hazırlığı -> Görüşme -> Teklif -> Teslimat -> Bakım`
 - Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
 
 ## 2) İlk Pazar ve İlk Segmentler
@@ -32,10 +32,12 @@ Amaç, küçük işletmeler için sade ama esnek bir hizmet yapısı kurmaktır.
 Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 
 ## 4) İş Akış Omurgası
-`Keşif / Ön değerlendirme -> Teklif -> Teslimat -> Bakım`
+`Aday işletme bulma -> Veri toplama -> Ön değerlendirme -> Ziyaret hazırlığı -> Görüşme -> Teklif -> Teslimat -> Bakım`
 
 - Bu akış satış ve operasyon omurgasıdır, doğrudan satılan hizmet listesi değildir.
-- Dijital görünürlük kontrolü / ön değerlendirme, satılan ana hizmet değil; işletme seçimi, önceliklendirme ve teklif hazırlığı için kullanılan iç tarama adımıdır.
+- Aday işletme bulma ve veri toplama, satış öncesi hazırlığın ilk adımlarıdır.
+- Ön değerlendirme, satılan ana hizmet değil; toplanan veriyi okuyup işletmeyi önceliklendirmek ve teklif hazırlığını netleştirmek için kullanılan iç adımdır.
+- Ziyaret hazırlığı ve görüşme, sahadaki temasın daha hazırlıklı ve güven veren şekilde yapılmasını sağlar.
 - Teklif, satılan şey değil; kapsamı ve teslimatın nasıl yapılacağını netleştiren ara aşamadır.
 - Teslimat görünür ve hızlı olmalıdır.
 - Sonrasında bakım / güncelleme geliriyle devam edilir.
