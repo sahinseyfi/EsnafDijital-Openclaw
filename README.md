@@ -20,7 +20,7 @@ Yeni bir oturumda varsayilan okuma sirasi:
 - `MEMORY_SUMMARY.md` -> `MEMORY.md` icin 1 dakikalik turetilmis ozet
 - `PROJECT.md` -> proje tanimi ve kapsam
 - `ROADMAP.md` -> orta vadeli yon
-- `AGENTS.md` -> calisma kontrati ve ayrintili baglam hijyeni cizgisi
+- `AGENTS.md` -> calisma kontrati, okuma sirasi ve repo-ozel kurallar
 - `DECISIONS/` -> tekil karar kayitlari
 - `memory/` -> tarihlenmis gunluk notlar, konu, incident ve danisma kayitlari
 - `TOOLS.md` ve `OPERATIONS.md` -> operasyon ve teknik ortam referansi
@@ -77,3 +77,4 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 - Once kokteki giris dosyalarini oku, sonra ilgili klasore dallan.
 - Kisa omurlu durum ile kalici hafizayi karistirma.
 - Yeni dosya acmadan once mevcut kanonik yeri kontrol et.
+- Detayli adlandirma ve klasor kurallari ilgili klasor README'lerinde tutulur.

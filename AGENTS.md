@@ -3,10 +3,8 @@
 Bu dosya, bu workspace icinde calisan ajanin okuma sirasini, calisma duzenini ve repo-ozel kurallarini belirler.
 
 ## 1) Amac
-EsnafDigital'in teknik ve operasyonel omurgasini kur, sade tut ve gorunur ilerlet.
-Ana akis her zaman sunu destekler:
-`Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
-Bu cizgi satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir.
+EsnafDigital'in teknik ve operasyonel omurgasini sade, izlenebilir ve ilerleyen bir yapi olarak kurmak ve surdurmek.
+Proje omurgasi ve ana is akis referansi `PROJECT.md` ile `MEMORY.md` cizgisinde tutulur.
 
 ## 2) Oturum Acilis Sirasi
 Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
@@ -28,43 +26,29 @@ Her gorevde su donguyu uygula:
 Tek aktif gorev mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
 ## 4) Bitmis Sayma Standardi
-Bir is ancak su durumda tamamlanmis sayilir:
-- gercek bir cikti, dosya veya ekran degismisse
-- kisa bir dogrulama yapildiysa
-- gerekiyorsa ilgili baglam dosyasi guncellendiyse
-- acik risk veya sonraki adim net yazildiysa
+Bir isi bitmis saymak icin:
+- gercek bir cikti, dosya veya ekran degismis olmali
+- en az bir hafif dogrulama yapilmis olmali
+- gerekiyorsa ilgili baglam dosyasi guncellenmis olmali
+- sonuc `done / next / blocker` duzeniyle kapatilmali
 
+Detayli kapanis kontrolu icin `CHECKLISTS/task-completion.md` kullan.
 Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerleme cumleleri cikti sayilmaz.
 
-## 5) Dosya Disiplini
-- `README.md` -> giris kapisi, okuma rotasi ve kaynak hiyerarsisi
-- `PROJECT.md` -> kapsam ve proje tanimi
-- `ROADMAP.md` -> orta vadeli yon ve oncelik
-- `HEARTBEAT.md` -> aktif odak, blokaj ve siradaki adim
-- `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
-- `DECISIONS/` -> tekil kalici karar kayitlari
-- `memory/YYYY-MM-DD.md` -> tarihlenmis gunluk ozet, ayni gun icin mevcut dosyaya ek yap
-- `memory/YYYY-MM-DD-topic-slug.md` -> tekil konu notu
-- `memory/YYYY-MM-DD-incident-slug.md` -> hata, kirilma veya prod issue kaydi
-- `memory/YYYY-MM-DD-consultation-slug.md` -> dis analiz, danisma veya degerlendirme kaydi
-- `TOOLS.md` ve `OPERATIONS.md` -> ortam, servis ve operasyon referansi
-- `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` -> teklif, segment ve kaynak materyal
-- `ARCHIVE/` -> aktif kullanilmayan ama saklanacak icerik
+## 5) Dogru Yere Yaz
+Bilgiyi once dogru kanonik yere koy.
+- kok kaynak haritasi ve dosya rolleri -> `README.md`
+- tarihli not ve adlandirma kurallari -> `memory/README.md`
+- karar kaydi kurallari -> `DECISIONS/README.md`
 
-## 6) Baglam Kirliligi Kurallari
-- ayni bilgiyi birden fazla dosyada gereksiz tekrar etme
-- kisa omurlu detaylari `MEMORY.md`'ye tasima
-- bitmis isleri `HEARTBEAT.md`'de gereksiz yere tutma
-- gunluk not ile kalici karari ayni yere yazma
-- yeni dosya acmadan once kanonik yerini `README.md` veya ilgili klasor README'sinden kontrol et
-- sirf dosya dolsun diye metin uretme
-- gizli bilgi kurali icin `TOOLS.md` cizgisini uygula
-- `README` ve ozet dosyalari yonlendirme veya hizli okuma icindir; bagimsiz karar kaynagi gibi kullanma
-- ayni bilgi iki ayri kanonik yerde gereksiz tekrar etmez
-- ad, konum veya akis degistiginde buna bagli ozet, yonlendirme ve referans zincirini birlikte guncelle
-- turetilmis dosya ana kaynaktan koptugunda duzelt veya kaldir
-- yeni bir klasor veya ilk giriste okunmasi gereken yeni bir dosya olustugunda ilgili `README` de guncellenir
-- drift gordugunde ilk cozum yeni dosya acmak degil, dogru kanonik yeri bulup fazlaligi temizlemektir
+Ayni bilgiyi iki ayri kanonik dosyada yasatma.
+
+## 6) Baglam Hijyeni
+- kisa omurlu durum ile kalici cizgiyi karistirma
+- bitmis isi aktif dosyalarda tasima
+- drift gordugunde yeni dosya acmadan once dogru kanonik yeri bul
+
+Detayli kontrol icin `CHECKLISTS/context-hygiene.md` kullan.
 
 ## 7) Ne Zaman Kisa Onay Gerekir?
 Asagidaki durumlarda dur ve kisa onay iste:
@@ -78,19 +62,8 @@ Bunun disindaki dusuk riskli teknik ilerlemelerde duraksama uretme.
 
 ## 8) Checklist ve Playbook Yonlendirmesi
 Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan.
-OpenClaw ajan davranisi, workspace injection dosyalari, skill formati veya runtime kabiliyeti degisecekse bu repo ana yuzey olarak kalir; gerekirse dis referans olarak `https://github.com/openclaw/openclaw` kontrol edilir.
 - admin panel isi -> `CHECKLISTS/admin-panel-mvp.md`
 - is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
 - baglam temizligi -> `CHECKLISTS/context-hygiene.md`
 - ana operasyon akisi -> `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
 - uygun durumda workspace skill'lerini tercih et
-
-## 9) Cikti Stili
-- kisa
-- net
-- uygulanabilir
-- durum odakli
-- teknik terimi gerektikce sade anlatarak kullan
-
-## 10) Nihai Ilke
-Amac dosya doldurmak degil; gercekten ilerleyen, izlenebilir ve bitirilebilen bir isletim sistemi kurmaktir.
