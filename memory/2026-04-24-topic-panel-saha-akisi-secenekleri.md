@@ -7589,10 +7589,151 @@ Kisa formda:
 Bu model hem delivery-asamasi hissini erken cagirmiyor,
 hem de operatora bakacagi seyin kapsam netligi oldugunu soyluyor.
 
+## Ellinci okuma - erken teklif-ici uyari satiri ikon/renk dili tasimali mi, yoksa yalniz sessiz bir ikincil metin olarak mi kalmali?
+Bir onceki ara karar suydi:
+- erken delivery-kopma sinyali V1'de default olarak hic acilmamali
+- sonradan gercekten gerekirse `son teklif` karti icinde hafif ikincil satir olabilir
+- en guvenli metin yonu `kapsam notu netlesmeli`
+
+Simdi soru su:
+- bu satir bir `uyari kutusu` gibi mi gorunmeli?
+- yoksa yalniz sessiz ikincil metin olarak mi kalmali?
+
+Bu kritik.
+Cunku ayni cumle farkli gorsel dozla cok farkli anlam tasir.
+Yanlis doz, kucuk bir hatirlatmayi gereksiz alarm haline getirebilir.
+
+### 1) Repo ve tasarim sistemi hangi yone itiyor?
+Taranan kaynaklar su cizgiyi veriyor:
+- urunde `muted` ikincil aciklama metni yaygin kullaniliyor
+- badge'ler daha cok durum ozeti ve sayi gostermek icin kullaniyor
+- `warning/danger` renk tokenlari var ama bunlar daha belirgin problem hallerine uygun
+- voice guide `kisa cumle`, `sonucu bastan soyle`, `kullaniciyi suclama` diyor
+- UX kurali bilgi yogunlugunun kontrollu olmasini istiyor
+- onceki kararlar da bu erken satirin delivery stage'i hissettirmemesini istiyor
+
+Buradan ilk guclu sonuc su:
+- bu satir ana alarm diliyle acilmamali
+
+### 2) Uc model
+
+#### GZD1) Renkli/ikonlu belirgin uyari satiri
+Ornek:
+- sari arka plan
+- warning border
+- unlem ikonu
+- `kapsam notu netlesmeli`
+
+Artisi:
+- gozden kacmasi zor
+- operator hemen fark eder
+
+Eksisi:
+- kucuk bir hazirlik notunu stage-seviyesi probleme cevirir
+- teklif kartinda delivery gerilimini fazla buyutur
+- warning tonu zamanla spam'e donebilir
+- V1 sade cizgiye ters duser
+
+#### GZD2) Sessiz ikincil metin
+Ornek:
+- teklif kartinda paket/neden bu paket satirinin altinda
+- `muted` tonla kisa metin: `Kapsam notu netlesmeli.`
+
+Artisi:
+- stage drift uretmez
+- karti yeni uyari kutusuna cevirmez
+- mevcut repo diliyle uyumlu
+- ikincil ama okunabilir kalir
+
+Eksisi:
+- kolay gozden kacabilir
+- ancak gercekten ikincil ise bu bazen kabul edilebilir
+
+#### GZD3) Orta doz: hafif ikon veya ton, ama kutu degil
+Ornek:
+- muted metin + kucuk info/warning ikonu
+- veya yalniz warning-text rengi, arka plan yok
+
+Artisi:
+- sessiz metinden daha fark edilir
+- tam alert kutusu kadar agresif degil
+
+Eksisi:
+- ikon veya renk yine onu `uyari bileti` gibi gosterebilir
+- tasarim sistemi icinde yeni bir ara desen dogurur
+- V1'de gereksiz yeni UI kurali acabilir
+
+Ara yorum:
+- V1 icin en saglikli yol `GZD2`
+- `GZD3` ancak sessiz metin gercek kullanimin icinde cok kolay kacarsa dusunulebilir
+
+### 3) Neden belirgin uyari kutusu zayif?
+Cunku bu satirin anlami su kadar dar:
+- tekliften teslimata inerken kisa kapsam netligi gerekebilir
+
+Bu, `supheli eslesme`, `isClosed`, `veri yetersiz` gibi ust seviye uyari ailesi degil.
+Buna sari kutu, ikon ve border verirsek,
+sorunun agirligini oldugundan fazla gostermis oluruz.
+
+Ayrica onceki kararlar delivery dilinin teklif kartina sizmamasini istiyordu.
+Belirgin warning stili,
+metnin delivery-asamasi hissini daha da yukseltebilir.
+
+### 4) Neden sessiz ikincil metin daha guvenli?
+Cunku bu satir ana karar degil,
+ana kart icindeki yardimci netlestirme.
+Teklif kartinin merkezinde halen su olmalı:
+- paket
+- tutar
+- neden bu paket
+- domain/ekler
+
+`Kapsam notu netlesmeli.` gibi bir cizgi ise,
+bu cekirdegin altinda duran operasyonel dip not olur.
+Bu rol icin `muted` veya benzeri ikincil stil yeterli.
+
+### 5) Peki hicbir gorsel vurgu olmamasi metni kaybettirir mi?
+Bazen evet.
+Ama bu risk su anda kabul edilebilir gorunuyor.
+Cunku onceki karar da sunu soyluyor:
+- bu satir default degil
+- yalniz tekrar eden gercek kullanim ihtiyacinda acilacak
+
+Yani bu satir bir gun eklenirse,
+zaten nadir ve baglamli bir durumda cikacak.
+Boyle bir sey icin ilk tercih sessiz ama okunur metin olmali.
+Sorun cikarsa doz sonra artirilir.
+
+### 6) Orta doz ikonlu model neden simdilik gereksiz?
+Cunku ikon/renkli ince vurgu ilk bakista cazip gorunse de,
+aslinda yeni bir desen aciyor:
+- hangi ikincil satir ikon alir?
+- hangisi yalniz muted kalir?
+- sari mi gri mi?
+- teklifteki diger yan notlar ne olacak?
+
+Bu da V1 icin gereksiz tasarim borcu yaratir.
+Bir problem cozulmeden once yeni pattern acmak iyi degil.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- erken teklif-ici uyari satiri gerekirse ikon/renkli alert gibi tasinmamali
+- en guvenli V1 sunumu, yalniz sessiz ama okunur bir ikincil metin olmali
+- warning/danger tonlari daha ust seviye riskler icin saklanmali
+- eger ileride sessiz metin gercek kullanimi tasimazsa, o zaman hafif bir ara vurgu yeniden dusunulebilir
+
+Kisa formda:
+- not recommended = warning box / alert row
+- maybe later = tiny icon or light emphasis
+- recommended now = muted secondary line only
+
+Bu model hem ekran dozunu dusuk tutuyor,
+hem de kucuk bir operasyon notunu gereksiz alarm haline getirmiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
-- erken teklif-ici uyari satiri ikon/renk dili tasimali mi, yoksa yalniz sessiz bir ikincil metin olarak mi kalmali?
+- `kapsam notu netlesmeli` satiri yalniz metin olarak mi kalmali, yoksa hemen altina `teklifi guncelle` benzeri mikro aksiyon da baglanmali mi?
