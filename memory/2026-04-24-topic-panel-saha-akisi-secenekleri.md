@@ -4270,10 +4270,139 @@ Kisa formda:
 
 Bu model hem sahada guvenli ton korur hem de cumleyi kayda baglar.
 
+## Yirmi sekizinci okuma - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
+Bu soru kucuk bir metin alani gibi gorunuyor ama aslinda `teklif neyin kaydi?` sorusuna dokunuyor.
+Cunku bugunku referanslar iki seyi ayni anda soyluyor:
+- teklif, yalniz fiyat satiri degil; delivery'i besleyen operasyon girdisi
+- ama Business Detail ve panel generic not duvarina donmemeli
+
+Yani `neden bu paket` alani acilacaksa, bunun bir `serbest metin cebi` mi yoksa `teklif snapshot`inin parcasi mi oldugu net olmali.
+
+### 1) Mevcut repo gercegi ne diyor?
+Bugunku offer modeli su alanlari tutuyor:
+- `packageName`
+- `amountTry`
+- `addonKeys`
+- `domainPreference`
+- `customDomain`
+- `status`
+
+Yani teklifin ticari ve operasyonel iskeleti var,
+ama `neden bu paket` gibi kisa karar gerekcesi henuz yok.
+
+Referanslar ise baska bir yone isaret ediyor:
+- `business-detail-v1.md` icinde `teklif gerekcesi` acik capability olarak geciyor
+- ayni dokumanda son teklif karti `paket, tutar, paket aciklamasi, domain, ekler` gostermeli deniyor
+- `project-os-page.md` teklifi delivery kapsamını etkileyen operasyon girdisi olarak tanimliyor
+
+Buradan su net:
+- `neden bu paket` bos bir yorum alani olmamali
+- ama teklif snapshot'inda eksik bir halka gibi duruyor
+
+### 2) Uc model
+
+#### P1) Sadece teklif olustururken yazilsin, sonra degismeden kalsin
+Artisi:
+- snapshot mantigini korur
+- sonradan tarih carpitma riski dusuk olur
+- delivery icin sabit dayanak verir
+
+Eksisi:
+- teklif draft halindeyken karar degisirse alan eski kalabilir
+- operator aceleyle yazdiysa duzeltme sansi dar olur
+
+#### P2) Teklif kapandiktan sonra da serbest not gibi duzenlenebilsin
+Artisi:
+- operator sonradan baglam ekleyebilir
+- sahadaki yeni itirazlar yazilabilir
+
+Eksisi:
+- teklif snapshot'i ile yorum alani birbirine karisir
+- delivery hangi gerekcenin kanonik oldugunu anlamakta zorlanir
+- Business Detail zamanla not coplugune kayar
+
+#### P3) Teklif olusurken zorunlu kisa gerekce acilsin, teklif onaylanana kadar guncellenebilsin, onaydan sonra donsun
+Artisi:
+- teklif gercegi ile ayni nesnede kalir
+- draft/sent doneminde operator duzeltme yapabilir
+- approved sonrasi delivery icin sabit snapshot olur
+
+Eksisi:
+- `ne zaman donar?` kuralı net yazilmazsa belirsizlik olur
+- sonradan gelen yeni itirazlar icin ayri kanal gerekir
+
+Ara yorum:
+- su an en saglikli yol `P3`
+
+### 3) Neden salt teklif-aninda tek seferlik alan yetmeyebilir?
+Cunku teklif pratikte bazen tek oturusta netlesmez.
+Audit yonu dogru olsa bile su seyler degisebilir:
+- muhatap butce itirazi yapar
+- domain tercihi degisir
+- ekler cikartilir
+- Paket 2 yerine Paket 1'e inilir
+
+Bu durumda `neden bu paket` alanini hic guncelleyememek,
+teklif snapshot'ini hatali bir tarihe kilitleyebilir.
+
+### 4) Neden teklif kapandiktan sonra serbestce duzenlenmesi riskli?
+Cunku bu alanin isi gecmis anlatmak degil,
+o teklifin neden o sekilde secildigini kaydetmek.
+
+Teklif onaylandiktan sonra bu metni serbestce degistirmek su riskleri getirir:
+- operator sonradan `aslinda sebep buydu` diye tarihi yeniden yazar
+- delivery scope'unun hangi mantikla secildigi bulaniklasir
+- ayni kayitta hem teklif gerekcesi hem sonradan eklenmis yorumlar toplanir
+
+Bu da alanin karakterini bozar.
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence `neden bu paket` serbest sonradan not degil,
+teklif snapshot'inin kisa bir parcasi olmali.
+Ama `yalniz create aninda yazildi ve bir daha asla dokunulamaz` kadar da sert olmamali.
+
+En temiz kural su:
+- offer `draft` veya `sent` durumundayken kisa gerekce guncellenebilir
+- offer `approved` olduktan sonra gerekce donar
+- approval sonrasi yeni baglam gerekiyorsa bu, ayni alani ezmek yerine ayri operator ozeti veya yeni teklif revizyonu ile tasinir
+
+### 6) Bu alan nasil sinirlanmali?
+V1 icin bence sert sinir lazim:
+- 1-2 cumle
+- audit bulgusuna bagli olmali
+- paketin hangi eksigi kapattigini soylemeli
+- fiyat savunmasi veya uzun satis metni olmamali
+- serbest gunluk not gibi kullanilamamali
+
+Ornek cizgi:
+- `Maps tutarliligi ve yorum akisi eksik oldugu icin Paket 2 secildi; temel vitrin kurulumunun ustune QR yorum akisi gerekli.`
+
+Bu, hem delivery'e girdi olur hem de operatora niyet netligi verir.
+
+### 7) Approval sonrasi ne olmali?
+Bence burada ikinci bir ilke lazim:
+- approved teklifin `neden bu paket` alani tarihsel snapshot sayilmali
+- eger sonra fikir degisirse ya yeni teklif revizyonu acilmali ya da ayri kisa operator ozeti dusulmeli
+
+Yani ayni alani yasayan not defterine cevirmemek kritik.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `neden bu paket` alani teklif olusurken acilmali ve teklif snapshot'inin parcasi olmali
+- ama offer `draft/sent` asamasinda kontrollu guncellenebilmeli
+- offer `approved` olduktan sonra artik serbestce degistirilmemeli
+
+Kisa formda:
+- before approved = kisa ve duzenlenebilir teklif gerekcesi
+- after approved = frozen snapshot
+- later context = ayri ozet veya yeni revizyon
+
+Bu model hem teklifin operasyon girdisi olma cizgisini korur hem de not coplugu riskini dusurur.
+
 ## Sonraki arastirma basliklari
-- `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
 - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
 - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
 - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
 - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
 - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
+- `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
