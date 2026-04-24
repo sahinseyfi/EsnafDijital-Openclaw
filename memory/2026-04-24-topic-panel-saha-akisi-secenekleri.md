@@ -4930,10 +4930,160 @@ Kisa formda:
 
 Bu model hem saha secim filtresini net tutar hem de operasyon akisini gereksiz bulandirmaz.
 
+## Otuz ucuncu okuma - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
+Bu soru onceki iki kararin devamı:
+- `ilk acilis` audit/Y.Z'den dogrudan alinmayacak, ayri saha cevirisi olacak
+- bu satir icin `kucuk template ailesi + derived tek vurgu` modeli daha saglikli
+
+Simdi kritik karar su:
+- template ailesini secen sey esas olarak problem mi olmali?
+- yoksa segment de aile secimini degistiren tam bir eksen mi olmali?
+
+### 1) Referanslar hangi yone itiyor?
+Farkli dosyalar ayni yonde bulusuyor:
+- `OFFERS.md`: paket yapisi ayni kalir, segment bazli satis dili degisir
+- QR/NFC arastirmasi: segment bazli ton farki faydali, ama coklu script bankasi zayif
+- tek sayfa site arastirmasi: ortak iskelet korunur, segmente gore icerik agirligi degisir
+- onceki notlar: `ilk acilis`te segment sadece ton yumusatma seviyesi gibi hafif fark yaratabilir
+
+Bu dordunu bir araya koyunca cok net bir tasarim ilkesi cikiyor:
+- omurga ortak kalmali
+- segment, omurgayi degil vurguyu ve tonu hafifce ayarlamali
+
+### 2) Uc model
+
+#### I1) Template ailesi tamamen problem tipine gore secilsin
+Ornek:
+- gorunum toparlama
+- guven / ulasilabilirlik
+- hizli firsat / demo koprusu
+
+Artisi:
+- kural sade kalir
+- aile sayisi sismez
+- operator neden bu cumleyi gordugunu daha kolay anlar
+
+Eksisi:
+- berber/guzellik/kafe arasindaki ton farki bazen fazla duz kalabilir
+- ayni problem farkli segmentte ayni dille acilabilir
+
+#### I2) Template ailesi segment + problem birlikte okunarak secilsin
+Ornek:
+- berber + yorum zayif = hizli guven ailesi
+- guzellik + website yok = premium vitrin ailesi
+- kafe + menu eksik = menu/akış ailesi
+
+Artisi:
+- daha baglamsal gorunur
+- segmente ozel his artar
+
+Eksisi:
+- aile sayisi hizla carpilir
+- mini script matrisi dogar
+- V1 icin gereksiz davranis karmasasi uretir
+
+#### I3) Template ailesi problem tipine gore secilsin, segment yalniz ton ve kelime secimini ayarlasin
+Ornek:
+- aile = `guven / ulasilabilirlik`
+- berberde daha hizli/net dil
+- guzellikte daha yumusak/guven verici dil
+- kafede daha islev/akış odakli dil
+
+Artisi:
+- omurga sade kalir
+- segment farki kaybolmaz
+- script bankasina donmeden baglam hissi korunur
+
+Eksisi:
+- ton kurali iyi yazilmazsa fazla ince kalabilir
+- bazi kafe/restoran vakalarinda ayrik davranis ihtiyaci varmis gibi hissedilebilir
+
+Ara yorum:
+- su an en saglikli yol `I3`
+
+### 3) Neden problem-only tek basina biraz eksik kalabilir?
+Cunku elimizdeki segment arastirmalari ton farkinin gercek oldugunu gosteriyor:
+- berberde daha hizli ve net dil
+- guzellikte daha yumusak ve guven verici dil
+- kafe/restoranda daha islev odakli dil
+
+Ayni problem tipine sahip iki isletme dusun:
+- guzellik salonunda `website yok`
+- berberde `website yok`
+
+Ana problem ayni olabilir,
+ama ilk acilisin ritmi ayni olmak zorunda degil.
+Bu farki hic tasimamak cumleyi fazla duzlestirebilir.
+
+### 4) Neden segment + problem birlikte aile secmek riskli?
+Cunku bu yol cok hizli buyur.
+Bugun 3 segment x 3 problem ailesi = 9 davranis gibi gorunur.
+Sonra:
+- muhatap tipi
+- temas kanali
+- sahada onceki itiraz
+- website var/yok
+
+derken sistem mini konusma motoruna doner.
+Bu da daha once koydugumuz kirmizi cizgiye ters:
+- gereksiz script bankasi yok
+- tam generative prompt motoru yok
+- karar guvenligi once gelir
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence su ayrim en temiz cizgi:
+- `template ailesi` = problem tipinden gelsin
+- `tek derived vurgu` = kayda ozel eksik/aksiyon bilgisinden gelsin
+- `ton` = segmentten hafifce etkilensin
+
+Yani hiyerarsi soyle:
+1. problem tipi aileyi secer
+2. kayda ozel eksik vurgu slotunu doldurur
+3. segment cumlenin ton sicakligini ayarlar
+
+Bu model hem ortak iskeleti hem segment farkini birlikte tasir.
+
+### 6) Segment tam olarak neyi degistirmeli?
+V1'de bence segment sadece su alanlara dokunmali:
+- cumlenin yumusaklik seviyesi
+- secilen fiilin tonu
+- fayda vurgusunun cinsi
+
+Ornek:
+- berber: daha hizli, net, pratik
+- guzellik: daha yumusak, guven verici, vitrin hissi yuksek
+- kafe/restoran: daha islev odakli, menu/yorum/akış netligi
+
+Ama segment suyu degistirmemeli:
+- aile sayisi
+- temel akış mantigi
+- cümlenin ana yapisi
+
+### 7) En buyuk risk ne?
+Ton farki yaratayim derken segmenti ikinci bir kurucu eksene cevirmek.
+Bu olursa her segment icin ayri script ailesi doğar ve yine dagilir.
+V1 kuralı bu yuzden sert olmali:
+- aile secimi segmentten gelmez
+- segment sadece mikro ton modulatorudur
+- aile sayisi en fazla 3 kalir
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `ilk acilis` template ailesi esas olarak problem tipine gore secilmeli
+- segment aile secimini degistiren ikinci ana eksen olmamali
+- segment yalniz ton, ritim ve fayda vurgusunu hafifce ayarlayan mikro katman olarak kalmali
+
+Kisa formda:
+- family = problem
+- slot = specific issue
+- tone = segment
+
+Bu model hem fazla duzlesmeyi engeller hem de script bankasina savrulmadan baglami korur.
+
 ## Sonraki arastirma basliklari
-- `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
 - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
 - `bugun git` filtresi `lead` ve `audit` icinde de tum kayitlara mi acik olmali, yoksa yalniz belirli ziyaret sinyalleri olan alt grupta mi onerilmeli?
+- `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
