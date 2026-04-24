@@ -292,26 +292,76 @@ Her dosya icin su alanlar cikarilacak:
   1. `TOOLS.yaml` icindeki eski adlandirma kalintilari
   2. `OPERATIONS.md` icindeki artik bulunmayan eski web app yolu
 
+## Batch 1d - SOUL / USER / MEMORY birlikte degerlendirme
+
+### Denetlenen dosyalar
+- `SOUL.md`
+- `USER.md`
+- `MEMORY.md`
+
+### Ortak okuma
+- `SOUL.md` ton ve davranis kontratini veriyor
+- `USER.md` kullanici profili ve iletisim beklentisini netlestiriyor
+- `MEMORY.md` ise kalici proje cizgisini ve karar omurgasini tutuyor
+
+### Uyum durumu
+- uc dosya birbiriyle genel olarak uyumlu
+- `SOUL.md` ile `USER.md` ayni iletisim cizgisini destekliyor: kisa, net, uygulamaya donuk, gereksiz teori yok
+- `USER.md` icindeki is bolumu, `MEMORY.md` icindeki `Kullanici / Ajan` ayrimiyla uyumlu
+- `MEMORY.md` icindeki `once netlik`, `gereksiz karmasiklik yok`, `gercek cikti` cizgisi `SOUL.md` karakteriyle uyumlu
+
+### Net gucler
+1. rol ayrimi temiz
+   - kullanici saha/satis/yön tarafinda
+   - ajan teknik sistem/operasyon tarafinda
+2. ton cizgisi temiz
+   - dogal, sade, baskisiz, sonuc odakli
+3. proje omurgasi temiz
+   - `Audit -> Teklif -> Teslimat -> Bakim`
+   - sade stack ve MVP siniri net
+
+### Net drift / iyilestirme adayi
+1. `MEMORY.md`
+   - `baglam / dokuman merkezi` dili eski `baglam merkezi` cizgisine yakin kaliyor
+   - repo cleanup'ta netlesen yeni source-of-truth diline gore sadeleştirme adayi
+2. `USER.md` + `SOUL.md`
+   - ikisi de ton/iletisim cizgisinde guclu, ama bazi satirlar birbirine cok yakin anlam tasiyor
+   - su an sorun degil, sadece ileride gereksiz tekrar buyurse birlestirme degil ama sinir sertlestirme gerekebilir
+3. `MEMORY.md`
+   - kalici gercekler ile operasyonel gercekler ayni dosyada duruyor; simdilik yonetilebilir ama `OPERATIONS.md` ile tekrar siniri batch cleanup'ta izlenmeli
+
+### Sonuc
+- `SOUL.md` korunacak
+- `USER.md` korunacak
+- `MEMORY.md` korunacak ama wording cleanup adayi olarak acik kalacak
+- bu uc dosya repo kimligini tasiyan cekirdek set olarak saglam
+
 ## Batch 2 duzeltme plani
 
-### Amac
-Batch 1 bulgularini dosya silmeden once dusuk riskli wording, scope, ozet ve giris boslugu duzeltmelerine cevirmek; naming drift icin ise once uygulama plani cikarip sonra kontrollu rename'e gecmek.
+### Hedef
+Batch 1'de bulunan drift ve yonlendirme bosluklarini dosya silmeden once kontrollu bir duzeltme planina cevirmek.
+
+### Ilke
+- once wording / scope / navigasyon temizligi
+- sonra naming duzeltmesi icin etki analizi
+- dosya silme veya toplu rename karari, referans kontrolu cikmadan uygulanmayacak
 
 ### Uygulama sirasi
 1. `state/README.md` ekle
-   - amac: kok `README.md` icindeki yonlendirme boslugunu kapatmak
-   - kapsam: `state/` klasorunun rolunu, ne yazilip ne yazilmayacagini ve gecici artefakt kuralini netlestirmek
+   - kok `README.md` icindeki yonlendirme boslugunu kapat
+   - `state/` klasorunun gecici/uretim artefakti rolu netlestir
    - risk: dusuk
 
 2. `MEMORY_SUMMARY.md` wording cleanup
    - `baglam merkezi` dilini kaldir
-   - bu dosyanin turetilmis ozet oldugu hissini guclendir
+   - dosyanin turetilmis kisa ozet rolu daha net hale gelsin
    - `MEMORY.md` ile cizgiyi birebir koru
    - risk: dusuk
 
 3. `ROADMAP.md` wording cleanup
    - `Context` adlandirma izini kaldir
    - `ilk tanitim sitesi yayinda` satirini mevcut placeholder gercegiyle uyumlu hale getir
+   - stratejik yone dokunma
    - risk: dusuk
 
 4. `TOOLS.yaml` drift cleanup
@@ -320,12 +370,12 @@ Batch 1 bulgularini dosya silmeden once dusuk riskli wording, scope, ozet ve gir
    - risk: dusuk
 
 5. `OPERATIONS.md` netlestirme
-   - `/opt/esnafdijital/web` satirini aktif referans gibi gorunmeyecek sekilde yeniden adlandir veya arsiv bilgisi olarak ayir
+   - `/opt/esnafdijital/web` satirini tarihsel/arsiv notu olarak ayir veya aktif referans gorunumunden cikar
    - risk: dusuk
 
 6. `HEARTBEAT.md` scope temizligi
    - repo cleanup disi blokaj satirlarini ayikla ya da baska kanonik yere tasi
-   - gecici operasyon kuralinin kalici mi gecici mi oldugunu netlestir
+   - standing policy gibi duran deploy notunun kalici mi gecici mi oldugunu netlestir
    - risk: dusuk-orta
 
 7. `AGENTS.md` ince ayar
@@ -333,10 +383,10 @@ Batch 1 bulgularini dosya silmeden once dusuk riskli wording, scope, ozet ve gir
    - `MEMORY_SUMMARY.md` referans agirligini cleanup sonrasi gercek yerine oturt
    - risk: dusuk
 
-8. `memory/` naming drift plan dosyasi
+8. `memory/` naming drift etki analizi
    - 25 dosyayi `daily`, `topic`, `incident`, `consultation` olarak sinifla
-   - fiziksel rename once tablo halinde hazirla
-   - capraz referans taramasi yapmadan rename'e gecme
+   - once capraz referans taramasi yap
+   - fiziksel rename'i tablo ve grup bazli planla
    - risk: orta
 
 ### Batch 2'de silinmeyecekler
@@ -354,59 +404,3 @@ Not: Bu batch'te hedef duzeltme ve siniflandirma; silme veya toplu rename ancak 
 - driftli wording dosyalari guncellenmis olacak
 - `memory/` rename listesi tablo halinde hazir olacak
 - `HEARTBEAT.md` sonraki somut adim fiziksel uygulama batch'ine donmus olacak
-
-## Batch 2 duzeltme plani
-
-### Hedef
-Batch 1'de bulunan drift ve yonlendirme bosluklarini silme yapmadan once kontrollu bir duzeltme planina cevirmek.
-
-### Ilke
-- once wording / scope / navigasyon temizligi
-- sonra naming duzeltmesi icin etki analizi
-- dosya silme veya toplu rename karari, referans kontrolu cikmadan uygulanmayacak
-
-### Duzeltme eksenleri
-1. `HEARTBEAT.md`
-   - repo cleanup disi blokaj satirlarini ayikla
-   - aktif panoda sadece cleanup'a dogrudan etki eden odak, blocker ve siradaki adim kalsin
-   - standing policy gibi duran deploy notunu kalici referansa tasima adayi olarak isaretle
-
-2. `MEMORY_SUMMARY.md`
-   - `baglam merkezi` gibi eski dili kaldir
-   - dosyanin turetilmis kisa ozet rolu daha net hale getirilsin
-   - bagimsiz karar kaynagi gibi okunma riskini azaltacak sade bir dil kullanilsin
-
-3. `ROADMAP.md`
-   - `Context` adlandirma kalintisini guncel cizgiye cek
-   - `ilk tanitim sitesi yayinda` satirini mevcut placeholder gercegiyle uyumlu hale getir
-   - stratejik yone dokunmadan sadece drift temizligi yap
-
-4. `memory/` naming drift
-   - once tum uyumsuz dosyalarin referanslandigi yerleri tara
-   - rename gerekiyorsa tek batch yerine planli grup bazli ilerle
-   - gecis icin alias, not dusme veya staged rename seceneklerinden biri secilsin
-   - `AGENTS.md` ve `memory/README.md` ayni naming diline getirilsin
-
-5. `state/` giris boslugu
-   - kok `state/` klasoru icin kisa bir `README.md` ekleme adayi ac
-   - bu dosya state'in kalici hafiza olmadigini, gecici/uretim artefakti alani oldugunu net anlatsin
-   - mevcut alt klasor `README`leri varsa kok giris notuyla uyumlu hale getir
-
-6. `TOOLS.yaml` ve `OPERATIONS.md`
-   - `TOOLS.yaml` eski adlandirma kalintilarindan arindirilsin veya yeniden turetilsin
-   - `OPERATIONS.md` icindeki eski web app yolu tarihsel notsa etiketlensin, aktif referans degilse temizlensin
-
-### Onerilen uygulama sirasi
-1. `HEARTBEAT.md`
-2. `MEMORY_SUMMARY.md`
-3. `ROADMAP.md`
-4. `state/README.md`
-5. `TOOLS.yaml` + `OPERATIONS.md`
-6. `memory` naming drift etki analizi ve rename karari
-
-### Batch 2 icin beklenen cikti
-- aktif panoda scope temizligi
-- summary/roadmap wording drift temizligi
-- `state/` icin net giris noktasi
-- naming drift icin uygulama oncesi karar notu
-- toplu rename veya silme oncesi referans risk haritasi
