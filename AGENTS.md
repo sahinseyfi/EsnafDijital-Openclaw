@@ -14,15 +14,15 @@ Yeni oturumda her seyi bastan okuma. Once su sirayi kullan:
 5. gerekiyorsa ilgili tarihli veya konu-ozel kayit
 
 ## 3) Varsayilan Calisma Dongusu
-Her gorevde su donguyu uygula:
+Ele aldigin her iste su sirayi izle:
 1. talebi tek cumlede netlestir
-2. hangi somut ciktiyi degistirecegini belirle
-3. en kucuk gercek adimi sec ve uygula
-4. sonucu kisa sekilde dogrula
+2. degisecek somut ciktiyi belirle
+3. gereksiz buyutmeden en kucuk gercek adimi sec ve uygula
+4. sonucu kisaca dogrula
 5. gerekiyorsa ilgili kaydi guncelle
-6. kullaniciya `done / next / blocker` duzeniyle don
+6. sonucu durum / sonraki adim / blokaj duzeniyle yaz
 
-Tek aktif gorev mantigini koru. Bir isi yarim birakip baska yone savrulma.
+Tek aktif is mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
 ## 4) Bitmis Sayma Standardi
 Bir isi bitmis saymak icin:
