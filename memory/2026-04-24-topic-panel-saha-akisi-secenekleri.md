@@ -2744,10 +2744,175 @@ Bu model:
 - `girilen bilgi nasil sonuca donusur` sorusunu okunur kilar
 - ama detail'i erken CRM duvarina cevirmez
 
+## On yedinci okuma - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
+Bu soru teslim zincirinin gercek darbozazini hedefliyor.
+`DECISIONS/2026-04-22-delivery-scope-text-first.md` cizgisi net:
+- kickoff checklist'i ayri alanlara bolunmeyecek
+- tek `scope` metni icinde kalacak
+- ama yari-yapili baslikli operasyon notu olacak
+
+Buradan cikan kritik soru su:
+- madem tam checklist metin icinde kalacak, Business Detail kartinda yanina hangi kisa durum satirlari konursa operator scope'u okumadan da kopmaz?
+
+### 1) Referans ve kod bize ne diyor?
+`REFERENCES/project-os-page.md` scope taslaginin bugun su basliklarla dogdugunu soyluyor:
+- cekirdek teslimler
+- domain ve yayin plani
+- gerekli assetler
+- gerekli erisimler
+- opsiyonel ekler
+- kickoff sonrasi operasyon adimlari
+- yayin oncesi kontrol
+
+Ama mevcut `app/businesses/[slugAndId]/page.tsx` gercegi de onemli:
+- Business Detail su an henuz teklif ve kickoff kartlarini gostermuyor
+- sayfa bugun temel kimlik + tarama paneli kadar hafif
+
+Yani eklenecek checklist preview mutlaka kisa olmali.
+Yoksa kart daha ilk adimda mini delivery paneline doner.
+
+### 2) Uc model
+
+#### K1) Uc satirlik cok hafif preview
+- `asset`
+- `erisim`
+- `yayin`
+
+Artisi:
+- cok hafif
+- karar kartini sisirmez
+
+Eksisi:
+- tekliften gelen kapsam teyidini kacirabilir
+- teslim neden bekliyor sorusuna bazen eksik cevap verir
+
+#### K2) Dort cekirdek satir + kosullu besinci satir
+- `kapsam teyidi`
+- `asset durumu`
+- `erisim durumu`
+- `yayin plani`
+- varsa `ek bagimlilik`
+
+Artisi:
+- tekliften kickoff'a gecisi okunur kilir
+- teslim kopmasina en cok neden olan 4 riski gorunur yapar
+- opsiyonel ekleri sadece gerektiginde acar
+
+Eksisi:
+- iyi turetilmezse `kapsam teyidi` satiri `scope ozeti` ile tekrar edebilir
+
+#### K3) Bes sabit satirlik zengin preview
+- kapsam teyidi
+- asset
+- erisim
+- opsiyonel ekler
+- yayin oncesi kontrol
+
+Artisi:
+- daha tam gorunum verir
+
+Eksisi:
+- `yayin oncesi kontrol` kickoff aninda erken olabilir
+- karti gorev listesine yaklastirir
+- Business Detail'in hafif karar yuzeyi cizgisini zorlar
+
+Ara yorum:
+- su an en saglikli yol `K2`
+
+### 3) Minimum 4 + 1 kosullu model neden daha dogru?
+Cunku teslim kopmasi en sik su nedenlerle olur:
+1. neyin teslim edilecegi son kez net degildir
+2. gerekli gorsel/metin/icerik gelmemistir
+3. gereken hesap veya panel erisimleri alinmamistir
+4. domain / subdomain / yayin yolu net degildir
+5. bazen de paket disi ama secilmis ek bir bagimlilik vardir
+
+Bu liste delivery scope basliklariyla uyumlu, ama tum metni tekrar etmez.
+
+### 4) O zaman satirlar tam olarak ne olmali?
+V1 icin en mantikli cekirdek set bence su:
+
+#### D1) `Kapsam teyidi`
+Ornek durumlar:
+- teyitli
+- revize bekliyor
+- son paket teyidi gerekli
+
+Amac:
+- teklifte secilen cozumun kickoff'ta dagilmasini onlemek
+
+#### D2) `Asset durumu`
+Ornek durumlar:
+- logo ve 3 gorsel geldi
+- gorseller eksik
+- metin bekleniyor
+
+Amac:
+- yapimi gercekten baslatacak malzemenin olup olmadigini tek bakista gormek
+
+#### D3) `Erisim durumu`
+Ornek durumlar:
+- maps erisimi geldi
+- instagram sifresi yok
+- domain panel erisimi gerekmiyor
+
+Amac:
+- teknik bloke nedenini saklamamak
+
+#### D4) `Yayin plani`
+Ornek durumlar:
+- subdomain ile cikilacak
+- ozel domain baglanacak
+- once demo sonra canli
+
+Amac:
+- kickoff'in nereye vardigini netlestirmek
+
+#### D5) `Ek bagimlilik` (yalniz gerekiyorsa)
+Ornek durumlar:
+- QR materyali basimi bekliyor
+- ek kartvizit varyasyonu alinacak
+- NFC kurulumu sonraki faz
+
+Amac:
+- opsiyonel eki sabit kolon yapmadan gorunur tutmak
+
+### 5) Bilerek neleri disarida birakmali?
+V1 preview'de bunlar olmamali:
+- tum kickoff sonrasi operasyon adimlari
+- yayin oncesi tam kontrol listesi
+- owner / due date / status bazli task mantigi
+- her asset icin ayri satir
+- uzun notlar
+
+Cunku bunlar text-first kararinin ruhunu bozar.
+
+### 6) En buyuk tasarim riski ne?
+`Kapsam teyidi` ile `scope ozeti`nin ayni seyi iki kez soylemesi.
+Bunu onlemek icin kural su olmali:
+- `scope ozeti` = ne teslim edilecek
+- `checklist satirlari` = teslimi baslatmak icin ne hazir / ne eksik
+
+### 7) Gecici net kanaat
+Su an en mantikli kickoff karti preview modeli su gibi gorunuyor:
+- ustte `scope ozeti`
+- altinda 4 cekirdek satir:
+  - kapsam teyidi
+  - asset durumu
+  - erisim durumu
+  - yayin plani
+- varsa 1 kosullu satir:
+  - ek bagimlilik
+
+Bu model:
+- `text-first scope` kararina sadik kalir
+- ama operatoru uzun metin okumadan bloke noktalarina indirir
+- Business Detail'i delivery paneline cevirmeden kickoff resmini guclendirir
+
 ## Sonraki arastirma basliklari
-- `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
 - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
 - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
 - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
+- kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
