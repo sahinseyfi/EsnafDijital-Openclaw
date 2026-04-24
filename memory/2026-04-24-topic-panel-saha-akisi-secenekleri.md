@@ -6517,10 +6517,178 @@ Kisa formda:
 Bu model hem teklifi audit zincirine bagliyor,
 hem de operatoru sadece kopyalayip gecen pasif okuyucuya cevirmiyor.
 
+## Kirk ucuncu okuma - derived aday olmayan kayitlar icin dar istisna override'i listede mi, yoksa yalniz detail icinde mi daha guvenli olur?
+Bir onceki kararlar su cizgiyi kurmustu:
+- `bugun git` ana model olarak tam manuel olmamali
+- en saglikli V1 cizgisi `derived ziyaret uygun adaylari + operatorun tek tik bugun guclendirmesi`
+- derived aday olmayan kayitlar icin gerekirse dar bir istisna override'i sonra dusunulebilir
+
+Simdi asil soru su:
+- bu istisna override Businesses listesinde hizli bir isaret olarak mi olmali?
+- yoksa yalniz Business Detail icindeki tek kayit karar yuzeyinde mi acilmali?
+
+Bu ayrim kritik.
+Cunku istisna yolunu fazla gorunur yaparsak ana model delinir.
+Ama fazla gizlersek saha gercegindeki ani kararlar tasinmaz.
+
+### 1) Mevcut yuzeyler ne soyluyor?
+Bugunki repo gercegi su:
+- `Businesses` sayfasi filtre + liste + detaya gecis yuzeyi
+- satir veya kart icinde aksiyon yok, daha cok secim ve tarama yapiyor
+- `Business Detail` ise tek kayit resmi, Y.Z, audit ve tarama sinyalleriyle `bu kayitta ne yapilmali?` sorusuna daha yakin
+
+Bu iki yuzeyi birlikte okuyunca su netlesiyor:
+- istisna override `liste secimi`nden cok `tek kayit hakkinda bilincli operator karari` gibi duruyor
+- yani rolen dogal evi detail tarafina daha yakin
+
+### 2) Uc model
+
+#### DO1) Override dogrudan Businesses listesinde olsun
+Ornek:
+- satirda `Bugun yine de one al` benzeri hafif bir aksiyon
+- derived aday olmayan kayit da listeden tek tikla `bugun git`e alinabilir
+
+Artisi:
+- en hizli yol budur
+- sahada anlik karar icin iyi hissedebilir
+- liste uzerinden toplu saha secimi yapan operatora hiz verir
+
+Eksisi:
+- derived modelin disiplinini erken deler
+- `neden bu kaydi override ettim?` sorusu kayitsiz kalir
+- listede filtre + secim + istisna aksiyonu birikir
+- mobilde Businesses yuzeyi agirlasir
+- `Businesses` kolayca mini operasyon panosuna kayar
+
+#### DO2) Override yalniz Business Detail icinde olsun
+Ornek:
+- operator derived aday olmayan kaydi detailde acip,
+  `ziyaret uygun degil ama bugun one al` benzeri dar bir aksiyon kullanir
+- gerekce detail baglaminda okunur
+
+Artisi:
+- istisna bilincli ve baglamli olur
+- tek kayit karar yuzeyi rolune uyar
+- Businesses listesi sade kalir
+- operator override yaparken Y.Z, audit, dis sinyal ve notu ayni anda gorur
+
+Eksisi:
+- bir tik daha yavas olabilir
+- cok hizli saha gununde ekstra gecis hissi yaratabilir
+- operator bazen `listeden halletmek isterdim` diyebilir
+
+#### DO3) Hem listede hem detailde olsun
+Artisi:
+- maksimum esneklik verir
+- farkli calisma stillerine uyumlu gorunur
+
+Eksisi:
+- iki giris kapisi ayni istisnayi farkli sekilde acmis olur
+- hangisinin kanonik oldugu bulanir
+- V1'de gereksiz kapsam buyutur
+- yine genel CRM savrulmasi riski artar
+
+Ara yorum:
+- su an en saglikli yol acik farkla `DO2`
+
+### 3) Neden liste override'i zayif gorunuyor?
+Cunku Businesses tarafi zaten onceki kararlarda su rol icin secildi:
+- kaydi bul
+- daralt
+- kisa secim sinyali gor
+- detail'e gec
+
+Eger istisna override'i de listeye tasirsak,
+su seyler ayni yerde toplanir:
+- filtre
+- stage okuma
+- `bugun git`
+- derived sinyal
+- istisna karari
+
+Bu noktada liste sayfasi `hafif secim ekrani` olmaktan cikip,
+mini dispatch paneline donmeye baslar.
+Bu da onceki sade cizgiye ters.
+
+### 4) Neden detail override daha guvenli?
+Cunku istisna zaten siradan durum degil.
+Istisna demek su tip bir insan bilgisi var demek:
+- bugun o mahalleden gecilecek
+- muhatapla sozlesildi
+- onceki telefon gorusmesi olumlu gecti
+- derived model bunu henuz goremiyor ama operator biliyor
+
+Bu tip farklar tek kayit baglaminda daha dogru okunur.
+Business Detail de zaten su soruya ayrilmis durumda:
+- `bu isletmede simdi ne yapmaliyim?`
+
+Yani derived modele istisna getirme karari,
+topludan cok tek kayit kararina benziyor.
+
+### 5) O zaman en saglikli V1 davranisi nasil olmali?
+Bence su model en guclu:
+
+#### Businesses listesi
+- derived adaylari ve `bugun git` sinyalini gosterir
+- ama derived disi kayit icin serbest override aksiyonu tasimaz
+- operatoru gerekiyorsa detail'e gonderir
+
+#### Business Detail
+- derived karar acik okunur: `gidilir / uzaktan ilerlet / beklet`
+- eger operatorun saha bilgisi farkliysa, dar bir istisna aksiyonuyla `bugun one al` diyebilir
+- bu aksiyon mumkunse kisa bir sebep tipiyle baglanir:
+  - `rota`
+  - `muhatap teyidi`
+  - `saha bilgisi`
+  - `ozel durum`
+
+Bu sayede:
+- ana model korunur
+- istisna kapisi vardir
+- ama istisna listeyi domine etmez
+
+### 6) Listeye hic sinyal gelmemeli mi?
+Bence liste tamamen kor olmamali.
+Ama override aksiyonu ile override izi ayri sey.
+Daha guvenli cizgi su olabilir:
+- operator detailde istisna override yaptiysa,
+  Businesses listesinde bunun sonucu gorunebilir
+- ama override'in kendisi listeden baslatilmaz
+
+Yani liste `sonucu gorur`,
+karari ise detail tasir.
+Bu ayrim cok degerli.
+
+### 7) En buyuk risk ne?
+Istisna yolunu fazla kolaylastirmak.
+Eger derived disi her kayda listeden tek tik atilabilirse,
+operator zamanla derived katmani okumayi birakir.
+O zaman su cizgi zayiflar:
+- system finds candidates
+- operator promotes intentionally
+
+Bu yuzden override kapisi olmali,
+ama default davranis kadar kolay olmamali.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- derived aday olmayan kayitlar icin dar istisna override'i V1'de listede degil, yalniz Business Detail icinde daha guvenli duruyor
+- Businesses listesi override aksiyonu degil, secim ve gorunurluk yuzeyi olarak kalmali
+- detailde verilen override karari sonra listeye sonuc sinyali olarak yansiyabilir
+- boylece istisna yolu var olur, ama ana model delinmez
+
+Kisa formda:
+- not recommended = list-level free override
+- recommended = detail-level narrow override
+- acceptable visibility = list shows result, not control
+
+Bu model hem `Businesses-first` gunluk hissini koruyor,
+hem de istisna kararini dogru baglama tasiyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
-- derived aday olmayan kayitlar icin dar istisna override'i listede mi, yoksa yalniz detail icinde mi daha guvenli olur?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
+- detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
