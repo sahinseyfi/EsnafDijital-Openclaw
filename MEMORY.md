@@ -55,15 +55,12 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - Sabit bağlam dosya tabanlı tutulur: Markdown / YAML / JSON
 - Küçük tekrar eden işler için zamanlayıcılar ve basit görevler kullanılabilir.
 - MVP aşamasında ağır yapay zekâ / RAG / vektör veritabanı / mikroservis katmanları kurulmaz.
+- OpenClaw tabanlı ajan desteği, ilk teknik omurganın zorunlu parçası değil; uygun olduğunda işletme yönetimini kolaylaştıran genişleme katmanı olarak ele alınır.
 
 ## 6) İç Sistem Kararı
-İç sistem üç ana çekirdeğe göre kurulur:
-1. proje yönetimi
-2. bağlam sistemi ve dokümanlar
-3. istem üretimi, sonra gerekirse ajan destekli işletme akışlarına açılabilecek operasyon katmanı
-- Panel, dar bir operasyon masası olarak kalmaz; küçük işletmenin dijital düzene geçişini taşıyabilecek sade bir operasyon sistemi olarak kurulur.
+- İç sistemin zorunlu çekirdeği proje / operasyon yönetimi ile bağlam sistemi ve dokümanlardır.
 - Ön değerlendirme, teklif, teslimat ve bakım kayıtları ilk güçlü iş tipleridir, ama sistem bunlarla sınırlı değildir.
-- Uzun vadede bu yapı, işletme sahibinin bazı dijital işlerini sohbet ederek yönetebileceği yüzeylere açılabilir.
+- İstem üretimi, satış destek araçları ve ajan destekli akışlar bu çekirdeğin üstüne eklenen yardımcı katmanlardır.
 
 ## 7) İş Bölümü
 - Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
