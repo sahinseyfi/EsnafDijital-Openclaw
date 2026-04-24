@@ -4399,10 +4399,137 @@ Kisa formda:
 
 Bu model hem teklifin operasyon girdisi olma cizgisini korur hem de not coplugu riskini dusurur.
 
+## Yirmi dokuzuncu okuma - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
+Bu soru onceki `KT3` kararinin gorunum kuralini netlestiriyor.
+Cunku onceki okumada `kapsam teyidi`nin en saglikli kaynagi olarak `offer + delivery.scope` kesisimini secmistim.
+Ama kaynak dogru olsa bile, bu satiri ne zaman gosterecegimiz ayri konu.
+
+### 1) Repo gercegi hangi yone itiyor?
+Mevcut akis su cizgiye yaslaniyor:
+- queue mantiginda delivery asamasi, offer `approved` olduktan sonra aciliyor
+- `deriveProjectOsOverview` de delivery zincirini ancak approved sonrasi ana asama olarak okuyor
+- `Project OS` ve CRM arastirma notlari `audit -> teklif -> teslimat -> bakim` sirasini koruyor
+- skill kirmizi cizgisi acik: teklif netlesmeden ekran cogaltma yok
+
+Bu cok onemli.
+Cunku `kapsam teyidi` satiri delivery/kickoff karakterli bir satir.
+Bunu cok erken one cekmek, teslimat mantigini teklif asamasina sizdirabilir.
+
+### 2) Uc model
+
+#### KG1) Sadece offer `approved` olduktan sonra gorunsun
+Artisi:
+- akis sirasina sadik kalir
+- teklif netlesmeden delivery dili acilmaz
+- kickoff karti daha temiz kalir
+
+Eksisi:
+- approval oncesi olasi scope kopuklugu erken fark edilmez
+- operator bazen gec uyari alabilir
+
+#### KG2) Draft/sent asamasinda da gorunsun
+Ornek:
+- draft = `erken kontrol`
+- sent = `cevapla birlikte netlestir`
+- approved = `teyitli / revize bekliyor`
+
+Artisi:
+- risk erken gorunur
+- operator teklifteyken teslimat kopuklugunu dusunur
+
+Eksisi:
+- teklif kartina gizli delivery mantigi tasir
+- `teklif netlesmeden ekran cogaltma` riskini arttirir
+- ayni kartta hem ticari kapanis hem kickoff uyumu konusulmaya baslar
+
+#### KG3) Normal `kapsam teyidi` satiri yalniz approved sonrasi gorunsun, approval oncesi gerekiyorsa ayri bir hafif `scope riski` sinyali kullanilsin
+Artisi:
+- terimleri karistirmaz
+- delivery satiri delivery asamasinda kalir
+- approval oncesi gereken uyari tamamen yok olmaz
+
+Eksisi:
+- iki ayri dil kuralı ister
+- iyi adlandirilmazsa operator neden iki farkli etiket gordugunu anlamayabilir
+
+Ara yorum:
+- su an en saglikli yol `KG3`, ama V1 baslangici pratikte `KG1`e daha yakin olmali
+
+### 3) Neden her asamada gostermek riskli?
+Cunku `kapsam teyidi` ismi kendi basina sunu ima ediyor:
+- satilan cozum delivery baslangicina indi
+- artik uyum kontrolu yapiyoruz
+
+Bu ise teklif `draft` veya `sent` iken biraz erken.
+O anda asil soru hala su olabilir:
+- paket kesin mi?
+- butce kabul edildi mi?
+- domain tercihi degisecek mi?
+
+Boyle bir anda `kapsam teyidi` satiri acilirsa,
+operator sanki teslim kesinlesmis gibi okuyabilir.
+Bu da akis sirasini bozar.
+
+### 4) Neden approval sonrasi gormek daha tutarli?
+Cunku delivery zaten onayli teklifin icrasi.
+`kapsam teyidi` de tam olarak su soruya cevap veriyor:
+- `onaylanan cozum kickoff scope'unda dogru somutlandi mi?`
+
+Bu soru ancak onaylanan bir cozum varsa tam anlam kazanir.
+Aksi halde satir bir tur erken tahmin etiketine doner.
+
+### 5) Peki erken uyari ihtiyaci tamamen yok mu?
+Yok degil.
+Ozellikle teklif `sent` asamasindayken operator bazen sunu bilmek isteyebilir:
+- mevcut scope taslagi secilen paketle kabaca uyumlu mu?
+- saha gorusmesinde soz verilmis bir sey scope'a dusmus mu?
+
+Ama bu ihtiyac icin ayni `kapsam teyidi` etiketini one cekmek yerine,
+daha hafif bir preflight dili daha temiz olur.
+
+Ornek erken sinyal dili:
+- `scope riski var`
+- `kickoff notu eksik`
+- `paket netlesince scope kontrol edilecek`
+
+Yani erken uyari varsa bile delivery teyidi gibi degil,
+teklif-oncesi/teklif-ici hazirlik notu gibi davranmali.
+
+### 6) O zaman en saglikli V1 mantigi ne?
+Bence sert cizgi su olmali:
+- `kapsam teyidi` satiri Business Detail kickoff kartinda yalniz offer `approved` olduktan sonra ana satir olarak gorunsun
+- approval oncesi delivery ile ilgili bir kopukluk sinyali gerekirse, bu ayni isimle degil `hazirlik riski` veya `scope riski` gibi daha hafif ikincil dilde kalsin
+
+Boylece:
+- teklif = hala ticari netlesme alanı
+- delivery kickoff = kapsam teyidinin dogal evi
+
+### 7) En buyuk risk ne?
+Erken uyari faydali diye delivery terimlerinin teklif kartina yayilmasi.
+Bu olursa urun su yone kayar:
+- audit karti paket konusur
+- teklif karti yarim delivery konusur
+- kickoff karti ayni seyi tekrarlar
+
+Bu tekrar hem ekran sisirir hem de kavram sinirlarini bozar.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `kapsam teyidi` satiri normal haliyle offer `approved` olmadan gorunmemeli
+- approval oncesi gerekirse ayni kavrami tasimayan daha hafif bir `scope/hazirlik riski` sinyali kullanilabilir
+- V1 baslangicinda ise en guvenli yol bunu hic erken acmamak, dogrudan approved-sonrasi kickoff kartinda gostermektir
+
+Kisa formda:
+- normal `kapsam teyidi` = approved-sonrasi
+- early warning gerekiyorsa = ayri hafif risk sinyali
+- V1 default = once approved-sonrasiyla basla
+
+Bu model hem akis disiplinini korur hem de delivery dilini teklif asamasina tasirmaz.
+
 ## Sonraki arastirma basliklari
-- `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
 - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
 - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
 - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
 - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
 - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
+- approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
