@@ -1134,10 +1134,152 @@ Buna karsilik su varyasyonlar biraz zayifliyor:
 - `C2 Bes yuzeyli model`
 - `D1 Ayri ziyaret panosu`
 
+## Altinci okuma - audit -> teklif -> delivery kickoff zinciri ekranda nasil gorunmeli?
+Kod gercegine tekrar bakinca onemli bir eksik netlesiyor:
+- veri modeli zinciri var
+- servis seviyesinde `createAudit`, `createOffer`, `createDeliveryProject` var
+- teklifte `packageName`, `amountTry`, `addonKeys`, `domainPreference`, `customDomain` alanlari var
+- delivery tarafinda ise bugun tek ana alan fiilen `scope`
+
+Ama gorunur ekran zinciri zayif cunku:
+- ana sayfa sadece yon veriyor
+- Business Detail'te son teklif / son teslimat kartlari henuz yok
+- create/update akislarinin kullaniciya gorunen belirgin form yuzeyi kodda pek gorunmuyor
+
+Bu ne demek:
+- `girilen bilgi nasil sonuca donusur` sorusunun veri cevabi var
+- ama ekran cevabi henuz zayif
+
+### 1) Su anki zincirin zayif noktasi
+Bugun bir auditten teklife geciste operatorun su sorulara tek bakista cevabi yok:
+- auditten hangi gerekceyle bu paket cikti?
+- teklifte hangi ekler acildi?
+- subdomain mi custom domain mi secildi?
+- delivery kickoff'a hangi teslim beklentisi tasindi?
+
+Yani kayitlar var ama aradaki `neden / neye donustu` hikayesi zayif.
+
+### 2) Bu zincir icin 3 ekran modeli
+
+#### K1) Tamamen ayri ekranlar modeli
+- audit ekrani ayri
+- teklif ekrani ayri
+- delivery kickoff ayri
+
+Artisi:
+- her asama detayli olur
+
+Eksisi:
+- erken donemde fazla ekran uretir
+- kullanicinin sordugu temel akisi dagitir
+- mevcut repo sadelik cizgisine ters dusmeye daha yakin
+
+#### K2) Business Detail icinde `zincir kartlari`
+Tek kayitta su kartlar gorunur:
+- audit ozeti
+- onerilen paket / teklif karti
+- kickoff hazirlik karti
+
+Her kartta:
+- mevcut durum
+- neden
+- primary sonraki aksiyon
+- gerekiyorsa detay linki
+
+Artisi:
+- kullanicinin `bu bilgi neye donustu` sorusunu tek yerde cozer
+- yeni sayfa acmadan zinciri gorunur yapar
+- Business Detail rolune uyuyor
+
+Eksisi:
+- kartlar kotu tasarlanirsa sayfa yuklenebilir
+
+#### K3) Project OS icinde stage zinciri, Detail icinde neden zinciri
+- Project OS = hangi kayit hangi asamada bekliyor
+- Business Detail = neden bu asamaya geldi ve sonra ne olacak
+
+Artisi:
+- rol ayrimi temiz
+- mevcut repo mantigina en yakin model bu
+
+Eksisi:
+- iki ekran arasinda gidis gelis ihtiyaci kalir
+- detail icinde yine minimum kartlar acilmak zorunda
+
+Ara yorum:
+- en saglikli cizgi `K3`, uygulama bicimi olarak da `Detail icinde K2 kartlari`
+- yani ikisi rakip degil, tamamlayici
+
+### 3) Minimum gorunur zincir ne olmali?
+Yeni agir nesne acmadan bile Business Detail'te su 3 kart yeterli olabilir:
+
+#### ZKart 1 - Audit sonucu
+- kisa audit ozeti
+- 3 ana eksik
+- readiness
+- onerilen sonraki adim
+
+#### ZKart 2 - Teklif yonu
+- onerilen paket veya son teklif
+- neden bu paket
+- opsiyonel ekler
+- domain tercihi
+- primary aksiyon: `teklif ac / teklifi guncelle / teklifi gonder`
+
+#### ZKart 3 - Kickoff hazirligi
+- teslim neye donusecek
+- scope taslagi veya son scope
+- eksik asset / erisim / onay sinyali
+- primary aksiyon: `kickoff baslat`
+
+Bu kurgu sunu cozer:
+- auditten teklife gecis gorunur olur
+- tekliften delivery kickoff'a gecis gorunur olur
+- kullanici hangi bilginin hangi ciktiya donustugunu izler
+
+### 4) `neden bu paket` satiri eksik kalirsa zincir yine kopar
+Teklif kaydinda bugun su alanlar var:
+- paket
+- tutar
+- ekler
+- domain tercihi
+
+Ama henuz ayri bir `gerekce` alani yok.
+Bu eksikligi ilk fazda yeni tablo acmadan bile su yollarla hafifletmek mumkun:
+- audit ozetinden turetilmis 1-2 satirlik `paket nedeni` karti
+- Y.Z raporu / derived ozetten gelen `neden simdi bu yon` satiri
+
+Yani once tam veri modeli degil, derived aciklama satiri acmak yeterli olabilir.
+
+### 5) Delivery kickoff tarafinda bugun en zayif halka `scope`
+Delivery kaydinin tek agir alani `scope` oldugu icin su risk var:
+- teklifte secilen alanlar kickoff'ta eriyebilir
+- hangi ek yorum materyali secildi, domain ne oldu, hangi asset eksik tam gorunmez
+
+Bu yuzden onceki wake'teki T2 yorumu burada daha da guclendi:
+- `scope` yanina 3-5 maddelik yari-yapili kickoff checklisti gelmeli
+- ama tam form duvarina donmemeli
+
+Minimum kickoff checklisti:
+- assetler geldi mi
+- erisim var mi
+- domain tercihi net mi
+- yayin onayi beklaniyor mu
+- ilk yayin hedefi ne
+
+### 6) Bu wake sonrasi finalistlere etkisi
+Bu yeni okuma sunu guclendiriyor:
+- C ve B'nin Business Detail merkezli varyasyonlari daha da mantikli
+- E tamamen elenmiyor, cunku audit->teklif->delivery zincirinin dilini en iyi o tasiyor
+- ama E'nin ayri bir model olmasindan cok, B/C icine entegre edilen `zincir kartlari mantigi` daha guclu gorunuyor
+
+Yani burada yeni guclenen varyasyon:
+- `Business Detail + ziyaret karti + audit/teklif/kickoff zincir kartlari`
+
 ## Sonraki arastirma basliklari
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
 - `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
 - `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
-- `audit -> paket onerisi -> teklif -> delivery kickoff` zinciri ekranda nasil gorunur hale getirilmeli?
+- `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
