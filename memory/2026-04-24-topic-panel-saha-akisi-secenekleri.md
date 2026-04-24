@@ -5998,10 +5998,185 @@ Kisa formda:
 Bu model hem auditin paket zemini rolunu koruyor,
 hem de Y.Z veya next-step akisinda kritik anda kalite sinyalini kaybettirmiyor.
 
+## Kirkıncı okuma - `bugun git` isareti tam manuel mi olmali, yoksa derived aday uzerinde tek tik guclendirme mi daha saglikli?
+Bir onceki kararlar sunlardi:
+- `bugun git` stage filtresinin ikinci kopyasi olmamali
+- `ziyaret uygun` ile `bugun git` ayni sey degil
+- V1'de en saglikli cizgi `hafif derived ziyaret uygunlugu + operatorun bugun onceligi` gibi gorunuyor
+
+Ama burada hala bir uygulama detayi acik:
+- operator herhangi bir kaydi istedigi anda `bugun git` diye mi isaretlemeli?
+- yoksa sistem once `ziyaret uygun` adaylarini cikarmali, operator da bunlar arasinda tek tikla guclendirme mi yapmali?
+
+Bu soru kritik.
+Cunku burada verilecek karar,
+`bugun git`i karar destegi araci mi yoksa serbest isaret kutusu mu yapacagini belirliyor.
+
+### 1) Mevcut repo ne diyor?
+Bugunki repo gerceginde:
+- `Businesses` sayfasi yalniz arama, segment, durum ve stage filtresi sunuyor
+- `Business Detail` tek kayit resmi, Y.Z, audit ve tarama tarafini okuyor
+- sahaya ozel manuel oncelik UI'i henuz yok
+
+Yani sifirdan yeni bir yuzey dili ekleyeceksek,
+bu dilin V1'de gereksiz veri girisi uretmemesi onemli.
+
+### 2) Uc model
+
+#### BGI1) Tam manuel isaret
+Mantik:
+- operator istedigi herhangi bir kaydi `bugun git` diye isaretler
+- sistem uygunluk aramaz
+- liste bu isaretlere gore olusur
+
+Artisi:
+- maksimum kontrol verir
+- discovery disi veya sezgisel saha kararlarini da tasir
+- operator sisteme uymak zorunda kalmaz
+
+Eksisi:
+- karar destegi zayiflar, sistem sadece isaret panosuna doner
+- unutulursa liste bos veya copuk kalir
+- her kaydi elle dusunmek gerekir, bu da panelin secim faydasini azaltir
+- zamanla note/task mantigina kayma riski artar
+
+#### BGI2) Tam derived otomatik secim
+Mantik:
+- sistem `ziyaret uygun` adaylari icinden kendi `bugun git` listesini de otomatik cikarir
+- operator yalniz sonucu gorur
+
+Artisi:
+- en hizli yuzey deneyimi verir
+- manuel is yukunu azaltir
+- saha listesi daha tutarli gorunebilir
+
+Eksisi:
+- erken donemde fazla kesinlik hissi yaratir
+- operatorun sezgisel saha bilgisi sistemde kaybolur
+- discovery disi, mahalle bilgisi, rota niyeti gibi insan sinyalleri zayif kalir
+- neden bugun diye sectigini iyi anlatamazsa guven kaybeder
+
+#### BGI3) Derived aday + operatorun tek tik guclendirmesi
+Mantik:
+- sistem once `ziyaret uygun` adaylarini derive eder
+- operator bunlar icinden `bugun` diye guclendirir
+- yani manuel isaret sifirdan degil, aday havuzu uzerinden calisir
+
+Ornek:
+- stage uygun
+- fiziksel gorusme mantikli
+- son temas eski
+=> `ziyaret uygun`
+
+Sonra operator:
+- `bugun` tiklar
+=> kayit `bugun git` alt grubuna girer
+
+Artisi:
+- sistem karar destegi verir
+- operatorun saha sezgisi son katmanda korunur
+- `bugun git` anlami daha dar ve daha guvenli olur
+- Businesses-first cizgisine uygun, hizli bir secim mekanizmasi sunar
+
+Eksisi:
+- aday olmayan kayit icin istisna yolu tanimlamak gerekir
+- tek tikin anlami iyi yazilmazsa `neden buna tiklayabiliyorum, digerine tiklayamiyorum?` sorusu dogar
+- derived aday kalitesi dusukse operator sinirlenebilir
+
+Ara yorum:
+- su an en saglikli yol acik farkla `BGI3`
+
+### 3) Neden tam manuel model zayif gorunuyor?
+Cunku bu modelde sistemin rolu su seviyeye iner:
+- operator ne derse onu listele
+
+Bu da onceki kararlarla celisir.
+Cunku biz tam da su nedenle `bugun git`i stage filtresinden ayirmaya calisiyorduk:
+- sistem saha seciminde bir miktar anlamli daraltma yapsin
+- operator tum havuzu her seferinde bastan okumak zorunda kalmasin
+
+Tam manuel model,
+bu faydayi geri alip bizi hafif etiket panosuna dondurur.
+
+### 4) Neden tam otomatik model de zayif?
+Cunku `bugun` yalniz uygunluk degil,
+gunluk niyet ve saha planlama karari da tasiyor.
+Su insan sinyalleri bazen belirleyici olabilir:
+- bugun o mahallede olunacak olmasi
+- daha once soz verilmis olmasi
+- telefonda olumlu cevap alinmis olmasi
+- muhatabin belirli saatte uygun oldugunun bilinmesi
+
+Bunlar her zaman derived veriden cikmaz.
+Bu yuzden tam otomatik secim,
+uygunlukla bugunluk niyeti fazla birlestirir.
+
+### 5) O zaman en saglikli V1 davranisi nasil olmali?
+Bence su cizgi en guclu:
+
+#### Businesses listesi
+- sistem `ziyaret uygun` adaylarini arka planda derive eder
+- operatorun gorunen hizli aksiyonu `bugun git` olur
+- bu isaret ideal olarak adaylar uzerinde tek tik guclendirme gibi calisir
+
+#### Business Detail
+- neden `ziyaret uygun` oldugu burada aciklanir
+- operator gerekirse `bugun` onceligini burada da verebilir veya kaldirabilir
+- ama esas mantik yine aday katmani uzerinden akar
+
+#### Istisna yolu
+- derived aday olmayan ama operatorun sahada oncelik vermek istedigi kayitlar icin,
+  tam serbest genel modele donmeden dar bir `elle one al` kacis yolu sonra dusunulebilir
+- bu kacis yolu V1'in varsayilani olmamali
+
+Yani once sistem aday cikarsin,
+son soz operatorun hizli guclendirmesinde olsun.
+
+### 6) Tek tik guclendirme neden daha guvenli?
+Cunku burada manuel isaret sifirdan yaratilmiyor,
+bir anlam katmaninin ustune biniyor.
+Bu su faydayi verir:
+- `bugun git` listesi daha kisa kalir
+- operator tum havuzu degil anlamli adaylari gorur
+- sistemin neden bu kaydi aday gordugu sonradan detailde okunabilir
+- `bugun` karari operasyonel niyet olarak ayrisabilir
+
+Bu da onceki cizgiyle uyumlu:
+- `ziyaret uygun` = derived decision
+- `bugun git` = operator intent
+
+### 7) En buyuk risk ne?
+Derived aday olmayan kayitlara hic kacis yolu vermemek.
+Bu durumda saha gercegi sunu diyebilir:
+- sistem bu kaydi aday gormedi
+- ama kurucu bugun o sokakta olacak ve yine de gidecek
+
+Bu tip istisna mutlaka var.
+Ama bunu cozmenin yolu tum modeli tam manuele cevirmek degil.
+Daha guvenli yol:
+- once derived-ustune-guclendirme modeliyle baslamak
+- sonra gerekiyorsa detail icinde dar bir istisna override'i dusunmek
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `bugun git` isareti tam manuel ana model olmamali
+- tam otomatik derived secim de fazla kesin davranir
+- en saglikli V1 model: `derived ziyaret uygun adaylari + operatorun tek tik bugun guclendirmesi`
+- istisnai manuel override ihtiyaci olabilir, ama bu varsayilan akisa donusmemeli
+
+Kisa formda:
+- base = system finds candidates
+- operator action = promote to `bugun git`
+- possible later escape hatch = narrow manual override
+- not recommended = free-form full manual tagging
+
+Bu model hem karar destegini koruyor,
+hem de sahadaki insan sezgisini son katmanda kaybettirmiyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
-- `bugun git` isareti operatorun manuel onceligi olarak mi verilmeli, yoksa derived adaylar uzerinde tek tik guclendirme mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
 - `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
+- derived aday olmayan kayitlar icin dar istisna override'i listede mi, yoksa yalniz detail icinde mi daha guvenli olur?
