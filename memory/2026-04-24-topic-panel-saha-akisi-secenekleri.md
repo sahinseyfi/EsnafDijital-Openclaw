@@ -5495,10 +5495,184 @@ Kisa formda:
 Bu, iki finalisti tek kararda eritmek degil.
 Ama aralarindaki asil farkin `yuzey listesi` degil `varsayilan operator evi` oldugunu netlestirmek demek.
 
+## Otuz yedinci okuma - `bugun git` filtresi `lead/audit` icindeki tum kayitlari mi gostermeli, yoksa yalniz belirli ziyaret sinyali olan alt grubu mu?
+Bir onceki karar sunuydu:
+- `bugun git` V1'de stage-bagimsiz olmamali
+- esas alani `lead/intake` ve `audit` bandi olmali
+
+Ama burada yeni bir ayrim cikiyor:
+- bu banttaki her kayit zaten potansiyel ziyaret adayi mi sayilacak?
+- yoksa `bugun git` bunun icinde de daha dar bir secim filtresi mi olmali?
+
+Bu ayrim onemli.
+Cunku yanlis kurulursa `bugun git` yeni sinyal gibi gorunur,
+ama fiilen sadece ikinci bir stage filtresi olur.
+
+### 1) Mevcut repo bu konuda ne soyluyor?
+`agent-workspace/app/businesses/page.tsx` bugun sadece su toplu filtreleri veriyor:
+- arama
+- segment
+- isletme durumu
+- hat asamasi
+
+Yani mevcut liste mantigi zaten `lead/audit` bandini daraltmaya izin veriyor.
+Eger `bugun git` filtresi bu bandin tum kayitlarini gosterecekse,
+pratikte kullaniciya sunu demis oluruz:
+- `audit` filtresinin baska isimli ikinci versiyonu
+
+Bu yuzden yeni filtre ancak stage filtresinin cevaplamadigi ayri bir soruya cevap verirse anlamli.
+
+### 2) `bugun git` hangi soruya cevap vermeli?
+Bence su soruya:
+- `bugun sahaya cikacaksam, lead/audit icindeki hangi kayitlar digerlerinden daha oncelikli ve gorusmeye daha uygun?`
+
+Bu soru su degil:
+- `lead veya audit asamasinda hangi kayitlar var?`
+
+Dolayisiyla `bugun git` = stage degil,
+ziyaret secim katmani.
+
+### 3) Iki model
+
+#### BG1) `lead/audit` icindeki tum kayitlar `bugun git` filtresine dahil olsun
+Artisi:
+- basit
+- ilk bakista veri gerektirmez
+- operator `bugun git`e basinca tum potansiyel adaylari gorur
+
+Eksisi:
+- `stage = intake/audit` filtresinden neredeyse ayri bir sey soylemez
+- uzun listede gercek saha secimi yine operatorun zihnine kalir
+- `bugun git`in anlami bulanir, cunku `bugun` degil `bir ara gidilebilir` havuzuna doner
+
+#### BG2) Yalniz belirli ziyaret sinyali olan alt grup `bugun git`e girsin
+Artisi:
+- stage filtresinden ayri gercek is degeri uretir
+- saha gununde kisa ve kullanilabilir liste verir
+- `Businesses` sayfasini ikinci Project OS'a cevirmeden secim desteği saglar
+
+Eksisi:
+- derive mantigi gerekir
+- sinyaller kotu kurulursa bazi kayitlar gozden kacabilir
+- operatorun neden bu kaydi burada gordugunu aciklamak gerekir
+
+Ara yorum:
+- V1 icin sade gorunse de aslinda `BG1` daha zayif
+- cunku yeni bir karar uretmez
+
+### 4) Neden tum `lead/audit` havuzu yeterli degil?
+Cunku `lead/audit` bandi cok genis bir anlam tasir:
+- yeni eklenmis ama daha aranacak kayit olabilir
+- uzaktan ilerlemesi daha mantikli kayit olabilir
+- muhatabi belirsiz kayit olabilir
+- fiziksel ziyaret yerine once telefon/WhatsApp denenmesi gereken kayit olabilir
+- zaten bu hafta gorusulmus ama beklemeye alinmis kayit olabilir
+
+Bunlarin hepsini `bugun git` diye ayni sepete atarsak,
+ziyaret secimi yerine ham aday havuzu gormus oluruz.
+
+### 5) O zaman `bugun git` icin minimum alt grup mantigi ne olmali?
+Bence ayri yeni CRM tablolarina gitmeden su hafif derived sinyaller yeterli olabilir:
+- `ziyaret tipi = fiziksel`
+- `manuel oncelik = bugun` veya `yuksek`
+- `son temas` yok ya da eski
+- `ziyaret nedeni` dolu
+- stage zaten `intake/audit`
+
+Yani en sade kural su olabilir:
+- `bugun git` = stage uygun + fiziksel ziyaret mantikli + bugun/erken saha degeri var
+
+Bu, her kaydi puanlamadan da is gorebilir.
+
+### 6) Hangi alt varyasyonlar var?
+
+#### BG2a) Tam manuel isaret modeli
+Kayit ancak operator `bugun` diye isaretlerse bu filtreye girer.
+
+Guclu taraf:
+- cok kontrollu
+- yanlis pozitif az
+
+Zayif taraf:
+- sistem karar destegi uretmez
+- unutulursa liste bos kalir
+
+#### BG2b) Tam derived model
+Sistem son temas, ziyaret tipi, stage ve sebebe bakip otomatik dahil eder.
+
+Guclu taraf:
+- operator yukunu azaltir
+- daha tutarli olabilir
+
+Zayif taraf:
+- erken donemde yanlis kesinlik hissi yaratir
+- operator neden girdigini anlamazsa guven dusurur
+
+#### BG2c) Hibrit model
+Sistem aday ceker, operator isaretle guclendirir.
+
+Ornek:
+- stage uygun
+- fiziksel ziyaret tipi var
+- temas eski
+=> `ziyaret uygun`
+
+Ek olarak operator `bugun` derse,
+kayit `bugun git` alt grubuna cikar.
+
+Guclu taraf:
+- sistem destek verir
+- son soz operatorde kalir
+
+Zayif taraf:
+- iki katmanli dilin iyi adlandirilmasi gerekir
+
+### 7) Su an en saglikli V1 hangisi?
+Su anki repo olgunlugunda en guclu cizgi bence `BG2c`ye yakin.
+Ama cok agir degil, asgari kuralla.
+
+Yani:
+- herkes `lead/audit` havuzunda durabilir
+- bunun icinde ayri bir `ziyaret uygun` veya `fiziksel gorusme uygun` alt sinyali derive edilebilir
+- `bugun git` ise bunun da daha dar, operator destekli alt secimi olur
+
+Bunun sebebi su:
+- `Businesses` sayfasinda stage filtresi zaten var
+- `bugun git` ayni isi tekrar etmemeli
+- saha secimi icin daha kisa ve daha gercek bir liste lazim
+
+### 8) En buyuk risk ne?
+`bugun git` filtresini cok akilli gostermek.
+Mesela sistem sessizce cok fazla kaydi `bugun` diye onerirse,
+operator sunu hisseder:
+- liste yine uzun
+- neden burada oldugu belli degil
+- bu da sadece yeni bir skor oyunu
+
+Diger risk de tam tersi:
+- her sey sadece manuelse sistem yine karar desteği vermemis olur
+
+Yani asiri otomasyon da, hic derive etmeme de zayif.
+
+### 9) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `bugun git` filtresi `lead/audit` icindeki tum kayitlari gostermemeli
+- aksi halde stage filtresinin ikinci versiyonuna doner
+- bu filtre yalniz belirli ziyaret sinyali olan alt grubu gostermeli
+- en saglikli V1, `hafif derived ziyaret uygunlugu + operatorun bugun onceligi` hibriti gibi duruyor
+
+Kisa formda:
+- stage filter = `bu kayit hatta nerede?`
+- visit suitability = `fiziksel gorusme mantikli mi?`
+- `bugun git` = `bugun cikarsam once bunlara bak`
+
+Bu uc soru ayri kalirsa,
+`Businesses` listesi daha zekice olur ama CRM duvarina da kaymaz.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
-- `bugun git` filtresi `lead` ve `audit` icinde de tum kayitlara mi acik olmali, yoksa yalniz belirli ziyaret sinyalleri olan alt grupta mi onerilmeli?
+- `ziyaret uygun` ile `bugun git` ayri iki sinyal olarak mi kalmali, yoksa tek filtre icinde badge + sebep kombosuyla mi cozulmeli?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
