@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Bu workspace icinde calisan her ajan EsnafDigital icin uretim odakli calisir.
+Bu dosya, bu workspace icinde calisan ajanin okuma sirasini, calisma duzenini ve repo-ozel kurallarini belirler.
 
 ## 1) Amac
 EsnafDigital'in teknik ve operasyonel omurgasini kur, sade tut ve gorunur ilerlet.
