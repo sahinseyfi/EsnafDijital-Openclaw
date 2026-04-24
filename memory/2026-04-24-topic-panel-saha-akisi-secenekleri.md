@@ -3443,10 +3443,147 @@ Kisa formda:
 
 Bu model hem kart rollerini bozmaz hem de sahada gercekten kullanilabilecek bir cumle uretir.
 
+## Yirmi ikinci okuma - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
+Bu soru teklif kartinin omurgasini etkiliyor.
+Cunku `paket`, `tutar`, `domain`, `ekler` gorunse bile, operator su soruyu yine sorar:
+- neden Paket 1 degil de Paket 2?
+- neden simdi bu cozum?
+
+### 1) Mevcut repo gercegi ne diyor?
+Bugun offer veri modeli su alanlari tutuyor:
+- `packageName`
+- `amountTry`
+- `addonKeys`
+- `domainPreference`
+- `customDomain`
+
+Yani bugun offer kaydinda ayri bir `gerekce` alani yok.
+
+Ama hem `OFFERS.md` hem `PLAYBOOKS/audit-offer-delivery.md` su cizgiyi acikca istiyor:
+- her teklif audit cikisina baglanir
+- teklifin nedenini netlestir
+- hangi eksigi kapattigi anlasilsin
+
+Demek ki ihtiyac gercek.
+Sadece veri modeline henuz dogrudan inmemis.
+
+### 2) Uc model
+
+#### N1) Tam derived gerekce
+- `audit ozeti`
+- `Y.Z raporu`
+- secili paket
+birlesiminden 1-2 satir uretilir
+
+Artisi:
+- yeni alan acmadan ilerler
+- teklifi audit/Y.Z zincirine baglar
+- V1'de formu buyutmez
+
+Eksisi:
+- upstream veri degisirse teklif gerekcesi de oynayabilir
+- operatorun bilerek sectigi ticari vurgu kaybolabilir
+- tarihsel teklif mantigi sonradan bulanabilir
+
+#### N2) Teklifte operatorun kisa gerekce alani olsun
+- `neden bu paket` elle yazilir
+
+Artisi:
+- karar kaydi sabitlenir
+- teklifi acan kisi niyeti dogrudan kayda gecer
+- sonra audit/Y.Z degisse bile teklif anindaki mantik korunur
+
+Eksisi:
+- yeni alan + form + disiplin ister
+- kotu kullanilirsa pazarlama kopyasina veya uzun nota doner
+- teklif ekranini erken buyutur
+
+#### N3) Derived oner, operator gerekirse override etsin
+- varsayilan 1 satir gerekce audit/Y.Z'den gelsin
+- operator isterse kisa override yapsin
+
+Artisi:
+- V1 sadeligini korur
+- teklif anindaki bilincli farklari da tasir
+- derived zincir ile insan karari arasinda denge kurar
+
+Eksisi:
+- iki kaynakli mantik getirir
+- iyi kural yazilmazsa hangi metnin kanonik oldugu karisir
+
+Ara yorum:
+- uzun vadede en saglikli model `N3`
+- ama bugunku repo gerceginde V1 baslangici `derived-first` olmak zorunda gorunuyor
+
+### 3) Neden salt operator alaniyla baslamak riskli?
+Cunku bugun panelin gucu sadelik.
+Teklife yeni `neden bu paket` textarea'si eklemek kolay ama beraberinde su riskleri getirir:
+- her teklifte uzun aciklama beklenir
+- operator ayni seyi farkli dillerle yazar
+- teklif karti hizli karar yuzeyi olmaktan cikabilir
+
+Ayrica mevcut omurga zaten su zinciri kurmus durumda:
+- audit sorunu bulur
+- Y.Z simdiki aksiyonu netlestirir
+- teklif cozumu secer
+
+Bu zincir varken ilk asamada derived gerekce dogal bir baslangic.
+
+### 4) Neden salt derived de eksik kalabilir?
+Cunku paket secimi bazen yalniz teknik eksikten dogmaz.
+Sahada su farklar olabilir:
+- butce siniri
+- muhatabin direnci
+- once hafif baslayip sonra buyutme karari
+- segmente gore ticari oncelik
+
+Bunlar audit + Y.Z'de tam temsil edilmeyebilir.
+Yani tamamen derived metin bazen `dogru ama eksik` kalir.
+
+### 5) O zaman en saglikli V1 cizgisi ne?
+Bence V1 icin su daha guvenli:
+- `neden bu paket` satiri once audit + Y.Z'den turetilsin
+- ama bu satir Business Detail / teklif kartinda `operator gerekirse duzenler` cizgisine acik kalsin
+- bu override ayri genis alan degil, kisa 1-2 satirlik kontrollu alan olmali
+
+Boylece:
+- veri -> yorum -> teklif zinciri korunur
+- operatorun sahadaki gercek karari da tamamen kaybolmaz
+
+### 6) Kural nasil cizilmeli?
+Bence su sert ayrim iyi calisir:
+- varsayilan kaynak = audit + Y.Z
+- override yalniz paket secimini degistiren gercek saha nedeni varsa kullanilir
+- override pazarlama diliyle yazilmaz
+- maksimum 1-2 satir
+
+Ornek override sebepleri:
+- `isletme once dusuk butceyle temel vitrin istiyor`
+- `QR yorum akisina hemen ihtiyac var, bu nedenle Paket 2 secildi`
+- `Instagram duzeni sahada onceliklendirildi, Paket 3 buna gore acildi`
+
+### 7) En buyuk risk ne?
+Iki farkli gerekce kaynagi acip hangisinin kanonik oldugunu bulandirmak.
+Bunu onlemek icin kural su olmali:
+- override yoksa kanonik gerekce derived metindir
+- override varsa teklif kartinda gorunen ve saklanan birincil gerekce odur
+- audit ve Y.Z yine kaynak kalir, ama teklif kararini override metni temsil eder
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `neden bu paket` icin cekirdek kaynak audit + Y.Z turetimi olmali
+- ama uzun vadede tamamen kilitlenmemek icin kisa operator override kapisi acik tutulmali
+
+Kisa formda:
+- V1 baslangic = `derived-first`
+- kalici guvenli model = `derived + kisa override`
+
+Bu cizgi hem mevcut veri modeline uyar hem de teklif kartini gereksiz form duvarina cevirmez.
+
 ## Sonraki arastirma basliklari
-- `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
 - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
 - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
 - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
 - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
 - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
+- `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
