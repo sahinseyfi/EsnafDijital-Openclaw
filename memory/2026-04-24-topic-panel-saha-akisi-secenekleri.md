@@ -2909,10 +2909,148 @@ Bu model:
 - ama operatoru uzun metin okumadan bloke noktalarina indirir
 - Business Detail'i delivery paneline cevirmeden kickoff resmini guclendirir
 
+## On sekizinci okuma - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
+Bu soru kritik cunku bugun repo icinde iki farkli `ozet` dili var:
+- discovery import ile acilan `audit.summary`
+- scan panelinde uretilen `Y.Z raporu`
+
+Eger bu ikisi ayni isi yaparsa iki ayri kart gereksizlesir.
+Eger rolleri net ayrilirsa `girilen bilgi nasil sonuca donusur` zinciri cok daha okunur olur.
+
+### 1) Kod ve kontrat ne diyor?
+`app/api/discovery/import/route.ts` icindeki `buildSummary()` bugun su isi yapiyor:
+- aday nereden acildi bilgisini yazar
+- kategori, adres, telefon, website, yorum, skor gibi ham sinyalleri kisa metne doker
+- yeni audit kaydina ilk factual ozet olarak girer
+
+Bu dilin karakteri:
+- kayit acilis ozeti
+- daha cok `ne bulundu`
+- daha az `simdi ne yapalim`
+
+`Y.Z Report Contract` ise acikca su isi istiyor:
+- tek bakista dijital gorunumu anlat
+- guclu ve zayif sinyalleri sec
+- kisa gorunum ozeti ver
+- tek cumle `oncelikli aksiyon` soyle
+- uzun audit raporuna donme
+
+`app/api/businesses/[id]/yz-report/route.ts` daha da net:
+- discovery sinyali
+- agent scan
+- apify scan
+- audit summary
+birlikte okunup tek derived karar raporu uretiliyor.
+
+Yani sistemin niyeti zaten su gibi:
+- `audit ozeti` = girdi
+- `Y.Z raporu` = ciktiya yakin derived karar katmani
+
+### 2) Uc model
+
+#### R1) Ikisi de benzer kisa ozet olsun
+Artisi:
+- uygulamasi kolay
+
+Eksisi:
+- tekrar uretir
+- operator hangi karta bakacagini anlamaz
+- detail sayfada cift ozet duvari olusur
+
+#### R2) Audit factual, Y.Z derived
+- audit = bulunan durum ve operasyon girdisi
+- Y.Z = butun sinyallerden sonra tek bakista karar ozeti
+
+Artisi:
+- veri -> yorum -> aksiyon zinciri net olur
+- Project OS ve Business Detail rol ayrimi temiz kalir
+- Y.Z karti scan panelinde dogal yerine oturur
+
+Eksisi:
+- audit tarafinda fazla yorum birikirse sinir yine bozulur
+
+#### R3) Y.Z ana ozet olsun, audit geri planda kalsin
+Artisi:
+- operator tek kart gorur
+
+Eksisi:
+- audit -> teklif omurgasi zayiflar
+- sistem ilk kayit acilis bilgisini ikinci plana iter
+- teklif nedeninin kaynagi bulaniklasir
+
+Ara yorum:
+- su an en saglikli yol `R2`
+
+### 3) O zaman audit ozetinin isi tam olarak ne?
+Audit ozeti bence sunlarla sinirli olmali:
+- kayit hangi sinyalle acildi
+- hangi temel eksikler ilk bakista goruldu
+- hangi hazirlik seviyesinde oldugu
+- teklife neden zemin oldugu
+
+Yani audit ozeti:
+- daha yakin, daha operasyon girdisi
+- daha cok factual ve kisa yorumlu
+- teklif kartina baglanmaya uygun
+
+Bu yuzden audit ozeti su soruya cevap vermeli:
+- `Bu kaydi neden ciddiye aliyoruz ve hangi eksiklerden dolayi audit/teklif hattina sokuyoruz?`
+
+### 4) Y.Z raporunun isi tam olarak ne?
+Y.Z raporu sunlari yapmali:
+- discovery + agent + apify + audit sinyallerini tek potada eritmek
+- supheli eslesme riskini acikca gostermek
+- dijital gorunumu operator diline cevirmek
+- tek oncelikli aksiyon vermek
+
+Bu yuzden Y.Z raporu su soruya cevap vermeli:
+- `Tum mevcut sinyallere bakinca bu isletmede simdi en mantikli hareket ne?`
+
+### 5) Ikisi arasindaki en saglikli ayrim cumlesi
+Su ayrim calisiyor gibi gorunuyor:
+- `Audit ozeti` = kaydin ilk operasyonel problemi ve teklif zeminini anlatir
+- `Y.Z raporu` = tum tarama ve notlardan sonra operatorun simdiki kararini netlestirir
+
+Kisa formda:
+- audit = `neden bu kayit acildi?`
+- Y.Z = `simdi ne yapalim?`
+
+### 6) Business Detail icinde nereye otururlar?
+En saglikli duzen bence su:
+- Audit Snapshot karti = detail ust bolumde, teklif zincirine yakin
+- Y.Z raporu = Hazirlik / Tarama paneli icinde, derived karar blogu olarak
+
+Neden:
+- audit snapshot operasyon zincirinin parcasi
+- Y.Z raporu tarama ve karar turetme katmani
+- ayni seviyede yan yana iki ana ozet karti olursa tekrar hissi artar
+
+### 7) En buyuk risk ne?
+Audit ozetine `oncelikli aksiyon` dili girerse rol bozulur.
+Y.Z raporu da auditteki ham bulgulari tek tek tekrar ederse yine rol bozulur.
+
+Bu yuzden kural sert olmali:
+- auditte tek cumle yon olabilir ama tam karar karti dili olmamali
+- `oncelikli aksiyon` alani Y.Z tarafinda kalmali
+- teklifteki `neden bu paket` ise audit + Y.Z'den beslenebilir ama orada yeniden baglama oturur
+
+### 8) Gecici net kanaat
+Su an en mantikli rol ayrimi su:
+- `Audit ozeti` = ilk operasyonel/factual zemin
+- `Y.Z raporu` = derived karar ozeti
+
+Bu modelle zincir soyle okunur:
+- discovery/import -> audit ozeti
+- hafif/ajan/apify tarama -> Y.Z raporu
+- Y.Z + audit -> teklif gerekcesi
+- teklif -> kickoff scope
+
+Bu cizgi kullanicinin sordugu `girilen bilgi nasil sonuca donusur` sorusuna en temiz cevabi veriyor.
+
 ## Sonraki arastirma basliklari
-- `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
 - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
 - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
 - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
 - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
+- audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
