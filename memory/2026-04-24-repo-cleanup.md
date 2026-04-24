@@ -629,6 +629,36 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - Asama B icindeki 4 ek baglantili dosya icin paired update planini hazirla
 - `state/repo-cleanup-asama-a-rename.sh` ve `state/repo-cleanup-asama-a-post-rename-sync.py` artefaktlarini is bitince silme/arsivleme adayi olarak ayrica ele al
 
+## Asama B paired update plani
+
+### Kapsamdagi dosyalar
+- `2026-04-19-github-sync.md` -> `2026-04-19-topic-github-sync.md`
+- `2026-04-20-page-error.md` -> `2026-04-20-incident-page-error.md`
+- `2026-04-20-repo-structure.md` -> `2026-04-20-consultation-repo-structure.md`
+- `2026-04-22-crm-panel.md` -> `2026-04-22-topic-crm-panel.md`
+
+### Guncellenecek bagli dosyalar
+- `memory/2026-04-19.md`
+- `memory/2026-04-20.md`
+- `memory/2026-04-22-topic-old-profile.md`
+- `memory/2026-04-23-topic-crm-zinciri.md`
+- `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
+- `memory/2026-04-24-repo-cleanup.md`
+
+### Hazirlanan artefaktlar
+- rename komutu: `state/repo-cleanup-asama-b-rename.sh`
+- post-rename senkronu: `state/repo-cleanup-asama-b-post-rename-sync.py`
+
+### Dogrulama
+- `state/repo-cleanup-asama-b-rename.sh` icin `bash -n` gecti
+- `state/repo-cleanup-asama-b-post-rename-sync.py` icin `python3 -m py_compile` gecti
+
+### Onay sonrasi akıs
+1. Asama B rename komutunu calistir
+2. post-rename sync scripti ile bagli dosyalari guncelle
+3. eski ad kalip kalmadigini grep ile dogrula
+4. Asama C aktif notunu ayri tutmaya devam et
+
 ## 2026-04-24 ek ilerleme - kontrollu kok dosya uyum duzeltmeleri
 
 Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. Amac, eski bulgu listesi ile fiili repo durumu arasinda fark birakmamaktir.
@@ -670,7 +700,7 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 1. `HEARTBEAT.md`
    - genel iskelet dogru
    - `Siradaki Somut Adim` satiri fiili akisla yeniden hizalandi
-   - bir sonraki durak artik Asama B icin paired update planini hazirlamak
+   - bir sonraki durak artik Asama B rename'i icin kisa onay almak
 
 2. `MEMORY.md`
    - `Promoted From Short-Term Memory` blogu ayiklanip kaldirildi
@@ -684,8 +714,8 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 
 4. `memory/` naming drift rename paketi
    - Asama A fiziksel rename + dar referans patch'i tamamlandi
-   - Asama B / C plani acik
-   - sonraki riskli kisim ek memory/reference baglantisi tasiyan dosyalar icin paired update gereksinimi
+   - Asama B icin paired update plani ve artefaktlari hazirlandi
+   - Asama C aktif cleanup notu olarak ayri tutuluyor
 
 ### Guncel durum notu
 - Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
@@ -693,4 +723,5 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 - aktif kok zincirde `MEMORY_SUMMARY.md` yerine dogrudan `MEMORY.md` referans aliniyor
 - `MEMORY_SUMMARY.md` kolu bu cleanup hattinda kapatildi; yeniden olusturma karari alinmadi
 - Asama A rename batch'i ve `memory/2026-04-24-repo-cleanup.md` senkronu tamamlandi
-- Bu cleanup hattinin sonraki kontrollu duragi: Asama B icin paired update planini hazirlamak
+- Asama B icin paired update plani ve artefaktlari hazirlandi
+- Bu cleanup hattinin sonraki kontrollu duragi: Asama B rename'i icin kisa onay almak

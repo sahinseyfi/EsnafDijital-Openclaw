@@ -21,7 +21,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- Asama A rename batch'i tamamlandigi icin, ek memory/reference baglantisi tasiyan Asama B dosyalari icin paired update planini netlestirip ikinci rename paketini onay-oncesi hazir hale getirmek
+- Asama B icin rename + paired update artefaktlari hazir oldugu icin, 4 ek baglantili `memory/` dosyasini ikinci paketle tasimak uzere kisa onay alip `state/repo-cleanup-asama-b-rename.sh` ve `state/repo-cleanup-asama-b-post-rename-sync.py` akisini uygulamak
 
 ## Mevcut Blokajlar
 - Asama B dosyalari ek memory/reference baglantilari tasidigi icin paired update olmadan rename edilemez
