@@ -96,4 +96,3 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - Ana alan adı: `esnafdijital.com.tr`
 - Yönetim paneli alan adı: `admin.esnafdijital.com.tr`
 - DNS yönetimi: Natro
-- İşletme keşfi / veri toplama tarafında Apify komut satırı aracı tercih edilir.

@@ -15,17 +15,17 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 
 ## Bu Hafta Oncelik
 1. source-of-truth ve yonlendirme zinciri denetim kuralini netlestirmek
-2. ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri incelemek
+2. MEMORY cizgisine bagli kok dosyalari ve yonlendirdikleri hedefleri hizalamak
 3. supheli / eski / silinebilir dosya adaylarini kanitli liste halinde cikarmak
 4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- `memory/2026-04-24-repo-cleanup.md` icindeki staged rename kararina gore Asama A icin approval-ready rename patch'ini hazirlamak, Asama B/C dosyalarini erteleme notuyla ayri tutmak
+- MEMORY bagli referans dosyalarinin hizasini koruyarak Asama A icin hazirlanan `state/repo-cleanup-asama-a-rename.sh` komut taslagi uzerinden kisa onay alip 20 dusuk riskli `memory/` rename batch'ini uygulamak, sonra referans guncellemelerini ayri patch ile tamamlamak
 
 ## Mevcut Blokajlar
-- fiziksel rename uygulamasi, referans guncellemesiyle birlikte toplu dosya tasima sayilacagi icin kisa onay gerektiriyor
-- Asama B dosyalari ek memory/reference baglantilari tasidigi icin ilk patch'e alinmayacak
+- fiziksel rename uygulamasi toplu dosya tasima sayildigi icin kisa onay gerektiriyor
+- Asama B dosyalari ek memory/reference baglantilari tasidigi icin ilk rename batch'ine alinmayacak
 
 ## Dikkat Edilecek Riskler
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak

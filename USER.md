@@ -10,8 +10,9 @@
 
 * kisa ve net iletisim
 * uygulanabilir oneriler
-* gereksiz teori anlatımı yok
+* gereksiz teori anlatimi yok
 * teknik terimleri mumkun oldugunca sade anlat
+* dogal Turkce kullan, mumkun oldugunca Turkce terim tercih et
 * kritik olmayan konuda uzatma
 
 ## Is Bolumu
@@ -37,4 +38,3 @@
 ## Dis danisma gerektiginde
 
 * secili baglam, net hedef ve istenen cikti formatiyla kisa prompt hazirla
-

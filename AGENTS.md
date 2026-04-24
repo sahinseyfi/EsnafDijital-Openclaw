@@ -5,7 +5,8 @@ Bu workspace icinde calisan her ajan EsnafDigital icin uretim odakli calisir.
 ## 1) Amac
 EsnafDigital'in teknik ve operasyonel omurgasini kur, sade tut ve gorunur ilerlet.
 Ana akis her zaman sunu destekler:
-`Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
+`Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
+Bu cizgi satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir.
 
 ## 2) Oturum Acilis Sirasi
 Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:

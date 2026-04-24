@@ -1,80 +1,80 @@
 # ROADMAP.md
 
-## Şu Anki Faz
-**Faz 1 — İç operasyon ve bağlam omurgasını kurma**
+## Su Anki Faz
+**Faz 1 - Ic operasyon ve baglam omurgasini kurma**
 
-Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmaktır. Önce görünürlük ve düzen, sonra otomasyon.
-Kesif / on degerlendirme -> teklif -> teslimat -> bakim cizgisi ilk is akis omurgasidir, ama panel tasariminda tek zorunlu hat degildir.
+Bu fazin amaci, satisi destekleyecek sade ama saglam bir ic sistem kurmaktir. Once gorunurluk ve duzen, sonra otomasyon.
+`Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim` cizgisi ilk is akis omurgasidir, ama panel tasariminda tek zorunlu hat degildir.
 
-## Şimdi Odaklandıklarımız
-- teklif omurgasını keskinleştirmek
-- admin paneli iş akışına göre kurmak
-- proje/bağlam dosyalarını yaşayan sisteme dönüştürmek
-- operasyonel veri modelini başlatmak
-- GPT Pro icin prompt uretim yuzeyini netlestirmek
+## Simdi Odaklandiklarimiz
+- hizmet omurgasini satilan kisim ile ic akis arasinda netlestirmek
+- admin paneli is akisina gore kurmak
+- proje / baglam dosyalarini yasayan sisteme donusturmek
+- operasyonel veri modelini baslatmak
+- istem uretimi yuzeyini yardimci katman olarak netlestirmek
 
-## 0–30 Gün
+## 0-30 Gun
 ### Hedef
-İç sistemin ilk çalışan omurgasını ayağa kaldırmak.
+Ic sistemin ilk calisan omurgasini ayaga kaldirmak.
 
 ### Done
 - login + admin panel v1 mevcut
-- proje için temel bağlam dosyaları oluşturuldu
+- proje icin temel baglam dosyalari olusturuldu
 
 ### Doing
 - ana domain placeholder modundan cikacak yeni tanitim sitesi cizgisini netlestirmek
-- proje kayıtlarının standardize edilmesi
-- admin panel bilgi mimarisinin netleştirilmesi
-- ilk hizmet omurgasının sadeleştirilmesi
-- home ekraninin sistem anlatısından aktif is ve kritik aksiyon yuzeyine cekilmesi
-- Project OS icinde businesses / audits / offers / delivery hattinin daha net gorunur hale getirilmesi
-- operator panelini CRM yonune genisletecek cekirdek nesnelerin sinirini cizmek
+- proje kayitlarinin standardize edilmesi
+- admin panel bilgi mimarisinin netlestirilmesi
+- ilk hizmet omurgasinin sadelestirilmesi
+- home ekranini sistem anlatisindan aktif is ve kritik aksiyon yuzeyine cekmek
+- Project OS icinde isletmeler / on degerlendirmeler / teklifler / teslimat hattini daha net gorunur hale getirmek
+- operator panelini yatay urune savurmadan cekirdek nesnelerin sinirini cizmek
 
 ### Next
-- CRM V1 icin cekirdek nesneleri netlestirmek (`business detail`, `activity`, `note`, `next step`, `task`)
-- mevcut `businesses`, `audits`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak
-- dashboard/home icin aktif is + kritik aksiyon + kompakt hat ozeti
+- operator paneli icin cekirdek nesneleri netlestirmek (`isletme detay`, `aktivite`, `not`, `sonraki adim`, `gorev`)
+- mevcut `businesses`, `offers`, `delivery_projects` omurgasini bu yeni yuzeylere baglamak ve `on degerlendirme` kaydini kanoniklestirmek
+- dashboard / home icin aktif is + kritik aksiyon + kompakt hat ozeti
 - Project OS icinde asama bazli operasyon gorunumu
-- Project OS ile Prompt Uretimi el sikismasini gorunur hale getirmek
+- Project OS ile Istem Uretimi el sikismasini gorunur hale getirmek
 
-## 30–60 Gün
+## 30-60 Gun
 ### Hedef
-Satıştan operasyona geçişi panelde görünür hale getirmek.
+Satistan teslimata gecisi panelde gorunur hale getirmek.
 
-### Öncelikler
-- gerçek işletme kayıtlarını tutmak
-- on degerlendirme puanlama cercevesi kullanimini netlestirmek
-- offer şablonlarını standardize etmek
-- delivery takibini panelde işletmek
-- kanonik business detail yuzeyini acmak
+### Oncelikler
+- gercek isletme kayitlarini tutmak
+- on degerlendirme cercevesi kullanimini netlestirmek
+- teklif sablonlarini standardize etmek
+- teslimat takibini panelde isletmek
+- kanonik isletme detay yuzeyini acmak
 
-## 60–90 Gün
+## 60-90 Gun
 ### Hedef
-Teslimat sonrası canlılık ve tekrar edilebilirlik katmanını eklemek.
+Teslimat sonrasi canlilik ve tekrar edilebilirlik katmanini eklemek.
 
-### Öncelikler
-- bakım / canlılık akışını eklemek
-- prompt kayitlarini sade ve tekrar edilebilir hale getirmek
-- saha geri bildirimine göre teklifleri daraltmak
-- operasyon playbook'larını tamamlamak
+### Oncelikler
+- bakim / canlilik akislarini eklemek
+- istem kayitlarini sade ve tekrar edilebilir hale getirmek
+- saha geri bildirimine gore teklifleri daraltmak
+- operasyon playbook'larini tamamlamak
 
-## Öncelik Sırası
-1. offer clarity
-2. operasyon görünürlüğü
+## Oncelik Sirasi
+1. teklif netligi
+2. operasyon gorunurlugu
 3. veri modeli
-4. teslimat akışı
-5. küçük otomasyonlar
+4. teslimat akisi
+5. kucuk otomasyonlar
 
-## Karar Kuralı
-Yeni bir fikir geldiğinde şu sorularla filtrelenir:
-1. İşletmeyle ilgili satış, karar veya operasyon akışını daha görünür ve yönetilebilir yapıyor mu?
-2. Şu anki faz için gerekli mi?
-3. Satılabilirliği veya operasyon görünürlüğünü artırıyor mu?
-4. Daha basit bir versiyonla çözülebilir mi?
+## Karar Kurali
+Yeni bir fikir geldiginde su sorularla filtrelenir:
+1. Isletmeyle ilgili satis, karar veya operasyon akisini daha gorunur ve yonetilebilir yapiyor mu?
+2. Su anki faz icin gerekli mi?
+3. Satilabilirligi veya operasyon gorunurlugunu artiriyor mu?
+4. Daha basit bir versiyonla cozulebilir mi?
 
-## Şimdilik Ertelenenler
-- ağır AI / RAG katmanları
-- bağımsız yatay SaaS tipi genel CRM ürünleşmesi
-- çok rollü kullanıcı sistemi
-- ileri müşteri portalı
-- muhasebe / gelir-gider / stok modülleri
+## Simdilik Ertelenenler
+- agir AI / RAG katmanlari
+- bagimsiz yatay SaaS tipi genel CRM urunlesmesi
+- cok rollu kullanici sistemi
+- ileri musteri portali
+- muhasebe / gelir-gider / stok modulleri

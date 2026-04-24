@@ -549,3 +549,18 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - Asama A rename patch'ini hazirla
 - `AGENTS.md` ve `HEARTBEAT.md` scope temizligini kapat
 - fiziksel rename oncesi kullanicidan kisa onay iste
+
+## Asama A approval-ready rename taslagi
+
+### Hazirlanan artefakt
+- komut taslagi: `state/repo-cleanup-asama-a-rename.sh`
+- calistirma komutu: `bash /root/.openclaw/workspace/state/repo-cleanup-asama-a-rename.sh`
+
+### Kapsam
+- sadece Asama A icindeki 20 dusuk riskli `memory/` dosyasi rename edilir
+- Asama B ve Asama C bu komuta dahil degildir
+- rename sonrasi `memory/2026-04-24-repo-cleanup.md` icindeki tablo ve staged karar notu yeni adlarla senkronize edilecektir
+
+### Onay notu
+- bu komut toplu dosya tasima oldugu icin kullanicidan kisa onay alinmadan calistirilmayacak
+- onay gelince komut birebir bu haliyle calistirilacak, sonra referans guncellemeleri ayri adimda tamamlanacak
