@@ -5375,6 +5375,126 @@ Yani bugun itibariyla:
 Bu, erken karara kilitlenmek degil.
 Ama artik finalistlerin esit agirlikta olmadigini kabul etmek demek.
 
+## Otuz altinci okuma - `kontrollu hibrit` ile `Businesses-first` arasindaki asil fark ne?
+Finalistleri tazeledikten sonra artik en guclu iki aday birbirine fazla yaklasti.
+Bu da su riski doguruyor:
+- iki ayri model var saniyoruz
+- ama aslinda ayni omurganin iki farkli baslangic noktasi olabilir
+
+Bu yuzden su soruyu ayirmak gerekli:
+- `kontrollu hibrit` ile `Businesses-first` gercekte hangi noktada ayriliyor?
+
+### 1) Mevcut repo hangi yone daha yakin?
+Bugunku repo sinyalleri iki yone birden isaret ediyor:
+- `Businesses` nav icinde fiili ana calisma yuzeyi gibi duruyor
+- root sayfa yon veriyor ama kalici merkez gibi tasinmiyor
+- `Discovery` ise cok net bir on eleme tablosu ve `ana kayda dokunmadan once temizle` mantigi tasiyor
+
+Yani kod sunu soyluyor:
+- gunluk calismada `Businesses-first` daha dogal
+- veri hijyeni ve aday elemede ise `hibrit/discovery` degeri gercek
+
+Bu nedenle fark `hangi yuzeyler var?` sorusundan cok,
+`varsayilan operator baslangici neresi?` sorusuna donuyor.
+
+### 2) Iki modelin gercek ayrimi
+
+#### HBD1) Kontrollu hibrit
+Varsayilan mantik:
+- aday havuzu ayridir
+- sahiplenilen kayit havuzu ayridir
+- operator ihtiyaca gore discovery ile businesses arasinda rol bazli gezer
+
+Merkezi iddia:
+- sistem hem temiz havuzu hem sahiplenilen havuzu korumali
+- operatorun girisi duruma gore degisebilir
+
+#### HBD2) Businesses-first
+Varsayilan mantik:
+- calisma kapisi once `Businesses`
+- discovery yardimci ve ikincil kaynak olarak kalir
+- manuel/saha girisi norm sayilir
+
+Merkezi iddia:
+- operatorun asil yasadigi yer businesses listesi olmali
+- discovery degerli ama varsayilan kapı olmak zorunda degil
+
+### 3) Neden bu fark onemli?
+Cunku tum alt kararlar buna baglaniyor:
+- yeni aday nerede sahiplenilir?
+- `bugun git` filtresi hangi yuzeyde anlam kazanir?
+- kullanici admin'e girince once havuz mu gorur, kendi kayitlarini mi?
+- discovery import urunun merkezi mi, destekleyici kanali mi?
+
+Yani burada fark mimari degil,
+operasyonel varsayilan farki.
+
+### 4) Kontrollu hibrit ne zaman daha dogru gorunuyor?
+Su durumlarda:
+- Apify/discovery akisi kuvvetli kullanilacaksa
+- aday temizligi ve cop onleme birincil onemse
+- ekipte `ham aday` ile `sahiplenilen kayit` arasindaki sinir korunmak isteniyorsa
+- sistem zamanla birden fazla aday toplama kanalina acik tutulacaksa
+
+Bu modelin gucu su:
+- veriyi daha temiz tutar
+- kayit olmadan once eleme disiplini verir
+
+Ama zayifligi su:
+- kurucunun sahada hizli calistigi gunlerde discovery disi adaylar icin dolayli hissedebilir
+
+### 5) Businesses-first ne zaman daha dogru gorunuyor?
+Su durumlarda:
+- kurucu genelde sahada gordugu adayi hemen sahipleniyorsa
+- panelin birincil hissi `kendi havuzum` olmaliysa
+- discovery ikincil kaynak olarak kalacaksa
+- gunluk kullanimin buyuk bolumu mevcut kayitlar uzerinden donuyorsa
+
+Bu modelin gucu su:
+- daha az zihinsel gecis ister
+- `bugun git`, stage filtresi, detail'e gecis gibi kararlar ayni yerde toplanir
+
+Ama zayifligi su:
+- discovery tarafinin sagladigi hijyen zamanla ihmal edilebilir
+- duplicate ve kalitesiz aday riski daha cok operator disiplinine kalir
+
+### 6) O zaman bunlar gercekten iki ayri finalist mi?
+Bence evet, ama eskisi kadar uzak degiller.
+Asil ayrim su cizgide:
+- `hibrit` = iki havuz mantigini urun omurgasina bilincli sekilde yazar
+- `Businesses-first` = ayni yuzeyleri korur ama operatorun varsayilan evi olarak businesses'i one alir
+
+Yani komponent listesi neredeyse ayni olabilir,
+ama urun davranisi ve onboarding hissi farkli olur.
+
+### 7) Su an hangisi daha olgun gorunuyor?
+Bugunku repo ve son mikro kararlarla ben sunu goruyorum:
+- mevcut arayuz hissi `Businesses-first`e daha yakin
+- ama dogru bilgi hijyeni cizgisi `kontrollu hibrit`in lehine
+
+Bu ikisini birlikte okuyunca gecici net kanaat su:
+- `kontrollu hibrit`, daha dogru uzun vadeli omurga gibi duruyor
+- ama bunun gunluk kullanimdaki yuzu `Businesses-first` hissi vermeli
+
+Yani operator deneyimi:
+- `once businesses'teyim`
+Ama sistem mantigi:
+- `discovery ile businesses ayni havuz degil`
+
+### 8) Gecici net kanaat
+Su an en mantikli daraltma su:
+- `kontrollu hibrit` ana omurga adayi olarak bir adim onde
+- ama bu modelin kullaniciya gorunen giris hissi `Businesses-first` gibi olmali
+- baska bir deyişle, nihai yon muhtemelen `hibrit mimari + businesses-first gunluk kullanim` sentezi olacak
+
+Kisa formda:
+- architecture = controlled hybrid
+- day-to-day entry feel = businesses-first
+- discovery = supportive but real, not fake
+
+Bu, iki finalisti tek kararda eritmek degil.
+Ama aralarindaki asil farkin `yuzey listesi` degil `varsayilan operator evi` oldugunu netlestirmek demek.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
