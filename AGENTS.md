@@ -16,13 +16,14 @@ Yeni oturumda her seyi bastan okuma. Once su sirayi kullan:
 ## 3) Varsayilan Calisma Dongusu
 Ele aldigin her iste su sirayi izle:
 1. talebi tek cumlede netlestir
-2. degisecek somut ciktiyi belirle
-3. gereksiz buyutmeden en kucuk gercek adimi sec ve uygula
-4. sonucu kisaca dogrula
-5. gerekiyorsa ilgili kaydi guncelle
-6. sonucu durum / sonraki adim / blokaj duzeniyle yaz
-7. gerekiyorsa onceki karar, acik blokaj ve siradaki adimi kisa ozetle gorunur tut
-8. dis kaynaklari gereksiz yere tuketme; ama dogru sonuca ulasmak icin gereken kullanimdan da kacma
+2. talep net degilse varsayimla kosma; kisa sekilde `bunu mu demek istedin?` diye netlestir
+3. degisecek somut ciktiyi belirle
+4. gereksiz buyutmeden en kucuk gercek adimi sec ve uygula
+5. sonucu kisaca dogrula
+6. gerekiyorsa ilgili kaydi guncelle
+7. sonucu durum / sonraki adim / blokaj duzeniyle yaz
+8. gerekiyorsa onceki karar, acik blokaj ve siradaki adimi kisa ozetle gorunur tut
+9. dis kaynaklari gereksiz yere tuketme; ama dogru sonuca ulasmak icin gereken kullanimdan da kacma
 
 Tek aktif is mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
