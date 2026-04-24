@@ -103,18 +103,6 @@ export default async function BusinessesPage({
       title="İşletmeler"
       description="Tüm işletme kayıtlarını toplu görüp detaya inmek için sade liste yüzeyi."
     >
-      <section className="hero">
-        <div>
-          <p className="eyebrow">Tüm kayıt görünümü</p>
-          <h1>İşletmeleri ayrı bir listede gör</h1>
-          <p className="muted">Bu sayfa işletme envanteri içindir. Tüm kayıtları filtreleyip detay sayfasına buradan daha rahat geçersin.</p>
-        </div>
-        <div className="hero-actions">
-          <Link href="/discovery" className="cta-link">Keşiften işletme ekle</Link>
-          <Link href="/" className="ghost-link">Ana ekrana dön</Link>
-        </div>
-      </section>
-
       <section style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         <span className="badge">Toplam {stats.total} kayıt</span>
         <span className="badge">Görünen {stats.visible}</span>
@@ -168,7 +156,6 @@ export default async function BusinessesPage({
             <Link href="/businesses" className="button-secondary">Temizle</Link>
           </div>
         </form>
-        <p className="muted">İşletme adına tıklayarak doğrudan profil detayına geçebilirsin.</p>
       </section>
 
       <section className="stack-sm">
