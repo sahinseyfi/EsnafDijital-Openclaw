@@ -564,3 +564,14 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 ### Onay notu
 - bu komut toplu dosya tasima oldugu icin kullanicidan kisa onay alinmadan calistirilmayacak
 - onay gelince komut birebir bu haliyle calistirilacak, sonra referans guncellemeleri ayri adimda tamamlanacak
+
+## Ek bulgu - MEMORY promoted block drift'i
+
+### Bulgu
+- `MEMORY.md` icindeki `Promoted From Short-Term Memory (2026-04-24)` blogu, dosyanin kendi cizgisiyle uyumsuz sekilde ham gunluk notlari ve tekrarli teknik detaylari tek satira yigilmis halde tasiyor
+- blok icinde `Consultation Center`, eski rota/adlandirma ve gunluk commit/uygulama detaylari var; bunlar kalici hafiza yerine tarihli `memory/` notlarinda kalmali
+- bu yapi `MEMORY.md` icindeki "yalnizca kalici cizgi" kuralini zayiflatiyor
+
+### Sonuc
+- rename batch'inden bagimsiz ama ayni cleanup hattina bagli bir drift adayi daha netlesti
+- Asama A rename ve referans patch'i kapandiktan sonra `MEMORY.md` promoted block'u ayiklama / kaliciya donusturme batch'i acilacak

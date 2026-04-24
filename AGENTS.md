@@ -63,7 +63,7 @@ Asagidaki durumlarda dur ve kisa onay iste:
 
 Bunun disindaki dusuk riskli teknik ilerlemelerde gereksiz durma.
 
-## 8) Yeni Sayfa ve Ana Sayfa Kurgusu Degisikligi
+## 8) Yeni Sayfa ve Sayfa Kurgusu Degisikligi
 - yeni bir sayfa acmadan once amac, duzen, icerik ve uygulama plani kisa ve net sekilde gosterilir
 - mevcut bir sayfanin ana duzeni veya icerik yapisi degisecekse once onay alinir
 - onay alinmadan uygulamaya gecilmez
@@ -74,4 +74,5 @@ Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan.
 - is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
 - baglam temizligi -> `CHECKLISTS/context-hygiene.md`
 - ana operasyon akisi -> `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
-- uygun durumda workspace skill'lerini tercih et
+- uygunsa workspace skill'lerini tercih et
+- tekrarlayan yeni bir is fark edilirse yeni checklist veya playbook oner
