@@ -196,3 +196,11 @@ blocker
   - bu dosyanin kendi ic referanslari
 - `memory/.dreams/` altindaki session corpus ve benzeri turetilmis kayitlar rename icin manuel hedef sayilmayacak.
 - Kapanis dogrulamasi: `.dreams` ve benzeri turetilmis alanlar haricinde `2026-04-24-repo-cleanup.md` referansi kalmamis olmali.
+
+## Ek root cleanup
+- Rootteki `consultation-prompt-builder.skill` dosyasi silindi.
+- Gerekce: prompt uretim kodu paket artefaktini degil `skills/consultation-prompt-builder/` altindaki kanonik skill klasorunu okuyor.
+- Rootteki bos placeholder dosyalar `Bakim`, `Teklif`, `Teslimat` silindi.
+- Gerekce: 0 byte durumdaydilar, root yapisinda kanonik yerleri yoktu ve aktif akista kullanilmiyorlardi.
+- Rootteki `DEGISIKLIK_OZETI.md` silindi.
+- Gerekce: gecici ozet/log niteligindeydi; rootte kanonik kaynak olarak tutulmasi gerekmiyordu.
