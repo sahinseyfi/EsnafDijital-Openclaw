@@ -5669,10 +5669,176 @@ Kisa formda:
 Bu uc soru ayri kalirsa,
 `Businesses` listesi daha zekice olur ama CRM duvarina da kaymaz.
 
+## Otuz sekizinci okuma - `ziyaret uygun` ile `bugun git` ayri iki sinyal olarak mi kalmali, yoksa tek filtre icinde mi erimeli?
+Bir onceki iki ara karar sunlardi:
+- `bugun git`, stage filtresinin ikinci kopyasi olmamali
+- en saglikli cizgi, `hafif derived ziyaret uygunlugu + operatorun bugun onceligi` hibriti gibi gorunuyor
+
+Ama burada hala acik bir urun sorusu var:
+- bunu gercekten iki ayri sinyal olarak mi yasatacagiz?
+- yoksa kullaniciya tek filtre gosterecek, altta badge + sebep ile mi cozecegiz?
+
+Bu soru onemli.
+Cunku iki kavrami fazla ayirirsak filtre duvari buyur.
+Ama tek kavrama indirgersek de `bugun` ile `fiziksel olarak uygun` ayni sey sanilir.
+
+### 1) Bu iki kavram aslinda ayni sey mi?
+Bence hayir.
+Aralarinda net bir seviye farki var:
+- `ziyaret uygun` = bu kayitta fiziksel gorusme anlamli mi?
+- `bugun git` = bugun sahaya cikarsam once buna bakmali miyim?
+
+Yani biri uygunluk,
+digeri gunluk oncelik.
+
+Bunu tek kavrama eritince su risk doguyor:
+- fiziksel gorusme mantikli olan ama bugun gitmeyecek kayitlar kaybolur
+- ya da bugun onceligi verilmis ama temelde neden uygun oldugu anlasilmaz
+
+### 2) Uc model
+
+#### ZG1) Tek kullanici yuzeyi, tek kavram: sadece `bugun git`
+Mantik:
+- sistem gerekli tum sinyalleri kendi icinde toplar
+- kullanici yalniz `bugun git` badge veya filtresini gorur
+- altta kisa sebep satiri olur
+
+Artisi:
+- en sade yuzey
+- Businesses listesinde az yer kaplar
+- operatore tek soruluk secim deneyimi verir
+
+Eksisi:
+- `bugun` ile `ziyaret acisindan uygun` kavramlarini karistirir
+- fiziksel gorusme mantikli ama bugunun konusu olmayan kayitlar gorunmez olur
+- yarin/hafta ici planlama gibi ara katmanlar icin zayif kalir
+
+#### ZG2) Iki esit kullanici filtresi: `ziyaret uygun` ve `bugun git`
+Mantik:
+- biri uygunluk filtresi
+- biri gunluk saha onceligi filtresi
+- ikisi de Businesses icinde ayri gorunur
+
+Artisi:
+- kavramsal ayrim temizdir
+- operator isterse daha genis saha havuzunu da gorebilir
+- sistem neyi neden ayirdigini daha net anlatir
+
+Eksisi:
+- V1 icin filtre yuzeyi buyur
+- stage + status + segment + arama yanina bir de iki saha filtresi eklenirse liste agirlasir
+- erken donemde gereksiz CRM hissi uretir
+
+#### ZG3) Ic model iki katmanli, gorunen yuzey asimetrik
+Mantik:
+- sistem icerde `ziyaret uygunlugu`nu ayri derived sinyal olarak tutar
+- operatorun hizli aksiyonu olarak `bugun git` daha on planda kalir
+- `ziyaret uygun` kullaniciya ayri ana filtre olarak degil, badge/sebep/detay katmani olarak gorunur
+
+Ornek:
+- Businesses listesi: `bugun git` filtresi veya isareti
+- kartta kisa sebep: `fiziksel gorusme uygun, son temas eski`
+- Business Detail: `ziyaret karari = gidilir / uzaktan ilerlet / beklet`
+
+Artisi:
+- anlamsal ayrim korunur
+- yuzey sade kalir
+- Business Detail roluyle uyumludur
+- `bugun git` operator aksiyonu olarak daha net kalir
+
+Eksisi:
+- isimlendirme cok dikkatli olmali
+- operator `ziyaret uygun`u tam filtre olarak niye gormedigini anlamayabilir
+- sebep satiri kotu yazilirsa arka model gizli kalir
+
+Ara yorum:
+- su an V1 icin en guclu yol `ZG3`
+
+### 3) Neden iki esit filtre zayif gorunuyor?
+Cunku bugunku `Businesses` sayfasi zaten su filtreleri tasiyor:
+- arama
+- segment
+- durum
+- stage
+
+Buna bir de esdeger iki saha filtresi eklemek su riski dogurur:
+- operator listeyi okumadan once filtre okumaya baslar
+- saha secimi karar destegi olmaktan cikip kontrol paneli ayarina doner
+- MVP sadeligi bozulur
+
+Yani kavramsal olarak iki katman lazim olabilir,
+ama arayuzde bunlari ayni agirlikta gostermek sart degil.
+
+### 4) Neden tek kavram da yetmiyor?
+Cunku `bugun git` gunluk niyet tasir.
+Ama saha akisi her zaman ayni gun kararindan ibaret degil.
+Su ara durumlar gercek:
+- fiziksel gorusme mantikli ama once telefon denenmeli
+- fiziksel gorusme mantikli ama bu hafta sonu planlanacak
+- bugun gidilmeyecek ama beklet de degil
+
+Bu ara durumlar varsa,
+arkada `ziyaret uygunlugu` gibi daha genis bir karar katmani olmadan sistem kaba kalir.
+
+### 5) O zaman en saglikli V1 modeli nasil gorunmeli?
+Bence su sekilde:
+
+#### Businesses listesi
+- ana saha filtresi veya badge'i = `bugun git`
+- kartta kisa derived sebep satiri olabilir
+- gerekirse ileride ikincil `ziyaret uygun` quick filter gelir, ama V1'de zorunlu degil
+
+#### Business Detail
+- asil saha karari burada acik okunur:
+  - `gidilir`
+  - `uzaktan ilerlet`
+  - `beklet`
+- bunun altinda neden ve ilk saha hazirligi yer alir
+
+#### Ic mantik
+- derived modelde `ziyaret uygunlugu` ayri katman olarak yasar
+- operator eylemi olarak `bugun` onceligi bunun uzerine biner
+
+Bu sayede:
+- urun dili sade kalir
+- karar kalitesi dusmez
+- yarin daha iyi saha planlamasi kurmak istersek temel mantik hazir olur
+
+### 6) En buyuk risk ne?
+Iki kavrami ayri tutayim derken kullaniciya gereksiz yeni dil ogretmek.
+Ornegin su tur yapi erken donemde agir gelir:
+- ziyaret uygun
+- fiziksel uygun
+- saha adayi
+- bugun git
+- bu hafta git
+
+Bu, ayni ailede cok fazla etiket demek.
+V1'de bu kadar katman operatore yardim etmek yerine zihin yorar.
+
+Diger risk de ters ucta:
+- her seyi yalniz `bugun git`e sikistirmak
+- sonra neden uygun oldugu, ne zaman uygun oldugu ve sahada ne yapilacagi karismaya baslar
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `ziyaret uygun` ile `bugun git` ayni sey degil, kavramsal olarak ayri kalmali
+- ama V1'de ikisi de esit gorunen iki ana filtreye donusmemeli
+- en saglikli model: icerde iki katman, disarida asimetrik yuzey
+
+Kisa formda:
+- derived decision = `ziyaret uygun mu?`
+- operator intent = `bugun git`
+- visible primary list signal = `bugun git`
+- visible deeper reasoning = detail icindeki ziyaret karari ve kisa sebep
+
+Bu model hem onceki `Businesses-first` hissini bozmuyor,
+hem de Business Detail'i tek kayit saha karar yuzeyi olarak guclendiriyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
-- `ziyaret uygun` ile `bugun git` ayri iki sinyal olarak mi kalmali, yoksa tek filtre icinde badge + sebep kombosuyla mi cozulmeli?
+- `bugun git` isareti operatorun manuel onceligi olarak mi verilmeli, yoksa derived adaylar uzerinde tek tik guclendirme mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
