@@ -14,11 +14,11 @@ Küçük işletmelerin dijitalde daha görünür, daha güvenilir ve daha kolay 
 ## Çekirdek Değer Önerisi
 EsnafDigital, küçük işletmeye ağır ajans dili değil; hızlı anlaşılır, güven veren ve doğrudan işe yarayan dijital düzen sunar.
 
-## İlk Hizmet Omurgası
-1. **Audit** — işletmenin mevcut dijital görünümünü analiz et
-2. **Teklif** — ihtiyaca uygun net kapsam üret
-3. **Teslimat** — görünen iyileştirmeyi hızlıca hayata geçir
-4. **Bakım** — canlılığı ve güncelliği koru
+## Ilk Is Akisi Omurgasi
+1. **On degerlendirme** — isletmenin mevcut dijital durumunu hizlica anlamak
+2. **Teklif** — ihtiyaca uygun net kapsam uretmek
+3. **Teslimat** — gorunen iyilestirmeyi hizlica hayata gecirmek
+4. **Bakim** — canliligi ve guncelligi korumak
 
 Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değildir.
 İç sistem, işletmeyle ilgili not, görüşme, aktivite, görev, teklif, teslimat ve bakım işlerini tek yerde toplayan CRM-evrilebilir bir operasyon sistemi olarak kurulacaktır.
@@ -32,7 +32,7 @@ Bu akış çıkış omurgasıdır, ama panelin kilitli kalacağı tek hat değil
 
 ## Ürün Omurgası
 ### 1. Giriş ürünü
-**Dijital Görünürlük Kontrolü / Audit**
+**Dijital Gorunurluk Kontrolu / On Degerlendirme**
 - mevcut dijital görünümün hızlı fotoğrafı
 - eksiklerin ve fırsatların sade özeti
 - teklif için giriş noktası

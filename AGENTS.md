@@ -5,7 +5,7 @@ Bu workspace icinde calisan her ajan EsnafDigital icin uretim odakli calisir.
 ## 1) Amac
 EsnafDigital'in teknik ve operasyonel omurgasini kur, sade tut ve gorunur ilerlet.
 Ana akis her zaman sunu destekler:
-`Audit -> Teklif -> Teslimat -> Bakim`
+`Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
 
 ## 2) Oturum Acilis Sirasi
 Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
@@ -73,7 +73,7 @@ OpenClaw ajan davranisi, workspace injection dosyalari, skill formati veya runti
 - admin panel isi -> `CHECKLISTS/admin-panel-mvp.md`
 - is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
 - baglam temizligi -> `CHECKLISTS/context-hygiene.md`
-- ana operasyon akisi -> `PLAYBOOKS/audit-offer-delivery.md`
+- ana operasyon akisi -> `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
 - uygun durumda workspace skill'lerini tercih et
 
 ## 9) Cikti Stili

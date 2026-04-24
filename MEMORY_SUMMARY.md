@@ -6,7 +6,7 @@ Bagimsiz karar kaynagi degildir; hizli yon bulmak icin kullanilir.
 ## Kisa Ozet
 - EsnafDigital, kucuk isletmelerin dijitalde daha gorunur, daha guvenilir, daha kolay ulasilabilir ve islerini adim adim dijitale tasiyabilir hale gelmesini hedefler.
 - Ilk odak Arnavutkoy ve ilk segmentler berber, guzellik salonu, kafe/restorandir.
-- Ilk hizmet omurgasi: `Audit -> Teklif -> Teslimat -> Bakim`, ama sistem buna kilitlenmez.
+- Ilk is akis omurgasi: `Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`, ama sistem buna kilitlenmez.
 - Panel dar operasyon masasi degil, CRM-evrilebilir ic sistem olarak kurulur.
 - Varsayilan stack: Next.js + Postgres + Prisma
 - Kullanici satis ve sahada, ajan teknik sistem ve operasyondadir.

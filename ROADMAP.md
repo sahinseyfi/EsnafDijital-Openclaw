@@ -4,7 +4,7 @@
 **Faz 1 — İç operasyon ve bağlam omurgasını kurma**
 
 Bu fazın amacı, satışı destekleyecek sade ama sağlam bir iç sistem kurmaktır. Önce görünürlük ve düzen, sonra otomasyon.
-Audit -> teklif -> teslimat -> bakım çizgisi ilk hizmet omurgasıdır, ama panel tasarımında tek zorunlu hat değildir.
+Kesif / on degerlendirme -> teklif -> teslimat -> bakim cizgisi ilk is akis omurgasidir, ama panel tasariminda tek zorunlu hat degildir.
 
 ## Şimdi Odaklandıklarımız
 - teklif omurgasını keskinleştirmek
@@ -43,7 +43,7 @@ Satıştan operasyona geçişi panelde görünür hale getirmek.
 
 ### Öncelikler
 - gerçek işletme kayıtlarını tutmak
-- audit scorecard kullanımını netleştirmek
+- on degerlendirme puanlama cercevesi kullanimini netlestirmek
 - offer şablonlarını standardize etmek
 - delivery takibini panelde işletmek
 - kanonik business detail yuzeyini acmak

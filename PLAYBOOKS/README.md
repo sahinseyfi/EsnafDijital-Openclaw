@@ -13,4 +13,4 @@ Checklist'ten daha genis ama yine pratik rehber cizgisindedir.
 - yazilmaz: gunluk durum, tekil karar kaydi, ham referans, transcript
 
 ## Once hangi dosyalara bakilir?
-- `audit-offer-delivery.md`
+- `kesif-teklif-teslimat-bakim.md`

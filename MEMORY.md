@@ -35,7 +35,7 @@ Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
 `Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
 
 - Bu akis satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir.
-- Dijital gorunurluk kontrolu / audit, satilan ana hizmet degil; isletme secimi, onceliklendirme ve teklif hazirligi icin kullanilan ic tarama adimidir.
+- Dijital gorunurluk kontrolu / on degerlendirme, satilan ana hizmet degil; isletme secimi, onceliklendirme ve teklif hazirligi icin kullanilan ic tarama adimidir.
 - Teklif, satilan sey degil; kapsam ve teslimatin nasil yapilacagini netlestiren ara asamadir.
 - Teslimat gorunur ve hizli olmalidir.
 - Sonrasinda bakim / guncelleme geliriyle devam edilir.
@@ -60,7 +60,7 @@ Ic sistem uc ana cekirdege gore kurulur:
 2. baglam sistemi ve dokumanlar
 3. prompt uretimi, sonra gerekirse ajan destekli isletme akislarina acilabilecek operasyon katmani
 - Panel, dar bir operasyon masasi olarak kalmaz; kucuk isletmenin dijital duzene gecisini tasiyabilecek sade bir operasyon sistemi olarak kurulur.
-- Audit, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
+- On degerlendirme, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
 - Uzun vadede bu yapi, isletme sahibinin bazi dijital islerini sohbet ederek yonetebilecegi yuzeylere acilabilir.
 
 ## 7) Is Bolumu

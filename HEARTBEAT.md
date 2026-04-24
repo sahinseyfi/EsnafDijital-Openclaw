@@ -11,7 +11,7 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 **Faz 1 - ic operasyon ve baglam omurgasini kurma**
 
 ## Su Anki Ana Hedef
-Repo genel temizlik oncesi source-of-truth cizgisini netlestirip tum dosyalari yonlendirme zinciriyle birlikte kontrollu denetleyebilecek temiz audit zeminini kurmak.
+Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonlendirme zinciriyle birlikte kontrollu denetleyebilecek temiz bir inceleme zemini kurmak.
 
 ## Bu Hafta Oncelik
 1. source-of-truth ve yonlendirme zinciri denetim kuralini netlestirmek
