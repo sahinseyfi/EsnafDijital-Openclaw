@@ -4677,10 +4677,138 @@ Kisa formda:
 
 Bu model hem teklif omurgasini korur hem de Y.Z kartini gizli paket motoruna cevirmeden kullanir.
 
+## Otuz birinci okuma - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
+Bu soru ilk bakista kucuk bir UI tercihi gibi gorunuyor,
+ama aslinda `gecmis neyin izi olmali?` sorusuna dokunuyor.
+Cunku daha once su cizgiyi netlestirmistim:
+- ana yuzeyde `tek guncel operator notu`
+- referans alanda `son 3 temas ozeti`
+
+Simdi asil mesele su:
+- bu 3 satir gercek olaylardan mi gelsin?
+- yoksa operator notunun farkli anlarindaki ozetlerinden mi derive edilsin?
+
+### 1) Referanslar ne diyor?
+`business-detail-v1.md` bu konuda oldukca net:
+- `Activity timeline` V1'de ayri truth katmani degil, compact derived/ref destek alanidir
+- timeline kaynaklari audit/offer/delivery tarihleri ve dis veri yenileme eventleri olabilir
+- `timeline yorum degil hareket gosterir`
+- `operator notu` ayridir, canonical veriyi sessizce degistirmez
+- `not eklendiginde timeline eventi uretilebilir`
+
+Bu dort madde birlikte okununca guclu bir yon veriyor:
+- gecmisin ana omurgasi event mantigi olmali
+- operator notu ise bugunku derlenmis durum olmali
+- note update varsa bunu gecmise tasiyan sey not snapshot'i degil, onun urettigi timeline event'i olmali
+
+### 2) Uc model
+
+#### H1) Son 3 temas ozeti dogrudan timeline olaylarindan gelsin
+Artisi:
+- gecmis gercek hareketlere dayanir
+- audit/teklif/teslimat/not guncelleme ayni event dili icinde toplanabilir
+- operator notu ile gecmisin rolu ayrisir
+
+Eksisi:
+- temas odagi zayif eventler de listeye girebilir
+- `offer guncellendi` gibi olaylar her zaman saha temasi kadar degerli degil
+
+#### H2) Son 3 temas ozeti operator notu versiyonlerinden derive edilsin
+Artisi:
+- sahaya ve insan temasina daha yakin hissedilir
+- son notlar genelde operatorun aklindaki asil baglami tasir
+
+Eksisi:
+- ayni seyin hem `guncel operator notu`nda hem `gecmis snapshot`ta tekrar riski yuksek
+- not tarihi ile olay tarihi karisabilir
+- gercek hareket yerine overwrite edilmis yorumlarin izi kalir
+
+#### H3) Gecmis timeline eventlerinden gelsin, ama note degisikligi varsa bu da `tema ozeti` tipinde event uretsin
+Artisi:
+- event omurgasi korunur
+- saha temasi kaybolmaz
+- operator notunu gecmise ikinci kez kopyalamadan, not degisimini olaylastirir
+
+Eksisi:
+- iyi event adlandirmasi ister
+- her not degisikligi event olmamali, yoksa timeline yine coplenir
+
+Ara yorum:
+- su an en saglikli yol `H3`
+
+### 3) Neden salt operator notu snapshot'i zayif?
+Cunku operator notu onceki kararda zaten `tek guncel ozet` olarak secildi.
+Onun eski versiyonlarindan tekrar `son 3 temas` cikarmak su riski getirir:
+- ayni bilgi iki farkli yerde yasar
+- operator notu bir whiteboard gibi guncellenirken gecmis de onun kopyasi haline gelir
+- olay izi yerine edit izi goruruz
+
+Bu da `timeline yorum degil hareket gosterir` kuralina ters duser.
+
+### 4) Neden timeline omurgasi daha tutarli?
+Cunku Business Detail referansinda timeline zaten `compact derived/ref destek alani` olarak tanimlanmis.
+Yani kisa gecmisin dogal evi burasi.
+
+Buradan gelen satirlar daha temiz siniflanabilir:
+- audit guncellendi
+- teklif gonderildi
+- teslimat kickoff acildi
+- hafif tarama yenilendi
+- operator temas ozeti girildi
+
+Bunlarin hepsi `hareket` dilidir.
+Bu sayede gecmis, bugunku nottan ayri durur.
+
+### 5) Peki `temas ozeti` nasil korunur?
+Bence kritik nokta su:
+- her event genel sistem olayi olmak zorunda degil
+- `operator notu guncellendi` gibi kuru event de yetmez
+- gerekirse `temas ozeti kaydedildi` gibi tek satirlik olay tipi olmali
+
+Yani operator bir gorusme/arama/ziyaret sonucunu kisa ozet olarak girdiginde,
+bunun kendisi timeline'a su tipte dusmeli:
+- tarih/zaman
+- kanal veya muhatap
+- tek cumle sonuc
+
+Boylece gecmis temas odagini korur,
+ama operator notunun eski kopyalarini ekrana tasimaz.
+
+### 6) O zaman en saglikli V1 mantigi ne?
+Bence su ayrim temiz:
+- `guncel operator notu` = bugun ne bilmem gerekiyor?
+- `son 3 temas ozeti` = compact timeline icinden secilmis son anlamli temas eventleri
+- note update varsa ancak `temas sonucu` niteligindeyse timeline eventi uretsin
+
+Yani son 3 satir saf `note snapshot` degil,
+`event-first, contact-aware` mantikla gelmeli.
+
+### 7) En buyuk risk ne?
+Timeline omurgasi dogru diye her seyi oraya akitmak.
+Bu olursa yine mini CRM history duvarina doner.
+Bu yuzden V1 filtresi sert olmali:
+- sadece anlamli temas veya karar eventleri
+- en fazla son 3
+- tek cumle sonuc
+- yorum duvari yok
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `son 3 temas ozeti` yalniz operator notu snapshot'larindan derive edilmemeli
+- ana omurga compact timeline eventleri olmali
+- ama note/temas guncellemeleri gerekiyorsa bunlar da `temas sonucu` tipinde tek satirlik timeline eventi olarak uretilmeli
+
+Kisa formda:
+- history source = timeline events
+- note source = current operator summary
+- bridge = meaningful note updates can emit timeline events
+
+Bu model hem tekrar riskini dusurur hem de sahadaki `en son ne oldu` sorusuna daha temiz cevap verir.
+
 ## Sonraki arastirma basliklari
-- `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
 - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
 - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
 - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
+- `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
