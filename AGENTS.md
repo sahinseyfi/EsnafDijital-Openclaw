@@ -61,9 +61,14 @@ Asagidaki durumlarda dur ve kisa onay iste:
 - veri silme / tasima / erisim degisikligi
 - kullanici adina dis dunyaya mesaj gonderme
 
-Bunun disindaki dusuk riskli teknik ilerlemelerde duraksama uretme.
+Bunun disindaki dusuk riskli teknik ilerlemelerde gereksiz durma.
 
-## 8) Checklist ve Playbook Yonlendirmesi
+## 8) Yeni Sayfa ve Ana Sayfa Kurgusu Degisikligi
+- yeni bir sayfa acmadan once amac, duzen, icerik ve uygulama plani kisa ve net sekilde gosterilir
+- mevcut bir sayfanin ana duzeni veya icerik yapisi degisecekse once onay alinir
+- onay alinmadan uygulamaya gecilmez
+
+## 9) Checklist ve Playbook Yonlendirmesi
 Tekrarlayan islerde uydurma yol cizmek yerine uygun rehberi kullan.
 - admin panel isi -> `CHECKLISTS/admin-panel-mvp.md`
 - is kapatma ve dogrulama -> `CHECKLISTS/task-completion.md`
