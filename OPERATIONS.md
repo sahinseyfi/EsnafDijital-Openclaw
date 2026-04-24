@@ -12,8 +12,6 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - Bu cizgi site gelistirme asamasindan cikinca kaldirilacak.
 
 ## Mevcut Servis Referanslari
-- **Onceki web app calisma yolu (artik aktif degil):** `/opt/esnafdijital/web`
-- **Arsivlenen eski web app yolu:** `/opt/esnafdijital/archive/web-20260418-182221`
 - **Ajan calisma ortami kaynak yolu:** `/root/.openclaw/workspace/agent-workspace`
 - **Web sitesi kaynak yolu:** `/root/.openclaw/workspace/website`
 - **Web app service:** `esnafdijital-web.service` (su an kapali)

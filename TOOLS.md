@@ -12,7 +12,7 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 - **Yaklasim:** tek repo icinde sade ve yonetilebilir yapi
 
 ## Varsayilan Yigin
-- **Frontend / admin:** Next.js
+- **Web / admin:** Next.js
 - **Veritabani:** Postgres
 - **ORM:** Prisma
 - **Sabit baglam:** Markdown / YAML / JSON
@@ -32,8 +32,8 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 - heartbeat
 - memory
 - decisions
-- checklist
-- playbook
+- checklists
+- playbooks
 - sabit prompt baglami
 
 ## Otomasyon Esigi

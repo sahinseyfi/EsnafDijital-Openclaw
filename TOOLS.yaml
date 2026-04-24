@@ -50,3 +50,4 @@ rules:
   - "MVP'de agir altyapi degil, gorunur sonuc onceliklidir"
   - "Operasyonel veri ile kalici baglam birbirine karistirilmaz"
   - "Parola, token ve benzeri gizli bilgiler workspace'e yazilmaz"
+  - "Kesif ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir"
