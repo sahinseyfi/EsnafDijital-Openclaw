@@ -216,3 +216,5 @@ blocker
 - Gerekce: bu uc dosya zaten `REFERENCES/business-detail-v1.md` icinde birlestirilmis ve yalnizca `Deprecated` yonlendirme stub'i olarak kalmisti; canli kanonik referans olmaktan cikmislardi.
 - `REFERENCES/Derin-arastirma/esnafdigital-business-detail-v1-degerlendirme-repo-gercekligi.md` ve `REFERENCES/Derin-arastirma/esnafdigital-business-detail-v1-degerlendirme-kontrat-drifti.md` dosyalari kaldirildi.
 - Gerekce: Business Detail konusu icin final derin arastirma ciktisi olarak `esnafdigital-business-detail-v1-rewrite-spec.md` birakildi; diger iki dosya ara degerlendirme katmani olarak tekrar uretiyordu.
+- `REFERENCES/Derin-arastirma/esnafdigital-ilk-hedef-sektorler-sentez.md` ve `REFERENCES/Derin-arastirma/esnafdigital-paketleme-ve-fiyatlandirma-ozeti.md` dosyalari kaldirildi.
+- Gerekce: ilki sektor hattinda cifte sentez uretip ayni konu uzerinde tekrar olusturuyordu; ikincisi ise `esnafdigital-teklif-omurgasi-sentez.md` yaninda zayif/bozuk encoding'li ham pazar notu olarak kalmisti.

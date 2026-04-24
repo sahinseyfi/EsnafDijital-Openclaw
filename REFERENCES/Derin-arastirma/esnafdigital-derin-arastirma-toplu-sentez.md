@@ -26,33 +26,12 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 - satista kesin veri gibi kullanilacak zayif oranlar
 
 **Not**
-- Bu konu icin zaten iki ara dosya var:
+- Bu konu icin destek dogrulama dosyasi:
   - `esnafdigital-ilk-hedef-sektorler-dogrulanmis-kaynaklar.md`
-  - `esnafdigital-ilk-hedef-sektorler-sentez.md`
 
 ---
 
-## 2) `esnafdigital-paketleme-ve-fiyatlandirma-ozeti.md`
-**Kisa hukum:** En degerli cikarim 3 kademeli paket mantigi ve capalama psikolojisi. Ama piyasadaki fiyat ornekleri birebir kopyalanacak fiyat listesi gibi kullanilmamali.
-
-**Projeye alinacaklar**
-- 3 kademeli ana teklif mantigi
-- orta paketi en mantikli tercih haline getiren sade fiyat mimarisi
-- temel paketin eksik hissettirilmemesi
-- upsell'in eksik birakma degil, deger ekleme mantigiyla kurulmasi
-
-**Disarida kalacaklar**
-- piyasadan toplanan fiyatlari kendi fiyatimiz gibi tekrar etmek
-- fazla sayida paket acmak
-- temel paketi bilerek zayif birakip ust pakete zorlamak
-
-**Kanonik tasima**
-- `OFFERS.md`
-- `esnafdigital-teklif-omurgasi-sentez.md`
-
----
-
-## 3) `esnafdigital-crm-yonu-derin-arastirma.md`
+## 2) `esnafdigital-crm-yonu-derin-arastirma.md`
 **Kisa hukum:** En kritik stratejik dosyalardan biri. EsnafDigital'in genel CRM degil, dar operator paneli olmasi gerektigini netlestiriyor.
 
 **Projeye alinacaklar**
@@ -74,7 +53,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 4) `esnafdigital-ana-sayfa-derin-arastirma.md`
+## 3) `esnafdigital-ana-sayfa-derin-arastirma.md`
 **Kisa hukum:** Ana sayfa icin dogru yon netlik + guven + tek ana CTA. Fazla ajans dili ve kalabalik bolumler zarar verir.
 
 **Projeye alinacaklar**
@@ -95,7 +74,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 5) `esnafdigital-tek-sayfa-yerel-isletme-sitesi-arastirmasi.md`
+## 4) `esnafdigital-tek-sayfa-yerel-isletme-sitesi-arastirmasi.md`
 **Kisa hukum:** En uygulanabilir arastirmalardan biri. Urun mantigini dogrudan besliyor. Tek sayfa site, kurumsal vitrin degil hizli guven ve hizli aksiyon yuzeyi olarak ele alinmali.
 
 **Projeye alinacaklar**
@@ -117,7 +96,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 6) `esnafdigital-kucuk-isletme-fotograf-standardi.md`
+## 5) `esnafdigital-kucuk-isletme-fotograf-standardi.md`
 **Kisa hukum:** Cok guclu operasyon dosyasi. Foto tarafinda estetikten once gerceklik, temizlik ve guven standardi kurulmasi gerektigini netlestiriyor.
 
 **Projeye alinacaklar**
@@ -138,7 +117,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 7) `esnafdigital-qr-nfc-masaustu-standlari-derin-arastirma.md`
+## 6) `esnafdigital-qr-nfc-masaustu-standlari-derin-arastirma.md`
 **Kisa hukum:** Saha teslimati icin cok net yon veriyor. Varsayilan kural `tek stand = tek amac` olmali.
 
 **Projeye alinacaklar**
@@ -160,7 +139,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 8) `esnafdigital-openclaw-mimari-onerisi.md`
+## 7) `esnafdigital-openclaw-mimari-onerisi.md`
 **Kisa hukum:** YararlI ama mevcut proje fazi icin fazla buyuk dusunme riski var. En degerli tarafi izolasyon, onay ve operasyon siniri ilkeleri.
 
 **Projeye alinacaklar**
@@ -180,7 +159,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 9) `esnafdigital-business-detail-v1-rewrite-spec.md`
+## 8) `esnafdigital-business-detail-v1-rewrite-spec.md`
 **Kisa hukum:** Business Detail V1 icin final derin arastirma cikti bu rapordur. Net sonuc su: hafif yamayla degil, daraltilmis rewrite ile toparlanmali.
 
 **Projeye alinacaklar**
@@ -202,7 +181,7 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 12) `esnafdigital-teklif-omurgasi-sentez.md`
+## 9) `esnafdigital-teklif-omurgasi-sentez.md`
 **Kisa hukum:** Mevcut teklif omurgasi dogru yone bakiyor; ihtiyac yeni paket acmak degil, mevcut yapinin daha sert ve daha satilabilir hale gelmesi.
 
 **Projeye alinacaklar**

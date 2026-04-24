@@ -21,14 +21,10 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
   - Ilk hedef sektorleri, siralama mantigini ve genisleme havuzunu analiz eder.
 - `esnafdigital-ilk-hedef-sektorler-dogrulanmis-kaynaklar.md`
   - Ilk hedef sektorler arastirmasindaki satista kullanilabilecek dogrulanmis kaynaklari ve ayiklanmasi gereken sayilari toplar.
-- `esnafdigital-ilk-hedef-sektorler-sentez.md`
-  - Ham arastirma ile dogrulama notunu birlestirip projeye alinacak gercek degeri ayiklar.
-- `esnafdigital-paketleme-ve-fiyatlandirma-ozeti.md`
-  - Kucuk esnaf icin paketleme, fiyat capasi ve 3 kademeli teklif yapisi ozeti.
 - `esnafdigital-crm-yonu-derin-arastirma.md`
   - EsnafDigital'in yatay genel urune savrulmadan dar operator paneli cizgisinde kalmasi gerektigini savunur.
 - `esnafdigital-teklif-omurgasi-sentez.md`
-  - Mevcut teklif yapisini derin arastirma ve operasyon cizgisiyle birlestirip netlestirir.
+  - Teklif yapisini, paket sayisini ve audit -> teklif -> teslimat -> bakim omurgasini final cizgide netlestirir.
 
 ### Web vitrini ve dijital yuzey
 - `esnafdigital-ana-sayfa-derin-arastirma.md`
