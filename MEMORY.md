@@ -3,8 +3,9 @@
 Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve kolay değişmemesi gereken yönelimleri tutar.
 
 ## 1) Proje Omurgası
-- EsnafDigital, küçük işletmelerin dijitalde daha görünür, daha güvenilir ve daha kolay ulaşılabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
-- Esas odak yalnızca site yapmak değil, güven veren dijital kimlik ve görünürlük oluşturmaktır.
+- EsnafDigital, küçük işletmelerin dijitalde daha görünür, daha güvenilir, daha kolay ulaşılabilir ve işlerini adım adım dijitale taşıyabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
+- Esas odak yalnızca site yapmak değil, işletmeyi teknik karmaşa ile boğmadan güven veren dijital kimlik, görünürlük ve temel dijital düzen kurmaktır.
+- Uzun vadede amaç, küçük işletmelerin teknik araçlarla boğuşmadan, OpenClaw tabanlı ajan desteği sayesinde dijital işlerini sohbet ederek yönetebileceği sade bir işletme altyapısı kurmaktır.
 - İlk hizmet omurgası şudur:
   `Audit -> Teklif -> Teslimat -> Bakım`
 - Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
