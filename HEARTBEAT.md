@@ -11,16 +11,16 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 **Faz 1 - ic operasyon ve baglam omurgasini kurma**
 
 ## Su Anki Ana Hedef
-Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni sistemde toplamak.
+Repo genel temizlik oncesi source-of-truth cizgisini netlestirip tum dosyalari yonlendirme zinciriyle birlikte kontrollu denetleyebilecek temiz audit zeminini kurmak.
 
 ## Bu Hafta Oncelik
-1. ilk teklif omurgasini keskinlestirmek
-2. Project OS / Prompt Üretimi akislarini gercek veriyle baglamak
-3. gercek `DATABASE_URL` ile Postgres + Prisma hattini ayaga kaldirmak
-4. Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak
+1. source-of-truth ve yonlendirme zinciri denetim kuralini netlestirmek
+2. ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri incelemek
+3. supheli / eski / silinebilir dosya adaylarini kanitli liste halinde cikarmak
+4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
 
 ## Siradaki Somut Adim
-- Business Detail icinde hafif tarama sonrasi `Y.Z raporu` / karar uretim aksiyonunu ayni operator akisinda birlestirip derived tarafini tek bloktan ilerletmek
+- `memory/2026-04-24-repo-cleanup.md` notundan baslayip `README.md`, `HEARTBEAT.md`, `MEMORY.md`, `PROJECT.md`, `ROADMAP.md`, `MEMORY_SUMMARY.md` ve yonlendirdikleri hedefleri birlikte denetlemek
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
@@ -43,4 +43,4 @@ Teklif omurgasi, CRM-evrilebilir veri temeli ve admin operasyon ekranlarini ayni
 - admin tarafinda ana akislarin nerede yasadigi netlesmis olacak
 
 ## Son Guncelleme
-2026-04-23
+2026-04-24
