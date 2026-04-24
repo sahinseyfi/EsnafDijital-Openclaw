@@ -6173,10 +6173,192 @@ Kisa formda:
 Bu model hem karar destegini koruyor,
 hem de sahadaki insan sezgisini son katmanda kaybettirmiyor.
 
+## Kirk birinci okuma - `temas sonucu` timeline eventi yalniz manuel mi olmali, yoksa operator notundaki belirli mikro alanlardan derive mi edilmeli?
+Bir onceki kararlar su cizgiyi kurmustu:
+- `guncel operator notu` = bugunluk derlenmis ozet
+- `son 3 temas ozeti` = compact timeline icindeki anlamli temas eventleri
+- not snapshot'i gecmisin kendisi olmamali
+- ama anlamli note guncellemeleri gerekiyorsa timeline event'i uretebilir
+
+Simdi daha uygulamaya yakin soru su:
+- bu `temas sonucu` event'i operator tarafindan ayri bir event olarak mi girilmeli?
+- yoksa operator notundaki belirli mikro alanlar kaydedilince sistem mi bunu tek satirlik event'e cevirmeli?
+
+Bu ayrim onemli.
+Cunku cift giris istersek saha akisi agirlasir.
+Ama fazla otomatik derive edersek timeline coplenir.
+
+### 1) Mevcut referanslar hangi yone itiyor?
+`business-detail-v1.md` ve onceki notlar birlikte su resmi veriyor:
+- timeline `yorum` degil `hareket` gostermeli
+- operator notu ana yuzeyde `tek guncel ozet` olarak kalmali
+- gorusme notu icin dusunulen minimum alanlar zaten var:
+  - `muhatap / rol`
+  - `ihtiyac veya itiraz`
+  - `teyit edilen bilgi`
+  - `sonraki temas`
+- `not eklendiginde timeline eventi uretilebilir`
+
+Buradan su guclu sey cikiyor:
+- tamamen serbest metinden derive etmek riskli
+- ama tamamen ayri manuel event istemek de ayni bilgiyi iki kez girdirir
+
+### 2) Uc model
+
+#### TS1) Yalniz manuel timeline event girisi
+Mantik:
+- operator notu ayridir
+- temas sonucu ayrica `event ekle` gibi manuel girilir
+- timeline sadece bu acik eventlerden beslenir
+
+Artisi:
+- event dili cok kontrollu olur
+- timeline'da neyin girecegi net secilir
+- yanlis otomasyon riski azdir
+
+Eksisi:
+- cift giris yuksek surtunme yaratir
+- sahada operator notu yazar ama eventi atlayabilir
+- gecmis yine eksik kalir
+- V1 icin gereksiz mini CRM hareketi gibi hissedebilir
+
+#### TS2) Serbest operator notundan otomatik derive
+Mantik:
+- operator mevcut notu gunceller
+- sistem metinden olay cikarip timeline event'i uretir
+
+Artisi:
+- veri girisi cok hafif hissedilir
+- operatoru ayri event dusunmeye zorlamaz
+
+Eksisi:
+- serbest metin yorumu kirilgan olur
+- ayni notta kucuk editler de event uretebilir
+- olay tarihi ile not duzenleme tarihi karisabilir
+- timeline'da gurultu ve tekrar riski cok yuksek
+
+#### TS3) Belirli mikro alanlardan kontrollu derive
+Mantik:
+- operator serbest metin duvarina degil, kisa temas alanlarina veri girer
+- sistem yalniz anlamli temas alanlari kaydedildiginde `temas sonucu` event'i uretir
+- event metni serbest nottan degil, bu alanlardan kurulur
+
+Ornek alanlar:
+- kanal veya muhatap
+- sonuc tipi (`muhatap yoktu`, `ilgili`, `tekrar aranacak`, `teklif istedi` gibi)
+- tek cümle kisa ozet
+- sonraki temas tarihi veya niyeti
+
+Artisi:
+- cift giris azalir
+- timeline daha tutarli kalir
+- olay dili standartlasir
+- `guncel operator notu` ile gecmis rol ayrimi korunur
+
+Eksisi:
+- mikro alanlarin siniri iyi cizilmeli
+- her kaydetme event uretmemeli
+- operatorun `ben sadece notumu duzelttim` hissiyle gereksiz event cikmasi engellenmeli
+
+Ara yorum:
+- su an en saglikli yol `TS3`
+
+### 3) Neden tam manuel model zayif?
+Cunku saha akisi zaten hiz gerektiriyor.
+Operatorun sunu iki ayri yere girmesi zayif:
+- notu guncelle
+- bir de ayni gorusmenin event'ini ac
+
+Bu ikili akista genelde ikinci adim atlanir.
+Sonra su sorun olur:
+- guncel not var
+- ama timeline bos veya eksik
+
+Bu da onceki hedefe ters:
+- son 3 temas ozeti gercekten yasayan bir referans olmali
+
+### 4) Neden serbest metinden otomatik derive da zayif?
+Cunku operator notu bugunluk beyaz tahta gibi degisebilir.
+Ornegin su tip guncellemeler olay degil, sadece derleme olabilir:
+- telefon teyit edildi
+- sali aranacak
+- sahibi ogleden sonra orada
+- Paket 2 olabilir gibi duruyor
+
+Bunlarin serbest metinden her degisimde otomatik event'e donmesi,
+timeline'i edit log'una cevirir.
+Bu da onceki `timeline yorum degil hareket gosterir` cizgisini bozar.
+
+### 5) O zaman en saglikli V1 davranisi nasil olmali?
+Bence su model en guvenli:
+
+#### Operator girdi katmani
+- `guncel operator notu` serbest ama derlenmis ozet olarak kalir
+- bunun yaninda temas icin kisa mikro alanlar olur
+- bu alanlar gorusme/arama/ziyaret sonucunu tasir
+
+#### Event uretim mantigi
+- ancak `temas sonucu` niteligindeki alanlar doluysa event olusur
+- salt not edit'i event uretmez
+- ayni gun icinde anlamsiz minik duzeltmeler ikinci event acmaz
+
+#### Timeline cikisi
+- tek satir, contact-aware event uretir
+- ornek: `Telefonla gorusuldu, muhatap yarin tekrar aranacak.`
+- veya: `Isletmede muhatap yoktu, sali tekrar ugranacak.`
+
+Bu modelle:
+- event dili hareket olarak kalir
+- gecmis not kopyasi olmaz
+- operator tek seferlik girisle hem bugunku ozetini hem gecmis izini besler
+
+### 6) Peki manuel hic olmayacak mi?
+Tamamen sifir manuel demek de dogru olmayabilir.
+Bence V1 cizgisi su olmali:
+- varsayilan yol = mikro alanlardan kontrollu derive
+- istisna yol = gerekirse detail icinde `temas sonucu ekle` benzeri dar manuel aksiyon sonra dusunulebilir
+
+Ama bu istisna V1'in omurgasi olmamali.
+Yoksa yine iki paralel veri giris kapisi acilir.
+
+### 7) En buyuk risk ne?
+Mikro alanlari sessizce buyutmek.
+Mesela su yone kayarsa yine mini CRM olur:
+- kanal
+- muhatap
+- itiraz tipi
+- duygu seviyesi
+- kapanis ihtimali
+- teklif beklentisi
+- notlar
+
+V1 icin bu fazla.
+Temas sonucu event'i yalniz su minimumu tasimali:
+- muhatap veya kanal
+- sonuc tipi
+- kisa tek cümle ozet
+- sonraki temas niyeti varsa o
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `temas sonucu` timeline eventi yalniz ayri manuel girisle yasamamalı
+- ama serbest operator notundan otomatik derive da edilmemeli
+- en saglikli V1 model: operator notuna yakin duran kisitli temas mikro alanlarindan kontrollu derive edilen event mantigi
+- salt not edit'i event uretmez, sadece anlamli temas kaydi event'e doner
+
+Kisa formda:
+- not = current summary
+- contact fields = structured minimal input
+- timeline = derived contact event
+- avoid = free-text auto-parsing and double manual entry
+
+Bu model hem veri tekrarini azaltir,
+hem de `son 3 temas ozeti`ni gercekten kullanilabilir bir referans olarak ayakta tutar.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
-- `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
 - `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
 - derived aday olmayan kayitlar icin dar istisna override'i listede mi, yoksa yalniz detail icinde mi daha guvenli olur?
+- `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
