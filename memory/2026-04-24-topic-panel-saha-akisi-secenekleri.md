@@ -6685,10 +6685,341 @@ Kisa formda:
 Bu model hem `Businesses-first` gunluk hissini koruyor,
 hem de istisna kararini dogru baglama tasiyor.
 
+## Kirk dorduncu okuma - `audit teyidi` uyarisinda `eski / ince / tarama-gerilimi` disinda baska esik gerekli mi?
+Bir onceki ara karar suydu:
+- `audit teyidi gerekli` sinyali yumusak olmali
+- asli yeri audit snapshot / paket yonu tarafi olmali
+- karar ani yansimasi yalniz `teklife gec` koprusunde gorunmeli
+- ilk esik seti su ucluydu:
+  - `eski audit`
+  - `ince audit`
+  - `tarama-gerilimi`
+
+Simdi soru su:
+- bu uc isaret V1 icin yeterli mi?
+- yoksa baska risk sinyalleri de ayni uyariya dahil edilmeli mi?
+
+Bu onemli.
+Cunku esik seti dar kalirsa zayif audit gozden kacabilir.
+Ama fazla genislerse `audit teyidi` her seyin cop torbasina doner.
+
+### 1) Referanslar hangi yone itiyor?
+Repo ve referanslar birlikte su ayirimi veriyor:
+- `audit` = `teklife gecildiyse hangi paket yonu uygun?`
+- `Y.Z` = `simdi teklife gecilir mi, yoksa once dogrulama mi gerekir?`
+- `business-detail-v1.md` audit puanini degil, audit ozeti ve eksik listesini one aliyor
+- `yz-report` kontratinda `supheli eslesme` ve `veri yetersiz` ayri genel durumlar olarak zaten var
+- external katmanda `isClosed` gibi dis dunya riskleri tutuluyor ama bunlar canonical/audit zeminiyle karistirilmiyor
+
+Buradan guclu bir cizgi cikiyor:
+- `audit teyidi` uyarisi, audit kalitesine dair dar bir kalite kontrol olmali
+- genel veri guvensizligi veya eslesme suphesi bunun icine yigilmamali
+
+### 2) Uc model
+
+#### ATS1) Mevcut uc esik yeterli, baska bir sey eklenmesin
+Esikler:
+- eski audit
+- ince audit
+- tarama-gerilimi
+
+Artisi:
+- kural sade kalir
+- operator neyin eksik oldugunu kolay anlar
+- uyari spam'e donmez
+
+Eksisi:
+- bazi gri vakalar disarida kalabilir
+- audit teknik olarak dolu ama yine de kalitesiz olabilir
+
+#### ATS2) Daha genis kalite sepeti acilsin
+Ek aday sinyaller:
+- Y.Z `veri yetersiz`
+- Y.Z `supheli eslesme`
+- `isClosed`
+- `channelReadiness = dusuk`
+- ownership / maps uyumsuzlugu
+
+Artisi:
+- daha kapsayici gorunur
+- operatorun gozunden daha az sey kacabilir
+
+Eksisi:
+- `audit teyidi` sinyalini amacindan saptirir
+- Y.Z ve external riskleri audit kalitesine gomerek katmanlari karistirir
+- sayfada hangi uyari ne icin var anlasilmaz
+
+#### ATS3) Uc esik cekirdek kalsin, diger riskler ayri sinyal ailelerinde dursun
+Mantik:
+- `audit teyidi` yalniz audit zemini zayifsa ciksin
+- `supheli eslesme`, `veri yetersiz`, `isClosed` gibi seyler baska katmanda daha erken ve daha sert okunur
+- `channelReadiness` gibi alanlar ise audit ozetinin icine erir, ayri esik olmak zorunda degil
+
+Artisi:
+- katman ayrimi korunur
+- audit uyarisi yalniz kendi isini yapar
+- sayfa dili daha anlasilir kalir
+
+Eksisi:
+- farkli risk aileleri icin iyi isimlendirme ister
+- operator bazen `neden bu da audit teyidi degil?` diye sorabilir
+
+Ara yorum:
+- su an en saglikli yol `ATS3`
+
+### 3) Neden `supheli eslesme` veya `veri yetersiz` ayni sepete girmemeli?
+Cunku bunlar `paket zemini biraz zayif` problemi degil,
+daha onceki karar kapisini etkileyen sinyaller.
+Eger Y.Z durumu `supheli eslesme` veya `veri yetersiz` ise,
+sorun su seviyededir:
+- bu kayitla devam etmeli miyiz?
+- eslesme dogru mu?
+- daha fazla veri mi lazim?
+
+Bu, `audit teyidi`nden daha yuksek seviyeli bir sorudur.
+Ayni etikete gomulurse operator sorunun agirligini yanlis okur.
+
+### 4) `isClosed` veya benzeri dis riskler neden ayri kalmali?
+Cunku `isClosed` bir audit kalite sorusu degil,
+dis dunya gercekligi sorusu.
+Boyle bir durumda dogru cizgi daha cok su olur:
+- once kaydin kapanik/supheli olup olmadigini netlestir
+- sonra teklif zeminini konus
+
+Yani `isClosed`, audit teyidinin alt sinyali degil;
+daha erken bir dogrulama/uyari ailesine ait.
+
+### 5) `channelReadiness dusuk` gibi audit alanlari ek esik olmali mi?
+Bence hayir, dogrudan ayri esik olmak zorunda degil.
+Cunku bu tip alanlar zaten audit ozetinin `ince` veya `zayif` olma hissine katkida bulunur.
+Ayri esik yaparsak sunu uretebiliriz:
+- audit ince
+- readiness dusuk
+- eksik listesi zayif
+
+Sonra ayni problemi uc farkli isimle tekrar ederiz.
+Bu da uyariyi sisirir.
+
+### 6) O zaman en saglikli V1 esik seti nasil gorunmeli?
+Bence su sekilde:
+
+#### `audit teyidi gerekli`nin cekirdek esikleri
+- `eski audit`: audit `updatedAt`, son anlamli tarama/Y.Z girisinden belirgin eskiyse
+- `ince audit`: audit ozeti yok, asiri kisa veya paket yonu cikarmaya yetmeyecek kadar bos ise
+- `tarama-gerilimi`: son dis bulgular, auditteki paket yonu veya ana eksikle gerilim uretiyorsa
+
+#### Bu uyarinin DISINDA kalacak ama AYRI okunacak riskler
+- `supheli eslesme`
+- `veri yetersiz`
+- `isClosed` / kapanik sinyali
+- discovery/external dogrulama sorunlari
+
+Bu model su ayrimi korur:
+- `audit teyidi` = paket zemini yeterince saglam mi?
+- `Y.Z / external risk` = bu kayit ve gorunum guvenilir mi?
+
+### 7) En buyuk risk ne?
+Her turlu supheyi `audit teyidi` etiketi altina yikmak.
+Bu olursa operator sunu okuyamaz:
+- veri mi eksik?
+- eslesme mi supheli?
+- audit mi zayif?
+- paket yonu mu eski?
+
+Yani tek uyariyla cok sey anlatmaya calismak,
+uyari sistemini basitlestirmek degil bulandirmak olur.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `audit teyidi` uyarisi icin cekirdek esik seti olarak `eski / ince / tarama-gerilimi` yeterli gorunuyor
+- `supheli eslesme`, `veri yetersiz`, `isClosed` gibi sinyaller ayni uyariya eklenmemeli
+- bunlar audit kalitesi degil, daha ust veya daha dis risk aileleri olarak ayri okunmali
+- yani ek sinyal ihtiyaci varsa cozum `audit teyidi`ni buyutmek degil, ayri risk dili kurmak
+
+Kisa formda:
+- keep = old / thin / scan-conflict
+- do not fold in = mismatch / insufficient-data / closed
+- principle = one warning family, one job
+
+Bu model hem katman ayrimini koruyor,
+hem de `audit teyidi` uyarisini gercekten okunur bir kalite sinyali olarak tutuyor.
+
+## Kirk besinci okuma - `ince audit` esigi yalniz karakter uzunlugu mu olmali, yoksa yari-yapili icerik kontrolu mu istemeli?
+Bir onceki kararda su cizgiyi netlestirdim:
+- `audit teyidi` cekirdek olarak `eski / ince / tarama-gerilimi` uclusune dayansin
+- ama burada en kaygan alan `ince audit`
+- cunku `ince`yi yalniz hisle birakirsam sistem tutarsizlasir
+
+Simdi asil soru su:
+- `ince audit` sadece cok kisa metin demek mi?
+- yoksa audit metni paket kararina yetecek asgari iskeleti tasiyor mu diye daha yapili bakmak mi gerekir?
+
+### 1) Mevcut repo gercegi ne diyor?
+Kod tarafinda audit kaydi bugun cok hafif:
+- `channelReadiness`
+- `summary`
+- `updatedAt`
+
+Y.Z ve agent scan uretimi de auditten yalniz `summary` okuyor.
+Yani bugun kanonik audit modeli ayri alanlar halinde suyu tutmuyor:
+- ana eksik
+- paket yonu
+- beklenen sonuc
+
+Bu cok onemli.
+Cunku V1'de elimizde gercek anlamda yapili audit objesi yok.
+Demek ki cozum ya tamamen serbest metne razi olacak,
+ya da serbest metnin icinde dar bir mikro iskelet arayacak.
+
+### 2) Uc model
+
+#### IAE1) Yalniz karakter uzunlugu esigi
+Ornek mantik:
+- 0-20 karakter = ince
+- 20-60 karakter = supheli
+- 60+ karakter = yeterli
+
+Artisi:
+- uygulamasi en kolay
+- teknik olarak hizli ve ucuz
+
+Eksisi:
+- uzun ama bos auditleri kacirir
+- kisa ama guclu auditleri haksiz yere cezalandirir
+- operatoru daha iyi audit yazmaya degil, daha uzun audit yazmaya iter
+
+#### IAE2) Tam yapili alan zorunlulugu
+Ornek mantik:
+Audit mutlaka ayri alanlarla tutulur:
+- ana eksik
+- paket yonu
+- beklenen sonuc
+
+Artisi:
+- kalite kontrol net olur
+- teklif zemini daha saglam okunur
+
+Eksisi:
+- bugunku veri modeline fazla buyuk gelir
+- teklif netlesmeden yeni form yapisi ve ekran buyutur
+- V1 icin agirlik yaratir
+
+#### IAE3) Serbest metin + dar mikro iskelet kontrolu
+Mantik:
+- audit kaydi hala tek `summary` olarak kalir
+- ama sistem `ince audit`i yalniz uzunlukla degil, auditin icindeki kritik isaretlerle anlar
+- auditte asgari olarak su tip bilgi aranir:
+  - sorun/eksik ne
+  - beklenen cozum veya yon ne
+  - beklenen sonuc / neden bu yone gidildigi ne
+
+Artisi:
+- bugunku hafif veri modelini bozmaz
+- yalniz uzunluga bakmaktan daha akilli olur
+- V1'de yeni tablo ve zorunlu form duvari acmaz
+
+Eksisi:
+- heuristik kalir
+- her zaman kusursuz olmaz
+- iyi isimlendirilmis mikro sablon ister
+
+Ara yorum:
+- su an en saglikli yol `IAE3`
+
+### 3) Neden yalniz uzunluk zayif?
+Cunku auditin isi `uzun olmak` degil,
+su sorulari cevaplamak:
+- asıl eksik ne?
+- hangi paket yone mantikli?
+- bu paket neyi duzeltecek?
+
+`Instagram yok, site zayif, yorum az.` gibi cumle 40-50 karakteri gecebilir,
+ama hala teklif zemini icin zayif kalabilir.
+Tersine,
+`Website yok. Paket 1 vitrini uygun. Amaç görünürlük ve güven.` gibi daha kisa bir metin,
+paket karari icin daha kullanimli olabilir.
+
+Yani karakter sayisi yardimci olabilir,
+ama ana karar olmamali.
+
+### 4) Neden tam yapili alan zorunlulugu simdilik agir?
+Cunku su an referanslar net sekilde soyluyor:
+- teklif netlesmeden ekran cogaltma
+- form duvarina donmeme
+- CRM'e kaymama
+
+Eger `ince audit`i cozmek icin hemen su alanlari zorunlu acarsam:
+- ana eksik
+- paket yonu
+- beklenen sonuc
+- destekleyici not
+
+bu kez audit kalitesini korurken V1 sadeligini bozarim.
+Sorun gercek ama cozumun agirligi simdilik fazla.
+
+### 5) O zaman en saglikli mikro iskelet ne olabilir?
+Bence `summary` serbest kalirken,
+sistem icin dar bir uc ayakli iskelet yeterli:
+- `ana eksik`
+- `paket / cozum yonu`
+- `beklenen sonuc`
+
+Ornek iyi audit ozeti:
+- `Website yok ve iletisim daginik. Paket 1 vitrini uygun. Amaç güven veren temel görünürlük.`
+
+Ornek zayif audit ozeti:
+- `Dijital taraf zayif.`
+- `Bakilacak.`
+- `Site olabilir.`
+
+Bu ayrim,
+karakter uzunlugundan daha iyi kalite sinyali verir.
+
+### 6) Teknikte nasil yorumlanmali?
+Bence V1 icin su hiyerarsi dogru:
+- once tamamen bos mu bak
+- sonra asiri kisa mi bak
+- sonra mikro iskelet sinyali var mi bak
+
+Yani `ince audit` karari tek kosullu degil,
+dar bir kombinasyonla verilir:
+- bos veya cok kisa ise direkt `ince`
+- orta uzunlukta ama `sorun + yon + sonuc` iskeletinden yalniz bir parcayi tasiyorsa yine `ince`
+- yeterli uzunlukta ve en az iki-uc kritik parcayi tasiyorsa `ince degil`
+
+Bu model hem teknik olarak uygulanabilir,
+hem de operator davranisini daha dogru yone iter.
+
+### 7) En buyuk risk ne?
+Mikro iskeleti gizli form zorunluluguna cevirmek.
+Eger sistem her auditte cok katı `template police` gibi davranirsa,
+operator serbestce dusunemez.
+Bu yuzden mikro iskelet sunu yapmali:
+- kalite kontrolu saglamali
+- ama birebir sablon dayatmamali
+
+Yani hedef `herkes ayni cumleyi yazsin` degil,
+`paket kararina yetecek omurga bulunsun` olmali.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `ince audit` esigi yalniz karakter uzunluguna birakilmamali
+- ama tam yapili audit form zorunluluguna da gidilmemeli
+- en saglikli V1 yol, tek `summary` icinde `ana eksik + cozum yonu + beklenen sonuc` omurgasini arayan hafif bir kalite kontrol
+- karakter uzunlugu yalniz yardimci sinyal olmali, ana karar degil
+
+Kisa formda:
+- not enough = length only
+- too heavy = structured mandatory fields now
+- recommended = free text with narrow content skeleton
+
+Bu model hem mevcut repo gercegine uyuyor,
+hem de `audit teyidi` icindeki `ince audit` sinyalini daha akilli hale getiriyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
-- `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
+- audit ozetinde mikro iskelet yardimi operatora gorunur placeholder olarak mi verilmeli, yoksa yalniz arka planda kalite kontrolu olarak mi kalmali?
