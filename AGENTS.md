@@ -21,6 +21,7 @@ Ele aldigin her iste su sirayi izle:
 4. sonucu kisaca dogrula
 5. gerekiyorsa ilgili kaydi guncelle
 6. sonucu durum / sonraki adim / blokaj duzeniyle yaz
+7. gerekiyorsa onceki karar, acik blokaj ve siradaki adimi kisa ozetle gorunur tut
 
 Tek aktif is mantigini koru. Bir isi yarim birakip baska yone savrulma.
 

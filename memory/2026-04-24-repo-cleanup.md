@@ -565,6 +565,19 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - bu komut toplu dosya tasima oldugu icin kullanicidan kisa onay alinmadan calistirilmayacak
 - onay gelince komut birebir bu haliyle calistirilacak, sonra referans guncellemeleri ayri adimda tamamlanacak
 
+## Asama A referans guncelleme etkisi
+
+### Tarama sonucu
+- Asama A icindeki 20 eski ad repo genelinde tekrar tarandi
+- filename bazli kanonik referans yuzeyi pratikte tek dosyada toplaniyor: `memory/2026-04-24-repo-cleanup.md`
+- ikinci gorunen yuzey, bizzat calistirilacak artefakt olan `state/repo-cleanup-asama-a-rename.sh`
+- `AGENTS.md`, `HEARTBEAT.md`, `README.md`, `MEMORY.md` ve diger kok referans dosyalarinda ek Asama A filename baglantisi cikmadi
+
+### Uygulama notu
+- rename sonrasi ilk patch sadece bu cleanup notunu yeni adlarla senkronize edecek
+- `state/repo-cleanup-asama-a-rename.sh` ise calisma artefakti oldugu icin is tamamlaninca silme/arsivleme adayi olarak ele alinacak
+- referans daralmasi sayesinde Asama A rename + patch paketi dusuk riskli kaldı
+
 ## Ek bulgu - MEMORY promoted block drift'i
 
 ### Bulgu

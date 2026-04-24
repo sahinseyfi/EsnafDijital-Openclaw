@@ -21,7 +21,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- MEMORY bagli referans dosyalarinin hizasini koruyarak Asama A icin hazirlanan `state/repo-cleanup-asama-a-rename.sh` komut taslagi uzerinden kisa onay alip 20 dusuk riskli `memory/` rename batch'ini uygulamak, sonra referans guncellemelerini ayri patch ile tamamlamak
+- MEMORY bagli referans dosyalarinin hizasini koruyarak Asama A icin hazirlanan `state/repo-cleanup-asama-a-rename.sh` komut taslagi uzerinden kisa onay alip 20 dusuk riskli `memory/` rename batch'ini uygulamak, sonra hazir durumdaki dar kapsamli referans patch'i ile `memory/2026-04-24-repo-cleanup.md` senkronunu tamamlamak
 
 ## Mevcut Blokajlar
 - fiziksel rename uygulamasi toplu dosya tasima sayildigi icin kisa onay gerektiriyor
