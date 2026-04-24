@@ -7730,10 +7730,148 @@ Kisa formda:
 Bu model hem ekran dozunu dusuk tutuyor,
 hem de kucuk bir operasyon notunu gereksiz alarm haline getirmiyor.
 
+## Elli birinci okuma - `kapsam notu netlesmeli` satiri yalniz metin olarak mi kalmali, yoksa hemen altina `teklifi guncelle` benzeri mikro aksiyon da baglanmali mi?
+Bir onceki karar suydi:
+- boyle bir satir V1'de default degil
+- bir gun gerekirse `son teklif` karti icinde sessiz ikincil metin olarak durmali
+- en guvenli metin tonu `kapsam notu netlesmeli`
+
+Simdi soru su:
+- bu metin tek basina yeterli mi?
+- yoksa operatoru hizlandirmak icin hemen yanina/altina `teklifi guncelle` gibi mikro aksiyon mu eklenmeli?
+
+Bu kucuk gorunen karar aslinda kart mimarisini etkiliyor.
+Cunku bir dip notu butonla birlestirdigimde,
+o not bir `yardimci sinyal` olmaktan cikip mini goreve donusmeye baslayabilir.
+
+### 1) Referanslar hangi yone itiyor?
+Repo ve referanslar birlikte su cizgiyi veriyor:
+- `UX Rules`: her section'da 1 ana CTA, en fazla 1 ikincil CTA
+- `business-detail-v1.md`: primary CTA tek olur, digerleri destek aksiyon olur
+- onceki teklif karti minimumu zaten `primary aksiyon = teklifi ac / guncelle / gonder`
+- Business Detail'in isi karar ve yon bulmak, task duvari olmak degil
+- ayni bilgi ve ayni hareket gereksiz tekrar etmemeli
+
+Bu cizgi cok net:
+- teklif kartinin zaten bir primary aksiyonu varken,
+  erken risk satirina ayrica mikro aksiyon baglamak kolayca rekabet uretebilir
+
+### 2) Uc model
+
+#### MAA1) Yalniz metin olarak kalsin
+Ornek:
+- `Kapsam notu netlesmeli.`
+- altinda ekstra buton yok
+
+Artisi:
+- kart hiyerarsisini bozmaz
+- primary aksiyon rekabeti yaratmaz
+- gereksiz task hissi dogurmaz
+- onceki `sessiz ikincil metin` kararina en uyumlu secenek budur
+
+Eksisi:
+- operatorun hangi hareketi yapacagi tamamen kartin mevcut primary aksiyonundan cikmasi gerekir
+- bazen biraz fazla sessiz kalabilir
+
+#### MAA2) Her durumda mikro aksiyon eklensin
+Ornek:
+- `Kapsam notu netlesmeli.`
+- yaninda `Teklifi guncelle`
+
+Artisi:
+- dogrudan yon verir
+- gozden kacma ihtimalini azaltir
+
+Eksisi:
+- ayni kartta ikinci bir fiili CTA yaratir
+- `teklifi guncelle` zaten kartin ana aksiyonuyla cakisabilir
+- dip notu mini task'a cevirir
+- V1 scope'unu gereksiz buyutur
+
+#### MAA3) Baglamsal mikro aksiyon olsun
+Mantik:
+- yalniz belirli durumda ciksin
+- mesela primary aksiyon `teklifi gonder` ise, ikincil olarak `notu duzelt` gibi acilsin
+
+Artisi:
+- tum durumda degil, daha kontrollu olur
+- bazen faydali kisayol gibi davranabilir
+
+Eksisi:
+- yeni karar tablosu gerektirir
+- hangi durumda mikro aksiyon var/yok mantigi karmasilasir
+- V1'de erken pattern borcu yaratir
+
+Ara yorum:
+- su an en saglikli yol acik farkla `MAA1`
+
+### 3) Neden mikro aksiyon eklemek zayif gorunuyor?
+Cunku bu satirin rolu zaten ikincil:
+- ana karar = teklif kartinin primary aksiyonu
+- ikincil yardim = kapsam netligi uyarisi
+
+Eger bu ikincil yardima buton eklersem,
+su sorular dogar:
+- primary aksiyon hangisi?
+- `teklifi guncelle` ile kartin ana butonu farkliysa hangisini once yapiyorum?
+- ayni kartta neden iki ayri yon var?
+
+Bu da onceki `tek primary CTA` kuralini zayiflatir.
+
+### 4) `teklifi guncelle` zaten kartta dogal olarak var mi?
+Buyuk olasilikla evet.
+Cunku onceki teklif karti minimumunda zaten su cizgi var:
+- primary aksiyon = `teklifi ac / guncelle / gonder`
+
+Yani `kapsam notu netlesmeli` satiri ciktigi anda,
+operatorun yapacagi hareket cogu zaman zaten kartin ana aksiyonuna dahil olacak.
+Bu durumda ekstra mikro buton yeni deger uretmekten cok,
+mevcut hareketi ikinci kez soylemis olur.
+
+### 5) Peki hic aksiyon baglamamak operatoru belirsiz birakir mi?
+Sinirli olculde birakabilir,
+ama bu risk su sekilde daha temiz cozulebilir:
+- metin kendi basina yeterince yon verici olur
+- kartin mevcut primary aksiyonu ayni baglamda kalir
+
+Ornek okuma:
+- primary: `Teklifi guncelle`
+- ikincil metin: `Kapsam notu netlesmeli.`
+
+Bu ikili zaten operatora yeterli yon verir.
+Ekstra bir mikro buton olmadan da mantik kurulabilir.
+
+### 6) Baglamsal mikro aksiyon neden simdilik fazla?
+Cunku ilk bakista makul gorunse de,
+sistemde yeni kural ailesi aciyor:
+- draft'ta baska mi gorunecek?
+- sent'te baska mi?
+- approved'a yakin durumda ne olacak?
+- mikro aksiyon primary ile nasil iliskilenecek?
+
+Bu da kucuk bir yardimci satir icin,
+orantisiz bir karar karmasasi getirir.
+V1 icin pahali.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `kapsam notu netlesmeli` satiri yalniz metin olarak kalmali
+- hemen altina `teklifi guncelle` benzeri ayri bir mikro aksiyon baglamak gerekmez
+- cunku teklif kartinin kendi primary aksiyonu zaten buna dogal cikis yolu saglar
+- ekstra mikro aksiyon, tek primary CTA kuralini zayiflatir ve dip notu mini task'a cevirir
+
+Kisa formda:
+- recommended = text only
+- no need = extra micro action
+- reason = primary action already covers it
+
+Bu model hem kart hiyerarsisini koruyor,
+hem de kucuk bir operasyon sinyalini gereksiz ikincil buton setine cevirmiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
-- `kapsam notu netlesmeli` satiri yalniz metin olarak mi kalmali, yoksa hemen altina `teklifi guncelle` benzeri mikro aksiyon da baglanmali mi?
+- teklif kartindaki `neden bu paket` on-dolgusu icin kalite sinyali gerekiyorsa, bu da sessiz ikincil metin mi olmali yoksa daha belirgin bir `gozden gecir` etiketi mi istemeli?
