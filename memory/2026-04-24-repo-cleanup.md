@@ -672,7 +672,7 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 
 ### Sonraki kontrollu adim
 - Asama C aktif cleanup notunu ayri tutmaya devam et
-- `state/repo-cleanup-asama-a-*` ve `state/repo-cleanup-asama-b-*` artefaktlarini silme/arsivleme adayi olarak ayri karar ver
+- bu hat kapandiginda `2026-04-24-repo-cleanup.md` icin naming karari ver
 
 ## 2026-04-24 ek ilerleme - kontrollu kok dosya uyum duzeltmeleri
 
@@ -715,7 +715,7 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 1. `HEARTBEAT.md`
    - genel iskelet dogru
    - `Siradaki Somut Adim` satiri fiili akisla yeniden hizalandi
-   - bir sonraki durak artik Asama C aktif notunu ayri tutup state artefaktlari icin karar vermek
+   - bir sonraki durak artik Asama C aktif notunu ayri tutup bu hat kapaninca naming kararini vermek
 
 2. `MEMORY.md`
    - `Promoted From Short-Term Memory` blogu ayiklanip kaldirildi
@@ -730,7 +730,9 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 4. `memory/` naming drift rename paketi
    - Asama A fiziksel rename + dar referans patch'i tamamlandi
    - Asama B fiziksel rename + paired update tamamlandi
+   - ilgili state artefaktlari silindi
    - Asama C aktif cleanup notu olarak ayri tutuluyor
+   - karar: `memory/2026-04-24-repo-cleanup.md` cleanup kapanana kadar bu adla kalacak, kapanista `memory/2026-04-24-topic-repo-cleanup.md` olarak tasinacak
 
 ### Guncel durum notu
 - Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
@@ -739,4 +741,5 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 - `MEMORY_SUMMARY.md` kolu bu cleanup hattinda kapatildi; yeniden olusturma karari alinmadi
 - Asama A rename batch'i ve `memory/2026-04-24-repo-cleanup.md` senkronu tamamlandi
 - Asama B fiziksel rename'i ve paired update senkronu tamamlandi
-- Bu cleanup hattinin sonraki kontrollu duragi: Asama C aktif notunu ayri tutup state artefaktlari icin silme/arsivleme karari vermek
+- ilgili state artefaktlari silindi
+- Bu cleanup hattinin sonraki kontrollu duragi: Asama C aktif notunu ayri tutup cleanup kapaninca `memory/2026-04-24-topic-repo-cleanup.md` rename'ine gecmek

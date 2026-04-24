@@ -21,7 +21,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- Asama A ve Asama B rename paketleri tamamlandigi icin, aktif cleanup notu olan `2026-04-24-repo-cleanup.md` dosyasini Asama C olarak ayri tutup bu hat kapandiginda naming kararini verecek son kontrolu hazirlamak
+- Asama A ve Asama B rename paketleri tamamlandigi icin, aktif cleanup notu olan `2026-04-24-repo-cleanup.md` dosyasini Asama C olarak ayri tutup cleanup kapaninca `2026-04-24-topic-repo-cleanup.md` rename'ine gececek son kontrolu hazirlamak
 
 ## Mevcut Blokajlar
 - aktif cleanup notu olan `2026-04-24-repo-cleanup.md` Asama C olarak ayrildigi icin bu hatta henuz dahil edilmeyecek
