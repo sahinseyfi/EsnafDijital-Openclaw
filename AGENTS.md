@@ -6,11 +6,11 @@ Bu dosya, bu workspace icinde calisan ajanin okuma sirasini, calisma duzenini ve
 EsnafDigital icin sade, izlenebilir ve calisan bir teknik ve operasyon duzeni kurmak.
 
 ## 2) Oturum Acilis Sirasi
-Her yeni istekte her seyi okumaya calisma. Once su sirayi kullan:
+Yeni oturumda her seyi bastan okuma. Once su sirayi kullan:
 1. `README.md` -> repo ne, ilk nereye bakilacak
 2. `HEARTBEAT.md` -> su an ne onemli
 3. `MEMORY.md` -> kalici cizgi
-4. goreve gore ilgili dosya veya klasor README'si -> `PROJECT.md`, `ROADMAP.md`, `agent-workspace/README.md`, `memory/README.md`, `DECISIONS/README.md`, `TOOLS.md`, `OPERATIONS.md`, ilgili checklist/playbook
+4. goreve gore ilgili rehber dosyasi
 5. gerekiyorsa ilgili tarihli veya konu-ozel kayit
 
 ## 3) Varsayilan Calisma Dongusu
