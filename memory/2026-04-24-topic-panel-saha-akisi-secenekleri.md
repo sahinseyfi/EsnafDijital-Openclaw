@@ -1403,6 +1403,256 @@ Ama bu wake'in sonucu olarak su kanaat guclendi:
 - `hic veri yoksa` veya `aday bulma modundaysan` discovery onde olabilir
 - root ekran tek basina ana omurga olmamali
 
+## Sekizinci okuma - yolda gorulen isletmeyi hizli bulma ve cift kayit riski
+Kurucunun saha gercegine en yakin soru burada cikti:
+- yolda bir isletme goruldugunde sistemde var mi yok mu nasil hizli anlasilacak?
+- bulunamazsa ayni isletme ikinci kez nasil acilmayacak?
+
+### 1) Su anki kod gercegi ne sagliyor?
+`/businesses` aramasi bugun sunlari tarayabiliyor:
+- isletme adi
+- ownerName
+- ilce
+- queue ozet/notu
+
+Bu iyi cunku:
+- adin bir kismini yazinca bulunabilir
+- ilceyle daraltma yapilabilir
+- not veya ozetten de yakalama sansi var
+
+Ama saha icin eksik cunku:
+- adres yok
+- mahalle/sokak yok
+- telefon yok
+- discovery tarafindaki place baglantisi yok
+- manuel yeni kayit acmadan once duplicate kontrolu yok
+
+### 2) Discovery tarafinda kismi koruma var, manuel tarafta zayif
+`/api/discovery/import` su an ayni `placeId` iki kez aktarilmasin diye runtime state uzerinden koruma koyuyor.
+Bu guclu.
+
+Ama manuel kayitta bugun gorunen cizgi su:
+- `createBusiness` ad, ilce, ownerName ister
+- ama benzer mevcut kayit var mi diye kontrol etmez
+- yani manuel acista cift kayit riski gercek
+
+### 3) Saha senaryosu icin tek dogru cevap arama + duplicate kontrolunu ayni akis yapmak
+En mantikli V1 akisi su gorunuyor:
+
+#### Adim 1 - once hizli ara
+Operator yolda gordugu isletme icin tek kutuda su sekilde arar:
+- isletme adi parcasi
+- ilce veya mahalle parcasi
+- gerekirse kategori
+
+Ornek:
+- `ozlem kuafor arnavutkoy`
+- `mavi erkek berberi merkez`
+- `lale guzellik`
+
+#### Adim 2 - sonuc yoksa `yeni aday ac`
+Ama bu buton direkt kaydetmez.
+Once arkada `muhtemel ayni kayitlar` kontrolu kosar.
+
+#### Adim 3 - sistem yakin eslesmeleri gosterir
+En az su alanlardan:
+- benzer ad
+- ayni ilce
+- benzer adres parcasi varsa o da
+- ayni telefon varsa kuvvetli eslesme
+
+Operatora su secenekler verilir:
+- `mevcut kaydi ac`
+- `yine de yeni kayit ac`
+
+### 4) Duplicate kontrolu icin katmanli kural lazim
+Tek bir sert kural yetmez.
+En saglikli yol 3 katmanli model:
+
+#### D1) Sert eslesme
+Sunlardan biri ayniysa cok kuvvetli uyar:
+- ayni `placeId`
+- ayni telefon
+- ayni website alan adi
+
+#### D2) YumUSak eslesme
+Bunlar birlikteyse muhtemel duplicate uyarisi:
+- normalize edilmis benzer isim
+- ayni ilce veya mahalle
+- benzer kategori
+
+#### D3) Manuel override
+Cunku bazen ayni ada sahip farkli subeler olabilir.
+Bu yuzden operator son karari verebilmeli.
+Ama `yine de yeni kayit ac` bilincli aksiyon olmali.
+
+### 5) Saha hizini bozmadan nasil yapilir?
+En kritik nokta bu.
+Fazla form olursa saha hizini oldurur.
+O yuzden V1 sade olmali:
+- ustte tek arama kutusu
+- sonuc yoksa `yeni aday ac`
+- kaydetmeden once 3-5 muhtemel eslesme ciksin
+- ayni degilse hizlica devam etsin
+
+Yani saha operatorune `once form doldur` degil, `once bul, bulamazsan kontrollu ac` mantigi verilmeli.
+
+### 6) En mantikli veri yakalama sirasi
+Yolda gorulen bir isletmede ilk anda her sey bilinmez.
+Bu yuzden ilk kayitta zorunlu minimum su olmali:
+- isletme adi
+- ilce/mahalle veya konum ipucu
+- segment
+- kaynak = `sahada goruldu`
+
+Sonra detaylar audit/gorusme asamasinda genisler.
+Bu, gereksiz form duvarini engeller.
+
+### 7) Bu sorunun finalistlere etkisi
+Bu yeni soru su modelleri guclendiriyor:
+- `Businesses ana calisma girisi` cizgisi, cunku once mevcut kaydi orada bulmak gerekiyor
+- `Discovery tek giris olsun` modeli zayifliyor, cunku yolda bulunan isletme her zaman discovery'den gelmeyecek
+- `manuel isletme ac ama duplicate kapiyla` varyasyonu gucleniyor
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi bu:
+- saha icin `hizli bul veya kontrollu yeni aday ac` akisi lazim
+- duplicate onleme discovery tarafinda `placeId` ile sert, manuel tarafta ise `benzer kayit uyarisi` ile yumusak olmali
+- son karar operatora kalmali ama sistem iki kez acmayi kolaylastirmamali
+
+## Dokuzuncu okuma - Business Detail'te farkli kaynak verisi nasil gruplanmali?
+Bu eksende referans dokuman ile mevcut sayfayi birlikte okuyunca net bir ayrim cikti.
+
+### 1) Referans cizgi aslinda 3 katman soyluyor
+`REFERENCES/business-detail-v1.md` Business Detail icin acik bir veri ayrimi veriyor:
+- `canonical` = operatorun dogru kabul ettigi ic veri
+- `external` = Maps, website, Instagram, refresh snapshot gibi dis sinyal katmani
+- `derived` = next step, fark, audit ozeti, paket yonu gibi karar ozetleri
+
+Bu cok guclu cunku veri tipi ile karar tipini ayiriyor.
+
+### 2) Mevcut sayfa ise katmanlari kismen karistiriyor
+`app/businesses/[slugAndId]/page.tsx` bugun sunlari yanyana veriyor:
+- isletme adi, ownerName = canonical
+- adres, telefon, maps, website = discovery/external
+- not = latest audit
+- Instagram profil kutusu = baska external kaynak
+- altta `BusinessScanPanel` = tarama ve derived karar aksiyonu
+
+Yani bugun sayfa calisiyor ama operatorun kafasinda su soru acik kaliyor:
+- bu satir sistemin kendi kaydi mi, yoksa dis kaynaktan gelen son gorunum mu?
+
+### 3) Sadece kaynaga gore gruplayalim mi?
+Model S1:
+- Google/Maps
+- Website
+- Instagram
+- Ajan
+- Y.Z
+
+Artisi:
+- her veri nereden geldi net olur
+
+Eksisi:
+- operatorun asil sorusu olan `simdi ne dogru, ne eksik, ne yapmaliyim` dagilabilir
+- sayfa kaynak galerisine donusme riski var
+
+### 4) Sadece role gore gruplayalim mi?
+Model S2:
+- ic kayit
+- dis gorunum
+- farklar
+- karar
+
+Artisi:
+- operator once neye guvenecegini bilir
+- karar hizi artar
+
+Eksisi:
+- dis kaynaklar kendi icinde fazla ezilebilir
+- Instagram ile Maps sinyali ayni torbaya girebilir
+
+### 5) En mantikli yol hibrit gruplama
+Su an en guclu model S3 gorunuyor:
+
+#### Blok 1 - Kanonik isletme karti
+Yalniz ic kayit:
+- ad
+- segment
+- ilce
+- muhatap
+- durum
+- stage / next step baglanti sinyali
+
+#### Blok 2 - Kaynak durumu seridi
+Sadece kaynak rozetleri:
+- Maps snapshot var/yok ve tazelik
+- Instagram snapshot var/yok ve tazelik
+- Ajan tarama durumu
+- Y.Z raporu durumu
+
+Bu blok bir `envanter cubugu` gibi calisir.
+
+#### Blok 3 - Dis sinyal kartlari
+Kaynaga gore ayrilmis kartlar:
+- Maps / discovery
+- Website
+- Instagram
+- Ajan tarama veya derin tarama sonucu
+
+Burada her kart kendi etiketiyle gelir.
+
+#### Blok 4 - Fark / tutarsizlik alani
+Derived ama cok degerli katman:
+- telefon ic kayitta yok, dista var
+- website dista var, ic kayitta yok
+- kategori uyusmuyor
+- adres teyit edilmeli
+
+#### Blok 5 - Karar kartlari
+Yine derived katman:
+- audit ozeti
+- ziyaret uygunlugu
+- teklif yonu
+- sonraki aksiyon
+
+Bu sira iyi cunku:
+- ic gercek -> dis sinyal -> fark -> karar zinciri kuruyor
+
+### 6) `BusinessScanPanel` aslinda bu hibrit modelin parcasina donusebilir
+Bugun `BusinessScanPanel` icinde zaten su cizgi var:
+- hafif tarama = mevcut dis sinyali ozetler
+- Y.Z raporu = derived karar ozeti uretir
+- ajan tarama = ayri kaynak ve ozet verir
+- scan history = tazelik/gecmis verir
+
+Yani sifirdan yeni fikir kurmuyoruz.
+Aslinda var olan panel, `external + derived` katmaninin ayri bir modulu gibi duruyor.
+Bu da su sonuca yaklastiriyor:
+- ust sayfa `canonical` ve kisa `external` ozetini verir
+- scan panel daha derin `external/derived` modulu olarak kalir
+
+### 7) En kritik UX kurali
+Bir veri satirina bakinca operator sunu anlamali:
+- bu bilgi ic kayit mi?
+- dis kaynaktan mi geldi?
+- sistemin onerisi mi?
+
+Bunu cozmenin hafif yolu:
+- bolum basliklarinda katman adini acik yazmak
+- kritik satirlarda kucuk kaynak etiketi kullanmak (`Ic kayit`, `Maps`, `Instagram`, `Ajan`, `Turetilmis`)
+
+### 8) Bu wake sonrasi guclenen kanaat
+Business Detail icin en mantikli veri gruplama cizgisi su:
+- sadece kaynak bazli dizmek yetmez
+- sadece operasyon rolu bazli dizmek de yetmez
+- `kanonik -> kaynak durumu -> dis sinyal kartlari -> farklar -> karar kartlari` sirasinda hibrit model daha dengeli
+
+Bu model su riskleri de azaltir:
+- dis kaynagin kanonik veriyi sessizce ezmesi
+- sayfanin kaynak dump'ina donmesi
+- operatorun neye guvenecegini sasirmasi
+
 ## Sonraki arastirma basliklari
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
