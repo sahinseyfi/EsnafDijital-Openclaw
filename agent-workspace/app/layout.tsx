@@ -1,5 +1,5 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { Inter } from 'next/font/google'
 
@@ -12,6 +12,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'EsnafDigital Yönetim',
   description: 'EsnafDigital iç operasyon paneli',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
 }
 
 const themeBootstrap = `(function () {

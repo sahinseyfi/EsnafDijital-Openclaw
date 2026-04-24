@@ -209,6 +209,6 @@ blocker
 - Rootteki `AUDIT_SCORECARD.json` dosyasi `REFERENCES/AUDIT_SCORECARD.json` yoluna tasindi.
 - Gerekce: bu dosya karar kaydi veya kok giris dosyasi degil; audit tarafi icin referans materyal oldugu icin `REFERENCES/` altinda tutulmasi daha dogru.
 - `DECISIONS/2026-04-19-consultation-center-v1.md` dosyasi `DECISIONS/2026-04-19-prompt-uretimi-v1.md` olarak rename edildi.
-- Gerekce: kanonik urun adi artik `Prompt Uretimi`; eski `consultation-center` adini karar dosyasi adinda tasimak gereksiz drift uretıyordu.
-- `DECISIONS/2026-04-18-operating-model.md` icine durum notu eklendi.
-- Gerekce: dosya erken MVP kararini saklarken `genel CRM ozellikleri` ifadesinin 2026-04-22 kararindan sonra tek basina guncel karar gibi okunmasi engellendi.
+- Gerekce: kanonik urun adi artik `Prompt Uretimi`; eski `consultation-center` adini karar dosyasi adinda tasimak gereksiz drift uretiyordu.
+- Tamamen superseded kalan `DECISIONS/2026-04-18-operating-model.md` dosyasi kaldirildi.
+- Gerekce: bu erken MVP karari artik `PROJECT.md`, `ROADMAP.md`, `DECISIONS/2026-04-19-agent-operating-model.md` ve `DECISIONS/2026-04-22-crm-expansion-direction.md` tarafinda daha net ve daha guncel sekilde temsil ediliyordu.

@@ -1093,7 +1093,7 @@ code {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 980px) {
   .mobile-only {
     display: block;
   }
@@ -1101,6 +1101,13 @@ code {
   .desktop-only {
     display: none;
   }
+
+  .table-wrap.desktop-only {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
 
   .stats-grid,
   .grid-2,
