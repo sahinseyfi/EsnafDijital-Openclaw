@@ -2201,10 +2201,141 @@ Bu ayrim sunu guclendiriyor:
 - Business Detail icindeki zincir kartlari daha anlamli olur
 - veri modeli buyumeden rol ayrimi saglanir
 
+## On ucuncu okuma - discovery skoru ile ziyaret onceligi skoru ayni sey mi?
+Bu soru discovery kodunu okuyunca daha net ayrildi.
+
+### 1) Bugunku discovery skoru neyi olcuyor?
+`lib/businesses/discovery.ts` icindeki `scoreEntry` bugun agirlikla su sinyallere bakiyor:
+- telefon yoksa +1
+- website yoksa +1
+- saat bilgisi eksikse +1
+- yorum yoksa +1
+- kapali gorunuyorsa -3
+- yorum ve puan gucluyse -1
+
+Sonra da:
+- skor `>= 3` ise `review`
+- daha dusukse `shortlist`
+
+Bu cok onemli cunku bu skorun mantigi su:
+- `dijital acik / eksik / audit firsati` ne kadar belirgin?
+
+Yani bugunku skorun gizli anlami:
+- sorun var mi?
+- dijital toparlama ihtiyaci goze batiyor mu?
+
+### 2) Bu skor neden ziyaret karari icin tek basina yetmez?
+Cunku sahada `gidilecek isletme` sorusu baska degiskenler de ister.
+Discovery skoru bunlari neredeyse hic tartmiyor:
+- yakinlik / rota verimi
+- segmente gore teslim ve bakim yuku
+- isletmenin fiziksel acik olma ritmi
+- sahada konusmaya uygun muhatap olasiligi
+- discovery disi manuel oncelik
+- sistemde zaten acik business kaydi var mi
+
+Daha da kritik nokta:
+- `review` kovasi bazen daha sorunlu veya daha belirsiz kaydi isaret eder
+- ama daha sorunlu olmak, otomatik olarak `bugun gidilecek en iyi aday` demek degil
+
+### 3) Kod seviyesinde discovery tablosu da bunu destekliyor
+`/discovery` ekrani sunlari one cikariyor:
+- skor
+- yorum / puan
+- iletisim sinyali
+- sahiplik
+- arama kapsami
+- karar kovasi
+
+Bu tablo iyi cunku:
+- aday havuzu temizleniyor
+- on eleme yapiliyor
+
+Ama eksik cunku:
+- `ziyaret verimi` diye ayri bir kolon yok
+- `bugun git` mantigi yok
+- ilce/rota bazli saha onceligi yok
+- segment agirligi discovery bucket'ina dogrudan islenmiyor
+
+### 4) Uc model
+
+#### V1) Discovery skoru = ziyaret skoru say
+Artisi:
+- kolay
+
+Eksisi:
+- saha gercegini kacirir
+- dijital acik ile saha verimini karistirir
+
+#### V2) Discovery skoru yardimci sinyal olsun
+- discovery skoru = audit/acik sinyali
+- ziyaret skoru = ayrica turetilir
+
+Artisi:
+- rol ayrimi net
+- daha gercekci
+
+Eksisi:
+- ikinci bir hafif mantik gerekir
+
+#### V3) Tek bilesik skor uret
+- discovery + segment + rota + manuel oncelik ayni sayiya aksin
+
+Artisi:
+- tek liste verir
+
+Eksisi:
+- neden-sonuc kaybolur
+- operator niye yukari geldigini anlamakta zorlanir
+
+Ara yorum:
+- su an en guclu yol `V2`
+
+### 5) Ziyaret onceligi skorunun minimum bilesenleri ne olmali?
+Bugunku arastirma cizgisine gore en hafif model su olabilir:
+- `discoveryGapSignal` = mevcut discovery skoru veya bucket yorumu
+- `segmentFit` = guzellik > berber > kafe/restoran gibi ilk faz agirligi
+- `fieldEfficiency` = telefon, saat, konum, aciklik sinyali
+- `routeFit` = ilce / yakinlik / ayni gun gruplanabilirlik
+- `duplicateOrExistingRisk` = zaten business var mi, supheli eslesme var mi
+- `manualPriority` = operatorun elle one cekmesi
+
+Bu modelde discovery skoru sadece bir parca olur.
+
+### 6) Dikkat cekici bir terslik daha var
+Bugunku `scoreEntry` mantiginda eksik sinyal arttikca skor artiyor.
+Bu audit icin mantikli olabilir.
+Ama saha icin bazen ters etki yaratir:
+- telefonu yok
+- website yok
+- yorum yok
+
+Boyle bir kayit `review`e cikabilir.
+Fakat sahada buna gitmek verimli mi, emin degil.
+Belki de telefonsuz, yorumsuz, cok belirsiz bir kayit yerine daha net ama iyi paket uyumu olan baska kayda gitmek daha mantikli olur.
+
+Yani `en sorunlu` ile `en gidilesi` farkli listeler olabilir.
+
+### 7) Bu wake sonrasi finalistlere etkisi
+Bu yeni okuma su varyasyonlari guclendiriyor:
+- discovery = aday eleme ve audit firsat skoru
+- business/project os/detail tarafinda ayrica `ziyaret uygunlugu` veya `bugun git` sinyali
+- ayri ziyaret sayfasi acmadan once hafif derived katmanla test etme
+
+Zayiflayan varyasyon:
+- discovery tablosundaki mevcut skorla saha listesini otomatik kurma
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- discovery skoru `dijital acik / audit firsati` skoru olarak kalmali
+- ziyaret onceligi skoru bundan ayri, daha hafif ikinci katman olmali
+- bu ikinci katman Business Detail veya Project OS tarafinda `bugun gidilir mi` kararina yardim etmeli
+- tek karmasik ana skor yerine iki farkli amacli skor daha okunur ve daha saha-gercekci gorunuyor
+
 ## Sonraki arastirma basliklari
-- `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
 - `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
+- `bugun git` sinyali Project OS'ta mi, Business Detail icindeki derived kartta mi daha dogru durur?
