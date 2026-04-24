@@ -47,7 +47,7 @@ Ayni bilgiyi iki ayri kanonik dosyada yasatma.
 
 ## 6) Baglam Hijyeni
 - kisa omurlu durum ile kalici cizgiyi karistirma
-- bitmis isi aktif dosyalarda tasima
+- bitmis isi aktif dosyalarda tutma
 - dream diary, faz raporu ve `memory/.dreams/` ciktilarini kalici karar gibi alma
 - drift gordugunde yeni dosya acmadan once dogru kanonik yeri bul
 
