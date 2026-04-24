@@ -22,12 +22,13 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
 Dijital Görünürlük Kontrolü / Audit
 
 ### Ana ürün
-Güven Veren Dijital Vitrin
+Güven Veren Dijital Varlık
 
 ### Devam ürünü
 Bakım / Canlılık / Küçük Güncelleme
 
 Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bir üçlü omurgadır.
+Bu omurga ilk ticari giriş katmanıdır; hafif panel ve ajan destekli işletme yönetimi ise bunun uzerine sonra eklenebilecek genisleme alanidir.
 
 ## 4) İş Modeli Çizgisi
 - Düşük bariyerli giriş ürünü ile temas kurulur.
@@ -45,10 +46,11 @@ Amaç, çok seçenekli paket karmaşası değil, anlaşılır ve satılabilir bi
 ## 6) İç Sistem Kararı
 İç sistem üç ana çekirdeğe göre kurulur:
 1. proje yönetimi
-2. bağlam / doküman merkezi
-3. GPT Pro prompt uretimi
-- Panel, dar bir operasyon masası değil, EsnafDigital için CRM-evrilebilir bir operasyon sistemi olarak kurulur.
+2. baglam sistemi ve dokuman merkezi
+3. prompt uretimi ve ileride ajan destekli isletme akislarina acilabilecek operasyon katmani
+- Panel, dar bir operasyon masası değil, EsnafDigital için CRM-evrilebilir ve küçük işletmenin dijital düzene geçişini taşıyabilecek bir operasyon sistemi olarak kurulur.
 - Audit, teklif, teslimat ve bakım kayıtları bu yapının ilk güçlü iş tipleridir, sistem sınırı değildir.
+- Uzun vadede bu yapı, işletme sahibinin teknik araçlarla uğraşmadan bazı dijital işlerini sohbet ederek yönetebileceği ajan destekli yüzeylere açılabilir.
 
 ## 7) İş Bölümü
 - Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
