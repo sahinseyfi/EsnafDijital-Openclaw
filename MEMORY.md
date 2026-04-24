@@ -88,6 +88,8 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - `README` ve özet dosyaları yönlendirme veya hızlı okuma içindir; bağımsız karar kaynağı gibi kullanılmaz.
 - Aynı bilgi iki ayrı kanonik yerde gereksiz tekrar etmez.
 - Ad, konum veya akış değiştiğinde yalnızca kaynak metin değil; ona bağlı özet, yönlendirme ve referans zinciri de birlikte güncellenir.
+- Türetilmiş dosya ana kaynaktan koptuğunda düzeltilir veya kaldırılır.
+- Yeni bir klasör veya ilk girişte okunması gereken yeni bir dosya oluştuğunda ilgili `README` de güncellenir.
 - Drift görüldüğünde ilk çözüm yeni dosya açmak değil, doğru kanonik yeri bulup fazlalığı temizlemektir.
 
 ## 10) Mevcut Operasyonel Gerçekler
