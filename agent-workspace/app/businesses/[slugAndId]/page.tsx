@@ -3,14 +3,14 @@ import { notFound, permanentRedirect } from 'next/navigation'
 
 import { AdminShell } from '@/components/admin/AdminShell'
 import { BusinessInstagramProfileButton } from '@/components/businesses/BusinessInstagramProfileButton'
-import { BusinessYzReportButton } from '@/components/businesses/BusinessYzReportButton'
+import type { BusinessAgentScanResult } from '@/lib/businesses/agent-scan'
 import { getBusinessAgentScanHistory, getLatestBusinessAgentScan } from '@/lib/businesses/agent-scan'
 import { getLatestBusinessInstagramProfile } from '@/lib/businesses/instagram-profile'
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, buildBusinessScanDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
 import { getProjectOsDataset } from '@/lib/project-os/service'
-import { getLatestBusinessYzReport } from '@/lib/businesses/yz-report'
+import { getLatestBusinessYzReport, type BusinessYzReport } from '@/lib/businesses/yz-report'
 
 export const dynamic = 'force-dynamic'
 
@@ -45,6 +45,71 @@ function renderLink(url: string, emptyText = 'Görünmüyor') {
       {url}
     </a>
   )
+}
+
+function buildBusinessPromptNote({
+  business,
+  latestYzReport,
+  latestAgentScan,
+  discoverySnapshot,
+  note,
+}: {
+  business: {
+    name: string
+    segment: string
+    district: string
+  }
+  latestYzReport: BusinessYzReport | null
+  latestAgentScan: BusinessAgentScanResult | null
+  discoverySnapshot: {
+    candidate: {
+      websiteUrl: string
+      instagramUrl?: string
+      rating: number | null
+      reviewsCount: number
+      hasWebsite: boolean
+    }
+    source: {
+      searchCoverageNote: string
+    }
+  } | null
+  note: string
+}) {
+  return [
+    `${business.name} icin tek islik karar promptu hazirla.`,
+    '',
+    'Amac:',
+    '- Isletmenin dijital gorunur durumuna gore en dogru sonraki operator aksiyonunu netlestirmek.',
+    '- Gerekirse teklif / audit / vitrin yonunu onermek.',
+    '',
+    'Isletme ozeti:',
+    `- Segment: ${business.segment}`,
+    `- Ilce: ${business.district}`,
+    `- Website: ${discoverySnapshot?.candidate.hasWebsite ? 'var' : 'yok'}`,
+    `- Instagram: ${discoverySnapshot?.candidate.instagramUrl?.trim() ? 'var' : 'yok'}`,
+    `- Puan / yorum: ${typeof discoverySnapshot?.candidate.rating === 'number' ? `${discoverySnapshot.candidate.rating} / ${discoverySnapshot.candidate.reviewsCount}` : 'sinirli veri'}`,
+    `- Arama sinyali: ${discoverySnapshot?.source.searchCoverageNote?.trim() || 'yok'}`,
+    '',
+    'Y.Z raporu:',
+    `- Durum: ${latestYzReport?.status || 'henuz yok'}`,
+    `- Ozet: ${latestYzReport?.summary || 'henuz yok'}`,
+    `- Dijital gorunum: ${latestYzReport?.visibilitySummary || 'henuz yok'}`,
+    `- Oncelikli aksiyon: ${latestYzReport?.nextAction || 'henuz yok'}`,
+    '',
+    'Ajan tarama:',
+    `- Durum: ${latestAgentScan?.status || 'henuz yok'}`,
+    `- Ozet: ${latestAgentScan?.summary || 'henuz yok'}`,
+    `- Sonraki adim: ${latestAgentScan?.nextStep || 'henuz yok'}`,
+    '',
+    'Ic not:',
+    `- ${note}`,
+    '',
+    'Beklenen cikti:',
+    '- Kisa karar cercevesi',
+    '- Neden simdi bu aksiyon',
+    '- Gerekirse teklif veya audit yonu',
+    '- Dis GPT oturumunda kullanilacak net bir prompt',
+  ].join('\n')
 }
 
 export default async function BusinessDetailPage({
@@ -92,6 +157,14 @@ export default async function BusinessDetailPage({
   const phone = discoverySnapshot?.candidate.phone?.trim() || 'Görünmüyor'
   const businessType = discoverySnapshot?.candidate.categoryName?.trim() || segmentLabels[business.segment]
   const note = latestAudit?.summary?.trim() || 'Henüz ek not yok.'
+  const promptCreateTitle = `${business.name} için karar promptu`
+  const promptCreateNote = buildBusinessPromptNote({
+    business,
+    latestYzReport,
+    latestAgentScan,
+    discoverySnapshot,
+    note,
+  })
 
   return (
     <AdminShell
@@ -207,59 +280,9 @@ export default async function BusinessDetailPage({
         agentScanHistory={agentScanHistory}
         apifyRefreshHistory={apifyRefreshHistory}
         latestYzReport={latestYzReport}
+        promptCreateTitle={promptCreateTitle}
+        promptCreateNote={promptCreateNote}
       />
-
-      <section>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Y.Z raporu detayı</p>
-            <h3>{latestYzReport ? latestYzReport.status : 'Henüz rapor yok'}</h3>
-          </div>
-
-          {latestYzReport ? (
-            <>
-              <div className="detail-field">
-                <p className="eyebrow">Genel durum</p>
-                <p>{latestYzReport.summary}</p>
-              </div>
-
-              {latestYzReport.strengths.length > 0 ? (
-                <div className="detail-field">
-                  <p className="eyebrow">Güçlü sinyaller</p>
-                  <ul className="compact-list">
-                    {latestYzReport.strengths.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                </div>
-              ) : null}
-
-              {latestYzReport.weaknesses.length > 0 ? (
-                <div className="detail-field">
-                  <p className="eyebrow">Zayıf sinyaller</p>
-                  <ul className="compact-list">
-                    {latestYzReport.weaknesses.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                </div>
-              ) : null}
-
-              <div className="detail-field">
-                <p className="eyebrow">Dijital görünüm özeti</p>
-                <p>{latestYzReport.visibilitySummary}</p>
-              </div>
-
-              <div className="detail-field">
-                <p className="eyebrow">Öncelikli aksiyon</p>
-                <p>{latestYzReport.nextAction}</p>
-              </div>
-            </>
-          ) : (
-            <p className="muted">Hafif tarama ve diger sinyaller geldikten sonra detay rapor burada gorunur.</p>
-          )}
-
-          <div className="page-header-actions">
-            <BusinessYzReportButton businessId={business.id} />
-          </div>
-        </article>
-      </section>
     </AdminShell>
   )
 }

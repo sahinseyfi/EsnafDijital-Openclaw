@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import { BusinessAgentScanButton } from '@/components/businesses/BusinessAgentScanButton'
 import { BusinessDiscoveryRefreshButton } from '@/components/businesses/BusinessDiscoveryRefreshButton'
+import { BusinessPromptCreateButton } from '@/components/businesses/BusinessPromptCreateButton'
 import { BusinessYzReportButton } from '@/components/businesses/BusinessYzReportButton'
 import type { BusinessAgentScanResult } from '@/lib/businesses/agent-scan'
 import type { DiscoverySummaryEntry } from '@/lib/businesses/discovery'
@@ -87,6 +88,8 @@ export function BusinessScanPanel({
   agentScanHistory,
   apifyRefreshHistory,
   latestYzReport,
+  promptCreateTitle,
+  promptCreateNote,
 }: {
   businessId: string
   scanDetailHref: string
@@ -95,6 +98,8 @@ export function BusinessScanPanel({
   agentScanHistory: BusinessAgentScanResult[]
   apifyRefreshHistory: DiscoverySummaryEntry[]
   latestYzReport: BusinessYzReport | null
+  promptCreateTitle: string
+  promptCreateNote: string
 }) {
   const [mode, setMode] = useState<ScanMode>('light')
   const [selectedSources, setSelectedSources] = useState<string[]>(apifySources.map((item) => item.key))
@@ -212,6 +217,9 @@ export function BusinessScanPanel({
                 <div>
                   <p className="eyebrow">Derived karar aksiyonu</p>
                   <h3 style={{ margin: 0 }}>{latestYzReport ? latestYzReport.status : 'Y.Z raporu hazirlanabilir'}</h3>
+                  <p className="muted" style={{ marginBottom: 0 }}>
+                    Hafif tarama sonrasi raporu burada guncelleyip ayni bloktan Prompt Uretimi kaydina gecebilirsin.
+                  </p>
                 </div>
 
                 {latestYzReport ? (
@@ -220,21 +228,51 @@ export function BusinessScanPanel({
                       <p className="eyebrow">Genel durum</p>
                       <p>{latestYzReport.summary}</p>
                     </div>
+
+                    {latestYzReport.strengths.length > 0 ? (
+                      <div className="detail-field">
+                        <p className="eyebrow">Guclu sinyaller</p>
+                        <ul className="compact-list">
+                          {latestYzReport.strengths.map((item) => <li key={item}>{item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    {latestYzReport.weaknesses.length > 0 ? (
+                      <div className="detail-field">
+                        <p className="eyebrow">Zayif sinyaller</p>
+                        <ul className="compact-list">
+                          {latestYzReport.weaknesses.map((item) => <li key={item}>{item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    <div className="detail-field">
+                      <p className="eyebrow">Dijital gorunum ozeti</p>
+                      <p>{latestYzReport.visibilitySummary}</p>
+                    </div>
+
                     <div className="detail-field">
                       <p className="eyebrow">Oncelikli aksiyon</p>
                       <p>{latestYzReport.nextAction}</p>
                     </div>
                   </>
-                ) : (
-                  <p className="muted">Hafif tarama sonrasi tek tikla Y.Z raporu uretip karar tarafini ayni akis icinde netlestirebilirsin.</p>
-                )}
+                ) : null}
 
-                <BusinessYzReportButton
-                  businessId={businessId}
-                  idleLabel={latestYzReport ? 'Raporu yenile' : 'Y.Z raporu olustur'}
-                  helperText="Hafif tarama, ajan tarama ve notlari birlestirip kisa karar ozeti uretir. Supheli eslesme varsa bunu korur."
-                  align="flex-start"
-                />
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                  <BusinessYzReportButton
+                    businessId={businessId}
+                    idleLabel={latestYzReport ? 'Raporu yenile' : 'Y.Z raporu olustur'}
+                    helperText="Hafif tarama, ajan tarama ve notlari birlestirip kisa karar ozeti uretir. Supheli eslesme varsa bunu korur."
+                    align="flex-start"
+                  />
+                  {latestYzReport ? (
+                    <BusinessPromptCreateButton
+                      title={promptCreateTitle}
+                      note={promptCreateNote}
+                    />
+                  ) : null}
+                </div>
               </div>
             ) : null}
           </article>
