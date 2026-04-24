@@ -2050,10 +2050,161 @@ Su an en mantikli saha cizgisi:
 - paket sunumunda sadece onerilen seviye merkeze alinip bir alt ve bir ust capasi kisa verilmeli
 - segment farki paket yapisinda degil, vurgu ve orneklerde yasanmali
 
+## On ikinci okuma - gorusme notu ile kickoff bilgisi nasil ayrilmali?
+Bu soru, `girilen bilgi nasil sonuca donusur` zincirinin en zayif halkasini daha net gosterdi.
+Kod ve teklif omurgasinda bugun su durum var:
+- audit kaydinda tek agir alan fiilen `summary`
+- teklifte `packageName`, `amountTry`, `addonKeys`, `domainPreference`, `customDomain` var
+- delivery tarafinda tek belirgin agir alan `scope`
+
+Yani su an sistemde su kopma riski var:
+- sahada toplanan serbest not ile
+- teslimata girecek operasyonel kickoff bilgisi
+aynı metin havuzunda eriyebilir
+
+### 1) Bu iki sey aslinda ayni problem degil
+
+#### Gorusme notu nedir?
+Saha veya ilk temas bilgisidir.
+Daha cok su ise yarar:
+- muhatap dili ve tonu
+- gorulen itiraz veya ilgi
+- isletmenin o anki onceligi
+- hangi sorunlara reaksiyon verdigi
+- tekrar donerken hatirlanacak baglam
+
+#### Kickoff bilgisi nedir?
+Is onaylandiktan sonra teslimati baslatan operasyon girdisidir.
+Daha cok su ise yarar:
+- ne teslim edilecek
+- hangi asset / erisim eksik
+- domain tercihi ne
+- yayin icin ne bekleniyor
+- teslim sureci neye takilabilir
+
+Bu ayrim cok onemli cunku:
+- gorusme notu satis oncesi hafizadir
+- kickoff bilgisi teslimat oncesi operasyon girisidir
+
+### 2) Uc model
+
+#### N1) Tek not alani modeli
+- her sey audit summary veya scope icinde akar
+
+Artisi:
+- en basit
+
+Eksisi:
+- hizli coplenir
+- neyin saha notu, neyin teslim girdisi oldugu kaybolur
+- delivery kickoff'ta tekrar yorum yapmak gerekir
+
+#### N2) Iki ayri hafif katman
+- `gorusme notu`
+- `kickoff checklist + scope`
+
+Artisi:
+- ayrim net
+- gereksiz yeni tablo acmadan bile uygulanabilir
+- bugunku veri modeline en yakin evrim bu
+
+Eksisi:
+- UI'de nerede duracagi dikkat ister
+
+#### N3) Tam form tabanli ayri nesneler
+- gorusme nesnesi
+- kickoff nesnesi
+- asset nesnesi
+- erisim nesnesi
+
+Artisi:
+- en temiz uzun vadeli model
+
+Eksisi:
+- bugun icin agir
+- erken CRM savrulmasi riski var
+
+Ara yorum:
+- simdilik en dengeli yol `N2`
+
+### 3) Gorusme notunun minimum alanlari ne olmali?
+Bence saha tarafi icin minimum set su:
+- `gorusmeOzeti` = 2-5 cumle
+- `ilgiSeviyesi` = dusuk / orta / iyi gibi hafif bir etiket olabilir
+- `anaSorun` = operatorun gordugu ana aci
+- `itirazVeyaCekince` = varsa
+- `sonrakiTemas` = ara / tekrar git / audit gonder / beklet
+
+Ama dikkat:
+- bunlar tam ayri form duvarina donmemeli
+- ilk versiyonda audit ozeti yaninda hafif alanlar veya moduler satirlar olarak durabilir
+
+### 4) Kickoff bilgisinin minimum alanlari ne olmali?
+`scope` tek basina yetersiz gorunuyor.
+Onun yanina en az su 5 madde gerekiyor:
+- `teslimOzeti` veya scope
+- `assetDurumu` = logo/fotograf/metin geldi mi
+- `erisimDurumu` = Maps/Instagram/domain erisimi var mi
+- `domainTercihi` = subdomain / custom domain
+- `ilkYayinHedefi` = neyi canliya aliyoruz
+
+Opsiyonel 6. madde:
+- `onayBekleyenler` = musteri onayi gereken konu var mi
+
+Bu set delivery kickoff'ta cok daha anlamli.
+
+### 5) Neden audit summary bunu tasiyamaz?
+Cunku audit summary'nin isi baska:
+- dijital acigi ozetlemek
+- paket yonu cizmek
+- teklif kararina girdi vermek
+
+Eger gorusme detayi ve kickoff detayi buraya yigilirsa:
+- audit ozeti kirlenir
+- teklif gerekcesi kaybolur
+- sonradan okunmasi zorlasir
+
+### 6) Neden `scope` tek basina yetmez?
+Cunku `scope` su tipte kalabilir:
+- `temel web vitrini + maps duzenleme + qr yorum akisi`
+
+Bu iyi ama su sorulari cevaplamaz:
+- logo var mi?
+- fotograflar hazir mi?
+- kimden onay alinacak?
+- custom domain mi isteniyor?
+- maps erisimi var mi?
+
+Yani `scope` teslimin ne oldugunu soyler, ama teslimin nasil baslayacagini tam soylemez.
+
+### 7) En mantikli gecici ekran modeli
+Yeni sayfa acmadan su zincir mantikli gorunuyor:
+
+#### Business Detail icinde
+- `Gorusme notu` karti = satis oncesi hafiza
+- `Teklif yonu` karti = auditten cikan karar
+- `Kickoff hazirlik` karti = is onaylandiginda teslim girisi
+
+Bu, onceki Business Detail zincir yorumuyla da uyumlu.
+
+### 8) Bu wake sonrasi guclenen kanaat
+Su an en saglikli cizgi su:
+- gorusme notu ile kickoff bilgisi ayni metin olmamali
+- ama bugun bunlar icin ayri agir nesneler acmak erken olabilir
+- ilk V1 ayrim su sekilde yeterli gorunuyor:
+  - audit ozeti = sorun ve paket girdisi
+  - gorusme notu = saha baglami ve ilgi/itiraz hafizasi
+  - kickoff bilgisi = teslim baslangic checklisti + scope
+
+Bu ayrim sunu guclendiriyor:
+- satis ile teslim kopmaz
+- Business Detail icindeki zincir kartlari daha anlamli olur
+- veri modeli buyumeden rol ayrimi saglanir
+
 ## Sonraki arastirma basliklari
 - `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
-- `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
 - `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
+- `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
