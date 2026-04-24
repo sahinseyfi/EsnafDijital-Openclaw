@@ -53,4 +53,4 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 
 ## Operasyon Referansi
 - servis, port, systemd, swap ve canli yayin notlari `OPERATIONS.md` icindedir
-- isletme kesfi ve veri toplama tarafinda Apify tabanli akis tercih edilir
+- isletme kesfi ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir
