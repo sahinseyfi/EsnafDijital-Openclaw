@@ -5835,10 +5835,173 @@ Kisa formda:
 Bu model hem onceki `Businesses-first` hissini bozmuyor,
 hem de Business Detail'i tek kayit saha karar yuzeyi olarak guclendiriyor.
 
+## Otuz dokuzuncu okuma - `audit teyidi gerekli` sinyali audit kartinda mi yasamali, yoksa teklife gecis butonuna yakin kopru satiri olarak mi?
+Bir onceki ara karar sunuydu:
+- Y.Z `teklife gec` dediginde audit zayif/eskiyse yumusak bir kalite sinyali gerekli
+- bu sinyal sert blokaj olmamali
+
+Ama simdi daha ince bir urun sorusu var:
+- bu uyariyi yalniz audit snapshot icinde tutmak yeterli mi?
+- yoksa operatorun gercek karar aninda, yani `teklife gec` aksiyonuna yakin yerde de gorunmesi mi gerekir?
+
+Bu ayrim onemli.
+Cunku dogru yerde durmazsa ya gorulmez,
+ya da sayfayi gereksiz ikaz duvarina cevirir.
+
+### 1) Referanslar hangi yone itiyor?
+`business-detail-v1.md` su rolleri net veriyor:
+- `Next Step` karti sayfanin en guclu karar karti
+- `Audit Snapshot` karti hazirlik sinyali, eksik listesi ve ilk paket yonunu tasiyor
+- `Son teklif karti` ise fiyat/operasyon girdisi gibi okunmali
+
+Buradan su net cikiyor:
+- `audit teyidi gerekli`nin anlamsal evi audit snapshot'a daha yakin
+- ama operatorun gercek hata riski `teklife gec` aksiyonuna basarken cikiyor
+
+Yani bilgi evi baska,
+karar surtunme noktasi baska.
+
+### 2) Uc model
+
+#### AT1) Sinyal yalniz audit kartinda dursun
+Artisi:
+- anlam olarak dogru yerde kalir
+- auditin rolunu korur
+- teklif alanina audit dili tasmaz
+
+Eksisi:
+- operator audit kartini gecip `teklife gec` aksiyonuna odaklanabilir
+- kritik anda sinyal gorunurlugu dusuk kalir
+- `audit var ama zayif` problemi karar aninda yeterince tutulmaz
+
+#### AT2) Sinyal yalniz teklife gecis koprusunde dursun
+Artisi:
+- tam karar aninda gorunur
+- operatorun gozunden kacma ihtimali azalir
+
+Eksisi:
+- audit sorunu audit kartindan kopmus olur
+- neden bu uyariyi gordugunu anlamak zorlasir
+- zamanla her gecis butonuna tasinan genel bir workflow uyarisi gibi hissedebilir
+
+#### AT3) Ana evi audit karti, baglamsal yansimasi teklife gecis koprusunde olsun
+Mantik:
+- temel sinyal audit snapshot / paket yonu tarafinda yasamaya devam eder
+- eger `Next Step` veya primary aksiyon `teklife gec` ise, butona yakin yerde tek satirlik kopru uyari gorunur
+- bu satir audit kartindaki sinyalin kopyasi degil, kisa eylem cevirisidir
+
+Ornek:
+- audit karti: `Son tarama sonrasi audit ozeti eski kalmis olabilir.`
+- teklife gecis koprusu: `Teklife gecis acik, ama paket secmeden once audit teyidi onerilir.`
+
+Artisi:
+- sinyalin anlamsal evi korunur
+- kritik karar aninda da kaybolmaz
+- Next Step ve Audit Snapshot rolleri birlikte calisir
+
+Eksisi:
+- tekrar riski vardir
+- kopya metin kotu yazilirsa sayfa iki kez ayni seyi soyluyor gibi durur
+
+Ara yorum:
+- su an en saglikli yol `AT3`
+
+### 3) Neden yalniz audit karti yetmeyebilir?
+Cunku Business Detail'in dogasi geregi operator bazen soyle okur:
+- ust ozet
+- Y.Z / next step
+- primary aksiyon
+
+Audit karti guclu olsa da,
+karar hizi yuksek kullanicida o kart her zaman tam okunmayabilir.
+Ozellikle Y.Z `teklife gec` dediginde,
+operator `tamam ilerliyorum` refleksiyle hareket eder.
+Bu durumda auditteki zayiflik sinyali dogru yerde olsa bile,
+dogru anda gorunmeyebilir.
+
+### 4) Neden yalniz kopru satiri da zayif?
+Cunku bu durumda audit kalitesiyle ilgili problem,
+teklif butonuna yapismis genel bir uyarı gibi algilanir.
+Halbuki sorun butonun kendisi degil,
+paket zeminini tasiyan audit bilgisinin zayif olmasi.
+
+Yani uyari yalniz koprude yasarsa,
+operatorun aklinda su netlesmeyebilir:
+- neyi teyit etmem gerekiyor?
+- bu audit ozeti mi eski?
+- paket yonu mu gerilimli?
+- son tarama mi auditten yeni?
+
+Bu aciklamanin dogal evi audit tarafidir.
+
+### 5) O zaman en saglikli V1 yerlesim nasil olmali?
+Bence su cizgi en guclu:
+
+#### Audit Snapshot / paket yonu tarafi
+- asil kalite sinyali burada yasasin
+- neden teyit gerektigini kisa ve dogrudan soylesin
+- mumkunse bir sebep tipi gostersin:
+  - `eski audit`
+  - `ince audit`
+  - `tarama ile gerilim`
+
+#### Next Step / teklife gecis yakini
+- yalniz primary aksiyon `teklife gec` ise gorunsun
+- tek satirlik kopru uyari olsun
+- audit kartina geri baglansin, ama yeni mini form duvari acmasin
+
+Bu sayede:
+- ana anlam kaybolmaz
+- karar ani korunur
+- teklif karti gereksiz audit yukuyla sismez
+
+### 6) Teklif kartina tasimak neden riskli?
+Cunku onceki kararlar su cizgiyi koruyor:
+- teklif karti fiyat satiri degil, ama yine de teklif girdisi olmali
+- delivery veya audit terimleri erken yayilmamali
+- teklif netlesmeden ekran cogalmamali
+
+`audit teyidi gerekli` dogrudan teklif kartinin icine yerlestikce,
+teklif karti yavas yavas su rolleri toplamaya baslar:
+- paket sec
+- audit oku
+- kalite kontrol yap
+- risk anla
+
+Bu da teklif kartini gecis nesnesinden mini workflow paneline cevirir.
+V1 icin gereksiz agirlik.
+
+### 7) En buyuk risk ne?
+Ayni uyariyi uc yerde gostermek:
+- audit karti
+- next step
+- teklif karti
+
+Bu olursa operator bir sure sonra hicbirini okumaz.
+O yuzden tekrar siniri sert tutulmali:
+- ana kaynak = audit tarafi
+- karar ani yansimasi = sadece `teklife gec` aksiyonunda
+- teklif karti = sessiz kalmali
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `audit teyidi gerekli` sinyalinin asli yeri audit snapshot / paket yonu tarafidir
+- ama operatorun tam karar anini korumak icin, `teklife gec` aksiyonuna yakin tek satirlik kopru uyari da olmali
+- bu, iki esit uyari alani degil; biri kaynak, biri eylem cevirisidir
+- teklif karti bu sinyalin ana evi olmamali
+
+Kisa formda:
+- source of warning = audit card
+- action reminder = teklife gecis koprusu
+- not recommended = teklif kartina gommek
+
+Bu model hem auditin paket zemini rolunu koruyor,
+hem de Y.Z veya next-step akisinda kritik anda kalite sinyalini kaybettirmiyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
-- `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
 - `bugun git` isareti operatorun manuel onceligi olarak mi verilmeli, yoksa derived adaylar uzerinde tek tik guclendirme mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
+- `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
