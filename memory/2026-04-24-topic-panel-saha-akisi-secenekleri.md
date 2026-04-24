@@ -3580,10 +3580,139 @@ Kisa formda:
 
 Bu cizgi hem mevcut veri modeline uyar hem de teklif kartini gereksiz form duvarina cevirmez.
 
+## Yirmi ucuncu okuma - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
+Bu soru teslim zincirinin en kolay bulaniklasan noktasina vuruyor.
+Cunku kickoff kartinda hem `scope ozeti` var, hem de bir `kapsam teyidi` satiri dusunuyoruz.
+Eger bunun kaynagi yanlis secilirse ayni sey iki kez yazilir ya da daha kotusu teklif ile teslim birbirinden kopar.
+
+### 1) Mevcut repo gercegi ne diyor?
+Bugun veri modeli ayri bir `kapsam teyidi` alani tutmuyor.
+Elde iki temel kaynak var:
+- `offer` kaydi: paket, tutar, domain, ekler
+- `delivery.scope`: tekliften tureyen yari-yapili kickoff metni
+
+`DECISIONS/2026-04-22-delivery-scope-text-first.md` cizgisi de net:
+- kickoff checklist'i tek `scope` metni icinde kalacak
+- ayri operator alanlarina bolunmeyecek
+
+Bu yuzden `kapsam teyidi` satiri icin aslinda veri degil, derived yorum lazim.
+
+### 2) Uc model
+
+#### KT1) Sadece teklif durumundan turet
+Ornek mantik:
+- teklif approved ise `teyitli`
+- sent ise `cevap bekliyor`
+- draft ise `net degil`
+
+Artisi:
+- cok basit
+- ticari onay mantigina dayanir
+
+Eksisi:
+- teslime inerken scope'un revize olup olmadigini gormez
+- teklif onayli olsa bile kickoff icin eksik netlik olabilir
+- gercek operasyon hazirligini fazla iyimser gosterebilir
+
+#### KT2) Sadece delivery note/scope'tan turet
+Ornek mantik:
+- scope metninde teyit dili varsa `teyitli`
+- belirsizse `revize bekliyor`
+
+Artisi:
+- teslimin fiili baslangicina daha yakin durur
+
+Eksisi:
+- teklif kaynagindan kopabilir
+- scope metni operatorun yazim stiline fazla bagli kalir
+- ticari karar ile operasyon karari arasindaki bag zayiflar
+
+#### KT3) Teklif + delivery kesisiminden turet
+Mantik:
+- teklif, secilen cozumun resmi kaynagi
+- delivery scope, kickoff anindaki operasyonal somutlama
+- `kapsam teyidi` satiri ikisinin uyumuna bakar
+
+Artisi:
+- hem ticari karar hem teslim baslangici korunur
+- kartta gercek riski daha dogru gosterir
+- `scope ozeti` tekrarina dusmeden yorum katmani saglar
+
+Eksisi:
+- derived kural biraz daha dikkat ister
+- iki kaynak uyumsuzsa operatora net dil secmek gerekir
+
+Ara yorum:
+- su an en saglikli yol `KT3`
+
+### 3) Neden teklif tek basina yetmiyor?
+Cunku teklif `ne satildi` sorusunu cevaplar.
+Ama kickoff kartindaki `kapsam teyidi` daha dar bir soru sorar:
+- `satilan seyin bu kickoff scope'u icinde dogru somutlandigindan emin miyiz?`
+
+Ornek risk:
+- teklifte Paket 2 secildi
+- ama kickoff scope'unda Yandex/Apple veya QR akisina dair netlik yok
+
+Bu durumda teklif onayli olsa bile `kapsam teyidi` tam olmayabilir.
+
+### 4) Neden delivery note tek basina yetmiyor?
+Cunku `scope` metni text-first ve esnek.
+Bu iyi ama tek basina kanonik ticari kaynak degil.
+
+Operator scope'a bir sey yazmis olabilir,
+ama bu yazinin secilen paket ve eklerle tam uyumlu olup olmadigi yine teklife bakmadan anlasilmaz.
+
+Yani delivery note bize suyu soyluyor:
+- `nasil baslayacagiz`
+Ama tek basina suyu soylemez:
+- `bu baslangic satilan cozumle ayni mi?`
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence `kapsam teyidi` satiri su kesisim mantigiyla turetilmeli:
+- offer = kanonik cozum secimi
+- delivery.scope = kickoff somutlamasi
+- satir = bu ikisi birbirini tutuyor mu?
+
+Bu durumda V1 degerleri su olabilir:
+- `Teyitli` = paket ve scope uyumlu, belirgin kopukluk yok
+- `Revize bekliyor` = scope'ta tekliften sapma veya eksik netlik var
+- `Son paket teyidi gerekli` = kickoff var ama teklif zemini tam kapanmamis / son secim bulanık
+
+### 6) Bu satir `scope ozeti` ile nasil ayrisir?
+Bu cok onemli.
+Kural su olmali:
+- `scope ozeti` = ne teslim edilecek / nasil baslayacak
+- `kapsam teyidi` = bunun teklif kaydiyla uyum guveni ne durumda
+
+Yani biri icerik,
+digeri uyum/güven yorumu.
+
+### 7) En buyuk risk ne?
+`kapsam teyidi` satirinin teslimat durumuyla karismasi.
+Ornegin:
+- kickoffta olmak baska sey
+- kapsam teyitli olmak baska sey
+
+Bu yuzden `kickoff / yapim / yayinda` zaten durum satirinda kalmali.
+`kapsam teyidi` ise yalniz uyum ve netlik yorumu olmali.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- kickoff kartindaki `kapsam teyidi` ne yalniz tekliften ne de yalniz delivery note'tan turetilmeli
+- `offer + delivery.scope` kesisiminden derived bir guven/netlik satiri olmali
+
+Kisa formda:
+- teklif = kanonik cozum kaynagi
+- scope = operasyonel baslangic kaynagi
+- kapsam teyidi = ikisinin uyum yorumu
+
+Bu model hem text-first delivery kararina sadik kalir hem de tekliften kopuk bir kickoff karti uretmez.
+
 ## Sonraki arastirma basliklari
-- kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
 - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
 - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
 - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
 - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
 - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
+- `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
