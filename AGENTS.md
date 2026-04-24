@@ -39,12 +39,16 @@ Bilgiyi once dogru kanonik yere koy.
 - kok kaynak haritasi ve dosya rolleri -> `README.md`
 - tarihli not ve adlandirma kurallari -> `memory/README.md`
 - karar kaydi kurallari -> `DECISIONS/README.md`
+- kalici hafiza ve dreaming promotion sonucu -> `MEMORY.md`
+- Dream Diary ve faz raporlari -> `DREAMS.md`, `memory/dreaming/`
+- dreaming makine durumu -> `memory/.dreams/` (manuel karar kaynagi gibi kullanma)
 
 Ayni bilgiyi iki ayri kanonik dosyada yasatma.
 
 ## 6) Baglam Hijyeni
 - kisa omurlu durum ile kalici cizgiyi karistirma
 - bitmis isi aktif dosyalarda tasima
+- dream diary, faz raporu ve `memory/.dreams/` ciktilarini kalici karar gibi alma
 - drift gordugunde yeni dosya acmadan once dogru kanonik yeri bul
 
 Detayli kontrol icin `CHECKLISTS/context-hygiene.md` kullan.
