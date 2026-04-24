@@ -21,7 +21,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- MEMORY bagli referans dosyalarinin hizasini koruyarak Asama A icin hazirlanan `state/repo-cleanup-asama-a-rename.sh` komut taslagi uzerinden kisa onay alip 20 dusuk riskli `memory/` rename batch'ini uygulamak, sonra hazir durumdaki `state/repo-cleanup-asama-a-post-rename-sync.py` artefakti ile `memory/2026-04-24-repo-cleanup.md` senkronunu tamamlamak
+- Kok ana dosya zincirindeki scope temizligini tamamlamak icin `HEARTBEAT.md` aktif pano rolunu fiili akisla hizalayip, sonra `MEMORY.md` icindeki promoted block'u kalici hafiza cizgisine gore ayiklayarak ancak bunun ardindan Asama A rename batch'i icin kisa onaya gecmek
 
 ## Mevcut Blokajlar
 - fiziksel rename uygulamasi toplu dosya tasima sayildigi icin kisa onay gerektiriyor

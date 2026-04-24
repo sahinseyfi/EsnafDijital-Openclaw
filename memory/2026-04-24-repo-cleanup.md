@@ -614,3 +614,63 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 ### Sonuc
 - rename batch'inden bagimsiz ama ayni cleanup hattina bagli bir drift adayi daha netlesti
 - Asama A rename ve referans patch'i kapandiktan sonra `MEMORY.md` promoted block'u ayiklama / kaliciya donusturme batch'i acilacak
+
+## 2026-04-24 ek ilerleme - kontrollu kok dosya uyum duzeltmeleri
+
+Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. Amac, eski bulgu listesi ile fiili repo durumu arasinda fark birakmamaktir.
+
+### Uygulanan duzeltmeler
+1. `TOOLS.yaml`
+   - ozet dosyasi ikinci politika kaynagi gibi davranmayacak sekilde sadeleştirildi
+   - yorumlayici ek maddeler yerine `TOOLS.md` ile daha birebir hizali ozet yapisina cekildi
+   - sonuc: `TOOLS.md` -> ana kaynak, `TOOLS.yaml` -> eslik eden ozet cizgisi guclendi
+
+2. `OPERATIONS.md`
+   - OpenClaw operasyon komutlari eklendi
+   - eklenen satirlar: `openclaw status`, `openclaw gateway status/start/stop/restart`
+   - sonuc: VPS uzerindeki OpenClaw baglami canli operasyon referansinda daha gorunur hale geldi
+
+3. `README.md`
+   - `deploy/`, `bin/`, `state/` satirlari icin `ne zaman bakilir` dili netlestirildi
+   - sonuc: root onboarding ve yonlendirme zinciri daha okunur oldu
+
+4. `PROJECT.md`
+   - detayli `Teknik Varsayimlar` listesi kaldirildi, yerine `TOOLS.md` yonlendirmesi kondu
+   - `Genisleme alani` ifadesi guncel kalici karara gore `operasyonel CRM yonunde genisleyebilen panel` cizgisine cekildi
+   - sonuc: proje tanimi ile teknik tercih ve karar kaydi rolleri daha temiz ayrildi
+
+5. `ROADMAP.md`
+   - `Done / Doing / Next` yapisi kaldirildi
+   - yerine roadmap rolune daha uygun `Bu donemin oncelikleri` ve `Bu donemde netlesmesi gereken kararlar` yapisi kuruldu
+   - `bagimsiz yatay SaaS tipi genel CRM urunlesmesi` maddesine aciklayici not eklendi; operasyonel CRM genislemesinin bunun disinda oldugu netlestirildi
+   - sonuc: roadmap aktif durum panosundan ayrilip orta vadeli yon dosyasi rolune daha iyi oturdu
+
+### Kapanan veya daralan drift adaylari
+- `TOOLS.yaml` icindeki eski adlandirma / yorumlayici drift buyuk olcude kapandi
+- `ROADMAP.md` icindeki `Context` izi ve aktif durum dili temizlendi
+- `PROJECT.md` icindeki eski `hafif panel` okumasinin yerini guncel CRM genisleme karariyla uyumlu ifade aldi
+- `README.md` icindeki `deploy/bin/state` yonlendirme belirsizligi daraldi
+- `OPERATIONS.md` icindeki OpenClaw operasyon boslugu kapandi
+
+### Hala acik kalanlar
+1. `HEARTBEAT.md`
+   - genel iskelet dogru
+   - `Siradaki Somut Adim` satiri guncellenip fiili akisla hizalandi
+   - heartbeat, rename batch'ine erken baglanmak yerine once root scope temizligi ve `MEMORY.md` promoted block ayiklamasina dondu
+
+2. `MEMORY.md`
+   - promoted block tarafinda ham gunluk/teknik detay yogunlugu devam ediyor
+   - bu alan, root dosya zinciri kapandiktan sonra ayri batch ile temizlenecek
+
+3. `MEMORY_SUMMARY.md`
+   - ilk cleanup notlarinda aday olarak acildi; bu turda tekrar ele alinmadi
+   - turetilmis ozet rolunu sertlestirme ihtiyaci acik kaldi
+
+4. `memory/` naming drift rename paketi
+   - Asama A / B / C plani hazir
+   - ama fiziksel rename icin kullanici onayi, referans patch'i ve kok dosya audit kapanisi birlikte ele alinacak
+
+### Guncel durum notu
+- Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
+- `HEARTBEAT.md` aktif pano rolune gore fiili akisla hizalandi
+- Bu cleanup hattinin sonraki kontrollu duragi: `MEMORY.md` promoted block'u, sonra rename batch onayi
