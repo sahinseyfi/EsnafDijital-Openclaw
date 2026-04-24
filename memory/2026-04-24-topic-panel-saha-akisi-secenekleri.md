@@ -3311,10 +3311,142 @@ Bu da sunu destekliyor:
 - `Project OS` = secimi hizlandiran kuyruk
 - `Business Detail` = karar mantigini acan tek kayit duvari
 
+## Yirmi birinci okuma - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
+Bu soru kucuk gorunuyor ama aslinda saha akisinin en hassas parcalarindan biri.
+Cunku `ilk acilis` satiri kotu kaynaktan turetilirse:
+- fazla teknik kalir
+- fazla genel kalir
+- ya da sahadaki gercek konusma yerine ekranda guzel duran bir slogan olur
+
+### 1) Mevcut repo gercegi ne diyor?
+Bugun elimizde uc yakin kaynak var:
+- `audit.summary` = kaydin ilk operasyonel/factual zemini
+- `Y.Z raporu` = derived karar ve `oncelikli aksiyon`
+- `Business Detail` icindeki karar promptu = Y.Z + agent scan + discovery + ic not birlesimiyle dis GPT promptu uretme hazirligi
+
+Buradan su net:
+- sistem zaten `tek bakista ne yapalim` kararini Y.Z tarafina itiyor
+- ama sahada soylenebilecek ilk cumle icin henuz ozel bir kontrat yok
+
+### 2) Uc model
+
+#### A1) `ilk acilis` Y.Z raporundan turetilsin
+Artisi:
+- son ve butunlesik karar katmanina yaslanir
+- tarama sinyallerini bir araya getirir
+
+Eksisi:
+- Y.Z kontrati `konusma acilisi` icin yazilmamis
+- `oncelikli aksiyon` ile `ilk acilis` ayni sey degil
+- sahada soylenebilir cumle yerine operator karari dilinde kalabilir
+
+#### A2) `ilk acilis` audit snapshot'tan gelsin
+Artisi:
+- daha somut ve soruna yakin olur
+- teklif zeminiyle uyumlu kalir
+
+Eksisi:
+- audit dili genelde `eksik` ve `tespit` odaklidir
+- insanla konusma cumlesine dogal donusmeyebilir
+- discovery importtan gelen factual audit ozeti sahada cok mekanik kalabilir
+
+#### A3) `ilk acilis` ayri bir derived saha mantigindan turetilsin
+Girdiler:
+- auditteki ana eksik veya paket yonu
+- Y.Z raporundaki oncelikli aksiyon
+- operator notundaki muhatap / itiraz bilgisi varsa o
+
+Artisi:
+- sahaya ozel bir dil uretilir
+- audit ile Y.Z'nin rolleri bozulmaz
+- konusma cumlesi tam ihtiyacina gore sinirli kalir
+
+Eksisi:
+- yeni bir derived kural gerektirir
+- kontrol edilmezse yapay ve tekrarci olabilir
+
+Ara yorum:
+- su an en saglikli yol `A3`
+
+### 3) Neden Y.Z tek basina yetmiyor?
+Cunku Y.Z raporunun isi:
+- genel durum
+- guclu / zayif sinyaller
+- dijital gorunum ozeti
+- tek oncelikli aksiyon
+
+Bu kontrat iyi bir `karar` kontrati.
+Ama iyi bir `konusma acilisi` kontrati degil.
+
+Ornek fark:
+- `Oncelikli aksiyon: website vitrini teklifi hazirlanabilir`
+Bu sahada soylenebilir bir ilk cumle degil.
+En fazla operatora yol gosterir.
+
+### 4) Neden audit tek basina yetmiyor?
+Audit daha cok `neden bu kayit` sorusuna cevap veriyor.
+Bu da sahadaki ilk cumleyi bazen fazla sert yapar.
+
+Ornek risk:
+- `website yok, telefon eksik, yorum dusuk`
+Bu bulgular acilisin girdisi olabilir.
+Ama bunlari dogrudan soylenen cumleye cevirmek,
+- yargilayici
+- mekanik
+- soguk
+olabilir.
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence `ilk acilis` icin ayri ama cok hafif bir derived saha kuralina ihtiyac var.
+Bu kural su sekilde calisabilir:
+- `audit` ana problemi verir
+- `Y.Z` simdiki yonu verir
+- `operator notu` varsa ton ve muhatap bilgisini duzeltir
+- cikis tek cumlelik audit-first ama insanla konusulabilir bir acilis olur
+
+Yani akista:
+- audit = ne sorun var
+- Y.Z = simdi ne yapalim
+- saha derived = bunu ilk cumlede nasil acariz
+
+### 6) Bu satirin dil kurali ne olmali?
+V1 icin bence su kurallar net olmali:
+- tek cumle
+- teknik jargon yok
+- suclayici dil yok
+- paket satmaya abanma yok
+- once gozlem ve fayda dili
+- sonra gerekirse ince teklif koprusu
+
+Ornek cizgi:
+- `Sizi kisaca dijital gorunum tarafinda inceledim, isterseniz 2 dakikada nerede en hizli toparlanma olur gosterebilirim.`
+
+Bu dil ne auditin ham bulgusu kadar sert ne de Y.Z aksiyonu kadar operator-ici kalir.
+
+### 7) En buyuk risk ne?
+Yeni derived saha mantigi ayrica prompt benzeri bir motor haline gelirse gereksiz buyur.
+Bunu onlemek icin:
+- sadece tek satir uretsin
+- segmente gore hafif ton farki alabilir ama tam script bankasina donmesin
+- detail ekraninda yardimci satir olarak kalsin
+- operator isterse duzenleyebilsin
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `ilk acilis` ne Y.Z'den dogrudan alinmali ne de auditten kopyalanmali
+- `audit + Y.Z + varsa operator notu`ndan beslenen ayri bir derived saha satiri olmali
+
+Kisa formda:
+- audit = problem kaynagi
+- Y.Z = karar kaynagi
+- ilk acilis = saha iletisimi icin derived ceviri
+
+Bu model hem kart rollerini bozmaz hem de sahada gercekten kullanilabilecek bir cumle uretir.
+
 ## Sonraki arastirma basliklari
-- `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
 - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
 - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
 - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
 - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
 - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
+- `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
