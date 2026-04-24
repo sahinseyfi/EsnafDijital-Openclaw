@@ -659,8 +659,10 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
    - heartbeat, rename batch'ine erken baglanmak yerine once root scope temizligi ve `MEMORY.md` promoted block ayiklamasina dondu
 
 2. `MEMORY.md`
-   - promoted block tarafinda ham gunluk/teknik detay yogunlugu devam ediyor
-   - bu alan, root dosya zinciri kapandiktan sonra ayri batch ile temizlenecek
+   - promoted block ayiklandi
+   - ham gunluk/teknik detaylar ve promotion marker yorumlari kaldirildi
+   - yalniz iki kalici ilke korundu: surekli arka plan ajanlari yerine tek-seferlik/deterministik yardimci akis tercihi ve gereksiz tekrar eden wake/cron mantigindan kacinma cizgisi
+   - `Genisleme alani` ifadesi de guncel CRM karariyla hizalandi
 
 3. `MEMORY_SUMMARY.md`
    - ilk cleanup notlarinda aday olarak acildi; bu turda tekrar ele alinmadi
@@ -673,4 +675,5 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 ### Guncel durum notu
 - Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
 - `HEARTBEAT.md` aktif pano rolune gore fiili akisla hizalandi
-- Bu cleanup hattinin sonraki kontrollu duragi: `MEMORY.md` promoted block'u, sonra rename batch onayi
+- `MEMORY.md` promoted block'u ayiklanip kalici cizgiye indirildi
+- Bu cleanup hattinin sonraki kontrollu duragi: `MEMORY_SUMMARY.md`, sonra rename batch onayi

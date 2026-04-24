@@ -21,7 +21,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- Kok ana dosya zincirindeki scope temizligini tamamlamak icin `HEARTBEAT.md` aktif pano rolunu fiili akisla hizalayip, sonra `MEMORY.md` icindeki promoted block'u kalici hafiza cizgisine gore ayiklayarak ancak bunun ardindan Asama A rename batch'i icin kisa onaya gecmek
+- Kok ana dosya zincirindeki scope temizligini tamamlamak icin `MEMORY_SUMMARY.md` dosyasinin turetilmis ozet rolunu sertlestirip `MEMORY.md` ile birebir hizalamak, sonra Asama A rename batch'i icin kisa onaya gecmek
 
 ## Mevcut Blokajlar
 - fiziksel rename uygulamasi toplu dosya tasima sayildigi icin kisa onay gerektiriyor
