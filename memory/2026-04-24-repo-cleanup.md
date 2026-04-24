@@ -204,3 +204,5 @@ blocker
 - Gerekce: 0 byte durumdaydilar, root yapisinda kanonik yerleri yoktu ve aktif akista kullanilmiyorlardi.
 - Rootteki `DEGISIKLIK_OZETI.md` silindi.
 - Gerekce: gecici ozet/log niteligindeydi; rootte kanonik kaynak olarak tutulmasi gerekmiyordu.
+- Rootteki `AGENTS/` klasoru silindi.
+- Gerekce: kokteki kanonik ajan kontrati zaten `AGENTS.md` dosyasinda tutuluyor; klasor altindaki tek dosya eski cizgi ve drift riski tasiyordu.
