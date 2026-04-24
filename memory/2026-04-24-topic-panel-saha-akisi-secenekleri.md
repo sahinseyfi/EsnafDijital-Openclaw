@@ -576,9 +576,273 @@ Cunku su iki kritik soru henuz acik:
 - `ziyaret hazirlik` ayri yuzey mi olmali, detail modu mu?
 - `sahada ne soylenir` veri modeli sorunu mu, yoksa sadece rehber karti sorunu mu?
 
+## Ucuncu okuma - saha konusmasi, bilgi toplama ve teslima donusme
+Playbook + segment + teklif omurgasini birlikte okuyunca su netlesiyor:
+- saha konusmasi paket satma cumlesiyle degil, `audit ile sorunu gorunur kilma` mantigiyla baslamali
+- paket sunumu segment bazli farklasa da paket omurgasi ayni kalmali
+- teslim bilgisi satis oncesi ihtiyac notlariyla ayni sepette tutulursa karisir
+
+### 1) `Sahada ne soylenir` icin 3 model
+
+#### S1) Sabit tek script
+Ornek mantik:
+- kendini tanit
+- dijital gorunurluk sorunu anlat
+- paketi soyle
+- kapat
+
+Artisi:
+- cok hizli
+- yeni operator icin kolay
+
+Eksisi:
+- yapaylasir
+- segment farklarini ve isletme gercegini iyi tasimaz
+- audit mantigini kisa yoldan atlayabilir
+
+#### S2) Segment bazli scriptler
+- berber icin bulunurluk / yorum / saat netligi
+- guzellik icin gorsel guven / yorum / hizmet anlatimi
+- kafe icin menu / fotograf / konum / yorum
+
+Artisi:
+- saha dili daha gercekci olur
+- OFFERS ve SEGMENTS cizgisiyle uyumlu
+
+Eksisi:
+- yine fazla ezber olabilir
+- ayni segment icindeki isletme farklarini tasimaz
+
+#### S3) Audit-first moduler konusma kartlari
+Mantik:
+- giris cumlesi
+- gozlenen problem
+- bunun isletmeye etkisi
+- uygun sonraki adim
+- gerekirse uygun paket yonu
+
+Kartlar segment ve audit sinyaline gore degisir.
+Ornek:
+- `telefon / saat karisik`
+- `website yok`
+- `yorum guveni zayif`
+- `Instagram bos`
+
+Artisi:
+- sahada daha dogal
+- tek script yerine duruma gore konusma verir
+- audit -> teklif zinciriyle daha uyumlu
+
+Eksisi:
+- veri kalitesi dusukse kart zayif olur
+- ekranda yalnizca metin degil secilebilir karar kartlari gerekir
+
+Ara yorum:
+- su an en guclu cizgi S3
+- S2 bunun destekleyici katmani olabilir
+- S1 tek basina zayif kaliyor
+
+### 2) `Isletme bilgileri nasil toplanir` icin 3 model
+
+#### B1) Tek bir buyuk form
+Ayni formda:
+- muhatap
+- ihtiyac
+- itiraz
+- paket ilgisi
+- assetler
+- erisimler
+- domain
+- yayin notu
+
+Artisi:
+- tek yerde her sey
+
+Eksisi:
+- sahada agir
+- satis oncesi ve teslim sonrasi isleri karistirir
+- CRM form duvari riskini artirir
+
+#### B2) Iki katmanli model
+Katman 1, gorusme / ziyaret notu:
+- muhatap kim
+- telefon / WhatsApp
+- ilgi seviyesi
+- ana ihtiyac
+- itiraz / cekince
+- sonraki adim
+
+Katman 2, kickoff / teslim bilgisi:
+- logo / fotograf / menu / hizmet listesi
+- domain tercihi
+- erisimler
+- yayin onayi
+- eksik asset listesi
+
+Artisi:
+- satis oncesi ile teslim sonrasi ayrilir
+- saha kullanimi daha mantikli
+- delivery scope ile daha temiz baglanir
+
+Eksisi:
+- ikinci katman icin acik trigger gerekir
+- veri modeli bugun bunu ayri nesnelerle tasimiyor
+
+#### B3) Metin-first sonra yapilandirma
+- ilk gorusme serbest notla alinır
+- sonra sistem bunu audit / teklif / teslim alanlarina dagitir
+
+Artisi:
+- hizli yakalama saglar
+- ilk gunlerde esnek olur
+
+Eksisi:
+- standardizasyon dusuk kalir
+- operator ayni seyi farkli yazar, karsilastirma zorlasir
+
+Ara yorum:
+- ilk faz icin B2 en mantikli gorunuyor
+- ama uygulama sirasi su olabilir: once hafif B3, sonra B2'ye gecis
+- burada once tam veri modeli degil, iki ayri operator kutusu bile ilerleme saglayabilir
+
+### 3) `Girilen bilgiler nasil sonuca donusur` icin zincir sorunu
+Mevcut cizgi su:
+- discovery import -> business + audit
+- audit -> offer
+- offer -> delivery
+
+Ama arada eksik halkalar var:
+- ziyaret yapildi mi?
+- uzaktan mi ilerliyor?
+- audit sonrasi neden Paket 1 yerine Paket 2 secildi?
+- tekliften delivery kickoff'a hangi eksik bilgi tasindi?
+
+Burada 3 alt model var:
+
+#### Z1) Tam operator karari, sistem sadece kaydeder
+Artisi:
+- basit
+
+Eksisi:
+- neden bu karar alindi izi zayif kalir
+
+#### Z2) Sistem paket ve sonraki adim onerir, operator onaylar
+Artisi:
+- audit -> teklif bagi gorunur olur
+- kullanicinin `sonuclama` sorusuna net cevap verir
+
+Eksisi:
+- onerinin kalitesi audit kalitesine bagli
+
+#### Z3) Kural tabanli kapilar
+Ornek:
+- website yok + maps zayif + telefon var => Paket 1 veya 2 arasi bak
+- yorum / QR ihtiyaci bariz => Paket 2 yonu
+- Instagram zayif + fiziksel yorum akisi ihtiyaci => Paket 3 yonu
+
+Artisi:
+- paket onerisini aciklasinir yapar
+
+Eksisi:
+- fazla erken sertlestirilirse gercegi fazla duzlestirir
+
+Ara yorum:
+- en mantikli ilk cizgi `Z2 + hafif Z3`
+- yani sistem acik gerekceli yon onersin, operator son karari versin
+
+### 4) `Paketler nasil sunulur ve teslim edilir` sorusunda yeni ayrim
+Teklif omurgasi sunu gosteriyor:
+- saha gorusmesinde her paketi anlatmak gerekmiyor
+- once sorun ve uygun yon anlatilmali
+- paketler `temel / plus / guclu kimlik` olarak secimlestirilmeli
+
+Bu da saha sunumunda 3 stil doguruyor:
+
+#### P1) Tum paketleri acikca masaya koy
+Eksisi:
+- erken karmasa yaratir
+
+#### P2) Tek onerilen paket + bir ust alternatif
+Artisi:
+- karar kolaylasir
+- sahada daha net
+
+Eksisi:
+- bazen fazla yonlendirici hissedilebilir
+
+#### P3) Once audit sonucu, sonra paket ac
+Mantik:
+- sizde su 2-3 eksik var
+- bunun icin en mantikli baslangic bu
+- isterseniz bir ust seviye de su farki getirir
+
+Artisi:
+- OFFERS cizgisiyle en uyumlu model bu
+- paket pazarlama listesi gibi degil, sonuc yolu gibi anlatilir
+
+Ara yorum:
+- P3 en guclu model
+- P2 sahada pratik destek modeli olarak kullanilabilir
+
+### 5) Teslimata geciste eksik halka
+Playbook teslimatta `asset ve not topla` diyor.
+Ama bugun veri modeli ve ekran gercekligi su acikligi birakiyor:
+- hangi asset eksik
+- kimden beklenecek
+- domain / erisim / yayin onayi geldi mi
+
+Bu da delivery kickoff icin 3 secenek doguruyor:
+
+#### T1) Tek `scope` metni ile devam
+Artisi:
+- sade
+- bugunku yapiyla uyumlu
+
+Eksisi:
+- eksik asset takibi zor
+- teslim gecikme nedeni gorunmez kalir
+
+#### T2) `scope` + hafif checklist satirlari
+- assetler
+- erisimler
+- yayin onayi
+- bekleyenler
+
+Artisi:
+- text-first cizgiyi cok bozmadan takip kalitesi artar
+
+Eksisi:
+- yeni yari-yapili format standardi gerekir
+
+#### T3) Tam yapili teslim formu
+Artisi:
+- en izlenebilir model
+
+Eksisi:
+- MVP icin agir
+- erken CRM hissi uretir
+
+Ara yorum:
+- simdilik T2 en dengeli gorunuyor
+- T1 tek basina saha ve teslim kopusunu buyutebilir
+- T3 icin erken
+
+## Bu wake sonrasi guncellenen kanaat
+Finalistleri etkileyen yeni sinyal su:
+- `sahada ne soylenir` konusu ayri bir tam sayfa zorunlulugu degil, once `audit-first moduler konusma kartlari` olarak cozulmeli
+- `isletme bilgileri nasil toplanir` sorusunda tek buyuk form yerine `gorusme notu` ve `kickoff bilgisi` ayrimi daha saglikli
+- `girilen bilgi nasil sonuca donusur` sorusunda sistemin gerekceli yon onerisi lazim, ama son karar operatorte kalmali
+- `teslim` tarafinda tek serbest metin yerine yarim yapili checklist destegi daha dogru olabilir
+
+Bu da finalistleri biraz daha su yone cekiyor:
+- C ve B hala onde
+- D, ayri sayfa olmak zorunda olmayabilir; once detail icindeki ziyaret karti + konusma karti ile test edilebilir
+- E, paket ve sonuc zinciri tarafinda gucleniyor ama tek basina tam model olmuyor
+
 ## Sonraki arastirma basliklari
 - `ziyaret hazirligi` ayri sayfa mi, business detail modu mu?
-- `sahada ne soylenir` icin segment bazli konusma kartlari nasil yazilmali?
+- `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
 - `hangi isletmeye gidilecegi` icin skor + manuel oncelik + mesafe mantigi birlikte mi calismali?
-- `girilen bilgiler nasil sonuca donusur` icin audit -> teklif -> delivery veri zinciri nasil gorunur hale getirilmeli?
-- `isletme bilgileri nasil toplanir` konusu iki form katmani olarak mi tasarlanmali: gorusme notu ve kickoff bilgi toplama
+- `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
+- `audit -> paket onerisi -> teklif -> delivery kickoff` zinciri ekranda nasil gorunur hale getirilmeli?
+- `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
