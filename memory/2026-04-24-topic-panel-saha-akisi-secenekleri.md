@@ -3984,10 +3984,141 @@ Kisa formda:
 
 Bu model hem not coplugunu engeller hem de sahada kopukluk riskini azaltir.
 
+## Yirmi altinci okuma - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
+Bu soru `badge nasil gorunsun?` sorusundan daha kritik.
+Cunku asil konu su:
+- saha secim sinyalini ilk hangi yuzeye koyarsak urunu daha az bozariz?
+
+### 1) Mevcut yuzey rolleri ne diyor?
+Kod ve referanslar su ayrimi guclendiriyor:
+- `Project OS` = gunun sicak is kuyrugu, `audit -> teklif -> teslimat -> bakim` hattinda simdi ne hareket etmeli?
+- `Businesses` = tum kayitlari toplu gorup filtreleyerek uygun kaydi bulma yuzeyi
+- `Home` = yon gosterici, karar duvari degil
+
+`Project OS` referansi acikca diyor ki:
+- siradaki isler kuyrugu aksiyon odakli kalmali
+- sayfa form/rapor/tablo duvarina donmemeli
+- Business Detail'in ikinci kuyruk ekrani olmamali
+
+`Businesses` sayfasi ise bugun zaten su rollere daha yakin:
+- toplu tarama
+- arama / filtreleme
+- stage'e gore daraltma
+- kaydi detaya tasima
+
+Bu yuzden iki yuzey ayni degil.
+`bugun git` sinyali de once bu rol farkina gore yerlestirilmeli.
+
+### 2) Uc model
+
+#### B1) Ilk gunden Project OS ana kuyruguna koy
+Artisi:
+- gunun sicak is ekraninda saha sinyali direkt gorunur
+- operator tek ekranda daha fazla sey gorur
+
+Eksisi:
+- Project OS'un audit/teklif/teslim odagini bozar
+- ziyaret secimi ile operasyon kuyru gu karisir
+- ikinci discovery hissi riski yuksek
+
+#### B2) Once yalniz Businesses listesine koy
+Artisi:
+- toplu tarama ve secim yuzeyine daha iyi uyar
+- filtre/arama mantigi ile dogal bag kurar
+- Project OS'u bozmadan saha sinyalini test etmeye izin verir
+
+Eksisi:
+- operator iki yuzey arasinda gidip gelebilir
+- `gunun sicak isi` ile `bugun gidilecek kayit` ayni ekranda birlesmez
+
+#### B3) Businesses'ta baslat, sonra sinyal olgunlasirsa Project OS'a terfi ettir
+Artisi:
+- en dusuk riskli ogrenen yol
+- once secim ekraninda test edilir
+- gercek fayda gorulurse Project OS'a kontrollu tasinabilir
+
+Eksisi:
+- iki asamali urun kuralı gerektirir
+- ilk bakista biraz dolayli hissedilebilir
+
+Ara yorum:
+- su an en saglikli yol `B3`
+
+### 3) Neden Project OS'ta hemen baslamak riskli?
+Cunku Project OS'un cekirdek sorusu su:
+- `hangi kayit hangi asamada ve simdi hangi operasyon hareketi olmali?`
+
+`bugun git` ise farkli bir soru soruyor:
+- `hangi kayit saha ziyareti icin aday?`
+
+Bu ikisi akraba ama ayni degil.
+Ilk asamada ziyaret sinyalini ana kuyruga koyarsak su risk var:
+- teklif bekleyen is mi daha sicak,
+yoksa bugun gidilebilecek aday mi daha sicak,
+aynı listede karisir
+- stage sirasinin ustune ikinci oncelik mantigi biner
+- Project OS, audit-teklif-teslim kuyrugu olmaktan uzaklasir
+
+### 4) Neden Businesses sayfasi daha guvenli baslangic?
+Cunku `Businesses` zaten secim ve filtreleme yuzeyi.
+Bugun sayfada su alanlar var:
+- arama
+- segment filtreleri
+- durum filtreleri
+- hat asamasi filtreleri
+- detaya gecis
+
+Yani `bugun git` burada su rollerde ise yarayabilir:
+- filtrelenebilir ikincil isaret
+- liste satirinda yardimci sinyal
+- saha secim modu acildiginda hizlandirici badge
+
+Bu ekleme sayfanin ruhunu bozmaz.
+Cunku sayfa zaten `kaydi bul ve sec` yuzeyi.
+
+### 5) O zaman en saglikli V1 rollout ne olmali?
+Bence su sira dogru:
+1. `Businesses` listesinde badge + kisa sebep olarak basla
+2. filtrelenebilir ikincil isaret yap
+3. operator sahada gercekten kullaniyorsa faydayi gozle
+4. ancak sonra `Project OS` icin terfi edilip edilmeyecegine bak
+
+Bu cizgi hem riski dusurur hem de gereksiz erken urun savrulmasini engeller.
+
+### 6) Project OS'a ne zaman tasinabilir?
+Su kosullar gorulurse dusunulebilir:
+- `bugun git` sinyali toplu secimde gercekten kullaniliyor ve guven veriyorsa
+- audit/teklif kuyru gu ile saha secim sinyali arasinda tutarli bir hiyerarsi kurulabiliyorsa
+- Project OS kartinda bunu gostermek `siradaki adim`i zayiflatmiyorsa
+
+Yani tasima otomatik default olmamali.
+Kanit gerektirmeli.
+
+### 7) En buyuk risk ne?
+Saha secim sinyalinin kullanisli olmasi yuzunden her yere yayilmasi.
+Bu da su sonuca gider:
+- Businesses = secim ekrani
+- Project OS = secim + sicak is + saha rozetleri
+- Business Detail = karar duvari
+
+Sonra urun ayni problemi 3 yerde farkli sekilde gostermeye baslar.
+Bu tekrar riskidir.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `bugun git` badge'i once `Businesses` listesinde filtrelenebilir ikincil isaret olarak baslamali
+- `Project OS` ana kuyruguna ise ancak faydasi kanitlanirsa kontrollu terfi etmeli
+
+Kisa formda:
+- `Businesses` = guvenli ilk deneme alani
+- `Project OS` = kanit sonrasi terfi alani
+
+Bu model hem Project OS'un cekirdek rolunu korur hem de saha secim sinyalini dusuk riskle test eder.
+
 ## Sonraki arastirma basliklari
-- `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
 - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
 - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
 - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
 - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
 - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
+- `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
