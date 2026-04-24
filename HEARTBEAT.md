@@ -21,18 +21,18 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
-- Kok ana dosya zincirinde `MEMORY.md` merkezli cizgi artik aktif oldugu icin Asama A icin hazirlanan `state/repo-cleanup-asama-a-rename.sh` komut taslagi uzerinden kisa onay alip 20 dusuk riskli `memory/` rename batch'ini uygulamak, sonra hazir durumdaki `state/repo-cleanup-asama-a-post-rename-sync.py` artefakti ile `memory/2026-04-24-repo-cleanup.md` senkronunu tamamlamak
+- Asama A rename batch'i tamamlandigi icin, ek memory/reference baglantisi tasiyan Asama B dosyalari icin paired update planini netlestirip ikinci rename paketini onay-oncesi hazir hale getirmek
 
 ## Mevcut Blokajlar
-- fiziksel rename uygulamasi toplu dosya tasima sayildigi icin kisa onay gerektiriyor
-- Asama B dosyalari ek memory/reference baglantilari tasidigi icin ilk rename batch'ine alinmayacak
+- Asama B dosyalari ek memory/reference baglantilari tasidigi icin paired update olmadan rename edilemez
+- aktif cleanup notu olan `2026-04-24-repo-cleanup.md` Asama C olarak ayrildigi icin bu hatta henuz dahil edilmeyecek
 
 ## Dikkat Edilecek Riskler
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 - HEARTBEAT.md'nin aktif pano yerine gecmis, politika ve daginik notlarla sisip odagini kaybetmesi
-- `MEMORY.md` icinde ham promotion bloklarinin kalici hafiza yerine gunluk/cop veri biriktirmesi
+- Asama B rename'inde ek baglanti tasiyan dosyalari eksik guncelleyip yeni referans drift'i uretmek
 
 ## Bu Fazin Done Tanimi
 - teklif omurgasi netlesmis olacak

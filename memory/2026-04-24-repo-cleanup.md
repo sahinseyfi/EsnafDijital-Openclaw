@@ -546,11 +546,10 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsar. Fiziksel rename bu not ve ilgili referanslar tek patch'te guncellenmeden uygulanmayacak.
 
 ### Sonraki adim
-- Asama A rename patch'ini hazirla
 - `AGENTS.md` ve `HEARTBEAT.md` scope temizligini kapat
 - fiziksel rename oncesi kullanicidan kisa onay iste
 
-## Asama A approval-ready rename taslagi
+## Asama A approval-ready rename taslagi (tarihsel)
 
 ### Hazirlanan artefakt
 - komut taslagi: `state/repo-cleanup-asama-a-rename.sh`
@@ -562,8 +561,8 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - rename sonrasi `memory/2026-04-24-repo-cleanup.md` icindeki tablo ve staged karar notu yeni adlarla senkronize edilecektir
 
 ### Onay notu
-- bu komut toplu dosya tasima oldugu icin kullanicidan kisa onay alinmadan calistirilmayacak
-- onay gelince komut birebir bu haliyle calistirilacak, sonra referans guncellemeleri ayri adimda tamamlanacak
+- bu komut toplu dosya tasima oldugu icin kullanicidan kisa onay alinmadan calistirilmadi
+- onay geldikten sonra komut birebir bu haliyle calistirildi, sonra referans guncellemeleri ayri adimda tamamlandi
 
 ## Asama A referans guncelleme etkisi
 
@@ -615,6 +614,21 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - rename batch'inden bagimsiz ama ayni cleanup hattina bagli bir drift adayi daha netlesti
 - Asama A rename ve referans patch'i kapandiktan sonra `MEMORY.md` promoted block'u ayiklama / kaliciya donusturme batch'i acilacak
 
+## Asama A uygulama sonucu
+
+### Uygulanan komutlar
+- `bash /root/.openclaw/workspace/state/repo-cleanup-asama-a-rename.sh`
+- `python3 /root/.openclaw/workspace/state/repo-cleanup-asama-a-post-rename-sync.py`
+
+### Sonuc
+- Asama A kapsamindaki 20 dusuk riskli `memory/` dosyasi yeni naming cizgisine gore fiziksel olarak rename edildi
+- `memory/2026-04-24-repo-cleanup.md` icindeki ilgili Asama A referanslari yeni adlarla senkronize edildi
+- hizli dogrulamada 20 yeni dosya adinin tamami bulundu ve cleanup notunda eski Asama A adlari kalmadi
+
+### Sonraki kontrollu adim
+- Asama B icindeki 4 ek baglantili dosya icin paired update planini hazirla
+- `state/repo-cleanup-asama-a-rename.sh` ve `state/repo-cleanup-asama-a-post-rename-sync.py` artefaktlarini is bitince silme/arsivleme adayi olarak ayrica ele al
+
 ## 2026-04-24 ek ilerleme - kontrollu kok dosya uyum duzeltmeleri
 
 Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. Amac, eski bulgu listesi ile fiili repo durumu arasinda fark birakmamaktir.
@@ -656,7 +670,7 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 1. `HEARTBEAT.md`
    - genel iskelet dogru
    - `Siradaki Somut Adim` satiri fiili akisla yeniden hizalandi
-   - root zincirde `MEMORY.md` merkezli cizgi netlestigi icin bir sonraki durak artik direkt rename batch onayi
+   - bir sonraki durak artik Asama B icin paired update planini hazirlamak
 
 2. `MEMORY.md`
    - `Promoted From Short-Term Memory` blogu ayiklanip kaldirildi
@@ -669,13 +683,14 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
    - bu cleanup hattinda `MEMORY_SUMMARY.md` yeniden acilmayacak; ancak runtime veya onboarding icin gercek bir bir-ekran ozet ihtiyaci dogarsa ayri karar olarak ele alinacak
 
 4. `memory/` naming drift rename paketi
-   - Asama A / B / C plani hazir
-   - fiziksel rename icin kullanici onayi gerekiyor
-   - Asama A sonrasi dar kapsamli referans patch artefakti de hazir
+   - Asama A fiziksel rename + dar referans patch'i tamamlandi
+   - Asama B / C plani acik
+   - sonraki riskli kisim ek memory/reference baglantisi tasiyan dosyalar icin paired update gereksinimi
 
 ### Guncel durum notu
 - Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
 - `HEARTBEAT.md` aktif pano rolune gore fiili akisla yeniden hizalandi
 - aktif kok zincirde `MEMORY_SUMMARY.md` yerine dogrudan `MEMORY.md` referans aliniyor
 - `MEMORY_SUMMARY.md` kolu bu cleanup hattinda kapatildi; yeniden olusturma karari alinmadi
-- Bu cleanup hattinin sonraki kontrollu duragi: Asama A rename batch onayi ve ardindan referans patch'i
+- Asama A rename batch'i ve `memory/2026-04-24-repo-cleanup.md` senkronu tamamlandi
+- Bu cleanup hattinin sonraki kontrollu duragi: Asama B icin paired update planini hazirlamak
