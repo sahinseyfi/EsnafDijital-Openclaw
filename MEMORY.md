@@ -7,97 +7,97 @@ Bu dosya, EsnafDigital için kalıcı gerçekleri, korunacak karar çizgisini ve
 - Esas odak yalnızca site yapmak değil, işletmeyi teknik karmaşa ile boğmadan güven veren dijital kimlik, görünürlük ve temel dijital düzen kurmaktır.
 - Uzun vadede amaç, küçük işletmelerin teknik araçlarla boğuşmadan, OpenClaw tabanlı ajan desteği sayesinde dijital işlerini sohbet ederek yönetebileceği sade bir işletme altyapısı kurmaktır.
 - İlk iş akış omurgası şudur:
-  `Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
+  `Keşif / Ön değerlendirme -> Teklif -> Teslimat -> Bakım`
 - Bu çizgi önemli bir referanstır, ama sistemin kilitli kalacağı tek akış değildir.
 
-## 2) Ilk Pazar ve Ilk Segmentler
-- Ilk saha ve erisim avantaji bolgesi: Istanbul Arnavutkoy ve cevresi
-- Bu secim, pazarin kesin en dogru bolgesi oldugu varsayimindan degil; kurucunun hizli temas kurabilmesi ve sahada kolay hareket edebilmesi nedeniyle yapildi.
-- Ilk saha ve teklif denemesi icin uygun gorulen segmentler:
+## 2) İlk Pazar ve İlk Segmentler
+- İlk saha ve erişim avantajı bölgesi: İstanbul Arnavutköy ve çevresi
+- Bu seçim, pazarın kesin en doğru bölgesi olduğu varsayımından değil; kurucunun hızlı temas kurabilmesi ve sahada kolay hareket edebilmesi nedeniyle yapıldı.
+- İlk saha ve teklif denemesi için uygun görülen segmentler:
   - berber
-  - guzellik salonu
+  - güzellik salonu
   - kafe / restoran
 
 ## 3) Hizmet Omurgası
 ### Ana hizmet
-- isletmenin dijitalde guven veren, duzenli ve ulasilabilir hale gelmesini saglayan kurulum ve toparlama isi
+- işletmenin dijitalde güven veren, düzenli ve ulaşılabilir hale gelmesini sağlayan kurulum ve toparlama işi
 
 ### Devam hizmeti
-- Bakim / Canlilik / Kucuk Guncelleme
+- Bakım / Canlılık / Küçük Güncelleme
 
-### Genisleme alani
-- hafif panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune sonra eklenebilecek genisleme alanidir
+### Genişleme alanı
+- hafif panel ve ajan destekli işletme yönetimi, ana hizmet omurgasının üstüne sonra eklenebilecek genişleme alanıdır
 
-Amac, kucuk isletmeler icin sade ama esnek bir hizmet yapisi kurmaktir.
-Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
+Amaç, küçük işletmeler için sade ama esnek bir hizmet yapısı kurmaktır.
+Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 
-## 4) Is Akis Omurgasi
-`Kesif / On degerlendirme -> Teklif -> Teslimat -> Bakim`
+## 4) İş Akış Omurgası
+`Keşif / Ön değerlendirme -> Teklif -> Teslimat -> Bakım`
 
-- Bu akis satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir.
-- Dijital gorunurluk kontrolu / on degerlendirme, satilan ana hizmet degil; isletme secimi, onceliklendirme ve teklif hazirligi icin kullanilan ic tarama adimidir.
-- Teklif, satilan sey degil; kapsam ve teslimatin nasil yapilacagini netlestiren ara asamadir.
-- Teslimat gorunur ve hizli olmalidir.
-- Sonrasinda bakim / guncelleme geliriyle devam edilir.
+- Bu akış satış ve operasyon omurgasıdır, doğrudan satılan hizmet listesi değildir.
+- Dijital görünürlük kontrolü / ön değerlendirme, satılan ana hizmet değil; işletme seçimi, önceliklendirme ve teklif hazırlığı için kullanılan iç tarama adımıdır.
+- Teklif, satılan şey değil; kapsamı ve teslimatın nasıl yapılacağını netleştiren ara aşamadır.
+- Teslimat görünür ve hızlı olmalıdır.
+- Sonrasında bakım / güncelleme geliriyle devam edilir.
 
-### Satis Destek Araclari
-- demo site hazirligi
-- ornek ekran / ornek calisma
-- hizli mockup / on gosterim
-- ajan destegiyle isletme verilerini okuyup satis, teklif ve konumlandirma konusunda destek almak
-- Bunlar ana ve kalici olarak garanti edilen hizmetler degil, gerektiginde satis surecini destekleyen araclardir.
+### Satış Destek Araçları
+- örnek site hazırlığı
+- örnek ekran / örnek çalışma
+- hızlı taslak / ön gösterim
+- ajan desteğiyle işletme verilerini okuyup satış, teklif ve konumlandırma konusunda destek almak
+- Bunlar ana ve kalıcı olarak garanti edilen hizmetler değil, gerektiğinde satış sürecini destekleyen araçlardır.
 
-## 5) Teknik Cizgi
-- Teknik omurga VPS uzerinde kurulur.
-- Varsayilan stack: Next.js + Postgres + Prisma
-- Sabit baglam dosya tabanli tutulur: Markdown / YAML / JSON
-- Kucuk tekrar eden isler icin cron / basit jobs kullanilabilir.
-- MVP asamasinda agir AI / RAG / vector DB / mikroservis katmanlari kurulmaz.
+## 5) Teknik Çizgi
+- Teknik omurga VPS üzerinde kurulur.
+- Varsayılan yığın: Next.js + Postgres + Prisma
+- Sabit bağlam dosya tabanlı tutulur: Markdown / YAML / JSON
+- Küçük tekrar eden işler için zamanlayıcılar ve basit görevler kullanılabilir.
+- MVP aşamasında ağır yapay zekâ / RAG / vektör veritabanı / mikroservis katmanları kurulmaz.
 
-## 6) Ic Sistem Karari
-Ic sistem uc ana cekirdege gore kurulur:
-1. proje yonetimi
-2. baglam sistemi ve dokumanlar
-3. prompt uretimi, sonra gerekirse ajan destekli isletme akislarina acilabilecek operasyon katmani
-- Panel, dar bir operasyon masasi olarak kalmaz; kucuk isletmenin dijital duzene gecisini tasiyabilecek sade bir operasyon sistemi olarak kurulur.
-- On degerlendirme, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
-- Uzun vadede bu yapi, isletme sahibinin bazi dijital islerini sohbet ederek yonetebilecegi yuzeylere acilabilir.
+## 6) İç Sistem Kararı
+İç sistem üç ana çekirdeğe göre kurulur:
+1. proje yönetimi
+2. bağlam sistemi ve dokümanlar
+3. istem üretimi, sonra gerekirse ajan destekli işletme akışlarına açılabilecek operasyon katmanı
+- Panel, dar bir operasyon masası olarak kalmaz; küçük işletmenin dijital düzene geçişini taşıyabilecek sade bir operasyon sistemi olarak kurulur.
+- Ön değerlendirme, teklif, teslimat ve bakım kayıtları ilk güçlü iş tipleridir, ama sistem bunlarla sınırlı değildir.
+- Uzun vadede bu yapı, işletme sahibinin bazı dijital işlerini sohbet ederek yönetebileceği yüzeylere açılabilir.
 
-## 7) Is Bolumu
-- Kullanici: satis, saha, yon belirleme, ticari dogrulama
-- Ajan: teknik sistem, operasyon omurgasi, baglam duzeni, panel, veri modeli, bakim
-- Ilk asamada satisi dogrudan kurucu yapar; teklif dili, saha geri bildirimi ve ticari dogrulama once burada oturur.
-- Ileride satis, sahada calisan temsilciler veya yonlendiren kisilerle genisleyebilir.
-- Kar payi / paylasimli kazanc modeli, bu operasyonun acik genisleme seceneklerinden biridir.
+## 7) İş Bölümü
+- Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
+- Ajan: teknik sistem, operasyon omurgası, bağlam düzeni, panel, veri modeli, bakım
+- İlk aşamada satışı doğrudan kurucu yapar; teklif dili, saha geri bildirimi ve ticari doğrulama önce burada oturur.
+- İleride satış, sahada çalışan temsilciler veya yönlendiren kişilerle genişleyebilir.
+- Kâr payı / paylaşımlı kazanç modeli, bu operasyonun açık genişleme seçeneklerinden biridir.
 
-## 8) Korunacak Calisma Ilkeleri
-- once netlik, sonra arac
-- once teklif netligi, sonra ekran cogaltma
-- once calisan basit cozum, sonra otomasyon
-- gereksiz karmasiklik yok
-- tum baglam her istege kor bicimde yuklenmez
-- kalici kararlar yazili hale getirilir
-- bitmis saymak icin gercek cikti ve kisa dogrulama gerekir
+## 8) Korunacak Çalışma İlkeleri
+- önce netlik, sonra araç
+- önce teklif netliği, sonra ekran çoğaltma
+- önce çalışan basit çözüm, sonra otomasyon
+- gereksiz karmaşıklık yok
+- tüm bağlam her isteğe kör biçimde yüklenmez
+- kalıcı kararlar yazılı hale getirilir
+- bitmiş saymak için gerçek çıktı ve kısa doğrulama gerekir
 
-## 9) Prompt Uretim Ilkesi
-Prompt uretim sistemi, tum dosyalari kaba bicimde birlestiren bir yapi olmayacaktir.
-Amac, kullanicinin istegine gore dogru baglami secip net ve guclu prompt uretmektir.
+## 9) İstem Üretim İlkesi
+İstem üretim sistemi, tüm dosyaları kaba biçimde birleştiren bir yapı olmayacaktır.
+Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü istem üretmektir.
 
-## 10) Hesap Merkezi Yon Karari
-- Gercek auth kaydi, gercek hesap/kimligi temsil eder.
-- Operatorun gormek istedigi ad, not ve ayrimlar metadata katmaninda tutulur.
-- Ayni teknik kimlik tekrar geldiginde operator tarafinda ayri kayit ihtiyaci olabilir; bu, sahte yeni credential uretmekten daha dogru bir operator katmani yaklasimidir.
+## 10) Hesap Merkezi Yön Kararı
+- Gerçek kimlik doğrulama kaydı, gerçek hesap/kimliği temsil eder.
+- Operatörün görmek istediği ad, not ve ayrımlar üst veri katmanında tutulur.
+- Aynı teknik kimlik tekrar geldiğinde operatör tarafında ayrı kayıt ihtiyacı olabilir; bu, sahte yeni kimlik üretmekten daha doğru bir operatör katmanı yaklaşımıdır.
 
 ## 11) Marka ve Tasarım Sistemi Kararı
 - EsnafDigital'in kalıcı görsel dili güven veren net mavi (`brand`) + destekleyici turkuaz (`accent`) ekseninde kurulacaktır.
 - Arayüz dili steril SaaS değil, sade, güven veren, yüksek okunabilirlikli ve esnaf dostu olacaktır.
 - Tek tipografi ailesi `Inter` olarak korunacaktır.
-- Geometri çizgisi hafif yuvarlatılmıştır: buton/input `12px`, kart/modal `16px`, badge `pill`.
-- İkonografi varsayılan olarak `line-first` kullanılacaktır.
+- Geometri çizgisi hafif yuvarlatılmıştır: düğme/girdi `12px`, kart/pencere `16px`, rozet `pill`.
+- İkonografi varsayılan olarak çizgi ağırlıklı olacaktır.
 - Mikro metinlerde sade Türkçe, jargon kaçınma ve saygılı `siz` dili zorunludur.
-- Site ve admin panel geliştirilirken kullanıcıya görünen yüzeylerde İngilizce terimler yerine mümkün olan en yakın ve doğal Türkçe karşılıklar kullanılır.
+- Site ve yönetim paneli geliştirilirken kullanıcıya görünen yüzeylerde İngilizce terimler yerine mümkün olan en yakın ve doğal Türkçe karşılıklar kullanılır.
 - Türkçe metinlerde mümkün oldukça Türkçe karakterler korunur; ASCII'ye kaçan yazım kalıcı tercih değildir.
-- Landing ve admin panel için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
+- Tanıtım sitesi ve yönetim paneli için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
 
 ## 12) Güvenlik ve Bağlam Hijyeni
@@ -105,7 +105,7 @@ Amac, kullanicinin istegine gore dogru baglami secip net ve guclu prompt uretmek
 - `HEARTBEAT.md` aktif durumu, `memory/YYYY-MM-DD.md` tarihlenmiş gelişmeleri, bu dosya ise yalnızca kalıcı çizgiyi taşır.
 
 ## 13) Mevcut Operasyonel Gerçekler
-- Ana domain: `esnafdijital.com.tr`
-- Admin domain: `admin.esnafdijital.com.tr`
+- Ana alan adı: `esnafdijital.com.tr`
+- Yönetim paneli alan adı: `admin.esnafdijital.com.tr`
 - DNS yönetimi: Natro
-- İşletme keşfi / veri toplama tarafında Apify CLI tercih edilir.
+- İşletme keşfi / veri toplama tarafında Apify komut satırı aracı tercih edilir.
