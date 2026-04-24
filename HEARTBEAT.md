@@ -20,7 +20,7 @@ Repo genel temizlik oncesi source-of-truth cizgisini netlestirip tum dosyalari y
 4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
 
 ## Siradaki Somut Adim
-- `memory/2026-04-24-repo-cleanup.md` notundan baslayip `README.md`, `HEARTBEAT.md`, `MEMORY.md`, `PROJECT.md`, `ROADMAP.md`, `MEMORY_SUMMARY.md` ve yonlendirdikleri hedefleri birlikte denetlemek
+- `memory/2026-04-24-repo-cleanup.md` icindeki Batch 1 bulgularindan devam edip `memory/` naming driftini, `MEMORY_SUMMARY.md` ve `ROADMAP.md` wording driftini, `HEARTBEAT.md` scope temizligini ve `state/` giris boslugunu ikinci batch duzeltme planina cevirmek
 
 ## Mevcut Blokajlar
 - delivery scope taslagi asset, erisim ve yayin kontrol adimlariyla guclendi ve text-first olarak korunma karari netlesti; fakat gercek asset toplama asamasinda ek satir veya operator notu ihtiyaci cikabilir
