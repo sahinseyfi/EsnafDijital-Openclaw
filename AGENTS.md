@@ -42,6 +42,7 @@ Bilgiyi once dogru kanonik yere koy.
 - kalici hafiza ve dreaming promotion sonucu -> `MEMORY.md`
 - Dream Diary ve faz raporlari -> `DREAMS.md`, `memory/dreaming/`
 - dreaming makine durumu -> `memory/.dreams/` (manuel karar kaynagi gibi kullanma)
+- ic operasyon ve baglam dosyalarinda ASCII kullan; website ve kullanicinin gordugu iceriklerde Turkce karakterleri koru
 
 Ayni bilgiyi iki ayri kanonik dosyada yasatma.
 
@@ -63,7 +64,7 @@ Asagidaki durumlarda dur ve kisa onay iste:
 
 Bunun disindaki dusuk riskli teknik ilerlemelerde gereksiz durma.
 
-## 8) Yeni Sayfa ve Sayfa Kurgusu Degisikligi
+## 8) Yeni Sayfa ve Sayfa Kurgusu Onayi
 - yeni bir sayfa acmadan once amac, duzen, icerik ve uygulama plani kisa ve net sekilde gosterilir
 - mevcut bir sayfanin ana duzeni veya icerik yapisi degisecekse once onay alinir
 - onay alinmadan uygulamaya gecilmez
