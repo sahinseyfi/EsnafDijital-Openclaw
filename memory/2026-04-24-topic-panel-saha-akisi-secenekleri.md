@@ -2332,10 +2332,127 @@ Su an en mantikli cizgi su:
 - bu ikinci katman Business Detail veya Project OS tarafinda `bugun gidilir mi` kararina yardim etmeli
 - tek karmasik ana skor yerine iki farkli amacli skor daha okunur ve daha saha-gercekci gorunuyor
 
+## On dorduncu okuma - `bugun git` sinyali Project OS'ta mi, Business Detail'te mi?
+Bu soru onceki `ziyaret onceligi` arastirmasinin dogal devamiydi.
+`REFERENCES/project-os-page.md`, `lib/project-os/derived.ts` ve `app/page.tsx` birlikte okuyunca ekran rolleri daha net ayrildi.
+
+### 1) Project OS'un asli isi ne?
+Referans ve kod birlikte su cizgiyi soyluyor:
+- Project OS = coklu business arasinda hangi kayit simdi hareket etmeli?
+- hot stage ve queue mantigi var
+- intake / audit / offer / delivery / maintenance asamalarina gore is siralaniyor
+- summary ve nextAction veriyor
+
+Ama queue mantigi bugun su eksende kurulu:
+- audit var mi?
+- teklif acildi mi?
+- teslimat acildi mi?
+- status ne?
+
+Yani Project OS bugun:
+- operasyon zinciri onceligi verir
+- ama saha ziyareti onceligi vermez
+
+### 2) Ana sayfa da ayni dili tasiyor
+`app/page.tsx` icindeki `getActiveFocus` su karar dilini kullaniyor:
+- prompt tikanikligi var mi
+- teklif sicak mi
+- audit bekliyor mu
+- teslimat canli mi
+
+Bu da yine bize sunu soyluyor:
+- root ve Project OS daha cok `is hattinda simdi nerede yigilma var` sorusunu cozuyor
+- tek tek fiziksel ziyaret kararini dogrudan tasimiyor
+
+### 3) Business Detail'in dogal rolu ne?
+Onceki okumalarla uyumlu olarak Business Detail:
+- tek kayit karar yuzeyi
+- canonical / external / derived resmi bir arada okuma yeri
+- bu isletmeye gidilir mi, neden gidilir, gidince ne beklenir gibi sorulara daha yakin
+
+Bu yuzden `bugun git` sinyali tek bir isletme icin burada daha dogal duruyor.
+
+### 4) Uc model
+
+#### G1) `bugun git` sadece Project OS'ta olsun
+Artisi:
+- gunluk liste tek yerde gorunur
+
+Eksisi:
+- neden gidilecegi zayif kalir
+- detail'e girince ayni karar zemini kaybolur
+- Project OS rolunu asiri genisletir
+
+#### G2) `bugun git` sadece Business Detail'te olsun
+Artisi:
+- tek kayit karari daha acik verilir
+
+Eksisi:
+- birden fazla aday arasinda saha secimi zorlasir
+- gunluk operasyon ekraninda bu sinyal gorunmez
+
+#### G3) Cift katmanli model
+- Project OS = `ziyaret adayi / bugun git` diye hafif liste sinyali verir
+- Business Detail = bunun nedenini ve saha kartini aciklar
+
+Artisi:
+- ekran rolleri bozulmaz
+- coklu secim de tek kayit karari da cozulur
+
+Eksisi:
+- ayni kavramin iki yerde dikkatli isimlendirilmesi gerekir
+
+Ara yorum:
+- su an en saglikli yol `G3`
+
+### 5) Ama Project OS'taki sinyal hafif olmali
+Project OS'a su tip agir kartlar tasinmamali:
+- konusma notlari
+- itiraz detaylari
+- alinacak bilgi listesi
+- saha hazirlik metni
+
+Orada olmasi gereken en hafif gorunum:
+- `ziyaret adayi`
+- `bugun git`
+- veya `uzaktan ilerlet`
+
+Ve belki tek satir sebep:
+- `guzellik segmenti + website yok + ayni ilcede`
+
+Yani Project OS'ta sadece secim sinyali, Business Detail'te gerekce ve hazirlik kalmali.
+
+### 6) Business Detail'te ne olmali?
+`bugun git` sinyali detailde daha derinlesebilir:
+- gidilir / uzaktan ilerlet / beklet
+- neden
+- sahada ilk acilis
+- alinacak bilgi listesi
+- beklenen sonraki adim
+
+Bu, onceki `ziyaret karti` yorumuyla tam uyumlu.
+
+### 7) Bu ayrim neden guclu?
+Cunku su iki soruyu ayiriyor:
+- `bugun hangi kayda bakayim?` -> Project OS
+- `bu kayda gidince ne yapayim?` -> Business Detail
+
+Bu ayrim bozulursa:
+- ya Project OS mini detail sayfasina doner
+- ya da Business Detail liste secim ekranina doner
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `bugun git` sinyalinin hafif secim versiyonu Project OS'ta olabilir
+- ama asil ziyaret uygunlugu ve saha hazirlik karari Business Detail icindeki derived kartta yasanmali
+- yani ziyaret onceligi cift katmanli okunmali: once listede isaret, sonra detailde gerekce
+
+Bu model hem onceki finalist C'yi guclendiriyor hem de yeni ayri ziyaret panosu acmadan saha kullanimini tasiyabiliyor.
+
 ## Sonraki arastirma basliklari
 - `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
-- `bugun git` sinyali Project OS'ta mi, Business Detail icindeki derived kartta mi daha dogru durur?
+- `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
