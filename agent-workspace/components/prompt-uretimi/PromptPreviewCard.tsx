@@ -95,7 +95,7 @@ export function PromptPreviewCard({
 
   return (
     <div className="card stack-sm">
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
           <h3>Prompt</h3>
           <p className="muted">Hedef model: {targetModel === 'gpt-5-pro' ? 'GPT-5 Pro' : 'GPT-5'}</p>
@@ -156,7 +156,7 @@ export function PromptPreviewCard({
       ) : null}
       {promptText.trim() && promptStatus === 'ready' ? (
         <>
-          <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 13 }}>{promptText}</pre>
+          <pre className="card" style={{ whiteSpace: 'pre-wrap', fontSize: 12.5 }}>{promptText}</pre>
 
           <form onSubmit={handleSuggestChange} className="card stack-sm">
             <div>

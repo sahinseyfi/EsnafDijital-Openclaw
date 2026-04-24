@@ -133,7 +133,7 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
         <textarea
           value={summary}
           onChange={(event) => setSummary(event.target.value)}
-          rows={8}
+          rows={7}
           placeholder="Yapmak istediğiniz değişikliği, kafanızdaki soru işaretlerini ve neyi tartmak istediğinizi düz metin olarak yazın."
         />
       </label>
@@ -155,12 +155,12 @@ export function ConsultationDetailEditor({ consultation }: { consultation: Consu
       {errorText ? <p className="muted" style={{ color: 'var(--danger-text)' }}>{errorText}</p> : null}
       {successText ? <p className="muted" style={{ color: 'var(--accent-700)' }}>{successText}</p> : null}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
         <button type="button" className="button-secondary" disabled={busyAction !== null} onClick={handleDelete} style={{ color: 'var(--danger-text)', borderColor: 'rgba(220, 38, 38, 0.28)' }}>
           {busyAction === 'save' ? 'İşleniyor...' : 'Kaydı sil'}
         </button>
 
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <button type="submit" className="button-secondary" disabled={busyAction !== null}>
             {busyAction === 'save' ? 'Kaydediliyor...' : 'Metni kaydet'}
           </button>

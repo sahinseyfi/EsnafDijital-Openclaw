@@ -206,3 +206,5 @@ blocker
 - Gerekce: gecici ozet/log niteligindeydi; rootte kanonik kaynak olarak tutulmasi gerekmiyordu.
 - Rootteki `AGENTS/` klasoru silindi.
 - Gerekce: kokteki kanonik ajan kontrati zaten `AGENTS.md` dosyasinda tutuluyor; klasor altindaki tek dosya eski cizgi ve drift riski tasiyordu.
+- Rootteki `AUDIT_SCORECARD.json` dosyasi `REFERENCES/AUDIT_SCORECARD.json` yoluna tasindi.
+- Gerekce: bu dosya karar kaydi veya kok giris dosyasi degil; audit tarafi icin referans materyal oldugu icin `REFERENCES/` altinda tutulmasi daha dogru.

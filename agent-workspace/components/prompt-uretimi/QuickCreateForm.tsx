@@ -62,8 +62,8 @@ export function QuickCreateForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card" style={{ display: 'grid', gap: 12 }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+    <form onSubmit={handleSubmit} className="card" style={{ display: 'grid', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
         <div>
           <p className="eyebrow">1. İstek metni</p>
           <h3>Hangi promptu üretelim?</h3>
@@ -88,13 +88,13 @@ export function QuickCreateForm() {
             <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Örn: teklif omurgası için GPT promptu" />
           </label>
 
-          <div id="consultation-quick-create-fields" style={{ display: 'grid', gap: 12 }}>
+          <div id="consultation-quick-create-fields" style={{ display: 'grid', gap: 10 }}>
             <label style={{ display: 'grid', gap: 6 }}>
               <span>Prompt isteği</span>
               <textarea
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
-                rows={6}
+                rows={5}
                 placeholder="Ne için prompt istediğinizi, neden şimdi gerektiğini ve kafanızdaki soruyu düz metin olarak yazın."
               />
             </label>

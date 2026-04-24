@@ -59,7 +59,7 @@ export function ConsultationInboxList({ items, selectedId }: { items: Consultati
 
         <div className="stack-sm">
           {items.map((item) => (
-            <div key={item.id} className="card consultation-inbox-item" style={{ padding: 16, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
+            <div key={item.id} className="card consultation-inbox-item" style={{ padding: 14, borderStyle: selectedId === item.id ? 'solid' : 'dashed' }}>
               <div className="consultation-inbox-main">
                 <Link prefetch={false} href={`/prompt-uretimi?selectedId=${encodeURIComponent(item.id)}`} className="consultation-inbox-link">
                   <div className="stack-xs">

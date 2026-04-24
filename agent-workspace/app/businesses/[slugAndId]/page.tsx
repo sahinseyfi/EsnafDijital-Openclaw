@@ -173,7 +173,7 @@ export default async function BusinessDetailPage({
     >
       <section>
         <article className="card stack-sm">
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <div>
               <p className="eyebrow">İşletme kartı</p>
               <h3>{business.name}</h3>
@@ -183,8 +183,8 @@ export default async function BusinessDetailPage({
             </div>
           </div>
 
-          <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
-            <div style={{ display: 'grid', gap: 14 }}>
+          <div className="grid-2" style={{ alignItems: 'start', gap: 14 }}>
+            <div style={{ display: 'grid', gap: 12 }}>
               <div className="detail-field">
                 <p className="eyebrow">İşletme adı</p>
                 <p>{business.name}</p>
@@ -207,7 +207,7 @@ export default async function BusinessDetailPage({
               </div>
             </div>
 
-            <div style={{ display: 'grid', gap: 14 }}>
+            <div style={{ display: 'grid', gap: 12 }}>
               <div className="detail-field">
                 <p className="eyebrow">Google Maps linki</p>
                 <p>{renderLink(mapsUrl)}</p>
@@ -217,13 +217,13 @@ export default async function BusinessDetailPage({
                 <p>{renderLink(websiteUrl)}</p>
               </div>
               <div className="detail-field">
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
                   <p className="eyebrow">Instagram</p>
                   {instagramUrl ? <BusinessInstagramProfileButton businessId={business.id} /> : null}
                 </div>
                 <p>{instagramUrl ? renderLink(instagramUrl, 'Yok') : 'Yok'}</p>
                 {latestInstagramProfile ? (
-                  <div className="card stack-xs" style={{ padding: 14, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
+                  <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
                     <div className="detail-field">
                       <p className="eyebrow">Son Instagram ozeti</p>
                       <p>{latestInstagramProfile.fullName || latestInstagramProfile.username || 'Profil'}</p>

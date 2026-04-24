@@ -56,15 +56,15 @@ function JsonBlock({ value }: { value: unknown }) {
     <pre
       style={{
         margin: 0,
-        padding: 14,
+        padding: 12,
         borderRadius: 12,
         border: '1px solid var(--line-soft)',
         background: 'var(--surface-subtle)',
         overflowX: 'auto',
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
-        fontSize: 13,
-        lineHeight: 1.5,
+        fontSize: 12.5,
+        lineHeight: 1.45,
       }}
     >
       {JSON.stringify(value, null, 2)}
@@ -75,7 +75,7 @@ function JsonBlock({ value }: { value: unknown }) {
 function AgentScanCard({ entry }: { entry: BusinessAgentScanResult }) {
   return (
     <article className="card stack-sm" style={{ borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
           <p className="eyebrow">Ajan tarama</p>
           <h3>{entry.status}</h3>
@@ -122,7 +122,7 @@ function AgentScanCard({ entry }: { entry: BusinessAgentScanResult }) {
 function DiscoveryCard({ entry, label }: { entry: DiscoverySummaryEntry, label: string }) {
   return (
     <article className="card stack-sm" style={{ borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
           <p className="eyebrow">{label}</p>
           <h3>{entry.source.refreshMode === 'apify' ? 'Derin tarama' : 'Hafif tarama / dış sinyal'}</h3>
@@ -130,8 +130,8 @@ function DiscoveryCard({ entry, label }: { entry: DiscoverySummaryEntry, label: 
         <span className="badge">{formatDateTime(entry.source.collectedAt)}</span>
       </div>
 
-      <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
-        <div style={{ display: 'grid', gap: 14 }}>
+      <div className="grid-2" style={{ alignItems: 'start', gap: 14 }}>
+        <div style={{ display: 'grid', gap: 12 }}>
           <div className="detail-field">
             <p className="eyebrow">Kapsam notu</p>
             <p>{entry.source.searchCoverageNote || 'Not yok'}</p>
@@ -145,16 +145,16 @@ function DiscoveryCard({ entry, label }: { entry: DiscoverySummaryEntry, label: 
           <div className="detail-field">
             <p className="eyebrow">Bulunan işletme verisi</p>
             <p>{entry.candidate.name || 'İsim yok'}</p>
-            <p className="muted" style={{ marginTop: 6 }}>{entry.candidate.address || 'Adres yok'}</p>
+            <p className="muted" style={{ marginTop: 4 }}>{entry.candidate.address || 'Adres yok'}</p>
           </div>
           <div className="detail-field">
             <p className="eyebrow">Website / telefon / Instagram</p>
             <p>{entry.candidate.websiteUrl || 'Website yok'}</p>
-            <p className="muted" style={{ marginTop: 6 }}>{entry.candidate.phone || 'Telefon yok'} · {entry.candidate.instagramUrl || 'Instagram yok'}</p>
+            <p className="muted" style={{ marginTop: 4 }}>{entry.candidate.phone || 'Telefon yok'} · {entry.candidate.instagramUrl || 'Instagram yok'}</p>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gap: 14 }}>
+        <div style={{ display: 'grid', gap: 12 }}>
           <div className="detail-field">
             <p className="eyebrow">Puan / yorum / sahiplik</p>
             <p>{typeof entry.candidate.rating === 'number' ? entry.candidate.rating : '—'} · {entry.candidate.reviewsCount} yorum · {entry.candidate.ownershipStatus}</p>
@@ -175,7 +175,7 @@ function DiscoveryCard({ entry, label }: { entry: DiscoverySummaryEntry, label: 
             <div className="detail-field">
               <p className="eyebrow">Arama terimleri</p>
               <p>Eşleşen: {entry.source.matchedSearchTerms.join(', ') || '—'}</p>
-              <p className="muted" style={{ marginTop: 6 }}>Eksik: {entry.source.missingSearchTerms.join(', ') || '—'}</p>
+              <p className="muted" style={{ marginTop: 4 }}>Eksik: {entry.source.missingSearchTerms.join(', ') || '—'}</p>
             </div>
           ) : null}
           {entry.source.sourceRuns && entry.source.sourceRuns.length > 0 ? (
@@ -244,7 +244,7 @@ export default async function BusinessScanDetailPage({
     >
       <section>
         <article className="card stack-sm">
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap' }}>
             <div>
               <p className="eyebrow">İşletme</p>
               <h3>{business.name}</h3>
@@ -255,8 +255,8 @@ export default async function BusinessScanDetailPage({
             </div>
           </div>
 
-          <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
-            <div style={{ display: 'grid', gap: 14 }}>
+          <div className="grid-2" style={{ alignItems: 'start', gap: 14 }}>
+            <div style={{ display: 'grid', gap: 12 }}>
               <div className="detail-field">
                 <p className="eyebrow">Son dış sinyal</p>
                 <p>{currentSnapshot ? formatDateTime(currentSnapshot.source.collectedAt) : 'Henüz yok'}</p>
@@ -267,7 +267,7 @@ export default async function BusinessScanDetailPage({
               </div>
             </div>
 
-            <div style={{ display: 'grid', gap: 14 }}>
+            <div style={{ display: 'grid', gap: 12 }}>
               <div className="detail-field">
                 <p className="eyebrow">Dış sinyal geçmişi</p>
                 <p>{apifyRefreshHistory.length} kayıt</p>
