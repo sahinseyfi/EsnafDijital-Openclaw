@@ -3047,10 +3047,133 @@ Bu modelle zincir soyle okunur:
 
 Bu cizgi kullanicinin sordugu `girilen bilgi nasil sonuca donusur` sorusuna en temiz cevabi veriyor.
 
+## On dokuzuncu okuma - `gorusme notu` nu audit kaydina mi, Business Detail operator notuna mi daha yakin konumlamak gerekir?
+Bu soru repo gerceginde su an hafif bir karisiklik oldugunu gosteriyor:
+- `Business Detail` bugun `Ek not / kisa ic not` diye aslinda `latestAudit.summary` gostermekte
+- ama ayni `audit.summary` hem import ozeti hem de audit girdisi rolu tasiyor
+
+Yani bugunku uygulama pratik ama kavramsal olarak temiz degil.
+
+### 1) Referans ve veri modeli ne diyor?
+`REFERENCES/business-detail-v1.md` notlar icin su cizgiye yakin:
+- ana yuzey aksiyon odakli kalacak
+- `ic not goruntuleme / ekleme` drawer/modal tarafi dusunuluyor
+- sayfa not/task/message duvarina donmeyecek
+
+Prisma veri modeli ise bugun ayri bir `note` veya `activity` nesnesi tutmuyor.
+Sadece su cekirdekler var:
+- `Business`
+- `Audit.summary`
+- `Offer`
+- `DeliveryProject.scope`
+
+Bu da bizi su soruya getiriyor:
+- gorusme notu auditin parcasi mi, yoksa business seviyesinde gecici operator hafizasi mi?
+
+### 2) Uc model
+
+#### G1) Gorusme notu audit kaydinda kalsin
+Artisi:
+- yeni nesne acmadan ilerler
+- teklif zincirine yakin durur
+
+Eksisi:
+- audit ozetini kirletir
+- discovery importtan gelen factual acilis ozetini sonradan saha notlariyla karistirir
+- ayni audit icinde `ne bulundu` ile `sahada ne konusuldu` ust uste biner
+
+#### G2) Gorusme notu once Business Detail operator notu olsun
+Artisi:
+- audit karti temiz kalir
+- saha konusmasi, muhatap bilgisi, itiraz, geri donus notu gibi daha hareketli icerik dogru yerde durur
+- referanstaki `ic not` drawer/modal cizgisiyle uyumlu
+
+Eksisi:
+- ayri not modeli acilmazsa gecici olarak yine bir yere yazmak gerekir
+- fazla serbest birakilirsa daginik kisa not copu birikebilir
+
+#### G3) Ikiye bol: audit notu + gorusme notu
+- audit icinde sadece audit etkili notlar
+- business detail'de saha/operator notlari
+
+Artisi:
+- teorik olarak en dogru ayrim
+
+Eksisi:
+- V1 icin erken olabilir
+- ayri veri modeli ve UI disiplini ister
+- mini CRM'e kayma riski var
+
+Ara yorum:
+- su an en saglikli yol `G2`, ama `G3` mantigindan promotion kurali alinmali
+
+### 3) Neden audit yerine operator notu daha dogru?
+Cunku gorusme notu dogasi geregi daha oynak ve daha baglamsal:
+- muhatap kimdi
+- neye ilgi gosterdi
+- neye itiraz etti
+- neyi sonra gondermek lazim
+- geri donus zamani ne
+
+Bunlar audit kartinin cekirdek sorusu olan
+- `dijital sorun ne`
+- `paket yonu ne`
+- `teklif zemini ne`
+sorulariyla ayni sey degil.
+
+Audit ozeti daha kalici ve operasyon zincirine bagli kalmali.
+Gorusme notu ise saha hafizasi ve takip capasi olmali.
+
+### 4) Ama tamamen ayri tutmak da riskli mi?
+Evet.
+Eger gorusme notu tamamen serbest kalir ve hic promote edilmezse, saha gorusmesinden cikan kritik kararlar audit/teklif zincirine yansimaz.
+Bu yuzden en saglikli kural su:
+- gorusme notu once operator notu olarak tutulur
+- kalici operasyon etkisi olan kisimlar ilgili karta promote edilir
+
+Promotion ornekleri:
+- `website istemiyor, once maps duzeni istiyor` -> audit/teklif yonu guncellenir
+- `ozel domain istiyor` -> teklif kartina girer
+- `logo yok, fotograf cekilecek` -> kickoff scope'a girer
+- `Sali tekrar ugranacak` -> operator notunda kalir
+
+### 5) O zaman V1'de minimum gorusme notu yapisi ne olmali?
+Ayri timeline acmadan bile gorusme notu su 4 kisa alani tasiyabilir:
+- `muhatap / rol`
+- `ihtiyac veya itiraz`
+- `teyit edilen bilgi`
+- `sonraki temas`
+
+Bu yapi:
+- sahada konusulanlari hafif toplar
+- ama audit snapshot'in isini ustlenmez
+
+### 6) Mevcut repo gercegine gore gecici sonuc ne?
+Bugun ayri not modeli olmadigi icin `latestAudit.summary`nin gecici ic not gibi kullanilmasi anlasilir.
+Ama bu kalici cizgi olmamali.
+Cunku ayni alan su anda zaten:
+- discovery import factual ozeti
+- audit girdisi
+- detail notu
+olarak uc farkli isi ustleniyor.
+
+Bu ileride mutlaka bulaniklik uretir.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `gorusme notu` auditten cok `Business Detail operator notu`na yakindir
+- ama not icindeki kalici operasyon etkileri audit / teklif / kickoff kartlarina promote edilmelidir
+
+Kisa formda:
+- operator notu = `sahada ne konusuldu ve sirada ne var?`
+- audit ozeti = `bu isletmenin dijital sorunu ve teklif zemini ne?`
+
+Bu ayrim hem genel CRM savrulmasini engeller hem de audit alanini cop not deposuna cevirmez.
+
 ## Sonraki arastirma basliklari
-- `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
 - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
 - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
 - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
 - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
 - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
+- operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
