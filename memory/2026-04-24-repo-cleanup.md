@@ -185,3 +185,14 @@ next
 
 blocker
 - yok
+
+## Asama C kapanis oncesi son kontrol
+- Rename sadece cleanup kapandiginda uygulanacak; aktif not erken oynatilmayacak.
+- Tek hamlede guncellenecek canli referanslar su an bunlar:
+  - `HEARTBEAT.md`
+  - `memory/2026-04-24.md`
+  - `memory/2026-04-24-topic-context-cleanup.md`
+  - `memory/2026-04-24-topic-filename-slug.md`
+  - bu dosyanin kendi ic referanslari
+- `memory/.dreams/` altindaki session corpus ve benzeri turetilmis kayitlar rename icin manuel hedef sayilmayacak.
+- Kapanis dogrulamasi: `.dreams` ve benzeri turetilmis alanlar haricinde `2026-04-24-repo-cleanup.md` referansi kalmamis olmali.
