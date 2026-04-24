@@ -157,7 +157,6 @@ export default async function DiscoveryPage({
             <a href="/discovery" className="button-secondary">Temizle</a>
           </div>
         </form>
-        <p className="muted">Şu an {stats.visible} aday görünüyor, bunların {stats.multiTerm} tanesi birden fazla arama teriminde yakalandı, {stats.unclaimed} tanesinde kayıt alınmamış sinyali var.</p>
       </section>
 
       <section className="stack-sm">
