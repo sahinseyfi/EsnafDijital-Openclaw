@@ -6355,10 +6355,172 @@ Kisa formda:
 Bu model hem veri tekrarini azaltir,
 hem de `son 3 temas ozeti`ni gercekten kullanilabilir bir referans olarak ayakta tutar.
 
+## Kirk ikinci okuma - yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa placeholder ile mi baslamali?
+Bu soru onceki iki ara kararin uygulama katmani:
+- `neden bu paket` teklif snapshot'inin parcasi olmali
+- en saglikli mantik `derived-first + kisa override`
+- alan tam serbest degil, yari-yapili mikro sablon gibi tutulmali
+
+Simdi asil soru su:
+- operator teklif olustururken bos bir sablon mu gorsun?
+- yoksa audit + Y.Z'den gelen taslak metinle mi baslasin?
+
+Bu ayrim onemli.
+Cunku bos baslarsa karar zinciri kopabilir.
+Ama fazla dolu gelirse operator okumadan kaydedebilir.
+
+### 1) Mevcut repo gercegi ne diyor?
+Bugunku offer modelinde ayri `neden bu paket` alani yok.
+Yani bu alan acilsa bile V1'de sifirdan davranis tasarlanacak.
+Referanslar ise sunu acik soyluyor:
+- `OFFERS.md`: teklif audit cikisina baglanmali
+- onceki notlar: `neden bu paket` cekirdek kaynagini audit + Y.Z'den almali
+- yari-yapili `ana eksik + bu paket + beklenen sonuc` mantigi en saglikli form gibi gorunuyor
+
+Bu ucunu birlikte okuyunca su net:
+- placeholder-only model, yukari akistan gelen zeka zincirini fazla bos birakir
+- ama tamamen bitmis final metni otomatik koymak da operatoru pasiflestirebilir
+
+### 2) Uc model
+
+#### NP1) Yalniz placeholder ile baslasin
+Ornek:
+- `Ana eksik:`
+- `Bu paket:`
+- `Beklenen sonuc:`
+
+Artisi:
+- operator dusunerek yazar
+- otomatik metne koru korune baglanmaz
+- yanlis derived metin riski dusuk gorunur
+
+Eksisi:
+- audit + Y.Z zinciri create aninda gorunur dayanak uretmez
+- operator bos veya asiri genel metin yazabilir
+- hizli akista alan atlanabilir
+- `derived-first` onceki kararini zayiflatir
+
+#### NP2) Tam on-dolu derived metinle gelsin
+Ornek:
+- audit ana eksigi
+- Y.Z aksiyonu
+- secili paket
+birlesip tek taslak metin olusturur
+
+Artisi:
+- teklifin neden dogdugu ilk anda kayda baglanir
+- operatora hiz kazandirir
+- kalite tabani yukselir
+
+Eksisi:
+- operator metni okumadan oldugu gibi birakabilir
+- audit zayif/eskiyse hatali gerekceyi tasir
+- alan `otomatik yazildi, gectim` hissine donusebilir
+
+#### NP3) Hafif on-dolu mikro sablonla gelsin
+Mantik:
+- alan bos gelmez
+- ama tam bitmis paragraf da gelmez
+- audit + Y.Z, sablonun icine kisa taslak parcaciklar onerir
+- operator bunlari gozden gecirip tamamlar veya dar duzeltme yapar
+
+Ornek baslangic:
+- `Ana eksik: Maps bilgileri ve yorum akisi zayif.`
+- `Bu paket: Paket 2, temel vitrine ek olarak QR yorum akisini kurmak icin secildi.`
+- `Beklenen sonuc: daha tutarli gorunurluk ve yorum toplama baslangici.`
+
+Artisi:
+- derived zinciri korunur
+- operator tamamen sifirdan yazmak zorunda kalmaz
+- alanin yari-yapili karakteri korunur
+- `okumadan gecme` riski tam otomatik paragrafa gore daha dusuk olur
+
+Eksisi:
+- iyi taslak kalitesi ister
+- audit zayifsa taslak da zayif olabilir
+- operatorun neyi degistirebilecegi acik olmali
+
+Ara yorum:
+- su an en saglikli yol `NP3`
+
+### 3) Neden yalniz placeholder zayif gorunuyor?
+Cunku bu model ilk bakista temiz gibi dursa da,
+pratikte onceki karar zincirini koparir:
+- audit sorunu buldu
+- Y.Z siradaki aksiyonu verdi
+- ama teklif create ekranina gelince operator yine bos sayfayla karsilasti
+
+Bu durumda sistem karar destegi,
+teklif aninda tekrar sifira duser.
+Bu da V1'in hiz ve sadelik hedefine ters.
+
+### 4) Neden tam on-dolu final metin de riskli?
+Cunku `neden bu paket` alaninin isi sadece otomatik aciklama gostermek degil,
+teklif anindaki bilincli karari sabitlemek.
+Tam paragraf on-dolgu su riski getirir:
+- operator onu kontrol etmeden kaydeder
+- sonra metin gercek saha itirazini veya butce gercegini yansitmaz
+- alan derived raporun kopyasina doner
+
+Yani alanin snapshot olma rolu zayiflar.
+
+### 5) O zaman en saglikli V1 davranisi nasil olmali?
+Bence su model en guclu:
+
+#### Create aninda
+- `neden bu paket` alani yari-yapili sablonla acilsin
+- audit + Y.Z'den gelen kisa taslaklar bu sablonun icine on-dolu gelsin
+- operator bu metni gozden gecirip gerekirse kisa duzeltme yapsin
+
+#### Edit mantigi
+- `draft/sent` asamasinda kontrollu duzenlenebilir olsun
+- `approved` olduktan sonra frozen snapshot'a donsun
+
+#### Guvenlik kuralı
+- eger `audit teyidi gerekli` sinyali varsa,
+  on-dolgu yine gelebilir ama `paket secmeden once audit teyidi onerilir` cizgisiyle birlikte okunmali
+- yani prefill, zayif audit'i sessizce maskelememeli
+
+### 6) Bu model neden iyi calisiyor?
+Cunku onceki kararlarla hizali:
+- audit = paket zemini
+- Y.Z = siradaki karar gecidi
+- teklif = secilen cozumu snapshot'a baglayan yer
+
+Hafif on-dolu sablon bunlari birbirine baglar,
+ama operatorun sahadaki gercek farkini eklemesine de izin verir.
+Yani ne bos form duvarina doner,
+ne de otomatik rapor kopyasina.
+
+### 7) En buyuk risk ne?
+On-dolgu kalitesizse operatorun kotu metni duzeltmeden gecmesi.
+Bu yuzden V1'de on-dolgu dili su kadar sade olmali:
+- tek iddia
+- tek paket nedeni
+- tek beklenen sonuc
+
+Daha uzun ve pazarlama kokan metinler,
+hem okunmaz hem de yanlis guven uretir.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- yari-yapili `neden bu paket` alani create aninda bos placeholder ile baslamamali
+- ama tam final paragraf olarak da otomatik dolmamalı
+- en saglikli V1 model: audit + Y.Z'den gelen kisa taslaklarla on-dolu, yari-yapili ve operatorun kisa duzeltmesine acik bir alan
+- approval sonrasi bu alan frozen teklif snapshot'ina donmeli
+
+Kisa formda:
+- not recommended = empty placeholder only
+- not recommended = full auto paragraph
+- recommended = prefilled micro-template + short operator refinement
+
+Bu model hem teklifi audit zincirine bagliyor,
+hem de operatoru sadece kopyalayip gecen pasif okuyucuya cevirmiyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
-- yari-yapili `neden bu paket` alani create aninda audit + Y.Z'den on-dolu mu gelmeli, yoksa yalniz placeholder duzeyinde mi baslamali?
 - `audit teyidi` uyarisi icin en guvenli esik seti `eski / ince / tarama-gerilimi` disinda baska sinyal gerektiriyor mu?
 - derived aday olmayan kayitlar icin dar istisna override'i listede mi, yoksa yalniz detail icinde mi daha guvenli olur?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
+- `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
