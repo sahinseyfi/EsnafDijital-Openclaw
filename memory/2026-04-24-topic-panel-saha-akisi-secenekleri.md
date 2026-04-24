@@ -2449,10 +2449,169 @@ Su an en mantikli cizgi su:
 
 Bu model hem onceki finalist C'yi guclendiriyor hem de yeni ayri ziyaret panosu acmadan saha kullanimini tasiyabiliyor.
 
+## On besinci okuma - Business Detail icindeki ziyaret kartinin minimum alanlari neler olmali?
+Bu soru onceki iki arastirmanin kesistigi nokta oldu:
+- `bugun git` secim sinyali listede hafif olabilir
+- ama asil ziyaret karari ve saha hazirligi detail icinde okunmali
+
+`REFERENCES/business-detail-v1.md` su cizgiyi veriyor:
+- Business Detail tek kayit karar yuzeyi
+- next step karti bu sayfanin en guclu karar karti
+- audit snapshot ve tarama paneli ustte okunur kalmali
+- ekran mini CRM duvarina donmemeli
+
+Mevcut `app/businesses/[slugAndId]/page.tsx` ise bugun hala hafif:
+- temel isletme karti
+- dis sinyal alanlari
+- Instagram ozeti
+- auditten gelen kisa not
+- `BusinessScanPanel`
+
+Bu bize su serbestligi veriyor:
+- ziyaret karti icin yer var
+- ama kart cok buyurse sayfanin hafifligi bozulur
+
+### 1) Uc model
+
+#### Z1) Yalniz `gidilir mi?` karti
+Alanlar:
+- gidilir / beklet / uzaktan ilerlet
+- tek cumle neden
+
+Artisi:
+- cok hafif
+
+Eksisi:
+- sahaya cikinca ne diyecegini ve ne toplayacagini soylemez
+- pratikte yarim karar olur
+
+#### Z2) Dengeli ziyaret karti
+Alanlar:
+- `ziyaret karari`
+- `neden`
+- `ilk acilis`
+- `alinacak bilgi`
+- `beklenen sonraki adim`
+
+Artisi:
+- sahada gercekten ise yarar
+- detail'in tek kayit karar roluyle uyumlu
+- ayri sayfa acmadan yeterli derinlik verir
+
+Eksisi:
+- kotu tasarlanirsa audit kartiyla karisabilir
+
+#### Z3) Tam saha hazirlik karti
+Ek alanlar:
+- itiraz notlari
+- rota notu
+- tahmini paket
+- riskler
+- tekrar gorusme gecmisi
+
+Artisi:
+- saha gunu cok zengin olabilir
+
+Eksisi:
+- bugun icin agir
+- ayri ziyaret sayfasina kayma riski yaratir
+
+Ara yorum:
+- su an en mantikli yol `Z2`
+
+### 2) Minimum alanlar tam olarak neler olmali?
+Bence V1 ziyaret karti icin 5 alan yeterli:
+
+#### A1) `Ziyaret karari`
+Degerler:
+- `Bugun git`
+- `Uzaktan ilerlet`
+- `Beklet`
+
+Amac:
+- ilk karari tek bakista vermek
+
+#### A2) `Neden`
+1-2 satir.
+Ornek mantik:
+- website yok, yorum zayif, segment uyumu guclu
+- maps kaydi var ama guven sinyali daginik
+
+Amac:
+- Project OS'taki hafif isaretin detail'deki gerekcesi olmak
+
+#### A3) `Sahada ilk acilis`
+Tek cumlelik audit-first giris.
+Amac:
+- operatorun sahada kilitlenmesini azaltmak
+- tam script degil, acilis capasi vermek
+
+#### A4) `Alinacak bilgi`
+En fazla 3-5 madde.
+Ornek:
+- muhatap kim
+- telefon/WhatsApp teyidi
+- fotograf/icerik var mi
+- domain istegi var mi
+
+Amac:
+- gorusmeyi veri toplamaya baglamak
+
+#### A5) `Beklenen sonraki adim`
+Tek cumle.
+Ornek:
+- audit ozetini netlestirip Paket 1-2 yonuyle don
+- once eslesme/telefon dogrulansin
+
+Amac:
+- ziyaretin cikisini operasyon zincirine baglamak
+
+### 3) Hangi alanlari bilincli olarak disarida birakmali?
+V1'de su alanlar bu kartta zorunlu olmamali:
+- tam itiraz bankasi
+- uzun gorusme gecmisi
+- rota / harita planlamasi
+- ayrintili paket karsilastirmasi
+- teslim kickoff checklisti
+
+Cunku bunlar ya baska kartin isi ya da ayri fazda acilmali.
+
+### 4) Y.Z raporu ile audit snapshot arasinda bu kart nereye oturur?
+En saglikli sira su gibi gorunuyor:
+- Next Step
+- Audit Snapshot
+- Ziyaret Karti
+- Hazirlik / Tarama paneli
+- Teklif / Teslim zinciri
+
+Neden:
+- audit snapshot sorunu ve paket yonunu anlatir
+- ziyaret karti `sahaya gidilir mi ve gidince ne yapilir` sorusunu cozer
+- scan panel ise gerekiyorsa ek sinyal toplar
+
+### 5) Bu kartin en buyuk riski ne?
+Audit kartini tekrar etmesi.
+Bunu onlemek icin kural su olmali:
+- audit karti = dijital sorun ve teklif yonu
+- ziyaret karti = fiziksel temas karari ve saha icin operator rehberi
+
+### 6) Gecici net kanaat
+Su an en mantikli V1 ziyaret karti su 5 alanla kurulabilir:
+- ziyaret karari
+- neden
+- sahada ilk acilis
+- alinacak bilgi
+- beklenen sonraki adim
+
+Bu kart:
+- Project OS'taki hafif `bugun git` sinyalini detail'de anlamlandirir
+- ayri ziyaret sayfasi acmadan saha hazirligini tasir
+- audit ve teklif zincirine kopmeden baglanir
+
 ## Sonraki arastirma basliklari
-- `Business Detail` icindeki ziyaret kartinin minimum alanlari neler olmali?
 - `Business Detail` icindeki audit / teklif / kickoff zincir kartlarinin minimum alanlari neler olmali?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
 - `Y.Z` raporu ile `audit ozeti` arasindaki rol ayrimi tam nasil cizilmeli?
 - `gorusme notu` nu audit kaydina mi, business detail operator notuna mi daha yakin konumlamak gerekir?
 - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
+- `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
