@@ -35,4 +35,4 @@ Kalici hafiza burada degil, repo kokundeki `MEMORY.md` dosyasindadir.
 
 ## Not
 Bu klasor ilk giris paketi degildir.
-Ilk once `HEARTBEAT.md` ve `MEMORY_SUMMARY.md` okunur, sonra gerekirse buraya gelinir.
+Ilk once `HEARTBEAT.md` ve `MEMORY.md` okunur, sonra gerekirse buraya gelinir.

@@ -11,13 +11,12 @@ Amac su: hafizasiz bir oturum bile kisa surede yon bulsun, dogru dosyayi okusun 
 Yeni bir oturumda varsayilan okuma sirasi:
 1. `README.md`
 2. `HEARTBEAT.md`
-3. `MEMORY_SUMMARY.md`
+3. `MEMORY.md`
 4. goreve gore ilgili dosya veya klasor README'si
 
 ## Guvenilir kaynak sirasi
 - `HEARTBEAT.md` -> aktif durum, blokaj, siradaki adim
 - `MEMORY.md` -> ana kalici cizgi ve kolay degismeyen gercekler
-- `MEMORY_SUMMARY.md` -> `MEMORY.md` icin 1 dakikalik turetilmis ozet
 - `PROJECT.md` -> proje tanimi ve kapsam
 - `ROADMAP.md` -> orta vadeli yon
 - `AGENTS.md` -> calisma kontrati, okuma sirasi ve repo-ozel kurallar

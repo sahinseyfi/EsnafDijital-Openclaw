@@ -20,7 +20,6 @@ Amaç: repo genel temizligi oncesi her bilgi tipinin kanonik yerini sertlestirme
 | Dosya | Rol | Kural |
 | --- | --- | --- |
 | `README.md` | giris kapisi ve okuma rotasi | kanonik dosyalari isaret eder, onlarin yerine gecmez |
-| `MEMORY_SUMMARY.md` | 1 dakikalik ozet | `MEMORY.md` ile uyumlu kalir, bagimsiz karar merkezi olmaz |
 | klasor `README.md` dosyalari | klasorun ic mantigi | ilgili klasore giris rehberi, ana karar kaynagi degil |
 | checklist / playbook | uygulama rehberi | politika degil, operasyonel kullanim rehberi |
 
@@ -45,10 +44,9 @@ Amaç: repo genel temizligi oncesi her bilgi tipinin kanonik yerini sertlestirme
 
 ## 5. Ilk netlestirilmesi gereken acik noktalar
 
-1. `MEMORY_SUMMARY.md` icindeki hala eski kalan `baglam merkezi` dili yeni cizgiye cekilecek mi? Onerim: evet.
-2. `README.md` icindeki mevcut tabloyu ana source-of-truth ozeti olarak koruyup bu dosyayi sadece cleanup calisma notu olarak mi kullanalim? Onerim: evet.
-3. `state/` altindaki dosyalar kalici belge degil, cleanup bittiginde silinebilir/arsivlenebilir calisma artefakti mi olsun? Onerim: evet.
-4. Koku dosyalarindan hangileri artik supheli: `CONSULTATION_LOG.md`, eski tekil notlar, gecmis adlandirma kalintilari. Bunlar Faz 1 envanterde ayrica siniflanacak.
+1. `README.md` icindeki mevcut tabloyu ana source-of-truth ozeti olarak koruyup bu dosyayi sadece cleanup calisma notu olarak mi kullanalim? Onerim: evet.
+2. `state/` altindaki dosyalar kalici belge degil, cleanup bittiginde silinebilir/arsivlenebilir calisma artefakti mi olsun? Onerim: evet.
+3. Koku dosyalarindan hangileri artik supheli: `CONSULTATION_LOG.md`, eski tekil notlar, gecmis adlandirma kalintilari. Bunlar Faz 1 envanterde ayrica siniflanacak.
 
 ## 6. Onerilen sert kurallar
 

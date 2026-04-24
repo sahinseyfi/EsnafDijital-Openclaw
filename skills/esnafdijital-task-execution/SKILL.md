@@ -14,7 +14,7 @@ Bu skill, EsnafDigital workspace icinde gercek is uretmek icin kullanilir.
 - bir kurulumu veya kucuk iyilestirmeyi tamamlamak gerekiyorsa
 
 ## Uygulama dongusu
-1. `HEARTBEAT.md` ve `MEMORY_SUMMARY.md` ile cizgiyi al.
+1. `HEARTBEAT.md` ve `MEMORY.md` ile cizgiyi al.
 2. Sadece gorevle ilgili dosyalari oku.
 3. Somut ciktiyi belirle.
 4. En kucuk gercek degisikligi yap.
