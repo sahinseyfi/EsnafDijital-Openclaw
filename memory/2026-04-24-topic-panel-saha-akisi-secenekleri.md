@@ -4805,10 +4805,135 @@ Kisa formda:
 
 Bu model hem tekrar riskini dusurur hem de sahadaki `en son ne oldu` sorusuna daha temiz cevap verir.
 
+## Otuz ikinci okuma - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
+Bu soru `badge nerede gorunsun?` kararinin ikinci kati.
+Daha once su cizgiyi netlestirmistim:
+- `bugun git` once `Businesses` listesinde filtrelenebilir ikincil isaret olarak baslamali
+- `Project OS` ana kuyruguna ise ancak faydasi kanitlanirsa terfi etmeli
+
+Simdi sorun su:
+- bu filtre tum stage'lerde acik olursa fazla genisler mi?
+- yoksa yalniz saha seciminin dogal oldugu bantta mi anlamli kalir?
+
+### 1) Mevcut akis ne diyor?
+Kod ve referanslar bugun su sirayi koruyor:
+- `Businesses` sayfasi arama + segment + durum + stage filtreleriyle toplu secim yuzeyi
+- `Project OS` = aktif isi goster, siradaki adimi anla, gerekirse status ilerlet
+- urun omurgasi = `audit -> teklif -> teslimat -> bakim`
+- discovery import gelen adaylari `lead` business + audit ile hatta sokuyor
+
+Buradan guclu bir sey cikiyor:
+`bugun git` saha secim sinyali, dogasi geregi en cok su bantta anlamli:
+- `lead / intake`
+- `audit`
+
+Cunku bu bantta asil soru su:
+- `hangi kayda fiziksel gitmek veya gorusme yapmak bugun en anlamli?`
+
+`offer / delivery / maintenance` tarafinda ise ana soru genelde baska:
+- teklif kapansin mi?
+- kickoff baslasin mi?
+- yayin/bakim ne durumda?
+
+### 2) Uc model
+
+#### Z1) Stage bagimsiz olsun
+Artisi:
+- operator isterse her kayitta `bugun git` filtresi kullanabilir
+- maksimum esneklik verir
+
+Eksisi:
+- offer/delivery/bakim tarafinda badge anlami bulanir
+- ziyaret secimi ile operasyon takip sinyalleri karisir
+- ayni kayitta `teklifi kapat` mi daha onemli, `bugun git` mi sorusu tekrar dogar
+
+#### Z2) Yalniz `lead/intake + audit` bandinda aktif olsun
+Artisi:
+- saha secim sinyalinin dogal alaninda kalir
+- teklif netlesmeden onceki hazirlik/ziyaret sorusuna hizmet eder
+- Project OS ve sonraki stage rollerine daha az tasar
+
+Eksisi:
+- nadiren offer oncesi son bir ziyaret gereken gri vakalar icin sert gorunebilir
+- operator ozel durumlarda sinyali baska stage'de isteyebilir
+
+#### Z3) Varsayilan `lead/audit`, ama operator override ile istisnai olarak baska stage'de de isaretlenebilir
+Artisi:
+- cekirdek kural temiz kalir
+- istisna gereken sahada esneklik verir
+
+Eksisi:
+- override mantigi erkenden acilirsa yine kapsam buyur
+- V1 icin gereksiz kural karmasasi yaratabilir
+
+Ara yorum:
+- su an en saglikli yol `Z2`, uzun vadeli esneme gerekirse sonra `Z3`
+
+### 3) Neden stage bagimsiz model zayif?
+Cunku `bugun git` ziyaret-sekim sinyali.
+Bu sinyal offer/delivery bandina yayilinca su sorun olur:
+- teklif zaten kapatilmaya calisiyordur
+- delivery zaten kickoff/yapim/yayin mantigina girmistir
+- maintenance zaten kucuk guncelleme ve canlilik hattidir
+
+Bu stage'lerde fiziksel ziyaret bazen gerekebilir,
+ama bu ihtiyac genel kural degil istisna.
+Iste bu yuzden stage-bagimsiz filtre,
+istisnayi defaulta cevirmis olur.
+
+### 4) Neden `lead/audit` bandi daha dogal?
+Cunku saha secimi en cok burada karar yaratir:
+- adayin gercekten degip degmeyecegi
+- audit oncesi veya audit sirasinda fiziksel gozlem gerekip gerekmedigi
+- ilk acilis cumlesi ve paket zemininin sahada netlesip netlesmeyecegi
+
+Yani `bugun git` filtresi su soruya cevap veriyor:
+- `bugun sahaya ciksam once hangi adaylari veya audit bandindaki kayitlari gormeliyim?`
+
+Bu soru henüz teklif/delivery akisi degil,
+oncesindeki secim/hazirlik sorusu.
+
+### 5) Peki offer bandinda hic ziyaret gerekmez mi?
+Gerekebilir.
+Ama bu bence `bugun git` filtresinin varsayilan kapsamini genisletmek icin yeterli degil.
+Oradaki dogru cozum daha cok su olabilir:
+- ozel bir `saha teyidi gerekli`
+- veya teklif kartina yakin ayri bir kopru notu
+
+Yani farkli ihtiyaci ayni filtreye yikmamak daha temiz.
+
+### 6) O zaman en saglikli V1 mantigi ne?
+Bence su kural temiz:
+- `bugun git` filtresi yalniz `lead/intake` ve `audit` bandindaki kayitlarda aktiflesmeli
+- `offer / delivery / maintenance` stage'lerinde bu badge varsayilan secim sinyali olmamali
+- ileride gercek saha ihtiyaci cikarsa, bunu ayni filtreyi yatay genisleterek degil istisnai ikincil sinyalle cozmeyi dusunmek daha dogru
+
+### 7) En buyuk risk ne?
+V1'de `bugun git` faydali oldugu icin her stage'e yaymak.
+Bu olursa tekrar su tabloya doneriz:
+- Businesses = secim ekrani + yarim operasyon ekrani
+- Project OS = sicak is kuyrugu
+- Business Detail = karar duvari
+
+Sonra her yuzey ayni karmayi farkli isimle tasir.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `bugun git` filtre mantigi stage bagimsiz olmamali
+- V1'de yalniz `lead/intake` ve `audit` bandindaki kayitlarda aktiflesmeli
+- `offer/delivery/maintenance` icin gerekirse ayri ve daha dar istisna sinyali sonra dusunulmeli
+
+Kisa formda:
+- default scope = lead + audit
+- not default = offer + delivery + maintenance
+- later escape hatch = ayri istisna sinyali, ayni badge'in yatay genislemesi degil
+
+Bu model hem saha secim filtresini net tutar hem de operasyon akisini gereksiz bulandirmaz.
+
 ## Sonraki arastirma basliklari
-- `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
 - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
 - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
 - `temas sonucu` timeline eventi yalniz manuel girisle mi olusmali, yoksa operator notundaki belirli mikro alanlardan otomatik derive mi edilmeli?
+- `bugun git` filtresi `lead` ve `audit` icinde de tum kayitlara mi acik olmali, yoksa yalniz belirli ziyaret sinyalleri olan alt grupta mi onerilmeli?
