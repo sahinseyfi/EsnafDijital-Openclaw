@@ -123,53 +123,43 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="stats-grid">
-        <article className="card stat-card">
-          <strong>{pendingAudits}</strong>
-          <p className="muted">audit hattinda bekleyen iş</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{pendingOffers}</strong>
-          <p className="muted">teklif hattinda kapanmayan iş</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{activeDeliveries}</strong>
-          <p className="muted">aktif teslimat kaydı</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{maintenanceProjects}</strong>
-          <p className="muted">bakim tarafinda yasayan kayıt</p>
-        </article>
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <span className="badge">{pendingAudits} audit hattinda bekleyen is</span>
+        <span className="badge">{pendingOffers} teklif hattinda kapanmayan is</span>
+        <span className="badge">{activeDeliveries} aktif teslimat kaydi</span>
+        <span className="badge">{maintenanceProjects} bakim kaydi</span>
       </section>
 
-      <section className="grid-2" style={{ alignItems: 'start' }}>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Kritik aksiyon</p>
-            <h3>İlk bakışta ne yapmalıyım?</h3>
+      <section className="card stack-sm">
+        <div className="grid-2" style={{ alignItems: 'start' }}>
+          <div className="stack-sm">
+            <div>
+              <p className="eyebrow">Kritik aksiyon</p>
+              <h3>İlk bakışta ne yapmalıyım?</h3>
+            </div>
+            <ul className="list">
+              <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
+              <li>Prompt gerektiren işlerde kısa özet eksiklerini tamamla, sonra hazır promptu al.</li>
+              <li>Bağlam eksikse ilgili dokümana git, operasyon kaydını referans dosyalarıyla karıştırma.</li>
+            </ul>
           </div>
-          <ul className="list">
-            <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
-            <li>Prompt gerektiren işlerde kısa özet eksiklerini tamamla, sonra hazır promptu al.</li>
-            <li>Bağlam eksikse ilgili dokümana git, operasyon kaydını referans dosyalarıyla karıştırma.</li>
-          </ul>
-        </article>
 
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Prompt ve bağlam sinyali</p>
-            <h3>Yan yüzeyler ne durumda?</h3>
+          <div className="stack-sm">
+            <div>
+              <p className="eyebrow">Prompt ve bağlam sinyali</p>
+              <h3>Yan yüzeyler ne durumda?</h3>
+            </div>
+            <ul className="list">
+              <li>{blockedConsultations} prompt kaydı netleşme bekliyor</li>
+              <li>{readyPrompts} prompt kaydı hazır</li>
+              <li>{promptErrors} prompt kaydında hata var</li>
+              <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
+            </ul>
+            <div className="hero-actions">
+              <Link href="/prompt-uretimi" className="ghost-link">Prompt Üretimine git</Link>
+            </div>
           </div>
-          <ul className="list">
-            <li>{blockedConsultations} prompt kaydı netleşme bekliyor</li>
-            <li>{readyPrompts} prompt kaydı hazır</li>
-            <li>{promptErrors} prompt kaydında hata var</li>
-            <li>{consultationPayload.inbox.filter((item) => item.gptRecommended).length} kayıt GPT Pro için uygun görünüyor</li>
-          </ul>
-          <div className="hero-actions">
-            <Link href="/prompt-uretimi" className="ghost-link">Prompt Üretimine git</Link>
-          </div>
-        </article>
+        </div>
       </section>
     </AdminShell>
   )

@@ -214,3 +214,5 @@ blocker
 - Gerekce: bu erken MVP karari artik `PROJECT.md`, `ROADMAP.md`, `DECISIONS/2026-04-19-agent-operating-model.md` ve `DECISIONS/2026-04-22-crm-expansion-direction.md` tarafinda daha net ve daha guncel sekilde temsil ediliyordu.
 - `REFERENCES/business-detail-data-contract-v1.md`, `REFERENCES/businesses-page-plan.md` ve `REFERENCES/businesses-page-capability-breakdown.md` dosyalari kaldirildi.
 - Gerekce: bu uc dosya zaten `REFERENCES/business-detail-v1.md` icinde birlestirilmis ve yalnizca `Deprecated` yonlendirme stub'i olarak kalmisti; canli kanonik referans olmaktan cikmislardi.
+- `REFERENCES/Derin-arastirma/esnafdigital-business-detail-v1-degerlendirme-repo-gercekligi.md` ve `REFERENCES/Derin-arastirma/esnafdigital-business-detail-v1-degerlendirme-kontrat-drifti.md` dosyalari kaldirildi.
+- Gerekce: Business Detail konusu icin final derin arastirma ciktisi olarak `esnafdigital-business-detail-v1-rewrite-spec.md` birakildi; diger iki dosya ara degerlendirme katmani olarak tekrar uretiyordu.

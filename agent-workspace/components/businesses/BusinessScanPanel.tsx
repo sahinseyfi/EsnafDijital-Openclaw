@@ -172,7 +172,7 @@ export function BusinessScanPanel({
         </div>
 
         {mode === 'light' ? (
-          <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+          <section className="stack-sm" style={{ padding: 14, border: '1px solid var(--line-soft)', borderRadius: 16, background: 'var(--surface-subtle)' }}>
             <div>
               <p className="eyebrow">Hafif tarama</p>
               <h3>Maps, website ve arama sinyalini hızlıca yenile</h3>
@@ -180,7 +180,7 @@ export function BusinessScanPanel({
             <p className="muted">Hazırlık adımıdır. Önce temel eşleşme, website ve görünürlük sinyali tazelenir. Derin tarama sadece ihtiyaç varsa açılır.</p>
 
             {currentSnapshot ? (
-              <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="stack-xs" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface)' }}>
                 <div className="detail-field">
                   <p className="eyebrow">Son dış sinyal</p>
                   <p>{currentSnapshot.source.searchCoverageNote || 'Dış sinyal notu yok'}</p>
@@ -213,7 +213,7 @@ export function BusinessScanPanel({
             </div>
 
             {currentSnapshot ? (
-              <div className="card stack-sm" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="stack-sm" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface)' }}>
                 <div>
                   <p className="eyebrow">Derived karar aksiyonu</p>
                   <h3 style={{ margin: 0 }}>{latestYzReport ? latestYzReport.status : 'Y.Z raporu hazirlanabilir'}</h3>
@@ -275,9 +275,9 @@ export function BusinessScanPanel({
                 </div>
               </div>
             ) : null}
-          </article>
+          </section>
         ) : mode === 'agent' ? (
-          <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+          <section className="stack-sm" style={{ padding: 14, border: '1px solid var(--line-soft)', borderRadius: 16, background: 'var(--surface-subtle)' }}>
             <div>
               <p className="eyebrow">Ajan tarama</p>
               <h3>Skill ile çalışan tarama</h3>
@@ -285,7 +285,7 @@ export function BusinessScanPanel({
             <p className="muted">Tek işletme için kısa operasyon özeti üretir. Website, arama ve temel görünürlük sinyalini ajan tarafında yorumlar.</p>
 
             {latestAgentScan ? (
-              <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+              <div className="stack-xs" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface)' }}>
                 <div className="detail-field">
                   <p className="eyebrow">Son durum</p>
                   <p>{latestAgentScan.status}</p>
@@ -322,9 +322,9 @@ export function BusinessScanPanel({
             <div className="page-header-actions">
               <BusinessAgentScanButton businessId={businessId} />
             </div>
-          </article>
+          </section>
         ) : (
-          <article className="card stack-sm" style={{ background: 'var(--surface-subtle)', borderColor: 'var(--line-soft)' }}>
+          <section className="stack-sm" style={{ padding: 14, border: '1px solid var(--line-soft)', borderRadius: 16, background: 'var(--surface-subtle)' }}>
             <div>
               <p className="eyebrow">Derin tarama</p>
               <h3>Ek kaynakları seç ve gerektiğinde derinleş</h3>
@@ -358,7 +358,7 @@ export function BusinessScanPanel({
               </div>
 
               {hasGoogleMapsSelected ? (
-                <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+                <div className="stack-xs" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface)' }}>
                   <div>
                     <p className="eyebrow">Google Maps seçenekleri</p>
                     <p className="muted">Google Maps seçiliyken detay ve yorum kapsamını buradan aç. Maliyet için yorumlar örneklemeli tutulur.</p>
@@ -427,11 +427,11 @@ export function BusinessScanPanel({
                 }}
               />
             </div>
-          </article>
+          </section>
         )}
 
         {scanHistory.length > 0 ? (
-          <div className="card stack-sm" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface)' }}>
+          <div className="stack-sm" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface)' }}>
             <div>
               <p className="eyebrow">Tarama geçmişi</p>
               <p className="muted">Bu işletme için daha önce çalışan hafif, ajan ve derin taramalar.</p>
@@ -439,12 +439,13 @@ export function BusinessScanPanel({
 
             <div style={{ display: 'grid', gap: 8 }}>
               {scanHistory.map((entry, index) => (
-                <article
+                <div
                   key={`${entry.kind}-${entry.createdAt}-${index}`}
-                  className="card stack-xs"
+                  className="stack-xs"
                   style={{
                     padding: 10,
-                    borderColor: 'var(--line-soft)',
+                    border: '1px solid var(--line-soft)',
+                    borderRadius: 12,
                     background: 'var(--surface-subtle)',
                   }}
                 >
@@ -481,7 +482,7 @@ export function BusinessScanPanel({
                       </ul>
                     </div>
                   ) : null}
-                </article>
+                </div>
               ))}
             </div>
           </div>

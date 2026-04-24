@@ -223,7 +223,7 @@ export default async function BusinessDetailPage({
                 </div>
                 <p>{instagramUrl ? renderLink(instagramUrl, 'Yok') : 'Yok'}</p>
                 {latestInstagramProfile ? (
-                  <div className="card stack-xs" style={{ padding: 12, borderColor: 'var(--line-soft)', background: 'var(--surface-subtle)' }}>
+                  <div className="stack-xs" style={{ padding: 12, border: '1px solid var(--line-soft)', borderRadius: 12, background: 'var(--surface-subtle)' }}>
                     <div className="detail-field">
                       <p className="eyebrow">Son Instagram ozeti</p>
                       <p>{latestInstagramProfile.fullName || latestInstagramProfile.username || 'Profil'}</p>

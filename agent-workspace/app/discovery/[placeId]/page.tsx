@@ -111,7 +111,7 @@ export default async function DiscoveryDetailPage({
       </section>
 
       {importInfo ? (
-        <section className="card stack-sm">
+        <section className="stack-sm" style={{ padding: '12px 0' }}>
           <div>
             <p className="eyebrow">İşletme bağlantısı</p>
             <h3>Bu aday işletme kaydına taşındı</h3>

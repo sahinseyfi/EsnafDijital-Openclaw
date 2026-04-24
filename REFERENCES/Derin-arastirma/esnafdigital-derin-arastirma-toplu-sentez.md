@@ -180,10 +180,8 @@ Amac, ham arastirma metinlerini dogrudan dogru kabul etmek degil; her dosyadan p
 
 ---
 
-## 9) `esnafdigital-business-detail-v1-degerlendirme-repo-gercekligi.md`
-## 10) `esnafdigital-business-detail-v1-degerlendirme-kontrat-drifti.md`
-## 11) `esnafdigital-business-detail-v1-rewrite-spec.md`
-**Kisa hukum:** Bu uc dosya ayni konu etrafinda toplanıyor ve birlikte okununca net sonuc veriyor: Business Detail V1 hafif yamayla degil, daraltılmış rewrite ile toparlanmali.
+## 9) `esnafdigital-business-detail-v1-rewrite-spec.md`
+**Kisa hukum:** Business Detail V1 icin final derin arastirma cikti bu rapordur. Net sonuc su: hafif yamayla degil, daraltilmis rewrite ile toparlanmali.
 
 **Projeye alinacaklar**
 - Business Detail tek isletme icin karar yuzeyi olmali

@@ -49,7 +49,7 @@ export default async function PromptUretimiPage({
 
         {selected ? (
           <article className="stack-sm">
-            <section className="card stack-sm">
+            <section className="stack-xs">
               <div>
                 <p className="eyebrow">Seçili kayıt</p>
                 <h3>{selected.title}</h3>

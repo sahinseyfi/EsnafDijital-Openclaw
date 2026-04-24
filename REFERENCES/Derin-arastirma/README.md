@@ -47,12 +47,9 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
   - Isletme bazli ajan mimarisi, oturum yapisi, cron kullanimi ve operator onayi cizgisi.
 
 ### Business Detail V1 notlari
-- `esnafdigital-business-detail-v1-degerlendirme-repo-gercekligi.md`
-  - Business Detail V1'i repo gercekligi ve proje omurgasi acisindan degerlendirir.
-- `esnafdigital-business-detail-v1-degerlendirme-kontrat-drifti.md`
-  - Ozellikle veri kontrati, tip uyumsuzlugu ve ekran-gercek veri ayrismasina odaklanir.
 - `esnafdigital-business-detail-v1-rewrite-spec.md`
-  - Business Detail icin yeniden yazim yonu ve beklenen ekran kontratini toplar.
+  - Business Detail icin yeniden yazim yonu, veri ayrimi ve beklenen ekran kontratini toplar.
+  - Bu konu icin derin arastirma klasorundeki tek tutulacak final rapor budur.
 
 ## Not
 - Benzer konulari tekrar acmadan once bu index'ten ilgili rapora gidin.

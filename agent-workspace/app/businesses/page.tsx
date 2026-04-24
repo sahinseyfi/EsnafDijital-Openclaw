@@ -115,92 +115,63 @@ export default async function BusinessesPage({
         </div>
       </section>
 
-      <section className="stats-grid">
-        <article className="card stat-card">
-          <strong>{stats.total}</strong>
-          <p className="muted">toplam işletme kaydı</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.visible}</strong>
-          <p className="muted">filtre sonrası görünen kayıt</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.lead}</strong>
-          <p className="muted">aday statüsünde kayıt</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.active}</strong>
-          <p className="muted">aktif statüde kayıt</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.paused}</strong>
-          <p className="muted">beklemede kayıt</p>
-        </article>
-      </section>
-
-      <section className="grid-2" style={{ alignItems: 'start' }}>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Filtre</p>
-            <h3>Listeyi daralt</h3>
-          </div>
-          <form method="get" className="form-grid two-col">
-            <label className="field">
-              <span>Arama</span>
-              <input name="q" defaultValue={filters.q} placeholder="İşletme, sahip, ilçe, not" />
-            </label>
-            <label className="field">
-              <span>Segment</span>
-              <select name="segment" defaultValue={filters.segment}>
-                <option value="all">Tüm segmentler</option>
-                <option value="berber">Berber</option>
-                <option value="guzellik">Güzellik</option>
-                <option value="kafe-restoran">Kafe / Restoran</option>
-                <option value="diger">Diğer</option>
-              </select>
-            </label>
-            <label className="field">
-              <span>İşletme durumu</span>
-              <select name="status" defaultValue={filters.status}>
-                <option value="all">Tüm durumlar</option>
-                <option value="lead">Aday</option>
-                <option value="active">Aktif</option>
-                <option value="paused">Beklemede</option>
-              </select>
-            </label>
-            <label className="field">
-              <span>Hat aşaması</span>
-              <select name="stage" defaultValue={filters.stage}>
-                <option value="all">Tüm aşamalar</option>
-                <option value="intake">Giriş</option>
-                <option value="audit">Audit</option>
-                <option value="offer">Teklif</option>
-                <option value="delivery">Teslimat</option>
-                <option value="maintenance">Bakım</option>
-              </select>
-            </label>
-            <div className="page-header-actions" style={{ alignSelf: 'end' }}>
-              <button type="submit" className="button-primary">Uygula</button>
-              <Link href="/businesses" className="button-secondary">Temizle</Link>
-            </div>
-          </form>
-        </article>
-
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Okuma notu</p>
-            <h3>Bu sayfanın rolü ne?</h3>
-          </div>
-          <ul className="list">
-            <li>Burada tüm işletme kayıtlarını görür ve detaya inersin.</li>
-            <li>Detay sayfası tek kayıt odaklıdır, bu ekran ise envanter ve filtreleme yüzeyidir.</li>
-            <li>Yeni kayıt ihtiyacı varsa keşif tarafında aday içeri alıp sonra buradan takip edersin.</li>
-          </ul>
-          <p className="muted">İşletme adına tıklayarak doğrudan profil detayına geçebilirsin.</p>
-        </article>
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <span className="badge">Toplam {stats.total} kayıt</span>
+        <span className="badge">Görünen {stats.visible}</span>
+        <span className="badge">Aday {stats.lead}</span>
+        <span className="badge">Aktif {stats.active}</span>
+        <span className="badge">Beklemede {stats.paused}</span>
       </section>
 
       <section className="card stack-sm">
+        <div>
+          <p className="eyebrow">Filtre</p>
+          <h3>Listeyi daralt</h3>
+        </div>
+        <form method="get" className="form-grid two-col">
+          <label className="field">
+            <span>Arama</span>
+            <input name="q" defaultValue={filters.q} placeholder="İşletme, sahip, ilçe, not" />
+          </label>
+          <label className="field">
+            <span>Segment</span>
+            <select name="segment" defaultValue={filters.segment}>
+              <option value="all">Tüm segmentler</option>
+              <option value="berber">Berber</option>
+              <option value="guzellik">Güzellik</option>
+              <option value="kafe-restoran">Kafe / Restoran</option>
+              <option value="diger">Diğer</option>
+            </select>
+          </label>
+          <label className="field">
+            <span>İşletme durumu</span>
+            <select name="status" defaultValue={filters.status}>
+              <option value="all">Tüm durumlar</option>
+              <option value="lead">Aday</option>
+              <option value="active">Aktif</option>
+              <option value="paused">Beklemede</option>
+            </select>
+          </label>
+          <label className="field">
+            <span>Hat aşaması</span>
+            <select name="stage" defaultValue={filters.stage}>
+              <option value="all">Tüm aşamalar</option>
+              <option value="intake">Giriş</option>
+              <option value="audit">Audit</option>
+              <option value="offer">Teklif</option>
+              <option value="delivery">Teslimat</option>
+              <option value="maintenance">Bakım</option>
+            </select>
+          </label>
+          <div className="page-header-actions" style={{ alignSelf: 'end' }}>
+            <button type="submit" className="button-primary">Uygula</button>
+            <Link href="/businesses" className="button-secondary">Temizle</Link>
+          </div>
+        </form>
+        <p className="muted">İşletme adına tıklayarak doğrudan profil detayına geçebilirsin.</p>
+      </section>
+
+      <section className="stack-sm">
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <div>
             <p className="eyebrow">İşletme listesi</p>

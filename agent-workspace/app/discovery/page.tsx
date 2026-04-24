@@ -115,78 +115,52 @@ export default async function DiscoveryPage({
         </div>
       </section>
 
-      <section className="stats-grid">
-        <article className="card stat-card">
-          <strong>{stats.total}</strong>
-          <p className="muted">toplam ozet aday</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.shortlist}</strong>
-          <p className="muted">kisa liste sinyalinde aday</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.manualShortlist}</strong>
-          <p className="muted">elle kısa listeye alınan aday</p>
-        </article>
-        <article className="card stat-card">
-          <strong>{stats.imported}</strong>
-          <p className="muted">işletmeye aktarılan aday</p>
-        </article>
-      </section>
-
-      <section className="grid-2" style={{ alignItems: 'start' }}>
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Filtre</p>
-            <h3>Tabloyu daralt</h3>
-          </div>
-          <form method="get" className="form-grid two-col">
-            <label className="field">
-              <span>Arama</span>
-              <input name="q" defaultValue={filters.q} placeholder="İşletme, adres, telefon, kategori" />
-            </label>
-            <label className="field">
-              <span>Segment</span>
-              <select name="segment" defaultValue={filters.segment}>
-                <option value="all">Tüm segmentler</option>
-                <option value="berber">Berber</option>
-                <option value="guzellik salonu">Güzellik salonu</option>
-              </select>
-            </label>
-            <label className="field">
-              <span>Karar kovasi</span>
-              <select name="bucket" defaultValue={filters.bucket}>
-                <option value="all">Tüm kovalar</option>
-                <option value="shortlist">Kısa liste</option>
-                <option value="review">İncele</option>
-                <option value="skip">Ele</option>
-              </select>
-            </label>
-            <input type="hidden" name="sort" value={filters.sort} />
-            <input type="hidden" name="dir" value={filters.dir} />
-            <div className="page-header-actions" style={{ alignSelf: 'end' }}>
-              <button type="submit" className="button-primary">Uygula</button>
-              <a href="/discovery" className="button-secondary">Temizle</a>
-            </div>
-          </form>
-        </article>
-
-        <article className="card stack-sm">
-          <div>
-            <p className="eyebrow">Okuma notu</p>
-            <h3>Bu tabloyu nasıl kullanacağız?</h3>
-          </div>
-          <ul className="list">
-            <li>Skor ve kova ilk eleme sinyalidir, son karar değil.</li>
-            <li>Çoklu arama teriminde görünen adaylar daha güçlü görünürlük sinyali verir.</li>
-            <li>Sahiplik durumu, kaydın alınıp alınmadığını sonraki taramalarda hızlıca ayırmak için tutulur.</li>
-            <li>Kısa liste butonu manuel seçimi saklar, işletmeye aktar butonu ise işletme ve audit açarak adayı ana hatta taşır.</li>
-          </ul>
-          <p className="muted">Şu an {stats.visible} aday görünüyor, bunların {stats.multiTerm} tanesi birden fazla arama teriminde yakalandı, {stats.unclaimed} tanesinde kayıt alınmamış sinyali var.</p>
-        </article>
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <span className="badge">Toplam {stats.total} ozet aday</span>
+        <span className="badge">Görünen {stats.visible}</span>
+        <span className="badge">Kisa liste sinyali {stats.shortlist}</span>
+        <span className="badge">Elle kisa liste {stats.manualShortlist}</span>
+        <span className="badge">Aktarilan {stats.imported}</span>
       </section>
 
       <section className="card stack-sm">
+        <div>
+          <p className="eyebrow">Filtre</p>
+          <h3>Tabloyu daralt</h3>
+        </div>
+        <form method="get" className="form-grid two-col">
+          <label className="field">
+            <span>Arama</span>
+            <input name="q" defaultValue={filters.q} placeholder="İşletme, adres, telefon, kategori" />
+          </label>
+          <label className="field">
+            <span>Segment</span>
+            <select name="segment" defaultValue={filters.segment}>
+              <option value="all">Tüm segmentler</option>
+              <option value="berber">Berber</option>
+              <option value="guzellik salonu">Güzellik salonu</option>
+            </select>
+          </label>
+          <label className="field">
+            <span>Karar kovasi</span>
+            <select name="bucket" defaultValue={filters.bucket}>
+              <option value="all">Tüm kovalar</option>
+              <option value="shortlist">Kısa liste</option>
+              <option value="review">İncele</option>
+              <option value="skip">Ele</option>
+            </select>
+          </label>
+          <input type="hidden" name="sort" value={filters.sort} />
+          <input type="hidden" name="dir" value={filters.dir} />
+          <div className="page-header-actions" style={{ alignSelf: 'end' }}>
+            <button type="submit" className="button-primary">Uygula</button>
+            <a href="/discovery" className="button-secondary">Temizle</a>
+          </div>
+        </form>
+        <p className="muted">Şu an {stats.visible} aday görünüyor, bunların {stats.multiTerm} tanesi birden fazla arama teriminde yakalandı, {stats.unclaimed} tanesinde kayıt alınmamış sinyali var.</p>
+      </section>
+
+      <section className="stack-sm">
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <div>
             <p className="eyebrow">Aday tablosu</p>
