@@ -185,3 +185,59 @@ Her dosya icin su alanlar cikarilacak:
 - kok ana baglam dosyalarinin konteyner cizgisi buyuk olcude dogru
 - ana sorun konteyner seciminden cok icerik drifti, naming drifti ve yonlendirme bosluklari
 - sonraki batch, dosya silmeden once naming/wording/scope duzeltmelerini planlamali
+
+## Batch 1b - ajan ve persona dosyalari
+
+### Denetlenen dosyalar
+- `AGENTS.md`
+- `USER.md`
+- `IDENTITY.md`
+- `SOUL.md`
+
+### 7) AGENTS.md
+- rol: ajanin calisma kontrati ve root dosya disiplini
+- yonlendirdigi hedefler: `README.md`, `HEARTBEAT.md`, `MEMORY_SUMMARY.md`, `PROJECT.md`, `ROADMAP.md`, `agent-workspace/README.md`, `memory/README.md`, `DECISIONS/README.md`, `TOOLS.md`, `OPERATIONS.md`, `CHECKLISTS/admin-panel-mvp.md`, `CHECKLISTS/task-completion.md`, `CHECKLISTS/context-hygiene.md`, `PLAYBOOKS/audit-offer-delivery.md`
+- ic sorunlar:
+  - `memory/YYYY-MM-DD-topic.md` naming ornegi, `memory/README.md` icindeki daha spesifik `topic/incident/consultation` slug kuralindan daha gevsek kaliyor
+  - acilis sirasinda `MEMORY_SUMMARY.md` sert sekilde one cikariliyor; bu dosya su an drift suphelisi oldugu icin yanlis agirlik olusturabilir
+- hedeflerle uyum sorunu:
+  - referans verdigi hedeflerin tamami mevcut
+  - fakat `memory` naming cizgisiyle kucuk uyumsuzluk var
+- not:
+  - korunacak
+  - batch 2'de `memory` naming cizgisiyle ayni dile cekilmeli
+
+### 8) USER.md
+- rol: kullanici profili, calisma tercihi ve cevap beklentisi
+- yonlendirdigi hedefler: acik dosya linki yok
+- ic sorunlar:
+  - kritik sorun yok
+- hedeflerle uyum sorunu:
+  - `SOUL.md` ve `AGENTS.md` ile uyumlu
+- not:
+  - korunacak
+
+### 9) IDENTITY.md
+- rol: ajanin kapsam siniri ve ne olmadigi
+- yonlendirdigi hedefler: acik dosya linki yok
+- ic sorunlar:
+  - kritik sorun yok
+- hedeflerle uyum sorunu:
+  - `PROJECT.md`, `USER.md` ve `SOUL.md` ile uyumlu
+- not:
+  - korunacak
+
+### 10) SOUL.md
+- rol: ton, davranis ve calisma stili
+- yonlendirdigi hedefler: acik dosya linki yok
+- ic sorunlar:
+  - kritik sorun yok
+- hedeflerle uyum sorunu:
+  - `USER.md` tercihleri ve `IDENTITY.md` sinirlariyla uyumlu
+- not:
+  - korunacak
+
+## Batch 1 + 1b guncel sonuc
+- `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` ilk audit kapsaminda artik kayda girdi
+- bu dordlu icinde en net cleanup adayi `AGENTS.md` icindeki `memory` naming dili ve `MEMORY_SUMMARY.md` agirligi
+- diger uc dosya su an temiz ve korunacak durumda
