@@ -241,3 +241,53 @@ Her dosya icin su alanlar cikarilacak:
 - `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` ilk audit kapsaminda artik kayda girdi
 - bu dordlu icinde en net cleanup adayi `AGENTS.md` icindeki `memory` naming dili ve `MEMORY_SUMMARY.md` agirligi
 - diger uc dosya su an temiz ve korunacak durumda
+
+## Batch 1c - teknik ve operasyon referans dosyalari
+
+### Denetlenen dosyalar
+- `TOOLS.md`
+- `OPERATIONS.md`
+- `TOOLS.yaml`
+
+### 11) TOOLS.md
+- rol: teknik ortam siniri, varsayilan yigin ve operasyon secim cizgisi
+- yonlendirdigi hedefler: `TOOLS.yaml`, `OPERATIONS.md`
+- ic sorunlar:
+  - `TOOLS.md` ana cizgi olarak temiz, ama turetilmis eslik dosyasi `TOOLS.yaml` eski `context center` ve `consultation center` adlarini hala tasiyor
+- hedeflerle uyum sorunu:
+  - `PROJECT.md`, `MEMORY.md` ve `README.md` ile stack ve operasyon siniri uyumlu
+  - ancak `TOOLS.yaml` ile tam senkron degil; ozet dosya eski adlandirma driftine dusmus
+- not:
+  - `TOOLS.md` korunacak
+  - `TOOLS.yaml` batch 2 cleanup adayi
+
+### 12) OPERATIONS.md
+- rol: servis, yol, port ve canli operasyon referansi
+- yonlendirdigi hedefler: workspace `bin/` ve `deploy/` artefaktlari, sistem yol referanslari
+- ic sorunlar:
+  - `Canli web app eski calisma yolu: /opt/esnafdijital/web` yolu artik yok
+  - bu satir tarihsel bilgi tasiyorsa daha acik etiketlenmeli; aktif referans gibi durmasi drift riski olusturuyor
+- hedeflerle uyum sorunu:
+  - `admin` ve workspace sync tarafindaki workspace/deploy/bin referanslari mevcut
+  - `HEARTBEAT.md` icindeki `ana domain placeholder modunda` notuyla birlikte okuyunca eski web app yolunun aktif olmadigi netlesiyor
+- not:
+  - `OPERATIONS.md` korunacak
+  - eski web app yolu satiri cleanup / netlestirme adayi
+
+### 13) TOOLS.yaml
+- rol: `TOOLS.md` eslik eden turetilmis ozet
+- yonlendirdigi hedefler: acik dosya linki yok, `TOOLS.md`den turemis durum ozeti
+- ic sorunlar:
+  - `context center`
+  - `consultation center`
+  - bu iki ifade kaldirilan/eski adlandirma izi tasiyor
+- hedeflerle uyum sorunu:
+  - `TOOLS.md` icindeki guncel cizgiyle tam uyumlu degil
+- not:
+  - batch 2'de ya yeniden turetilmeli ya da elle drift cleanup yapilmali
+
+## Batch 1 + 1b + 1c guncel sonuc
+- `TOOLS.md` ve `OPERATIONS.md` artik ilk audit kapsaminda ayri maddelerle kayda girdi
+- teknik/operasyon tarafinda en net iki drift:
+  1. `TOOLS.yaml` icindeki eski adlandirma kalintilari
+  2. `OPERATIONS.md` icindeki artik bulunmayan eski web app yolu
