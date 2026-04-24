@@ -7868,10 +7868,145 @@ Kisa formda:
 Bu model hem kart hiyerarsisini koruyor,
 hem de kucuk bir operasyon sinyalini gereksiz ikincil buton setine cevirmiyor.
 
+## Elli ikinci okuma - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
+Bir onceki kararlar su omurgayi kurdu:
+- `neden bu paket` alani teklif snapshot'inin parcasi olmali
+- create aninda audit + Y.Z'den gelen yari-yapili on-dolgu ile acilmali
+- operator kisa duzeltme yapabilmeli
+- ama bu alan bos yorum cebi olmamali
+
+Simdi asil soru su:
+- on-dolgu kalitesi dusuk oldugunda hic sinyal vermeden devam mi edilmeli?
+- yoksa operatoru hafifce durdurup `gozden gecir` benzeri bir kalite sinyali mi lazim?
+
+Bu soru onemli.
+Cunku yari-otomatik on-dolgu modeli hiz kazandirir,
+ama kalite dusukse operatoru pasiflestirme riski de tasir.
+
+### 1) Referanslar hangi yone itiyor?
+Mevcut cizgi su:
+- `OFFERS.md` teklifin audit cikisina baglanmasini ve `hangi eksik -> hangi paket -> ne teslim` zincirini netlestirmesini istiyor
+- onceki notlarda `neden bu paket` alaninin yari-yapili ama okunur snapshot olmasi kararlasti
+- ayni notlarda `audit teyidi gerekli` sinyalinin yumusak ama gorunur olmasi kabul edildi
+- son kararlar da kucuk ikincil kalite sinyallerinin sessiz, ikincil ve CTA'siz kalmasi gerektigini gosterdi
+
+Buradan gelen guclu sonuc su:
+- kalite sinyali fikri yabanci degil
+- ama bu sinyal yeni bir task veya ikinci CTA uretmemeli
+
+### 2) Uc model
+
+#### NPG1) Hic sinyal olmasin
+Mantik:
+- on-dolgu ne kadar iyi/kotu olursa olsun operator kendisi okur
+- ek bir kalite sinyali verilmez
+
+Artisi:
+- en sade akistir
+- yeni kural acmaz
+
+Eksisi:
+- dusuk kaliteli on-dolgu kolayca okunmadan gecebilir
+- yari-otomatik metin `tamamdir` hissi verebilir
+- teklif snapshot kalitesi sessizce duser
+
+#### NPG2) Hafif `gozden gecir` sinyali olsun
+Mantik:
+- on-dolgu asiri genel, eksik veya mikro iskeleti zayif tasiyorsa
+  `neden bu paket` alanina yakin sessiz bir ikincil metin cikar
+- operatora `gozden gecir` denir ama akis kitlenmez
+
+Artisi:
+- otomatik metnin pasifce kaydedilme riskini azaltir
+- kaliteyi yumusak sekilde yukari iter
+- onceki `audit teyidi` modeline benzer bir kalite guvencesi kurar
+
+Eksisi:
+- iyi esik ister
+- fazla sik cikarsa okunmaz hale gelebilir
+
+#### NPG3) Daha belirgin etiket / badge olsun
+Ornek:
+- `Gozden gecir` badge'i
+- sari tonlu minik uyari
+
+Artisi:
+- gozden kacmasi daha zor
+
+Eksisi:
+- kucuk kalite sinyalini gereksiz alarm haline getirir
+- teklif kartini dikkat dagitici hale getirir
+- onceki `sessiz ikincil sinyal` cizgisine ters duser
+
+Ara yorum:
+- su an en saglikli yol `NPG2`
+
+### 3) Neden hic sinyal olmamasi zayif?
+Cunku bu alanda onceki kararla bilincli bir risk kabul edildi:
+- tam paragraf otomatik yazilmiyor
+- ama yari-yapili on-dolgu geliyor
+
+Bu modelin en buyuk zayifligi su olabilir:
+- operator taslagi `yeterince iyi` sanip hic bakmadan gecer
+- ama metin aslinda `ana eksik`, `paket nedeni` veya `beklenen sonuc` ayaklarindan birini zayif tasiyor olabilir
+
+Buna hic sinyal vermemek,
+on-dolgunun kalite sorununu sessizce teklif snapshot'ina tasir.
+
+### 4) Neden belirgin badge/uyari fazla?
+Cunku burada konustugumuz sey ust seviye bir risk degil,
+metin kalitesine dair kucuk bir operator yardimi.
+Sari badge veya belirgin etiket kullanirsak,
+sorunun agirligini oldugundan buyuk gosteririz.
+Ayrica bu alan zaten teklif kartinin ikincil karar katmani.
+Orada bir de belirgin `gozden gecir` etiketi,
+kartin asıl hiyerarsisini bozar.
+
+### 5) O zaman en saglikli hafif sinyal neye benzemeli?
+Bence onceki kararlarla ayni cizgi izlenmeli:
+- ayri badge degil
+- ayri buton degil
+- sessiz ikincil metin
+- kısa ve yon verici bir dil
+
+Ornek:
+- `Paket gerekcesi kisaca gozden gecirilmeli.`
+- veya daha yalniz: `Paket gerekcesi netlesmeli.`
+
+Burada `gozden gecir` ifadesi,
+operatorun otomatik metni kontrol etmesini ister,
+ama yeni bir asama ya da alarm hissi yaratmaz.
+
+### 6) Bu sinyal ne zaman cikmali?
+Esik yine dar olmali.
+Bence yalniz su tip durumlarda:
+- on-dolgu asiri genel kaldiysa
+- `ana eksik + paket + beklenen sonuc` omurgasindan yalniz tek parcayi tasiyorsa
+- audit zayifligindan dolayi teklif gerekcesi mekanik veya belirsiz gorunuyorsa
+
+Yani her teklifte degil,
+yalniz kalite dusukse cikmali.
+Yoksa operator bu metni de audit teyidi gibi arka plan gurultusune cevirir.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `neden bu paket` on-dolgu kalitesi dusukse hafif bir kalite sinyali gerekli gorunuyor
+- ama bu sinyal belirgin badge/uyari degil, alanin yakininda sessiz ikincil metin olmali
+- `gozden gecir` fikri uygun, cunku operatoru kontrol etmeye iter ama akisi kilitlemez
+- esik dar tutulmali; her teklifte degil, yalniz zayif on-dolguda cikmali
+
+Kisa formda:
+- not enough = no signal
+- too much = badge / alert-style review tag
+- recommended = quiet secondary `gozden gecir` cue
+
+Bu model hem yari-otomatik teklif gerekcesinin kalite riskini frenliyor,
+hem de teklif kartini yeni bir uyari panosuna cevirmiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
-- `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
-- teklif kartindaki `neden bu paket` on-dolgusu icin kalite sinyali gerekiyorsa, bu da sessiz ikincil metin mi olmali yoksa daha belirgin bir `gozden gecir` etiketi mi istemeli?
+- `neden bu paket` kalite sinyalinde en guvenli nihai metin hangisi: `Paket gerekcesi gozden gecirilmeli.` mi, yoksa `Paket gerekcesi netlesmeli.` gibi daha yumusak bir varyant mi?
+- `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
