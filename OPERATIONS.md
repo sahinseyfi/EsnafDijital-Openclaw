@@ -76,6 +76,13 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - caddy durum: `systemctl status caddy`
 - caddy yeniden baslat: `systemctl restart caddy`
 
+### OpenClaw
+- openclaw genel durum: `openclaw status`
+- gateway durum: `openclaw gateway status`
+- gateway baslat: `openclaw gateway start`
+- gateway durdur: `openclaw gateway stop`
+- gateway yeniden baslat: `openclaw gateway restart`
+
 ### Workspace Sync
 - workspace sync servis durum: `systemctl status esnafdijital-workspace-sync.service`
 - workspace sync timer durum: `systemctl status esnafdijital-workspace-sync.timer`

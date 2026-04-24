@@ -4,30 +4,36 @@ meta:
   update_rule: "Davranis degistiren guncelleme once TOOLS.md tarafinda yapilir"
 
 tools:
-  web:
-    purpose: "Tanitim sitesi ve admin / ic operasyon yuzeyleri"
-    default_stack: ["Next.js"]
-    use_when:
-      - "admin ve ic operasyon ekranlari"
-      - "prompt uretimi yuzeyi"
-      - "dokuman ve baglam akisi"
-      - "is akisi gorunurlugu"
+  work_environment:
+    primary_environment: "VPS"
+    primary_surfaces:
+      - "tanitim sitesi"
+      - "admin / ic operasyon alani"
+    approach: "tek repo icinde sade ve yonetilebilir yapi"
 
-  database:
-    purpose: "Operasyonel kayitlarin tutulmasi"
-    default_stack: ["Postgres", "Prisma"]
-    use_when:
+  default_stack:
+    web_admin:
+      - "Next.js"
+    database:
+      - "Postgres"
+      - "Prisma"
+    static_context:
+      - "Markdown"
+      - "YAML"
+      - "JSON"
+    small_automation:
+      - "cron"
+      - "basit jobs"
+
+  data_scope:
+    database:
       - "businesses"
       - "audits"
       - "offers"
       - "delivery_projects"
-      - "durumu degisen operasyonel is nesneleri"
-
-  docs:
-    purpose: "Sabit baglam ve yasayan proje kayitlari"
-    default_stack: ["Markdown", "YAML", "JSON"]
-    use_when:
-      - "project"
+      - "durum ve tarihcesi olan operasyonel is nesneleri"
+    file_context:
+      - "proje tanimi"
       - "roadmap"
       - "heartbeat"
       - "memory"
@@ -36,18 +42,20 @@ tools:
       - "playbooks"
       - "sabit prompt baglami"
 
-  automation:
-    purpose: "Kucuk tekrar eden isleri azaltmak"
-    default_stack: ["cron", "basit jobs"]
-    use_when:
-      - "ayni is tekrar etmeye basladiysa"
-      - "elle takip hata doguruyorsa"
-      - "kucuk ve anlasilir otomasyon yeterliyse"
+  automation_threshold:
+    - "ayni is tekrar etmeye basladiysa"
+    - "elle takip hata doguruyorsa"
+    - "kucuk ve anlasilir otomasyon yeterliyse"
 
 rules:
-  - "Once mevcut stack icinde cozum ara"
-  - "Sirf ileride lazim olabilir diye yeni servis ekleme"
-  - "MVP'de agir altyapi degil, gorunur sonuc onceliklidir"
-  - "Operasyonel veri ile kalici baglam birbirine karistirilmaz"
-  - "Parola, token ve benzeri gizli bilgiler workspace'e yazilmaz"
-  - "Kesif ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir"
+  secrecy:
+    - "Parola, token, raw callback linki ve benzeri hassas degerleri workspace'e yazma"
+    - "Gerekiyorsa sadece yol, konum veya referans bilgisi tut"
+    - "Gercek gizli degerler env dosyasi, sistem state'i veya parola yoneticisinde kalsin"
+  selection:
+    - "Once mevcut stack icinde cozum ara"
+    - "Sirf ileride lazim olabilir diye yeni servis ekleme"
+    - "MVP'de agir altyapi degil, gorunur sonuc onceliklidir"
+  operations:
+    - "Servis, port, systemd, swap ve canli yayin notlari OPERATIONS.md icindedir"
+    - "Isletme kesfi ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir"
