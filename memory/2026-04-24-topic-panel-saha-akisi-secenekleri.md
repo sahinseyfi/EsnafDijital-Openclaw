@@ -7161,10 +7161,156 @@ Kisa formda:
 Bu model hem operatoru bastan dogru yone iter,
 hem de UI'yi audit editorune cevirmeden kaliteyi korur.
 
+## Kirk yedinci okuma - audit summary icin uygun placeholder dili soru formunda mi, yoksa yon veren duz cumle formunda mi daha guvenli olur?
+Bir onceki karar suydu:
+- audit summary alaninda hafif gorunur bir mikro yardim olmali
+- ama bu yardim yari-forma donusmemeli
+- en guvenli cizgi `subtle prompt + background check`
+
+Simdi soru daha da daraldi:
+- bu gorunur yardim soru gibi mi yazilmali?
+- yoksa yon veren duz cumle gibi mi yazilmali?
+
+Ilk bakista kucuk bir kelime secimi gibi gorunuyor,
+ama aslinda operatora verilen ton ve yon duygusunu etkiliyor.
+
+### 1) Repo dili ne diyor?
+Mevcut repo yuzeylerine bakinca belirgin bir desen var:
+- placeholder ve yardim metinleri agirlikla yon veren duz cumle formunda
+- ornekler:
+  - `Yapmak istediginiz degisikligi, kafanizdaki soru isaretlerini ve neyi tartmak istediginizi duz metin olarak yazin.`
+  - `Ne icin prompt istediginizi, neden simdi gerektigini ve kafanizdaki soruyu duz metin olarak yazin.`
+  - `Giris sonrasi donen baglantiyi ya da kodu yapistirin`
+- soru isaretiyle biten placeholder neredeyse yok
+
+Bu cok degerli bir sinyal.
+Cunku urun dili bugun operatoru `sorguya cekmekten` cok,
+`yon verip is yaptirmaya` dayaniyor.
+
+### 2) Uc model
+
+#### PHD1) Soru formu
+Ornek:
+- `Ana eksik ne? Hangi cozum yone uygun? Beklenen sonuc ne?`
+
+Artisi:
+- operatorun zihninde dusunme basligi acabilir
+- uc ayagi acikca hatirlatir
+
+Eksisi:
+- audit alanini mini sorgu listesine cevirir
+- placeholder icinde art arda sorular yapay durabilir
+- repo genel tonuyla daha az uyumlu
+- hizli kullanimda `cevap formu` hissi verir
+
+#### PHD2) Yon veren duz cumle
+Ornek:
+- `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.`
+
+Artisi:
+- mevcut repo diliyle uyumlu
+- kisa, net, uygulanabilir
+- operatora ne yapacagini soyler ama onu mini forma sokmaz
+- SOUL ve USER tonuyla daha yakin
+
+Eksisi:
+- soru formu kadar ayrik dusunme basligi acmayabilir
+- cok genel yazilirsa kolay gozden kacar
+
+#### PHD3) Hibrit soru-cumle
+Ornek:
+- `Ana eksik ne, uygun cozum yone ne, kisaca yazin.`
+
+Artisi:
+- hem dusundurur hem yon verir gibi gorunur
+
+Eksisi:
+- iki ton birbirine girer
+- ne tam soru, ne tam yonlendirme olur
+- en kolay yapaylasan secenek budur
+
+Ara yorum:
+- su an en saglikli yol `PHD2`
+
+### 3) Neden soru formu zayif gorunuyor?
+Cunku audit summary alaninin isi uzun bir dusunme oturumu baslatmak degil,
+hizli ama faydali bir operasyon ozeti cikarmak.
+Art arda sorular sunu hissettirebilir:
+- sistem benden uc ayri cevap bekliyor
+- demek ki burada yari-form var
+
+Bu da onceki kirmizi cizgiye dokunur:
+- teklif netlesmeden ekran cogaltma
+- form duvarina donmeme
+
+Yani soru formu niyet olarak dogru olsa bile,
+UI hissi olarak gereksiz agirlik uretebilir.
+
+### 4) Neden yon veren duz cumle daha guvenli?
+Cunku su uc seyi ayni anda sagliyor:
+- ne yazilacagini kisaca soyluyor
+- ayni alani uce bolmuyor
+- mevcut panel diline uyuyor
+
+Ayrica USER ve SOUL cizgisi de bunu destekliyor:
+- kisa
+- net
+- uygulanabilir
+- gereksiz teori yok
+
+`... kisaca yazin` formu tam bu davranisi tasiyor.
+
+### 5) Bu cumle ne kadar yon verici olmali?
+Burada da doz onemli.
+Asiri yumusak olursa faydasizlasir:
+- `Audit notu yazin`
+
+Asiri didaktik olursa agirlasir:
+- `Ana eksigi, cozum yonunu, beklenen sonucu ve destekleyici gerekceyi ayri ayri belirtin`
+
+Bence V1 icin orta doz en saglikli:
+- ne yazilacagini soyler
+- ama checklist gibi acilmaz
+
+Ornek iyi ton:
+- `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.`
+
+### 6) Yardim metni mi, placeholder mi?
+Bu sorunun yan cevabi da burada netlesiyor:
+Eger duz cumle secilecekse,
+placeholder olarak kullanmak daha dogal gorunuyor.
+Cunku bir soru listesi placeholder icinde daha rahatsiz durur.
+Duz cumle ise hem placeholder'da hem alt yardim satirinda dogal kalabilir.
+
+Yani secilen ton,
+yuzey secimini de kolaylastiriyor.
+
+### 7) En buyuk risk ne?
+Duz cumleyi fazla genel yazip islevsizlestirmek.
+Eger metin sadece `Kisa audit ozeti yazin` olursa,
+mikro iskelet yardimi kaybolur.
+Demek ki esas mesele sadece `soru mu cumle mi` degil,
+duz cumlenin yeterince yon verici olup olmadigi.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- audit summary placeholder dili soru formunda degil, yon veren duz cumle formunda daha guvenli duruyor
+- bu secim hem repo'nun mevcut placeholder diline uyuyor hem de audit alanini yari-forma cevirmiyor
+- soru formu dusundurucu olsa da V1 sadeligini bozma ve mini checklist hissi verme riski daha yuksek
+- bu yuzden gorunur mikro yardim varsa ton `ne yapilacagini soyleyen duz cumle` olmali
+
+Kisa formda:
+- not recommended = multi-question placeholder
+- awkward = hybrid question-sentence
+- recommended = short directive sentence
+
+Bu model hem urun dilini tutarli kiliyor,
+hem de audit summary alanini sade ama daha faydali hale getiriyor.
+
 ## Sonraki arastirma basliklari
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
-- audit summary icin uygun placeholder dili soru formunda mi, yoksa yon veren duz cumle formunda mi daha guvenli olur?
+- audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
