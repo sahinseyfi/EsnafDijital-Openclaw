@@ -73,7 +73,26 @@ Cleanup sirasinda her kanonik dosya su testlerden gecirilecek:
 
 Bu yuzden cleanup mantigi sadece `hangi dosya nerede durmali` degil, ayni zamanda `o dosyanin icindeki her satir hala dogru mu` kontrolunu de kapsar.
 
-## 8. Bu karar turunun sonucu
+## 8. Yeni okuma kurali: yonlendirme zinciri de denetimin parcasi
+
+Bir dosya kendi icinde baska dosya, klasor README'si, karar kaydi veya playbook'a yonlendiriyorsa denetim yalniz o ana dosyada bitmeyecek.
+
+Uygulanacak kural:
+1. ana dosya okunur
+2. icindeki acik yonlendirmeler tek tek cikarilir
+3. o yonlendirmelerin hedefleri de okunur
+4. ana dosyanin iddiasi ile hedef dosyanin gercegi karsilastirilir
+5. uyumsuzluk varsa hem kaynak dosyada hem hedefte not edilir
+
+Bu sayede ornegin:
+- `README.md` okunuyorsa isaret ettigi kok dosyalar ve ilgili klasor README'leri de kontrol edilir
+- `DECISIONS/README.md` okunuyorsa isaret ettigi karar dosyalari da kontrol edilir
+- `memory/README.md` okunuyorsa naming ve kullanim kurali gercek dosyalarla karsilastirilir
+- `CHECKLISTS/README.md` veya `PLAYBOOKS/README.md` okunuyorsa alt rehberler de kapsam dahilinde sayilir
+
+Yani cleanup icin okuma modeli yalniz `tek dosya denetimi` degil, `yonlendirme zinciri denetimi` olacak.
+
+## 9. Bu karar turunun sonucu
 
 Asagidaki konteynerler prensipte kabul edildi, fakat icerikleri otomatik olarak temiz kabul edilmeyecek:
 - `README.md`
@@ -88,3 +107,4 @@ Asagidaki konteynerler prensipte kabul edildi, fakat icerikleri otomatik olarak 
 Yani sonraki fazda soru su olacak:
 - konteyner dogru mu? -> buyuk olcude evet
 - icerik temiz ve tutarli mi? -> tek tek denetlenecek
+- yonlendirdigi hedeflerle uyumlu mu? -> zincir halinde denetlenecek
