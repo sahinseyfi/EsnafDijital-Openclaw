@@ -161,8 +161,8 @@ Her dosya icin su alanlar cikarilacak:
 - ornekler:
   - `2026-04-19-github-sync.md`
   - `2026-04-20-page-error.md`
-  - `2026-04-22-context-cleanup.md`
-  - `2026-04-23-dark-mode.md`
+  - `2026-04-22-topic-context-cleanup.md`
+  - `2026-04-23-topic-dark-mode.md`
   - `2026-04-24-repo-cleanup.md`
 - sonuc: bu klasor README'si kanonik ama gercek dosya adlariyla tam uyumlu degil; batch-2'de rename/alias/planned exception karari gerekiyor
 
@@ -456,27 +456,27 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 | `2026-04-19-github-sync.md` | topic | `2026-04-19-topic-github-sync.md` |
 | `2026-04-20-page-error.md` | incident | `2026-04-20-incident-page-error.md` |
 | `2026-04-20-repo-structure.md` | consultation | `2026-04-20-consultation-repo-structure.md` |
-| `2026-04-22-cold-start.md` | topic | `2026-04-22-topic-cold-start.md` |
-| `2026-04-22-context-cleanup.md` | topic | `2026-04-22-topic-context-cleanup.md` |
+| `2026-04-22-topic-cold-start.md` | topic | `2026-04-22-topic-cold-start.md` |
+| `2026-04-22-topic-context-cleanup.md` | topic | `2026-04-22-topic-context-cleanup.md` |
 | `2026-04-22-crm-panel.md` | topic | `2026-04-22-topic-crm-panel.md` |
-| `2026-04-22-executor-confusion.md` | topic | `2026-04-22-topic-executor-confusion.md` |
-| `2026-04-22-gateway-summary.md` | topic | `2026-04-22-topic-gateway-summary.md` |
-| `2026-04-22-old-profile.md` | topic | `2026-04-22-topic-old-profile.md` |
-| `2026-04-22-skill-creator.md` | topic | `2026-04-22-topic-skill-creator.md` |
-| `2026-04-22-telegram-group.md` | topic | `2026-04-22-topic-telegram-group.md` |
-| `2026-04-23-crm-zinciri.md` | topic | `2026-04-23-topic-crm-zinciri.md` |
-| `2026-04-23-dark-mode.md` | topic | `2026-04-23-topic-dark-mode.md` |
-| `2026-04-23-deploy-request.md` | topic | `2026-04-23-topic-deploy-request.md` |
-| `2026-04-23-evaluation-prompt.md` | consultation | `2026-04-23-consultation-evaluation-prompt.md` |
-| `2026-04-23-filename-slug.md` | topic | `2026-04-23-topic-filename-slug.md` |
-| `2026-04-23-heartbeat-update.md` | topic | `2026-04-23-topic-heartbeat-update.md` |
-| `2026-04-23-instagram-manual.md` | topic | `2026-04-23-topic-instagram-manual.md` |
-| `2026-04-23-memory-flush.md` | topic | `2026-04-23-topic-memory-flush.md` |
-| `2026-04-23-photo-upload.md` | topic | `2026-04-23-topic-photo-upload.md` |
-| `2026-04-23-research-outputs.md` | consultation | `2026-04-23-consultation-research-outputs.md` |
-| `2026-04-24-context-cleanup.md` | topic | `2026-04-24-topic-context-cleanup.md` |
-| `2026-04-24-deploy-rule.md` | topic | `2026-04-24-topic-deploy-rule.md` |
-| `2026-04-24-filename-slug.md` | topic | `2026-04-24-topic-filename-slug.md` |
+| `2026-04-22-topic-executor-confusion.md` | topic | `2026-04-22-topic-executor-confusion.md` |
+| `2026-04-22-topic-gateway-summary.md` | topic | `2026-04-22-topic-gateway-summary.md` |
+| `2026-04-22-topic-old-profile.md` | topic | `2026-04-22-topic-old-profile.md` |
+| `2026-04-22-topic-skill-creator.md` | topic | `2026-04-22-topic-skill-creator.md` |
+| `2026-04-22-topic-telegram-group.md` | topic | `2026-04-22-topic-telegram-group.md` |
+| `2026-04-23-topic-crm-zinciri.md` | topic | `2026-04-23-topic-crm-zinciri.md` |
+| `2026-04-23-topic-dark-mode.md` | topic | `2026-04-23-topic-dark-mode.md` |
+| `2026-04-23-topic-deploy-request.md` | topic | `2026-04-23-topic-deploy-request.md` |
+| `2026-04-23-consultation-evaluation-prompt.md` | consultation | `2026-04-23-consultation-evaluation-prompt.md` |
+| `2026-04-23-topic-filename-slug.md` | topic | `2026-04-23-topic-filename-slug.md` |
+| `2026-04-23-topic-heartbeat-update.md` | topic | `2026-04-23-topic-heartbeat-update.md` |
+| `2026-04-23-topic-instagram-manual.md` | topic | `2026-04-23-topic-instagram-manual.md` |
+| `2026-04-23-topic-memory-flush.md` | topic | `2026-04-23-topic-memory-flush.md` |
+| `2026-04-23-topic-photo-upload.md` | topic | `2026-04-23-topic-photo-upload.md` |
+| `2026-04-23-consultation-research-outputs.md` | consultation | `2026-04-23-consultation-research-outputs.md` |
+| `2026-04-24-topic-context-cleanup.md` | topic | `2026-04-24-topic-context-cleanup.md` |
+| `2026-04-24-topic-deploy-rule.md` | topic | `2026-04-24-topic-deploy-rule.md` |
+| `2026-04-24-topic-filename-slug.md` | topic | `2026-04-24-topic-filename-slug.md` |
 | `2026-04-24-repo-cleanup.md` | topic | `2026-04-24-topic-repo-cleanup.md` |
 
 ### Rename tablo notu
@@ -494,7 +494,7 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 
 ### Ek baglantili dosyalar
 1. `2026-04-19-github-sync.md`
-   - ek referanslar: `memory/2026-04-19.md`, `memory/2026-04-22-old-profile.md`
+   - ek referanslar: `memory/2026-04-19.md`, `memory/2026-04-22-topic-old-profile.md`
    - karar: paired update ile ikinci asamada rename
 
 2. `2026-04-20-page-error.md`
@@ -503,16 +503,16 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
    - karar: daily note guncellemesiyle birlikte ikinci asamada rename, `.dreams` cache'i kanonik sayilmayacak
 
 3. `2026-04-20-repo-structure.md`
-   - ek referanslar: `memory/2026-04-20.md`, `memory/2026-04-22-old-profile.md`
+   - ek referanslar: `memory/2026-04-20.md`, `memory/2026-04-22-topic-old-profile.md`
    - non-kanonik cache referansi: `memory/.dreams/short-term-recall.json`
    - karar: paired update ile ikinci asamada rename
 
 4. `2026-04-22-crm-panel.md`
-   - ek referanslar: `memory/2026-04-23-crm-zinciri.md`, `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
+   - ek referanslar: `memory/2026-04-23-topic-crm-zinciri.md`, `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
    - karar: reference + memory birlikte guncellenmeden rename yapilmayacak
 
 5. `2026-04-24-repo-cleanup.md`
-   - ek referanslar: `HEARTBEAT.md`, `memory/2026-04-24-context-cleanup.md`, `memory/2026-04-24-filename-slug.md`
+   - ek referanslar: `HEARTBEAT.md`, `memory/2026-04-24-topic-context-cleanup.md`, `memory/2026-04-24-topic-filename-slug.md`
    - karar: aktif calisma notu oldugu icin bu cleanup hattı kapanana kadar rename ertelenecek
 
 ### Staged rename karari
@@ -521,27 +521,27 @@ Asagidaki tablo fiziksel rename oncesi calisma notudur. Son karar, capraz refera
 - Asama C, ertele: aktif calisma notu olan `2026-04-24-repo-cleanup.md`
 
 ### Asama A icin uygun dosyalar
-- `2026-04-22-cold-start.md`
-- `2026-04-22-context-cleanup.md`
+- `2026-04-22-topic-cold-start.md`
+- `2026-04-22-topic-context-cleanup.md`
 - `2026-04-22-crm-panel.md` haric tum 2026-04-22 tekil notlari icinden yalniz cleanup notunda gecenler:
-  - `2026-04-22-executor-confusion.md`
-  - `2026-04-22-gateway-summary.md`
-  - `2026-04-22-old-profile.md`
-  - `2026-04-22-skill-creator.md`
-  - `2026-04-22-telegram-group.md`
-- `2026-04-23-crm-zinciri.md`
-- `2026-04-23-dark-mode.md`
-- `2026-04-23-deploy-request.md`
-- `2026-04-23-evaluation-prompt.md`
-- `2026-04-23-filename-slug.md`
-- `2026-04-23-heartbeat-update.md`
-- `2026-04-23-instagram-manual.md`
-- `2026-04-23-memory-flush.md`
-- `2026-04-23-photo-upload.md`
-- `2026-04-23-research-outputs.md`
-- `2026-04-24-context-cleanup.md`
-- `2026-04-24-deploy-rule.md`
-- `2026-04-24-filename-slug.md`
+  - `2026-04-22-topic-executor-confusion.md`
+  - `2026-04-22-topic-gateway-summary.md`
+  - `2026-04-22-topic-old-profile.md`
+  - `2026-04-22-topic-skill-creator.md`
+  - `2026-04-22-topic-telegram-group.md`
+- `2026-04-23-topic-crm-zinciri.md`
+- `2026-04-23-topic-dark-mode.md`
+- `2026-04-23-topic-deploy-request.md`
+- `2026-04-23-consultation-evaluation-prompt.md`
+- `2026-04-23-topic-filename-slug.md`
+- `2026-04-23-topic-heartbeat-update.md`
+- `2026-04-23-topic-instagram-manual.md`
+- `2026-04-23-topic-memory-flush.md`
+- `2026-04-23-topic-photo-upload.md`
+- `2026-04-23-consultation-research-outputs.md`
+- `2026-04-24-topic-context-cleanup.md`
+- `2026-04-24-topic-deploy-rule.md`
+- `2026-04-24-topic-filename-slug.md`
 
 Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsar. Fiziksel rename bu not ve ilgili referanslar tek patch'te guncellenmeden uygulanmayacak.
 
@@ -655,25 +655,27 @@ Bu bolum, ilk auditten sonra tek tek uygulanmis gercek duzeltmeleri kayda alir. 
 ### Hala acik kalanlar
 1. `HEARTBEAT.md`
    - genel iskelet dogru
-   - `Siradaki Somut Adim` satiri guncellenip fiili akisla hizalandi
-   - heartbeat, rename batch'ine erken baglanmak yerine once root scope temizligi ve `MEMORY.md` promoted block ayiklamasina dondu
+   - `Siradaki Somut Adim` satiri fiili akisla yeniden hizalandi
+   - root zincirde `MEMORY.md` merkezli cizgi netlestigi icin bir sonraki durak artik direkt rename batch onayi
 
 2. `MEMORY.md`
-   - promoted block ayiklandi
-   - ham gunluk/teknik detaylar ve promotion marker yorumlari kaldirildi
-   - yalniz iki kalici ilke korundu: surekli arka plan ajanlari yerine tek-seferlik/deterministik yardimci akis tercihi ve gereksiz tekrar eden wake/cron mantigindan kacinma cizgisi
-   - `Genisleme alani` ifadesi de guncel CRM karariyla hizalandi
+   - `Promoted From Short-Term Memory` blogu ayiklanip kaldirildi
+   - ham gunluk/teknik detaylar temizlendi ve yalniz kalici ilkeler birakildi
 
 3. `MEMORY_SUMMARY.md`
-   - ilk cleanup notlarinda aday olarak acildi; bu turda tekrar ele alinmadi
-   - turetilmis ozet rolunu sertlestirme ihtiyaci acik kaldi
+   - dosya artik yok
+   - aktif kok zincir `README.md -> HEARTBEAT.md -> MEMORY.md` olarak calisiyor
+   - bu yuzden eski cleanup notlarindaki `MEMORY_SUMMARY.md` adimi kapanmis sayilir
+   - bu cleanup hattinda `MEMORY_SUMMARY.md` yeniden acilmayacak; ancak runtime veya onboarding icin gercek bir bir-ekran ozet ihtiyaci dogarsa ayri karar olarak ele alinacak
 
 4. `memory/` naming drift rename paketi
    - Asama A / B / C plani hazir
-   - ama fiziksel rename icin kullanici onayi, referans patch'i ve kok dosya audit kapanisi birlikte ele alinacak
+   - fiziksel rename icin kullanici onayi gerekiyor
+   - Asama A sonrasi dar kapsamli referans patch artefakti de hazir
 
 ### Guncel durum notu
 - Kok ana dosyalar icinde `README.md`, `PROJECT.md`, `ROADMAP.md`, `TOOLS.md`, `TOOLS.yaml`, `OPERATIONS.md`, `AGENTS.md`, `USER.md`, `IDENTITY.md`, `SOUL.md` tarafinda temel rol cizgisi artik daha net
-- `HEARTBEAT.md` aktif pano rolune gore fiili akisla hizalandi
-- `MEMORY.md` promoted block'u ayiklanip kalici cizgiye indirildi
-- Bu cleanup hattinin sonraki kontrollu duragi: `MEMORY_SUMMARY.md`, sonra rename batch onayi
+- `HEARTBEAT.md` aktif pano rolune gore fiili akisla yeniden hizalandi
+- aktif kok zincirde `MEMORY_SUMMARY.md` yerine dogrudan `MEMORY.md` referans aliniyor
+- `MEMORY_SUMMARY.md` kolu bu cleanup hattinda kapatildi; yeniden olusturma karari alinmadi
+- Bu cleanup hattinin sonraki kontrollu duragi: Asama A rename batch onayi ve ardindan referans patch'i
