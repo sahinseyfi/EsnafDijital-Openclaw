@@ -15,4 +15,4 @@ Her skill, ne zaman kullanilacagini ve nasil calisilacagini netlestirir.
 ## Once hangi dosyalara bakilir?
 - `esnafdijital-task-execution/SKILL.md`
 - `esnafdijital-context-hygiene/SKILL.md`
-- `esnafdijital-audit-offer-delivery/SKILL.md`
+- teklif ve teslimat akislarinda ilgili hizmet skill'i

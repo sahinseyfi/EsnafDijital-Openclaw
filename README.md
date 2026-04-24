@@ -16,13 +16,13 @@ Yeni bir oturumda varsayilan okuma sirasi:
 
 ## Guvenilir kaynak sirasi
 - `HEARTBEAT.md` -> aktif durum, blokaj, siradaki adim
-- `MEMORY_SUMMARY.md` -> 1 dakikalik kalici cizgi
+- `MEMORY.md` -> ana kalici cizgi ve kolay degismeyen gercekler
+- `MEMORY_SUMMARY.md` -> `MEMORY.md` icin 1 dakikalik turetilmis ozet
 - `PROJECT.md` -> proje tanimi ve kapsam
 - `ROADMAP.md` -> orta vadeli yon
-- `AGENTS.md` -> calisma kontrati
-- `MEMORY.md` -> kalici kararlar ve kolay degismeyen gercekler
+- `AGENTS.md` -> calisma kontrati ve ayrintili baglam hijyeni cizgisi
 - `DECISIONS/` -> tekil karar kayitlari
-- `memory/` -> tarihlenmis gunluk notlar ve session/incident kayitlari
+- `memory/` -> tarihlenmis gunluk notlar, konu, incident ve danisma kayitlari
 - `TOOLS.md` ve `OPERATIONS.md` -> operasyon ve teknik ortam referansi
 
 ## Dis referans
@@ -54,7 +54,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 - Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
 - Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
 - Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
-- Kaynak materyal veya referans arama -> `REFERENCES/README.md`
+- Kaynak materyal veya referans arama -> `REFERENCES/README.md`, sonra gerekiyorsa ilgili alt klasor README'si
 - Tekrarlayan is akisi -> `CHECKLISTS/README.md` veya `PLAYBOOKS/README.md`
 - Gorev-ozel calisma rehberi -> `skills/README.md`
 - Eski veya superseded icerik takibi -> `ARCHIVE/README.md`
@@ -67,7 +67,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 | Proje tanimi ve kapsam | `PROJECT.md` | Gecici durum eklenmez |
 | Orta vadeli yon | `ROADMAP.md` | Gunluk todo tutulmaz |
 | Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
-| Gunluk not veya session/incident kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, konu kaydi `YYYY-MM-DD-topic.md` |
+| Gunluk not veya tarihli konu kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, tekil konu `YYYY-MM-DD-topic-slug.md`, incident ve danisma icin ilgili adlandirma kullanilir |
 | Operasyon ve teknik ortam | `TOOLS.md`, `OPERATIONS.md` | Canli referans burada |
 | Teklif, segment, referans materyal | `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` | Karar kaydi gibi davranma |
 | Eski veya superseded icerik | `ARCHIVE/` | Ilk okuma paketi degil |

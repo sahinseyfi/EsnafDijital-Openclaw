@@ -10,7 +10,7 @@ Buradaki icerik karar kaydi degil, karar verirken veya uygulama yaparken bakilan
 
 ## Ilk bakilacak yerler
 - kokteki tarihli kaynak dosyalari
-- `deep-research.md` -> EsnafDigital icin deep research kullanim cizgisi, prompt iskeletleri ve guvenlik notlari
+- `Derin-arastirma/README.md` -> EsnafDigital icin derin arastirma indexi, kullanim cizgisi ve ilgili rapor girisleri
 - `design-system/` altindaki parcali referanslar
 
 ## Yazma kurallari

@@ -2,6 +2,7 @@
 
 Bu klasor, EsnafDigital'in ana Next.js uygulamasidir.
 Admin paneli, ic operasyon ekranlari ve ilgili servis mantigi burada yasar.
+Ilk fazda burada ozellikle isletme, on degerlendirme, teklif, teslimat ve bakim akislarini gorunur kilan operasyon yuzeyleri netlesir.
 
 ## Ne zaman okunur?
 - kod degisikligi yapilacaksa

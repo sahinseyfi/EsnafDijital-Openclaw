@@ -10,11 +10,11 @@ Ilk asamada akisi su kadar sade tut:
 4. zincir kayitlari ele
 5. gorunurluk skoru hesapla
 6. sadece shortlist ciktisi uret
-7. kaliteli adaylar icin ikinci adimda Business + Audit ac
+7. kaliteli adaylar icin ikinci adimda isletme + on degerlendirme kaydi ac
 
 Bu sayede:
 - ana sistemi ham scrape deposuna cevirmeyiz
-- CRM'e kayma riskini dusururuz
+- yatay ve daginik bir genel sisteme kayma riskini dusururuz
 - once 20-30 nitelikli aday bulup teklif akisinin gercekten isleyip islemedigini goruruz
 
 ## Ilk kapsam
