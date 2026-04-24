@@ -4526,10 +4526,161 @@ Kisa formda:
 
 Bu model hem akis disiplinini korur hem de delivery dilini teklif asamasina tasirmaz.
 
+## Otuzuncu okuma - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
+Bu soru audit ile Y.Z arasindaki onceki rol ayriminin pratik guvenlik testi.
+Cunku daha once su cizgiyi netlestirmistim:
+- `Y.Z` = `simdi teklife gecilir mi, yoksa once dogrulama mi gerekir?`
+- `audit` = `teklife gecildiyse hangi paket yonu uygun?`
+
+Ama bugunku kod gerceginde Y.Z raporu uretilirken audit sadece `auditSummary` olarak girdi oluyor.
+Yani sistem auditin kalitesini veya guncelligini ayrica denetlemiyor.
+Bu da su riski doguruyor:
+- yeni tarama sinyali guclu olabilir
+- Y.Z `teklife gec` diyebilir
+- ama eldeki audit ozeti eski, cok ince veya paket yonu icin zayif kalmis olabilir
+
+### 1) Referanslar hangi yone itiyor?
+`Y.Z Report Contract` Y.Z'nin isini cok net ciziyor:
+- tek `oncelikli aksiyon` ver
+- uzun audit raporu olma
+- paket motoruna donme
+
+`business-detail-v1.md` ise baska bir cizgiyi koruyor:
+- sistem paket yonu onerebilir ama son secim operatorundur
+- `teklif gerekcesi` ve `hangi eksigi kapattigi` audit/teklif cizgisinde yasamali
+
+Buradan su net cikiyor:
+- Y.Z `teklife gec` dediginde bu tek basina saglam paket zemini demek degil
+- audit tarafi zayifsa teklif omurgasi sallanabilir
+
+### 2) Uc model
+
+#### G1) Hic kural olmasin
+Mantik:
+- Y.Z `teklife gec` diyorsa operator devam eder
+- audit eskiyse bunu operator fark eder
+
+Artisi:
+- en sade akistir
+- ekstra kural getirmez
+
+Eksisi:
+- paket yonu eski audit uzerinden kayabilir
+- operatorun gozunden kolayca kacar
+- `Y.Z aksiyon gecidi, audit paket zemini` ayrimi kagitta kalir
+
+#### G2) Sert zorunlu kural olsun
+Mantik:
+- audit cok kisa/eskiyse `teklife gec` aksiyonu kitlenir
+- once audit guncellemesi zorunlu olur
+
+Artisi:
+- paket zemini korunur
+- eksik audit ile teklif acma riski duser
+
+Eksisi:
+- fazla sert olabilir
+- sahada hizli akisi gereksiz yere kesebilir
+- her zayif audit gercekten yeni audit gerektirmeyebilir
+
+#### G3) Hafif audit teyit kuralı olsun
+Mantik:
+- Y.Z hala `teklife gec` diyebilir
+- ama audit zayif/eskiyse paket yonu alaninda veya teklif oncesi kartta `audit teyidi gerekli` sinyali gorunur
+- operator teklife gecebilir ama once audit ozetini tazelemesi tavsiye edilir
+
+Artisi:
+- Y.Z'nin gecit rolunu bozmaz
+- auditin paket zemini rolunu korur
+- akisi sert kilitlemeden kalite guvencesi verir
+
+Eksisi:
+- iyi esik kuralı ister
+- fazla gevsek yazilirsa gormezden gelinir
+
+Ara yorum:
+- su an en saglikli yol `G3`
+
+### 3) Neden hic kural olmamasi zayif?
+Cunku bugun Y.Z raporu tarama ve derived karar katmani.
+Dogru isi su:
+- simdi hangi hareket sirada
+
+Ama audit baska isi tasiyor:
+- teklife baglanacak paket mantigi
+- hangi eksik hangi cozumle kapanir
+
+Eger audit ozeti zayifsa ve hic sinyal vermeden `teklife gec` denirse,
+operator sanki paket zemini de hazirmis gibi okuyabilir.
+Bu da auditin rolunu yavasca dekor haline getirir.
+
+### 4) Neden sert blokaj da fazla olabilir?
+Cunku bazen audit eksik gorunse bile gercek saha resmi nettir.
+Ornek:
+- yeni agent/apify taramasi geldi
+- isletmenin ihtiyaci acik
+- operator sadece audit ozetini kisa guncelleyip devam etmek ister
+
+Bu durumda tam blokaj, akisi faydasiz yere katilastirir.
+Ayrica kullanici cizgisi de erken ekran ve zoraki mini workflow engine istemiyor.
+
+### 5) O zaman en saglikli hafif kural ne olabilir?
+Bence mantik su olmali:
+- Y.Z `teklife gec` diyorsa gecit acik kalir
+- ama audit asagidaki sinyallerden biriyle zayifsa `audit teyidi gerekli` uyarisi cikar:
+  - audit ozeti yok veya cok ince
+  - audit, son anlamli tarama guncellemesinden belirgin eski
+  - auditte paket yonu var ama son tarama bulgulari onunla gerilim uretiyor
+
+Yani kural teklifi mutlak kilitlemez,
+ama paket secimi oncesi operatoru audit tazelemeye iter.
+
+### 6) Bu sinyal nerede durmali?
+Bence en dogru yer:
+- audit/paket yonu kartinin yakininda
+- veya teklife gecis koprusunde kisa bir `audit teyidi gerekli` satiri
+
+Y.Z kartinin icine koymak daha zayif.
+Cunku sorun Y.Z'nin ne dedigi degil,
+audit zemininin teklife yeterince tasinip tasinmadigi.
+
+### 7) Bu kuralin dili nasil olmali?
+V1 dili sert blokaj dili olmamali.
+Ornek:
+- `Teklife gecis acik, ama paket yonu icin audit ozeti tazelenmeli.`
+- `Son tarama sonrasi audit ozeti eski kalmis olabilir.`
+- `Paket secmeden once audit teyidi onerilir.`
+
+Bu dil hem akis kapisini kapatmaz hem de operatoru dikkatli davranmaya iter.
+
+### 8) En buyuk risk ne?
+Bu hafif kuralin zamanla gizli zorunlu workflow'a donmesi.
+Eger her durumda audit teyidi cikarsa operator artik onu okumaz.
+Bu yuzden esik dar tutulmali:
+- gercekten zayif audit
+- gercekten eski audit
+- gercekten paket gerilimi
+
+Diger her durumda Y.Z'nin `teklife gec` karari gereksiz surtunmesiz akmali.
+
+### 9) Gecici net kanaat
+Su an en mantikli cizgi su:
+- Y.Z `teklife gec` dediginde audit zayif/eskiyse operatoru uyaran hafif bir kural gerekli
+- ama bu kural sert blokaj olmamali
+- en saglikli V1 model `audit teyidi gerekli` benzeri yumusak ama gorunur bir sinyal
+- teklif kapisi acik kalir, fakat paket secimi oncesi audit tazeleme onerilir
+
+Kisa formda:
+- Y.Z = gecit
+- audit = paket zemini
+- audit zayifsa = soft warning, hard block degil
+
+Bu model hem teklif omurgasini korur hem de Y.Z kartini gizli paket motoruna cevirmeden kullanir.
+
 ## Sonraki arastirma basliklari
-- Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
 - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
 - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
 - `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
 - `neden bu paket` alani yalniz serbest metin mi olmali, yoksa `ana eksik + secilen paket + beklenen sonuc` gibi yari-yapili bir mikro sablonla mi daha saglikli tutulur?
 - approval oncesi delivery risk sinyali gerekirse bunun yeri teklif karti mi, yoksa kickoff acilmadan onceki ayri bir hazirlik satiri mi olmali?
+- `audit teyidi gerekli` sinyali yalniz audit kartinda mi durmali, yoksa teklife gecis butonuna yakin bir kopru satiri olarak mi daha etkili olur?
