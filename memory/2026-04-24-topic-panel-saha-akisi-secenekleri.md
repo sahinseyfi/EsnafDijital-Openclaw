@@ -8003,10 +8003,135 @@ Kisa formda:
 Bu model hem yari-otomatik teklif gerekcesinin kalite riskini frenliyor,
 hem de teklif kartini yeni bir uyari panosuna cevirmiyor.
 
+## Elli ucuncu okuma - `neden bu paket` kalite sinyalinde en guvenli nihai metin hangisi?
+Bir onceki ara karar sunu netlestirmisti:
+- `neden bu paket` alani yari-otomatik on-dolgu ile acilmali
+- kalite dusukse hafif bir sinyal faydali gorunuyor
+- ama bu sinyal badge/alert degil, sessiz ikincil metin olmali
+
+Simdi soru daha da daraldi:
+- bu sessiz sinyal hangi kelimeyle daha guvenli olur?
+- `gozden gecirilmeli` mi?
+- yoksa `netlesmeli` gibi daha yumusak bir varyant mi?
+
+Bu kucuk gibi gorunuyor,
+ama kelime secimi operatorun alani nasil okudugunu degistirir.
+Biri kontrol ve duzeltme hissi verir,
+digeri eksik dusunceyi tamamlama hissi verir.
+
+### 1) Repo ve onceki kararlar hangi yone itiyor?
+Eldeki cizgi su:
+- `neden bu paket` alaninin isi teklif snapshot'ini okunur sekilde sabitlemek
+- bu alan derived-first ama operatorun kisa duzeltmesine acik
+- quality cue varsa sessiz ikincil metin olmali
+- voice guide kisa, suclayici olmayan, sonucu bastan soyleyen mikro metin istiyor
+- onceki delivery-ici sinyalde `kapsam notu netlesmeli` ifadesi daha guvenli bulunmustu, cunku stage hissi veya alarm uretmiyordu
+
+Buradan cikan ilk sonuc su:
+- burada da ayni cizgide, yumusak ama yon verici bir dil daha guvenli olabilir
+
+### 2) Uc model
+
+#### NKS1) `Paket gerekcesi gozden gecirilmeli.`
+Artisi:
+- operatora aktif bir kontrol eylemi soyler
+- otomatik metni pasifce kaydetme riskini azaltir
+- net bir fiil barindirir
+
+Eksisi:
+- bir miktar denetim/uyari tonu tasir
+- alan hataliymis gibi hissedilebilir
+- sik cikarsa `review fatigue` uretebilir
+
+#### NKS2) `Paket gerekcesi netlesmeli.`
+Artisi:
+- daha yumusak
+- alani eksik ama duzeltilebilir bir taslak gibi hissettirir
+- warning yerine rafine etme daveti sunar
+- sessiz ikincil metin rolune daha iyi oturur
+
+Eksisi:
+- `gozden gecir` kadar eylem cagirici degil
+- bazi operatorler icin fazla yumusak kalabilir
+
+#### NKS3) `Paket gerekcesi kisa duzeltme isteyebilir.` gibi belirsiz dil
+Artisi:
+- en yumusak ton olabilir
+
+Eksisi:
+- fazla dolayli
+- ne yapilacagi zayif anlasilir
+- UI mikro metni icin gereksiz muallak kalir
+
+Ara yorum:
+- su an en saglikli yol `NKS2`
+
+### 3) Neden `gozden gecirilmeli` biraz sert kalabiliyor?
+Cunku bu ifade genelde sunu ima eder:
+- mevcut metin yeterince guvenli degil
+- operator bunu kontrol etmeden ilerlememeli
+
+Bu ton bazen dogru olabilir,
+ama burada konustugumuz durum ust seviye risk degil,
+kalitesi dusuk bir yari-on-dolgu.
+Yani amac:
+- `yanlis` diye alarm vermek degil
+- `biraz daha netlestir` demek
+
+Bu yuzden `gozden gecir` fiili,
+bazi durumlarda ihtiyac olandan biraz daha denetleyici duyulabilir.
+
+### 4) Neden `netlesmeli` daha guvenli?
+Cunku bu ifade alani su sekilde okutur:
+- temel fikir var
+- ama daha net hale gelmeli
+- operator bunu kisa dokunusla iyilestirebilir
+
+Bu ton,
+derived-first + short refinement modeline tam uyuyor.
+Alan tamamen bos degil,
+komple hatali da degil,
+sadece snapshot kalitesi biraz daha aciklik istiyor.
+`netlesmeli` bunu daha iyi tasiyor.
+
+### 5) Yine de `netlesmeli` fazla yumusak kalir mi?
+Bir miktar risk var.
+Ama burada iki koruyucu sey zaten mevcut:
+- sinyal yalniz dusuk kalite durumunda cikar
+- kartin primary aksiyonu zaten teklifi guncelleme/acma tarafinda olur
+
+Yani mikro metnin her seyi tek basina halletmesi gerekmiyor.
+Onun isi yalniz yon vermek.
+Bu rolde `netlesmeli` yeterince iyi gorunuyor.
+
+### 6) O zaman en saglikli nihai ifade ne?
+Bence iki iyi adaydan su siralama dogru:
+- birinci tercih: `Paket gerekcesi netlesmeli.`
+- ikinci tercih: `Paket gerekcesi gozden gecirilmeli.`
+
+Birincisi daha yumusak,
+daha az denetleyici,
+daha cok taslagi iyilestirme daveti tasiyor.
+Bu da onceki sessiz ikincil sinyal kararlarina daha yakin.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `neden bu paket` kalite sinyalinde en guvenli nihai metin `Paket gerekcesi netlesmeli.` gorunuyor
+- `Paket gerekcesi gozden gecirilmeli.` daha net ama biraz daha denetleyici ikinci tercih olarak kalabilir
+- kucuk kalite sinyali icin yumusak ama yon verici dil daha tutarli duruyor
+
+Kisa formda:
+- recommended = `Paket gerekcesi netlesmeli.`
+- fallback = `Paket gerekcesi gozden gecirilmeli.`
+- avoid = fazla dolayli veya alarmvari metinler
+
+Bu model hem yari-otomatik on-dolgu mantigina uyuyor,
+hem de teklif kartinda gereksiz sertlik olusturmuyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
-- `neden bu paket` kalite sinyalinde en guvenli nihai metin hangisi: `Paket gerekcesi gozden gecirilmeli.` mi, yoksa `Paket gerekcesi netlesmeli.` gibi daha yumusak bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
+- `ilk acilis` ton modulatoru icin muhatap tipi ile temas kanali ayni anda farkli yone cekerse hangisi baskin olmali?
