@@ -18,6 +18,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 2. ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri incelemek
 3. supheli / eski / silinebilir dosya adaylarini kanitli liste halinde cikarmak
 4. cleanup batch'lerini build/deploy dogrulamasiyla parca parca yurutmek
+5. HEARTBEAT.md kullanimini daha disiplinli hale getirip aktif pano, blokaj ve siradaki adim sinirlarini sertlestirmek
 
 ## Siradaki Somut Adim
 - `memory/2026-04-24-repo-cleanup.md` icindeki staged rename kararina gore Asama A icin approval-ready rename patch'ini hazirlamak, Asama B/C dosyalarini erteleme notuyla ayri tutmak
@@ -30,6 +31,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
+- HEARTBEAT.md'nin aktif pano yerine gecmis, politika ve daginik notlarla sisip odagini kaybetmesi
 
 ## Bu Fazin Done Tanimi
 - teklif omurgasi netlesmis olacak

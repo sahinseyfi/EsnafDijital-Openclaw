@@ -72,20 +72,23 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - bitmiş saymak için gerçek çıktı ve kısa doğrulama gerekir
 
 ## 8) Marka ve Tasarım Sistemi Kararı
-- EsnafDigital'in kalıcı görsel dili güven veren net mavi (`brand`) + destekleyici turkuaz (`accent`) ekseninde kurulacaktır.
-- Arayüz dili steril SaaS değil, sade, güven veren, yüksek okunabilirlikli ve esnaf dostu olacaktır.
-- Tek tipografi ailesi `Inter` olarak korunacaktır.
-- Geometri çizgisi hafif yuvarlatılmıştır: düğme/girdi `12px`, kart/pencere `16px`, rozet `pill`.
-- İkonografi varsayılan olarak çizgi ağırlıklı olacaktır.
-- Mikro metinlerde sade Türkçe, jargon kaçınma ve saygılı `siz` dili zorunludur.
-- Site ve yönetim paneli geliştirilirken kullanıcıya görünen yüzeylerde İngilizce terimler yerine mümkün olan en yakın ve doğal Türkçe karşılıklar kullanılır.
-- Türkçe metinlerde mümkün oldukça Türkçe karakterler korunur; ASCII'ye kaçan yazım kalıcı tercih değildir.
-- Tanıtım sitesi ve yönetim paneli için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
+- EsnafDigital'in görsel dili sade, güven veren ve esnaf dostu olacaktır.
+- Arayüz ve içerik dilinde doğal Türkçe kullanılır; İngilizce terimler yerine mümkün olan en yakın Türkçe karşılıklar tercih edilir.
+- Türkçe metinlerde mümkün oldukça Türkçe karakterler korunur.
+- Tanıtım sitesi ve yönetim paneli için detaylı tasarım sistemi referansı: `DECISIONS/2026-04-19-brand-design-system.md`
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
+- Bu referanslar nihai kabul olarak görülmez; UX/UI tarafında memnuniyetsizlik varsa yeniden ele alınıp değiştirilebilir.
 
 ## 9) Güvenlik ve Bağlam Hijyeni
-- Gizli bilgi kuralı için `TOOLS.md` çizgisi geçerlidir.
-- `HEARTBEAT.md` aktif durumu, `memory/YYYY-MM-DD.md` tarihlenmiş gelişmeleri, bu dosya ise yalnızca kalıcı çizgiyi taşır.
+- Gizli bilgi kuralı için `TOOLS.md` çizgisi geçerlidir; parola, anahtar, ham bağlantı ve benzeri hassas bilgiler çalışma alanına yazılmaz.
+- `HEARTBEAT.md` sadece aktif durumu, blokajı ve sıradaki somut adımı taşır.
+- `MEMORY.md` yalnızca kalıcı çizgiyi taşır; günlük not, geçici durum ve bitmiş iş burada tutulmaz.
+- `memory/YYYY-MM-DD.md` ve konu dosyaları tarihlenmiş gelişmeleri taşır; kalıcı kararın yeri değildir.
+- `DECISIONS/` tekil ve kalıcı kararlar içindir; günlük ilerleme oraya yazılmaz.
+- `README` ve özet dosyaları yönlendirme veya hızlı okuma içindir; bağımsız karar kaynağı gibi kullanılmaz.
+- Aynı bilgi iki ayrı kanonik yerde gereksiz tekrar etmez.
+- Ad, konum veya akış değiştiğinde yalnızca kaynak metin değil; ona bağlı özet, yönlendirme ve referans zinciri de birlikte güncellenir.
+- Drift görüldüğünde ilk çözüm yeni dosya açmak değil, doğru kanonik yeri bulup fazlalığı temizlemektir.
 
 ## 10) Mevcut Operasyonel Gerçekler
 - Ana alan adı: `esnafdijital.com.tr`

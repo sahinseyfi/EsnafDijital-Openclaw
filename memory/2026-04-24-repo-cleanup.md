@@ -411,6 +411,11 @@ Not: Bu batch'te hedef duzeltme ve siniflandirma; silme veya toplu rename ancak 
 - Repo genelinde hala kalan `audit` kullanimi var; bunlar checklist, teklif dosyalari, referanslar, uygulama kodu, veri modeli ve uretilmis ciktilara yayiliyor
 - Tum Ingilizce kelimeleri temizlemek, yalniz metin duzeltmesi degil; kod sabitleri, veritabani model adlari, dosya adlari ve arayuz metinleri icin ayri batch gerektiriyor
 
+### Ek not - HEARTBEAT kullanimi
+- Drift'in tekrar etmemesi icin `HEARTBEAT.md` kullanim siniri ayri batch olarak sertlestirilecek.
+- Hedef: heartbeat'i aktif pano olarak tutmak; gecmis, kalici politika, uzun aciklama ve daginik notlari buradan uzak tutmak.
+- Sonraki duzeltmede heartbeat icin net kural seti yazilacak: ne burada kalir, ne buradan cikar, ne zaman guncellenir.
+
 ## Batch 2 uygulama - dusuk riskli drift duzeltmeleri
 
 ### Uygulanan degisiklikler
