@@ -26,13 +26,13 @@ Tek aktif is mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
 ## 4) Bitmis Sayma Standardi
 Bir isi bitmis saymak icin:
-- gercek bir cikti, dosya veya ekran degismis olmali
+- gercek bir cikti uretilmis veya degismis olmali
 - en az bir hafif dogrulama yapilmis olmali
 - gerekiyorsa ilgili baglam dosyasi guncellenmis olmali
-- sonuc `done / next / blocker` duzeniyle kapatilmali
+- sonuc durum / sonraki adim / blokaj duzeniyle kapatilmis olmali
 
-Detayli kapanis kontrolu icin `CHECKLISTS/task-completion.md` kullan.
-Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerleme cumleleri cikti sayilmaz.
+Detayli kontrol icin `CHECKLISTS/task-completion.md` kullan.
+Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi ilerleme cumleleri cikti sayilmaz.
 
 ## 5) Dogru Yere Yaz
 Bilgiyi once dogru kanonik yere koy.
