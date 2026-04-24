@@ -3,7 +3,6 @@
 ## Kullanici Profili
 
 * **Projedeki rolu:** kurucu
-* **Ana sorumlulugu:** EsnafDigital'in yonunu, ticari cizgisini ve kritik kararlarini belirlemek
 * **Zaman dilimi:** Europe/Istanbul
 
 ## Calisma Tercihleri
