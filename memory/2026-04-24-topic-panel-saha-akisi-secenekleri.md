@@ -292,6 +292,290 @@ Zayifligi:
 
 5. Business Detail icindeki tarama paneli yeterli mi, yoksa ziyaret hazirlik kartlarini da tasimali mi?
 
+## Repo gercekligi ile ikinci okuma
+Ilk finalistleri mevcut kod ve veri modeliyle tekrar test ettigimde su zayifliklar net gorundu:
+
+### 1) Discovery import su an cok hizli ama fazla yalniz
+`/api/discovery/import` bugun sunlari yapiyor:
+- business acar
+- ownerName alanini `Kesif adayi` olarak yazar
+- otomatik bir audit acar
+- audit ozetini telefon / website / yorum / skor uzerinden doldurur
+
+Bu iyi cunku:
+- discovery -> business zinciri gercekten calisiyor
+- finalist A ve C kagit ustunde degil, kod tabaninda baslangici var
+
+Ama zayif cunku:
+- muhatap bilgisi gercek kisi degil, placeholder
+- neden ziyaret edilmeli karari ayrica uretilmiyor
+- saha icin `randevu / son gorusme / ulasilamadi / geri donulecek` gibi durumlar henuz yok
+
+Yorum:
+- `Kesif once sonra business detail` modeli repo ile uyumlu, ama saha takibine gecince yalniz kalir.
+
+### 2) Business Detail bilgi zengini, ama ziyaret hazirlik nesnesi yok
+Business Detail su an:
+- temel kimlik
+- maps / website / instagram
+- hafif / ajan / derin tarama
+- Y.Z raporu ve prompt gecisi
+icin guclu bir merkez gibi duruyor.
+
+Ama henuz su alanlar acik degil:
+- gidilecek mi gitmeyecek mi karari
+- ziyaret hedefi
+- ilk cumle / konusma acilisi
+- alinacak bilgi checklist'i
+- gorusme sonucu kaydi
+
+Yorum:
+- finalist B ve C icin Business Detail karar merkezi olabilir
+- ama ziyaret hazirlik ihtiyaci sadece mevcut bloklarla tam cozulmuyor
+- burada ya hafif bir `ziyaret karti` acilmali ya da ayri pano dusunulmeli
+
+### 3) Project OS bugunun sicak isini gosteriyor, ama saha secimini gostermez
+`deriveProjectOsOverview()` mantigi su anda sunu iyi yapiyor:
+- audit acilmamis kaydi gosterir
+- teklifi bekleyen isi one cikarir
+- teslimati sicak tutar
+
+Ama su soruya dogrudan cevap vermez:
+- bugun fiziksel olarak hangi isletmeye gitmeliyim?
+
+Cunku siralama bugun:
+- stage durumuna gore
+- durum rank'ine gore
+- alfabetik isletme adina gore
+calisiyor.
+
+Mesafe, saha bolgesi, ziyaret hazirligi, son temas zamani gibi sinyaller yok.
+
+Yorum:
+- finalist B tek basina saha secim problemi cozmuyor
+- finalist D veya finalist C icindeki `ziyaret hazirlik modu` bu bosluga daha dogrudan vuruyor
+
+### 4) Veri modeli audit -> teklif -> teslimat zincirinde cok sade
+Prisma tarafinda cekirdek tablolar su an:
+- `Business`
+- `Audit`
+- `Offer`
+- `DeliveryProject`
+
+Bu sadelik avantaj cunku:
+- genel CRM savrulmasi yok
+- operasyon zinciri temiz
+
+Ama eksik cunku henuz ayri nesne yok:
+- contact / muhatap
+- activity / gorusme gecmisi
+- visit prep
+- next step
+- task
+- bilgi toplama formu
+- teslim asset ve erisimlerin yapili alanlari
+
+Yorum:
+- finalist E veri zinciri tarafinda mantikli, ama bugun metin agirlikli kaliyor
+- teslimat ve saha bilgi toplama ayrismasi henuz veri modelinde temsil edilmiyor
+
+### 5) Home page / ic operasyon merkezi bugun liste secici degil, yon gosterici
+Ana sayfa bugun daha cok su isi yapiyor:
+- aktif oda giosterir
+- audit/teklif/teslim badge'lerini verir
+- seni ilgili yuzeye yollar
+
+Yani su degil:
+- detayli bugun-rota planlayici
+- saha gezisi secici
+- gunluk gorusme merkezi
+
+Yorum:
+- hibrit modelde home page ana karar duvari olmamali
+- sadece yon verip ilgili yuzeye gondermesi daha dogru
+
+## 5 finalistin alt varyasyonlari
+
+### Finalist A - Kesif once, sonra business detail
+#### A1) Skor-first varyasyon
+- discovery skor ve bucket temel secim olur
+- operator kisa listeye alir, sonra aktarir
+
+Artisi:
+- hizli
+- veriye yaslanir
+
+Eksisi:
+- skor iyi ama sahada anlamsiz adaylari fazla one cikarabilir
+- yorum/website agirliklari saha onceligiyle ayni sey degil
+
+#### A2) Manuel sahiplenme varyasyonu
+- operator adayi elle kisa listeye alip aktarir
+- skor sadece yardimci sinyal olur
+
+Artisi:
+- saha sezgisini korur
+
+Eksisi:
+- tekrar edilebilirlik duser
+- bir sure sonra kisi hafizasina baglanir
+
+#### A3) Karma varyasyon
+- skor ilk havuzu daraltir
+- operator elle secer
+- aktarilan kayit business detaile gider
+
+Not:
+- su anki kod tabani A3'e en yakin duruyor
+
+### Finalist B - Business detail karar merkezi + Project OS
+#### B1) Detail merkez, Project OS sadece sicak kuyruk
+- tek kayit karari detailde
+- toplu oncelik Project OS'ta
+
+Guclu taraf:
+- rol ayrimi temiz
+
+Zayif taraf:
+- saha secimi icin ucuncu sinyal eksik
+
+#### B2) Detail icinde `ziyarete uygunluk` karti
+- detail sayfasina git / beklet / uzaktan ilerlet karti eklenir
+- Project OS ayni kalir
+
+Guclu taraf:
+- yeni sayfa acmadan saha karari cozulur
+
+Zayif taraf:
+- detail ekranina asiri gorev yuklenebilir
+
+#### B3) Project OS'a `ziyaret adayi` filtresi ekle
+- ayri sayfa acmadan kuyrukta saha adaylari ayrilir
+
+Guclu taraf:
+- tek gunluk operasyon ekrani korunur
+
+Zayif taraf:
+- Project OS yavas yavas ikinci discovery gibi sisebilir
+
+### Finalist C - Hibrit model
+#### C1) Dort sabit yuzey
+- home
+- discovery
+- businesses/detail
+- prompt uretimi
+- ziyaret hazirlik sadece detail modu
+
+Guclu taraf:
+- yuzey sayisi kontrollu kalir
+
+Zayif taraf:
+- saha hazirlik ihtiyaci guclenirse detail kalabaliklasir
+
+#### C2) Bes yuzeyli model
+- discovery
+- businesses
+- detail
+- Project OS
+- ayri ziyaret hazirlik
+
+Guclu taraf:
+- her soruya net ev adresi verir
+
+Zayif taraf:
+- MVP icin erken olabilir
+- navigasyon yuku artar
+
+#### C3) Gorev-temelli gecis modeli
+- kullanici ana sayfada `aday bul`, `bugun git`, `teklif kapat`, `teslim baslat` gibi gorev secerek ilgili yuzeye gider
+
+Guclu taraf:
+- kurucunun ekrani degil isi dusunmesine yardim eder
+
+Zayif taraf:
+- altyapida yine ayni yuzeyler lazim, sadece ust yonlendirme katmani eklenir
+
+### Finalist D - Ziyaret hazirlik odakli saha modeli
+#### D1) Ayri ziyaret panosu
+- sadece gidilecek isletmeleri listeler
+- rota, hedef, konusma notu ve alinacak bilgi maddeleri vardir
+
+Guclu taraf:
+- saha gunu icin cok guclu
+
+Zayif taraf:
+- bugun veri modeli bunu tasimiyor
+- ayri nesne veya en azindan ayri durum karti gerekir
+
+#### D2) Business detail icinde ziyaret modu
+- ayri sayfa yok
+- tek isletmede `ziyarete hazirla` modu acilir
+
+Guclu taraf:
+- MVP'ye daha yakin
+
+Zayif taraf:
+- bugun gitmek istedigim tum adaylari toplu gormek zorlasir
+
+#### D3) Discovery shortlist uzerinden saha secimi
+- saha gunu once discovery shortlist'e bakilir
+- sonra aktarim ve detail acilir
+
+Guclu taraf:
+- yeni yuzey gerektirmez
+
+Zayif taraf:
+- aktarilmamis ama gidilecek adaylar ile aktarilmis adaylar karisir
+
+### Finalist E - Audit dosyasi / teklif bagli model
+#### E1) Audit ozet-first
+- girilen her arastirma audit summary ve readiness'i guclendirir
+- sonraki adim auditten teklife doner
+
+Guclu taraf:
+- mevcut veri modeliyle uyumlu
+
+Zayif taraf:
+- saha gorusme kaydi audit ozetine gomulurse ayristirma kaybolur
+
+#### E2) Audit + saha notu ayrimi
+- audit dijital gorunum icin kalir
+- gorusme notu ayri hafif katman olur
+
+Guclu taraf:
+- `dijital eksik` ile `insan gorusmesi` karismaz
+
+Zayif taraf:
+- yeni hafif veri katmani gerekir
+
+#### E3) Audit -> teklif otomasyon yonu
+- audit cikisinda sistem paket onerisi ve sonraki adim onerir
+
+Guclu taraf:
+- girilen bilgi nasil sonuca donusur sorusuna net cevap verir
+
+Zayif taraf:
+- audit kalitesi zayifsa yanlis yonlendirme hizi artar
+
+## Bu wake sonrasi guclenen kanaat
+Su an tek secenegi dayatmiyorum, ama repo gercekligiyle en uyumlu cizgi giderek sunu isaret ediyor:
+- `Discovery` tamamen atilacak bir gecis ekran degil, gercek degeri var
+- `Business Detail` tek kayit karar merkezi olmaya en yakin yuzey
+- `Project OS` gunluk sicak operasyon icin yararli ama saha secim motoru degil
+- saha icin ayrica en azindan hafif bir `ziyaret hazirlik katmani` gerekecek gibi duruyor
+
+Bu da finalistleri kendi icinde su siraya yaklastiriyor:
+1. C - Hibrit ama kontrollu
+2. B - Detail + Project OS
+3. A - Discovery -> Detail
+4. D - Ziyaret hazirlik odakli model
+5. E - Audit / teklif bagli model
+
+Bu hala nihai karar degil.
+Cunku su iki kritik soru henuz acik:
+- `ziyaret hazirlik` ayri yuzey mi olmali, detail modu mu?
+- `sahada ne soylenir` veri modeli sorunu mu, yoksa sadece rehber karti sorunu mu?
+
 ## Sonraki arastirma basliklari
 - `ziyaret hazirligi` ayri sayfa mi, business detail modu mu?
 - `sahada ne soylenir` icin segment bazli konusma kartlari nasil yazilmali?
