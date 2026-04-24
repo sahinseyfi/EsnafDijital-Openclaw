@@ -839,10 +839,188 @@ Bu da finalistleri biraz daha su yone cekiyor:
 - D, ayri sayfa olmak zorunda olmayabilir; once detail icindeki ziyaret karti + konusma karti ile test edilebilir
 - E, paket ve sonuc zinciri tarafinda gucleniyor ama tek basina tam model olmuyor
 
+## Dorduncu okuma - hangi isletmeye gidilecegi karari
+Discovery ve business discovery kodunu tekrar okuyunca ziyaret secimi konusunda yeni netlik cikti.
+
+### 1) Mevcut `score` ziyaret onceligi skoru degil
+Kod gercegi su:
+- discovery scoring bugun eksik sinyalleri odullendiriyor
+- telefon eksik, website yok, saat bilgisi eksik, yorum yok gibi seyler skoru artiriyor
+- kapali gorunme skoru dusuruyor
+- yorum ve puan cok gucluyse skor biraz dusuyor
+
+Bu ne demek:
+- bugunku `score`, `sahada once buna git` skoru degil
+- daha cok `dijital acik / audit firsati` skoru
+
+Risk:
+- bu skor tek basina kullanilirsa cok eksik ama sahada verimsiz adaylar gereksiz one cikabilir
+- kullanicinin istedigi `hangi isletmeye gideyim` sorusu tam cozulmez
+
+### 2) Discovery tarafinda ziyaret secimi icin kullanilmayan ama var olan sinyaller var
+Veri ve kodda su sinyaller zaten var:
+- `ownershipStatus`
+- `matchedSearchTermCount`
+- `hasOpeningHours`
+- `isClosed`
+- `latitude / longitude`
+- `district`
+- `reviewsCount / rating`
+- `shortlist`
+- `imported`
+- business refresh history icinde `instagramSignal`
+
+Ama bugun bunlar:
+- tablo filtre/siralama yardimi olarak var
+- ziyaret rotasi veya saha verim skoru olarak birlestirilmiyor
+
+### 3) `best match` mantigi discovery eslesmesi icin iyi, ziyaret secimi icin yeterli degil
+`buildBusinessRefreshEntry()` tarafinda su mantik guclu:
+- isim eslesmesi
+- kategori uyumu
+- ilce uyumu
+- search result satirlarini eleme
+
+Bu guzel cunku:
+- yanlis isletmeyi secme riskini dusuruyor
+
+Ama sunu cevaplamiyor:
+- bu dogru isletme tamam, peki buna fiziksel ziyaret mantikli mi?
+
+Yani iki ayri skor ihtiyaci var gibi duruyor:
+1. `dogru eslesme skoru`
+2. `ziyaret onceligi skoru`
+
+### 4) `hangi isletmeye gidilecegi` icin 4 model
+
+#### G1) Eksik-sinyal odakli model
+Mantik:
+- website yok
+- yorum zayif
+- saat/telefon eksik
+- ownership alinmamis
+=> once git
+
+Artisi:
+- audit firsatini net bulur
+- discovery ile uyumlu
+
+Eksisi:
+- her dijital acigi olan isletme sahada iyi aday degil
+- muhatap bulma kolayligi, lokasyon ve segment onceligi eksik kalir
+
+#### G2) Saha-verim odakli model
+Mantik:
+- yakin bolgede mi
+- segment olarak hizli satisa uygun mu
+- kapali degil mi
+- acilis saati var mi
+- telefon / ulasilabilirlik var mi
+- sahiplik alinmamis veya zayif dijital duzen var mi
+
+Artisi:
+- fiziksel ziyaret kararina daha yakin
+
+Eksisi:
+- salt dijital audit acigini ikinci plana itebilir
+
+#### G3) Karma model: audit firsati + saha verimi
+Mantik:
+- discovery skorunu koru
+- ustune saha verim katsayisi ekle
+- manuel oncelik ver
+
+Ornek bilesenler:
+- dijital acik
+- segment uyumu
+- saha mesafesi / ilce yakinligi
+- acik gorunme / kapanik olmama
+- muhataba ulasma ihtimali
+- operatorun manuel `bugun git` isareti
+
+Artisi:
+- hem veri hem saha gercegi birlesir
+- kullanicinin sordugu soruya en yakin model bu
+
+Eksisi:
+- biraz daha fazla mantik gerekir
+- tek skora fazla guvenilirse yanlis kesinlik hissi yaratabilir
+
+#### G4) Tam manuel saha secimi
+Mantik:
+- sistem sadece bilgi gosterir
+- kullanici gitmek istedigini secer
+
+Artisi:
+- esnek
+- MVP icin kolay
+
+Eksisi:
+- tekrar edilebilirlik dusuk
+- panel karar destegi vermemis olur
+
+Ara yorum:
+- bugunku repo gercekligiyle en saglikli cizgi `G3`
+- `G4` gecici kacis olabilir ama kalici cevap degil
+
+### 5) Ziyaret secimi icin gerekli en hafif yeni sinyaller
+Ayri CRM nesneleri acmadan bile su 5 sinyal cok sey degistirir:
+- `ziyaret onceligi`: dusuk / orta / yuksek
+- `ziyaret tipi`: fiziksel / uzaktan / beklet
+- `son temas`: tarih + kisa sonuc
+- `manuel oncelik`: bugun / bu hafta / sonra
+- `ziyaret nedeni`: tek secim veya 2-3 maddelik etiket
+
+Ornek ziyaret nedeni seti:
+- website yok
+- yorum akisi zayif
+- profil tutarsiz
+- gorsel guven zayif
+- sahada daha iyi anlatilacak aday
+
+Bu sinyaller varsa:
+- Business Detail icindeki ziyaret karti guclenir
+- Project OS veya yeni hafif filtre ile `bugun git` listesi uretilebilir
+
+### 6) Segment etkisi ziyaret seciminde de kullanilmali
+`SEGMENTS.md` cizgisi burada bosa gitmemeli:
+- berber = hizli satis / hizli teslim potansiyeli
+- guzellik = teklif uyumu en guclu
+- kafe/restoran = daha firsatli ama bakim yuku yuksek
+
+Bu neye donusebilir:
+- ayni dijital eksik skorunda guzellik veya berber saha gunu onde olabilir
+- kafe/restoran ayni eksikte daha secici ele alinabilir
+
+Yani ziyaret secimi salt discovery acik skoru olmamali.
+Segmentten gelen teslim ve bakim gercegi de etkili olmali.
+
+### 7) En guclu gecici formul
+Nihai model degil, ama su an en mantikli gecici cizgi su gorunuyor:
+
+`ziyaret adayi = dijital acik sinyali + segment uyumu + saha verimi + manuel oncelik - kapanik/uygunsuzluk riskleri`
+
+Bu formulun ilk versiyonu su sekilde olabilir:
+- discovery skoru yardimci olsun
+- `isClosed` negatif agirlik olsun
+- `ownershipStatus=unclaimed` pozitif yardimci sinyal olsun
+- `hasOpeningHours` ve telefon varligi saha verimi icin arti olsun
+- segment agirligi eklensin
+- ilce/yakinlik sinyali eklensin
+- son kararda operator elle one cekebilsin
+
+### 8) Bu wake sonrasi finalistlere etkisi
+Bu yeni okuma finalistleri su sekilde etkiliyor:
+- C hala en guclu, cunku discovery + detail + operasyon ayrimini korurken ziyaret secimini yeni hafif katmanla tasiyabilir
+- B hala guclu ama tek basina yetersiz, cunku Project OS'ta ziyaret secim skoru yok
+- D tamamen dusmuyor; ama ayri pano acmadan once `ziyaret karti + filtre` ile test edilmesi daha mantikli gorunuyor
+- A tek basina yetersiz kaliyor, cunku discovery skoru ile fiziksel ziyaret karari ayni sey degil
+- E ziyaret secimi sorusunu dogrudan cozmedigi icin biraz geride kaliyor
+
 ## Sonraki arastirma basliklari
 - `ziyaret hazirligi` ayri sayfa mi, business detail modu mu?
 - `sahada ne soylenir` icin segment bazli degil, audit-first moduler kart sistemi nasil tanimlanmali?
-- `hangi isletmeye gidilecegi` icin skor + manuel oncelik + mesafe mantigi birlikte mi calismali?
+- `hangi isletmeye gidilecegi` icin `discovery skoru` ile `ziyaret onceligi skoru` nasil ayrilmali?
 - `gorusme notu` ile `kickoff bilgisi` en hafif veri modeliyle nasil ayrilmali?
 - `audit -> paket onerisi -> teklif -> delivery kickoff` zinciri ekranda nasil gorunur hale getirilmeli?
 - `scope` metni yanina hangi 3-5 checklist maddesi eklenirse teslim kopmadan izlenebilir kalir?
