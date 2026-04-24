@@ -85,12 +85,7 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - `MEMORY.md` yalnızca kalıcı çizgiyi taşır; günlük not, geçici durum ve bitmiş iş burada tutulmaz.
 - `memory/YYYY-MM-DD.md` ve konu dosyaları tarihlenmiş gelişmeleri taşır; kalıcı kararın yeri değildir.
 - `DECISIONS/` tekil ve kalıcı kararlar içindir; günlük ilerleme oraya yazılmaz.
-- `README` ve özet dosyaları yönlendirme veya hızlı okuma içindir; bağımsız karar kaynağı gibi kullanılmaz.
-- Aynı bilgi iki ayrı kanonik yerde gereksiz tekrar etmez.
-- Ad, konum veya akış değiştiğinde yalnızca kaynak metin değil; ona bağlı özet, yönlendirme ve referans zinciri de birlikte güncellenir.
-- Türetilmiş dosya ana kaynaktan koptuğunda düzeltilir veya kaldırılır.
-- Yeni bir klasör veya ilk girişte okunması gereken yeni bir dosya oluştuğunda ilgili `README` de güncellenir.
-- Drift görüldüğünde ilk çözüm yeni dosya açmak değil, doğru kanonik yeri bulup fazlalığı temizlemektir.
+- Ayrıntılı baglam hijyeni ve yonlendirme kurallari `AGENTS.md` ile ilgili checklist/playbook cizgisinde tutulur.
 
 ## 10) Mevcut Operasyonel Gerçekler
 - Ana alan adı: `esnafdijital.com.tr`

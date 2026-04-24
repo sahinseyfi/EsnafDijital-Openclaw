@@ -59,6 +59,12 @@ Sadece `bakiyorum`, `bir saniye`, `hemen test ediyorum` gibi placeholder ilerlem
 - yeni dosya acmadan once kanonik yerini `README.md` veya ilgili klasor README'sinden kontrol et
 - sirf dosya dolsun diye metin uretme
 - gizli bilgi kurali icin `TOOLS.md` cizgisini uygula
+- `README` ve ozet dosyalari yonlendirme veya hizli okuma icindir; bagimsiz karar kaynagi gibi kullanma
+- ayni bilgi iki ayri kanonik yerde gereksiz tekrar etmez
+- ad, konum veya akis degistiginde buna bagli ozet, yonlendirme ve referans zincirini birlikte guncelle
+- turetilmis dosya ana kaynaktan koptugunda duzelt veya kaldir
+- yeni bir klasor veya ilk giriste okunmasi gereken yeni bir dosya olustugunda ilgili `README` de guncellenir
+- drift gordugunde ilk cozum yeni dosya acmak degil, dogru kanonik yeri bulup fazlaligi temizlemektir
 
 ## 7) Ne Zaman Kisa Onay Gerekir?
 Asagidaki durumlarda dur ve kisa onay iste:
