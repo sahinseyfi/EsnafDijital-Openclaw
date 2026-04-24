@@ -4115,10 +4115,165 @@ Kisa formda:
 
 Bu model hem Project OS'un cekirdek rolunu korur hem de saha secim sinyalini dusuk riskle test eder.
 
+## Yirmi yedinci okuma - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
+Bu soru onceki kararin ikinci kati.
+Cunku onceki okumada `ilk acilis`in audit veya Y.Z'den dogrudan alinmamasi, ayri bir derived saha cevirisi olmasi gerektigini not etmistim.
+Simdi asil kritik soru su:
+- bu derived satir tamamen serbest mi uretilmeli?
+- yoksa kucuk bir template ailesi icinde mi kalmali?
+
+### 1) Repo ve referanslar neyi destekliyor?
+Bugunku kod gerceginde `buildBusinessPromptNote` zaten coklu girdiyi derleyip tek bir karar promptuna ceviriyor.
+Yani sistem tamamen sabit metin mantiginda degil, derived bilgi birlestirme mantigina yakin.
+Ama diger yandan referanslar su riskleri acikca gosteriyor:
+- generic CRM'e kayma yok
+- gereksiz script bankasi yok
+- sahada ise yarayan kisa cumle daha degerli
+
+QR/NFC derin arastirmasinda da benzer bir ders var:
+- `personel davet scripti` kisa, baskisiz ve baglama uygun olmali
+- segment bazli hafif ton farki yararli olabilir
+- ama cok aksiyonlu veya uzun script zayiflar
+
+Bu ikisini birlestirince tek kutuplu cevap zayif kaliyor.
+
+### 2) Uc model
+
+#### T1) Sabit template ailesi
+Ornek:
+- `Sizi kisaca dijital gorunum tarafinda inceledim, isterseniz 2 dakikada nerede hizli toparlanma olur gosterebilirim.`
+- segment bazli 3-4 varyant
+
+Artisi:
+- ton tutarlidir
+- sahada operatoru korur
+- yapay ve oynak cumle riski dusuktur
+
+Eksisi:
+- kayda ozguluk zayif kalir
+- ayni cumle bir sure sonra ezber ve robotik hissedebilir
+- website yok mu, yorum zayif mi, maps karisiklik mi, buna gore ince fark veremez
+
+#### T2) Tamamen derived tek cumle
+Girdi:
+- audit problemi
+- Y.Z aksiyonu
+- operator notu
+- segment
+
+Artisi:
+- kayda ozel hissi yuksek
+- sahadaki ana probleme daha iyi yaslanabilir
+- tekrar az gorunur
+
+Eksisi:
+- ton oynakligi artar
+- bazen fazla teknik veya fazla satisci kacabilir
+- V1 icin gereksiz prompt-motoru gibi buyume riski tasir
+
+#### T3) Kucuk template ailesi + derived slotlar
+Ornek mantik:
+- 3 ana template ailesi
+  - gorunum/toparlama
+  - guven/ulasilabilirlik
+  - teklif/demo koprusu
+- template icindeki vurgu derived gelir
+  - `haritada ve webde gorunum`
+  - `iletisim netligi`
+  - `yorum / vitrin zayifligi`
+
+Artisi:
+- ton omurgasi korunur
+- kayda ozel vurgu eklenir
+- tam script bankasina da tam serbest uretime de kaymaz
+
+Eksisi:
+- iyi slot kuralı ister
+- fazla kategori acilirsa yine karmasiklasir
+
+Ara yorum:
+- su an en saglikli yol `T3`
+
+### 3) Neden saf template yetmiyor?
+Cunku `ilk acilis`in isi yalniz nazik olmak degil.
+Ayni zamanda su hissi vermeli:
+- bu kisi bu isletmeye bakmis
+- cumle bos degil
+- ama yargilayici da degil
+
+Tam sabit template ile bu bazen fazla genel kalir.
+Ozellikle farkli problemler arasinda ayrim kaybolur:
+- maps kaydi supheli
+- website hic yok
+- instagram var ama vitrin daginik
+- yorum guclu ama iletisim zayif
+
+Hepsine ayni acilis bindirmek sahada gucu dusurebilir.
+
+### 4) Neden tamamen derived cumle de riskli?
+Cunku Business Detail V1'in ruhu karar netligi, generative gosteri degil.
+Tamamen derived cumle su riskleri getirir:
+- ayni veri farkli gunlerde farkli dil uretebilir
+- operatorun guvenecegi sabit ton kaybolur
+- sistem fark etmeden fazla `teklif satmaya calisan` cumle uretebilir
+- V1'de aslinda gerekmeyen mini-prompt motoru dogar
+
+Yani sahada ozel his faydali, ama ton stabilitesi daha onemli.
+
+### 5) O zaman en saglikli V1 mantigi ne?
+Bence su ayrim temiz:
+- `ilk acilis` tamamen serbest uretilmesin
+- ama tek kalip da olmasin
+- kucuk bir `template ailesi` olsun
+- hangi aile secilecegini derived kural belirlesin
+- cumle icindeki tek vurgu parcasi derived gelsin
+
+Pratikte:
+- template iskeleti = ton guvencesi
+- derived slot = kayda ozel anlam
+
+### 6) Template aileleri nasil sinirlanmali?
+V1 icin bence en fazla 3 aile yeter:
+1. `gorunum toparlama`
+2. `guven / ulasilabilirlik`
+3. `hizli firsat / demo koprusu`
+
+Bunlar segment degil,
+problem tipidir.
+Segment sadece ton yumusatma seviyesi gibi hafif fark yaratabilir.
+
+Bu onemli.
+Cunku segment bazli asiri script dallanmasi yine mini script bankasina doner.
+
+### 7) En buyuk risk ne?
+Template ailesi faydali diye zamanla 12 varyanta cikmasi.
+Bu olursa:
+- bakimi zorlasir
+- operator neden bu cumleyi gordugunu anlamaz
+- urun davranisi karanliklasir
+
+Bu nedenle V1 kural sert olmali:
+- en fazla 3 aile
+- tek cumle
+- tek ana vurgu
+- baskisiz ton
+- paket adi dogrudan gecmeyebilir, sadece kopru olabilir
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `ilk acilis` satiri ne tamamen sabit kalip olmalı ne de tamamen serbest derived tek cumle olmali
+- en saglikli V1 model, `kucuk template ailesi + derived tek vurgu` mantigidir
+
+Kisa formda:
+- tone = template ailesi
+- specificity = derived slot
+
+Bu model hem sahada guvenli ton korur hem de cumleyi kayda baglar.
+
 ## Sonraki arastirma basliklari
-- `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
 - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
 - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
 - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
 - `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
 - `bugun git` filtre mantigi stage bagimsiz mi olmali, yoksa yalniz `lead/audit` bandindaki kayitlarda mi aktiflesmeli?
+- `ilk acilis` template ailesi problem tipine mi, yoksa segment + problem birlikte okunarak mi secilmeli?
