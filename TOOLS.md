@@ -8,7 +8,7 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 
 ## Calisma Ortami
 - **Ana ortam:** VPS
-- **Ana yuzeyler:** tanitim sitesi + admin panel + ic operasyon sistemi
+- **Ana yuzeyler:** tanitim sitesi + admin / ic operasyon alani
 - **Yaklasim:** tek repo icinde sade ve yonetilebilir yapi
 
 ## Varsayilan Yigin
@@ -53,4 +53,4 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 
 ## Operasyon Referansi
 - servis, port, systemd, swap ve canli yayin notlari `OPERATIONS.md` icindedir
-- isletme kesfi ve veri toplama tarafinda Apify CLI tercih edilir
+- isletme kesfi ve veri toplama tarafinda Apify tabanli akis tercih edilir

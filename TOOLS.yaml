@@ -5,10 +5,10 @@ meta:
 
 tools:
   web:
-    purpose: "Tanitim sitesi, admin panel ve ic operasyon ekranlari"
+    purpose: "Tanitim sitesi ve admin / ic operasyon yuzeyleri"
     default_stack: ["Next.js"]
     use_when:
-      - "dashboard ve admin ekranlari"
+      - "admin ve ic operasyon ekranlari"
       - "prompt uretimi yuzeyi"
       - "dokuman ve baglam akisi"
       - "is akisi gorunurlugu"
