@@ -405,6 +405,12 @@ Not: Bu batch'te hedef duzeltme ve siniflandirma; silme veya toplu rename ancak 
 - `memory/` rename listesi tablo halinde hazir olacak
 - `HEARTBEAT.md` sonraki somut adim fiziksel uygulama batch'ine donmus olacak
 
+### Ek not - dil temizligi
+- `audit` kelimesi ana baglam dosyalarindan temizlendi: `MEMORY.md`, `MEMORY_SUMMARY.md`, `HEARTBEAT.md`, `AGENTS.md`, `PROJECT.md`, `ROADMAP.md`
+- `PLAYBOOKS/kesif-teklif-teslimat-bakim.md` eklendi ve `PLAYBOOKS/README.md` yeni ada baglandi
+- Repo genelinde hala kalan `audit` kullanimi var; bunlar checklist, teklif dosyalari, referanslar, uygulama kodu, veri modeli ve uretilmis ciktilara yayiliyor
+- Tum Ingilizce kelimeleri temizlemek, yalniz metin duzeltmesi degil; kod sabitleri, veritabani model adlari, dosya adlari ve arayuz metinleri icin ayri batch gerektiriyor
+
 ## Batch 2 uygulama - dusuk riskli drift duzeltmeleri
 
 ### Uygulanan degisiklikler

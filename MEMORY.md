@@ -95,7 +95,8 @@ Amac, kullanicinin istegine gore dogru baglami secip net ve guclu prompt uretmek
 - Geometri çizgisi hafif yuvarlatılmıştır: buton/input `12px`, kart/modal `16px`, badge `pill`.
 - İkonografi varsayılan olarak `line-first` kullanılacaktır.
 - Mikro metinlerde sade Türkçe, jargon kaçınma ve saygılı `siz` dili zorunludur.
-- Site ve admin panel geliştirilirken kullanıcıya görünen yüzeylerde mümkün oldukça İngilizce kelimeler yerine doğal Türkçe karşılıklar tercih edilir.
+- Site ve admin panel geliştirilirken kullanıcıya görünen yüzeylerde İngilizce terimler yerine mümkün olan en yakın ve doğal Türkçe karşılıklar kullanılır.
+- Türkçe metinlerde mümkün oldukça Türkçe karakterler korunur; ASCII'ye kaçan yazım kalıcı tercih değildir.
 - Landing ve admin panel için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
 
