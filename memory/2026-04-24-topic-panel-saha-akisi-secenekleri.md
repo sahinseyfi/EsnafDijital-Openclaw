@@ -3853,10 +3853,141 @@ Kisa formda:
 
 Bu cizgi hem teklif omurgasini korur hem de Y.Z raporunun gercek degerini dogru yere koyar.
 
+## Yirmi besinci okuma - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
+Bu soru not sistemi ile timeline sistemi arasindaki siniri test ediyor.
+Cunku Business Detail referanslarinda iki cizgi ayni anda var:
+- `generic note wall` istenmiyor
+- ama `compact activity timeline` ve `kisa gecmis` referans olarak acik
+
+Yani soru sadece `not olsun mu olmasin mi` degil.
+Asil soru su:
+- aktif karar yuzeyinde ne gosterelim?
+- referans alaninda ne kadar gecmis tutalim?
+
+### 1) Referanslar ne diyor?
+`REFERENCES/business-detail-v1.md` su cizgiyi veriyor:
+- sayfa task/note/timeline duvarina donmemeli
+- ana ekran ustu aksiyon odakli kalmali
+- alt kisim referans ve gecmis alani olabilir
+- activity timeline V1'de derived/ref destek alani olmali
+
+Derin arastirma rewrite spec tarafinda da cizgi benzer:
+- generic notes wall istenmiyor
+- compact timeline kabul edilebilir
+- operator summary ayri ama kisa kalmali
+
+Bu bize su yonu gosteriyor:
+- ana yuzeyde tek guncel operator ozetinin gucu yuksek
+- ama hic gecmis olmamasi da temasi koparabilir
+
+### 2) Uc model
+
+#### O1) Sadece tek guncel not
+Artisi:
+- cok sade
+- ana karar yuzeyini temiz tutar
+- generic note wall riskini en cok azaltir
+
+Eksisi:
+- son temasin neden ozetlendigi kaybolabilir
+- bir not guncellenince onceki kisa baglam yok olur
+- sahada `en son ne olmustu` sorusu icin tekrar hafizaya yuk bindirir
+
+#### O2) Ana kartta son 3 temas ozeti
+Artisi:
+- hafif gecmis verir
+- son temas zinciri daha okunur olur
+
+Eksisi:
+- detail ust bolumde hizla mini timeline etkisi yaratir
+- audit/teklif/kickoff kartlarinin dikkatini yer
+- ayni bilgiyi sonra timeline'da tekrar etme riski artar
+
+#### O3) Tek guncel not + altta cok hafif gecmis
+- ana kartta yalniz `guncel operator notu`
+- referans alaninda en fazla son 3 temas ozeti
+
+Artisi:
+- ana karar yuzeyi temiz kalir
+- hafiza kaybi riski azalir
+- compact timeline cizgisiyle uyumlu
+
+Eksisi:
+- iki katmanli gosterim ister
+- iyi sinir cizilmezse ayni not iki yerde tekrar eder
+
+Ara yorum:
+- su an en saglikli yol `O3`
+
+### 3) Neden sadece tek not yeterli degil?
+Cunku operator notu dogasi geregi hareketlidir.
+Bir not guncellendiginde su bilgiler kaybolabilir:
+- son temas ne zamandi
+- neye itiraz edilmisti
+- geri donus sozu verilmis miydi
+
+Ozellikle saha akisinda `en son ne oldu` sorusu kisa da olsa hafiza ister.
+Hic gecmis yoksa operator notu fazlaca overwrite edilen beyaz tahtaya doner.
+
+### 4) Neden son 3 notu ana karta almak da riskli?
+Cunku o zaman Business Detail ust bolumu yavas yavas su yone kayar:
+- audit karti
+- Y.Z karti
+- ziyaret karti
+- teklif karti
+- kickoff karti
+- bir de temas gecmisi
+
+Bu da ana soruyu bozar:
+- `simdi ne yapmaliyim?`
+
+Gecmis faydali olsa bile ana karar katmanina cikinca ilk bakis hizini dusurur.
+
+### 5) O zaman en saglikli V1 cizgisi ne?
+Bence su ayrim temiz:
+- ana kartta `tek guncel operator notu`
+- alt referans alanda `son 3 temas ozeti` veya compact timeline parcasi
+
+Boylece:
+- operatorun simdiki baglami tek satirda gorunur
+- ama hemen alt/ref alanda hafif hafiza korunur
+- generic CRM message history'e donulmez
+
+### 6) Bu iki katman nasil ayrismali?
+Kural su olmali:
+- `guncel operator notu` = su anda sahada veya takipte ne bilmem gerekiyor?
+- `son 3 temas ozeti` = bugunku notun nasil olustugunu aciklayan kisa referans
+
+Yani gecmis karti yorum duvari degil,
+3 maddelik olay izi olmali.
+
+Ornek temas ozeti alanlari:
+- tarih/zaman
+- muhatap veya kanal
+- tek cumle sonuc
+
+### 7) En buyuk risk ne?
+Ayni seyin hem operator notunda hem gecmiste tekrar etmesi.
+Bunu onlemek icin:
+- operator notu serbest yigin degil, derlenmis bugunluk ozet olmali
+- gecmis ise ham uzun not degil, tek satirlik ozet olaylar olmali
+- son 3'u asan tarihce ana yuzeye tasinmamali
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- Business Detail ana karar yuzeyinde `tek guncel operator notu` kalmali
+- ama hafif hafiza kaybi olmamasi icin alt/ref alanda `son 3 temas ozeti` kadar compact gecmis tutulabilir
+
+Kisa formda:
+- `main` = tek guncel not
+- `reference` = son 3 temas ozeti
+
+Bu model hem not coplugunu engeller hem de sahada kopukluk riskini azaltir.
+
 ## Sonraki arastirma basliklari
-- operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
 - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
 - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
 - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
 - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
 - Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
+- `son 3 temas ozeti` timeline olaylariyla mi, yoksa yalniz operator notundan derive edilen kisa snapshotlarla mi daha saglikli uretilir?
