@@ -62,32 +62,25 @@ Seçenekler anlaşılır kalır, kapsam ihtiyaca göre değişir.
 - Ön değerlendirme, teklif, teslimat ve bakım kayıtları ilk güçlü iş tipleridir, ama sistem bunlarla sınırlı değildir.
 - İstem üretimi, satış destek araçları ve ajan destekli akışlar bu çekirdeğin üstüne eklenen yardımcı katmanlardır.
 
-## 7) İş Bölümü
-- Kullanıcı: satış, saha, yön belirleme, ticari doğrulama
-- Ajan: teknik sistem, operasyon omurgası, bağlam düzeni, panel, veri modeli, bakım
-- İlk aşamada satışı doğrudan kurucu yapar; teklif dili, saha geri bildirimi ve ticari doğrulama önce burada oturur.
-- İleride satış, sahada çalışan temsilciler veya yönlendiren kişilerle genişleyebilir.
-- Kâr payı / paylaşımlı kazanç modeli, bu operasyonun açık genişleme seçeneklerinden biridir.
-
-## 8) Korunacak Çalışma İlkeleri
+## 7) Korunacak Çalışma İlkeleri
 - önce netlik, sonra araç
-- önce teklif netliği, sonra ekran çoğaltma
-- önce çalışan basit çözüm, sonra otomasyon
-- gereksiz karmaşıklık yok
-- tüm bağlam her isteğe kör biçimde yüklenmez
-- kalıcı kararlar yazılı hale getirilir
+- önce çalışan basit çözüm
+- gereksiz karmaşıklık kurma
+- teklif netleşmeden ekran çoğaltma
+- bağlamı gereksiz yere büyütme
+- kalıcı kararları yazılı hale getir
 - bitmiş saymak için gerçek çıktı ve kısa doğrulama gerekir
 
-## 9) İstem Üretim İlkesi
+## 8) İstem Üretim İlkesi
 İstem üretim sistemi, tüm dosyaları kaba biçimde birleştiren bir yapı olmayacaktır.
 Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü istem üretmektir.
 
-## 10) Hesap Merkezi Yön Kararı
+## 9) Hesap Merkezi Yön Kararı
 - Gerçek kimlik doğrulama kaydı, gerçek hesap/kimliği temsil eder.
 - Operatörün görmek istediği ad, not ve ayrımlar üst veri katmanında tutulur.
 - Aynı teknik kimlik tekrar geldiğinde operatör tarafında ayrı kayıt ihtiyacı olabilir; bu, sahte yeni kimlik üretmekten daha doğru bir operatör katmanı yaklaşımıdır.
 
-## 11) Marka ve Tasarım Sistemi Kararı
+## 10) Marka ve Tasarım Sistemi Kararı
 - EsnafDigital'in kalıcı görsel dili güven veren net mavi (`brand`) + destekleyici turkuaz (`accent`) ekseninde kurulacaktır.
 - Arayüz dili steril SaaS değil, sade, güven veren, yüksek okunabilirlikli ve esnaf dostu olacaktır.
 - Tek tipografi ailesi `Inter` olarak korunacaktır.
@@ -99,11 +92,11 @@ Amaç, kullanıcının isteğine göre doğru bağlamı seçip net ve güçlü i
 - Tanıtım sitesi ve yönetim paneli için ana referans dosya: `DECISIONS/2026-04-19-brand-design-system.md`
 - Bölümlenmiş referans klasörü: `REFERENCES/design-system/`
 
-## 12) Güvenlik ve Bağlam Hijyeni
+## 11) Güvenlik ve Bağlam Hijyeni
 - Gizli bilgi kuralı için `TOOLS.md` çizgisi geçerlidir.
 - `HEARTBEAT.md` aktif durumu, `memory/YYYY-MM-DD.md` tarihlenmiş gelişmeleri, bu dosya ise yalnızca kalıcı çizgiyi taşır.
 
-## 13) Mevcut Operasyonel Gerçekler
+## 12) Mevcut Operasyonel Gerçekler
 - Ana alan adı: `esnafdijital.com.tr`
 - Yönetim paneli alan adı: `admin.esnafdijital.com.tr`
 - DNS yönetimi: Natro

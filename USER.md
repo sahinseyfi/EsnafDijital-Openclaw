@@ -16,9 +16,12 @@
 
 ## Is Bolumu
 
-* kullanici satis ve saha tarafinda kalir
+* kurucu satis, saha, yon belirleme ve ticari dogrulama tarafini tasir
+* ilk asamada satis dogrudan kurucu tarafindan yurur
+* teklif dili ve saha geri bildirimi once kurucu tarafinda oturur
 * ajan teknik sistem ve ic operasyon tarafini tasir
 * yon degisimi, riskli adim ve karar gerektiren nokta gorunur sunulur
+* ileride satis tarafi temsilciler veya yonlendiren kisilerle genisleyebilir
 
 ## Kullanicinin Bekledigi Cevap
 
