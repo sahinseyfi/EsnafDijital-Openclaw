@@ -3709,10 +3709,154 @@ Kisa formda:
 
 Bu model hem text-first delivery kararina sadik kalir hem de tekliften kopuk bir kickoff karti uretmez.
 
+## Yirmi dorduncu okuma - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
+Bu soru tek cizgilik bir `hangi kaynak kazansin?` sorusu gibi gorunuyor.
+Ama aslinda iki farkli karar katmanini ayirmayi gerektiriyor:
+- audit = teklif omurgasina giris ve paket zemini
+- Y.Z = simdiki operator aksiyonu
+
+Eger bunu tek kazananli kurarsak ya audit fazla zayiflar ya da Y.Z raporu sadece dekor olur.
+
+### 1) Kod ve kanonik cizgi ne diyor?
+`OFFERS.md` cok net:
+- her teklif audit cikisina baglanir
+- audit cikisinda hangi paketin uygun oldugu netlesir
+
+`Y.Z Report Contract` ise farkli bir sey istiyor:
+- tek bakista dijital gorunumu anlat
+- tek cumle `oncelikli aksiyon` ver
+
+Ayrica `app/api/businesses/[id]/yz-report/route.ts` Y.Z raporunu uretirken `auditSummary`yi de girdi olarak veriyor.
+Yani Y.Z auditin ustune gelen derived bir yorum katmani.
+
+Buradan ilk kritik sonuc cikiyor:
+- Y.Z auditin yerine gecen ana teklif kaynagi degil
+- audit de Y.Z'nin simdiki aksiyon rolunu tek basina ustlenmiyor
+
+### 2) Uc model
+
+#### C1) Audit her zaman birincil olsun
+Artisi:
+- teklif omurgasi net kalir
+- paket secimi auditten kopmaz
+
+Eksisi:
+- Y.Z'nin `once eslesme dogrulansin` gibi guvenlik/temizlik aksiyonlari ikinci plana duser
+- operator erken teklife kosabilir
+
+#### C2) Y.Z her zaman birincil olsun
+Artisi:
+- en guncel ve butunlesik yorum kazanir
+- supheli eslesme gibi kritik durumlar yuksekte kalir
+
+Eksisi:
+- auditin teklif girdisi rolu zayiflar
+- paket yonu surekli degisen derived karar gibi hissedilir
+- teklif omurgasi bulanabilir
+
+#### C3) Katmanli oncelik modeli
+- `Y.Z` once `teklife gecilir mi, yoksa once dogrulama/ek tarama mi gerekir?` sorusunu belirler
+- `audit` ise `teklife geciliyorsa hangi paket yonu mantikli?` sorusunu belirler
+
+Artisi:
+- iki kaynagin rolu temiz ayrilir
+- hem guvenlik/temizlik hem ticari omurga korunur
+- veri -> yorum -> teklif zinciri daha dogru okunur
+
+Eksisi:
+- tek satir karar bekleyenler icin ilk bakista daha soyut gelebilir
+- UI'da bu ayrim iyi anlatilmazsa karisik gorunebilir
+
+Ara yorum:
+- su an en saglikli yol `C3`
+
+### 3) Neden audit tek basina kazanamaz?
+Cunku auditin paket yonu dogru olsa bile,
+Y.Z bazen daha ust seviye bir fren veya siralama karari verebilir.
+
+Ornek:
+- audit: `Paket 1 uygun`
+- Y.Z: `once maps eslesmesi dogrulansin`
+
+Bu durumda paket yonu silinmez.
+Ama operatorun simdiki aksiyonu teklif acmak degil, once eslesmeyi temizlemektir.
+
+Yani Y.Z burada paketi degil,
+`pakete gecis zamanini` durdurur.
+
+### 4) Neden Y.Z tek basina kazanamaz?
+Cunku Y.Z kontrati teklif yapisini korumak icin yazilmamis.
+`oncelikli aksiyon` bazen su tipte olabilir:
+- `website vitrini teklifi hazirlanabilir`
+- `audit icin uygun, teklif omurgasina gecilebilir`
+
+Bu cumleler yon verir.
+Ama Paket 1 mi Paket 2 mi sorusunu tek basina tasimaz.
+Bu karar zaten audit omurgasina daha yakin.
+
+Yani Y.Z bize `hangi is sirada`yi daha iyi soyler,
+audit ise `hangi cozum uygun`u daha iyi soyler.
+
+### 5) O zaman catismada pratik kural ne olmali?
+Bence su sirali kural calisir:
+
+#### Kural 1
+Eger Y.Z `supheli eslesme`, `veri yetersiz`, `once dogrulansin`, `ek tarama gerekli` gibi bir aksiyon veriyorsa,
+bu islem paketin onune gecer.
+
+Yani:
+- package direction korunur
+- ama uygulamaya alinmaz
+- once temizlik/dogrulama yapilir
+
+#### Kural 2
+Eger Y.Z teklife gecise izin veren bir aksiyon veriyorsa,
+paket yonu icin audit birincil kaynak olur.
+
+Yani:
+- `website vitrini teklifi hazirlanabilir` -> auditteki Paket 1/2/3 yonu okunur
+- Y.Z teklife gecisi acan katman olur, paketi secen degil
+
+#### Kural 3
+Eger auditteki paket yonu ile sahadaki gercek durum farkliysa,
+bu fark operator override veya audit guncellemesiyle kayda alinmali,
+Y.Z'yi gizli paket motoruna cevirmemeli.
+
+### 6) En saglikli kisaltma cumlesi ne?
+Bence su formul temiz:
+- `Y.Z aksiyonu sirayi belirler, audit paket yonunu belirler.`
+
+Biraz daha acik hali:
+- `Y.Z` = gecit / fren / siradaki dogru hareket
+- `audit` = teklife gecildiginde secilecek cozum omurgasi
+
+### 7) En buyuk risk ne?
+Y.Z raporundaki her aksiyonu paket secimi yerine koymak.
+Bu olursa:
+- audit anlamsizlasir
+- teklif omurgasi derived dalgalanmaya acilir
+- paket sayisi ve anlatimi daha kolay savrulur
+
+Diger risk de auditteki paket yonunu mutlak alip,
+Y.Z'nin supheli eslesme veya eksik veri uyarilarini gormezden gelmek.
+Bu da erken ve yanlis teklif riskini artirir.
+
+### 8) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `birincil` tek kaynak secmek yerine katmanli oncelik modeli kullanilmali
+- Y.Z `simdi teklife gecilir mi, yoksa once dogrulama mi gerekir?` sorusunda birincil
+- audit `teklife gecildiyse hangi paket yonu uygun?` sorusunda birincil
+
+Kisa formda:
+- `Y.Z = aksiyon gecidi`
+- `audit = paket omurgasi`
+
+Bu cizgi hem teklif omurgasini korur hem de Y.Z raporunun gercek degerini dogru yere koyar.
+
 ## Sonraki arastirma basliklari
-- audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
 - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
 - `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
 - `ilk acilis` satiri sabit bir template ailesiyle mi, yoksa tamamen derived tek cumle mantigiyla mi daha tutarli olur?
 - `neden bu paket` override'i sadece teklif olustururken mi, yoksa teklif kapandi sonra da duzenlenebilir bir not olarak mi daha dogru olur?
 - `kapsam teyidi` satiri teklif `approved` olmadan hic gorunmemeli mi, yoksa erken uyumsuzluk sinyali olarak daha once de gosterilebilir mi?
+- Y.Z aksiyonu `teklife gec` derken audit paketi cok zayif / eski kaldiysa, operatoru audit guncellemeye zorlayan hafif bir kural gerekir mi?
