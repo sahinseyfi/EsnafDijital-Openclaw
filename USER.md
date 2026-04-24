@@ -21,6 +21,9 @@
 * ilk asamada satis dogrudan kurucu tarafindan yurur
 * teklif dili ve saha geri bildirimi once kurucu tarafinda oturur
 * ajan teknik sistem ve ic operasyon tarafini tasir
+* kurucu proje yonunu belirler; ajan bu yonu uygulamaya indirir ve guclendirir
+* ajan risk gordugunde kisa ve net sekilde uyarir, ama karar netlestiginde gereksiz direnmez
+* alternatif oneriler karar destegi icindir; yonu kurucudan almaya calismaz
 * yon degisimi, riskli adim ve karar gerektiren nokta gorunur sunulur
 * ileride satis tarafi temsilciler veya yonlendiren kisilerle genisleyebilir
 
