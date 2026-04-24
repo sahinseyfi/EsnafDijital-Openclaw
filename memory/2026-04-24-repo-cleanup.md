@@ -575,8 +575,10 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 
 ### Uygulama notu
 - rename sonrasi ilk patch sadece bu cleanup notunu yeni adlarla senkronize edecek
+- bu senkron icin hazir artefakt: `state/repo-cleanup-asama-a-post-rename-sync.py`
+- calistirma komutu: `python3 /root/.openclaw/workspace/state/repo-cleanup-asama-a-post-rename-sync.py`
 - `state/repo-cleanup-asama-a-rename.sh` ise calisma artefakti oldugu icin is tamamlaninca silme/arsivleme adayi olarak ele alinacak
-- referans daralmasi sayesinde Asama A rename + patch paketi dusuk riskli kaldı
+- referans daralmasi sayesinde Asama A rename + patch paketi dusuk riskli kaldi
 
 ## Ek bulgu - MEMORY promoted block drift'i
 
