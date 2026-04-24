@@ -587,6 +587,30 @@ Not: Asama A listesi, cleanup notu disinda ek baglanti tasimayan dosyalari kapsa
 - blok icinde `Consultation Center`, eski rota/adlandirma ve gunluk commit/uygulama detaylari var; bunlar kalici hafiza yerine tarihli `memory/` notlarinda kalmali
 - bu yapi `MEMORY.md` icindeki "yalnizca kalici cizgi" kuralini zayiflatiyor
 
+### MEMORY promoted block ayiklama plani
+1. toplu promotion blogunu oldugu gibi korumak yerine once satir tipine gore ayir
+   - gunluk degisiklik / commit / deploy / endpoint / route / ekran detayi -> `memory/` tarafinda kalacak
+   - kalici karar zaten `DECISIONS/` veya `MEMORY.md` icinde varsa tekrar tutulmayacak
+   - yeni ama gercekten kalici ilke varsa temiz tek maddeye indirgenecek
+
+2. blok icindeki belirgin gecici / stale icerikler
+   - `Consultation Center` heartbeat, brief, route ve endpoint detaylari artik aktif source-of-truth cizgisini temsil etmiyor
+   - gunluk commit listeleri, build/smoke test sonuc satirlari ve uygulama dosya yolları kalici hafiza adayi degil
+   - `Project OS genel CRM degil` gibi satirlar, daha sonraki CRM-genisleme kararlarina gore stale/gerilimli okunabilir
+
+3. bloktan korunabilecek sadece dar adaylar
+   - gerekirse tek satirlik kalici ilke olarak su tip icerikler dusunulebilir:
+     - gereksiz tekrar eden heartbeat/cron istememe cizgisi
+     - auth/provider usage tarafinda dogru veri kaynagi ilkesi
+     - kalici karar dosyasina zaten baglanmamis ama operasyon cizgisini etkileyen net bir ilke
+   - bunlar da ham promotion marker'iyle degil, normal `MEMORY.md` maddesi olarak yeniden yazilacak
+
+4. uygulama sekli
+   - once korunacak 0-3 net kalici madde sec
+   - sonra `Promoted From Short-Term Memory` blogunu tamamen kaldir
+   - gerekiyorsa kalan gercek kalici maddeyi ilgili `MEMORY.md` bolumlerine dagit
+   - promotion marker yorumlari ve skor metinleri tamamen temizlenir
+
 ### Sonuc
 - rename batch'inden bagimsiz ama ayni cleanup hattina bagli bir drift adayi daha netlesti
 - Asama A rename ve referans patch'i kapandiktan sonra `MEMORY.md` promoted block'u ayiklama / kaliciya donusturme batch'i acilacak

@@ -32,6 +32,7 @@ Repo genel temizlik oncesi ana referans cizgisini netlestirip tum dosyalari yonl
 - teklif netlesmeden ekran cogaltmak
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 - HEARTBEAT.md'nin aktif pano yerine gecmis, politika ve daginik notlarla sisip odagini kaybetmesi
+- `MEMORY.md` icinde ham promotion bloklarinin kalici hafiza yerine gunluk/cop veri biriktirmesi
 
 ## Bu Fazin Done Tanimi
 - teklif omurgasi netlesmis olacak
