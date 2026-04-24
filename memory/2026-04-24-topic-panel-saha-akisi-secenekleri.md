@@ -7453,10 +7453,146 @@ Kisa formda:
 Bu model hem `audit -> teklif -> teslimat` omurgasini koruyor,
 hem de erken delivery dilinin urunu yeni bir stage'e savurmasini onluyor.
 
+## Kirk dokuzuncu okuma - teklif kartindaki olasi erken risk satiri hangi dilde daha guvenli olur?
+Bir onceki karar sunu netlestirmisti:
+- approval oncesi ayri bir `hazirlik satiri` acmak iyi degil
+- V1'de default olarak hic erken delivery risk satiri olmayabilir
+- ama ileride gercek kullanimda gerekirse, bu sinyal `son teklif` karti icinde hafif ikincil satir olarak yasamali
+
+Simdi soru daha da daraldi:
+- boyle bir satir gerekirse hangi dil daha guvenli?
+- hem operatora bir seylerin eksik olabilecegini hissettirsin
+- hem de delivery/kickoff asamasi aciliyormus hissi vermesin
+
+### 1) Repo dili ve urun cizgisi ne diyor?
+Taranan metinlerde belirgin bir ton var:
+- UI dili kisa ve yon veren cumleleri seviyor
+- `eksik`, `kontrol`, `risk` gibi kelimeler kullaniliyor
+- ama stage isimleri de net korunuyor: `kickoff`, `delivery`, `approved`
+- onceki kararlar delivery dilini teklif kartina sizdirmama konusunda sert
+
+Buradan iki ilke cikiyor:
+- etiket cok teknik ya da stage-adli olmamali
+- cok genel korku dili de olmamali
+
+### 2) Uc aday
+
+#### ERD1) `hazirlik riski`
+Artisi:
+- kisa
+- delivery stage adi tasimiyor
+- teknik degil
+
+Eksisi:
+- fazla genel
+- hangi hazirlik, neyin riski, belli degil
+- operatora aksiyon yerine belirsiz alarm hissi verir
+
+#### ERD2) `scope notu eksik`
+Artisi:
+- sorunun `not / kapsam netligi` tarafinda oldugunu anlatir
+- tam delivery asamasi acmaz
+- dramatik degil, daha operasyonel durur
+
+Eksisi:
+- `scope` Ingilizce kaliyor
+- UI'de Turkce cizgi icinde biraz yabanci durabilir
+- yalniz yazilirsa cok teknik hissedebilir
+
+#### ERD3) `kickoff oncesi kontrol`
+Artisi:
+- operatora ne zaman bakilacagini soyler
+- gecis mantigini ima eder
+
+Eksisi:
+- delivery stage'ini erkenden cagirir
+- neredeyse yeni bir mini asama gibi okunur
+- tam kacinmak istedigim `pre-kickoff row` hissine yaklasir
+
+Ara yorum:
+- bu uc secenek icinde en zayif olan acikca `ERD3`
+- `ERD1` ve `ERD2` arasinda ise daha guvenli cekirdek `ERD2`, ama Turkcelestirilmis haliyle
+
+### 3) Neden `kickoff oncesi kontrol` riskli?
+Cunku bu ifade yalnizca bir uyari degil,
+zihinde bir surec kapisi acar:
+- demek ki kickoff oncesi ayri kontrol var
+- demek ki burada ayri bir bekleme hali olabilir
+
+Bu da onceki kararlarla catisir.
+Kucuk bir metin, istemeden yeni bir stage hissi uretebilir.
+
+### 4) Neden `hazirlik riski` tek basina zayif?
+Cunku `risk` kelimesi operatora sunlari ayni anda hissettirebilir:
+- neyin riski?
+- ticari mi?
+- teslimat mi?
+- eksik belge mi?
+
+Yani dikkat ceker ama yon vermez.
+Uyari gorulur, ama neyin gozden gecirilecegi net olmayabilir.
+Bu da fazla soyut kalir.
+
+### 5) Neden `scope notu eksik` dogru yone daha yakin?
+Cunku problem aslinda su:
+- secilen paket var
+- ama bunu teslimata tasiyacak kisa kapsam notu veya netlik zayif olabilir
+
+Yani asil mesele `risk`ten cok,
+`kapsam notu net degil` problemidir.
+Bu dil:
+- delivery asamasi acmaz
+- sorunu somutlastirir
+- operatora hangi tur gozden gecirme gerektigini hissettirir
+
+Ama buradaki sorun su:
+- `scope` kelimesi repo icinde var ama kullanici dili icin fazla Ingilizce kalabilir
+
+### 6) O zaman en guvenli nihai yon ne?
+Bence dogru yon,
+`scope notu eksik` secenegini Turkcelestirmek:
+- `kapsam notu eksik`
+- veya daha yumusak haliyle `kapsam notu netlesmeli`
+
+Bu iki varyasyon arasinda da fark var:
+
+#### `kapsam notu eksik`
+- daha net
+- daha keskin sinyal
+- sorun daha gorunur
+
+#### `kapsam notu netlesmeli`
+- daha yumusak
+- operatoru azarlamaz
+- delivery stage hissi yaratmadan gozden gecirmeye iter
+
+Su anki urun tonu dusunulunce,
+en guvenli aday bana `kapsam notu netlesmeli` gorunuyor.
+Cunku hem sorunun ne oldugunu anlatir,
+hem de `eksik` kadar sert veya alarmvari durmaz.
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- erken teklif-ici risk satiri gerekirse `kickoff oncesi kontrol` gibi stage cagirici bir dil kullanilmamali
+- `hazirlik riski` fazla genel kaldigi icin ikinci tercih seviyesinde
+- en guvenli yon, `scope notu` fikrini Turkcelestirip yumusatmak
+- bu nedenle en saglikli dil adaylari:
+  - birinci tercih: `kapsam notu netlesmeli`
+  - ikinci tercih: `kapsam notu eksik`
+
+Kisa formda:
+- not recommended = `kickoff oncesi kontrol`
+- too vague = `hazirlik riski`
+- recommended direction = `kapsam notu ...`
+- safest tone = `kapsam notu netlesmeli`
+
+Bu model hem delivery-asamasi hissini erken cagirmiyor,
+hem de operatora bakacagi seyin kapsam netligi oldugunu soyluyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - `neden bu paket` on-dolgu kalitesi dusukse operatoru hafifce uyaran bir `gozden gecir` sinyali gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
-- teklif kartindaki olasi erken risk satiri hangi dilde daha guvenli olur: `hazirlik riski`, `scope notu eksik`, `kickoff oncesi kontrol` benzeri hangisi en az delivery-asamasi hissi verir?
+- erken teklif-ici uyari satiri ikon/renk dili tasimali mi, yoksa yalniz sessiz bir ikincil metin olarak mi kalmali?
