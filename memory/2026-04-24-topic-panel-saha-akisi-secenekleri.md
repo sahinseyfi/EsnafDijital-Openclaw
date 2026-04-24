@@ -3170,10 +3170,151 @@ Kisa formda:
 
 Bu ayrim hem genel CRM savrulmasini engeller hem de audit alanini cop not deposuna cevirmez.
 
+## Yirminci okuma - `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
+Bu soru cok kritik cunku `Project OS` ile `Business Detail` arasindaki rol farkini test ediyor.
+`Project OS` coklu kayitli bir sicak is kuyrugu.
+Burada saha sinyali gorunecekse, ilk bakista secilmeli ama ikinci discovery ekranina da donmemeli.
+
+### 1) Mevcut repo gercegi ne?
+Bugun `Project OS` mantigi ve `Businesses` listesi su alanlarla calisiyor:
+- asama
+- durum etiketi
+- siradaki adim
+- kisa ozet
+
+`deriveProjectOsOverview()` tarafinda da kuyruk:
+- stage onceligi
+- stage icindeki status rank
+- sonra alfabetik sira
+uzerinden kuruluyor.
+
+Yani bugun sistemde `bugun git` gibi fiziksel ziyaret odakli ayri bir derived sinyal yok.
+Bu da iki seyi gosteriyor:
+- boyle bir sinyal gelirse mevcut kartta cok dikkatli yerlestirilmeli
+- yoksa Project OS kendi cekirdek sorusundan sapar
+
+### 2) Uc model
+
+#### P1) Tek satir derived neden
+Ornek:
+- `Website yok, segment uyumu guclu, bugun gidilebilir.`
+
+Artisi:
+- uygulamasi kolay
+- yeni gorsel dil acmadan eklenebilir
+
+Eksisi:
+- kuyruk ekraninda ilk bakista secilmez
+- `summary` ve `sıradaki adım` arasina karisabilir
+- mobil listede gozden kolay kacar
+
+#### P2) Sadece badge
+Ornek:
+- `Bugun git`
+- `Uzaktan ilerlet`
+- `Beklet`
+
+Artisi:
+- taranabilirlik cok yuksek
+- kuyruk ekranina iyi uyar
+
+Eksisi:
+- nedenini soylemez
+- operator ayni satirda karar mantigini gormez
+- badge sayisi artarsa anlami zayiflar
+
+#### P3) Badge + kisa sebep kombosu
+Ornek:
+- badge: `Bugun git`
+- kisa sebep: `website yok, telefon var, segment uyumu net`
+
+Artisi:
+- kuyruk taranabilir kalir
+- neden bir bakista gorunur
+- detail'e tiklamadan once yeterli saha mantigi verir
+
+Eksisi:
+- kotu tasarlanirsa karti kalabaliklastirir
+- her kayitta acilirsa ikinci discovery tablosu hissi yaratir
+
+Ara yorum:
+- su an en saglikli yol `P3`, ama yalniz kosullu gosterimle
+
+### 3) Neden tek satir yeterli degil?
+Cunku Project OS ve Businesses listesi coklu kayit tarama yuzeyi.
+Bu tur yuzeyde ilk taranan sey metin degil, isaret ve hiyerarsidir.
+
+Bugun bile liste satirlarinda operator ilk olarak su alanlari tarar:
+- isim
+- hat asamasi
+- siradaki adim
+
+`bugun git` sinyali sadece uzun bir cumle olarak gelirse,
+- `summary` icinde erir
+- `siradaki adim` ile karisabilir
+- ziyaret secimi hiz kazandirmak yerine yeni okuma yuku getirir
+
+### 4) Neden sadece badge de yetmez?
+Cunku saha karari stage gibi objektif bir veri degil.
+Derived karardir.
+Bu yuzden `neden` gorunmezse operator sunu sorar:
+- niye bugun git?
+- niye uzaktan ilerlet?
+- niye beklet?
+
+Sebep gorunmezse yine detail'e inmek zorunda kalir.
+O zaman Project OS'un hiz avantaji eksik kalir.
+
+### 5) O zaman en saglikli V1 formu ne?
+Bence V1 su olmali:
+- yalnız ziyaret icin anlamli adaylarda rozet ciksin
+- rozetin saginda 1 kisa derived sebep satiri olsun
+- bu satir maksimum 60-90 karakterlik olsun
+- primary aksiyon alaninin yerini almasin
+
+Yani hiyerarsi su olmali:
+1. stage / next action hala ana operasyon sinyali
+2. `bugun git` badge'i ikincil saha sinyali
+3. kisa sebep ise badge'in aciklamasi
+
+Bu cizgi Project OS'u bozmaz, sadece saha secimini hizlandirir.
+
+### 6) Hangi badge seti daha guvenli?
+Bence V1 icin 3'lu set yeterli:
+- `Bugun git`
+- `Uzaktan ilerlet`
+- `Beklet`
+
+Neden:
+- fazla granular durum seti kuyruk ekranini sisirir
+- `aranacak`, `tekrar ugranacak`, `muhatap yoktu` gibi detaylar Business Detail/operator notu seviyesinde daha dogru
+
+### 7) En buyuk risk ne?
+Project OS'un ikinci discovery ekranina donmesi.
+Bunu onlemek icin kurallar sert olmali:
+- badge herkeste gorunmez, yalniz ziyaret acisindan anlamli adaylarda gorunur
+- sebep 1 kisa satiri gecmez
+- badge stage siralamasini degistiren ana mekanizma olmaz
+- detay mantik Business Detail'de acilir
+
+### 8) Gecici net kanaat
+Su an en mantikli cozum:
+- `badge + kisa sebep` kombosu
+- ama kosullu ve hafif
+
+Kisa formda:
+- `tek satir neden` = zayif, kolay kaybolur
+- `sadece badge` = hizli ama yetersiz
+- `badge + kisa sebep` = Project OS icin en dengeli V1
+
+Bu da sunu destekliyor:
+- `Project OS` = secimi hizlandiran kuyruk
+- `Business Detail` = karar mantigini acan tek kayit duvari
+
 ## Sonraki arastirma basliklari
-- `Project OS` icindeki `bugun git` isareti tek satir derived neden ile mi, yoksa badge + kisa sebep kombosu ile mi daha okunur olur?
 - `sahada ilk acilis` satiri Y.Z raporundan mi, audit snapshot'tan mi, yoksa ayri bir derived saha mantigindan mi turetilmeli?
 - `neden bu paket` satiri Y.Z/audit turetimi mi olmali, yoksa teklifte operatorun kisa gerekce alani mi acilmali?
 - kickoff kartindaki `kapsam teyidi` satiri teklif durumundan mi, delivery notundan mi, yoksa ikisinin kesisiminden mi turetilmeli?
 - audit ozetindeki `paket yonu` ile Y.Z raporundaki `oncelikli aksiyon` catistiginda hangi kaynak birincil sayilmali?
 - operator notu timeline yerine tek guncel not mantiginda mi kalmali, yoksa son 3 temas ozeti kadar hafif bir gecmis gostermek mi daha guvenli olur?
+- `bugun git` badge'i Project OS ana kuyrugunda mi, yoksa yalniz Businesses listesinde filtrelenebilir ikincil isaret olarak mi daha guvenli baslar?
