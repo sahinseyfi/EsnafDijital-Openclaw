@@ -10810,10 +10810,199 @@ Cunku `C vs B` yarisi artik `genislik mi sadelik mi` soyutlugunden cikiyor.
 Repo bugun once operasyon omurgasini sabitle diyor.
 Aday secimi ise bunun ustune kontrollu eklenmesi gereken ikinci halka gibi gorunuyor.
 
+## Yetmis birinci okuma - `B` cekirdegi discovery disiplinini hangi minimum dozda iceri almali?
+Bir onceki okumada su kanaat guclenmisti:
+- cekirdek omurga `B`ye yaklasiyor
+- ama `B`, `A/C`den gelen discovery ve aday secimi disiplinini tamamen kaybetmemeli
+
+Bu sefer soruyu daralttim:
+- `B`nin sade yapisini bozmadan,
+- discovery tarafindan alinmasi gereken **minimum zorunlu parcalar** hangileri?
+
+### 1) Kod gercegi bugun neyi gosteriyor?
+Mevcut repo uc ayri davranis sunuyor:
+- `Discovery` ham adayi business kaydina dokunmadan once ayri tabloda tutuyor
+- `DiscoveryRowActions` tarafinda `kisa listeye al` ve `isletmeye aktar` aksiyonlari var
+- `Businesses` sayfasi ise yalniz sahiplenilmis kayitlari ve Project OS turevi sicak asama bilgisini gosteriyor
+
+Bu ayrim cok degerli.
+Cunku sistem bugun zaten sezgisel olarak su dogru cizgiye yakin:
+- aday baska sey
+- sahiplenilen business baska sey
+- aktif operasyon ise daha da baska sey
+
+Ama iki zayiflik da acik:
+- `Businesses` aramasi saha duplicate riskini iyi tasimiyor, cunku ad/disctrict/not disinda zayif
+- `discovery/import` yalniz runtime `placeId` tekrarini engelliyor, kanonik duplicate kontrolu yapmiyor
+
+Yani `B`nin discovery'den almasi gereken minimum sey daha cok yeni ekran degil,
+**kayit giris disiplini** gibi gorunuyor.
+
+### 2) Uc minimum-doz modeli
+
+#### M1) Neredeyse hic discovery alma
+Mantik:
+- ana omurga sadece `Project OS + Businesses + Business Detail`
+- discovery ayri ama cekirdege etki etmeyen yardimci tablo
+- manuel yeni kayit acisinda ekstra kontrol az
+
+Artisi:
+- en sade panel
+- operasyon omurgasi net kalir
+
+Eksisi:
+- sahada cift kayit riski acik kalir
+- discovery bulgusu business'e kontrollu tasinmaz
+- `dogru adayi secme` sorusu fazla disarida kalir
+
+Ara yorum:
+- bugun icin fazla zayif
+- `B`yi sade tutuyor ama `C/A`dan alinmasi gereken esas dersi kaciriyor
+
+#### M2) Discovery sidecar, ama giris kapisi disiplinli
+Mantik:
+- `Project OS` aktif operasyonun merkezi kalir
+- `Businesses` sahiplenilen kayitlarin ana listesi kalir
+- `Discovery` yalniz aday havuzu / on eleme / import kapisi olur
+- manuel yeni kayit acmadan once de benzer kayit uyarisi kosar
+
+Minimum zorunlu parcalar:
+1. `aday != business` ayrimi korunur
+2. discovery'den business'e gecis kontrollu import olur
+3. manuel yeni kayitta duplicate uyarisi olur
+4. business kaydina en az `kaynak`, `placeId` veya benzeri iz dusurulur
+5. `kisa liste` veya benzeri hafif aday onceligi korunur
+
+Artisi:
+- `B`nin sadeligi korunur
+- `C`nin en guclu discovery disiplini minimum dozda iceri alinmis olur
+- saha ve duplicate gercegine cevap verir
+
+Eksisi:
+- hic ek karma yok degil
+- import ve manuel create arasinda ayni duplicate mantigini kurmak gerekir
+
+Ara yorum:
+- su an en dengeli minimum set bu gorunuyor
+
+#### M3) Discovery sinyallerini direkt `Businesses` icine em
+Mantik:
+- ayri discovery davranisi zayiflatilir
+- `lead` veya `intake` durumundaki kayitlar business listesinde cozulur
+- tum adaylar daha erken kanonik olur
+
+Artisi:
+- tek liste hissi verir
+- bazi kullanicilar icin daha basit gorunebilir
+
+Eksisi:
+- candidate/business siniri bozulur
+- cop kayit ve yanlis sahiplenme riski artar
+- genel CRM savrulmasi burada cok hizlanir
+
+Ara yorum:
+- tam da kacinmak istedigimiz yone yaklasiyor
+- bugunku repo cizgisiyle uyumsuz
+
+### 3) `Minimum doz` aslinda hangi capability seti?
+Bu soru ekran diliyle degil,
+capability diliyle cevaplaninca daha net oluyor.
+`B` cekirdegi su 5 discovery capability'sini minimum olarak iceri almali gibi gorunuyor:
+
+#### K1) Candidate / business ayrimi
+Her aday hemen business olmaz.
+Bu ayrim korunmazsa:
+- business listesi sisiyor
+- audit zinciri kirleniyor
+- aktif is ile ham firsat ayni torbaya giriyor
+
+Bu nedenle `Discovery` veya benzeri bir on eleme katmani,
+ayri sayfa ya da ayri davranis olarak bir bicimde yasamali.
+
+#### K2) Kontrollu sahiplenme kapisi
+Aday business'e tek hareketle gecmeli,
+ama bu hareket bilincli olmali.
+Bugunku `isletmeye aktar` aksiyonu bu mantigin tohumunu veriyor.
+Bu korunmali.
+
+#### K3) Duplicate kapi
+Asil eksik burada.
+Su an `placeId` runtime tekrari engelleniyor,
+ama:
+- ayni telefon
+- ayni website alan adi
+- benzer ad + ayni ilce
+- sahada manuel acilan kayit
+hatlarinda koruma zayif.
+
+Demek ki minimum discovery dozu aslinda zorunlu bir `duplicate uyarisi` katmani da istemeli.
+Bu, yeni modullerden daha kritik.
+
+#### K4) Kaynak izi
+Business kaydina su minimum izin dusmesi cok degerli:
+- kaynak: `discovery`, `sahada goruldu`, `manuel`, `yonlendirme` gibi
+- varsa `placeId`
+- ilk arama terimi veya kisa kaynak notu
+
+Bu sayede operator su soruyu cevaplar:
+- bu kayit nasil geldi,
+  dis kaynakla bagim var mi,
+  tekrar taramada neye eslenecek?
+
+#### K5) Hafif aday onceligi
+`shortlist` bugun zaten var.
+Bu cok buyutulmeden korunabilir.
+Cunku kullaniciya `bugun bak`, `sonra bak`, `ele` gibi cok hafif secim lazim.
+Bunu tam bir gorev sistemine cevirmeye gerek yok.
+
+### 4) Hangileri minimum sete girmemeli?
+Bu da en az digeri kadar onemli.
+`B`nin discovery'den almamasi gereken seyler de var:
+- ayri discovery pipeline stage'leri
+- coklu skor kartlari ve agir analiz panolari
+- aday seviyesinde task/event/timeline yiginlari
+- `Project OS`u aday havuzu gibi kullanmak
+- business detail'i discovery cockpit'e cevirmek
+
+Yani `minimum doz`, discovery'nin butun karakterini cekirdege tasimak degil.
+Sadece kayit kalitesini ve adaydan business'e gecis disiplinini almak.
+
+### 5) Bu okuma finalistleri nasil etkiliyor?
+Bu yeni daraltma sonrasi tablo daha net:
+- `B` belirgin sekilde gucleniyor, cunku cekirdek operasyon omurgasi hala en tutarli yer
+- `C` tamamen dusmuyor, ama artik daha cok `B + disciplined intake sidecar` olarak yorumlanmali
+- `A`nin en degerli parcasi tam ekran discovery degil, `candidate != business` ayrimini korumasiydi
+- `D`nin ziyaret odagi hala yararli, ama bu minimum setin parcasindan cok sonraki saha optimizasyon katmani gibi duruyor
+- `E`nin zincir/sonuc anlatimi ayri bir hat; intake disiplininin cekirdegini o tasimiyor
+
+### 6) Gecici net kanaat
+Su an en mantikli cevap su:
+- `B` cekirdegi discovery disiplinini **minimum capability seti** olarak iceri almali
+- bu setin omurgasi:
+  `candidate/business ayrimi + kontrollu import/sahiplenme + duplicate uyarisi + kaynak izi + hafif shortlist`
+- bunun otesindeki discovery agirligi,
+  bugunku faz icin erken ve gereksiz olabilir
+
+Kisa formda:
+- keep = intake discipline
+- keep = duplicate gate
+- keep = source trace
+- keep = lightweight shortlist
+- avoid = second pipeline inside Project OS
+- avoid = turning Businesses into raw candidate table
+
+Bu sonuc onemli cunku artik `B`, `C`den neyi alacagini daha net biliyor.
+Soru artik `discovery lazim mi` degil.
+Soru su:
+- `discovery'nin hangi en kucuk parcasi panel kalitesini gercekten artiriyor?`
+Ve bugunku cevap:
+- ekran degil,
+- once **giris disiplini**.
+
 ## Sonraki arastirma basliklari
-- `A`nin discovery/disiplin faydasi `C` icine gomulu kalabilir mi, yoksa ayri bir davranis olarak korunmasi mi gerekir?
-- `B` cekirdegi discovery disiplinini hangi minimum dozda iceri almali ki `C`nin gucunu kaybetmeden sade kalsin?
-- `D2` ziyaret modu detail icinde kalirsa, toplu saha gunu icin tek eksik ne olur?
-- `E2` zincir kartlari Business Detail icinde yeterli olur mu, yoksa audit/offer bagini aciklamak icin ek derived satir gerekir mi?
-- detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
-- delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
+- `candidate/business ayrimi` ayri sayfa olmadan da korunabilir mi, yoksa en azindan hafif bir `Discovery` yuzeyi zorunlu mu?
+- duplicate kapisi import ve manuel create hatlarinda ortak servis olarak mi tasinmali, yoksa once yalniz manuel create tarafinda mi denenmeli?
+- business kaydinda minimum `kaynak izi` hangi alanlarla tutulursa yeterli olur: `sourceType`, `sourceRef`, `firstSeenAt`, `firstSearchTerms`?
+- `shortlist` en guvenli yerde mi yasiyor: discovery runtime state, business metadata'si, yoksa detail icindeki hafif karar karti?
+- saha akisi icin `hizli bul veya kontrollu yeni aday ac` davranisi `Businesses` icinde mi daha dogru, yoksa ortak bir global arama girisi mi istemeli?
+- ziyaret hazirligi karti eklenirse bu minimum intake disiplininden hangi tek veri noktasini once kullanmali: `kaynak`, `ziyaret nedeni`, `manuel oncelik`, `son temas`?
