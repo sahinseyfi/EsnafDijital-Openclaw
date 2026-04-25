@@ -9,6 +9,7 @@ import { getLatestBusinessInstagramProfile } from '@/lib/businesses/instagram-pr
 import { BusinessScanPanel } from '@/components/businesses/BusinessScanPanel'
 import { getBusinessDiscoverySnapshot, getBusinessRefreshHistory } from '@/lib/businesses/discovery'
 import { buildBusinessDetailHref, buildBusinessScanDetailHref, parseBusinessSlugAndId } from '@/lib/businesses/route'
+import { deriveProjectOsOverview } from '@/lib/project-os/derived'
 import { getProjectOsDataset } from '@/lib/project-os/service'
 import { getLatestBusinessYzReport, type BusinessYzReport } from '@/lib/businesses/yz-report'
 
@@ -146,6 +147,8 @@ export default async function BusinessDetailPage({
     getLatestBusinessYzReport(business.id),
     getLatestBusinessInstagramProfile(business.id),
   ])
+  const overview = deriveProjectOsOverview(dataset)
+  const nextActionItem = overview.queue.find((item) => item.businessId === business.id) || null
   const latestAudit = dataset.audits.find((item) => item.businessId === business.id) || null
 
   const rawWebsiteUrl = discoverySnapshot?.candidate.websiteUrl?.trim() || ''
@@ -269,6 +272,39 @@ export default async function BusinessDetailPage({
               </div>
             </div>
           </div>
+        </article>
+      </section>
+
+      <section>
+        <article className="card stack-sm">
+          <div>
+            <p className="eyebrow">Sıradaki adım</p>
+            <h3>Bu kayıt için karar kartı</h3>
+            <p className="muted">Yalnızca bu işletmenin operasyon hattındaki mevcut durumunu gösterir.</p>
+          </div>
+
+          {nextActionItem ? (
+            <div className="grid-2" style={{ alignItems: 'start', gap: 14 }}>
+              <div className="detail-field">
+                <p className="eyebrow">Hat aşaması</p>
+                <p>{nextActionItem.stageLabel}</p>
+              </div>
+              <div className="detail-field">
+                <p className="eyebrow">Durum</p>
+                <p>{nextActionItem.statusLabel}</p>
+              </div>
+              <div className="detail-field">
+                <p className="eyebrow">Sıradaki hareket</p>
+                <p>{nextActionItem.nextAction}</p>
+              </div>
+              <div className="detail-field">
+                <p className="eyebrow">Kısa gerekçe</p>
+                <p className="muted">{nextActionItem.summary}</p>
+              </div>
+            </div>
+          ) : (
+            <p className="muted">Bu işletme için sıradaki adım üretilemedi.</p>
+          )}
         </article>
       </section>
 

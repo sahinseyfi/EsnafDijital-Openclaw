@@ -21,7 +21,7 @@ Admin panelde cekirdek operasyon omurgasini sade tutmak: `Home/Project OS + Busi
 6. ziyaret hazirligini ayri pano degil `Business Detail` icinde hafif kart/mod olarak dusunmek
 
 ## Siradaki Somut Adim
-- `Business Detail` ustune tek kayit icin `Siradaki adim` karar karti eklenecek; kaynak olarak `deriveProjectOsOverview()` icindeki ilgili business queue item kullanilacak.
+- `Business Detail` icindeki yeni `Siradaki adim` karar karti operator gozunden kontrol edilecek; Project OS/Businesses ile ayni karar kaynagini kullandigi dogrulanacak ve kalabalik gelirse metinleri sadeleştirilecek.
 
 ## Mevcut Blokajlar
 - Yok

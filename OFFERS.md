@@ -214,11 +214,19 @@ Paket yapisi ayni kalir, anlatim farklanir.
 - siparis / rezervasyon akisina yakinlik
 - daha yuksek bakim ihtiyaci
 
-## 9) Simdilik cekirdekte olmayan fikirler
-Bunlar aktif teklif omurgasi degildir:
+## 9) Simdilik cekirdekte olmayan / ileride acilabilecek fikirler
+Bunlar aktif teklif omurgasi degildir; fakat uzun vadeli urun ve ek hizmet fikri olarak korunur:
 - isletmeye ozel OpenClaw ajani
 - online menu urunu
+- ozel musteri paneli / hesap alani
+- isletmenin kendi fotograf, menu veya icerik yukleyebilecegi self-service akis
+- ozel upload linki ile fotograf / icerik alma
+- mevcut kaynaklardan fotograf veya icerik ice alma: Instagram, Google Drive, Google Maps, mevcut site
+- randevu / rezervasyon / siparis akisina baglanan hafif moduller
+- WhatsApp / iletisim standi veya mikro landing page
+- dinamik QR / kisa link / yonlendirme yonetimi
 - gelir / gider ekrani
+- stok / tahsilat / muhasebe modulleri
 - genel CRM veya ozel panel gelistirme
 
 ## 10) Kirmizi cizgiler
