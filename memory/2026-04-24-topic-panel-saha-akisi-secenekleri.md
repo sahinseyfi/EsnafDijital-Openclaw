@@ -9138,10 +9138,190 @@ Kisa formda:
 Bu model Project OS'u tek kokpit olarak koruyor,
 ama ayni ekranda iki farkli is dilini karistirmadan ilerletiyor.
 
+## Altmisinci okuma - delivery/bakim `blokaj sinyali` icin en guvenli ilk label ailesi ne olmali?
+Bir onceki karar bizi su noktaya getirdi:
+- pre-delivery tarafinda `temas sonucu` ayri mikro desen olarak kalacak
+- delivery/bakim tarafinda ise ikinci bir drawer degil, `blokaj sinyali` mikro deseni daha guvenli
+- kalici veri gerekiyorsa bunun evi Project OS degil, `DeliveryProject` nesnesi olmali
+
+Simdi soru daha da daraldi:
+- bu `blokaj sinyali` ilk etapta hangi label ailesiyle baslamali?
+- 3-4 sabit tip yeterli mi?
+- yoksa daha genis bir set mi gerekir?
+
+Bu soru kucuk gorunuyor,
+ama label sayisi arttikca urun ya faydali sinyale,
+ya da task diline kayar.
+Bu yuzden ilk aileyi dar kurmak kritik.
+
+### 1) Referanslar hangi yone itiyor?
+Kaynaklar ortak bir yone itiyor:
+- `DeliveryProject` bugun yalnizca `status` ve `scope` tasiyor, yani veri zemini henuz hafif
+- delivery create mantigi zaten `gerekli assetler`, `gerekli erisimler`, `yayin oncesi kontrol` gibi blokaj cinslerini iskelet olarak biliyor
+- CRM arastirmasi delivery tarafinda `baslica blokaj`, `yayina gecis`, `bakim ritmi`, `sinirli varlik talep listesi` gibi dar kavramlara izin veriyor
+- ayni arastirma task creep, note creep ve generic project manager riskine acikca karsi
+
+Buradan ilk net sonuc cikiyor:
+- label ailesi operasyonel gercekten dogmali
+- ama `her eksik icin ayri etiket` seviyesine inmemeli
+- en guvenli yol, blokaji kategori seviyesinde gosteren kucuk bir aile
+
+### 2) Dort model
+
+#### BLA1) Cok dar uc etiket
+Ornek:
+- `Asset bekleniyor`
+- `Onay bekleniyor`
+- `Bakim zamani`
+
+Artisi:
+- ezberlemesi cok kolay
+- task sistemine kaymaz
+
+Eksisi:
+- `yayin riski` gibi ayri bir teknik/operasyonel gerilimi kaybeder
+- bazen cok kaba kalabilir
+
+Ara yorum:
+- guvenli ama biraz fazla sikistirilmis olabilir
+
+#### BLA2) Dortlu cekirdek aile
+Ornek:
+- `Asset bekleniyor`
+- `Onay bekleniyor`
+- `Yayin riski`
+- `Bakim dokunusu`
+
+Artisi:
+- delivery ve maintenance icin ana blokaj tiplerini kapsar
+- hala ezberlenebilir kalir
+- teknik detayi kuyruga yigmaz
+- `neden dikkat istiyor` sorusuna yeterli cevap verir
+
+Eksisi:
+- bazi durumlarda `yayin riski` ile `onay bekleniyor` birbirine yakin hissedebilir
+- ilk tanimlari net yazilmazsa operator yorum farki olabilir
+
+Ara yorum:
+- su an en dengeli aday bu
+
+#### BLA3) Alti-yedi etiketli genis aile
+Ornek:
+- asset
+- erisim
+- onay
+- domain
+- yayin riski
+- revizyon
+- bakim dokunusu
+
+Artisi:
+- daha ayrintili gorunur
+- bazi delivery vakalarini daha net ayirabilir
+
+Eksisi:
+- hizla mikro task taksonomisine doner
+- schema ve UI'dan daha hizli buyur
+- operatoru `dogru etiketi secme` isine sokar
+
+Ara yorum:
+- V1 icin fazla ayrintili
+
+#### BLA4) Serbest / derived metin label'i
+Ornek:
+- sistem veya operator kisa serbest blokaj metni yazar
+
+Artisi:
+- her duruma uyar gibi gorunur
+
+Eksisi:
+- ayni problemi farkli dillerle tekrar ettirir
+- notes creep kapisini acar
+- kuyrukta karsilastirma ve filtreleme bozulur
+
+Ara yorum:
+- en riskli yol bu
+
+### 3) Neden `asset / onay / yayin riski / bakim dokunusu` dorlugu en saglikli gorunuyor?
+Cunku bu dortlu,
+hem delivery hem maintenance tarafindaki ana gerilimleri fazla dallandirmadan kapsiyor:
+- `Asset bekleniyor` = logo, menu, fotograf, sosyal link, icerik gibi somut girdi eksigi
+- `Onay bekleniyor` = sahibi/operator teyidi, icerik veya yayin izni
+- `Yayin riski` = teknik/gecikme/son kontrol gerilimi
+- `Bakim dokunusu` = canli is icin yenileme ya da periyodik temas ihtiyaci
+
+Bu dille kuyruk sunu soyler:
+- tam ne yapilacagini degil
+- neden dikkat gerektigini
+
+Bu da Project OS rolune uygun.
+
+### 4) `Erisim bekleniyor` veya `domain bekleniyor` niye ayri etiket olmamali?
+Ilk bakista makul.
+Ama V1'de ayri etiket olduklarinda su zincir acilir:
+- domain ayri olsun
+- hosting ayri olsun
+- sosyal sifre ayri olsun
+- GBP yetki ayri olsun
+
+Bu cok hizli asset listesini operasyonel envantere cevirir.
+Daha guvenli yorum su:
+- ilk etapta bunlar `Asset bekleniyor` veya `Onay bekleniyor` icinde toplanabilir
+- tekrar eden yogun bir pattern cikarirsa sonra veri katmaninda yeniden ayrilir
+
+### 5) `Yayin riski` fazla belirsiz mi?
+Bir miktar risk var.
+Ama ayni zamanda tam ihtiyac bu olabilir.
+Cunku Project OS'taki blokaj sinyalinin isi teknik debug raporu vermek degil.
+Onun isi operatora su hissi vermek:
+- bu is yayina gecmeye yakin ama bir gerilim var
+- detail/delivery yuzeyine inip netlestirmek gerekiyor
+
+Bu rolde `yayin riski` yeterince faydali,
+ve `dns`, `ssl`, `icerik onayi`, `son kontrol` gibi alt nedenleri kuyruga tasimiyor.
+
+### 6) `Bakim dokunusu` cok eylem cagirici mi?
+Aslinda bu iyi olabilir.
+Cunku maintenance tarafinda amac blokaji dramatize etmek degil,
+ritmi hatirlatmak.
+`Bakim bekliyor` yerine `Bakim dokunusu` ifadesi daha hafif,
+daha operasyonel ve daha az alarmvari duruyor.
+Bu da bakim hattini ticket kuyruğu gibi gostermemeye yardim eder.
+
+### 7) O zaman ilk label ailesi nasil yazilmali?
+Su an en mantikli yazim su gorunuyor:
+- `Asset bekleniyor`
+- `Onay bekleniyor`
+- `Yayin riski`
+- `Bakim dokunusu`
+
+Yedek yorum:
+- eger `Yayin riski` fazla soyut hissedilirse ikinci aday `Yayin oncesi gerilim` degil,
+  daha sade sekilde `Yayin bekliyor` olabilir
+- ama `bekliyor` kimi bekledigini bulandirabilir,
+  bu yuzden ilk tercih yine `Yayin riski`
+
+### 8) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- delivery/bakim `blokaj sinyali` icin ilk label ailesi 4 sabit tipte tutulmali
+- en dengeli ilk set `Asset bekleniyor`, `Onay bekleniyor`, `Yayin riski`, `Bakim dokunusu` gorunuyor
+- bundan daha dar set delivery gerilimini fazla ezer
+- daha genis set ise task taksonomisine kayma riski tasir
+- alt nedenlerin evi queue label'i degil, sonraki asamada gerekirse `DeliveryProject` veri katmani olmali
+
+Kisa formda:
+- recommended first set = 4 labels
+- avoid = free text labels
+- avoid = 6-7 item taxonomy in V1
+- if needed later = split in data model, not in queue first
+
+Bu model Project OS'u hala kokpit olarak tutuyor,
+ama delivery/bakim tarafinda da operatorun neden dikkat etmesi gerektigini yalnizca bir bakista anlatabiliyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- delivery/bakim `blokaj sinyali` icin en guvenli ilk label ailesi ne olmali: `asset`, `onay`, `yayin riski`, `bakim dokunusu` gibi 3-4 sabit tip yeterli mi?
+- delivery/bakim `blokaj sinyali` varsa, bunun `nextAction` satirina ne dozda yansimasi guvenli olur: hic yansimasin mi, tek satir ipucu mu, yoksa action label'ini hafifce degistirsin mi?
