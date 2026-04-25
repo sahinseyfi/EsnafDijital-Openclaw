@@ -10999,10 +10999,181 @@ Ve bugunku cevap:
 - ekran degil,
 - once **giris disiplini**.
 
+## Yetmis ikinci okuma - `candidate/business ayrimi` icin ayri Discovery yuzeyi zorunlu mu?
+Bir onceki okumada su sonuc cikmisti:
+- `B` cekirdegin discovery'den almasi gereken asgari sey yeni ekran degil,
+  giris disipliniydi
+- ama bu,
+  `candidate/business ayrimi`nin gorunmezce yok olabilecegi anlamina gelmiyor
+
+Bu wake'te soruyu suna indirdim:
+- aday ile sahiplenilmis business ayrimini korumak icin
+  **ayri bir Discovery yuzeyi sart mi?**
+- yoksa bu davranis `Businesses` icine veya baska hafif bir intake akisina gomulebilir mi?
+
+### 1) Repo gercegi iki farkli seyi zaten ayiriyor
+Kod ve referanslar birlikte okununca su net:
+- `Home` bugunun aktif isini gosteriyor
+- `Businesses` sahiplenilen kayitlari ve detail gecisini veriyor
+- `Discovery` ise acikca `ham veri dogrudan business'e yazilmaz` diyen aday on eleme yuzeyi olarak tanimlaniyor
+- `DiscoveryRowActions` tarafinda da iki tip aksiyon var:
+  `kisa listeye al` ve `isletmeye aktar`
+
+Bu cok kritik.
+Cunku sistem bugun teknik olarak zaten su modeli yasiyor:
+- aday hayati ayri
+- business hayati ayri
+- operasyon kuyrugu daha da ayri
+
+Yani soru sifirdan teori kurmak degil,
+mevcut ayrimin **yuzey olarak ne kadar gorunur tutulmasi gerektigi**.
+
+### 2) Uc model
+
+#### N1) Discovery tam ayri top-level sayfa olarak kalir
+Mantik:
+- nav'de `Isletmeler` ve `Kesif` yan yana durur
+- adaylar hep ayri evrende islenir
+- business'e gecis bilincli `aktar` aksiyonuyla olur
+
+Artisi:
+- `candidate != business` ayrimi cok net kalir
+- ham veri ile kanonik kayit karismaz
+- shortlist/import/discovery-detail davranislari dogal yerde yasar
+
+Eksisi:
+- discovery, ana operasyon omurgasiyla esit agirlikta gorunebilir
+- nav'de fazla on planda olursa `esas is burada mi?` sorusu dogar
+- genel CRM benzeri genis bir lead havuzu algisini besleyebilir
+
+Ara yorum:
+- teknik olarak tutarli
+- urun hiyerarsisinde ise biraz fazla esit-seviye duruyor
+
+#### N2) Discovery ayri davranis olarak kalir ama ana omurganin yan kapisi olur
+Mantik:
+- aday/business ayrimi korunur
+- discovery hala ayri yuzeydir
+  ama kalici ana omurga gibi degil,
+  `yan kapı / intake sidecar` gibi konumlanir
+- `Home` yalniz hic business yoksa veya aday gerekiyor ise kesfe iter
+- `Businesses` icinden `yeni aday bul`, `kontrollu import`, `duplicate uyarisi` gibi kopruler verilir
+
+Artisi:
+- ayrim korunur
+- discovery operasyona rakip ikinci merkez olmaz
+- `Home -> Businesses` cekirdegi bozulmaz
+- saha gercegindeki `bul / aktar / sahiplen` hattina uyumludur
+
+Eksisi:
+- bilgi mimarisi dikkat istemeli
+- nav, buton ve copy tarafinda `ikincil ama gerekli` ton iyi ayarlanmazsa yine kafa karisabilir
+
+Ara yorum:
+- bugun en dengeli model bu gibi gorunuyor
+- ayri sayfa zorunlulugunu tamamen reddetmiyor,
+  ama onu ana omurgaya esit statude de tutmuyor
+
+#### N3) Discovery ayri sayfa olmaktan cikar, `Businesses` icine gomulur
+Mantik:
+- tek arama/liste yeri `Businesses` olur
+- adaylar filtre, drawer veya alt sekme gibi cozulur
+- `isletmeye aktar` ve duplicate kontrolu ayni yerde yasar
+
+Artisi:
+- tek merkez hissi verir
+- yolda gorulen isletmeyi bul veya ac akisi daha direkt olabilir
+
+Eksisi:
+- candidate/business siniri gozden kayabilir
+- business listesi ham aday mantigini yutmaya baslayabilir
+- `shortlist`, discovery detail, ham snapshot gibi davranislar ya gizlenir ya da Businesses'i sisirir
+- bu model cok kolay mini CRM savrulmasina acilir
+
+Ara yorum:
+- kağıt ustunde sade,
+  pratikte scope kaymasi en yuksek model
+
+### 3) Mevcut nav ve home davranisi neyi ima ediyor?
+Burada onemli bir detay cikti:
+- `AdminShell` nav'inde `Isletmeler`, `Prompt Uretimi`, `Kesif` var
+- ana `/` sayfasi ise bugunku aktif isi gosteren operasyon girisi gibi calisiyor
+- `Home`, hic business yoksa kullaniciyi `Kesif`e itiyor
+  ama business varsa once `Isletmeler` ve operasyon hattina donuyor
+
+Bu, urunun icgudusel olarak zaten su yone gittigini gosteriyor:
+- discovery lazim
+- ama her gunun ana ekrani discovery degil
+- discovery daha cok `gerektiginde girilen intake davranisi`
+
+Yani repo kendi davranisiyla `N2`yi destekliyor.
+Sadece bilgi mimarisinde bu rol henuz sert ifade edilmemis.
+
+### 4) Discovery'yi tamamen kaldirmak neden riskli?
+Bu sorunun cevabi simdi daha net.
+Discovery su 4 isi bir arada yapiyor:
+1. ham adaylari kanonik kayda yazmadan once tutuyor
+2. shortlist davranisini tasiyor
+3. `isletmeye aktar` ile bilincli sahiplenme kapisi oluyor
+4. discovery detail ve snapshot gecmisiyle dis veri okumayi business detailden ayri tutuyor
+
+Bunlar yok olursa iki kotu yoldan biri olur:
+- ya ham adaylar erken business olur
+- ya da ayni davranislar `Businesses` ve detail icine sessizce sizip o yuzeyleri sisirir
+
+Yani ayri bir **aday habitatı** ihtiyaci gercek.
+Ama bu habitatin illa ana omurgaya esit bir `birincil modul` gibi pazarlanmasi gerekmiyor.
+
+### 5) En ince ayrim: `ayri sayfa` ile `ayri statü` ayni sey degil
+Bence asil netlik burada.
+Uzun sure su iki seyi ayni torbaya atma riski vardi:
+- ayri sayfa gerekiyor mu?
+- ayri ana modul gerekiyor mu?
+
+Bugun geldigi yer su:
+- **ayri aday habitatı gerekiyor**
+- ama bu habitatin ana operasyon cekirdegiyle esit statude durmasi gerekmiyor
+
+Baska bir deyişle:
+- `Discovery` sayfasi/surface'i yasayabilir
+- ama urun hiyerarsisinde `Project OS/Home + Businesses` kadar merkezde durmamali
+
+Bu, onceki `B cekirdegi + kontrollu intake sidecar` kanaatini daha da guclendiriyor.
+
+### 6) Gecici net kanaat
+Su an en mantikli yorum su:
+- `candidate/business ayrimi` tamamen gorunmez hale getirilemez
+- bu nedenle bir tur ayri `Discovery/intake` yuzeyi veya davranisi gerekli
+- ama en dengeli model,
+  bunun ana operasyon omurgasina esit top-level merkez olmasi degil,
+  kontrollu bir **yan intake kapisi** olmasi
+
+Kisa formda:
+- keep = separate candidate habitat
+- keep = explicit import boundary
+- keep = shortlist and snapshot behavior outside Businesses core
+- avoid = turning Discovery into equal primary cockpit
+- avoid = collapsing all intake into Businesses and blurring candidate/business line
+
+### 7) Finalistlere etkisi
+Bu okuma finalistlerde su ince ayari yapiyor:
+- `B` daha da gucleniyor, cunku cekirdek hala `Home/Project OS + Businesses + Business Detail`
+- `C` artik daha cok `B + sidecar Discovery` olarak okunmali
+- `A`nin degeri ana ekran olmak degil,
+  aday habitatini business'ten ayirmasi
+- `D` ve `E` bu soruda ikincil,
+  cunku ziyaret hazirligi ve sonuc zinciri discovery habitatinin varlik tartismasindan sonra geliyor
+
+Bu da kritik bir daraltma.
+Cunku artik soru `Discovery kalsin mi gitsin mi?` kadar kaba degil.
+Soru daha dogru hale geldi:
+- `Discovery ne kadar ayri kalmali,
+  ama ne kadar da merkezden cekilmeli?`
+
 ## Sonraki arastirma basliklari
-- `candidate/business ayrimi` ayri sayfa olmadan da korunabilir mi, yoksa en azindan hafif bir `Discovery` yuzeyi zorunlu mu?
-- duplicate kapisi import ve manuel create hatlarinda ortak servis olarak mi tasinmali, yoksa once yalniz manuel create tarafinda mi denenmeli?
-- business kaydinda minimum `kaynak izi` hangi alanlarla tutulursa yeterli olur: `sourceType`, `sourceRef`, `firstSeenAt`, `firstSearchTerms`?
-- `shortlist` en guvenli yerde mi yasiyor: discovery runtime state, business metadata'si, yoksa detail icindeki hafif karar karti?
-- saha akisi icin `hizli bul veya kontrollu yeni aday ac` davranisi `Businesses` icinde mi daha dogru, yoksa ortak bir global arama girisi mi istemeli?
-- ziyaret hazirligi karti eklenirse bu minimum intake disiplininden hangi tek veri noktasini once kullanmali: `kaynak`, `ziyaret nedeni`, `manuel oncelik`, `son temas`?
+- `Discovery` nav'de kalacaksa etiketi ve notu nasil yazilmali ki onu ana cockpit gibi degil, intake kapisi gibi anlatsin?
+- `Discovery` nav'den cekilirse en guvenli giris noktasi neresi olur: home hero, Businesses icinde CTA, global hizli ara, yoksa hic business yok durumuna ozel yonlendirme?
+- `Businesses` icinde `hizli bul veya kontrollu yeni aday ac` davranisi olursa discovery ile sinir nerede cizilmeli?
+- `Discovery detail` icindeki hangi alanlar business detail'e hic tasinmamali ki iki yuzey karismasin?
+- ayri aday habitatı DB'de mi, runtime state + snapshot dosyalarinda mi kalmali; bu secim duplicate kapisini nasil etkiler?
+- ziyaret hazirligi ve saha secimi kartlari discovery tarafinda mi, business detail tarafinda mi daha dogal durur?
