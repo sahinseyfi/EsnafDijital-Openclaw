@@ -103,7 +103,7 @@ Bu, discovery import veya status guncelleme sonrasi kullaniciyi dogru kayit uzer
 ### 9. Ham tablo kayitlari
 Sayfanin altinda acilir/kapanir sekilde detay tablolar tutulur:
 - Isletmeler
-- Inceleme hatti
+- On degerlendirme hatti
 - Teklifler
 - Teslimatlar
 

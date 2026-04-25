@@ -1,6 +1,6 @@
 ---
-name: esnafdijital-inceleme-offer-delivery
-description: Use for inceleme, offer, delivery, and maintenance tasks in EsnafDigital. Keeps scope inside the core service flow and prevents CRM-style overgrowth.
+name: esnafdijital-inceleme-teklif-teslimat
+description: Use for on degerlendirme, teklif, teslimat, and bakim tasks in EsnafDigital. Keeps scope inside the core service flow and prevents CRM-style overgrowth.
 ---
 
 # EsnafDigital Inceleme -> Teklif -> Teslimat

@@ -233,7 +233,7 @@ Amac, tek isletmenin gercek kaydi, dis sinyali ve karar resmi arasindaki farki h
 - coklu aksiyon duvarina donmemeli
 - `Project OS` kuyrugunu tekrar etmez, sadece bu kayit icin ne yapilacagini soyler
 
-## 2.4 Inceleme Ozeti karti
+## 2.4 On degerlendirme ozeti karti
 ### Gosterilecekler
 - inceleme ozeti
 - hazirlik sinyali
@@ -427,7 +427,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 
 # 3. Capability kirilimi
 
-## 3.1 On Degerlendirme / mevcut durum
+## 3.1 On degerlendirme / mevcut durum
 ### Hemen acilabilecekler
 - Google Maps snapshot ozeti
 - temel bilgi tutarliligi kontrolu
@@ -510,7 +510,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 ## Ustten alta ideal akis
 1. Header
 2. Next Step
-3. Inceleme Ozeti
+3. On degerlendirme ozeti
 4. Hazirlik / Tarama paneli
 5. Son teklif / son teslimat
 6. Timeline

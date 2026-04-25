@@ -45,7 +45,7 @@ Tek cumle.
 Ornek:
 - once maps eslesmesi dogrulansin
 - website vitrini teklifi hazirlanabilir
-- audit icin uygun, teklif omurgasina gecilebilir
+- on degerlendirme icin uygun, teklif omurgasina gecilebilir
 
 ## 3. Kural
 - En fazla 1400 karakter hedefle.
@@ -54,7 +54,7 @@ Ornek:
 - Veri yoksa `yok` veya `dogrulanamadi` de.
 
 ## 4. Non-goals
-- uzun audit raporu
+- uzun inceleme raporu
 - marketing copy
 - tam teknik log
 - tum ham alanlarin aynen listelenmesi

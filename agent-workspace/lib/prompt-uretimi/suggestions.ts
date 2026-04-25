@@ -34,7 +34,7 @@ type TopicSignals = {
   openclaw: boolean
 }
 
-type WorkMode = 'audit' | 'patch' | 'strategy' | 'decision'
+type WorkMode = 'inceleme' | 'patch' | 'strategy' | 'decision'
 type TargetSurface = 'public_vitrine' | 'admin_ops' | 'context_docs' | 'cross'
 type OutputType = 'decision_summary' | 'action_plan' | 'patch_plan' | 'gpt_prompt'
 
@@ -56,7 +56,8 @@ function normalizeTitle(value?: string, note?: string) {
 }
 
 function normalizeWorkMode(value?: string): WorkMode {
-  if (value === 'audit' || value === 'patch' || value === 'strategy' || value === 'decision') return value
+  if (value === 'inceleme') return 'inceleme'
+  if (value === 'patch' || value === 'strategy' || value === 'decision') return value
   return 'decision'
 }
 
@@ -92,7 +93,7 @@ function detectSignals(title: string, note: string): TopicSignals {
     offer: hasAny(text, ['teklif', 'paket', 'offer', 'pricing', 'fiyat']),
     auth: hasAny(text, ['auth', 'login', 'giriş', 'giris', 'oturum', 'session', 'token']),
     segment: hasAny(text, ['segment', 'sektör', 'sektor', 'pazar', 'arnavutköy', 'arnavutkoy']),
-    flow: hasAny(text, ['audit', 'teklif', 'teslimat', 'bakım', 'bakim', 'operasyon', 'akış', 'akis']),
+    flow: hasAny(text, ['inceleme', 'ön değerlendirme', 'on degerlendirme', 'teklif', 'teslimat', 'bakım', 'bakim', 'operasyon', 'akış', 'akis']),
     openclaw: hasAny(text, ['openclaw', 'gateway', 'telegram', 'whatsapp', 'control ui', 'control-ui', 'session', 'heartbeat', 'runtime']),
   }
 }
@@ -114,7 +115,7 @@ function mergeContextRefs(...groups: ConsultationContextRef[][]) {
 }
 
 function workModeLabel(value: WorkMode) {
-  if (value === 'audit') return 'audit'
+  if (value === 'inceleme') return 'inceleme'
   if (value === 'patch') return 'küçük patch'
   if (value === 'strategy') return 'strateji'
   return 'karar'

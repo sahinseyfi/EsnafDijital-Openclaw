@@ -39,7 +39,7 @@ Gercekten eksik olan seyleri yaz:
 
 ### Onerilen sonraki adim
 Tek bir sonraki adim oner:
-- audit icin uygun
+- on degerlendirme icin uygun
 - once maps eslesmesi dogrulansin
 - website vitrini teklifi uygun
 - sosyal + website birlikte ele alinmali

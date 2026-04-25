@@ -14,7 +14,7 @@ Raporu uretmeden once mumkunse su kaynaklari bu sirayla oku:
 1. isletme temel kaydi
 2. en guncel ajan tarama sonucu
 3. en guncel Apify tarama sonucu
-4. varsa audit ozeti veya ic not
+4. varsa inceleme ozeti veya ic not
 
 Eksik veri varsa raporu yine uret, ama eksik alanlari acikca belirt.
 

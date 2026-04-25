@@ -1,6 +1,6 @@
 ---
 name: consultation-prompt-builder
-description: Build, revise, or audit EsnafDigital Prompt Uretimi prompts from a prompt record. Use when a raw prompt request, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
+description: Build, revise, or quality-check EsnafDigital Prompt Uretimi prompts from a prompt record. Use when a raw prompt request, decision question, or draft prompt must be turned into a ready-to-send GPT prompt, when a prompt is too generic, when repo/runtime grounding is missing, or when prompt quality must be checked before marking it ready. Triggers on requests like 'promptu uret', 'bu kayit icin GPT promptu yaz', 'promptu duzelt', 'prompt neden fazla genel', or 'repo/runtime referanslarini ekle'.
 ---
 
 # Prompt Uretimi Prompt Builder

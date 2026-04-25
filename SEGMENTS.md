@@ -34,7 +34,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - yorum gorunurlugu
 - hizli arama / yol tarifi
 
-### Inceleme'te ozellikle bak
+### On degerlendirmede ozellikle bak
 - Maps kaydi kalitesi
 - kategori ve temel bilgi dogrulugu
 - telefon / saat / konum tutarliligi
@@ -59,7 +59,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - yorum ve degerlendirme gorunurlugu
 - iletisim ve randevu aksiyonu
 
-### Inceleme'te ozellikle bak
+### On degerlendirmede ozellikle bak
 - gorsel kalite
 - hizmet basliklarinin netligi
 - telefon / WhatsApp / randevu aksiyonu
@@ -88,7 +88,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - hizli karar verdirecek temel bilgi
 - yorum, siparis ve rezervasyon etkisi
 
-### Inceleme'te ozellikle bak
+### On degerlendirmede ozellikle bak
 - harita dogrulugu
 - fotograf kalitesi
 - temel menu / urun gosterimi

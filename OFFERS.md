@@ -2,13 +2,13 @@
 
 Bu dosya EsnafDigital'in kanonik teklif omurgasini tutar.
 Ana stratejik cizgi korunur:
-`On Degerlendirme -> Teklif -> Teslimat -> Bakim`
+`On degerlendirme -> Teklif -> Teslimat -> Bakim`
 
 Amac, cok paketli bir ajans menusu kurmak degil;
 satilabilir, teslim edilebilir ve tekrar eden bir teklif sistemi kurmaktir.
 
 ## 1) Teklif omurgasinin kisa hukmu
-- **Inceleme** giris kapisidir.
+- **On degerlendirme** giris kapisidir.
 - **Paket 0** teklif oncesi filtre ve demo katmanidir.
 - **Paket 1-3** ana kurulum serisidir.
 - **Paket 4** icerik devami hizmetidir.
@@ -24,10 +24,10 @@ Bu ayrim bozulmaz.
 - segment bazli satis dili degisebilir, paket yapisi degismez
 - genel CRM, ozel yazilim ve ajans menusu mantigina kayilmaz
 
-## 3) On Degerlendirme olmadan teklif verilmez
+## 3) On degerlendirme olmadan teklif verilmez
 On degerlendirme, tanisma jesti degil; teklifin girdisidir.
 
-On Degerlendirme cikisinda su netlesir:
+On degerlendirme cikisinda su netlesir:
 - isletmede hangi gorunurluk eksigi var
 - hangi guven sinyali zayif
 - hangi paket uygun
