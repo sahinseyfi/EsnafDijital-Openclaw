@@ -84,7 +84,7 @@ function formatBusinessPayload(input: GenerateBusinessAgentScanInput) {
     `- reviewsCount: ${input.discovery.reviewsCount || 0}`,
     `- isClosed: ${input.discovery.isClosed ? 'true' : 'false'}`,
     `- searchCoverageNote: ${input.discovery.searchCoverageNote || '—'}`,
-    `- latestAuditSummary: ${input.auditSummary || '—'}`,
+    `- latestIncelemeSummary: ${input.auditSummary || '—'}`,
   ].join('\n')
 }
 

@@ -111,7 +111,7 @@ export default async function DiscoveryPage({
         <div>
           <p className="eyebrow">Keşif ön elemesi</p>
           <h1>Ham tarama değil, işlenmiş aday tablosu</h1>
-          <p className="muted">Bu ekran Google Maps verisini doğrudan işletme kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve audit tarafına taşırız.</p>
+          <p className="muted">Bu ekran Google Maps verisini doğrudan işletme kayıtlarına yazmaz. Önce burada görür, eler, sonra nitelikli adayları işletme ve inceleme tarafına taşırız.</p>
         </div>
       </section>
 

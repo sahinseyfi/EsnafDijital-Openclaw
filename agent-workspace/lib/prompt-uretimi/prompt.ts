@@ -140,7 +140,7 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '<context>',
     '- Proje: EsnafDigital',
     '- Amaç: küçük işletmeler için güven veren dijital görünürlük ve operasyon sistemi kurmak',
-    '- Ana akış: Audit -> Teklif -> Teslimat -> Bakım',
+    '- Ana akış: İnceleme -> Teklif -> Teslimat -> Bakım',
     '- Çalışma ortamı: website bir VPS üzerinde çalışıyor.',
     '- Uygulama modeli: kullanıcı bu değişikliği VPS üzerinde çalışan OpenClaw ajanına yaptırıyor.',
     '- Kullanım şekli: bu promptun çıktısı, ajanı yönlendirmek için kullanılacak.',

@@ -80,7 +80,7 @@ function buildBusinessPromptNote({
     '',
     'Amac:',
     '- Isletmenin dijital gorunur durumuna gore en dogru sonraki operator aksiyonunu netlestirmek.',
-    '- Gerekirse teklif / audit / vitrin yonunu onermek.',
+    '- Gerekirse teklif / on degerlendirme / vitrin yonunu onermek.',
     '',
     'Isletme ozeti:',
     `- Segment: ${business.segment}`,
@@ -107,7 +107,7 @@ function buildBusinessPromptNote({
     'Beklenen cikti:',
     '- Kisa karar cercevesi',
     '- Neden simdi bu aksiyon',
-    '- Gerekirse teklif veya audit yonu',
+    '- Gerekirse teklif veya on degerlendirme yonu',
     '- Dis GPT oturumunda kullanilacak net bir prompt',
   ].join('\n')
 }

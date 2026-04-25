@@ -52,8 +52,8 @@ function getActiveFocus(input: {
   if (input.pendingAudits > 0) {
     return {
       eyebrow: 'Şimdi aktif',
-      title: 'Audit hattı ilerlemeyi bekliyor',
-      text: `${input.pendingAudits} audit kaydı yeni veya inceleme aşamasında. Teklife dönmeden önce audit tarafını toparla.`,
+      title: 'İnceleme hattı ilerlemeyi bekliyor',
+      text: `${input.pendingAudits} inceleme kaydı yeni veya inceleme aşamasında. Teklife dönmeden önce inceleme tarafını toparla.`,
       primaryHref: '/businesses',
       primaryLabel: 'İşletmeleri aç',
       secondaryHref: '/prompt-uretimi',
@@ -124,7 +124,7 @@ export default async function HomePage() {
       </section>
 
       <section style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        <span className="badge">{pendingAudits} audit hattinda bekleyen is</span>
+        <span className="badge">{pendingAudits} inceleme hattında bekleyen iş</span>
         <span className="badge">{pendingOffers} teklif hattinda kapanmayan is</span>
         <span className="badge">{activeDeliveries} aktif teslimat kaydi</span>
         <span className="badge">{maintenanceProjects} bakim kaydi</span>
@@ -138,7 +138,7 @@ export default async function HomePage() {
               <h3>İlk bakışta ne yapmalıyım?</h3>
             </div>
             <ul className="list">
-              <li>Önce audit → teklif → teslimat hattında biriken işi kapat.</li>
+              <li>Önce inceleme → teklif → teslimat hattında biriken işi kapat.</li>
               <li>Prompt gerektiren işlerde kısa özet eksiklerini tamamla, sonra hazır promptu al.</li>
               <li>Bağlam eksikse ilgili dokümana git, operasyon kaydını referans dosyalarıyla karıştırma.</li>
             </ul>

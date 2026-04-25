@@ -21,7 +21,7 @@ const businessStatusLabels = {
 
 const stageLabels: Record<ProjectOsStage, string> = {
   intake: 'Giriş',
-  audit: 'Audit',
+  audit: 'İnceleme',
   offer: 'Teklif',
   delivery: 'Teslimat',
   maintenance: 'Bakım',
@@ -145,7 +145,7 @@ export default async function BusinessesPage({
             <select name="stage" defaultValue={filters.stage}>
               <option value="all">Tüm aşamalar</option>
               <option value="intake">Giriş</option>
-              <option value="audit">Audit</option>
+              <option value="audit">İnceleme</option>
               <option value="offer">Teklif</option>
               <option value="delivery">Teslimat</option>
               <option value="maintenance">Bakım</option>

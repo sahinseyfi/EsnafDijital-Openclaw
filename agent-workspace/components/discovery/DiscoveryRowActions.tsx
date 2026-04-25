@@ -98,7 +98,7 @@ export function DiscoveryRowActions({ placeId, initiallyShortlisted, importInfo,
       </div>
       {currentImport ? (
         <div className="stack-xs">
-          <span className="muted">İşletme {currentImport.businessId.slice(0, 8)} ve audit {currentImport.auditId.slice(0, 8)} açıldı.</span>
+          <span className="muted">İşletme {currentImport.businessId.slice(0, 8)} ve inceleme {currentImport.auditId.slice(0, 8)} açıldı.</span>
           <Link href={`/businesses/${currentImport.businessId}`} className="ghost-link" style={{ minHeight: 36, padding: '8px 12px', width: 'fit-content' }}>
             İşletme kaydını aç
           </Link>

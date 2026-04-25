@@ -35,7 +35,7 @@ const stageOrder: ProjectOsStage[] = ['intake', 'audit', 'offer', 'delivery', 'm
 
 function getStageLabel(stage: ProjectOsStage) {
   if (stage === 'intake') return 'Giriş'
-  if (stage === 'audit') return 'Audit'
+  if (stage === 'audit') return 'İnceleme'
   if (stage === 'offer') return 'Teklif'
   if (stage === 'delivery') return 'Teslimat'
   return 'Bakım'
@@ -77,9 +77,9 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       district: business.district,
       stage: 'intake',
       stageLabel: getStageLabel('intake'),
-      statusLabel: 'Audit açılmadı',
-      nextAction: 'Audit başlat',
-      summary: 'İşletme kaydı var ama operasyon zinciri henüz audit ile başlamadı.',
+      statusLabel: 'İnceleme açılmadı',
+      nextAction: 'İnceleme başlat',
+      summary: 'İşletme kaydı var ama operasyon zinciri henüz inceleme ile başlamadı.',
       advanceAction: null,
     }
   }
@@ -92,8 +92,8 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       district: business.district,
       stage: 'audit',
       stageLabel: getStageLabel('audit'),
-      statusLabel: audit.status === 'new' ? 'Yeni audit' : 'İncelenen audit',
-      nextAction: audit.status === 'new' ? 'Auditi incelemeye al' : 'Teklife geçir',
+      statusLabel: audit.status === 'new' ? 'Yeni inceleme' : 'İncelenen kayıt',
+      nextAction: audit.status === 'new' ? 'İncelemeyi ele al' : 'Teklife geçir',
       summary: `${audit.channelReadiness} hazırlık sinyali var. ${audit.summary}`,
       advanceAction: {
         entityType: 'audit',
@@ -114,7 +114,7 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
       stageLabel: getStageLabel('offer'),
       statusLabel: 'Teklif açılmadı',
       nextAction: 'İlk teklifi aç',
-      summary: 'Audit teklif aşamasına kadar geldi ama henüz teklif kaydı açılmadı.',
+      summary: 'İnceleme teklif aşamasına kadar geldi ama henüz teklif kaydı açılmadı.',
       advanceAction: null,
     }
   }
@@ -191,15 +191,15 @@ function deriveQueueItem(dataset: ProjectOsDataset, business: ProjectOsDataset['
 function buildHotStage(byStage: Record<ProjectOsStage, ProjectOsQueueItem[]>) {
   if (byStage.intake.length > 0) {
     return {
-      title: 'Audit açılmamış işletmeler var',
-      text: `${byStage.intake.length} işletme henüz audit ile başlatılmadı. Önce bu kayıtları zincire sokmak en net başlangıç.`,
+      title: 'İnceleme açılmamış işletmeler var',
+      text: `${byStage.intake.length} işletme henüz inceleme ile başlatılmadı. Önce bu kayıtları zincire sokmak en net başlangıç.`,
     }
   }
 
   if (byStage.audit.length > 0) {
     return {
-      title: 'Audit hattı sıcak',
-      text: `${byStage.audit.length} kayıt teklif öncesi netleşmeyi bekliyor. Audit tarafını kapatmadan teklif hattı sağlıklı ilerlemez.`,
+      title: 'İnceleme hattı sıcak',
+      text: `${byStage.audit.length} kayıt teklif öncesi netleşmeyi bekliyor. İnceleme tarafını kapatmadan teklif hattı sağlıklı ilerlemez.`,
     }
   }
 
@@ -229,8 +229,8 @@ export function deriveProjectOsOverview(dataset: ProjectOsDataset): ProjectOsOve
     if (stageDelta !== 0) return stageDelta
 
     if (left.stage === 'audit' && right.stage === 'audit') {
-      const leftAuditStatus = left.statusLabel === 'Yeni audit' ? 'new' : left.statusLabel === 'İncelenen audit' ? 'reviewed' : 'offered'
-      const rightAuditStatus = right.statusLabel === 'Yeni audit' ? 'new' : right.statusLabel === 'İncelenen audit' ? 'reviewed' : 'offered'
+      const leftAuditStatus = left.statusLabel === 'Yeni inceleme' ? 'new' : left.statusLabel === 'İncelenen kayıt' ? 'reviewed' : 'offered'
+      const rightAuditStatus = right.statusLabel === 'Yeni inceleme' ? 'new' : right.statusLabel === 'İncelenen kayıt' ? 'reviewed' : 'offered'
       const auditDelta = getAuditRank(leftAuditStatus) - getAuditRank(rightAuditStatus)
       if (auditDelta !== 0) return auditDelta
     }

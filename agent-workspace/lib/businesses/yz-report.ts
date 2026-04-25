@@ -121,7 +121,7 @@ function formatPayload(input: GenerateBusinessYzReportInput) {
     `- reviewsCount: ${input.discovery.reviewsCount || 0}`,
     `- isClosed: ${input.discovery.isClosed ? 'true' : 'false'}`,
     `- searchCoverageNote: ${input.discovery.searchCoverageNote || '—'}`,
-    `- auditSummary: ${input.auditSummary || '—'}`,
+    `- incelemeSummary: ${input.auditSummary || '—'}`,
   ].join('\n')
 }
 

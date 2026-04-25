@@ -118,7 +118,7 @@ export default async function DiscoveryDetailPage({
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             <span className="badge">İşletme {importInfo.businessId.slice(0, 8)}</span>
-            <span className="badge">Audit {importInfo.auditId.slice(0, 8)}</span>
+            <span className="badge">İnceleme {importInfo.auditId.slice(0, 8)}</span>
             {'importedAt' in importInfo && importInfo.importedAt ? <span className="badge">Aktarım {importInfo.importedAt}</span> : null}
           </div>
           <div className="page-header-actions">

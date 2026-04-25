@@ -190,7 +190,7 @@ export async function createAudit(input: AuditInput): Promise<ProjectOsDataset> 
   const summary = input.summary?.trim()
 
   if (!businessId || !summary) {
-    throw new Error('İşletme ve audit özeti zorunlu.')
+    throw new Error('İşletme ve inceleme özeti zorunlu.')
   }
 
   ensureDatabaseUrl()
