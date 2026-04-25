@@ -1,82 +1,102 @@
 # Prompting Principles
 
-## Uygulanacak ilkeler
-1. Ham notu once parcala ve tek bir `primaryTask` sec.
-2. Varsayilan olarak tek prompt uret, diger basliklari `secondaryTasks` ve `parkedQuestions` alanlarina ayir.
-3. Ancak gercekten bagimsiz iki is varsa `promptStrategy` alanini `split_recommended` yap, yine de otomatik iki prompt uretme.
-4. Once cekirdek baglam ozetini kur, sonra gereken ikincil baglami sec. Dump etme.
-5. Beklenen cikti tipini acik ver.
-6. Kisa ama yapilandirilmis kal.
-7. Dosya veya skill degerlendirme gorevlerinde once karar ver, sonra sadece gereken yerde degisiklik oner.
-8. Dis GPT oturumunda repo analizi gerekiyorsa, final prompt dis GPT'yi repo icerigini gercekten incelemeye yonlendirsin. Bu da mumkun degilse acik bosluk veya blokaj yazdirsin.
-9. Repo ve runtime gercegine bagla.
-10. Eksik kritik bilgiyi uydurma.
-11. Hedef modelin baglam ihtiyacini icerde dusun, final prompta oturum hafizasi veya baglam eksigi meta cumlesi olarak tasima.
-12. Uygunsa teknik olmayan kisa ozeti JSON disinda, ayri bir ikinci bolum olarak iste.
-13. finalPromptText'i dogrudan son prompt olarak yaz, sonradan template ile toparlanacak taslak gibi birakma.
-14. Sabit rol ve uygulanabilir gorev tanimi kullan.
-15. `https://github.com/sahinseyfi/EsnafDijital-Openclaw` referansi finalPromptText icinde her zaman gecsin.
-16. `https://github.com/openclaw/openclaw` referansini runtime, upstream davranisi veya OpenClaw siniri gorevi etkiliyorsa ekle.
-17. Citation, footnote veya markdown reference link kullanma, link gerekiyorsa dogrudan URL ver.
-18. Promptu hemen uygulanabilir yaz.
+Bu dosya, Prompt Uretimi promptlarinin nasil yazilacagini belirler. Baglam secimi icin `context-injection-policy.md` kullanilir.
+
+## Ana ilkeler
+
+1. Tek `primaryTask` sec.
+2. Varsayilan olarak tek prompt uret.
+3. Bagimsiz ikinci is varsa `split_recommended` de, ama ikinci promptu otomatik yazma.
+4. Rol, `primaryTask` turune gore ozellestirilsin.
+5. Cekirdek baglam kisa olsun; dosya dump'i yapma.
+6. Beklenen cikti tipi net olsun.
+7. Dosya degerlendirmelerinde once karar ver, sonra sadece gereken degisikligi oner.
+8. Repo analizi gerekiyorsa dis GPT'ye repo icerigini gercekten incelet.
+9. Eksik kritik bilgiyi uydurma.
+10. Final prompt dogrudan kullanilabilir olsun.
+
+## Rol secimi
+
+Sabit rol kullanma. Rol, isin dogasina gore secilir.
+
+Rol kalibi:
+`Sen, EsnafDigital icin [ise ozel uzman rol] olarak calisiyorsun.`
+
+Gerekiyorsa ikinci cumle:
+`VPS uzerinde calisan OpenClaw ajaniyla birlikte calisacak ve repo/runtime gercegine gore dusuneceksin.`
+
+Rol ornekleri:
+- Repo / context / ajan dosyalari: `kidemli repo hijyeni ve ajan calisma sistemi denetcisi`
+- Skill veya prompt kalitesi: `prompt kalite denetcisi ve baglam secimi uzmani`
+- UI / UX / sayfa akisi: `urun tasarimi ve arayuz elestirmeni`
+- Teklif / paket / hizmet dili: `kucuk isletme hizmet paketleme danismani`
+- Teknik uygulama: `Next.js, Postgres ve Prisma uygulama mimari`
+- Saha / isletme inceleme: `kucuk isletme dijital gorunurluk analisti`
+- Strateji / yon karari: `sade MVP ve operasyon modeli danismani`
+
+Rol secilemediyse:
+`EsnafDigital icin urun ve teknik dusunme partneri`
 
 ## Tercih edilen prompt omurgasi
-- rol
-- amac
-- secili baglam
-- gorev
-- sinirlar
-- beklenen cikti
-- JSON disi kisa teknik olmayan ozet bolumu
+
+1. Rol
+2. Amac
+3. Secili baglam
+4. Gorev
+5. Sinirlar
+6. Beklenen cikti
+7. Gerekirse teknik olmayan kisa ozet bolumu
+
+## Repo ve link kurali
+
+- `https://github.com/sahinseyfi/EsnafDijital-Openclaw` sadece repo, dosya, kod, runtime veya karar baglami gerekiyorsa final prompta girer.
+- `https://github.com/openclaw/openclaw` sadece OpenClaw runtime, upstream davranisi, ajan yetenegi veya skill sistemi gorevi etkiliyorsa girer.
+- Linkler dogrudan URL olarak yazilir; citation, footnote veya markdown reference link kullanilmaz.
 
 ## Decomposition cizgisi
-- once nottaki ayri isleri ve sorulari listele
-- bu turda gercekten cozulecek `primaryTask` alanini sec
-- prompt disinda kalacak ama kaybolmamasi gereken basliklari `secondaryTasks` alanina yaz
-- bu turda hic acilmamasi gereken veya sonra ayrica ele alinacak sorulari `parkedQuestions` alanina yaz
-- `whyPrimaryNow` alaninda neden bu isin one alindigini acikla
-- `promptStrategy` varsayilan olarak `single_prompt` olsun
-- `split_recommended` yalnizca tek prompta sikistirmak kaliteyi bozacak kadar bagimsiz coklu is varsa kullanilsin
-- `finalPromptText` sadece `primaryTask` icin yazilsin
+
+- Notta ayri isler var mi kontrol et.
+- Bu turda cozulecek isi `primaryTask` yap.
+- Prompt disinda kalacak ama kaybolmamasi gerekenleri `secondaryTasks` alanina yaz.
+- Sonraya birakilacak sorulari `parkedQuestions` alanina yaz.
+- `whyPrimaryNow` alaninda neden bu isin one alindigini acikla.
+- `finalPromptText` sadece `primaryTask` icin yazilsin.
 
 ## Final prompt checklist
-Promptu hazir saymadan once sunlari kontrol et:
-- prompt tek bir is istiyor mu
-- `primaryTask` net mi
-- `secondaryTasks` ve `parkedQuestions` ayristirildi mi
-- `finalPromptText` yalnizca `primaryTask` icin mi
-- cekirdek baglam ozeti kurulmus mu
-- secili baglam istenen degisikligi guvenle kurmaya yetecek kadar genis mi
-- karari etkilemeyen tekrarlar prompta tasinmamis mi
-- beklenen cikti tipi acik mi
-- sinirlar ve basari kosulu yazili mi
-- gerekiyorsa teknik olmayan kisa ozet istegi JSON disinda ayri bir bolum olarak var mi
-- finalPromptText dogrudan kullanilacak son prompt gibi mi
-- contextRefs en fazla 4 ogeye dusurulmus mu
-- `https://github.com/sahinseyfi/EsnafDijital-Openclaw` geciyor mu
-- runtime veya upstream baglami gercekten gerekiyorsa `https://github.com/openclaw/openclaw` geciyor mu
+
+Hazir saymadan once kontrol et:
+- Tek is mi istiyor?
+- Rol ise ozel mi?
+- `primaryTask` net mi?
+- Baglam yeterli ama sismemis mi?
+- Repo/runtime linkleri sadece gerektiginde mi var?
+- Beklenen cikti tipi acik mi?
+- Sinirlar ve basari kosulu yazili mi?
+- Dosya degerlendirme gorevi tum dosyalari rewrite etmeye zorlamiyor mu?
+- Teknik olmayan ozet gerekiyorsa ayri bolum olarak istenmis mi?
+- Final prompt dogrudan kullanilacak kadar tamam mi?
+- `contextRefs` en fazla 4 oge mi?
 
 ## Hazir saymama durumlari
-- prompt fazla genel kalmissa
-- repo/runtime baglami eksikse
-- kullanilacak cikti bicimi net degilse
-- dosya degerlendirme gorevi toplu rewrite moduna kayiyorsa
-- baglam yapay olarak dar tutulup kritik kaynaklar disarida kalmissa
-- gereksiz teori promptun agirligini artiriyorsa
-- eksik kritik bilgi saklaniyorsa
+
+- Prompt fazla genel kaldiysa
+- Rol sabit veya ise uygunsuzsa
+- Repo/runtime baglami gerekirken eksikse
+- Cikti bicimi belirsizse
+- Kritik kaynaklar disarida kaldiysa
+- Gereksiz teori promptu sisirdiyse
+- Eksik bilgi saklaniyorsa
 - `primaryTask` disindaki isler final prompta sizdiysa
-- oturum hafizasi veya baglam eksigiyle ilgili meta cumleler final promptta geciyorsa
-- `[1]`, `[2]`, `([GitHub][1])` gibi atif veya footnote stili geciyorsa
+- Repo incelemeden repo hakkinda kesin karar istiyorsa
 
 ## Anti-patternler
-- genel strateji yazip uygulamaya inmemek
-- tum prompt kaydi gecmisini basmak
-- tek promptta birden fazla is istemek
-- decomposition yapmadan genis notu dogrudan prompta cevirmek
-- cikti tipini acik tanimlamamak
-- dosya degerlendirme gorevini butun dosyalari rewrite etmeye zorlamak
-- teori ve jargonla promptu sisirmek
-- dis GPT oturumunda repo analizi isterken repo incelemesini bizim ajan yapacakmis gibi belirsiz yazmak
-- dis GPT oturumunda repo analizi isterken repo icerigini incelemeden kesin konusmak
-- son prompt yerine kodun toparlayacagi yarim taslak uretmek
-- repo linklerini veya runtime gercegini ima edip acik yazmamak
+
+- Her promptu ayni rol cumlesiyle baslatmak
+- Genel strateji yazip uygulamaya inmemek
+- Tum prompt kaydi gecmisini basmak
+- Tek promptta birden fazla is istemek
+- Decomposition yapmadan genis notu prompta cevirmek
+- Dosya degerlendirme gorevini butun dosyalari rewrite etmeye zorlamak
+- Repo linklerini veya runtime gercegini ima edip acik yazmamak
+- Dis GPT oturumunda repo analizi isterken repo icerigini inceletmemek
+- Son prompt yerine yarim template uretmek

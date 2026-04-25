@@ -1,183 +1,162 @@
 # Context Injection Policy
 
-Bu dosya, Prompt Üretimi prompt uretiminde hangi baglamin nasil secilecegini belirler.
-
-## Amac
-- Gerekli cekirdek proje cizgisini korumak
-- Gereksiz dosya dump'i yapmadan daha iyi prompt kurmak
-- Ham dosyalari her seferinde yukleyip baglami sisirmemek
-- Goreve gore dogru ikincil kaynaklari secmek
-- Eksik kritik baglam varsa bunu acik bosluk olarak gostermek
-- Geniş notu once parcalayip yalnizca `primaryTask` icin baglam secmek
+Bu dosya, Prompt Uretimi sirasinda hangi baglamin secilecegini belirler. Amac daha cok baglam degil, dogru baglamdir.
 
 ## Varsayilan akis
-1. Once ham notu parcala ve `primaryTask` sec.
-2. Sonra cekirdek baglam ozeti kur.
-3. Goreve gore gerekli ikincil baglami sec.
+
+1. Ham notu parcala ve `primaryTask` sec.
+2. Kisa cekirdek ozet kur.
+3. Gorev tipine gore ikincil kaynak sec.
 4. Sadece gerekirse ham dosya oku.
-5. Karari etkilemeyen tekrarları prompta tasima.
-6. `secondaryTasks` ve `parkedQuestions` icin gereksiz ek baglam toplamaya girme.
+5. Prompta sadece karari etkileyen baglami tasi.
+6. `secondaryTasks` ve `parkedQuestions` icin ek baglam toplamaya girme.
 
-## Her gorevde zorunlu cekirdek ozet
-Asagidaki cizgiler kisa operasyon ozeti olarak gorunsun, ama varsayilan olarak ham metinleri prompta girme:
+## Cekirdek ozet
+
+Cekirdek ozet, ham dosya dump'i degil 3-8 kisa madde olmalidir.
+
+Varsayilan olarak sadece gorevi etkileyen cizgileri sec:
 - calisma bicimi
-- ton ve tavir
 - kullanici tercihleri
-- ortak rol
-- teknik ve guvenlik sinirlari
-- kalici yon
-- aktif odak
+- kalici proje yonu
+- aktif hedef
+- teknik/guvenlik sinirlari
+- hizmet ve CRM ayrimi
 
-Bu cizgiler tipik olarak su kaynaklardan gelir:
-- `AGENTS.md`
-- `SOUL.md`
-- `USER.md`
-- `IDENTITY.md`
-- `TOOLS.md`
-- `MEMORY.md`
-- `HEARTBEAT.md`
+Kaynaklar:
+- `AGENTS.md` ve `SOUL.md`: calisma bicimi ve ton
+- `USER.md`: kullanici tercihleri
+- `MEMORY.md`: kalici karar cizgisi
+- `HEARTBEAT.md`: aktif durum
+- `TOOLS.md`: teknik ve guvenlik sinirlari
+- `IDENTITY.md`: rol ayrimi gerekiyorsa
 
-## Cekirdek ozetin bicimi
-- en fazla 10-20 kisa madde
-- tekrar yok
-- sadece gorevi etkileyen cizgi var
-- karar vermeye yardim etmeyen tarihsel ayrinti yok
+Bu dosyalarin tam metni prompta otomatik tasinmaz.
 
-## Gorev tipine gore ikincil baglam
+## Gorev tipine gore baglam
 
-### 1) Dosya degerlendirme veya baglam inceleme
-- Ek baglam:
-  - `README.md`
-  - `PROJECT.md`
-  - ilgili `DECISIONS/` kayitlari
-  - gerekiyorsa ilgili `memory/` notlari
-- Ham oku:
-  - degerlendirilen dosyalarin kendisi
-  - dis GPT oturumunda erisilebilen repo dosyalari, linkler veya archive icerigi
-- Prompta tasima:
-  - ilgisiz deploy detaylari
-  - gorevi etkilemeyen eski gunluk notlar
-  - tum dosyalari otomatik yeniden yazdiran dil
+### 1) Dosya degerlendirme / baglam inceleme
 
-### 2) Skill iyilestirme veya prompt kalitesi
-- Ek baglam:
-  - ilgili `SKILL.md`
-  - ilgili `references/`
-  - gerekiyorsa ilgili uygulama entegrasyon dosyalari
-- Ham oku:
-  - skill ve ilgili reference dosyalari
-- Prompta tasima:
-  - tum memory dump'i
-  - gorevle ilgisiz repo belgeleri
+Ek baglam:
+- `README.md`
+- `PROJECT.md`
+- ilgili `DECISIONS/` kayitlari
+- gerekiyorsa ilgili `memory/` notlari
+
+Ham oku:
+- degerlendirilen dosyalar
+- cakisma aranan dosyalar
+- dis GPT repo analizi yapacaksa erisebilecegi repo linkleri veya dosya listesi
+
+Prompta tasima:
+- dosyalarin tam metni degil, goreve yetecek secili ozet
+- exact wording gerekiyorsa ilgili kisa alinti
+
+### 2) Skill iyilestirme / prompt kalitesi
+
+Ek baglam:
+- ilgili `SKILL.md`
+- ilgili `references/`
+- gerekiyorsa entegrasyon dosyasi
+
+Prompta tasima:
+- skill'in amaci
+- sorunlu kurallar
+- beklenen cikti kontrati
+
+Tasinmayacaklar:
+- tum memory dump'i
+- gorevle ilgisiz repo belgeleri
 
 ### 3) Feature implementation
-- Ek baglam:
-  - `README.md`
-  - `PROJECT.md`
-  - `ROADMAP.md`
-  - ilgili `CHECKLISTS/` veya `PLAYBOOKS/`
-- Ham oku:
-  - degisecek dosyalar ve ilgili rehber
-- Prompta tasima:
-  - ilgisiz karar loglari
-  - gorevle alakasiz tarihsel notlar
 
-### 4) Bugfix, deploy veya incident
-- Ek baglam:
-  - `OPERATIONS.md`
-  - ilgili `memory/` notlari
-  - ilgili deploy veya verify scriptleri
-- Ham oku:
-  - hata kaynagi olan dosyalar ve scriptler
-- Prompta tasima:
-  - stratejik ama gorevsiz belgeler
-  - bugla ilgisiz plan notlari
+Ek baglam:
+- `README.md`
+- `PROJECT.md`
+- `ROADMAP.md`
+- ilgili checklist/playbook
 
-### 5) Teklif, inceleme veya teslimat akisi
-- Ek baglam:
-  - `OFFERS.md`
-  - `SEGMENTS.md`
-  - `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
-- Ham oku:
-  - teklifi veya akisi dogrudan etkileyen belge
-- Prompta tasima:
-  - gereksiz teknik altyapi detaylari
+Ham oku:
+- degisecek kod dosyalari
+- route/component/model veya scriptler
 
-### 6) Prompt Üretimi prompt uretimi veya revizyonu
-- Ek baglam:
-  - prompt kaydi
-  - ilgili skill reference dosyalari
-  - gerekiyorsa `README.md` veya `PROJECT.md`
-  - runtime veya davranis gercegi gerekiyorsa uygun uygulama dosyalari
-- Ham oku:
-  - promptu belirleyen prompt kaydi ve ilgili skill referanslari
-  - sadece gerekiyorsa ek proje dosyalari
-  - dis GPT oturumunda repo analizi zorunluysa ilgili repo dosyalari, linkler veya archive icerigi
-- Prompta tasima:
-  - tum repo geneli
-  - ilgisiz memory notlari
-  - `secondaryTasks` veya `parkedQuestions` icin gereken ama `primaryTask` icin kritik olmayan dosyalar
+Tasinmayacaklar:
+- eski karar loglari
+- feature ile ilgisiz strateji notlari
 
-## Ham dosya ne zaman okunur
+### 4) Bugfix / deploy / incident
+
+Ek baglam:
+- `OPERATIONS.md`
+- ilgili incident veya gunluk memory notu
+- deploy/verify scriptleri
+
+Ham oku:
+- hata kaynagi dosyalar
+- log veya scriptler
+
+Tasinmayacaklar:
+- bugla ilgisiz proje stratejisi
+
+### 5) Teklif / inceleme / teslimat akisi
+
+Ek baglam:
+- `OFFERS.md`
+- `SEGMENTS.md`
+- `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
+
+Ham oku:
+- teklifi veya akisi dogrudan etkileyen belge
+
+Tasinmayacaklar:
+- gereksiz teknik altyapi detaylari
+
+## Ham dosya ne zaman okunur?
+
+Oku, eger:
 - dosyanin kendisi duzenlenecekse
 - exact wording onemliyse
 - iki dosya arasinda cakisma analizi yapilacaksa
-- karar belirli bir kayda veya belgeye dayanacaksa
+- karar belirli bir kayda dayaniyorsa
 - ozet dusuk guven veriyorsa
 - kullanici dosyanin kendisini incelemeyi istediyse
-- dis GPT oturumunda repo analizi yapiliyorsa ve cikti repo gercegine dayanacaksa
+- dis GPT repo analizi yapacaksa ve cikti repo gercegine dayanacaksa
 
-## Ham dosya ne zaman prompta tasinmaz
-Dosya okunmus olsa bile tam metin prompta tasinmaz, eger:
+## Ham dosya ne zaman prompta tasinmaz?
+
+Dosya okunmus olsa bile tam metin tasima, eger:
 - sadece ana cizgi gerekiyorsa
-- bilgi tekrari uretiyorsa
+- bilgi tekrar ediyorsa
 - gorevi dogrudan etkilemiyorsa
-- ayni bilgi cekirdek ozette zaten varsa
-- yalnizca `secondaryTasks` veya `parkedQuestions` icin lazimsa
+- ayni bilgi cekirdek ozette varsa
+- sadece `secondaryTasks` icin lazimsa
 
-## Prompt icine baglam nasil yerlestirilir
-Tercih edilen sira:
-1. amac
+## Prompt icinde baglam sirasi
+
+1. Amac
 2. `primaryTask`
-3. karar sorusu veya hedef
-4. cekirdek baglam ozeti
-5. goreve ozel secili ikincil baglam
-6. acik bosluklar veya varsayimlar
-7. gorev
-8. sinirlar
-9. beklenen cikti
+3. Karar sorusu veya hedef
+4. Kisa cekirdek ozet
+5. Goreve ozel secili baglam
+6. Acik bosluklar / varsayimlar
+7. Gorev
+8. Sinirlar
+9. Beklenen cikti
 
 ## Acik bosluk kurali
-Kritik bilgi eksikse uydurma.
 
-Onun yerine su sekilde isaretle:
+Kritik bilgi eksikse uydurma. Prompt, eksigi su sekilde yazdirsin:
 - acik bosluk
 - varsayim
-- dogrulanmasi gereken nokta
+- dogrulanacak nokta
+- blokaj
 
 ## Anti-patternler
+
 - her gorevde tum dosyalari ham haliyle prompta basmak
-- HEARTBEAT ve MEMORY icerigini tekrarli sekilde tasimak
-- gorevle ilgisiz checklist veya playbook eklemek
-- sadece daha cok baglam daha iyi diye token sisirmek
-- exact kaynak gerekmeyen durumda tum belgeyi yuklemek
-- aktif faz ile kalici kararlari birbirine karistirmak
-- baglami dosya sayisina gore yapay olarak daraltmak
+- HEARTBEAT ve MEMORY icerigini tekrarli tasimak
 - once `primaryTask` secmeden baglam toplamaya baslamak
-
-## Prompt Üretimi icin ozel not
-- once ham notu parcala
-- sonra `primaryTask` icin cekirdek baglam ozeti kur
-- sonra prompt kaydinin ihtiyacina gore ikincil baglam sec
-- prompta sadece karari etkileyen baglam tasinmali
-- eger hedef dis GPT oturumuysa ve gorev repo analizi gerektiriyorsa, final promptun dis GPT'yi ilgili repo icerigini incelemeye yonlendirmesi zorunlu varsay
-- bu da mumkun degilse final prompt bunu acik bosluk veya blokaj olarak yazdirsin
-
-## Hazir sayma kosulu
-Baglam paketi ancak su durumda hazir sayilir:
-- `primaryTask` net secildiyse
-- cekirdek proje cizgisi gorunuyorsa
-- aktif faz ile kalici yon karismiyorsa
-- goreve uygun ikincil kaynaklar secildiyse
-- karari etkilemeyen tekrar prompta tasinmadiysa
-- eksik kritik bilgi saklanmadiysa
+- baglami dosya sayisina gore yapay daraltmak
+- sadece daha cok baglam daha iyi diye token sisirmek
+- aktif faz ile kalici kararlari karistirmak
+- dis GPT'ye repo inceletmeden repo hakkinda kesin karar istetmek
