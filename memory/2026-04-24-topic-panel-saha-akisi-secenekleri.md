@@ -10236,10 +10236,153 @@ Kisa formda:
 Bu model audit ozetini hem yazarken toparliyor,
 hem de daha sonra Project OS ve Business Detail'e tasindiginda mekaniklestirmeden okunur tutuyor.
 
+## Altmis yedinci okuma - audit summary placeholder bu kadar netlestiyse, ayni alan icin ikinci bir `yardim metni` daha gerekir mi?
+Bir onceki kararda placeholder icin en dengeli aday netlesti:
+- `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+
+Simdi soru su:
+- bu alanin altina ikinci bir helper text de koymali miyiz?
+- yoksa placeholder tek basina yeterli mi?
+
+Bu soru onemli.
+Cunku audit create formu Project OS icindeki dar form alaninda aciliyor.
+Yani buradaki her ek satir,
+`dar form` ile `mikro editor` arasindaki siniri etkiliyor.
+
+### 1) Referanslar hangi yone itiyor?
+Burada uc guclu sinir var:
+- Project OS form duvarina donusmemeli
+- UX kurallari bilgi yogunlugunun kontrollu kalmasini istiyor
+- `audit.summary` alani tek form alani degil, sonraki derived yuzeylere de tasinan cekirdek metin
+
+Ayrica kod gerceginde bugun net olan seyler su:
+- `createAudit` tarafinda `summary` zorunlu
+- audit formu bir `dar form alani` kontratinin parcasi
+- grep taramasinda audit ozet alanina bagli tanimli bir yardim metni izine rastlanmadi
+- repo'da helperText desenleri daha cok tarama ve buton baglamlarinda, yani operasyon aciklamasi gereken yerlerde kullaniliyor
+
+Buradan ilk guclu sonuc cikiyor:
+- audit summary alaninda varsayilan tasarim `label + placeholder` ile yetinmeye daha yakin
+- ikinci yardim satiri ancak placeholder'in tek basina yetmedigi net bir kullanim sorunu varsa dusunulmeli
+
+### 2) Uc model
+
+#### HLP1) Yalniz placeholder
+Mantik:
+- label gorunur kalir
+- placeholder yonlendirir
+- ayrica helper text eklenmez
+
+Artisi:
+- dar form ritmi korunur
+- bilgi yogunlugu dusuk kalir
+- operatoru ayni yonde iki kez itmez
+- Project OS hizli aksiyon karakterine daha iyi uyar
+
+Eksisi:
+- placeholder focus sonrasi kayboldugu icin,
+  bazi operatorler yazarken yonlendirmeyi unutabilir
+
+Ara yorum:
+- su an en guvenli varsayilan bu
+
+#### HLP2) Placeholder + kisa helper text
+Ornek helper:
+- `Kisa tutun, teklif gerekcesine zemin hazirlayin.`
+
+Artisi:
+- yazarken yonlendirme kaybolmaz
+- alana rol netligi katabilir
+
+Eksisi:
+- placeholder zaten ayni isi yapiyorsa tekrar yaratir
+- dar formda ikinci aciklama satiri gereksiz burokrasi hissi dogurur
+- kotu yazilirsa audit ozeti ile teklif notu arasindaki ayrimi daha da bulandirabilir
+
+Ara yorum:
+- ancak placeholder yetersiz kalirsa dusunulecek ikinci adim
+
+#### HLP3) Placeholder + helper + yari-sablon ornegi
+Artisi:
+- disiplin cok artar gibi gorunur
+
+Eksisi:
+- audit create formunu mikro dokumantasyona cevirir
+- operatoru okuma/yazma moduna sokar
+- `dar form` yerine `kopya duvari` hissi uretir
+- skill'in kirmizi cizgisi olan gereksiz ekran/burokrasi artisini tetikler
+
+Ara yorum:
+- en riskli model bu
+
+### 3) Neden ikinci helper satiri varsayilan olarak fazla gelebilir?
+Cunku placeholder zaten uc kritik soruyu tek satirda veriyor:
+- ana eksik
+- muhtemel cozum yonu
+- beklenen sonuc
+
+Bunun altina bir de helper koyarsak,
+aynı alan su hisse kayabilir:
+- label
+- placeholder
+- helper
+- belki sonra hata mesaji
+
+Bu yogunluk,
+Project OS icindeki hizli audit acilisina gore fazla ogretici bir ton yaratir.
+V1'de ihtiyacimiz egitim metni degil,
+dogru yone iten hafif raydir.
+
+### 4) Peki placeholder'in kaybolmasi gercek risk degil mi?
+Bir miktar risk var.
+Ama bu riskin daha dusuk maliyetli cozumu once su olmali:
+- label'i net secmek
+- placeholder'i guclu yazmak
+- kayit kalitesini gozlemlemek
+
+Buna ragmen sahada su problem gorulurse:
+- operator metni hep eksik veya tek boyutlu giriyor
+- placeholder focus sonrasi yon tamamen kayboluyor
+
+ancak o zaman ikinci adim olarak cok kisa bir helper text dusunulebilir.
+Yani helper text V1 varsayilani degil,
+V1 gozlem sonrasi acilabilecek emniyet kemeri olmali.
+
+### 5) O zaman en guvenli V1 cizgi ne?
+Bence su:
+- audit summary alaninda label + guclu placeholder yeterli olmali
+- varsayilan olarak ikinci helper text eklenmemeli
+- copy yogunlugu yerine net placeholder tercih edilmeli
+- ancak gercek kullanimda kalite drift'i gorulurse,
+  o zaman ikinci adim olarak tek satirlik cok kisa helper dusunulebilir
+
+Yani ilk V1 paketi:
+- label = `Audit ozeti`
+- placeholder = `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+- no helper text by default
+
+### 6) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- audit summary placeholder netlestiyse,
+  ayni alan icin ikinci bir yardim metni varsayilan olarak gerekmez
+- en guvenli model `label + strong placeholder` gorunuyor
+- helper text ikinci katman olarak ancak gercek veri kalitesi sorunu cikarsa acilmali
+- audit create deneyimi `dar form` karakterini korumali,
+  ogretici kopya duvarina donmemeli
+
+Kisa formda:
+- recommended V1 = placeholder only
+- avoid = placeholder plus repetitive helper
+- maybe later = one-line helper after real usage signal
+- principle = protect low-density quick audit entry
+
+Bu model audit ozet alanini netlestiriyor,
+ama ayni anda Project OS formunu da agirlastirmiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
 - `ulasilamadi` pasif metadata satiri kullanilacaksa bunun en guvenli mikro kopyasi hangisi olmali: `Son temas denemesi: Ulasilamadi.` gibi olgusal form mu, yoksa `Son deneme yanitsiz kaldi.` gibi daha yumusak form mu?
-- audit summary placeholder bu kadar netlestiyse, ayni alan icin ikinci bir `yardim metni` daha gerekir mi, yoksa bu da gereksiz kopya yogunlugu mu yaratir?
+- audit summary alani `label + strong placeholder` ile kalacaksa, label'in kendisi `Audit ozeti` mi kalmali, yoksa `Kisa audit ozeti` gibi biraz daha daraltici bir ad daha mi guvenli olur?
