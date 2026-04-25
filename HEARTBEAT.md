@@ -1,8 +1,7 @@
 # HEARTBEAT.md
 
 Bu dosya karar kaynagidir.
-`HEARTBEAT.json` bu dosyanin eslik eden ozetidir.
-Davranis degistiren guncelleme once burada yapilir.
+Davranis degistiren guncelleme burada yapilir.
 
 Bu dosya sadece aktif durum panosudur.
 Bitmis isler ve uzun gecmis burada tutulmaz.
