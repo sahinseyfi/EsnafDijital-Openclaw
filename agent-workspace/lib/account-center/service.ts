@@ -227,12 +227,14 @@ export async function getAccountCenterState(): Promise<AccountCenterState> {
   const dashboardProfileMap = new Map((dashboardState?.profiles || []).map((profile) => [profile.profileId, profile]))
   const rawProfiles = Object.entries(authProfilesFile?.profiles || {})
 
+  const limitsByProfileId = await getAccountCenterProfileLimitsBatch(rawProfiles.map(([profileId]) => profileId)).catch(() => ({} as Record<string, AccountCenterLimits | null>))
+
   const profiles = rawProfiles.map(([profileId, credential]) => {
     const payload = parseJwtPayload(credential.access)
     const auth = payload?.['https://api.openai.com/auth'] || {}
     const profileMeta = meta[profileId] || {}
     const displayName = profileMeta.displayName?.trim() || profileMeta.workspace?.trim() || credential.email || profileId
-    const limits = null
+    const limits = limitsByProfileId[profileId] || null
 
     return {
       profileId,

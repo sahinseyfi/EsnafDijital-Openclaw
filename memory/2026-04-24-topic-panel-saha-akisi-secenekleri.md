@@ -204,8 +204,8 @@ Kisa yorum:
 - ilk guvenli cizgi = `Business Detail` icinde hafif ziyaret karti/modu
 
 ### Girilen bilgiler nasil sonuca donusur?
-- V1 operasyon hatti kisaltilmis 3 adim degil; `intake -> audit -> teklif -> teslimat -> bakim` cizgisi korunur
-- `Project OS` audit-first sicak kuyruk gibi davranabilir ama bu, diger asamalari yok saydigi anlamina gelmez
+- V1 operasyon hatti kisaltilmis 3 adim degil; `giris -> inceleme -> teklif oncesi hazirlik -> teklif -> teslimat -> bakim` cizgisi korunur
+- `Project OS` inceleme-oncelikli sicak kuyruk gibi davranabilir ama bu, diger asamalari yok saydigi anlamina gelmez
 - `Business Detail` bu hattin `neden / neye donustu` tarafini tek kayitta okumayi tasimali
 - `Project OS` ise hangi kayit hangi asamada ve neden bekliyor sorusunu tasimali
 
@@ -274,7 +274,7 @@ Ilk bloklar:
 - `Dis sinyaller` -> web, maps, sosyal, gozlenen aciklar
 - `Notlar / temas gecmisi`
 - `Ziyaret hazirligi` -> ne diyecegim, ne soracagim, ne toplayacagim
-- `Operasyon izi` -> `intake -> audit -> teklif -> teslimat -> bakim` + gerekiyorsa hafif blokaj sinyalleri
+- `Operasyon izi` -> `giris -> inceleme -> teklif oncesi hazirlik -> teklif -> teslimat -> bakim` + gerekiyorsa hafif blokaj sinyalleri
 - `Sonraki adim`
 
 Temel kural:
