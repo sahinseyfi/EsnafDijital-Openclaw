@@ -8964,10 +8964,184 @@ Kisa formda:
 Bu model hem Project OS'un mevcut stage mantigina uyuyor,
 hem de mikro temas sonucu aracini genel CRM etiket panosuna cevirmeden tutuyor.
 
+## Elli dokuzuncu okuma - `Project OS` kuyrugunda pre-delivery temas sonucu ile delivery/bakim blokaj sinyalini ayirmak icin en guvenli ikinci mikro desen ne olmali?
+Bir onceki ara karar su cizgiyi kurdu:
+- `temas sonucu` drawer'i pre-delivery tarafla sinirli kalmali
+- `delivery` ve `maintenance` ayni mikro temas diliyle zorlanmamali
+- Project OS kuyruk ve sicak is merkezi olmaya devam etmeli
+
+Simdi asil soru su:
+- o halde delivery/bakim tarafinda ikinci mikro desen ne olmali?
+- ayni drawer'in delivery versiyonu mu?
+- ayri bir mini blokaj drawer'i mi?
+- yoksa daha da dar bir `blokaj sinyali` modeli mi?
+
+Bu soru kritik.
+Cunku delivery/bakim tarafi zaten kolayca task/project manager gorunumune kayabilir.
+Burada yanlis desen secilirse,
+Project OS once mikro temas loguna,
+sonra da mikro operasyon panosuna doner.
+
+### 1) Referanslar hangi yone itiyor?
+Kaynaklar birlikte okununca birkac sert sinir veriyor:
+- delivery create mantigi zaten scope, gerekli assetler, erisimler ve yayin oncesi kontrol gibi operasyon iskeletiyle basliyor
+- CRM arastirmasi `DeliveryProject` icinde sinirli blokaj ve hafif eksik listesi fikrine acik, ama standalone task/subtask sistemine acikca karsi
+- bakim V1'de ayri buyuk nesne degil, `DeliveryProject` icinde yasayan durum olarak goruluyor
+- Project OS'un isi veri toplamak degil, `hangi is simdi hareket etmeli` sorusuna cevap vermek
+
+Buradan cikan ilk sonuc su:
+- delivery/bakim icin ikinci desen `temas sonucu` gibi eylem gecmisi toplamamali
+- onun isi yalniz `blokaj var mi, varsa ne kadar temel seviyede, nereye gitmeli` sorusunu cevaplamak olmali
+
+### 2) Uc model
+
+#### IBM1) Ayni drawer'in delivery/bakim versiyonu
+Ornek:
+- pre-delivery drawer'daki gibi bir ikinci drawer
+- bu kez icinde `asset bekleniyor`, `onay bekleniyor`, `yayin blokaji`, `guncelleme zamani` gibi presetler
+
+Artisi:
+- teknik olarak tutarli gorunur
+- operator iki benzer pattern ogrenmis olur
+
+Eksisi:
+- iki farkli kavrami ayni davranis ailesine sokar
+- temas sonucu ile operasyon blokajini ayni tur islem gibi gosterir
+- kisa surede `tarih`, `kime sorduk`, `hangi asset`, `hangi link` talepleri dogurur
+- Project OS'ta ikinci workflow cekirdegi acar
+
+Ara yorum:
+- yuzeysel tutarli gorunse de kavramsal olarak riskli
+
+#### IBM2) Ayri mini blokaj drawer'i
+Ornek:
+- delivery/maintenance kartinda `Blokaj isle`
+- acilinca 3-4 blokaj tipi secilir
+
+Artisi:
+- pre-delivery ile post-delivery dillerini ayirir
+- daha kontrollu bir ikincil pattern gibi gorunur
+
+Eksisi:
+- yine drawer + preset + kayit akisi kurar
+- delivery tarafinda ayrica mini checklist beklentisi dogurur
+- schema'da bugun blokaj nedeni/asset listesi alani olmadigi icin ya uydurma derived state'e yaslanir ya da yeni alan baskisi yaratir
+
+Ara yorum:
+- bir onceki modele gore daha temiz,
+  ama V1 icin yine de fazla operasyonlasma riski tasiyor
+
+#### IBM3) `Blokaj sinyali` mikro deseni
+Ornek:
+- delivery/maintenance kartinda temas drawer'i yerine kucuk bir durum satiri veya badge ailesi olur
+- yalniz 1 kisa sinyal gosterir:
+  - `Asset bekleniyor`
+  - `Onay bekleniyor`
+  - `Yayin riski`
+  - `Bakim dokunusu yaklasti`
+- gerekiyorsa tek kacis verir:
+  - `Detail'de ac`
+  - ya da mevcut primary aksiyona baglar
+
+Artisi:
+- Project OS'u task paneline cevirmeden blokaji gorunur kilar
+- temas sonucu ile operasyon blokajini semantik olarak ayirir
+- mevcut DeliveryProject sadeligine daha uyumludur
+- block reason'i kuyruk sinyali olarak tutar, cozum detayini detail/delivery yuzeyine iter
+
+Eksisi:
+- hizli inline guncelleme kadar eylemli his vermez
+- gercek blokajlar cogalirsa tek badge yetersiz kalabilir
+
+Ara yorum:
+- su an en saglikli V1 yol bu gorunuyor
+
+### 3) Neden ikinci bir drawer bile riskli?
+Cunku drawer teknik olarak hafif gorunse de,
+delivery/bakim baglaminda cok hizli su sorulari cagirir:
+- hangi asset eksik?
+- kimden bekleniyor?
+- ne zaman istendi?
+- kac kez hatirlatildi?
+- yayin icin hangi teknik adim takildi?
+
+Bu sorularin hepsi makul.
+Ama hepsini Project OS'ta cozmeye kalkarsak,
+queue ekranini ikinci bir teslimat yonetim paneline cevirmis oluruz.
+Bu da skill'in kirmizi cizgisine ters:
+- genel CRM'e kayma yok
+- teklif netlesmeden ve ana akis sertlesmeden ekran cogaltma yok
+
+### 4) Neden `blokaj sinyali` daha guvenli?
+Cunku Project OS'un isi cozumun ayrintisini tasimak degil,
+operatora sunu gostermek:
+- bu kayit ilerliyor mu
+- takildiysa niye takildi
+- simdi detail'e mi inmeli, yoksa ana aksiyonla ilerleyebilir mi
+
+Kucuk bir `blokaj sinyali` bunu yapiyor.
+Mesela:
+- `Asset bekleniyor` = delivery detayina in
+- `Onay bekleniyor` = operator ticari/operasyonel teyit isteyebilir
+- `Bakim dokunusu yaklasti` = bakim aksiyonu hatirlatilir
+
+Burada sinyal var,
+ama ayrik mini isleme motoru yok.
+Bu cizgi su an daha dogru.
+
+### 5) Peki bu sinyal nereden beslenmeli?
+V1 gerceginde schema cok yalniz:
+- `DeliveryProject`ta esasen `status` ve `scope` var
+- ayri blockerReason veya nextTouchAt alani henuz yok
+
+Bu yuzden V1 icin en guvenli yorum su:
+- delivery/bakim blokaj sinyali ilk asamada `scope` ve durumdan tureyen cok hafif derived ipucu olabilir
+- eger tekrar eden gercek ihtiyac cikarsa,
+  sonraki adim Project OS'a yeni drawer acmak degil,
+  `DeliveryProject` nesnesine dar 1-2 alan eklemeyi tartismak olmali
+
+Yani veri evinin yeri queue degil,
+DeliveryProject olmali.
+Bu ayrim onemli.
+
+### 6) O zaman en saglikli V1 pattern paketi ne?
+Bence su ikili artik netlesiyor:
+- pre-delivery = `compact preset drawer` ile temas sonucu
+- delivery/maintenance = `blokaj sinyali` mikro deseni
+
+`Blokaj sinyali`nin ozellikleri:
+- 1 kisa label/badge veya tek satir durum
+- yalniz anlamliysa gorunur
+- cozum isleme alani acmaz
+- en fazla `Detail'de ac` veya mevcut primary aksiyona bagli kisa link verir
+
+Olmamasi gerekenler:
+- ikinci serbest form
+- task checklist editoru
+- assignee / due date dunyasi
+- ayni kart icinde asset yonetim duvari
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- pre-delivery temas sonucu ile delivery/bakim blokaj sinyali ayni pattern ailesine zorlanmamali
+- delivery/bakim icin en guvenli ikinci mikro desen `blokaj sinyali` gorunuyor, ikinci bir drawer degil
+- bu sinyal queue'da yalniz `neden takildi / neden dikkat istiyor` seviyesinde kalmali
+- gercek operasyonel detay ve cozum Delivery/Business Detail yuzeyine inmeli
+- eger blokaj verisi kalici alan isterse bunun evi Project OS degil, `DeliveryProject` nesnesi olmali
+
+Kisa formda:
+- pre-delivery = action micro-pattern
+- delivery/maintenance = blocker signal micro-pattern
+- avoid = two parallel drawers
+- data home = DeliveryProject, not queue UI
+
+Bu model Project OS'u tek kokpit olarak koruyor,
+ama ayni ekranda iki farkli is dilini karistirmadan ilerletiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- `Project OS` kuyrugunda pre-delivery temas sonucu ile delivery/bakim blokaj sinyalini ayirmak icin en guvenli ikinci mikro desen ne olmali?
+- delivery/bakim `blokaj sinyali` icin en guvenli ilk label ailesi ne olmali: `asset`, `onay`, `yayin riski`, `bakim dokunusu` gibi 3-4 sabit tip yeterli mi?
