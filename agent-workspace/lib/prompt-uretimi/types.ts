@@ -22,7 +22,7 @@ export type ConsultationInboxItem = {
 }
 
 export type ConsultationContextRef = {
-  kind: 'heartbeat' | 'decision' | 'project' | 'roadmap'
+  kind: 'heartbeat' | 'decision' | 'project' | 'roadmap' | 'skill'
   title: string
   ref: string
 }

@@ -10,6 +10,11 @@ const CONSULTATION_PROMPT_SKILL_DIR = path.resolve(process.cwd(), '../skills/con
 const CONSULTATION_PROMPT_SKILL_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'SKILL.md')
 const CONSULTATION_CONTEXT_POLICY_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/context-injection-policy.md')
 const CONSULTATION_PROMPTING_REFERENCE_PATH = path.join(CONSULTATION_PROMPT_SKILL_DIR, 'references/prompting-principles.md')
+const CONSULTATION_PROMPT_SKILL_REF: ConsultationContextRef = {
+  kind: 'skill',
+  title: 'Prompt üretimi skill',
+  ref: 'skills/consultation-prompt-builder/SKILL.md',
+}
 
 function getConsultationPromptAgentId() {
   const agentId = process.env.CONSULTATION_PROMPT_AGENT_ID?.trim()
@@ -230,6 +235,8 @@ function parseAgentJson(raw: string): AgentSuggestion {
   const parkedQuestions = normalizeStringArray(parsed.parkedQuestions)
   const whyPrimaryNow = parsed.whyPrimaryNow?.trim() || parsed.whyNow.trim()
   const promptStrategy = normalizePromptStrategy(parsed.promptStrategy)
+  const contextRefs = Array.isArray(parsed.contextRefs) ? parsed.contextRefs.slice(0, 4) : []
+  const hasSkillRef = contextRefs.some((ref) => ref.ref === CONSULTATION_PROMPT_SKILL_REF.ref)
 
   return {
     title: parsed.title?.trim(),
@@ -243,7 +250,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
     whyNow: parsed.whyNow.trim(),
     desiredOutput: parsed.desiredOutput.trim(),
     finalPromptText: parsed.finalPromptText.trim(),
-    contextRefs: Array.isArray(parsed.contextRefs) ? parsed.contextRefs.slice(0, 4) : [],
+    contextRefs: hasSkillRef ? contextRefs : [CONSULTATION_PROMPT_SKILL_REF, ...contextRefs].slice(0, 4),
     businessBrief: parsed.businessBrief || undefined,
     technicalBrief: parsed.technicalBrief || undefined,
     sharedBrief: {
@@ -253,6 +260,7 @@ function parseAgentJson(raw: string): AgentSuggestion {
       parkedQuestions,
       whyPrimaryNow,
       promptStrategy,
+      promptBuilderSkill: CONSULTATION_PROMPT_SKILL_REF.ref,
     },
   }
 }

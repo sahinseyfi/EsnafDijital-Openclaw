@@ -163,6 +163,7 @@ function appendMeta(sharedBrief: Record<string, string | string[] | null> | unde
 
 function baseContextRefs(_type: ConsultationType): ConsultationContextRef[] {
   return [
+    { kind: 'skill', title: 'Prompt üretimi skill', ref: 'skills/consultation-prompt-builder/SKILL.md' },
     { kind: 'project', title: 'Proje çizgisi', ref: 'PROJECT.md' },
     { kind: 'heartbeat', title: 'Aktif faz ve öncelik', ref: 'HEARTBEAT.md' },
     { kind: 'project', title: 'Kalıcı karar çizgisi', ref: 'MEMORY.md' },

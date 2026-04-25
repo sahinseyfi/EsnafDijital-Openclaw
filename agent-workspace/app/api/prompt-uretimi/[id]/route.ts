@@ -37,7 +37,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     businessBrief?: Record<string, string | string[] | null>
     technicalBrief?: Record<string, string | string[] | null>
     sharedBrief?: Record<string, string | string[] | null>
-    contextRefs?: Array<{ kind: 'heartbeat' | 'decision' | 'project' | 'roadmap'; title: string; ref: string }>
+    contextRefs?: Array<{ kind: 'heartbeat' | 'decision' | 'project' | 'roadmap' | 'skill'; title: string; ref: string }>
   }
 
   const result = await updateConsultation(id, body)

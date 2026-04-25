@@ -108,6 +108,7 @@ export function buildPromptSummary(detail: Pick<ConsultationDetail, 'title' | 's
       : 'Varsayılan çizgi korundu, sistem tek ana prompt kurdu ve diğer başlıkları prompta taşırmadı.',
     parkedQuestions.length > 0 ? `Bu tur dışında bırakılan ${parkedQuestions.length} soru ayrıca park edildi.` : '',
     'Karşı GPT oturumunun hiçbir hafızası olmadığı varsayılıyor, bu yüzden gerekli proje bağlamı promptun içine taşınıyor.',
+    'Hazırlama kuralı: consultation-prompt-builder skill çizgisi uygulanıyor.',
     targetModel === 'gpt-5-pro'
       ? 'GPT-5 Pro seçili olduğu için prompt daha dikkatli, daha eksiksiz ve daha iyi düşünülmüş kuruluyor. Cevap daha geç gelebilir.'
       : 'GPT-5 seçili olduğu için prompt daha kompakt tutuluyor ama yine de kritik bağlam korunuyor.',
@@ -131,6 +132,7 @@ export function buildConsultationPrompt(detail: Pick<ConsultationDetail, 'type' 
     '</goal>',
     '',
     '<task>',
+    '- Promptu consultation-prompt-builder skill çizgisine göre kur.',
     '- Önce isteği doğru anla ve 1 cümlede yeniden yaz.',
     '- Gerekirse makul varsayımlarla ilerle, ama varsayımları açık işaretle.',
     '- Çözüm önerilerini mevcut repo ve ürün çizgisiyle uyumlu tut.',
