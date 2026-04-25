@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { promises as fs } from 'fs'
 import path from 'path'
 import { pathToFileURL } from 'url'
 
@@ -11,30 +12,60 @@ if (!agentId || !profileId) {
 }
 
 const agentDir = path.join('/root/.openclaw/agents', agentId, 'agent')
+const DIST_DIR = '/usr/lib/node_modules/openclaw/dist'
+
+function parseJwtPayload(token) {
+  if (!token) return null
+  const parts = token.split('.')
+  if (parts.length < 2) return null
+  try {
+    return JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'))
+  } catch {
+    return null
+  }
+}
+
+async function importDistByPrefix(prefix, predicate) {
+  const names = (await fs.readdir(DIST_DIR))
+    .filter((name) => name.startsWith(prefix) && name.endsWith('.js'))
+    .sort()
+
+  for (const name of names) {
+    const mod = await import(pathToFileURL(path.join(DIST_DIR, name)).href)
+    if (!predicate || predicate(mod)) return mod
+  }
+
+  throw new Error(`Uygun OpenClaw modulu bulunamadi: ${prefix}`)
+}
 
 try {
-  const ioMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/io-5pxHCi7V.js').href)
-  const storeMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/store-C1I9Mkh8.js').href)
-  const authProfilesMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/auth-profiles-BQEgLpFI.js').href)
-  const usageMod = await import(pathToFileURL('/usr/lib/node_modules/openclaw/dist/plugin-sdk/provider-usage.js').href)
+  const ioMod = await importDistByPrefix('io-', (mod) => typeof mod.createConfigIO === 'function' || typeof mod.a === 'function')
+  const authProfilesMod = await importDistByPrefix('auth-profiles-', (mod) => typeof mod.resolveApiKeyForProfile === 'function' || typeof mod.t === 'function')
+  const usageMod = await import(pathToFileURL(path.join(DIST_DIR, 'plugin-sdk/provider-usage.js')).href)
 
-  const cfg = ioMod.a()
-  const store = storeMod.n(agentDir, { allowKeychainPrompt: false })
-  const credential = store.profiles?.[profileId]
+  const createConfigIO = ioMod.createConfigIO || ioMod.a
+  const resolveApiKeyForProfile = authProfilesMod.resolveApiKeyForProfile || authProfilesMod.t
+
+  const authProfilesFile = JSON.parse(await fs.readFile(path.join(agentDir, 'auth-profiles.json'), 'utf8'))
+  const store = { profiles: authProfilesFile.profiles || {} }
+  const credential = store.profiles[profileId]
 
   if (!credential || credential.provider !== 'openai-codex') {
     console.log(JSON.stringify({ ok: true, usage: null }))
     process.exit(0)
   }
 
-  const resolved = await authProfilesMod.t({
+  const cfg = createConfigIO()
+  const resolved = await resolveApiKeyForProfile({
     cfg,
     store,
     profileId,
     agentDir,
   })
 
-  const snapshot = await usageMod.fetchCodexUsage(resolved.apiKey, credential.accountId, 5000, fetch)
+  const authPayload = parseJwtPayload(credential.access)?.['https://api.openai.com/auth'] || {}
+  const snapshot = await usageMod.fetchCodexUsage(resolved.apiKey, authPayload.chatgpt_account_id || null, 5000, fetch)
+
   console.log(JSON.stringify({
     ok: true,
     usage: {
