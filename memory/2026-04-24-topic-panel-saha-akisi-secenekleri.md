@@ -8440,10 +8440,196 @@ Bu model admin paneline girince isletme secimi ve ilerletme mantigini da daha te
 - mikro ilerletme = Project OS
 - tek kayit karari = Business Detail
 
+## Elli altinci okuma - `Project OS` kuyrugunda mikro temas sonucu islemenin en guvenli tetikleme deseni ne olmali?
+Bir onceki ara karar suydu:
+- `temas sonucu` tamamen detail'e kapatilmayacak
+- ama listeden serbest not/log acilmayacak
+- en saglikli sinir `Project OS'ta minimum yapisal mikro sonuc + Business Detail'de tam baglam`
+
+Simdi uygulama sorusu su:
+- bu mikro sonucu Project OS kartinda nasil isletmeli?
+- hep gorunen inline secim mi?
+- bir compact drawer mi?
+- yoksa tek dokunusluk presetler mi?
+
+Bu soru kritik.
+Cunku yanlis desen Project OS'u ya form duvarina cevirir,
+ya da hizli operasyon gucunu kirar.
+
+### 1) Referanslar hangi yone itiyor?
+Eldeki cizgi birkac net sinir veriyor:
+- `Project OS` = gunluk operasyon merkezi, hizli status ilerletme ve sicak kuyruk
+- `Business Detail` = tek kayit karar duvari
+- UX kurallari = kritik islem tek kolon, section basina 1 ana CTA, modal yalniz gercekten gerekiyorsa
+- Business Detail referansi = ikincil derinlik drawer/modal olabilir, ama ana akisi bogmamalidir
+
+Buradan cikan sert sonuc su:
+- Project OS karti icinde surekli gorunen cok alanli inline form yanlis yone iter
+- ama her basit mikro sonucta detail'e gondermek de fazla surtunme yaratir
+
+### 2) Uc model
+
+#### PTO1) Inline secim
+Ornek:
+- kart icinde select/chip grubu hep gorunur
+- operator karttan ayrilmadan sonucu secer
+
+Artisi:
+- tek bakista islenebilir
+- ekstra ac/kapa hareketi yok
+- kuyrukta hizli gibi gorunur
+
+Eksisi:
+- her karti mini forma cevirir
+- mobilde kalabaliklastirir
+- kartin asil `next step` ve primary aksiyonunu zayiflatir
+- outcome sayisi biraz artsa bile CTA duvari dogurur
+
+Ara yorum:
+- hizli gorunur ama scope ve gorsel yogunluk riski yuksek
+
+#### PTO2) Compact drawer
+Ornek:
+- kartta tek bir ikincil tetik: `Temas sonucu`
+- tiklaninca kisa drawer acilir
+- drawer icinde 4-5 preset sonuc gorunur
+- gerekiyorsa `detail'de ac` kacis linki bulunur
+
+Artisi:
+- kart temiz kalir
+- Project OS form duvarina donmez
+- yapisal sonuclar yine hizli girilir
+- istisna durumlari detail'e itmek kolay olur
+
+Eksisi:
+- bir ekstra tik ister
+- cok sik kullanilan akista hafif surtunme yaratir
+- drawer kotu tasarlanirsa modal gibi agir hissedebilir
+
+Ara yorum:
+- scope kontrolu en guclu model bu
+
+#### PTO3) Tek butonlu presetler
+Ornek:
+- kartta dogrudan kucuk preset butonlari gorunur:
+  `Ulasilamadi`, `Bekleniyor`, `Ziyaret`, `Detail`
+
+Artisi:
+- en hizli isleme hissi verir
+- `tek hareketle ilerlet` mantigina cok yakindir
+- yapisal sonuclarda operator dusunmeden ilerler
+
+Eksisi:
+- kart bazinda buton kalabaligi yaratir
+- etiketler uzadikca tasarim bozulur
+- her stage ve her kart icin ayni preset seti uygun olmayabilir
+- yanlis tik / acele kayit riski artar
+
+Ara yorum:
+- yalniz outcome kumesi cok dar ve sabitse guclu
+- genel varsayilan desen olarak riskli
+
+### 3) Neden inline secim en zayif aday?
+Cunku sorun yalniz estetik degil.
+Inline secim Project OS kartina su mesaji verir:
+- burada hem oku
+- hem karar ver
+- hem secim yap
+- hem gerekirse not dus
+
+Bu da karti `aksiyon cagirici queue item` olmaktan,
+`mini is kaydi formu`na cevirir.
+Bir kez bu kapı acilinca genelde devaminda su talepler gelir:
+- kanal secimi de gorunsun
+- tekrar tarihi de olsun
+- kisa not da ekleyelim
+
+Bu, tam da kacindigimiz kayma.
+
+### 4) Neden tek butonlu presetler cazip ama dikkat ister?
+Cunku Project OS'un ruhuna cok yaklasiyor:
+- tek hareket
+- hizli ilerletme
+- beklemeden kuyruk temizleme
+
+Ama sorun su:
+Project OS kartinda zaten ana odaklar var:
+- kaydi tanimak
+- next step'i gormek
+- primary aksiyonu secmek
+
+Bunlara 3-4 preset daha eklenince,
+her kartta `hangi buton asil is?` sorusu dogabilir.
+Ozellikle mobilde bu daha sert hissedilir.
+Yani preset mantigi kotu degil,
+ama acikta ve surekli gorunur halde tutulmasi riskli.
+
+### 5) O zaman compact drawer neden daha guvenli gorunuyor?
+Cunku su dengeyi kuruyor:
+- kartin ana akis rolunu koruyor
+- mikro sonucu yine hizli isletiyor
+- serbest forma kaymadan yapisal presetler sunuyor
+- istisna veya baglam gerekirse detail'e kapi birakiyor
+
+Yani drawer burada `detay formu` degil,
+`preset secim tepsisi` gibi davranirsa dogru olabilir.
+Bu onemli ayrim.
+Amac uzun akisyon degil,
+karti bozmadan ikinci katmanda 4-5 yapisal sonuc sunmak.
+
+### 6) Peki V1 drawer tam olarak nasil olmali?
+Bence su kadar dar olmali:
+- tetik: `Temas sonucu`
+- 4 sabit preset:
+  - `Ulasilamadi`
+  - `Geri donus bekleniyor`
+  - `Uygun zaman degil`
+  - `Ziyaret planlanacak`
+- bir kacis secenegi:
+  - `Detail'de netlestir`
+- kayit sonrasi ustte mevcut `durum guncellendi` geri bildirimiyle ayni cizgide kisa basari mesaji
+
+Olmamasi gerekenler:
+- serbest textarea
+- tarih secici
+- kisi secici
+- kanal formu
+- ikinci drawer/modala gecis
+
+### 7) Tek butonlu presetler hic mi kullanilmasin?
+Tamamen dislamamak daha dogru olabilir.
+Ama bunlar varsayilan acik satir olmaktan cok,
+sadece cok dar bir durumda anlamli olabilir:
+- kart sayisi azsa
+- stage sabitse
+- outcome kumesi gercekten iki secenege dusuyorsa
+
+Ornek:
+- sadece `ulasilamadi` ve `detail` gibi iki net secenek varsa
+kucuk preset strip dusunulebilir.
+Ama genel Project OS kuyrugu icin bunu varsayilan yapmak erken gorunuyor.
+
+### 8) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- `Project OS` kuyrugunda mikro temas sonucu islemenin en guvenli varsayilan tetikleme deseni `compact drawer + icinde sabit presetler` gorunuyor
+- `inline secim` kartlari mini forma cevirdigi icin en zayif aday
+- `tek butonlu presetler` hizli ama kart bazinda CTA kalabaligi ve yanlis tik riski nedeniyle genel varsayilan olmamali
+- drawer'in isi detay toplamak degil, karti bozmadan yapisal mikro sonucu secmek olmali
+
+Kisa formda:
+- default = compact preset drawer
+- maybe later = cok dar stage icin acik preset strip
+- avoid = surekli inline form
+
+Bu model onceki kararlarla da uyumlu:
+- queue micro outcome = Project OS
+- reasoning/context = Business Detail
+- no mini CRM drift
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- `Project OS` kuyrugunda mikro temas sonucu islemenin en guvenli tetikleme deseni ne olmali: inline secim mi, compact drawer mi, yoksa tek butonlu presetler mi?
+- `Project OS` kuyrugunda mikro temas sonucu kaydedildikten sonra en guvenli sonraki davranis ne olmali: kart kapanmasi mi, siradakine gecis mi, yoksa ayni kayitta kalip geri bildirim gosterme mi?
