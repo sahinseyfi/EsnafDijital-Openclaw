@@ -9784,10 +9784,167 @@ Kisa formda:
 Bu model Project OS'taki hizli mikro sonucu detail tarafina kontrollu bagliyor,
 ama Business Detail'i de tekrar eden dusuk degerli temas kirintilariyla sisirmiyor.
 
+## Altmis dorduncu okuma - hizli `temas sonucu`nda `ulasilamadi` yinelenirse bunun Project OS seviyesinde ikinci bir `soguk lead` veya `zayif temas` sinyaline donusmesi gerekir mi?
+Biriken kararlar artik net bir sinir veriyor:
+- Project OS'un isi `simdi ne hareket etmeli` sorusunu cevaplamak
+- stage omurgasi `audit -> teklif -> teslimat -> bakim` olarak sabit kalmali
+- hizli `temas sonucu` micro-queue ilerletme isidir, CRM-style lead nurturing motoru degil
+- `son 3 temas ozeti` bile sadece secmeli ve anlamli temaslari yukari tasimali
+
+Simdi kritik soru su:
+- `ulasilamadi` tekrar ederse sistem bunu ayri bir sinyale cevirmeli mi?
+- ornegin `soguk lead` veya `zayif temas` gibi ikinci bir queue statusu dogmali mi?
+- yoksa bu tekrar sadece alt seviyede kalip Project OS diline hic cikmamali mi?
+
+Bu soru onemli.
+Cunku tekrar eden dusuk sinyal tamamen gorunmez kalirsa operator ayni kayda anlamsiz enerji harcayabilir.
+Ama ayri `cold lead` dili acilirse pipeline furniture ve nurture CRM mantigi hizla geri gelir.
+
+### 1) Referanslar hangi yone itiyor?
+Repo burada beklenenden daha sert:
+- schema tarafinda `BusinessStatus` sadece `lead | active | paused`
+- Project OS derived tarafinda queue dili yalniz mevcut stage, `statusLabel`, `nextAction`, `summary` ve gerekiyorsa `advanceAction` etrafinda donuyor
+- CRM yonu arastirmasi acikca `warm / lukewarm / nurture / re-open` gibi soyut asamalari riskli buluyor
+- Project OS referansi da bu ekranin veri toplama ve yonetsel pipeline tiyatrosu degil, aktif isi ilerletme ekrani oldugunu tekrar ediyor
+
+Buradan ilk kuvvetli sonuc cikiyor:
+- `ulasilamadi` tekrarini ayri bir resmi stage veya yeni business statusune cevirmek yanlis yone iter
+- ama hic yansitmamak da operasyonel hafizayi fazla zayif birakabilir
+
+### 2) Uc model
+
+#### U1) Yeni resmi sinyal acilsin: `Soguk lead` / `Zayif temas`
+Mantik:
+- belirli tekrar sayisinda queue veya business statusu degissin
+- operator kartta bunu ayri status gibi gorsun
+
+Artisi:
+- tekrar eden erisim sorunu gorunur olur
+- saha seciminde bazen hizli eleme hissi verebilir
+
+Eksisi:
+- `lead pipeline` dili geri gelir
+- stage disi ikinci bir akil yurutme hattı acilir
+- `paused`, `lead`, `audit` gibi mevcut alanlarla carpisma baslar
+- yarin bunun yanina `sicak`, `orta`, `yeniden dene` gibi yeni etiketler eklenmek istenir
+
+Ara yorum:
+- ilk bakista pratik, ama en hizli CRM kaymasi yaratan model bu
+
+#### U2) Yeni resmi status olmasin, ama esik-temelli yardimci sinyal olsun
+Mantik:
+- `ulasilamadi` tekrar ederse stage degismez
+- business statusu degismez
+- ama kartta yalniz yardimci bir ipucu olusur
+- ornek: `Tekrar temas zayif` veya `Erisim zayifligi var`
+
+Artisi:
+- ana stage omurgasi korunur
+- tekrar eden dusuk sinyal tamamen kaybolmaz
+- operator ayni kayda kore sekilde saplanmaz
+
+Eksisi:
+- iyi tasarlanmazsa yine gizli bir scoring/pipeline'a doner
+- esik mantigi ister
+- helper satir, blokaj helper'lari ve temas eventleriyle karisma riski tasir
+
+Ara yorum:
+- dikkatli daraltilirsa dusunulebilir, ama cok kontrollu kalmali
+
+#### U3) Ayri sinyal acilmasin, tekrar alt seviyede kalsin
+Mantik:
+- `ulasilamadi` event olarak kaydedilir
+- detail tarafinda gerekiyorsa timeline veya ham event izi vardir
+- queue seviyesinde yeni bir soyutlama uretilmez
+
+Artisi:
+- Project OS dili temiz kalir
+- yeni pipeline katmani acilmaz
+- CRM savrulmasina en direncli modeldir
+
+Eksisi:
+- ayni kayda tekrar tekrar gidilme riski olur
+- operatorun `bu kayit zaten birkac kez temas disi kaldi` farkindaligi zayiflayabilir
+
+Ara yorum:
+- cok temiz ama biraz fazla sessiz kalabilir
+
+### 3) Neden yeni resmi `soguk lead` dili acmak yanlis?
+Cunku EsnafDigital'in merkezi `lead nurturing` degil,
+`audit -> teklif -> teslimat -> bakim` operasyonudur.
+`Soguk lead` gibi bir sinyal ilk anda masum dursa da,
+arkasindan su istekleri dogurur:
+- `sicak lead` da olsun
+- `yeniden canlandir` da olsun
+- `beklemede` ayri olsun
+- listede bunlara gore filtre acilsin
+
+Bu zincir dogrudan repo cizgisinin kacindigi yone gider.
+Ayrica bugunku schema ve derived mantikta boyle bir ikinci omurga yok.
+Eklenirse urun dili degil, yonetsel pipeline dili buyur.
+
+### 4) Peki tekrar eden `ulasilamadi` tamamen gorunmez mi kalmali?
+Tamamen degil.
+Cunku bu sinyal bazen su pratik anlama gelir:
+- bu kayit bugunun birincil saha enerjisini hak etmiyor olabilir
+- once baska daha canli audit firsatlarina gitmek daha verimli olabilir
+
+Ama bu yargi yeni `lead asamasi` ile degil,
+daha hafif bir dikkat ipucusuyla kurulursa daha saglikli olur.
+
+### 5) O zaman en guvenli V1 cizgi ne?
+Bence su:
+- `ulasilamadi` yinelenmesi yeni resmi queue stage'i veya business statusu uretmemeli
+- varsayilan olarak Project OS'ta ayri `soguk lead` etiketi de acilmamali
+- eger gercek kullanimda tekrar eden boşa efor problemi cikarsa,
+  ancak o zaman ikinci katmanda yalniz helper-duzeyi bir sinyal dusunulebilir
+- bu sinyalin dili de `lead temperature` degil,
+  daha operasyonel ve gecici bir ifade olmali
+
+Yani gerekirse sonraki aday aile su tarzda olabilir:
+- `Temas zayifligi var`
+- `Tekrar temas dusuk verim verdi`
+
+Ama bunlar bile V1'de varsayilan davranis olmamali.
+Oncelik, secmeli promote mantigi ve detail event izi ile yetinmek.
+
+### 6) Neden helper-duzeyi sinyal bile temkinli olmali?
+Cunku artik elimizde birden cok mikro katman var:
+- hizli temas preset'i
+- detail `son 3 temas ozeti`
+- delivery/bakim blokaj helper satiri
+- Project OS `summary`
+
+Bunlarin ustune bir de agresif `temas zayif` helper'i gelirse,
+kart kendi ana isinden uzaklasabilir.
+Bu yuzden boyle bir sinyal varsa bile:
+- ikincil,
+- esik-temelli,
+- nadir,
+- karar degistiren durumda
+olmasi gerekir.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- tekrarlayan `ulasilamadi`, yeni bir `soguk lead` veya `zayif temas` resmi statusune donusmemeli
+- bu alan lead/pipeline furniture dogurur ve CRM kaymasi riskini buyutur
+- varsayilan davranis, `ulasilamadi`yi alt seviyede event olarak tutmak ve queue dilini bozmemek olmali
+- ancak sahada gercek tekrar-efor sorunu kanitlanirsa,
+  stage disi ama helper-duzeyi cok hafif bir dikkat sinyali ikinci adim olarak dusunulebilir
+
+Kisa formda:
+- avoid = official cold-lead state
+- recommended V1 = keep unreachable low-level
+- maybe later = rare helper, not stage/status
+- principle = protect audit-first queue language
+
+Bu model Project OS'un audit-first operasyon kokpiti kimligini koruyor,
+ve temas bilgisini de yan bir nurture motoruna cevirmeden tasiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
-- hizli `temas sonucu`nda `ulasilamadi` yinelenirse bunun Project OS seviyesinde ikinci bir `soguk lead` veya `zayif temas` sinyaline donusmesi gerekir mi, yoksa bu da gereksiz CRM kaymasi mi olur?
+- `ulasilamadi` event'i alt seviyede kalacaksa bunun operatora en az zarar veren gorunur izi nerede olmali: yalniz ham timeline mi, yoksa detail icinde `son temas denemesi` gibi tek satirlik pasif metadata mi?
