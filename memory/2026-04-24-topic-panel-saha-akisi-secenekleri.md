@@ -10379,10 +10379,180 @@ Kisa formda:
 Bu model audit ozet alanini netlestiriyor,
 ama ayni anda Project OS formunu da agirlastirmiyor.
 
+## Altmis sekizinci okuma - 5 finalist modeli tekrar daraltinca hangi omurgalar ayakta kaliyor?
+Bu wake'in amaci mikro kararlarin gercek model secimine ne kadar donustugunu test etmekti.
+Cunku son birkac okumada su alanlarda ciddi daralma oldu:
+- admin panele ilk giris
+- discovery ile business ayrimi
+- `hangi isletmeye gidilecegi`
+- Business Detail'in rolu
+- Project OS'un rolu
+- hizli temas sonucu ve pasif hafiza izleri
+- audit -> teklif -> delivery zinciri
+
+Yani soru artik sadece tek tek UI karari degil:
+- bu parcalar gercekte hangi finalist modeli guclendiriyor?
+- hangileri hala ayakta ama zayif kaldi?
+
+### 1) Daraltma sonrasi sabitlenen cekirdekler
+Su satirlar artik neredeyse omurga gibi duruyor:
+- `Discovery` aday bulma ve on eleme yuzeyi olarak kalmali
+- `Businesses` / `Business Detail` sahiplenilen kayitlarin evi olmali
+- `Business Detail` tek kayitta karar merkezi olmali
+- `Project OS` gunluk sicak is ve stage kuyrugu olmali
+- `ziyaret hazirlik` ayri ana urun olmaktan once detail icindeki hafif katman olarak test edilmeli
+- audit dili teklif/delivery zincirini beslemeli
+- hizli temas sonucu varsa bile mini CRM'e kaymamalı
+
+Bu set su an finalistleri esit durumda birakmiyor.
+Bazi modeller bu cizgiyle daha cok hizalaniyor.
+
+### 2) 5 finalistin guncel sirasi
+
+#### 1. Finalist C - Hibrit model
+**Guncel omurga:**
+- `Discovery` = aday bulma ve on eleme
+- `Businesses` = sahiplenilen kayit havuzu
+- `Business Detail` = tek kayit karar merkezi
+- `Project OS` = gunluk sicak operasyon
+- `ziyaret hazirlik` = ayri sayfa degil, detail icindeki hafif mod/kart
+
+**Neden en guclu?**
+Cunku kullanicinin sordugu tum ana sorulara ayri ama kontrollu bir ev veriyor,
+ama yeni bir genel CRM evreni acmiyor.
+Ayrica sonraki mikro kararlarin cogu da bunu destekledi:
+- ziyaret secimi discovery skoru ile ayni degil
+- Project OS saha secim motoru degil
+- detail tek kayitta daha da guclendi
+- ziyaret hazirlik ayri pano olmadan once detail icinde test edilmeli
+- audit -> teklif -> delivery zinciri de detail icinde zincir kartlariyla gorunur kilinabilir
+
+**En guclu varyasyon:** `C1/C3 melezi`
+- klasik hibrit omurga korunur
+- ziyaret hazirlik detail modu olur
+- root veya nav tarafinda gorev-yonlendirme hafif kalir
+
+**Zayif nokta:**
+- rol ayrimi kotu yazilirsa kullanici `nereye bakacagim` diye zorlanabilir
+- yuzey sayisi hala diger modellere gore daha fazla
+
+#### 2. Finalist B - Business Detail karar merkezi + Project OS gunluk operasyon
+**Guncel omurga:**
+- toplu operasyon = Project OS
+- tek kayit karari = Business Detail
+- discovery destek katmani olarak kalir
+
+**Neden hala cok guclu?**
+Cunku mevcut repo ve veri modeliyle en kolay oturan iki ana omurga bu.
+Ozellikle su kararlar bunu guclendirdi:
+- Project OS hizli ama dar kalmali
+- detail ziyaret, audit, paket ve kickoff zincirini birlikte okuyabilmeli
+- `ulasilamadi`, `temas sonucu`, audit summary gibi mikro kararlar detail tarafinda daha dogru eve oturuyor
+
+**En guclu varyasyon:** `B2`
+- Detail icinde `ziyarete uygunluk` veya hafif ziyaret karti
+- Project OS ayni kalir
+
+**Zayif nokta:**
+- `hangi isletmeye gidilecegi` sorusunda discovery / ziyaret secim katmani olmadan eksik kalir
+- yeni aday bulma ve on eleme tarafini kendi basina cozmuyor
+
+#### 3. Finalist A - Kesif once, sonra business detail
+**Guncel omurga:**
+- discovery on eleme yapar
+- uygun aday business olur
+- karar detail tarafina akar
+
+**Neden orta seviyede kaldi?**
+Cunku duplicate riski, cop kayit temizligi ve aday sahiplenme mantiginda hala guclu.
+Ozellikle fiziksel sahada `once hizli ara, sonra gerekirse yeni aday ac` ve duplicate kontrol akisi bunu tamamen oyundan dusurmuyor.
+
+**En guclu varyasyon:** `A + hafif duplicate guard`
+- discovery giris kapisi olur
+- manuel yeni kayitta muhtemel benzerler uyarilir
+
+**Zayif nokta:**
+- fiziksel ziyaret kararini discovery skoru tek basina cozemiyor
+- gunluk operasyon ve teklif/delivery takibini kendi basina tasimiyor
+- hizli saha gununde fazla oneleme hissi verebilir
+
+#### 4. Finalist D - Ziyaret hazirlik odakli saha modeli
+**Guncel omurga:**
+- ziyaret hedefi
+- konusma plani
+- alinacak bilgi listesi
+- muhtemel paket / sonraki adim
+
+**Neden tamamen elenmedi?**
+Cunku kullanicinin sorularinin onemli kismi dogrudan saha gunune bakiyor.
+Ayrica `hangi isletmeye gidilecegi`, `sahada ne soylenir`, `hangi bilgi toplanir` sorulari saf UI detayi degil, gercek operasyon ihtiyaci.
+
+**En guclu varyasyon:** `D2`
+- ayri sayfa degil
+- Business Detail icinde ziyaret modu/karti
+
+**Zayif nokta:**
+- ayri pano oldugunda ekran cogaltma ve tekrar riski hizla buyuyor
+- toplu saha planlama ihtiyaci bugun veri modeliyle henuz kanitlanmis degil
+- kendi basina tam model olmaktan cok C/B icine eklenen saha katmani gibi davranıyor
+
+#### 5. Finalist E - Audit dosyasi / teklif bagli model
+**Guncel omurga:**
+- audit giris urunu
+- paket ve teklif auditten turetilir
+- delivery kickoff teklifteki secimlerden beslenir
+
+**Neden hala listede ama geride?**
+Cunku EsnafDigital'in ana hizmet mantigina en sadik dil burada.
+`neden bu paket`, audit summary placeholder, kickoff scope gibi konularda E modeli digerlerine dusunce iskeleti veriyor.
+
+**En guclu varyasyon:** `E2`
+- audit -> teklif -> kickoff zinciri ayri ekranlar degil,
+  Business Detail icindeki zincir kartlariyla gorunur olur
+
+**Zayif nokta:**
+- `hangi isletmeye gideyim` sorusunu tek basina cozmez
+- discovery, duplicate, ziyaret secimi ve gunluk operasyonu eksik birakir
+- tek basina tum panel modeli olmaktan cok diger finalistlerin icine gomulu bir omurga gibi calisiyor
+
+### 3) Bu siralama ne anlatiyor?
+Onemli bir sey artik netlesiyor:
+- `C` ve `B` gercek panel modeli adaylari
+- `A` giris / on eleme mantigi olarak yasiyor
+- `D` saha katmani olarak yasiyor
+- `E` audit-teklif zinciri dili olarak yasiyor
+
+Yani 5 finalist kağıt uzerinde esit degil.
+Bugunku arastirma cizgisi su yone akiyor:
+- asıl panel omurgasi = `C` veya `B`
+- kritik destek katmanlari = `A`, `D`, `E`
+
+Bu da su ara okumayi doguruyor:
+- belki de nihai karar 5 esit finalist arasindan secim degil,
+  `ana omurga + destek moduller` mantigina donusuyor
+
+### 4) Gecici net kanaat
+Su an en mantikli daraltma su:
+1. **C** = en guclu tam sistem adayi
+2. **B** = en uygulanabilir sade omurga adayi
+3. **A** = temiz giris / duplicate-disiplin adayi
+4. **D** = ayri urun degil, saha katmani adayi
+5. **E** = ayri panel degil, audit-teklif zinciri omurgasi adayi
+
+Kisa formda:
+- likely final battle = `C vs B`
+- `A` survives as intake discipline
+- `D` survives as detail-based visit prep layer
+- `E` survives as audit->offer->delivery reasoning spine
+
+Bu okuma onemli cunku artik sonraki arastirma,
+`5 ayri dunya` uretmek yerine,
+`C mi B mi ana omurga olacak ve A/D/E bundan ne dozda iceri girecek` sorusuna daralabilir.
+
 ## Sonraki arastirma basliklari
-- `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
+- `C` ile `B` arasindaki esas fark kullaniciya hangi anda hissediyor: aday secimi mi, ziyaret hazirligi mi, yoksa gunluk operasyon mu?
+- `A`nin discovery/disiplin faydasi `C` icine gomulu kalabilir mi, yoksa ayri bir davranis olarak korunmasi mi gerekir?
+- `D2` ziyaret modu detail icinde kalirsa, toplu saha gunu icin tek eksik ne olur?
+- `E2` zincir kartlari Business Detail icinde yeterli olur mu, yoksa audit/offer bagini aciklamak icin ek derived satir gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
-- `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
-- `ulasilamadi` pasif metadata satiri kullanilacaksa bunun en guvenli mikro kopyasi hangisi olmali: `Son temas denemesi: Ulasilamadi.` gibi olgusal form mu, yoksa `Son deneme yanitsiz kaldi.` gibi daha yumusak form mu?
-- audit summary alani `label + strong placeholder` ile kalacaksa, label'in kendisi `Audit ozeti` mi kalmali, yoksa `Kisa audit ozeti` gibi biraz daha daraltici bir ad daha mi guvenli olur?
