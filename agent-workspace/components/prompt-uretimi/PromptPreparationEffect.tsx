@@ -39,5 +39,15 @@ export function PromptPreparationEffect({
     })
   }, [consultationId, promptStatus, promptText, router, summary, targetModel, title])
 
+  useEffect(() => {
+    if (promptStatus !== 'preparing') return
+
+    const refreshTimer = window.setInterval(() => {
+      router.refresh()
+    }, 5000)
+
+    return () => window.clearInterval(refreshTimer)
+  }, [promptStatus, router])
+
   return null
 }
