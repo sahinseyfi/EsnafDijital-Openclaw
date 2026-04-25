@@ -219,12 +219,12 @@ Bunlar aktif teklif omurgasi degildir; fakat uzun vadeli urun ve ek hizmet fikri
 - isletmeye ozel OpenClaw ajani
 - online menu urunu
 - ozel musteri paneli / hesap alani
+- fotograf yukleme akisi: ozel link veya ileride musteri paneli ile fotograf alma
 - isletmenin kendi fotograf, menu veya icerik yukleyebilecegi self-service akis
-- ozel upload linki ile fotograf / icerik alma
-- mevcut kaynaklardan fotograf veya icerik ice alma: Instagram, Google Drive, Google Maps, mevcut site
-- randevu / rezervasyon / siparis akisina baglanan hafif moduller
-- WhatsApp / iletisim standi veya mikro landing page
+- mevcut kaynaklardan icerik ice alma: Instagram, Google Drive, Google Maps, mevcut site
+- WhatsApp standi / iletisim standi veya mikro landing page
 - dinamik QR / kisa link / yonlendirme yonetimi
+- randevu / siparis / rezervasyon baglantilari veya bunlara baglanan hafif moduller
 - gelir / gider ekrani
 - stok / tahsilat / muhasebe modulleri
 - genel CRM veya ozel panel gelistirme
