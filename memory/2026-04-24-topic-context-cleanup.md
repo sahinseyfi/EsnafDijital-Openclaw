@@ -231,7 +231,7 @@ user: Sender (untrusted metadata):
 assistant: Amacı ayrı dosyaya yazıp heartbeat’i ona çeviriyorum, sonra sen oradan sürdürebilirsin.
 assistant: done
 
-- Amacı yazdım: `memory/2026-04-24-repo-cleanup.md`
+- Amacı yazdım: `memory/2026-04-24-topic-repo-cleanup.md`
 - `HEARTBEAT.md` aktif odak olarak repo cleanup kickoff’a çevrildi
 - heartbeat içindeki `Siradaki Somut Adim` artık bu dosyaya bağlanıyor
 - commit atıldı: `b302f52` `Set heartbeat for repo cleanup kickoff`
@@ -240,7 +240,7 @@ next
 
 - Sen artık doğrudan şuradan devam edebilirsin:
   - `HEARTBEAT.md`
-  - `memory/2026-04-24-repo-cleanup.md`
+  - `memory/2026-04-24-topic-repo-cleanup.md`
 
 blocker
 
@@ -256,8 +256,8 @@ user: Sender (untrusted metadata):
 [Fri 2026-04-24 00:22 UTC] yeni konuşma başlayınca ilk ne diyeyim
 assistant: Şunu de:
 
-`README.md`, `HEARTBEAT.md` ve `memory/2026-04-24-repo-cleanup.md` dosyalarını okuyup repo cleanup kickoff çizgisinden devam et. Önce `README.md`, `HEARTBEAT.md`, `MEMORY.md`, `PROJECT.md`, `ROADMAP.md`, `MEMORY_SUMMARY.md` dosyalarını ve bunların yönlendirdiği hedefleri zincir halinde denetle. Her dosya için rol, yönlendirdiği hedefler, iç sorunlar, hedeflerle uyum sorunu, düzeltme notu ve silme/arsiv adayı çıkar.`
+`README.md`, `HEARTBEAT.md` ve `memory/2026-04-24-topic-repo-cleanup.md` dosyalarını okuyup repo cleanup kickoff çizgisinden devam et. Önce `README.md`, `HEARTBEAT.md`, `MEMORY.md`, `PROJECT.md`, `ROADMAP.md`, `MEMORY_SUMMARY.md` dosyalarını ve bunların yönlendirdiği hedefleri zincir halinde denetle. Her dosya için rol, yönlendirdiği hedefler, iç sorunlar, hedeflerle uyum sorunu, düzeltme notu ve silme/arsiv adayı çıkar.`
 
 Daha kısa istersen bunu yaz:
 
-`HEARTBEAT.md ve memory/2026-04-24-repo-cleanup.md cizgisinden devam et. Ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri zincir halinde denetle.`
+`HEARTBEAT.md ve memory/2026-04-24-topic-repo-cleanup.md cizgisinden devam et. Ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri zincir halinde denetle.`

@@ -19,7 +19,7 @@ done
   - `memory/2026-04-22-topic-old-profile.md`
   - `memory/2026-04-23-topic-crm-zinciri.md`
   - `REFERENCES/Derin-arastirma/esnafdigital-crm-yonu-derin-arastirma.md`
-  - `memory/2026-04-24-repo-cleanup.md`
+  - `memory/2026-04-24-topic-repo-cleanup.md`
 - Hızlı grep dogrulamasinda eski Asama B adlari kanonik memory/reference yuzeylerinde kalmadi.
 - `HEARTBEAT.md` ve cleanup notu son duruma gore guncellendi.
 - Asama B plan bolumundeki karisik gorunen mapping satirlarini da duzelttim.
@@ -28,7 +28,7 @@ net durum
 - **Asama A tamam**
 - **Asama B tamam**
 - **Asama C** bilincli olarak acik:
-  - aktif calisma notu olan `memory/2026-04-24-repo-cleanup.md` rename edilmiyor
+  - aktif calisma notu olan `memory/2026-04-24-topic-repo-cleanup.md` rename edilmiyor
 - state altindaki gecici rename artefaktlari da su an sadece **silme/arsivleme adayi**
 
 next
@@ -75,7 +75,7 @@ Iki secenek var:
 
 Benim onerim:
 - **silmek**
-Cunku ne yapildigi zaten `memory/2026-04-24-repo-cleanup.md` icinde yazili. Dosyalarin kendisini tutmak gereksiz olabilir.
+Cunku ne yapildigi zaten `memory/2026-04-24-topic-repo-cleanup.md` icinde yazili. Dosyalarin kendisini tutmak gereksiz olabilir.
 
 Istersen hemen sileyim.
 user: Sender (untrusted metadata):
@@ -98,14 +98,14 @@ done
   - `state/repo-cleanup-asama-b-rename.sh`
   - `state/repo-cleanup-asama-b-post-rename-sync.py`
 - Silme dogrulandi.
-- `HEARTBEAT.md` ve `memory/2026-04-24-repo-cleanup.md` bu yeni duruma gore guncellendi:
+- `HEARTBEAT.md` ve `memory/2026-04-24-topic-repo-cleanup.md` bu yeni duruma gore guncellendi:
   - artik state artefakti karari kapandi
   - acik kalan tek hat Asama C, yani aktif cleanup notunun kendisi
 
 next
 - Bu noktada temizlik hatti pratikte toparlandi.
 - Istersen bir sonraki turda sadece su son karari netlestiririz:
-  - `memory/2026-04-24-repo-cleanup.md` bu isimle mi kalsin
+  - `memory/2026-04-24-topic-repo-cleanup.md` bu isimle mi kalsin
   - yoksa cleanup kapaninca `2026-04-24-topic-repo-cleanup.md` olarak mi rename edilsin
 
 blocker
@@ -173,11 +173,11 @@ user: Sender (untrusted metadata):
 assistant: Isledim.
 
 done
-- Karari `memory/2026-04-24-repo-cleanup.md` icine yazdim.
+- Karari `memory/2026-04-24-topic-repo-cleanup.md` icine yazdim.
 - `HEARTBEAT.md` icindeki siradaki somut adimi da buna gore netlestirdim.
 
 Net karar artik su:
-- `memory/2026-04-24-repo-cleanup.md` simdilik ayni adla kalacak
+- `memory/2026-04-24-topic-repo-cleanup.md` simdilik ayni adla kalacak
 - cleanup kapaninca `memory/2026-04-24-topic-repo-cleanup.md` olarak tasinacak
 
 next
@@ -195,7 +195,7 @@ blocker
   - `memory/2026-04-24-topic-filename-slug.md`
   - bu dosyanin kendi ic referanslari
 - `memory/.dreams/` altindaki session corpus ve benzeri turetilmis kayitlar rename icin manuel hedef sayilmayacak.
-- Kapanis dogrulamasi: `.dreams` ve benzeri turetilmis alanlar haricinde `2026-04-24-repo-cleanup.md` referansi kalmamis olmali.
+- Kapanis dogrulamasi: `.dreams` ve benzeri turetilmis alanlar haricinde eski repo cleanup dosya adi kalmamis olmali.
 
 ## Ek root cleanup
 - Rootteki `consultation-prompt-builder.skill` dosyasi silindi.

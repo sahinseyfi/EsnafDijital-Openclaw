@@ -19,7 +19,7 @@ done
   - icerikleri zaten `REFERENCES/business-detail-v1.md` icinde birlestirilmisti
   - canli referans olmaktan cikmislardi
 - Cleanup kaydini da guncelledim:
-  - `memory/2026-04-24-repo-cleanup.md`
+  - `memory/2026-04-24-topic-repo-cleanup.md`
 
 dogrulama
 - bu 3 dosya artik yok
@@ -63,7 +63,7 @@ done
 - Buna gore su dosyalari da senkronize ettim:
   - `REFERENCES/Derin-arastirma/README.md`
   - `REFERENCES/Derin-arastirma/esnafdigital-derin-arastirma-toplu-sentez.md`
-  - `memory/2026-04-24-repo-cleanup.md`
+  - `memory/2026-04-24-topic-repo-cleanup.md`
 
 gerekce
 - Business Detail tarafinda bu iki dosya ara degerlendirme katmani olarak tekrar uretiyordu
@@ -151,7 +151,7 @@ done
 - Bagli dosyalari da senkronize ettim:
   - `REFERENCES/Derin-arastirma/README.md`
   - `REFERENCES/Derin-arastirma/esnafdigital-derin-arastirma-toplu-sentez.md`
-  - `memory/2026-04-24-repo-cleanup.md`
+  - `memory/2026-04-24-topic-repo-cleanup.md`
 - `toplu-sentez` icindeki bolum numaralarini da tek siraya cektim.
 
 gerekce

@@ -40,4 +40,4 @@ user: Sender (untrusted metadata):
 }
 ```
 
-[Fri 2026-04-24 00:23 UTC] HEARTBEAT.md ve memory/2026-04-24-repo-cleanup.md cizgisinden devam et. Ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri zincir halinde denetle.
+[Fri 2026-04-24 00:23 UTC] HEARTBEAT.md ve memory/2026-04-24-topic-repo-cleanup.md cizgisinden devam et. Ilk batch olarak kokteki ana baglam dosyalarini ve yonlendirdikleri hedefleri zincir halinde denetle.

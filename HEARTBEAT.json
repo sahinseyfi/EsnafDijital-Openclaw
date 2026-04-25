@@ -3,31 +3,29 @@
   "role": "eslik eden ozet",
   "update_rule": "Davranis degistiren guncelleme once HEARTBEAT.md tarafinda yapilir",
   "current_phase": "Faz 1 - ic operasyon ve baglam omurgasini kurma",
-  "main_goal": "Teklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak",
+  "main_goal": "Admin panelde cekirdek operasyon omurgasini sade tutmak: Home/Project OS + Businesses + Business Detail cizgisini mevcut kod ve referanslarla hizalamak.",
   "top_priorities": [
-    "Ilk teklif omurgasini keskinlestirmek",
-    "Project OS / Context Center / Prompt Uretimi akislarini gercek veriyle baglamak",
-    "Gercek DATABASE_URL ile Postgres + Prisma hattini ayaga kaldirmak",
-    "Hesap Merkezi V2'yi normal oturumda prod dogrulamayla kapatmak"
+    "Project OS yuzeyini gunun sicak is kokpiti olarak sinirlamak",
+    "Businesses yuzeyini sahiplenilen kayitlari bulma, filtreleme ve detaya gecme yeri olarak tutmak",
+    "Business Detail yuzeyini tek kayitta canonical / external / derived karar yuzeyi yapmak",
+    "Discovery yuzeyini ana cockpit degil ikincil intake kapisi olarak konumlamak",
+    "Ziyaret hazirligini ayri pano degil Business Detail icinde hafif kart/mod olarak dusunmek"
   ],
   "next": [
-    "Gercek DATABASE_URL ile npm run prisma:bootstrap:local calistirmak ve DB baglantisini dogrulamak"
+    "agent-workspace/README.md, mevcut admin route/component yapisi, REFERENCES/project-os-page.md ve REFERENCES/business-detail-v1.md birlikte okunup Project OS + Businesses + Business Detail icin durum/eksik listesi cikarilacak"
   ],
-  "blockers": [
-    "Ilk teklif paketinin detaylari hala tam keskin degil",
-    "Operasyonel kayitlar henuz tam veritabanina tasinmadi",
-    "Prod dogrulama icin normal oturum yetkisi gerekiyor",
-    "Yeni web vitrini henuz kurulmadigi icin ana domain placeholder modunda"
-  ],
+  "blockers": [],
   "alerts": [
     "MVP'nin genel CRM'e kayma riski var",
-    "Baglam dosyalari tekrar ve cople buyumemeli",
-    "Teklif netlesmeden ekran cogaltilmamali"
+    "Teklif netlesmeden ekran cogaltilmamali",
+    "Discovery ikinci cockpit veya ana operasyon kuyruguna donusmemeli",
+    "Business Detail task/note/timeline/form duvari haline gelmemeli",
+    "Baglam dosyalari tekrar ve cople buyumemeli"
   ],
   "done_definition": [
     "Teklif omurgasi netlesmis olacak",
     "Temel veri modeli calisiyor olacak",
     "Admin tarafinda ana akislarin nerede yasadigi netlesmis olacak"
   ],
-  "last_updated": "2026-04-23"
+  "last_updated": "2026-04-25"
 }
