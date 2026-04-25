@@ -11170,6 +11170,19 @@ Soru daha dogru hale geldi:
 - `Discovery ne kadar ayri kalmali,
   ama ne kadar da merkezden cekilmeli?`
 
+## Ara kapanis / devralma noktasi
+Su anki en daralmis gecici cizgi:
+- cekirdek omurga = `Home/Project OS + Businesses + Business Detail`
+- `Discovery` tamamen kalkmiyor
+- ama ana cockpit de olmuyor
+- en dengeli yorum = `B cekirdegi + yan intake/Discovery kapisi`
+
+Bu ne demek:
+- `candidate/business ayrimi` korunacak
+- aday habitatı ayri kalacak
+- ama ana operasyon merkezi yine sahiplenilen kayitlar ve audit -> teklif -> teslimat hattı olacak
+- sonraki daraltma, `Discovery`nin bilgi mimarisindeki dozu ve giris noktasi uzerinden devam etmeli
+
 ## Sonraki arastirma basliklari
 - `Discovery` nav'de kalacaksa etiketi ve notu nasil yazilmali ki onu ana cockpit gibi degil, intake kapisi gibi anlatsin?
 - `Discovery` nav'den cekilirse en guvenli giris noktasi neresi olur: home hero, Businesses icinde CTA, global hizli ara, yoksa hic business yok durumuna ozel yonlendirme?
