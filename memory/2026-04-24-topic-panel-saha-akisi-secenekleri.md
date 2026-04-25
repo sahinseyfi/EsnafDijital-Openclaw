@@ -326,7 +326,7 @@ Discovery tarafinda kalabilecekler:
 Simdilik acilmamasi gerekenler:
 - ayri ziyaret paneli
 - ayri saha rota paneli
-- ayri mini CRM kuyrugu
+- ayri ikinci CRM/kuyruk yuzeyi
 - stage duvari gibi asiri detayli pipeline
 - discovery ile business arasinda ucuncu ara varlik
 

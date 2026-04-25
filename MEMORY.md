@@ -29,7 +29,7 @@ Bu dosya, EsnafDigital icin kalici gercekleri, korunacak karar cizgisini ve kola
 - EsnafDigital'in kendi paneli operasyonel CRM olarak dusunulur; isletme, kisi, gorusme, teklif, teslimat, bakim, not ve sonraki adim takibini tek yerde toplar.
 - Bu CRM omurgasi EsnafDigital'in hizmet teslimini, satis takibini ve bakim surecini yonetmek icindir.
 - Hizmet verilen isletmelere satilan ana urun CRM yazilimi degil; guven veren dijital kimlik, gorunurluk, kurulum/toparlama ve devam bakim hizmetidir.
-- Sinir, CRM olmamak degil; yatay ve herkese satilan genel CRM urunune savrulmamaktir.
+- Sinir, EsnafDigital'in kendi operasyon CRM'i ile hizmet verilen isletmelere satilan yatay/genel CRM urununu net ayirmaktir.
 
 Amac, kucuk isletmeler icin sade ama esnek bir hizmet yapisi kurmaktir.
 Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.

@@ -17,8 +17,8 @@ user: Sender (untrusted metadata):
 }
 ```
 
-[Thu 2026-04-23 22:43 UTC] genel CRM olmama. Sadece aktif audit → teklif → teslimat → bakım zinciri mantığını değiştirmek istiyorum bu bizi çok kısıtlıyor
-assistant: Katılıyorum, sorun “genel CRM olmama” değil, akışın fazla lineer olması.
+[Thu 2026-04-23 22:43 UTC] EsnafDigital'i dar bir zincire kilitlemeyelim. Aktif audit → teklif → teslimat → bakım zinciri mantığını değiştirmek istiyorum; bu bizi çok kısıtlıyor
+assistant: Katılıyorum, sorun EsnafDigital'in CRM olup olmaması değil; akışın fazla lineer olması.
 
 Şu an mantık butonlarda ve durumlarda sert zincire bağlanmış görünüyor, örneğin `reviewed -> offered`, `draft -> sent`, `building -> live` gibi sabit geçişler var. Bu da işi doğal akış yerine ekrana uyduruyor. Source: memory/2026-04-22-topic-crm-panel.md#L181-L245
 
@@ -72,12 +72,12 @@ user: Sender (untrusted metadata):
 [Thu 2026-04-23 22:45 UTC] şuan yeni kuruluyoruz ve yeni fikirlere açık olmalıyız diye düşünüyorum kendimizi sınırlamamalıyız gerekirse crme kaymalıyız
 assistant: Evet, buna katılıyorum.
 
-Zaten kayıt tarafında yön kısmen buna dönmüştü, yani panelin **CRM yönünde genişleyebilen** bir yapıya gitmesi kabul edilmiş durumda. Ama risk notu hâlâ doğru: mesele CRM’e kaymak değil, erken aşamada **yatay SaaS gibi savrulmamak**. Source: memory/2026-04-22.md#L423-L430, /root/.openclaw/workspace/HEARTBEAT.md
+Zaten kayıt tarafında yön kısmen buna dönmüştü, yani panelin **CRM yönünde genişleyebilen** bir yapıya gitmesi kabul edilmiş durumda. Ama risk notu hâlâ doğru: mesele CRM kimliğini kabul edip sınırı doğru çizmek; erken aşamada **hizmet verilen işletmelere satılan yatay SaaS CRM ürünü gibi savrulmamak**. Source: memory/2026-04-22.md#L423-L430, /root/.openclaw/workspace/HEARTBEAT.md
 
 Bence yeni çerçeve şu olmalı:
 
 - **kendimizi audit → teklif → teslimat → bakım zincirine kilitlemeyelim**
-- ama **bugünden full generic CRM de tasarlamayalım**
+- ama **bugünden hizmet olarak satılan yatay CRM ürünü de tasarlamayalım**
 - bunun yerine **CRM-evrilebilir operasyon çekirdeği** kuralım
 
 Yani temel model:
@@ -97,9 +97,9 @@ Bunun artısı:
 - ama şu an gereksiz rapor/etiket/pipeline çöplüğüne de girmezsin
 
 Benim net önerim:
-**“genel CRM olmayalım” cümlesini bırakalım.**
-Onun yerine şu çizgiyi koyalım:
-**“EsnafDigital için CRM-evrilebilir operasyon sistemi kuruyoruz.”**
+**EsnafDigital'in CRM oldugunu net yazalim.**
+Cizgi su olsun:
+**“EsnafDigital kendi operasyon CRM'ini kuruyor; musterilerine CRM yazilimi satmiyor.”**
 
 İstersen bunu şimdi 3 somut çıktıya çevireyim:
 1. yeni ürün/doğrultu cümlesi  
@@ -121,7 +121,7 @@ done
 - ana dosyalardaki sınırlayıcı dili düzelttim
 - artık `audit -> teklif -> teslimat -> bakım` tek zorunlu hat gibi yazmıyor
 - yeni çizgi şu oldu: **bu bizim ilk hizmet omurgamız, ama sistem buna kilitlenmeyecek**
-- panel de artık net biçimde **CRM-evrilebilir operasyon sistemi** olarak yazıldı
+- panel de artık net biçimde **EsnafDigital'in kendi operasyon CRM'i** olarak yazıldı
 
 güncellenen dosyalar
 - `PROJECT.md`

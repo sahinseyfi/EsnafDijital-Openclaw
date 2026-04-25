@@ -21,7 +21,7 @@ BEGIN_QUOTED_NOTES
 - Business detail icindeki scrape hazirlik paneli icin iki mod karari netlesti: varsayilan `Hafif tarama`, operator acarsa `Derin tarama`.
 - `Hafif tarama` tek isletme icin dusuk maliyetli audit on hazirligi olacak: website kontrolu, Google Search gorunurluk aramasi, Google sonuc sayfalarindan temel bilgi toplama ve mevcut Google Maps/discovery snapshot okuma.
 - `Derin tarama` ise secmeli ve maliyet uyarili genis kaynak katmani olacak: Google Maps detay yenileme, Instagram, Yandex, Apple Maps ve ek zenginlestirme.
-- Bu karar `REFERENCES/businesses-page-capability-breakdown.md` icine islenerek scrape panelinin genel CRM otomasyon duvarina donmemesi cizgisi korundu.
+- Bu karar `REFERENCES/businesses-page-capability-breakdown.md` icine islenerek scrape panelinin kontrolsuz otomasyon duvarina donmemesi cizgisi korundu.
 - Business detail icindeki `Detaylı işletme verilerini al` aksiyonu gercek hatta baglandi: yeni API route tek isletme icin Apify `compass/crawler-google-places` kosusu baslatiyor, sonucu business'e bagli refresh snapshot dosyasina yaziyor ve page bu snapshot'i summary fallback'inden once okuyor.
 - UI tarafinda disabled buton kaldirildi, `BusinessDiscoveryRefreshButton` eklendi ve `npm run build` tekrar gecti.
 # 2026-04-23
