@@ -10098,10 +10098,148 @@ Kisa formda:
 Bu model `ulasilamadi` bilgisini ne kaybettiriyor,
 ne de paneli gizli bir temas gunlugune ceviriyor.
 
+## Altmis altinci okuma - audit summary placeholder icin en guvenli nihai kisa metin hangisi olmali?
+Bu soru kucuk UI kopyasi gibi gorunuyor,
+ama repo gerceginde etkisi buyuk.
+Cunku `audit.summary` bugun yalniz create form alaninda kalmiyor:
+- create/update tarafinda zorunlu alan
+- Project OS queue `summary` satirina tasiniyor
+- business detail'de fiilen `ek not / ozet` gibi gorunebiliyor
+- agent scan ve Y.Z raporu giris baglamina da karisabiliyor
+
+Yani placeholder kotuysa,
+operatoru yalniz formda degil,
+sonraki butun derived yuzeylerde de zayif metne iter.
+
+### 1) Referanslar hangi yone itiyor?
+Biriken onceki kararlar burada ortak yon veriyor:
+- `audit ozeti` = kaydin ilk operasyonel problemi ve teklif zemini
+- `Y.Z raporu` = derived karar ozeti
+- `next step` = aksiyon dili
+- audit ozeti bunlarla karismamali
+- uzun narrative veya serbest not yigini da olmamali
+
+Buradan ilk guclu sonuc su:
+- placeholder ne fazla genel olmali,
+- ne de operatoru paket/teklif diliyle erken kilitlemeli
+- en iyi kopya operatoru uc dusunceye yonlendirmeli:
+  - ana eksik ne?
+  - muhtemel cozum yonu ne?
+  - beklenen sonuc ne?
+
+### 2) Uc model
+
+#### A1) Cok kisa ve genel placeholder
+Ornek:
+- `Kisa audit ozeti yazin.`
+- `Ozet girin.`
+
+Artisi:
+- en temiz ve en kisa gorunur
+
+Eksisi:
+- operatoru bos ve daginik metne iter
+- kimisi sadece bulgu yazar, kimisi teklif fikri yazar, kimisi not yigini yazar
+- ayni alanin rolunu yuzeyler arasi tutarsizlastirir
+
+Ara yorum:
+- temiz gorunur ama fazla bos bir yonlendirme
+
+#### A2) Yumşak uc-parcali yonlendirme
+Ornek:
+- `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+
+Artisi:
+- audit -> teklif koprusunu acar
+- ama operatoru paket adi veya fiyat yazmaya zorlamaz
+- literal sablonu kayda zorlama riski dusuktur
+- Project OS ve Business Detail'de okununca da fazla yapay durmaz
+
+Eksisi:
+- halen bir miktar yorum gerektirir
+- bazi operatorler `muhtemel cozum yonu`nu fazla ticari okuyabilir
+
+Ara yorum:
+- su an en dengeli yol bu
+
+#### A3) Sert yari-sablon placeholder
+Ornek:
+- `Ana eksik: ... Cozum yonu: ... Beklenen sonuc: ...`
+
+Artisi:
+- yazim disiplini yuksek
+- operatorun alandan sapma ihtimali azalir
+
+Eksisi:
+- kayda da ayni etiketli yapi kopyalanabilir
+- sonra bu metin Project OS `summary` veya detail ozetinde mekanik gorunur
+- audit ozeti yerine form sablonu okunuyormus hissi verir
+
+Ara yorum:
+- mantikli ama saklanan metin icin fazla sert
+
+### 3) Neden `uygun cozum yonu` yerine `muhtemel cozum yonu` daha guvenli?
+Cunku `uygun` kelimesi,
+sanki karar kapanmis ve paket secimi netlesmis gibi duyulabilir.
+Oysa audit ozeti hala giris katmanidir.
+`Muhtemel` veya `olasi` dili daha emniyetli:
+- audit'in teshis rolu korunur
+- teklif cizgisine kopru kurulur
+- ama satis karari erken donmez
+
+### 4) Neden literal basliklari kayda zorlamamak daha iyi?
+Cunku bu alanin cikisi sonradan bircok yerde okunuyor:
+- queue `summary`
+- business detail ozet/not alani
+- yardimci tarama ve rapor baglami
+
+Eger operatore `Ana eksik:` kalibini yazdirirsak,
+bu mekanik yapi kayitlar arasi hizli okunurluk kazandirsa da,
+bir sure sonra butun yuzeylerde ayni karton dil dolasir.
+V1 icin daha guvenli cizgi,
+operatorun zihnini yonlendiren ama kaydi etiketli sablona zorlamayan placeholder.
+
+### 5) O zaman en guvenli V1 metni ne olmali?
+Bence su en dengeli aday:
+- `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+
+Neden?
+- `ana eksik` audit teshisini sabitler
+- `muhtemel cozum yonu` teklif bagini acik tutar ama kilitlemez
+- `beklenen sonuc` ise yalniz problem saymak yerine operasyon etkisini dusundurtur
+- `1-2 cumle` siniri alani romanlastirmayi engeller
+
+### 6) Yedek ikinci aday ne olabilir?
+Eger daha da kisa istenirse:
+- `Ana eksigi, cozum yonunu ve beklenen sonucu kisaca yazin.`
+
+Ama burada iki risk biraz artiyor:
+- `kisaca` bazen tek fragmana duser
+- `cozum yonu` muhtemellik tonunu kaybeder
+
+Bu yuzden ilk tercih hala `1-2 cumle` ve `muhtemel` iceren versiyon.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- audit summary placeholder cok genel olmamali
+- ama operatoru etiketli yari-form metnine de zorlamamali
+- en guvenli model `yumusak uc-parcali yonlendirme` gorunuyor
+- en dengeli metin de su:
+  - `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+
+Kisa formda:
+- avoid = `Ozet girin.` gibi bos placeholder
+- avoid = `Ana eksik: ...` diye sert kayit sablonu
+- recommended = soft 3-part guidance
+- exact candidate = `Ana eksigi, muhtemel cozum yonunu ve beklenen sonucu 1-2 cumlede yazin.`
+
+Bu model audit ozetini hem yazarken toparliyor,
+hem de daha sonra Project OS ve Business Detail'e tasindiginda mekaniklestirmeden okunur tutuyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
-- audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
 - `ulasilamadi` pasif metadata satiri kullanilacaksa bunun en guvenli mikro kopyasi hangisi olmali: `Son temas denemesi: Ulasilamadi.` gibi olgusal form mu, yoksa `Son deneme yanitsiz kaldi.` gibi daha yumusak form mu?
+- audit summary placeholder bu kadar netlestiyse, ayni alan icin ikinci bir `yardim metni` daha gerekir mi, yoksa bu da gereksiz kopya yogunlugu mu yaratir?
