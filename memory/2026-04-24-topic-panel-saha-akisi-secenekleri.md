@@ -8626,10 +8626,168 @@ Bu model onceki kararlarla da uyumlu:
 - reasoning/context = Business Detail
 - no mini CRM drift
 
+## Elli yedinci okuma - `Project OS` kuyrugunda mikro temas sonucu kaydedildikten sonra en guvenli sonraki davranis ne olmali?
+Bir onceki karar su noktaya gelmisti:
+- mikro temas sonucu `Project OS` icinde islenebilir
+- ama bu is `compact preset drawer` ile olmali
+- serbest not ve tam baglam yine `Business Detail`'de kalmali
+
+Simdi son kritik halka su:
+- operator bir sonucu kaydettikten sonra ekran ne yapmali?
+- kart kapanmali mi?
+- otomatik siradaki kayda mi gecmeli?
+- yoksa ayni kayitta kalip kisa geri bildirim mi vermeli?
+
+Bu soru kucuk gorunuyor,
+ama kuyruk psikolojisini belirliyor.
+Yanlis karar ya hizi bozar,
+ya da operatoru ne yaptigini anlamadan bir sonraki kayda savurur.
+
+### 1) Referanslar hangi yone itiyor?
+Eldeki repo cizgisi burada sasirtici derecede net:
+- `Project OS` sayfa referansi, durum guncelleme sonrasi ustte yesil bir geri bildirim karti gorundugunu ve operatoru kaybolmadan ayni kayit uzerinde tuttugunu acikca soyluyor
+- Project OS mantigi `tek hareketle status ilerlet`, ama bunu yaparken kaydi gozden kacirtmamayi hedefliyor
+- UX kurallari da gereksiz modal/ani gecis yerine kontrollu geri bildirim ve dusuk bilissel yuk cizgisine uyuyor
+
+Buradan ilk guclu sonuc su:
+- varsayilan davranis otomatik ziplama degil,
+  kaydi stabil tutup basari geri bildirimi vermek olmali
+
+### 2) Uc model
+
+#### KSD1) Kart kapanmasi / karttan dusmesi
+Mantik:
+- sonuc kaydedildi
+- kayit kuyruktan sessizce duser veya kart kapanir
+
+Artisi:
+- kuyruk temizlenmis hissi verir
+- hizli akista ilerliyor gibi gorunur
+
+Eksisi:
+- operator `ne oldu?` hissi yasayabilir
+- kart aniden kayboldugu icin geri bildirim zayif kalir
+- yanlis secim yapildiysa toparlama zorlasir
+- ayni kayitta bir sonraki gerekli aksiyon varsa gorunmez olabilir
+
+Ara yorum:
+- hizli gorunur ama guven hissi zayif
+
+#### KSD2) Otomatik siradaki kayda gecis
+Mantik:
+- sonuc kaydedilir kaydedilmez fokus siradaki kart/kayda aktarilir
+
+Artisi:
+- cok yuksek tempo hissi verir
+- tekrarlayan arama bloklarinda seri calisma etkisi saglar
+
+Eksisi:
+- operatorun baglam duygusunu koparir
+- kaydedilen sonuc ile olusan yeni durum gorulemez
+- yanlis tik riski varsa arka arkaya zincir hata uretebilir
+- Project OS'u call-center batch akisi gibi hissettirebilir
+
+Ara yorum:
+- belli bir gelecekte `seri arama modu` icin dusunulebilir,
+  ama genel varsayilan icin sert ve riskli
+
+#### KSD3) Ayni kayitta kalip geri bildirim gosterme
+Mantik:
+- sonuc kaydedilir
+- drawer kapanir
+- kayit yerinde kalir
+- ustte veya kart yakininda kisa basari geri bildirimi gorunur
+- kartin etiketi/next-step'i yeni duruma gore tazelenir
+
+Artisi:
+- operator ne yaptigini gorur
+- guven ve kontrol hissi korunur
+- gerekirse ayni kayit icin ikinci karar verilebilir
+- mevcut `durum guncellendi` deseniyle uyumludur
+
+Eksisi:
+- seri kuyruk temizleme modunda bir tik daha yavas hissedebilir
+- geri bildirim kotu tasarlanirsa gereksiz duraklama yaratabilir
+
+Ara yorum:
+- bugunku repo ve UX cizgisine en yakin model bu
+
+### 3) Neden kartin kaybolmasi varsayilan olmamali?
+Cunku mikro temas sonucu her zaman `is bitti` anlamina gelmez.
+Ornek:
+- `geri donus bekleniyor`
+- `uygun zaman degil`
+- `detail'de netlestir`
+
+Bu sonuclar bazen kaydi kuyruktan tamamen dusurmez,
+sadece ayni kaydin yorumunu degistirir.
+Kart hemen kaybolursa operator su soruyu sorar:
+- kayit bitti mi?
+- beklemede mi?
+- nereye gitti?
+
+Bu da kuyruk guvenini zedeler.
+
+### 4) Neden otomatik sonraki kayda gecis fazla agresif?
+Cunku EsnafDigital'in mevcut omurgasi,
+`tek kayitlik karar + hizli operasyon` dengesi uzerine kurulu.
+Tam otomatik sonraki kayit davranisi ise daha cok su kulturleri cagirir:
+- call-center benzeri batch isleme
+- seri etiketleme
+- bir kaydi bitirince digerine ziplama zorunlulugu
+
+Bu urun cizgisi icin biraz fazla mekanik.
+Ozellikle audit, teklif ve ziyaret hazirlik mantigi olan bir sistemde,
+ayni kayitta yeni olusan durumun bir an gorulmesi daha guvenli.
+
+### 5) O zaman en saglikli V1 davranis ne?
+Bence su kombinasyon en temiz:
+- preset secilince drawer kapanir
+- kart yerinde kalir
+- sayfa ustundeki mevcut `durum guncellendi` pattern'iyle uyumlu kisa bir basari geri bildirimi gorunur
+- kartin ilgili etiketi veya `next step` satiri sessizce tazelenir
+- operator isterse sonra manuel olarak siradaki kayda gecer
+
+Yani sistem sunu demeli:
+- `kaydin guncellendi`
+- `buradasin`
+- `istersen devam et`
+
+Ama operatoru zorla savurmamali.
+
+### 6) Hic mi hizli siradakine gecis olmamali?
+Belki sonra olabilir,
+ama varsayilan davranis olarak degil.
+Daha guvenli gelecek varyasyonu su olabilir:
+- basari geri bildirim kartinda ikincil link: `Siradaki kayda gec`
+- ya da keyboard hizlandirma kisayolu
+
+Boylece:
+- varsayilan guvenli kalir
+- hiz isteyen operatora ekstra yol acilir
+
+Bu daha iyi,
+cunku hiz tercihini operator yapar,
+sistem dayatmaz.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- mikro temas sonucu kaydedildikten sonra varsayilan davranis `ayni kayitta kal + kisa basari geri bildirimi goster + karti tazele` olmali
+- `kartin kaybolmasi` ve `otomatik siradaki kayda gecis` varsayilan icin fazla agresif gorunuyor
+- hizli akisa sonra opsiyonel kacis eklenebilir, ama temel desen operatoru kayit icinde stabil tutmali
+
+Kisa formda:
+- default = stay + refresh + success feedback
+- optional later = `siradaki kayda gec` kisayolu/linki
+- avoid as default = auto-dismiss / auto-next
+
+Bu model Project OS'un mevcut `durum guncellendi` mantigiyla ayni dili konusuyor,
+ve mikro temas sonucunu mini CRM'e cevirmeden guvenli sekilde operasyon akisinin icine aliyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- `Project OS` kuyrugunda mikro temas sonucu kaydedildikten sonra en guvenli sonraki davranis ne olmali: kart kapanmasi mi, siradakine gecis mi, yoksa ayni kayitta kalip geri bildirim gosterme mi?
+- `Project OS` kuyrugunda mikro temas sonucu preset seti her stage icin ayni mi kalmali, yoksa stage'e gore daralan sabit alt setler mi daha guvenli?
