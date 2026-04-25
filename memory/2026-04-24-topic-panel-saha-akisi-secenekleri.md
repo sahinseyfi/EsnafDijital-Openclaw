@@ -8784,10 +8784,190 @@ Kisa formda:
 Bu model Project OS'un mevcut `durum guncellendi` mantigiyla ayni dili konusuyor,
 ve mikro temas sonucunu mini CRM'e cevirmeden guvenli sekilde operasyon akisinin icine aliyor.
 
+## Elli sekizinci okuma - `Project OS` kuyrugunda mikro temas sonucu preset seti her stage icin ayni mi kalmali, yoksa stage'e gore daralan sabit alt setler mi daha guvenli?
+Bir onceki kararlar burada iyi bir zemin kurdu:
+- mikro temas sonucu `Project OS`ta islenebilir
+- tetikleme deseni `compact preset drawer` olmali
+- kayit sonrasi varsayilan davranis `stay + refresh + success feedback` olmali
+
+Simdi siradaki kritik soru su:
+- drawer icindeki presetler her kartta ayni mi kalmali?
+- yoksa stage'e gore daralan sabit alt setler mi daha guvenli?
+
+Bu onemli.
+Cunku tek bir ortak liste basit gibi gorunse de,
+farkli asamalarda anlamsiz secimler dogurabilir.
+Tersine fazla stage-ozel davranis da sistemi mikro workflow matrisi haline getirebilir.
+
+### 1) Referanslar hangi yone itiyor?
+Mevcut repo iki sey soyluyor:
+- `Project OS` zaten kaydi `intake -> audit -> offer -> delivery -> maintenance` asamalariyla okuyor
+- her stage'in kendi `nextAction` ve bazilarinda `advanceAction` mantigi var
+
+Yani sistem bugunden zaten `her kayit ayni durumda degil` diyor.
+Bu durumda ayni mikro temas sonucu setini her stage'e yaymak,
+kuyruk mantigiyla tam uyusmayabilir.
+
+Diger taraftan,
+HEARTBEAT ve CRM arastirma cizgisi de asiri pipeline karmasasina karsi net uyari veriyor.
+Demek ki cozum su olmamali:
+- her stage icin tamamen farkli 8-10 secenekli ayri mikro dunya
+
+Buradan ilk guclu sonuc cikiyor:
+- tam global tek set fazla kaba
+- tam serbest stage-matrisi fazla karmasik
+- en guvenli yol sabit cekirdek + stage'e gore daralan alt set gibi gorunuyor
+
+### 2) Uc model
+
+#### SPS1) Tum stage'lerde ayni preset seti
+Ornek tek liste:
+- `Ulasilamadi`
+- `Geri donus bekleniyor`
+- `Uygun zaman degil`
+- `Ziyaret planlanacak`
+- `Detail'de netlestir`
+
+Artisi:
+- ezberlemesi kolay
+- UI her kartta ayni davranir
+- gelistirmesi sade gorunur
+
+Eksisi:
+- delivery veya maintenance kartinda `ziyaret planlanacak` bazen anlamsiz kalabilir
+- audit oncesi ile gonderilmis teklif sonrasi ayni sonuc seti fazla duz kalir
+- operatora `her seye ayni etiketleri bas` hissi verebilir
+
+Ara yorum:
+- basit ama semantik olarak fazla kaba
+
+#### SPS2) Her stage icin tamamen farkli preset setleri
+Artisi:
+- baglama en yakin model gibi gorunur
+- anlamsiz secimleri azaltir
+
+Eksisi:
+- kural matrisi buyur
+- operator ezberi zorlasir
+- V1'i mini workflow engine'e cevirir
+- her yeni stage/status degisikliginde preset tartismasi acilir
+
+Ara yorum:
+- teorik guclu, pratikte V1 icin pahali
+
+#### SPS3) Sabit cekirdek + stage'e gore daralan alt setler
+Mantik:
+- tum uygun stage'lerde kucuk bir ortak cekirdek korunur
+- ama her stage yalniz kendine mantikli olan 2-4 secenegi gorur
+- anlamsiz olanlar sessizce cikmaz
+
+Artisi:
+- ogrenme maliyeti dusuk kalir
+- semantik dogruluk artar
+- global davranis korunur ama her kartta gereksiz secim cikmaz
+- mini CRM ve mini pipeline engine riskini dengeler
+
+Eksisi:
+- yine de net kural ister
+- operator bazen `diger kartta gordugum secenek burada yok` diye dusunebilir
+
+Ara yorum:
+- su an en saglikli yol bu
+
+### 3) Neden tam global set zayif kaliyor?
+Cunku `temas sonucu` her stage'de ayni isi gormuyor.
+Ornekler:
+- `intake`te amac ilk temas ve audit kapisini acmak
+- `audit`te amac teshisi netlestirip teklife zemin kurmak
+- `offer`da amac paket ve onay konusunu ilerletmek
+- `delivery`de ise konu artik temas denemesi degil, operasyon blokaji olabilir
+- `maintenance`te ise duzenli dokunus mantigi var
+
+Bu fark varken,
+her kartta ayni 5 sonucu gostermek hem anlamsiz secimler uretir,
+hem de mikro temas sonucunu stage disi bir etikete donusturur.
+
+### 4) Neden tam stage-bazli tam farkli set de riskli?
+Cunku bu yolun sonu cok hizli sunlara gider:
+- intake'te 5 baska preset
+- audit'te 6 baska preset
+- offer'da 7 baska preset
+- delivery'de ayri blokaj presetleri
+- maintenance'te ayri hatirlatma presetleri
+
+Bu noktada artik `temas sonucu drawer` degil,
+mini operasyon motoru kurmus oluruz.
+Bu da daha once cizdigimiz sinira ters:
+- Project OS kuyruk ve sicak is merkezi
+- task ve note mezarligi degil
+
+### 5) O zaman en saglikli V1 siniri ne?
+Bence su cizgi en guvenli:
+- mikro temas sonucu presetleri sadece `intake`, `audit` ve `offer` stage'lerinde aktif dusunulsun
+- `delivery` ve `maintenance` icin ayni drawer varsayilan olarak acilmasin
+- bu iki stage'de konu `temas sonucu`ndan cok `operasyon durumu / blokaj / bakim dokunusu` oldugu icin baska bir desen daha sonra dusunulsun
+
+Bu onemli bir daraltma.
+Cunku boylece `temas sonucu` araci gercekten temas odakli asamalarda kalir.
+
+### 6) Pre-delivery stage'ler icinde alt setler nasil olmali?
+V1'de bence bir cekirdek ucgen yeterli:
+- ortak cekirdek:
+  - `Ulasilamadi`
+  - `Geri donus bekleniyor`
+  - `Detail'de netlestir`
+
+Buna stage'e gore bir ek secenek gelir:
+- `intake` / `audit` icin:
+  - `Ziyaret planlanacak`
+  - gerekirse `Uygun zaman degil`
+- `offer` icin:
+  - `Teklif konusulacak` gibi yeni bir preset acmak riskli gorunuyor
+  - daha guvenlisi, offer'da da ayni ortak cekirdek + `Detail'de netlestir` cizgisini korumak
+
+Burada kritik fark su:
+- offer stage'ine ayri ticari mikro presetler eklemek cazip,
+ama bu hizla `nurture / pazarlik / itiraz / sicak / soguk` gibi CRM diline kayar
+
+O yuzden offer tarafinda sadelik daha guvenli.
+
+### 7) Delivery ve maintenance neden disarida kalmali?
+Cunku bu asamalarda artik temas sonucu degil,
+su tur seyler baskin:
+- asset bekleniyor
+- onay bekleniyor
+- yayin blokaji var
+- guncelleme zamani geldi
+
+Bunlar `temas sonucu` degil,
+operasyon veya bakim durumu.
+Ayni drawer icine sokulursa iki farkli dil karisir:
+- saha / ulasma dili
+- teslimat / bakim dili
+
+Bu da Project OS'ta kavram kaymasi yaratir.
+
+### 8) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- `Project OS` kuyrugunda mikro temas sonucu presetleri her stage icin birebir ayni kalmamali
+- ama her stage icin tamamen ayri dunya da kurulmamali
+- en guvenli model `sabit cekirdek + stage'e gore daralan alt set` gorunuyor
+- bu desen esas olarak `intake`, `audit` ve gerekirse `offer` stage'leriyle sinirli kalmali
+- `delivery` ve `maintenance` icin ayni drawer'i zorlamak yerine baska operasyon deseni sonra dusunulmeli
+
+Kisa formda:
+- not recommended = one global set everywhere
+- not recommended = fully custom set per stage
+- recommended = small shared core + stage-limited subsets
+- scope guard = contact outcomes stay pre-delivery
+
+Bu model hem Project OS'un mevcut stage mantigina uyuyor,
+hem de mikro temas sonucu aracini genel CRM etiket panosuna cevirmeden tutuyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- `Project OS` kuyrugunda mikro temas sonucu preset seti her stage icin ayni mi kalmali, yoksa stage'e gore daralan sabit alt setler mi daha guvenli?
+- `Project OS` kuyrugunda pre-delivery temas sonucu ile delivery/bakim blokaj sinyalini ayirmak icin en guvenli ikinci mikro desen ne olmali?
