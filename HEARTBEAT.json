@@ -3,7 +3,7 @@
   "role": "eslik eden ozet",
   "update_rule": "Davranis degistiren guncelleme once HEARTBEAT.md tarafinda yapilir",
   "current_phase": "Faz 1 - ic operasyon ve baglam omurgasini kurma",
-  "main_goal": "Admin panelde cekirdek operasyon omurgasini sade tutmak: Home/Project OS + Businesses + Business Detail cizgisini mevcut kod ve referanslarla hizalamak.",
+  "main_goal": "Admin panelde EsnafDigital'in operasyon CRM omurgasini sade tutmak: Home/Project OS + Businesses + Business Detail cizgisini mevcut kod ve referanslarla hizalamak.",
   "top_priorities": [
     "Project OS yuzeyini gunun sicak is kokpiti olarak sinirlamak",
     "Businesses yuzeyini sahiplenilen kayitlari bulma, filtreleme ve detaya gecme yeri olarak tutmak",
@@ -16,7 +16,8 @@
   ],
   "blockers": [],
   "alerts": [
-    "MVP'nin genel CRM'e kayma riski var",
+    "CRM omurgasini hizmet verilen isletmelere satilan yatay/genel CRM urunu gibi konumlama riski var",
+    "Genisleme adina daginik ve her seyi yapan isletme yazilimina savrulma riski var",
     "Teklif netlesmeden ekran cogaltilmamali",
     "Discovery ikinci cockpit veya ana operasyon kuyruguna donusmemeli",
     "Business Detail task/note/timeline/form duvari haline gelmemeli",

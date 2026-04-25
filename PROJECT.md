@@ -41,8 +41,10 @@ Bu akis satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir
 ### Devam hizmeti
 - Bakim / Canlilik / Kucuk Guncelleme
 
-### Genisleme alani
-- operasyonel CRM yonunde genisleyebilen panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune asamali olarak eklenebilecek genisleme katmanidir
+### Ic CRM omurgasi
+- EsnafDigital'in kendi paneli operasyonel CRM olacak; isletme, kisi, gorusme, teklif, teslimat, bakim, not ve sonraki adim takibini tek yerde toplayacak.
+- Bu CRM, EsnafDigital'in kendi hizmet teslimini ve musteri takibini yonetmek icindir.
+- Hizmet verilen isletmelere satilan ana urun CRM yazilimi degil; dijital guven, gorunurluk, kurulum/toparlama ve devam bakim hizmetidir.
 
 ### Satis destek araclari
 - ornek site hazirligi
@@ -71,7 +73,7 @@ Bunlar ana ve kalici olarak garanti edilen hizmetler degil; gerektiginde satis s
 
 ## Ic Sistem Hedefi
 Ic sistem tek yerde su cekirdegi birlestirmelidir:
-1. **Proje / operasyon yonetimi** — isletme, on degerlendirme, teklif, teslimat ve bakim islerinde neredeyiz, sirada ne var, blokaj ne
+1. **Operasyon CRM'i** — isletme, kisi, gorusme, on degerlendirme, teklif, teslimat, bakim, not ve sonraki adim islerinde neredeyiz, sirada ne var, blokaj ne
 2. **Baglam ve dokuman sistemi** — proje, karar, hafiza, araclar ve kalici referanslar
 3. **Yardimci katmanlar** — istem uretimi, satis destek araclari ve uygun yerde ajan destekli akislar
 

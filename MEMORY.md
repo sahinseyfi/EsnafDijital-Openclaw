@@ -25,8 +25,11 @@ Bu dosya, EsnafDigital icin kalici gercekleri, korunacak karar cizgisini ve kola
 ### Devam hizmeti
 - Bakim / Canlilik / Kucuk Guncelleme
 
-### Genisleme alani
-- operasyonel CRM yonunde genisleyebilen panel ve ajan destekli isletme yonetimi, ana hizmet omurgasinin ustune asamali olarak eklenebilecek genisleme alanidir
+### Ic CRM omurgasi
+- EsnafDigital'in kendi paneli operasyonel CRM olarak dusunulur; isletme, kisi, gorusme, teklif, teslimat, bakim, not ve sonraki adim takibini tek yerde toplar.
+- Bu CRM omurgasi EsnafDigital'in hizmet teslimini, satis takibini ve bakim surecini yonetmek icindir.
+- Hizmet verilen isletmelere satilan ana urun CRM yazilimi degil; guven veren dijital kimlik, gorunurluk, kurulum/toparlama ve devam bakim hizmetidir.
+- Sinir, CRM olmamak degil; yatay ve herkese satilan genel CRM urunune savrulmamaktir.
 
 Amac, kucuk isletmeler icin sade ama esnek bir hizmet yapisi kurmaktir.
 Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
@@ -58,7 +61,8 @@ Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
 - OpenClaw tabanli ajan destegi, ilk teknik omurganin zorunlu parcasi degil; uygun oldugunda isletme yonetimini kolaylastiran genisleme katmani olarak ele alinir.
 
 ## 6) Ic Sistem Karari
-- Ic sistemin zorunlu cekirdegi proje / operasyon yonetimi ile baglam sistemi ve dokumanlardir.
+- Ic sistemin zorunlu cekirdegi EsnafDigital'in kendi operasyon CRM'i ile baglam sistemi ve dokumanlardir.
+- Operasyon CRM'i, hizmet verilen isletmeleri satis oncesinden teklif, teslimat ve bakima kadar izlemek icindir; musteriye satilan ayri bir CRM urunu olarak konumlanmaz.
 - On degerlendirme, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
 - Istem uretimi, satis destek araclari ve ajan destekli akislar bu cekirdegin ustune eklenen yardimci katmanlardir.
 - Istem uretimi ve benzeri yardimci katmanlarda surekli arka plan ajanlari yerine istege bagli, tek-seferlik ve deterministik akislar tercih edilir.

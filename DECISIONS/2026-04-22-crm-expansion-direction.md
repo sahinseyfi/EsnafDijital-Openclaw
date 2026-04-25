@@ -8,6 +8,12 @@ Kurucu, panelin kisa surede dar bir operasyon yuzeyinde kalmasini degil, daha ge
 EsnafDigital paneli artik sadece dar bir operasyon masasi olarak degil, tam operasyonel CRM yonunde gelisecek.
 Bu, `businesses / contacts / activities / notes / tasks / offers / delivery / maintenance` gibi yuzeylerin zamanla panel icinde toplanabilecegi anlamina gelir.
 
+## Netlestirme
+EsnafDigital'in kendisi CRM omurgasina sahip olacak.
+Fakat hizmet verilen isletmelere satilan ana urun CRM yazilimi degildir.
+Satilan ana deger; dijital guven, gorunurluk, kurulum/toparlama ve devam bakim hizmetidir.
+CRM, EsnafDigital'in bu hizmeti ve musteri surecini yonetmek icin kullandigi ic operasyon omurgasidir.
+
 ## Sinir
 Bu karar, panelin her yone dagilacagi anlamina gelmez.
 Asagidaki alanlar hala cekirdek hedef disidir:

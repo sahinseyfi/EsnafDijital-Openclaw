@@ -11,7 +11,7 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 **Faz 1 - ic operasyon ve baglam omurgasini kurma**
 
 ## Su Anki Ana Hedef
-Admin panelde cekirdek operasyon omurgasini sade tutmak: `Home/Project OS + Businesses + Business Detail` cizgisini mevcut kod ve referanslarla hizalamak.
+Admin panelde EsnafDigital'in operasyon CRM omurgasini sade tutmak: `Home/Project OS + Businesses + Business Detail` cizgisini mevcut kod ve referanslarla hizalamak.
 
 ## Bu Hafta Oncelik
 1. `Project OS` yuzeyini gunun sicak is kokpiti olarak sinirlamak
@@ -27,7 +27,8 @@ Admin panelde cekirdek operasyon omurgasini sade tutmak: `Home/Project OS + Busi
 - Yok
 
 ## Dikkat Edilecek Riskler
-- genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
+- CRM omurgasini hizmet verilen isletmelere satilan yatay/genel CRM urunu gibi konumlamak
+- genisleme adina daginik ve her seyi yapan isletme yazilimina savrulmak
 - teklif netlesmeden ekran cogaltmak
 - `Discovery` yuzeyinin ikinci cockpit veya ana operasyon kuyruguna donusmesi
 - `Business Detail` yuzeyinin task/note/timeline/form duvari haline gelmesi
