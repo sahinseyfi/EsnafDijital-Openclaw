@@ -30,6 +30,7 @@ Arşiv karar kaynağı değildir; sadece geri dönüş ve izleme için tutulur.
 - QR ve NFC sabit hedefli değil, dinamik kısa link üzerinden çalışacaktır.
 - Güvenlik, yetki ve onay modeli ürünün temel şartıdır; sonradan eklenecek detay değildir.
 - Geliştirme takvime göre değil, doğrulama fazlarına göre ilerleyecektir.
+- MVP kabul standardı: teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmez.
 
 ## Çalışma Yöntemi
 
@@ -55,7 +56,7 @@ Arşiv karar kaynağı değildir; sadece geri dönüş ve izleme için tutulur.
 | 08 | Teknik Mimari | Baştan yazıldı | `08-teknik-mimari.md` |
 | 09 | Ana Modüller | Baştan yazıldı; geliştirme fikirleri GPT Pro'ya sorulacak | `09-ana-moduller.md` |
 | 10 | Modüllerin İlk Sürüm Karşılığı | Baştan yazıldı | `10-modullerin-ilk-surum-karsiligi.md` |
-| 11 | İlk MVP Tanımı | Baştan yazıldı | `11-ilk-mvp-tanimi.md` |
+| 11 | İlk MVP Tanımı | GPT Pro ile daraltıldı; MVP çekirdeği ve kapsam dışı sınırlar netleşti | `11-ilk-mvp-tanimi.md` |
 | 12 | Müşteri Akışı | Baştan yazıldı | `12-musteri-akisi.md` |
 | 13 | OpenClaw Ajan Davranışı | Baştan yazıldı; bağlam dosyalarıyla dikkatli netleşecek | `13-openclaw-ajan-davranisi.md` |
 | 14 | Admin / Operasyon Paneli | Baştan yazıldı | `14-admin-operasyon-paneli.md` |
@@ -63,19 +64,30 @@ Arşiv karar kaynağı değildir; sadece geri dönüş ve izleme için tutulur.
 | 16 | Menü / Katalog / Hizmet Listesi Mantığı | Baştan yazıldı | `16-online-menu-mantigi.md` |
 | 17 | Dinamik QR / NFC ve Kısa Link Mantığı | Baştan yazıldı; sabit QR/NFC kaldırıldı | `17-qr-ve-dinamik-link-mantigi.md` |
 | 18 | Paket Yapısı | Baştan yazıldı | `18-paket-yapisi.md` |
-| 19 | Geliştirme ve Uygulama Fazları | Baştan yazıldı; GPT Pro sıra/eksik kontrolü yapılacak | `19-gelistirme-sirasi.md` |
-| 20 | Güvenlik ve Onay Kuralları | Baştan yazıldı; ayrıca araştırılacak | `20-guvenlik-ve-onay-kurallari.md` |
-| 21 | Başarı Kriterleri | Baştan yazıldı | `21-basari-kriterleri.md` |
+| 19 | Geliştirme ve Uygulama Fazları | Faz geçiş kapıları ve P0=0 kuralı eklendi | `19-gelistirme-sirasi.md` |
+| 20 | Güvenlik ve Onay Kuralları | MVP güvenlik sınırı, tool allow/deny, tenant kontrolü ve kill switch netleşti | `20-guvenlik-ve-onay-kurallari.md` |
+| 21 | Başarı Kriterleri | MVP kabul standardı, P0/P1/P2 ayrımı ve tamamlandı checklist'i netleşti | `21-basari-kriterleri.md` |
 | 22 | Stratejik Riskler | Baştan yazıldı; proje ilerledikçe ve GPT Pro ile güncellenecek | `22-stratejik-riskler.md` |
 
-## GPT Pro / Araştırma Bekleyen Başlıklar
+## GPT Pro / Araştırma Durumu
 
-- 04: uygun sektör örnekleri.
-- 05: ürün mantığında geliştirilebilecek fikirler.
-- 09: modül grupları ve ek modül fikirleri.
-- 19: geliştirme fazlarının sırası ve eksik adımlar.
-- 20: güvenlik, yetki, sandbox, tool allowlist, API izinleri ve audit modeli.
-- 22: stratejik risk listesinin eksikleri ve öncelik sırası.
+Tamamlanan değerlendirme turları:
+
+- MVP çekirdeği ve kapsam sınırı.
+- Güvenlik / tenant izolasyonu / tool sınırı.
+- İşletme Ajanı Kaydı ve API tool sözleşmesi.
+- İlk kurulum konuşma akışı.
+- Web vitrini, hizmet listesi ve shortlink minimum çıktı şeması.
+- Admin operasyon paneli minimum ekranları.
+- MVP başarı metrikleri ve kabul standardı.
+
+Bekleyen başlıklar:
+
+- 04: uygun sektör örnekleri ve hedef segment netliği.
+- 05 / 18: ürün mantığı ve paketleme dili.
+- 09 / 10: modül grupları ve modül önceliği.
+- 22: stratejik risk listesinin segment/paket kararları sonrası tekrar kontrolü.
+- Üretimleşme öncesi: çok müşteri, ayrı Gateway / ayrı OS user / ayrı VPS eşikleri için ek güvenlik araştırması.
 
 GPT Pro kontrol notu:
 

@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi ve 20. bolumdeki uygulama plani mantigi buraya birlestirildi; GPT Pro ile sira/eksik kontrolu yapilacak.
+> Durum: GPT Pro degerlendirmeleriyle faz gecis kapilari ve P0=0 kuralı eklendi.
 
 ---
 
@@ -15,13 +15,29 @@ Ana teknik hedef:
 
 Bu doğrulanmadan web vitrini, QR/NFC, katalog veya ileri modüllere fazla yüklenmek erken olur.
 
+## Genel Faz Geçiş Kuralı
+
+Her faz sonunda şu sorulara bakılır:
+
+1. Bu fazın gerçek çıktısı üretildi mi?
+2. Çıktı panelden izlenebiliyor mu?
+3. En az bir hafif doğrulama yapıldı mı?
+4. Güvenlik veya tenant sınırı ihlali var mı?
+5. Bir sonraki faza geçersek kapsam gereksiz büyür mü?
+
+MVP pilotundan sonra genel kabul kuralı:
+
+> P0 bloklayıcı hata sayısı sıfır olmadan yeni pilot müşteriye geçilmez.
+
+P1 ciddi sorun varsa ikinci pilota geçmeden önce sahipli ve sınırlı düzeltme planı yapılır. P2 küçük eksikler MVP kapsamı içinde kabul edilebilir.
+
 ---
 
 ## Faz 1 — Gerçek Agent / Workspace Doğrulaması
 
 ### Amaç
 
-Bir işletmeye gerçekten ayrı OpenClaw İşletme Ajanı ve ayrı workspace açılabildiğini doğrulamak.
+Bir işletmeye gerçekten ayrı OpenClaw İşletme Ajanı, ayrı workspace, ayrı agentDir ve ayrı session store açılabildiğini doğrulamak.
 
 ### Yapılacaklar
 
@@ -29,14 +45,18 @@ Bir işletmeye gerçekten ayrı OpenClaw İşletme Ajanı ve ayrı workspace aç
 2. İşletme Ajanı Kaydı için minimum model belirlenir.
 3. Manuel veya yarı otomatik agent oluşturma scripti hazırlanır.
 4. Tek test işletmesi eklenir.
-5. Pilot kanal veya webchat üzerinden agent'a mesaj gönderilir.
-6. Agent'ın kendi işletme bağlamıyla cevap verdiği doğrulanır.
+5. Ayrı workspace / agentDir / session store oluştuğu doğrulanır.
+6. Pilot kanal veya webchat üzerinden agent'a mesaj gönderilir.
+7. Agent'ın kendi işletme bağlamıyla cevap verdiği doğrulanır.
+8. Yanlış veya yetkisiz göndericinin gerçek işletme agent'ına düşmediği test edilir.
 
 ### Çıktılar
 
 - çalışan tek işletme agent'ı,
 - ayrı workspace,
+- ayrı agentDir ve session store,
 - panelde takip edilebilir İşletme Ajanı Kaydı,
+- explicit channel binding,
 - temel mesajlaşma testi,
 - ilk agent şablonu.
 
@@ -44,33 +64,52 @@ Bir işletmeye gerçekten ayrı OpenClaw İşletme Ajanı ve ayrı workspace aç
 
 Bu faz, tek test işletmesi için agent oluşturulup mesajlaşma testi başarıyla geçmeden tamamlanmış sayılmaz.
 
+P0 bloklayıcılar:
+
+- gerçek agent oluşmaması,
+- ayrı workspace / agentDir / session olmaması,
+- mesajın yanlış agent'a gitmesi,
+- İşletme Ajanı Kaydı'nın panelde izlenememesi.
+
 ---
 
 ## Faz 2 — İşletme Profili ve Bilgi Toplama
 
 ### Amaç
 
-Ajanın işletme bilgisini konuşarak toplayıp işletme dijital profiline bağlamasını sağlamak.
+Ajanın işletme bilgisini konuşarak toplayıp işletme dijital profiline, eksiklere ve görevlere bağlamasını sağlamak.
 
 ### Yapılacaklar
 
 1. İşletme dijital profili modeli netleştirilir.
 2. Eksik bilgi listesi oluşturulur.
 3. İlk bilgi toplama konuşması tasarlanır.
-4. Gelen bilgiler profile veya göreve bağlanır.
-5. Admin panelde agent/profil durumu görünür olur.
-6. Sonraki adım ve görev mantığı eklenir.
+4. Agent ilk mesajda en fazla 1-3 bilgi ister.
+5. Gelen bilgiler profile veya göreve bağlanır.
+6. Eksikler panelde görünür olur.
+7. Admin panelde agent/profil durumu görünür olur.
+8. Sonraki adım ve görev mantığı eklenir.
 
 ### Çıktılar
 
 - doldurulabilir işletme profili,
 - agent'ın sorduğu eksik bilgi akışı,
 - admin panelde görünür eksik/görev durumu,
-- ilk kurulum konuşması.
+- ilk kurulum konuşması,
+- toparlanmış işletme özeti.
 
 ### Tamamlandı Sayma Ölçütü
 
 Bu faz, agent'ın en az bir test işletmesi için temel bilgileri toplayıp eksik/görev durumunu panelde görünür hale getirmesiyle tamamlanır.
+
+Minimum kabul:
+
+- işletme adı veya ad onayı,
+- kısa açıklama,
+- iletişim bilgisi,
+- en az bir hizmet / ürün / kategori,
+- eksik listesi,
+- kurulum konuşmasının kısa ve anlaşılır olması.
 
 ---
 
@@ -83,23 +122,31 @@ Agent'ın topladığı bilgilerden işletmeye gösterilebilir ilk dijital çıkt
 ### Yapılacaklar
 
 1. Web vitrini taslağı oluşturulur.
-2. Menü / katalog / hizmet listesi yapısı eklenir.
-3. Dinamik QR / NFC kısa link altyapısı kurulur.
-4. Arama / mesajlaşma / yol tarifi bağlantıları üretilir.
+2. Basit menü / katalog / hizmet listesi yapısı eklenir.
+3. Dinamik QR / NFC kısa link hedef taslağı oluşturulur.
+4. Arama / mesajlaşma / yol tarifi bağlantıları taslaklanır.
 5. Fotoğraf ve içerik toplama akışı bağlanır.
 6. Kısa kurulum özeti veya durum raporu üretilir.
 
 ### Çıktılar
 
-- ilk web vitrini,
-- dinamik QR/NFC kısa link,
-- basit katalog/hizmet listesi,
+- web vitrini taslağı / preview,
+- basit hizmet / ürün listesi,
+- dinamik QR/NFC kısa link hedef taslağı,
 - iletişim ve yol tarifi bağlantıları,
+- medya/fotoğraf talebi,
 - kurulum özeti.
 
 ### Tamamlandı Sayma Ölçütü
 
-Bu faz, test işletmesi için agent verilerinden ilk web vitrini ve dinamik QR/NFC bağlantısı üretildiğinde tamamlanır.
+Bu faz, test işletmesi için agent verilerinden ilk web vitrini taslağı, hizmet / ürün listesi ve dinamik QR/NFC hedef taslağı üretildiğinde tamamlanır.
+
+Önemli sınırlar:
+
+- Web vitrini canlı yayınlanmak zorunda değildir.
+- Fotoğraf yoksa taslak yine oluşabilir.
+- QR hedefi canlıya alınmaz; sadece taslak/onay bekleyen yapı olur.
+- Hizmet listesi tam katalog değildir.
 
 ---
 
@@ -113,10 +160,13 @@ Agent'ların kontrolsüz büyümesini engellemek ve riskli işlemlerin onaysız 
 
 1. Tool/yetki profili oluşturulur.
 2. Agent'ın kullanabileceği EsnafDigital API tool'ları sınırlandırılır.
-3. Onay isteyen işler tanımlanır.
-4. Operasyon devri ve görev açma mantığı netleştirilir.
-5. Agent sağlık/durum takibi panelde gösterilir.
-6. Basit bakım görevi akışı eklenir.
+3. Denylist açıkça uygulanır.
+4. EsnafDigital API tenant/business yetki kontrolü server-side yapılır.
+5. Onay isteyen işler tanımlanır.
+6. Operasyon devri ve görev açma mantığı netleştirilir.
+7. Agent sağlık/durum takibi panelde gösterilir.
+8. Audit log tutulur.
+9. Pause / kill switch test edilir.
 
 ### Çıktılar
 
@@ -124,40 +174,64 @@ Agent'ların kontrolsüz büyümesini engellemek ve riskli işlemlerin onaysız 
 - onay bekleyen işler,
 - operasyon devri,
 - agent durum takibi,
-- bakım görevi akışı.
+- audit log,
+- pause / kill switch,
+- bakım veya düzeltme görevi akışı.
 
 ### Tamamlandı Sayma Ölçütü
 
 Bu faz, agent'ın riskli bir isteği otomatik yapmayıp panelde onay veya operasyon görevi olarak görünür hale getirmesiyle tamamlanır.
 
+P0 bloklayıcılar:
+
+- tenant mismatch,
+- denylist tool'un başarılı çalışması,
+- riskli işlemin onaysız yapılabilmesi,
+- audit olmadan tool işlemi,
+- pause / kill switch'in çalışmaması,
+- workspace'e secret yazılması.
+
 ---
 
-## Faz 5 — Kanal ve Ticari Pilot
+## Faz 5 — İlk Pilot Kabulü
 
 ### Amaç
 
-Sistemi gerçek müşteri kullanımına yaklaştırmak.
+Tek test işletmesi üzerinde teknik, operasyonel, güvenlik ve müşteri değeri kanıtlarını birlikte almak.
 
 ### Yapılacaklar
 
-1. Telegram/test veya webchat pilotu tamamlanır.
-2. EsnafDigital pilot WhatsApp hattı denenir.
-3. İlk pilot işletme kurulur.
-4. Bakım paketi denemesi başlatılır.
-5. Teklif ve paket dili sadeleştirilir.
-6. İlk müşteri geri bildirimleri toplanır.
+1. Pilot kanal üzerinden işletme sahibiyle gerçek kurulum konuşması yapılır.
+2. Agent bilgileri toplar ve profil/görev/çıktıya bağlar.
+3. İlk web vitrini, hizmet listesi ve shortlink/QR hedef taslağı oluşur.
+4. Riskli bir işlem approval'a düşürülür.
+5. Admin panelde görev, eksik, onay, audit ve sıradaki adım okunur.
+6. İşletme sahibinden kısa geri bildirim alınır.
+7. P0/P1/P2 hata ayrımı yapılır.
+8. İkinci pilota geçiş kararı verilir.
 
 ### Çıktılar
 
 - pilot işletme deneyimi,
-- kanal doğrulaması,
-- paket/teklif dili,
-- gerçek kullanım geri bildirimi,
+- teknik doğrulama,
+- operasyonel doğrulama,
+- güvenlik doğrulama,
+- müşteri değeri doğrulama,
+- geri bildirim,
 - sonraki geliştirme listesi.
 
 ### Tamamlandı Sayma Ölçütü
 
-Bu faz, gerçek veya gerçeğe çok yakın bir pilot işletme sürecinde sistemin baştan sona denenmesiyle tamamlanır.
+Bu faz, tek test işletmesi için sistemin baştan sona denenmesi ve P0 bloklayıcı hata kalmamasıyla tamamlanır.
+
+Karar seçenekleri:
+
+- geçti — aynı kapsamla ikinci pilota geç,
+- kısmi geçti — önce küçük düzeltme yap,
+- teknik geçti ama müşteri değeri zayıf — akış/çıktı/konumlandırma düzelt,
+- müşteri değeri var ama güvenlik eksik — büyütme, güvenliği düzelt,
+- operasyon çok ağır — kapsam/paket/fiyatı daralt,
+- başarısız — çekirdeği yeniden tasarla.
 
 ---
 
@@ -169,13 +243,12 @@ Aşağıdaki işler ilk doğrulama sonrasına bırakılmalıdır:
 - WhatsApp Randevu Asistanı,
 - gelişmiş müşteri paneli,
 - gelişmiş katalog / sipariş / teklif akışı,
-- gelir / gider,
-- stok / tahsilat / muhasebe,
+- sepet, ödeme, stok, tahsilat ve muhasebe,
+- gelişmiş QR analitiği,
+- kampanya motoru,
 - gelişmiş entegrasyonlar,
 - satış temsilcisi ağı.
 
 Ana prensip:
 
 > Önce tek işletme için gerçek agent/workspace çalışsın. Sonra işletme profili, görünür çıktılar, güvenlik ve kanal pilotu sırayla büyütülsün.
-
----

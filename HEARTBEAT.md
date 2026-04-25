@@ -21,7 +21,7 @@ Bitmis isler ve uzun gecmis burada tutulmaz.
 6. OpenClaw isletme agent sablonu, otomatik kurulum, kanal routing/binding ve yetki sinirlarini netlestirmek
 
 ## Siradaki Somut Adim
-- `Isletme Ajani Kaydi` modeli, isletme agent workspace sablonu ve otomatik kurulum akisi icin en kucuk teknik taslak cikarilacak.
+- GPT Pro teknik MVP turundan cikan kararlar aktif 360 dosyalarina islendi; siradaki adim hedef segment, paketleme dili ve modul onceligi icin GPT Pro degerlendirmesi almak.
 
 ## Izleme Notu
 - 360 bolumlu calisma klasoru: `REFERENCES/esnafdigital-360/`
