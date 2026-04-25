@@ -2,7 +2,7 @@
 
 ## Amac
 Project OS, EsnafDigital panelindeki ana operasyon ekranidir.
-Bu sayfanin amaci sadece veri listelemek degil, `audit -> teklif -> teslimat -> bakim` hattinda hangi kaydin simdi hareket etmesi gerektigini gostermektir.
+Bu sayfanin amaci sadece veri listelemek degil, `inceleme -> teklif -> teslimat -> bakim` hattinda hangi kaydin simdi hareket etmesi gerektigini gostermektir.
 
 Bugunku haliyle sayfa iki isi ayni anda yapar:
 - operasyonu yukaridan gorunur kilar
@@ -40,8 +40,8 @@ Project OS'un neden var oldugunu anlatir:
 ### 3. Ozet istatistik kartlari
 Bu bolum anlik operasyon yogunlugunu gosterir.
 Kartlarda su sayilar gorunur:
-- audit acilmamis isletme
-- audit asamasindaki aktif is
+- inceleme kaydi acilmamis isletme
+- inceleme asamasindaki aktif is
 - teklif asamasindaki aktif is
 - teslimattaki aktif is
 - bakimdaki kayit
@@ -66,7 +66,7 @@ Ilk bakista aksiyon cagirir.
 Bu alan sayfanin ana akisindan kopmadan yeni kayit acmak icindir.
 Burada:
 - yeni isletme
-- audit
+- inceleme
 - teklif
 - teslimat
 - consultation
@@ -79,7 +79,7 @@ Bunun nedeni sayfayi form duvarina cevirmemektir.
 ### 6. Dar form alani
 Acilir/kapanir form alani icinde su formlar vardir:
 - BusinessCreateForm
-- AuditCreateForm
+- IncelemeCreateForm
 - OfferCreateForm
 - DeliveryProjectCreateForm
 
@@ -89,7 +89,7 @@ Sadece gerektiğinde yeni kayit acmak icin kullanilir.
 ### 7. Asama bazli gorunum
 Ayni kayitlar stage'e gore de ayrica gosterilir:
 - intake
-- audit
+- inceleme
 - offer
 - delivery
 - maintenance
@@ -103,7 +103,7 @@ Bu, discovery import veya status guncelleme sonrasi kullaniciyi dogru kayit uzer
 ### 9. Ham tablo kayitlari
 Sayfanin altinda acilir/kapanir sekilde detay tablolar tutulur:
 - Isletmeler
-- Audit hatti
+- Inceleme hatti
 - Teklifler
 - Teslimatlar
 
@@ -138,7 +138,7 @@ Tekliften gelen operasyon iskeletiyle baslar.
 ## Project OS'un veri kaynaklari
 Sayfa su ana veri setlerini kullanir:
 - `businesses`
-- `audits`
+- `inceleme_kayitlari`
 - `offers`
 - `delivery_projects`
 - prompt uretimi blocked sinyali

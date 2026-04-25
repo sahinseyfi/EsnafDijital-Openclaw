@@ -1,7 +1,7 @@
 # CRM Genisleme Yonu Karari
 
 ## Baglam
-EsnafDigital paneli ilk cizgide audit -> teklif -> teslimat -> bakim akisini destekleyen sade operator masasi olarak tasarlandi.
+EsnafDigital paneli ilk cizgide inceleme -> teklif -> teslimat -> bakim akisini destekleyen sade operator masasi olarak tasarlandi.
 Kurucu, panelin kisa surede dar bir operasyon yuzeyinde kalmasini degil, daha genis bir isletme yonetim omurgasina donusmesini istedigini netlestirdi.
 
 ## Karar

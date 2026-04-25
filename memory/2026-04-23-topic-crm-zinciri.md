@@ -72,13 +72,13 @@ user: Sender (untrusted metadata):
 [Thu 2026-04-23 22:45 UTC] şuan yeni kuruluyoruz ve yeni fikirlere açık olmalıyız diye düşünüyorum kendimizi sınırlamamalıyız gerekirse crme kaymalıyız
 assistant: Evet, buna katılıyorum.
 
-Zaten kayıt tarafında yön kısmen buna dönmüştü, yani panelin **CRM yönünde genişleyebilen** bir yapıya gitmesi kabul edilmiş durumda. Ama risk notu hâlâ doğru: mesele CRM kimliğini kabul edip sınırı doğru çizmek; erken aşamada **hizmet verilen işletmelere satılan yatay SaaS CRM ürünü gibi savrulmamak**. Source: memory/2026-04-22.md#L423-L430, /root/.openclaw/workspace/HEARTBEAT.md
+Zaten kayıt tarafında yön buna dönmüştü: panel EsnafDigital'in kendi **operasyon CRM'i** olacak. Risk notu hâlâ doğru: mesele CRM kimliğini kabul edip sınırı doğru çizmek; erken aşamada **hizmet verilen işletmelere satılan yatay SaaS CRM ürünü gibi savrulmamak**. Source: memory/2026-04-22.md#L423-L430, /root/.openclaw/workspace/HEARTBEAT.md
 
 Bence yeni çerçeve şu olmalı:
 
 - **kendimizi audit → teklif → teslimat → bakım zincirine kilitlemeyelim**
 - ama **bugünden hizmet olarak satılan yatay CRM ürünü de tasarlamayalım**
-- bunun yerine **CRM-evrilebilir operasyon çekirdeği** kuralım
+- bunun yerine **EsnafDigital'in operasyon CRM çekirdeğini** kuralım
 
 Yani temel model:
 - `business`
@@ -93,7 +93,7 @@ Sonra `audit`, `offer`, `delivery`, `maintenance` bunlar zorunlu hat değil,
 
 Bunun artısı:
 - bugün dar kalmayız
-- yarın CRM’e rahat genişleriz
+- CRM kapsamını ileride rahat genişletiriz
 - ama şu an gereksiz rapor/etiket/pipeline çöplüğüne de girmezsin
 
 Benim net önerim:

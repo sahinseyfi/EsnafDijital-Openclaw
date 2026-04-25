@@ -21,7 +21,7 @@ Bu dosya teknik ortami ve operasyon sinirini tutar.
 ## Veri Siniri
 ### Veritabani
 - businesses
-- audits
+- inceleme_kayitlari
 - offers
 - delivery_projects
 - durum ve tarihcesi olan operasyonel is nesneleri

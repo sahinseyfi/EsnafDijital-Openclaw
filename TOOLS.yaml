@@ -28,7 +28,7 @@ tools:
   data_scope:
     database:
       - "businesses"
-      - "audits"
+      - "inceleme_kayitlari"
       - "offers"
       - "delivery_projects"
       - "durum ve tarihcesi olan operasyonel is nesneleri"

@@ -24,7 +24,7 @@ Buradaki dosyalar karar kaydi degil, karar ve uygulama icin dayanak metinleridir
 - `esnafdigital-crm-yonu-derin-arastirma.md`
   - EsnafDigital'in yatay genel urune savrulmadan dar operator paneli cizgisinde kalmasi gerektigini savunur.
 - `esnafdigital-teklif-omurgasi-sentez.md`
-  - Teklif yapisini, paket sayisini ve audit -> teklif -> teslimat -> bakim omurgasini final cizgide netlestirir.
+  - Teklif yapisini, paket sayisini ve inceleme -> teklif -> teslimat -> bakim omurgasini final cizgide netlestirir.
 
 ### Web vitrini ve dijital yuzey
 - `esnafdigital-ana-sayfa-derin-arastirma.md`

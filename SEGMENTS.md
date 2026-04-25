@@ -15,7 +15,7 @@ Ancak operasyon yorumu V2 itibariyla daha net:
 
 ## Segment secim mantigi
 Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
-- audit acigi kolay gorunuyor mu
+- inceleme acigi kolay gorunuyor mu
 - teklif sade anlatilabiliyor mu
 - teslimat standartlastirilabiliyor mu
 - bakim yuku ilk faz icin tasinabilir mi
@@ -23,7 +23,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 ## 1) Berber
 ### Neden cekirdek segment
 - kolay bulunurluk problemi net gorunur
-- audit acigi hizli gosterilir
+- inceleme acigi hizli gosterilir
 - teslimat dusuk karmasayla kurulabilir
 - QR yorum akisi dogal sekilde calisir
 
@@ -34,7 +34,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - yorum gorunurlugu
 - hizli arama / yol tarifi
 
-### Audit'te ozellikle bak
+### Inceleme'te ozellikle bak
 - Maps kaydi kalitesi
 - kategori ve temel bilgi dogrulugu
 - telefon / saat / konum tutarliligi
@@ -59,7 +59,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - yorum ve degerlendirme gorunurlugu
 - iletisim ve randevu aksiyonu
 
-### Audit'te ozellikle bak
+### Inceleme'te ozellikle bak
 - gorsel kalite
 - hizmet basliklarinin netligi
 - telefon / WhatsApp / randevu aksiyonu
@@ -88,7 +88,7 @@ Bir segmenti sadece buyuk oldugu icin degil, su dort seye gore degerlendir:
 - hizli karar verdirecek temel bilgi
 - yorum, siparis ve rezervasyon etkisi
 
-### Audit'te ozellikle bak
+### Inceleme'te ozellikle bak
 - harita dogrulugu
 - fotograf kalitesi
 - temel menu / urun gosterimi
@@ -116,5 +116,5 @@ Bu adaylar ancak su durumda yukariya cekilir:
 - dogrulanmamis sayilarla satis anlatisi kurma
 
 ## Not
-Ilk mimari, audit mantigi ve teklif dili once bu uc cekirdek segmente gore optimize edilir.
+Ilk mimari, inceleme mantigi ve teklif dili once bu uc cekirdek segmente gore optimize edilir.
 Genisleme ancak ikinci dalga test karariyla yapilir.

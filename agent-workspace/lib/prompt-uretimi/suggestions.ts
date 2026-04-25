@@ -180,7 +180,7 @@ function topicContextRefs(signals: TopicSignals): ConsultationContextRef[] {
   }
 
   if (signals.flow || signals.offer || signals.segment) {
-    refs.push({ kind: 'roadmap', title: 'İnceleme -> Teklif -> Teslimat akışı', ref: 'PLAYBOOKS/audit-offer-delivery.md' })
+    refs.push({ kind: 'roadmap', title: 'İnceleme -> Teklif -> Teslimat akışı', ref: 'PLAYBOOKS/kesif-teklif-teslimat-bakim.md' })
   }
 
   if (signals.openclaw) {

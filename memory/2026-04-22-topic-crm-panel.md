@@ -40,66 +40,22 @@ user: Sender (untrusted metadata):
 ```
 
 [Wed 2026-04-22 21:32 UTC] CRM'e kaysak biraz fena olmaz ben her şeyi bu panelden yapabilmek istiyorum aslında
-assistant: Bence bu net sekilde EsnafDigital'in kendi operasyon CRM'i olmali; sinir sadece bunu musteriye satilan yatay CRM urunune cevirmemek.
+assistant: Haklisin; net cizgi EsnafDigital'in kendi operasyon CRM'ini kurmak.
 
-Tamamen haklisin, her seyi tek panelden yapabilmek cok degerli.
-Benim cekincem “tek yerden yonetmek” degil, panelin zamanla su hale gelmesi:
-- her ise uyan form duvari
-- sonsuz alan
-- satis CRM'i + task app + ajans paneli karisimi
+Bu CRM'in amaci:
+- isletmeleri, kisileri, gorusmeleri, teklifleri, teslimati, bakimi, notlari ve sonraki adimlari tek panelde toplamak
+- EsnafDigital'in kendi satis ve hizmet teslim surecini yonetmek
+- isletme bazli karar yuzeyini `Businesses + Business Detail` tarafinda guclendirmek
 
-Benim onerim: **EsnafDigital'in satis, teklif, teslimat ve bakim surecini tasiyan kendi operasyon CRM'i**.
+Sinir:
+- CRM kimligini reddetmek degil
+- hizmet verilen isletmelere satilan yatay CRM yazilimi gibi konumlanmamak
+- muhasebe/stok/her seyi yapan isletme yazilimina savrulmamak
 
-### 3 yol var
-
-**1. Sade kalalim**
-- sadece mevcut akis: audit -> teklif -> delivery -> bakim
-- arti olarak kucuk notlar ve durumlar
-
-**Artisi:** hizli, temiz  
-**Eksisi:** bir sure sonra “her seyi disarda takip ediyoruz” hissi verir
-
-**2. EsnafDigital operasyon CRM'ini kuralim, bence en dogrusu bu**
-Sadece su yuzeyleri ekleyelim:
-- isletme zaman cizgisi
-- son gorusme / sonraki adim
-- teklif notu
-- delivery asset ve erisim takibi
-- bakim hatirlatmasi
-- kisa ic notlar
-
-**Artisi:** her sey panelde toplanir  
-**Eksisi:** siniri korumazsak buyur
-
-**3. Tam CRM'e donelim**
-- aktiviteler
-- gorevler
-- pipeline'lar
-- mesaj gecmisi
-- etiketler
-- raporlar
-- ekip gorev dagitimi
-
-**Artisi:** her sey tek yerde olur  
-**Eksisi:** bizi hizlica baska bir urune cevirir, EsnafDigital omurgasi bulanir
-
-### Benim net onerim
-**2 numara.**
-Yani:
-- “her seyi bu panelden yapabilmek” hedefini kabul edelim
-- bunu **EsnafDigital'in kendi operasyon CRM'i** diye kuralim
-- ama **hizmet verilen isletmelere satilan yatay CRM urunu** gibi konumlamayalim
-
-### Kirmizi cizgi
-Panelde su soru hep korunmali:
-**“Bu isletmeyi auditten bakima tasimak icin simdi ne gerekiyor?”**
-
-Bu korunursa kayis faydali olur.
-Bu kaybolursa panel cop toplar.
-
-Istersen bir sonraki adimda sana cok net bir liste cikarayim:
-**“EsnafDigital operasyon CRM'ine eklenecek 10 operator ozelligi”**
-ve hangileri **simdi**, hangileri **sonra** diye ayirayim.
+Guncel yorum:
+- `Project OS` CRM'in tamamı degil; gunun sicak is kokpiti.
+- `Businesses` ve `Business Detail` CRM omurgasinin ana yuzeyi.
+- aktivite, not, sonraki adim, gorev, teklif, teslimat ve bakim katmanlari panel kapsamina alinabilir.
 user: Sender (untrusted metadata):
 ```json
 {

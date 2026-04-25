@@ -2,7 +2,7 @@
 
 ## Amac
 `Businesses / Business Detail` yuzeyi, tek bir isletmenin kanonik kontrol panelidir.
-Bu sayfa `Project OS` gibi tum akisin sicak kuyrugunu gostermek icin degil, secili kaydi hizli okumak, audit oncesi hazirlik yapmak ve sonraki mantikli operator aksiyonunu secmek icin vardir.
+Bu sayfa `Project OS` gibi tum akisin sicak kuyrugunu gostermek icin degil, secili kaydi hizli okumak, inceleme oncesi hazirlik yapmak ve sonraki mantikli operator aksiyonunu secmek icin vardir.
 
 Bu dokuman uc ayri referansi tek yerde toplar:
 - sayfanin rol ve bilgi mimarisi
@@ -45,7 +45,7 @@ Kisa kural:
 ## Kalici ilkeler
 - kanonik dogru veri operatorun duzelttigi business kaydidir
 - dis kaynaklar sinyal ve snapshot katmanidir, business kaydini sessizce override etmez
-- audit puani ana karar mekanizmasi degil; audit ozeti ve eksik listesi once gelir
+- inceleme puani ana karar mekanizmasi degil; inceleme ozeti ve eksik listesi once gelir
 - sistem paket yonu onerebilir ama son secim operatorundur
 - ilk cizgi karar ve aksiyon ekranidir, agir edit ekranlari sonra acilir
 
@@ -63,7 +63,7 @@ Bu uc katman birbirine karistirilmaz.
 ## 1.1 Canonical katman
 ### Kaynak
 - `businesses`
-- `audits`
+- `inceleme_kayitlari`
 - `offers`
 - `delivery_projects`
 - gerekirse daha sonra genisletilecek operator metadata alani
@@ -128,7 +128,7 @@ Bu katman operatoru 30-60 saniyede karara goturmek icin vardir.
 
 ### V1 derived ciktilari
 - next step karti
-- kisa audit ozeti
+- kisa inceleme ozeti
 - 3 ila 7 maddelik eksik listesi
 - bilgi tutarliligi sinyali
 - yorum / puan ozeti
@@ -141,7 +141,7 @@ Bu katman operatoru 30-60 saniyede karara goturmek icin vardir.
 ### Kural
 - derived katman source of truth degildir
 - paket yonu oneridir, secim operatorundur
-- uzun audit metni veya ham scrape dump'i derived katmana yigilmamalidir
+- uzun inceleme metni veya ham scrape dump'i derived katmana yigilmamalidir
 
 ## 1.4 Destek katmanlari
 ### Activity timeline
@@ -149,7 +149,7 @@ V1 timeline'i ayri truth katmani degil, compact derived/ref destek alanidir.
 
 #### V1 kaynaklari
 - `business.createdAt`
-- `audit.createdAt`, `audit.updatedAt`
+- `inceleme.createdAt`, `inceleme.updatedAt`
 - `offer.createdAt`, `offer.updatedAt`
 - `deliveryProject.createdAt`, `deliveryProject.updatedAt`
 - dis veri yenileme eventi varsa onun kompakt kaydi
@@ -202,7 +202,7 @@ Bu ucunun ayrimi bozulursa Business Detail hizli karar yuzeyi olmaktan cikar.
 - ilce
 - isletme sahibi
 - durum badge'leri
-- audit / teklif / teslimat badge'leri
+- inceleme / teklif / teslimat badge'leri
 
 ### Sag aksiyonlar
 - `Is Takibinde ac`
@@ -233,9 +233,9 @@ Amac, tek isletmenin gercek kaydi, dis sinyali ve karar resmi arasindaki farki h
 - coklu aksiyon duvarina donmemeli
 - `Project OS` kuyrugunu tekrar etmez, sadece bu kayit icin ne yapilacagini soyler
 
-## 2.4 Audit Snapshot karti
+## 2.4 Inceleme Ozeti karti
 ### Gosterilecekler
-- audit ozeti
+- inceleme ozeti
 - hazirlik sinyali
 - dis veri resmi
 - ilk eksik listesi
@@ -243,7 +243,7 @@ Amac, tek isletmenin gercek kaydi, dis sinyali ve karar resmi arasindaki farki h
 - ilk paket yonu
 
 ### Kural
-- audit snapshot ustte ve okunur kalmali
+- inceleme ozeti ustte ve okunur kalmali
 - detay rapor duvarina donusmemeli
 
 ## 2.5 Hazirlik / Tarama paneli
@@ -255,7 +255,7 @@ Bu alan ayri bir tam sayfa degil, Business Detail icinde bir bolum olarak acilir
 
 ### Panel rolu
 Bu bolum, operatorun "bu kayit icin baska hangi dis sinyali simdi cekmeye deger" sorusunu cevaplar.
-Amaci ham scrape yonetmek degil, audit oncesi veya teklif oncesi tek kayit bazli hazirlik paketini kontrollu sekilde genisletmektir.
+Amaci ham scrape yonetmek degil, inceleme oncesi veya teklif oncesi tek kayit bazli hazirlik paketini kontrollu sekilde genisletmektir.
 
 ### V1 sayfa yapisi
 Panel tek bir kart olarak acilir ve kendi icinde su sirayla akar:
@@ -336,7 +336,7 @@ Kartin en altinda compact bir gecmis listesi tutulur:
 Kural: tam run log'u acilmaz; detay gerekirse sonra drawer/modal dusunulur.
 
 ### Hafif tarama
-Amac, tek isletme icin dusuk maliyetli audit on hazirligi cikarmaktir.
+Amac, tek isletme icin dusuk maliyetli inceleme on hazirligi cikarmaktir.
 
 #### Kaynaklar
 - mevcut Google Maps / discovery snapshot
@@ -414,10 +414,10 @@ Teklif kaydini fiyat satiri degil, teslimati besleyen operasyon girdisi gibi gos
 Operatorun yapim/bakim resmini detail seviyede gormesi.
 
 ## 2.8 Activity timeline
-Audit, teklif, teslimat ve sonraki ek eventleri zamansal akista gosterir.
+On degerlendirme, teklif, teslimat ve sonraki ek eventleri zamansal akista gosterir.
 
 ## 2.9 Alt kayitlar
-- audit kayitlari
+- inceleme kayitlari
 - teklif kayitlari
 - teslimat / bakim kayitlari
 
@@ -427,7 +427,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 
 # 3. Capability kirilimi
 
-## 3.1 Audit / mevcut durum
+## 3.1 On Degerlendirme / mevcut durum
 ### Hemen acilabilecekler
 - Google Maps snapshot ozeti
 - temel bilgi tutarliligi kontrolu
@@ -435,7 +435,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 - website var mi / calisiyor mu sinyali
 - sosyal / randevu sinyali
 - temel eksiklerin kisa ozeti
-- puan yerine seviye / kisa audit ozeti
+- puan yerine seviye / kisa inceleme ozeti
 
 ## 3.2 Paket / teklif yonu
 ### Hemen acilabilecekler
@@ -484,7 +484,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 ## Sayfada kalacaklar
 - header
 - next step
-- audit snapshot
+- inceleme ozeti
 - hafif tarama ozeti
 - scrape paneli
 - son teklif karti
@@ -510,7 +510,7 @@ Kural: ana ekran ustu aksiyon odakli kalir, alttaki tablo ve gecmis bolumu refer
 ## Ustten alta ideal akis
 1. Header
 2. Next Step
-3. Audit Snapshot
+3. Inceleme Ozeti
 4. Hazirlik / Tarama paneli
 5. Son teklif / son teslimat
 6. Timeline
@@ -532,7 +532,7 @@ Bu sayfa V1 icin ancak su durumda tamam sayilir:
 - route kanonik ve okunur calisiyor
 - Project OS'tan detail'e gecis net
 - operator tek bakista business'in kim oldugunu ve hangi asamada oldugunu anliyor
-- audit snapshot okunur
+- inceleme ozeti okunur
 - hafif tarama ozeti gorunuyor
 - son teklif ve teslimat resmi gorunuyor
 - timeline referans icin acik
@@ -559,7 +559,7 @@ Bu sayfa V1 icin ancak su durumda tamam sayilir:
 Hala netlesmesi gerekenler:
 - snapshot verisi DB'ye ne zaman tasinacak
 - operator notu ayri tablo mu olacak, metadata mi
-- audit snapshot ayri tablo mu olacak, mevcut audit kaydinin uzantisi mi
+- inceleme ozeti ayri tablo mu olacak, mevcut inceleme kaydinin uzantisi mi
 - website kontrolu sonucu hangi teknik yontemle uretilecek
 - Instagram / Yandex / Apple veri kontrati hangi alanlara inecek
 - demo sayfasi icin yayin suresi / kapanma kurali ne olacak

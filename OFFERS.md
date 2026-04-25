@@ -2,13 +2,13 @@
 
 Bu dosya EsnafDigital'in kanonik teklif omurgasini tutar.
 Ana stratejik cizgi korunur:
-`Audit -> Teklif -> Teslimat -> Bakim`
+`On Degerlendirme -> Teklif -> Teslimat -> Bakim`
 
 Amac, cok paketli bir ajans menusu kurmak degil;
 satilabilir, teslim edilebilir ve tekrar eden bir teklif sistemi kurmaktir.
 
 ## 1) Teklif omurgasinin kisa hukmu
-- **Audit** giris kapisidir.
+- **Inceleme** giris kapisidir.
 - **Paket 0** teklif oncesi filtre ve demo katmanidir.
 - **Paket 1-3** ana kurulum serisidir.
 - **Paket 4** icerik devami hizmetidir.
@@ -17,17 +17,17 @@ satilabilir, teslim edilebilir ve tekrar eden bir teklif sistemi kurmaktir.
 Bu ayrim bozulmaz.
 
 ## 2) Teklif ilkeleri
-- her teklif audit cikisina baglanir
+- her teklif on degerlendirme cikisina baglanir
 - paket sayisi sisirilmez
 - 3 ana kurulum seviyesi korunur
 - temel paket bilerek eksik birakilmaz
 - segment bazli satis dili degisebilir, paket yapisi degismez
 - genel CRM, ozel yazilim ve ajans menusu mantigina kayilmaz
 
-## 3) Audit olmadan teklif verilmez
-Audit, tanisma jesti degil; teklifin girdisidir.
+## 3) On Degerlendirme olmadan teklif verilmez
+On degerlendirme, tanisma jesti degil; teklifin girdisidir.
 
-Audit cikisinda su netlesir:
+On Degerlendirme cikisinda su netlesir:
 - isletmede hangi gorunurluk eksigi var
 - hangi guven sinyali zayif
 - hangi paket uygun
@@ -49,7 +49,7 @@ Kapsam:
 - gerekiyorsa tek yonlu ornek vitrin / demo gosterimi
 
 Teslim:
-- kisa audit ozeti veya puani
+- kisa inceleme ozeti veya puani
 - kritik eksik listesi
 - uygun paket yonu
 - gerekiyorsa ornek demo onizlemesi
@@ -230,4 +230,4 @@ Bunlar aktif teklif omurgasi degildir:
 - teklif netlesmeden ekran cogaltmak
 
 ## 11) Saha icin tek cümlelik satis mantigi
-Once audit ile sorun gorunur olur, sonra 3 seviyeli kurulum serisinden uygun paket secilir, devam ihtiyaci varsa icerik veya bakim ayri konusulur.
+Once inceleme ile sorun gorunur olur, sonra 3 seviyeli kurulum serisinden uygun paket secilir, devam ihtiyaci varsa icerik veya bakim ayri konusulur.

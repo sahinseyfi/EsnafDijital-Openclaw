@@ -9,7 +9,7 @@
 ## Ana Kayit Ekranlari
 - [ ] businesses listesi
 - [ ] business detail ekrani
-- [ ] audit kayit yapisi
+- [ ] inceleme kayit yapisi
 - [ ] offers ekrani
 - [ ] delivery ekrani
 

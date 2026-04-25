@@ -45,7 +45,7 @@ Bu cizgiler tipik olarak su kaynaklardan gelir:
 
 ## Gorev tipine gore ikincil baglam
 
-### 1) Dosya degerlendirme veya baglam audit
+### 1) Dosya degerlendirme veya baglam inceleme
 - Ek baglam:
   - `README.md`
   - `PROJECT.md`
@@ -93,11 +93,11 @@ Bu cizgiler tipik olarak su kaynaklardan gelir:
   - stratejik ama gorevsiz belgeler
   - bugla ilgisiz plan notlari
 
-### 5) Teklif, audit veya teslimat akisi
+### 5) Teklif, inceleme veya teslimat akisi
 - Ek baglam:
   - `OFFERS.md`
   - `SEGMENTS.md`
-  - `PLAYBOOKS/audit-offer-delivery.md`
+  - `PLAYBOOKS/kesif-teklif-teslimat-bakim.md`
 - Ham oku:
   - teklifi veya akisi dogrudan etkileyen belge
 - Prompta tasima:
