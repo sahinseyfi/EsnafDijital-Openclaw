@@ -61,6 +61,11 @@ Bu dosya, EsnafDigital 360 bilgi metnine gecis sirasinda hangi dosyada neyin deg
   - Ajanin kullanacagi ozel islemlerin skill degil `tool/plugin`, davranis rehberinin ise workspace/sablon dosyalari oldugu aciklandi.
   - Guvenlik bolumune kesin randevu ve dis hesap/odeme/fiyat gibi islemlerde onay gerektigi eklendi.
 
+### `REFERENCES/esnafdigital-360/esnafdigital-360-tek-dosya.md`
+- Kurucunun istegiyle 360 klasorundeki aktif numarali bolum dosyalari tek okuma/aktarim dosyasinda toplandi.
+- Dosyanin notunda, asil calisma ve karar kaynaginin ayri numarali bolum dosyalari olarak kalacagi belirtildi.
+- `19-gelistirme-sirasi-gpt-pro-kontrol-notu.md` de tek dosyaya dahil edildi.
+
 ## Su anki pratik kural
 Bundan sonra 360 projesine gecis su sekilde yurur:
 1. Bolum okunur.
