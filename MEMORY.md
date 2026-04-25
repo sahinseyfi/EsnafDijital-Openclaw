@@ -58,7 +58,10 @@ Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
 - Sabit baglam dosya tabanli tutulur: Markdown / YAML / JSON
 - Kucuk tekrar eden isler icin zamanlayicilar ve basit gorevler kullanilabilir.
 - MVP asamasinda agir yapay zeka / RAG / vektor veritabani / mikroservis katmanlari kurulmaz.
-- OpenClaw tabanli ajan destegi, ilk teknik omurganin zorunlu parcasi degil; uygun oldugunda isletme yonetimini kolaylastiran genisleme katmani olarak ele alinir.
+- EsnafDigital 360 OpenClaw ajan destegi ana urun fikrinin parcasi olarak ele alinir; MVP mimari karari her isletme icin tek OpenClaw Gateway/runtime altinda ayri OpenClaw agent, ayri workspace, ayri oturum/hafiza ve ayri izin profili uretmektir.
+- Isletme ajani icin kullaniciya gorunen kayit adi `Isletme Ajani Kaydi` olacak; teknik ASCII ad gerekirse `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` kullanilir. Bu kayit agent degil; EsnafDigital tarafinda gercek isletme agent'ini, workspace yolunu, sablon surumunu, izin profilini, oturumlarini, kanal baglarini ve gorev durumunu izler.
+- Bu karmasa manuel yonetimle degil; iyi baslangic sablonu, otomatik agent kurulumu, sablon surumu takibi ve siki tool/yetki siniri ile kontrol altina alinacaktir.
+- WhatsApp ticari hedef kanal olarak kalir; teknik dogrulama Telegram/test kanali veya EsnafDigital pilot hatti ile baslayabilir. Isletmenin kendi WhatsApp hattini ajana baglama ve randevu karsilama ek kanal/modul paketi olarak ele alinir.
 
 ## 6) Ic Sistem Karari
 - Ic sistemin zorunlu cekirdegi EsnafDigital'in kendi operasyon CRM'i ile baglam sistemi ve dokumanlardir.
@@ -66,12 +69,16 @@ Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
 - On degerlendirme, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
 - Istem uretimi, satis destek araclari ve ajan destekli akislar bu cekirdegin ustune eklenen yardimci katmanlardir.
 - Istem uretimi ve benzeri yardimci katmanlarda surekli arka plan ajanlari yerine istege bagli, tek-seferlik ve deterministik akislar tercih edilir.
+- EsnafDigital ajan davranis rehberi skill ile, gercek sistem islemleri ise EsnafDigital API uzerinden sinirli OpenClaw tool/plugin'lari ile yurutulur.
 
 ## 7) Korunacak Calisma Ilkeleri
 - once netlik, sonra arac
+- kurucunun verdigi yeni fikirleri once yapilabilirlik, risk ve MVP etkisi acisindan degerlendir; sonra 2-3 uygulanabilir yol ve onerilen yolu kisa sekilde sun
 - once calisan basit cozum
 - gereksiz karmasiklik kurma
 - teklif netlesmeden ekran cogaltma
+- dosya, kapsam, MVP veya yon degisikliginde kurucu onayi almadan ilerleme
+- bir mesajda dosya degistirildiyse, mesajin sonunda degistirilen her dosyayi listele
 - baglami gereksiz yere buyutme
 - kalici kararlari yazili hale getir
 - bitmis saymak icin gercek cikti ve kisa dogrulama gerekir

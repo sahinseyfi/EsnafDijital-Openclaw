@@ -7,37 +7,45 @@ Bu dosya sadece aktif durum panosudur.
 Bitmis isler ve uzun gecmis burada tutulmaz.
 
 ## Mevcut Faz
-**Faz 1 - ic operasyon ve baglam omurgasini kurma**
+**Faz 1 - EsnafDigital 360 MVP yonunu netlestirme ve ic operasyon omurgasini buna gore hizalama**
 
 ## Su Anki Ana Hedef
-Admin panelde cekirdek operasyon omurgasini sade tutmak: `Home/Project OS + Businesses + Business Detail` cizgisini mevcut kod ve referanslarla hizalamak.
+`REFERENCES/esnafdigital-360/` aktif 360 baslangic alani olarak sadeleştirildi; bundan sonra uzun kok dosya veya arsiv yerine ilgili numarali bolum dosyasi ele alinacak. Isletme basina gercek OpenClaw agent/workspace karari kabul edildi; mevcut admin ve teknik omurga `iyi sablon + otomatik kurulum + siki yetki siniri` cizgisine sade sekilde hizalanacak.
 
 ## Bu Hafta Oncelik
-1. `Project OS` yuzeyini gunun sicak is kokpiti olarak sinirlamak
-2. `Businesses` yuzeyini sahiplenilen kayitlari bulma, filtreleme ve detaya gecme yeri olarak tutmak
-3. `Business Detail` yuzeyini tek kayitta canonical / external / derived karar yuzeyi yapmak
-4. `Business Detail` icinde tek kayda ait `Siradaki adim` karar kartini Project OS kuyrugunu kopyalamadan gostermek
-5. `Discovery` yuzeyini ana cockpit degil ikincil intake kapisi olarak konumlamak
-6. ziyaret hazirligini ayri pano degil `Business Detail` icinde hafif kart/mod olarak dusunmek
+1. `REFERENCES/esnafdigital-360/README.md` indeksini kullanarak 360 bolumlerini tek tek incelemek
+2. Her numarali bolumu `kabul / duzelt / ertele` karariyla kurucu onayindan gecirmek
+3. Onaylanan kisimlari MVP kapsamina, teknik siraya ve admin omurgasina cevirmek
+4. Onaylanmayan kisimlari karar gibi uygulamamak
+5. Mevcut `Home/Project OS + Businesses + Business Detail` hattini yeni 360 yonune gore sade tutmak
+6. OpenClaw isletme agent sablonu, otomatik kurulum, kanal routing/binding ve yetki sinirlarini netlestirmek
 
 ## Siradaki Somut Adim
-- `Business Detail` icindeki yeni `Siradaki adim` karar karti operator gozunden kontrol edilecek; Project OS/Businesses ile ayni karar kaynagini kullandigi dogrulanacak ve kalabalik gelirse metinleri sadeleştirilecek.
+- `Isletme Ajani Kaydi` modeli, isletme agent workspace sablonu ve otomatik kurulum akisi icin en kucuk teknik taslak cikarilacak.
+
+## Izleme Notu
+- 360 bolumlu calisma klasoru: `REFERENCES/esnafdigital-360/`
+- 360 gecisinde yapilan dosya duzenlemeleri `memory/2026-04-25-topic-360-gecis-duzenleme-kaydi.md` icinde takip edilecek.
+- Bir dosya degistirildiginde mesaj sonunda degistirilen dosyalar yazilacak.
 
 ## Mevcut Blokajlar
 - Yok
 
 ## Dikkat Edilecek Riskler
+- bilgi metninin tamamini onaysiz nihai karar gibi uygulamak
 - genisleme adina yatay ve daginik bir genel CRM urunune savrulmak
-- teklif netlesmeden ekran cogaltmak
-- `Discovery` yuzeyinin ikinci cockpit veya ana operasyon kuyruguna donusmesi
+- her modulu ilk MVP'ye ayni anda yuklemek
+- tek kanala erken kilitlenmek
+- agent/workspace cogalmasini manuel yonetmeye calismak
+- isletme agent'larina ana workspace veya diger isletme verilerine erisim vermek
+- ajana onaysiz dis islem yetkisi vermek
 - `Business Detail` yuzeyinin task/note/timeline/form duvari haline gelmesi
-- `Siradaki adim` kartinin Project OS kuyrugunu detay sayfasina kopyalayan ikinci kokpite donusmesi
 - baglam dosyalarinin tekrar ve cop ile buyumesi
 
 ## Bu Fazin Done Tanimi
-- teklif omurgasi netlesmis olacak
-- temel veri modeli calisiyor olacak
-- admin tarafinda ana akislarin nerede yasadigi netlesmis olacak
+- 360 bilgi metninin ana bolumleri kurucu onayindan gecmis olacak
+- MVP'nin ilk onayli kapsami yazili ve sade olacak
+- temel veri modeli ve admin akisinin bu kapsamdaki yeri netlesmis olacak
 
 ## Son Guncelleme
 2026-04-25

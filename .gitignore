@@ -11,3 +11,5 @@ memory/.dreams/
 /agent-workspace/.next/
 /agent-workspace/out/
 /agent-workspace/build/
+
+agents/bos-ajan/

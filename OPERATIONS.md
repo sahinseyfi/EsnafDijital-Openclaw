@@ -83,6 +83,24 @@ Bu dosya, EsnafDigital'in servis, port, systemd ve canli operasyon referanslarin
 - gateway durdur: `openclaw gateway stop`
 - gateway yeniden baslat: `openclaw gateway restart`
 
+### OpenClaw Docker Test Instance
+- **Amac:** ana OpenClaw kurulumundan ayri, Docker icinde izole test gateway'i
+- **Klasor:** `/opt/openclaw-docker`
+- **Container:** `openclaw-docker`
+- **Compose dosyasi:** `/opt/openclaw-docker/docker-compose.yml`
+- **Data klasoru:** `/opt/openclaw-docker/data`
+- **Token/env dosyasi:** `/opt/openclaw-docker/.env` (icerik workspace'e yazilmaz)
+- **Host ic port:** `127.0.0.1:18889`
+- **Tailscale Serve linki:** `https://openclaw-1.taileddc95.ts.net:8443/`
+- **Tailscale proxy:** `:8443 -> http://127.0.0.1:18889`
+- **Ana OpenClaw ayrimi:** ana gateway `127.0.0.1:18789` ve `https://openclaw-1.taileddc95.ts.net` uzerinde kalir.
+- Docker instance durum: `cd /opt/openclaw-docker && docker compose ps`
+- Docker instance log: `cd /opt/openclaw-docker && docker compose logs -f`
+- Docker instance yeniden baslat: `cd /opt/openclaw-docker && docker compose restart`
+- Docker instance durdur: `cd /opt/openclaw-docker && docker compose down`
+- Tailscale serve durum: `tailscale serve status`
+- Docker instance Tailscale yayini kapat: `tailscale serve --https=8443 off`
+
 ### Workspace Sync
 - workspace sync servis durum: `systemctl status esnafdijital-workspace-sync.service`
 - workspace sync timer durum: `systemctl status esnafdijital-workspace-sync.timer`

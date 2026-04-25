@@ -54,6 +54,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 - Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
 - Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
 - Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
+- EsnafDigital 360 urun/mimari calismasi -> `REFERENCES/esnafdigital-360/README.md`
 - Kaynak materyal veya referans arama -> `REFERENCES/README.md`, sonra gerekiyorsa ilgili alt klasor README'si
 - Tekrarlayan is akisi -> `CHECKLISTS/README.md` veya `PLAYBOOKS/README.md`
 - Gorev-ozel calisma rehberi -> `skills/README.md`
@@ -70,6 +71,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 | Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
 | Gunluk not veya tarihli konu kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, tekil konu `YYYY-MM-DD-topic-slug.md`, incident ve danisma icin ilgili adlandirma kullanilir |
 | Operasyon ve teknik ortam | `TOOLS.md`, `OPERATIONS.md` | Canli referans burada |
+| EsnafDigital 360 bolumlu calisma | `REFERENCES/esnafdigital-360/README.md` | 360 icin aktif baslangic dokumani; kararlar gerekirse kanonik dosyalara tasinir |
 | Teklif, segment, referans materyal | `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` | Karar kaydi gibi davranma |
 | Eski veya superseded icerik | `ARCHIVE/` | Ilk okuma paketi degil |
 

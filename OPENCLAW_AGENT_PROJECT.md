@@ -23,7 +23,7 @@ Bu proje asagidaki tekil kaliplardan birine hapsedilmez:
 
 - sadece web sitesi yapma isi
 - sadece Google Maps duzenleme isi
-- sadece QR yorum standi isi
+- sadece dinamik QR/NFC yonlendirme isi
 - sadece Instagram yonetimi isi
 - sadece online menu isi
 - sadece musteri paneli isi
@@ -360,11 +360,12 @@ Amac:
 - dijital gorunurluk kontrolu
 - Google profil / Maps duzeni
 - temel web vitrini
-- QR yorum akisi
+- dinamik QR/NFC yonlendirme akisi
 - Instagram profil duzeni
 - Yandex / Apple Maps kaydi
 - NFC yorum akisi
 - bakim / guncel tutma
+- isletmeye ozel OpenClaw isletme ajani: iyi sablon + otomatik kurulum + siki yetki siniri
 - duzenli Instagram icerik paylasimi
 
 ### Opsiyonel ve yakin ekler
@@ -381,7 +382,6 @@ Amac:
 - online menu
 - ozel musteri paneli
 - self-service icerik yonetimi
-- isletmeye ozel OpenClaw ajani
 - randevu / siparis / rezervasyon baglantilari
 - gelir / gider ekrani
 - stok / tahsilat / muhasebe modulleri
@@ -392,12 +392,14 @@ Amac:
 Her yeni fikir icin OpenClaw ajani su sirayi izlemelidir:
 
 1. Fikri tek cumlede netlestir.
-2. Fikrin hangi grupta oldugunu sec:
+2. Fikri once yapilabilirlik, risk ve MVP etkisi acisindan degerlendir.
+3. `Nasil yapabiliriz?` sorusuna 2-3 uygulanabilir yol ile cevap ver; avantaj/dezavantajlari kisa tut ve onerilen yolu belirt.
+4. Fikrin hangi grupta oldugunu sec:
    - cekirdek satis
    - opsiyonel ek
    - operasyon araci
    - ileri urun fikri
-3. En kucuk gercek ciktiyi belirle:
+5. En kucuk gercek ciktiyi belirle:
    - dokuman
    - panel karti
    - form
@@ -406,10 +408,11 @@ Her yeni fikir icin OpenClaw ajani su sirayi izlemelidir:
    - demo ekran
    - script
    - rapor
-4. Gereksiz buyutmeye girmeden uygula.
-5. Build, test, diff, smoke test veya dosya kontroluyle dogrula.
-6. Gerekirse ilgili kanonik dosyayi guncelle.
-7. Sonucu durum / sonraki adim / blokaj seklinde kapat.
+6. Dosya, kapsam, MVP veya yon degisikligi varsa once kurucu onayi al.
+7. Onay varsa gereksiz buyutmeye girmeden uygula.
+8. Build, test, diff, smoke test veya dosya kontroluyle dogrula.
+9. Gerekirse ilgili kanonik dosyayi guncelle.
+10. Sonucu durum / sonraki adim / blokaj seklinde kapat.
 
 ## 7) Onay gerektiren isler
 
@@ -424,7 +427,7 @@ Ajan asagidaki durumlarda kendi basina hareket etmemelidir:
 - gizli bilgi, token, parola veya erisim degisikligi
 - musteri adina ticari karar verme
 
-Bu islerde kurucudan kisa onay alinmalidir.
+Bu islerde kurucudan kisa onay alinmalidir. Ayrica dosya, kapsam, MVP veya yon degisikligi de onay gerektirir.
 
 ## 8) Projenin korunacak dengesi
 
@@ -445,7 +448,7 @@ Bu dokumanin pratik anlami sudur:
 - Kurucu yeni bir fikir soylediginde ajan bunu kaybedecek gibi davranmaz.
 - Fikir cekirdege girecekse teklif omurgasina baglar.
 - Cekirdege erken ise ileri fikir havuzunda tutar.
-- Teknik uygulanabilir hale geldiyse panelde veya dokumanda kucuk bir prototip uretir.
+- Teknik uygulanabilir hale geldiyse, kurucu onayi sonrasinda panelde veya dokumanda kucuk bir prototip uretir.
 - Bu VPS, sadece web uygulamasi sunucusu degil; EsnafDigital'in fikirden uygulamaya gecen ajanli calisma merkezi olarak kullanilir.
 
 ## 10) Tek cumlelik ozet

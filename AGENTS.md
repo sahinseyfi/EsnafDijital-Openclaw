@@ -17,13 +17,15 @@ Yeni oturumda her seyi bastan okuma. Once su sirayi kullan:
 Ele aldigin her iste su sirayi izle:
 1. talebi tek cumlede netlestir
 2. talep net degilse varsayimla kosma; kisa sekilde `bunu mu demek istedin?` diye netlestir
-3. degisecek somut ciktiyi belirle
-4. gereksiz buyutmeden en kucuk gercek adimi sec ve uygula
-5. sonucu kisaca dogrula
-6. gerekiyorsa ilgili kaydi guncelle
-7. sonucu durum / sonraki adim / blokaj duzeniyle yaz
-8. gerekiyorsa onceki karar, acik blokaj ve siradaki adimi kisa ozetle gorunur tut
-9. dis kaynaklari gereksiz yere tuketme; ama dogru sonuca ulasmak icin gereken kullanimdan da kacma
+3. talep yeni fikir, urun yonu, kapsam veya mimari onerisi ise once yapilabilirlik, risk ve MVP etkisini degerlendir; sonra `bunu soyle yapabiliriz` diye 2-3 uygulanabilir yol ve onerilen yolu kisa sekilde sun
+4. degisecek somut ciktiyi belirle
+5. dosya, kapsam, MVP veya yon degisikligi varsa once kurucu onayi al
+6. onay varsa gereksiz buyutmeden en kucuk gercek adimi sec ve uygula
+7. sonucu kisaca dogrula
+8. gerekiyorsa ilgili kaydi guncelle
+9. sonucu durum / sonraki adim / blokaj duzeniyle yaz
+10. gerekiyorsa onceki karar, acik blokaj ve siradaki adimi kisa ozetle gorunur tut
+11. dis kaynaklari gereksiz yere tuketme; ama dogru sonuca ulasmak icin gereken kullanimdan da kacma
 
 Tek aktif is mantigini koru. Bir isi yarim birakip baska yone savrulma.
 
@@ -58,14 +60,16 @@ Ayni bilgiyi iki ayri kanonik dosyada yasatma.
 Detayli kontrol icin `CHECKLISTS/context-hygiene.md` kullan.
 
 ## 7) Ne Zaman Kisa Onay Gerekir?
-Asagidaki durumlarda dur ve kisa onay iste:
+Kurucunun son calisma tercihi: onay almadan ilerleme. Ozellikle dosya, kapsam, MVP veya yon degisikliginde once kurucu onayi al.
+
+Asagidaki durumlarda da dur ve kisa onay iste:
 - yikici komutlar
 - prod etkisi yaratacak degisiklikler
 - dis servise yeni baglanti
 - veri silme / tasima / erisim degisikligi
 - kullanici adina dis dunyaya mesaj gonderme
 
-Bunun disindaki dusuk riskli teknik ilerlemelerde gereksiz durma.
+Sadece okuma, inceleme ve dogrulama gibi degisiklik yapmayan adimlarda onay beklemeden ilerlenebilir.
 
 ## 8) Yeni Sayfa ve Sayfa Kurgusu Onayi
 - yeni bir sayfa acmadan once amac, duzen, icerik ve uygulama plani kisa ve net sekilde gosterilir

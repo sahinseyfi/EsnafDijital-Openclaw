@@ -9,6 +9,7 @@ Buradaki icerik karar kaydi degil, karar verirken veya uygulama yaparken bakilan
 - karar dosyasina baglanacak destek materyal lazimsa
 
 ## Ilk bakilacak yerler
+- `esnafdigital-360/README.md` -> EsnafDigital 360 urun/mimari bolumlu calismasinin aktif baslangic dokumani
 - kokteki tarihli kaynak dosyalari
 - `Derin-arastirma/README.md` -> EsnafDigital icin derin arastirma indexi, kullanim cizgisi ve ilgili rapor girisleri
 - `design-system/` altindaki parcali referanslar
