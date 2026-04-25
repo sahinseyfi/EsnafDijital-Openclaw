@@ -9941,10 +9941,167 @@ Kisa formda:
 Bu model Project OS'un audit-first operasyon kokpiti kimligini koruyor,
 ve temas bilgisini de yan bir nurture motoruna cevirmeden tasiyor.
 
+## Altmis besinci okuma - `ulasilamadi` event'i alt seviyede kalacaksa bunun operatora en az zarar veren gorunur izi nerede olmali?
+Biriken kararlar burada artik daha net:
+- `ulasilamadi` yeni resmi stage/status olmayacak
+- Project OS queue dili bu sinyalle yeniden sekillenmeyecek
+- `son 3 temas ozeti`ne de varsayilan olarak promote edilmeyecek
+- ama tamamen gorunmez kalirsa operator ayni kayda tekrar bos efor harcayabilir
+
+Simdi asil soru su:
+- bu izin tek gorunur evi yalniz ham timeline mi olmali?
+- yoksa Business Detail'de `son temas denemesi` gibi tek satirlik pasif metadata da olmali mi?
+- iki yerde birden gorunmesi tekrar riski yaratir mi?
+
+Bu soru kucuk gibi gorunuyor,
+ama aslinda `dusuk degerli sinyal nasil hatirlanir?` sorusu.
+Yanlis kurarsak ya sinyal kaybolur,
+ya da detail sayfasi hafif hafif temas gunlugune doner.
+
+### 1) Referanslar hangi yone itiyor?
+Kaynaklarin verdigi sinirlar oldukca acik:
+- Business Detail derived katmani operatoru 30-60 saniyede karara goturmeli
+- timeline `ayri truth katmani` degil, compact derived/ref destek alani
+- timeline yorum degil hareket gosterir
+- ayni bilgi canonical ozet, timeline ve note icinde tekrar yasamamalidir
+- canonical kaynakta `gerekirse daha sonra genisletilecek operator metadata alani` icin alan birakiliyor
+
+Buradan ilk guclu sonuc cikiyor:
+- yalniz timeline'a guvenmek temiz ama fazla pasif kalabilir
+- ayri bir serbest not veya genis temas ozeti acmak ise yanlis yone gider
+- eger ek bir gorunur iz olacaksa,
+bu yeni truth katmani degil,
+son event'ten derive edilen pasif tek satir olmalidir
+
+### 2) Uc model
+
+#### G1) Yalniz ham/compact timeline
+Mantik:
+- `ulasilamadi` event'i sadece timeline'da gorunur
+- detail'in ust bloklarina tasinmaz
+
+Artisi:
+- tekrar en dusuk seviyede kalir
+- yeni metadata alani acma baskisi yaratmaz
+- event-first mantik korunur
+
+Eksisi:
+- timeline alt bolumde kaldigi icin operator kolayca kacirabilir
+- `en son temas denemesi basarisizdi` gibi hafif hafiza izi karar anina yeterince yakin olmaz
+- dusuk sinyal bazen gerektiginden fazla sessiz kalir
+
+Ara yorum:
+- temiz ama pratikte biraz fazla derine sakli
+
+#### G2) Detail'de tek satirlik pasif metadata
+Mantik:
+- `ulasilamadi` event'i alt seviyede kayitli kalir
+- detail yuzeyinde yukariya yakin ama pasif bir satir derive edilir
+- ornek: `Son temas denemesi: Ulasilamadi.`
+
+Artisi:
+- operatorun ayni gun ayni kayda korle saplanma riskini azaltir
+- yeni stage/status dili acmaz
+- tek satir kaldigi icin note/timeline duvarina donusmez
+- `operator metadata alani` cizgisine de uyumlu durur
+
+Eksisi:
+- iyi sinir cizilmezse `kanal`, `muhatap`, `tekrar tarihi` gibi alanlar eklenmek istenebilir
+- `son 3 temas ozeti` ile rol cakismasi riski vardir
+
+Ara yorum:
+- su an en dengeli aday bu, ama doz sert tutulmali
+
+#### G3) Hibrit: timeline + metadata + temas ozeti benzeri ikinci gosterim
+Artisi:
+- kacirma riski cok duser
+
+Eksisi:
+- ayni dusuk degerli sinyal birden cok yerde yasar
+- Business Detail tekrarli hafiza duvarina kayar
+- `tek kanonik yer` ve `compact derived` cizgisi bozulur
+
+Ara yorum:
+- en riskli model bu
+
+### 3) Neden yalniz timeline biraz eksik kaliyor?
+Cunku `ulasilamadi` gibi dusuk sinyal zaten queue'ya promote edilmiyor.
+Bir de detail'de yalniz timeline dibine itilirse,
+operasyonel hafiza olarak neredeyse yok olmus olur.
+Bu durumda operator sunu gec gorebilir:
+- bu kayitta son deneme basarisizdi
+- simdi ayni anda tekrar yuklenmek yerine daha sicak audit firsatina gitmek daha mantikli olabilir
+
+Yani burada ihtiyac tam audit yorumu degil,
+yalniz hafif bir `hatirlatici iz`.
+
+### 4) Neden genis metadata veya ikinci temas ozeti yanlis?
+Cunku hemen su zincir acilir:
+- kanal da yazilsin
+- muhatap da gorunsun
+- kac kez denendi sayisi da olsun
+- sonraki deneme tarihi de eklensin
+
+Bu artik pasif iz degil,
+mini temas kaydi olur.
+Ayrica `son 3 temas ozeti` ve timeline ile uc katmanli tekrar uretir.
+Bu da sayfayi audit-karar yuzeyi olmaktan uzaklastirir.
+
+### 5) O zaman en guvenli V1 cizgi ne?
+Bence su:
+- `ulasilamadi` event'i ham/compact timeline'da kalmaya devam etmeli
+- ama Business Detail'de yalniz tek satirlik pasif bir derived metadata da gosterilebilmeli
+- bu satir yeni veri kaynagi olmamali,
+  son anlamli `ulasilamadi` event'inden turemeli
+- satir yuksek sesli warning veya CTA olmamali
+- `son 3 temas ozeti`ne karismamali
+
+Ornek aile:
+- `Son temas denemesi: Ulasilamadi.`
+- `Son deneme yanitsiz kaldi.`
+
+Ama bundan ileri gitmemeli:
+- kanal yok
+- muhatap yok
+- neden aciklamasi yok
+- tekrar sayaci yok
+- yeni buton yok
+
+### 6) Bu satirin en dogru yeri neresi olur?
+En guvenli yer,
+Next Step veya kisa ozet satirini ele gecirmeyen,
+ama karar anina yakin bir ikincil metadata slotu.
+Yani:
+- header degil
+- primary CTA satiri degil
+- `son 3 temas ozeti` bolumu degil
+- timeline'in yerine gecen yeni kart da degil
+
+Daha cok su rol:
+- pasif hafiza izi
+- operatorun son denemeyi unutmasini engelleyen tek satir
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- `ulasilamadi` event'inin tek gorunur evi yalniz timeline olmamali, cunku fazla pasif kalabilir
+- ama bunu ayri temas ozeti veya genis metadata katmanina cevirmek de yanlis olur
+- en guvenli model `timeline kaynak + detail'de tek satirlik pasif derived metadata` gorunuyor
+- bu metadata yeni truth veya yeni action dili acmamalı
+- rolü yalniz hafif hatirlatici iz olmakla sinirli kalmali
+
+Kisa formda:
+- source = timeline event
+- visible trace = one passive detail line
+- avoid = multi-field contact metadata
+- avoid = promote into main summary/next step
+
+Bu model `ulasilamadi` bilgisini ne kaybettiriyor,
+ne de paneli gizli bir temas gunlugune ceviriyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
-- `ulasilamadi` event'i alt seviyede kalacaksa bunun operatora en az zarar veren gorunur izi nerede olmali: yalniz ham timeline mi, yoksa detail icinde `son temas denemesi` gibi tek satirlik pasif metadata mi?
+- `ulasilamadi` pasif metadata satiri kullanilacaksa bunun en guvenli mikro kopyasi hangisi olmali: `Son temas denemesi: Ulasilamadi.` gibi olgusal form mu, yoksa `Son deneme yanitsiz kaldi.` gibi daha yumusak form mu?
