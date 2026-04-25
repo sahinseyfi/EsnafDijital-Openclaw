@@ -9479,10 +9479,315 @@ Kisa formda:
 Bu model Project OS'un ana yon hissini bozmadan,
 operatora delivery/bakim tarafindaki gercek engeli de karar aninda hissettirebilir.
 
+## Altmis ikinci okuma - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
+Bir dizi onceki karar artik iyi bir zemin kurdu:
+- hizli temas sonucu varsa bunun yeri genel `Businesses` listesi degil, once `Project OS` olmali
+- desen `compact preset drawer` olmali
+- serbest not, uzun gorusme kaydi ve task benzeri takip mantigi acilmamali
+- tam baglam ve istisna aciklamasi yine `Business Detail`de kalmali
+
+Simdi asil soru su:
+- operator drawer'i actiginda hangi alanlari girmeli?
+- yalniz preset mi?
+- kanal da secilmeli mi?
+- tarih, muhatap, kisa not gibi alanlar da eklenmeli mi?
+
+Bu soru kritik.
+Cunku alan sayisi arttikca hizli mikro sonuc,
+kolayca mini contact log'a doner.
+
+### 1) Referanslar hangi yone itiyor?
+Kaynaklarin ortak cizgisi net:
+- `Project OS` form duvarina donusmemeli
+- UX tarafinda kritik islem tek kolon ve dusuk bilgi yogunlugu korunmali
+- genel CRM kaymasi, note creep ve message-history gravity acik risk olarak goruluyor
+- `temas sonucu`nun isi tam gorusme kaydi tutmak degil, kuyrugu ilerleten yapisal mikro sonucu islemek
+
+Buradan ilk kuvvetli sonuc cikiyor:
+- operatorun doldurdugu alan seti olabilecek en dar haline inmeli
+- sistemin zaten bildigi seyler tekrar operatora sorulmamalidir
+
+### 2) Uc model
+
+#### MAG1) Yalniz preset secimi
+Operator yalniz sunu secer:
+- `Ulasilamadi`
+- `Geri donus bekleniyor`
+- `Uygun zaman degil`
+- `Ziyaret planlanacak`
+- `Detail'de netlestir`
+
+Sistemin otomatik bildikleri:
+- business
+- stage
+- kaydi isleyen operator
+- islem zamani
+- kart baglami
+
+Artisi:
+- en hizli ve en guvenli model
+- form duvari acmaz
+- queue mantigina tam uyar
+- veri tekrarini azaltir
+
+Eksisi:
+- kanal veya muhatap ayrimi gormek isteyen operator icin eksik hissedebilir
+- bazi sonuclarin arkasi detail'e kalir
+
+Ara yorum:
+- su an en guvenli aday bu
+
+#### MAG2) Preset + kanal secimi
+Ek olarak:
+- `telefon`
+- `WhatsApp`
+- `yuz yuze`
+
+Artisi:
+- temas bilgisini biraz daha anlamli kilar
+- sonraki saha dilini dolayli besleyebilir
+
+Eksisi:
+- her hizli guncellemede ikinci karar ister
+- ayni sonucun onune yeni form adimi koyar
+- operator acelede rastgele secmeye baslayabilir
+- V1'de veri kullanim yeri henuz net degilse toplama anlamsizlasir
+
+Ara yorum:
+- teorik faydali ama V1 hizli giris icin erken olabilir
+
+#### MAG3) Preset + kanal + muhatap/kisa not/tarih
+Artisi:
+- en baglamsal gorunur
+
+Eksisi:
+- hizli mikro giris olmaktan cikar
+- mini CRM log'u olur
+- serbest not/task/takip kapisini acar
+- ayni bilgiler sonra operator notu/detail tarafinda tekrar eder
+
+Ara yorum:
+- en riskli model bu
+
+### 3) Neden tarih operator input'u olmamali?
+Cunku hizli giris deseninde zaman zaten sistem tarafindan guvenli sekilde damgalanabilir.
+Operatore ayrica `ne zaman oldu` diye sormak:
+- gereksiz ikinci alan acar
+- hatali/eksik giris dogurur
+- ayni anda hiz ve dogruluk kaybettirir
+
+Bu yuzden tarih,
+input alani degil,
+otomatik metadata olmali.
+
+### 4) Neden kanal bile simdilik fazla olabilir?
+Ilk bakista faydali duruyor.
+Ama burada kritik soru su:
+- V1'de bu kanal verisi Project OS'ta hangi karari degistirecek?
+
+Eger cevap net degilse,
+operatorden ekstra secim istemek gereksizdir.
+Ayrica onceki kararlar `ilk acilis` tonunu kanal/muhatap bilgisiyle modulate etme fikrini daha cok detail/operator notu tarafina yaklastiriyor.
+Bu da su anlama geliyor:
+- kanal bilgisi lazimsa dogru evi hizli queue girisi degil,
+  daha baglamli detail katmani olabilir
+
+### 5) O zaman minimum alan seti ne olmali?
+Bence operator input'u olarak yalniz sunlar kalmali:
+- `temas sonucu preset secimi`
+
+Sistem tarafindan otomatik tasinabilecek minimum baglam:
+- `businessId`
+- `stage`
+- `recordedAt`
+- `recordedBy`
+
+Opsiyonel kacis, ama alan degil:
+- `Detail'de netlestir`
+
+Yani gercek minimum set,
+form alani olarak `tek alanli secim` modelidir.
+Geri kalan seyler ya otomatik metadata,
+ya da detail'e kacan baglamdir.
+
+### 6) Peki hic mi ikinci alan olmasin?
+Su an en guvenli cevap: varsayilan olarak hayir.
+Ama ileride gercek kullanim su sorunu dogurursa:
+- ayni preset farkli kanallarda cok farkli anlam tasiyor
+
+ancak o zaman ikinci bir alan dusunulebilir.
+Ve o durumda bile ilk aday `kisa kanal secimi` olur,
+serbest not veya muhatap alanlari degil.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- `temas sonucu` icin detail disinda hizli giris acilacaksa,
+  operatorun doldurdugu minimum alan seti yalniz `preset secimi` olmali
+- `business`, `stage`, `recordedAt`, `recordedBy` gibi alanlar sistem tarafindan otomatik tasinmali
+- `kanal`, `muhatap`, `kisa not`, `tekrar tarihi` gibi alanlar hizli queue girisine eklenmemeli
+- istisna ve baglam ihtiyaci `Detail'de netlestir` kacisiyla Business Detail'e tasinmali
+
+Kisa formda:
+- operator input minimum = one preset
+- system metadata = business + stage + time + actor
+- avoid = channel/note/date in quick queue flow
+- escape hatch = detail
+
+Bu model Project OS'un hizini koruyor,
+ve mikro sonucu gercekten mikro tutarak genel CRM savrulmasina en dusuk kapıyı aciyor.
+
+## Altmis ucuncu okuma - hizli `temas sonucu` event'i kaydedilince bunun Business Detail `son 3 temas ozeti` alanina hangi dozda promotelenmesi guvenli olur?
+Biriken kararlar artik su omurgayi veriyor:
+- hizli `temas sonucu` once `Project OS` tarafinda minimum preset secimiyle islenecek
+- `Business Detail` ana yuzeyinde `tek guncel operator notu` kalacak
+- `son 3 temas ozeti` ise note snapshot'larindan degil, temas-odakli compact event mantigindan beslenecek
+
+Simdi asil soru su:
+- hizli queue sonucu girilince bunu her seferinde `son 3 temas ozeti`ne mi dusurmeliyiz?
+- yoksa yalniz gercekten baglam degeri tasiyan presetleri mi oraya promote etmeliyiz?
+
+Bu soru onemli.
+Cunku doz fazla olursa `son 3 temas ozeti` mikro log coplugune doner.
+Doz cok dusuk olursa da hizli queue sonucu detail tarafina hic iz birakmaz.
+
+### 1) Referanslar hangi yone itiyor?
+Daha onceki cizgi burada iki sert sinir koyuyor:
+- `son 3 temas ozeti` compact referans alani olmali, full event log degil
+- `timeline yorum degil hareket gosterir`, ama sadece anlamli hareketler ekrani beslemeli
+
+Buradan ilk sonuc cikiyor:
+- hizli `temas sonucu`nun hepsi ayni agirlikta detail'e tasinmamali
+- `son 3 temas ozeti`, yalniz bugunku saha kararini etkileyen sinyalleri secmeli
+
+### 2) Uc model
+
+#### P1) Her hizli preset aninda `son 3 temas ozeti`ne promotelensin
+Artisi:
+- Project OS ile Detail arasinda hic kopukluk kalmaz
+- son temas izi her zaman gorunur
+
+Eksisi:
+- `ulasilamadi` tekrarlarinda alan hizla dolup anlamsizlasir
+- `detail'de netlestir` gibi kacis presetleri gereksizce referans alana tasinir
+- `son 3 temas ozeti` kisa baglam yerine mikro islem gunlugune doner
+
+Ara yorum:
+- baglanti guclu, ama doz fazla
+
+#### P2) Yalniz anlamli presetler promotelensin
+Mantik:
+- tum hizli sonuc sistemi icinde event olarak kaydedilebilir
+- ama `son 3 temas ozeti` yalniz sonraki saha kararini degistiren presetleri ceker
+
+Ilk anlamli adaylar:
+- `Geri donus bekleniyor`
+- `Uygun zaman degil`
+- `Ziyaret planlanacak`
+
+Varsayilan olarak promote edilmemesi daha guvenli gorunenler:
+- `Ulasilamadi`
+- `Detail'de netlestir`
+
+Artisi:
+- detail referans alani daha anlamli kalir
+- tekrarlayan dusuk sinyal alanlari ana gorunumu kirletmez
+- saha planina etki eden son temaslar one cikar
+
+Eksisi:
+- secim kurali ister
+- operator bazen `az once ulasilamadi girdim, neden burada yok` diyebilir
+
+Ara yorum:
+- su an en dengeli yol bu
+
+#### P3) Hizli presetler hic auto-promote olmasin
+Mantik:
+- `son 3 temas ozeti` yalniz operator notu veya ayrica acilan temas event'lerinden gelsin
+
+Artisi:
+- detail cok temiz kalir
+- Project OS ile Detail rolleri sert ayrisir
+
+Eksisi:
+- hizli queue sonucu detayda izsiz kaybolabilir
+- operator ayni seyi ikinci kez detail'de yazmaya itilebilir
+- tekrar ve surtunme artar
+
+Ara yorum:
+- temiz ama pratikte fazla kopuk
+
+### 3) Neden `Ulasilamadi` varsayilan promote adayi olmamali?
+Cunku bu sonuc sik tekrar eden,
+ama her tekrarinda yeni karar degeri uretmeyen bir sinyal.
+Uc kez ust uste `ulasilamadi` gorunmesi,
+`son 3 temas ozeti`ni daha bilgilendirici yapmiyor.
+Sadece ekrani ayni sonucla dolduruyor.
+
+Bu yuzden daha guvenli yorum su:
+- `ulasilamadi` queue metadata ve gerekiyorsa ham event izi olarak kalabilir
+- ama referans ozete varsayilan olarak cikmamali
+
+### 4) Neden `Geri donus bekleniyor` ve `Ziyaret planlanacak` daha uygun?
+Cunku bunlar yalniz sonuc degil,
+bir sonraki hareketin yonunu da tasiyor:
+- tekrar temas ritmi var mi?
+- fiziksel ziyaret cikti mi?
+- bugun/yarin saha karari degisti mi?
+
+`son 3 temas ozeti`nin isi tam da bu tur hafif karar baglamini korumak.
+Bu yuzden bu presetler daha yuksek deger tasiyor.
+
+### 5) `Detail'de netlestir` neden ozeti kirletir?
+Cunku bu bir temas sonucu degil,
+bir kacis davranisi.
+Anlami su:
+- hizli queue akisi burada yetmedi
+- baglam detail'de acilacak
+
+Bunu `son 3 temas ozeti`ne tasimak,
+referans alani eylem kaydiyla degil,
+UI kacis izleriyle doldurur.
+Bu yanlis.
+
+### 6) O zaman en saglikli V1 mantigi ne?
+Bence su cizgi en temiz:
+- hizli `temas sonucu` event'i sistemde kayit altina alinabilir
+- ama Business Detail `son 3 temas ozeti` alanina yalniz `anlamli presetler` promote edilmeli
+- ilk promote ailesi su olmali:
+  - `Geri donus bekleniyor`
+  - `Uygun zaman degil`
+  - `Ziyaret planlanacak`
+- su ikisi varsayilan olarak promote edilmemeli:
+  - `Ulasilamadi`
+  - `Detail'de netlestir`
+
+Eger ileride saha kullanimi sunu gosterirse:
+- `ulasilamadi` ard arda tekrar ettiginde gercek karar degeri olusuyor
+
+ancak o zaman bu preset icin ayri bir esik mantigi dusunulebilir.
+Ama V1'de buna girmemek daha guvenli.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- hizli `temas sonucu`nun hepsi `son 3 temas ozeti`ne aninda dusmemeli
+- `son 3 temas ozeti` kompakt referans alan olarak kalmali
+- en guvenli model `selective promote` gorunuyor
+- ilk etapta yalniz saha yonunu degistiren presetler ozet alana terfi etmeli
+- `ulasilamadi` ve `detail'de netlestir` varsayilan olarak ozete cikmamalı
+
+Kisa formda:
+- recommended = selective promote
+- promote = callback / bad timing / visit planned
+- avoid promote = unreachable / detail escape
+- maybe later = threshold rule for repeated unreachable
+
+Bu model Project OS'taki hizli mikro sonucu detail tarafina kontrollu bagliyor,
+ama Business Detail'i de tekrar eden dusuk degerli temas kirintilariyla sisirmiyor.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
-- `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
 - delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
+- hizli `temas sonucu`nda `ulasilamadi` yinelenirse bunun Project OS seviyesinde ikinci bir `soguk lead` veya `zayif temas` sinyaline donusmesi gerekir mi, yoksa bu da gereksiz CRM kaymasi mi olur?
