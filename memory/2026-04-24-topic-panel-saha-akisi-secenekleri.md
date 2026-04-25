@@ -33,6 +33,17 @@ Bu ne demek:
 - `Business Detail` = tek kayitta karar verme, audit oncesi okuma ve sonraki adimi secme yeri
 - `Discovery` = aday habitatı, on eleme, shortlist ve kontrollu import kapisi
 
+## Karar notu - 2026-04-25
+Kurucu karari:
+- V1 ana omurga olarak `Finalist B` secildi.
+- `Finalist A` tamamen elenmedi; candidate/business ayrimi ve kontrollu import disiplini `B` omurgasinin intake kapisina gomulecek.
+
+Bu karar su an ne anlama geliyor:
+- ana nav ve gunluk calisma omurgasi = `Home/Project OS + Businesses + Business Detail`
+- `Discovery` kalabilir ama ana cockpit gibi konumlanmayacak
+- V1 ekran ve veri akisi tartismalari `B + A intake disiplini` varsayimiyla daraltilacak
+- sonraki somutlestirme isi, bu karari ekran akisi ve veri siniri seviyesine indirmek olacak
+
 ## Netlesen cizgiler
 
 ### 1) Candidate ve business ayni sey degil
@@ -196,6 +207,134 @@ Kisa yorum:
 - audit -> teklif -> teslimat zinciri korunur
 - `Business Detail` bu zincirin `neden / neye donustu` tarafini okumayi tasimali
 - `Project OS` ise hangi kayit hangi asamada bekliyor sorusunu tasimali
+
+## V1 panel iskeleti - B omurgasinin somut hali
+
+### 1) Ana nav
+V1 icin ana nav su kadar olmali:
+- `Home / Project OS`
+- `Businesses`
+- `Discovery`
+
+Yorum:
+- `Home / Project OS` = sicak is ve bugun neye dokunacagim sorusu
+- `Businesses` = sahiplenilen kayit evreni
+- `Discovery` = yeni aday bulma ve kontrollu iceri alma kapisi
+
+Nav disinda tutulmasi gereken seyler:
+- ayri `Visits` ana sayfasi
+- ayri `Pipeline CRM` ana sayfasi
+- ayri `Audit Queue` ana sayfasi
+
+### 2) Home / Project OS ne gostermeli?
+Bu sayfa rapor sayfasi degil, sicak operasyon panosu olmali.
+Ilk bloklar su olmali:
+- `Bugun / sicak isler`
+- `Teklif bekleyenler`
+- `Teslimat / asset / onay blokajlari`
+- `Bakimda dikkat isteyenler`
+
+Her satirda en az su davranis olmali:
+- isletme adi
+- mevcut durum / neden sicak oldugu
+- sonraki adim
+- detaya git
+
+Bu sayfa yeni aday kesfi veya detayli arastirma yukunu tasimamali.
+
+### 3) Businesses ne olmali?
+Bu ekran sahiplenilen kayit listesi olmali.
+Aday havuzu olmamali.
+
+Liste / filtre mantigi:
+- isim
+- segment
+- konum
+- durum / asama
+- son temas / son hareket
+- etiket veya hafif blokaj sinyali
+
+Hizli aksiyonlar:
+- detaya git
+- not / durum guncelle
+- teklif veya ziyaret hazirligi icin kaydi ac
+
+Bu ekranda olmamasi gereken seyler:
+- ham discovery snapshot yiginlari
+- kontrolsuz `yeni business` cop kayit akisi
+- discovery skoru merkezli siralama
+
+### 4) Business Detail ne olmali?
+V1'in asil karar yuzeyi burasi olmali.
+Tek kayitta canonical + external + derived okumayi birlestirmeli.
+
+Ilk bloklar:
+- `Ozet`  -> isim, segment, konum, iletisim, sahiplik/durum
+- `Dis sinyaller` -> web, maps, sosyal, gozlenen aciklar
+- `Notlar / temas gecmisi`
+- `Ziyaret hazirligi` -> ne diyecegim, ne soracagim, ne toplayacagim
+- `Audit -> teklif -> teslimat izi`
+- `Sonraki adim`
+
+Temel kural:
+- operator bir isletmeyle ilgili karar vermek icin baska 3 ekrana ziplamak zorunda kalmamali
+
+### 5) Discovery ne olmali?
+Discovery ana operasyon merkezi degil, intake kapisi olmali.
+
+V1 davranisi:
+- aday listele
+- kisa sinyal goster
+- shortlist isle
+- duplicate uyar
+- kontrollu `business'e aktar`
+
+Discovery'de tutulabilecek seyler:
+- ham aday
+- kaynak izi
+- snapshot mantigi
+- discovery skoru
+- shortlist / eleme notu
+
+Discovery'den business'e tasinmamasi gereken her sey otomatik tasinmak zorunda degil.
+Sadece operasyon icin gereken minimum temiz alanlar gecmeli.
+
+### 6) Discovery -> Business gecis kurali
+Bu gecis V1'in en kritik disiplini olmali.
+
+Asgari kural:
+- her aday otomatik business olmaz
+- aktarim oncesi duplicate kontrolu gorunur olur
+- kaynak kaybolmaz
+- aktarimdan sonra business tarafi temiz ve operasyon odakli kalir
+
+Business'e gecmesi gereken minimum set:
+- ad / unvan
+- kategori veya segment
+- konum
+- iletisimden elde kalan guvenli alanlar
+- kaynak referansi
+- ilk kisa operator notu
+
+Discovery tarafinda kalabilecekler:
+- ham snapshot detaylari
+- zayif veya gecici sinyaller
+- discovery puani / aday shortlist notlari
+
+### 7) V1'de acilmamasi gereken yeni katmanlar
+Simdilik acilmamasi gerekenler:
+- ayri ziyaret paneli
+- ayri saha rota paneli
+- ayri mini CRM kuyrugu
+- stage duvari gibi asiri detayli pipeline
+- discovery ile business arasinda ucuncu ara varlik
+
+### 8) V1 icin net urun cumlesi
+Bu panelin V1 yorumu su olmali:
+- `Project OS` = bugun hangi sahiplenilmis is sicak?
+- `Businesses` = hangi kayit benim aktif evrenimde?
+- `Business Detail` = bu kayit icin ne biliyorum, ne yapacagim?
+- `Discovery` = yeni adayi iceri almadan once burada ayiklarim
 
 ## Sonraki arastirma basliklari
 - `Discovery` nav'de kalacaksa etiketi ve notu nasil yazilmali ki onu ana cockpit gibi degil, intake kapisi gibi anlatsin?
