@@ -50,6 +50,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 - Web vitrini gorevi -> `website/README.md`
 - Aktif durum / oncelik -> `HEARTBEAT.md`
 - Proje kapsam ve yon -> `PROJECT.md`, sonra `ROADMAP.md`
+- OpenClaw ajanli genis is/fikir vizyonu -> `OPENCLAW_AGENT_PROJECT.md`
 - Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
 - Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
 - Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
@@ -64,6 +65,7 @@ Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davr
 | Su an ne yapiliyor? | `HEARTBEAT.md` | Sadece aktif durum ve siradaki adim |
 | Kalici cizgi ve zor degisen gercekler | `MEMORY.md` | Gunluk detay yazilmaz |
 | Proje tanimi ve kapsam | `PROJECT.md` | Gecici durum eklenmez |
+| OpenClaw ajanli genis fikir ve uygulama vizyonu | `OPENCLAW_AGENT_PROJECT.md` | Cekirdek teklifi sisirmeden ajanla yaptirilabilecek fikirleri toplar |
 | Orta vadeli yon | `ROADMAP.md` | Gunluk todo tutulmaz |
 | Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
 | Gunluk not veya tarihli konu kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, tekil konu `YYYY-MM-DD-topic-slug.md`, incident ve danisma icin ilgili adlandirma kullanilir |
