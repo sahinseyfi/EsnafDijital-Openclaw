@@ -9318,10 +9318,171 @@ Kisa formda:
 Bu model Project OS'u hala kokpit olarak tutuyor,
 ama delivery/bakim tarafinda da operatorun neden dikkat etmesi gerektigini yalnizca bir bakista anlatabiliyor.
 
+## Altmis birinci okuma - delivery/bakim `blokaj sinyali` varsa bunun `nextAction` satirina ne dozda yansimasi guvenli olur?
+Bir onceki kararlar delivery/bakim tarafi icin iyi bir cizgi kurdu:
+- `temas sonucu` ile `blokaj sinyali` ayni pattern ailesi olmayacak
+- delivery/bakim tarafinda ikinci drawer acilmayacak
+- queue yalniz dikkat gerektiren temel nedeni gosterecek
+- ilk label ailesi 4 sabit tipte dar tutulacak
+
+Simdi kritik soru su:
+- bu blokaj sinyali `nextAction` satirini hic etkilemesin mi?
+- yalniz ufak bir ipucu olarak mi dursun?
+- yoksa `Yayina al` gibi action label'ini `Onayi bekle` benzeri seylere mi cevirmeli?
+
+Bu soru onemli.
+Cunku `nextAction` Project OS kartinin ana yon duygusunu tasiyor.
+Burayi fazla oynatirsak operator ana aksiyonu kaybeder.
+Ama hic yansitmazsak da blokaj sinyali fazla pasif kalabilir.
+
+### 1) Referanslar hangi yone itiyor?
+Repo cizgisi burada oldukca net:
+- `Project OS` kartlarinda `siradaki adim` ana karar alanlarindan biri
+- derived yapida her stage icin net bir `nextAction` ve bazen `advanceAction` label'i var
+- bu label'lar zincirin omurgasini tasiyor: `Audit baslat`, `Teklifi gonder`, `Yayina al`, `Bakimi surdur`
+- UX kurallari ve Business Detail cizgisi tek primary CTA ve dusuk bilissel yuk istiyor
+
+Buradan ilk kuvvetli sonuc su:
+- `nextAction` label'ini blokaj tipine gore sik degistirmek riskli
+- ana action dili stage omurgasini korumali
+- blokaj sinyali varsa bu daha cok destek katmaninda gorunmeli
+
+### 2) Uc model
+
+#### NAY1) Hic yansimasin
+Mantik:
+- `nextAction` aynen kalir
+- blokaj sinyali ayri badge/satirda yasar
+
+Artisi:
+- action kararliligi korunur
+- stage omurgasi bozulmaz
+
+Eksisi:
+- blokaj ile action arasindaki iliski zayif gorunebilir
+- operator bazen `peki bu blokaj action'i nasil etkiliyor` diye dusunebilir
+
+Ara yorum:
+- guvenli ama biraz fazla kopuk kalabilir
+
+#### NAY2) Tek satirlik ipucu olarak yansisin
+Mantik:
+- `nextAction` ana label'i aynen kalir
+- hemen altinda veya yakinda kisa destek satiri gorunur
+- ornek: `Yayina al` + `Once onay bekleniyor`
+
+Artisi:
+- ana action kararliligini korur
+- blokaj ile eylem arasindaki bagi aciklar
+- Project OS'un `neden simdi hareket etmeli` mantigina iyi oturur
+- ikinci bir editor veya yeni action dili acmaz
+
+Eksisi:
+- kopya kotu yazilirse fazla uyarici olabilir
+- badge + summary + helper birlikte olursa tekrar riski dogar
+
+Ara yorum:
+- su an en dengeli yol bu
+
+#### NAY3) Action label'i hafifce degissin
+Ornek:
+- `Yayina al` yerine `Onayi netlestir`
+- `Bakimi surdur` yerine `Bakim dokunusunu planla`
+
+Artisi:
+- blokaji action'a dogrudan cevirir
+- kart daha eylemli hissedebilir
+
+Eksisi:
+- stage omurgasini bozar
+- ayni status icin farkli kartlarda farkli ana action dili dogurur
+- derived mantik ve advanceAction tutarliligi kirilir
+- bir sure sonra mini workflow engine'e doner
+
+Ara yorum:
+- en riskli yol bu
+
+### 3) Neden action label'ini degistirmek fazla riskli?
+Cunku su anki `nextAction`lar aslinda stage makinesinin okunur cevirisi:
+- `Yapima gecir`
+- `Yayina al`
+- `Bakima gecir`
+- `Bakimi surdur`
+
+Bunlar degismeye basladiginda operator artik sunu ayirt etmekte zorlanabilir:
+- kaydin resmi stage aksiyonu ne?
+- gecici blokaj ipucusu ne?
+
+Bu ayrim bozulursa queue dili karisir.
+Ayrica kod tarafinda `advanceAction.label` ile gorunen action arasindaki mantik da zamanla kopar.
+Bu da sessiz teknik drift uretir.
+
+### 4) Neden hic yansitmamak da biraz eksik kalabiliyor?
+Cunku delivery/bakim blokaj sinyalinin isi yalniz rozet gostermek degil,
+operatora bugunku dikkat sebebini hissettirmek.
+Eger kartta yalniz `Yayina al` yazip yanda `Onay bekleniyor` badge'i durursa,
+operator bu iliskiyi zihninde kendi kurmak zorunda kalabilir.
+V1'de kuyrugun isi dusunce borcunu azaltmak oldugu icin,
+ufak bir bag koprusu daha faydali olabilir.
+
+### 5) O zaman en saglikli V1 modeli ne?
+Bence su cizgi en temiz:
+- `nextAction` ana label'i stage'e gore stabil kalsin
+- delivery/bakim blokaj sinyali varsa,
+  action'in hemen altinda tek satirlik kisa bir helper/ipucu gorunsun
+- bu satir cozum yazmasin,
+  yalniz engelin action ile iliskisini soylesin
+
+Ornekler:
+- `Yayina al`
+  - `Once onay bekleniyor.`
+- `Yapima gecir`
+  - `Gerekli assetler tamamlanmadi.`
+- `Bakimi surdur`
+  - `Bakim dokunusu yaklasti.`
+
+Bu modelde:
+- action = omurga
+- blocker helper = durum aciklamasi
+- detail = cozum yeri
+
+### 6) Bu helper satirin dozu ne olmali?
+Bence su kadar:
+- tek cumle
+- 3-5 kelimelik badge degil, ama kisa yardimci satir
+- warning tonu dusuk
+- `hemen sunu yap` diye ikinci primary action'a donusmemeli
+- gerekiyorsa mevcut detail linkine baglanmali, ayri CTA olusturmamali
+
+Yani `Yayina al` butonunun altina:
+- `Onay bekleniyor, detayda netlestir.`
+
+bile bir tik fazla olabilir.
+Daha guvenlisi:
+- `Once onay bekleniyor.`
+
+Cunku cozum yolunu degil, once durumu anlatiyoruz.
+
+### 7) Gecici net kanaat
+Su an en mantikli V1 cizgi su:
+- delivery/bakim `blokaj sinyali` varsa, bunun `nextAction` satirina hic yansimamasi biraz zayif kalabilir
+- ama ana action label'ini blokaja gore degistirmek daha buyuk risk tasir
+- en guvenli model `stage-stabil nextAction + altinda tek satirlik hafif blocker helper` gorunuyor
+- helper satir ikinci CTA veya mini workflow dili acmamali
+- ana action omurgasi stabil, blokaj aciklamasi ise yardimci kalmali
+
+Kisa formda:
+- recommended = stable action + small helper line
+- okay but weaker = no reflection
+- avoid = mutate primary action label by blocker
+
+Bu model Project OS'un ana yon hissini bozmadan,
+operatora delivery/bakim tarafindaki gercek engeli de karar aninda hissettirebilir.
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
-- delivery/bakim `blokaj sinyali` varsa, bunun `nextAction` satirina ne dozda yansimasi guvenli olur: hic yansimasin mi, tek satir ipucu mu, yoksa action label'ini hafifce degistirsin mi?
+- delivery/bakim `blokaj sinyali` helper satiri icin en guvenli mikro kopya ailesi ne olmali: `Once onay bekleniyor.` / `Gerekli assetler tamamlanmadi.` / `Bakim dokunusu yaklasti.` gibi tek kalip mi, yoksa label-bazli yari-sabit cumleler mi daha tutarli?
