@@ -10704,9 +10704,115 @@ Bu okuma finalist yarısını daha saglikli yapiyor.
 Cunku artik `C daha genis`, `B daha sade` gibi soyut laflar yerine,
 model farkini operatorun yasadigi ana gore okuyabiliyoruz.
 
+## Yetmisinci okuma - bugunku ana aci `dogru adayi secmek` mi, yoksa `aktif kaydi ilerletmek` mi?
+`C vs B` farkini operator anlarina indirdikten sonra,
+simdi daha kok bir soru cikiyor:
+- repo ve is modeli bugun hangi aciyi daha baskin goruyor?
+- `dogru adayi secmek` mi?
+- yoksa `sahiplenilen kaydi audit -> teklif -> teslimat hattinda ilerletmek` mi?
+
+Bu soru kritik.
+Cunku cevap,
+`C`nin intake/discovery avantajinin mi,
+`B`nin operasyon sadeliginin mi daha agir basacagini belirliyor.
+
+### 1) MEMORY hangi yone daha cok isaret ediyor?
+MEMORY tam akis olarak sunu koruyor:
+- `Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
+
+Bu akisin ilk yarisi aday secimini degerli kiliyor.
+Ama ayni MEMORY icinde daha guclu ton su tarafta:
+- audit teklifin girdisi
+- teklif teslimatla gorunur sonuca donmeli
+- bakim devam geliridir
+- once netlik, sonra arac
+- teklif netlesmeden ekran cogaltma
+
+Buradan cikan yorum su:
+- aday secimi omurganin parcasi
+- ama bugunku sistem tasarim baskisi daha cok `sahiplenilen kaydi calistirma` tarafina yukleniyor
+
+### 2) HEARTBEAT ve ROADMAP ne diyor?
+Burada yon daha da sertlesiyor.
+HEARTBEAT bu fazin done tanimini sunlara bagliyor:
+- teklif omurgasi netlesecek
+- temel veri modeli calisacak
+- admin tarafinda ana akislarin nerede yasadigi netlesecek
+
+ROADMAP de bugun en cok su basliklari one cekiyor:
+- home ekranini aktif is ve kritik aksiyon yuzeyine cekmek
+- Project OS icinde on degerlendirme / teklif / teslimat hattini gorunur kilmak
+- satistan teslimata gecisi panelde gorunur yapmak
+- teslimat takibini panelde isletmek
+
+Yani repo bugun su derdi daha cok bagiriyor:
+- `dogru adayi secemiyoruz` degil,
+- `aldigimiz isi panelde dogru sekilde ilerletme omurgasi daha kritik`
+
+### 3) Project OS ve CRM yonu arastirmasi neyi destekliyor?
+Project OS referansi su soruyu merkeze koyuyor:
+- `hangi business, hangi asamada, simdi ne hareket etmeli?`
+
+CRM yonu arastirmasi da daha da net:
+- merkez `Project OS` olmali
+- sistemin optimize ettigi sey iliski genisligi degil,
+  aktif islerin dogru sirayla ilerlemesi olmali
+- Business Detail, Project OS'tan sonra gelen tek kayit karar yuzeyi olmali
+
+Bu kaynaklar discovery'yi yok saymiyor.
+Ama bugunku ana urun acisini discovery disiplini degil,
+operasyon dogrulugu olarak okuyor.
+
+### 4) Bu, aday secimi onemsiz demek mi?
+Hayir.
+Ozellikle kullanicinin saha sorulari nedeniyle aday secimi hala gercek ihtiyac.
+Ama bugunku soru `hangi aci daha baskin?` ise,
+cevap bence artik su:
+- baskin aci = aktif kaydi ilerletmek
+- ikincil ama stratejik aci = dogru adayi secmek
+
+Bu ayrim onemli.
+Cunku `C`yi guclendiren sey discovery disipliniydi.
+Ama eger bugunku panel yatirimi once aktif kaydi ilerletmeye yoneliyorsa,
+`B`nin sadeligi ve uygulanabilirligi agirlik kazanir.
+
+### 5) O zaman `C` dusuyor mu, `B` mi one geciyor?
+Tam olarak degil.
+Cunku `C`nin en guclu hali zaten bugun ayri discovery evreni kurup paneli sismek degil,
+`B` cekirdegine kontrollu intake/discovery disiplini eklemek gibi calisiyor.
+
+Yani bu okumadan sonra soyle bir ince ayar daha dogru gorunuyor:
+- bugunku **cekirdek omurga** tercihi `B`ye daha yakin
+- ama bu cekirdek,
+  `A/C` tarafindan gelen discovery ve aday secimi disiplinini tamamen disarida birakmamali
+
+Baska bir deyişle:
+- saf `B` tek basina biraz eksik
+- saf `C` bugun biraz fazla sistemsel olabilir
+- en gercekci cizgi `B cekirdegi + C/A'dan gelen kontrollu discovery girisi` gibi duruyor
+
+### 6) Gecici net kanaat
+Su an repo ve is modeli sinyallerinin baskin yorumu su:
+- bugunku ana aci `dogru adayi secmek`ten cok,
+  `sahiplenilen kaydi audit -> teklif -> teslimat hattinda dogru ilerletmek`
+- bu nedenle cekirdek panel omurgasi `Project OS + Business Detail` ekseninde dusunulmeli
+- discovery / aday secimi disiplini hala gerekli,
+  ama bugunku ana tasarim agirligini tek basina o belirlememeli
+
+Kisa formda:
+- dominant pain today = move active work correctly
+- secondary but real pain = choose the right candidate
+- strongest implication = B-core gains weight
+- but = B should borrow controlled intake discipline from A/C
+
+Bu sonuc cok degerli.
+Cunku `C vs B` yarisi artik `genislik mi sadelik mi` soyutlugunden cikiyor.
+Repo bugun once operasyon omurgasini sabitle diyor.
+Aday secimi ise bunun ustune kontrollu eklenmesi gereken ikinci halka gibi gorunuyor.
+
 ## Sonraki arastirma basliklari
-- bugunku ana aci `dogru adayi secmek` mi, yoksa `aktif kaydi ilerletmek` mi: repo ve is modeli sinyalleri hangisini daha baskin gosteriyor?
 - `A`nin discovery/disiplin faydasi `C` icine gomulu kalabilir mi, yoksa ayri bir davranis olarak korunmasi mi gerekir?
+- `B` cekirdegi discovery disiplinini hangi minimum dozda iceri almali ki `C`nin gucunu kaybetmeden sade kalsin?
 - `D2` ziyaret modu detail icinde kalirsa, toplu saha gunu icin tek eksik ne olur?
 - `E2` zincir kartlari Business Detail icinde yeterli olur mu, yoksa audit/offer bagini aciklamak icin ek derived satir gerekir mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
