@@ -508,10 +508,9 @@ export function AccountCenter({ initialPayload }: { initialPayload: AccountCente
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <div>
-          <p className={styles.eyebrow}>Yeni sistem / V2</p>
-          <h1>Hesap Merkezi</h1>
-          <p className={styles.lead}>Bu ekran gerçek kimlik kaydı, aktif seçim ve operatör görünen adı ilişkisini temiz tutmak için var.</p>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>Sistem özeti</p>
+          <p className={styles.heroText}>Gerçek hesap kaydı, aktif seçim ve operatör görünen adı ilişkisini burada temiz tutarsınız.</p>
         </div>
         <div className={styles.heroMeta}>
           <span className={styles.metaChip}>Toplam profil: {payload.state.totalProfiles}</span>

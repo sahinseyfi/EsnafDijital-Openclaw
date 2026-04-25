@@ -19,41 +19,42 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  align-items: flex-start;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(240, 253, 250, 0.94));
-  border-color: rgba(37, 99, 235, 0.16);
+  align-items: center;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(10, 37, 64, 0.92));
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
 }
 
 .eyebrow {
   display: inline-flex;
-  margin: 0 0 10px;
-  color: var(--brand-700);
-  font-size: 12px;
+  margin: 0;
+  color: #bfdbfe;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.hero h1 {
+.heroText {
   margin: 0;
-  font-size: 32px;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-  color: var(--ink-title);
-}
-
-.lead {
-  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
   max-width: 780px;
-  color: var(--ink-secondary);
-  line-height: 1.6;
+  color: rgba(226, 232, 240, 0.88);
 }
 
 .heroMeta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
 }
 
 .metaChip,
@@ -62,10 +63,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 30px;
-  padding: 7px 11px;
+  min-height: 26px;
+  padding: 6px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1;
 }
@@ -81,6 +82,19 @@
   border: 1px solid var(--brand-200);
   background: var(--brand-50);
   color: var(--brand-700);
+}
+
+.hero .metaChip,
+.hero .badge {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.36);
+  color: rgba(226, 232, 240, 0.86);
+}
+
+.hero .currentChip {
+  border-color: rgba(96, 165, 250, 0.28);
+  background: rgba(37, 99, 235, 0.16);
+  color: #dbeafe;
 }
 
 .notice,
@@ -339,14 +353,14 @@
 .profileUsage {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .limitBlock {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .limitLabel {
@@ -359,7 +373,7 @@
 
 .limitBar {
   position: relative;
-  min-height: 38px;
+  min-height: 26px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -386,10 +400,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  padding: 0 12px;
+  min-height: 26px;
+  padding: 0 10px;
   color: var(--ink-title);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -459,7 +473,7 @@
   }
 
   .hero {
-    padding: 18px 14px;
+    padding: 14px;
   }
 
   .sectionCard,
@@ -472,10 +486,6 @@
 
   .statCard {
     padding: 14px;
-  }
-
-  .hero h1 {
-    font-size: 28px;
   }
 
   .sectionHeader h3 {
