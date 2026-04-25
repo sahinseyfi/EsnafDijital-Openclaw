@@ -124,7 +124,7 @@ assistant: Uygulanacak görev listesi:
    - zorunlu iş değil, opsiyonel temizlik
 
 8. **Yan dosyalarda drift kontrolü yap**
-   - `HEARTBEAT.json` kullanılıyor mu bak
+   - `yan heartbeat JSON ozeti` kullanılıyor mu bak
    - `TOOLS.yaml` kullanılıyor mu bak
    - kullanılıyorsa md değişiklikleriyle çakışma bırakma
 
@@ -153,7 +153,7 @@ IDENTITY.md’yi kisalt
 “ajan kimdir / ne degildir” cekirdegi kalsin
 ton, calisma bicimi ve kullaniciya ait tekrarlar ciksin
 Drift kontrolu yap
-HEARTBEAT.json kullaniliyor mu bak
+yan heartbeat JSON ozeti kullaniliyor mu bak
 TOOLS.yaml kullaniliyor mu bak
 kullaniliyorsa markdown degisiklikleriyle uyumu bozma
 AGENTS.md, SOUL.md, MEMORY.md’yi oldugu gibi koru
@@ -163,16 +163,16 @@ assistant: Markdown degisikliklerini json/yaml tarafi ile de hizaliyorum, drift 
 assistant: done
 - `HEARTBEAT.md` aktif pano olacak sekilde yeniden yazildi, gecmis/yapilanlar yigini cikarildi.
 - `USER.md`, `TOOLS.md`, `IDENTITY.md` sadeleştirildi.
-- Drift icin `HEARTBEAT.json` ve `TOOLS.yaml` de yeni cizgiyle hizalandi.
+- Drift icin `yan heartbeat JSON ozeti` ve `TOOLS.yaml` de yeni cizgiyle hizalandi.
 - `AGENTS.md`, `SOUL.md`, `MEMORY.md` oldugu gibi birakildi.
 - Commit atildi: `851e8cf` (`Trim core context files`)
 
 next
-- Istersen bir sonraki adimda `HEARTBEAT.json` ve `TOOLS.yaml` gercekten uygulama tarafinda uretilmis/tuketilen dosya mi, bunu kodda daha dar yuzeyde netleştirebilirim.
+- Istersen bir sonraki adimda `yan heartbeat JSON ozeti` ve `TOOLS.yaml` gercekten uygulama tarafinda uretilmis/tuketilen dosya mi, bunu kodda daha dar yuzeyde netleştirebilirim.
 - Sonra istersek `MEMORY.md` ve `PROJECT.md` arasindaki tekrar seviyesini ayri bir turde temizleriz.
 
 blocker
-- Hedefli aramada `agent-workspace` icinde `HEARTBEAT.json` veya `TOOLS.yaml` adina dogrudan kullanim referansi bulmadim. Bu iyi bir isaret, ama dolayli/dis kullanim ihtimali varsa onu ancak daha spesifik uygulama akisi uzerinden dogrulayabiliriz.
+- Hedefli aramada `agent-workspace` icinde `yan heartbeat JSON ozeti` veya `TOOLS.yaml` adina dogrudan kullanim referansi bulmadim. Bu iyi bir isaret, ama dolayli/dis kullanim ihtimali varsa onu ancak daha spesifik uygulama akisi uzerinden dogrulayabiliriz.
 user: Sender (untrusted metadata):
 ```json
 {
@@ -184,7 +184,7 @@ user: Sender (untrusted metadata):
 [Wed 2026-04-22 15:37 UTC] Guzel. Bu tur icin asil is bitmis.
 
 Bence siradaki en dogru adim:
-HEARTBEAT.json ve TOOLS.yaml’in gercekten uygulama tarafinda uretilip tuketilip tuketilmedigini dar yuzeyde dogrulamak.
+yan heartbeat JSON ozeti ve TOOLS.yaml’in gercekten uygulama tarafinda uretilip tuketilip tuketilmedigini dar yuzeyde dogrulamak.
 
 Neden bu once:
 
@@ -213,26 +213,26 @@ PROJECT = mevcut proje tanimi ve kapsam cercevesi
 
 Kisa yon:
 
-Once HEARTBEAT.json / TOOLS.yaml tuketimini dar kod yuzeyinde netlestir.
+Once yan heartbeat JSON ozeti / TOOLS.yaml tuketimini dar kod yuzeyinde netlestir.
 Sonra MEMORY / PROJECT tekrar temizligine gec.
 Bu committen sonra yeni dosya acma, sadece rol sinirlarini sertlestir.
 assistant: Dar yuzeyde tuketim izlerini kontrol ediyorum.
 assistant: done
-- Dar yuzey kontrolunde `HEARTBEAT.json` ve `TOOLS.yaml` icin `agent-workspace`, API route, prompt assembly ve consultation katmaninda **dogrudan tuketim** izi bulmadim.
+- Dar yuzey kontrolunde `yan heartbeat JSON ozeti` ve `TOOLS.yaml` icin `agent-workspace`, API route, prompt assembly ve consultation katmaninda **dogrudan tuketim** izi bulmadim.
 - Buna karsilik uygulama tarafinda gorunen referanslar `HEARTBEAT.md`, `PROJECT.md`, `MEMORY.md`, `AGENTS.md` uzerinden gidiyor.
-- Ozellikle `agent-workspace/lib/consultation-center/suggestions.ts` ve mock akisi `HEARTBEAT.md` referansi uretiyor, ama `HEARTBEAT.json` veya `TOOLS.yaml` okumuyor.
+- Ozellikle `agent-workspace/lib/consultation-center/suggestions.ts` ve mock akisi `HEARTBEAT.md` referansi uretiyor, ama `yan heartbeat JSON ozeti` veya `TOOLS.yaml` okumuyor.
 - `agent-workspace/lib/consultation-center/agent.ts` tarafinda da okunan sey skill/reference dosyalari ve consultation payload, bu iki dosya degil.
 
 net karar
 - Su anki dar kod yuzeyine gore:
   - `HEARTBEAT.md` aktif source of truth gibi davraniyor
   - `TOOLS.md` insan-okur teknik referans cizgisi
-  - `HEARTBEAT.json` ve `TOOLS.yaml` ise **runtime’da dogrudan tuketilen ana girdi gibi gorunmuyor**
+  - `yan heartbeat JSON ozeti` ve `TOOLS.yaml` ise **runtime’da dogrudan tuketilen ana girdi gibi gorunmuyor**
 - Yani bu iki dosya simdilik **yardimci/eslik eden dosya** gibi duruyor, ana runtime girdisi gibi degil.
 
 next
 - Istersen bir sonraki kucuk turda bunu kalici hale getirmek icin sadece iki sey yaparim:
-  1. `HEARTBEAT.json` ustune veya yanina “`HEARTBEAT.md`’den turetilen yardimci ozet” notu
+  1. `yan heartbeat JSON ozeti` ustune veya yanina “`HEARTBEAT.md`’den turetilen yardimci ozet” notu
   2. `TOOLS.yaml` icin “`TOOLS.md` ile ayni cizginin makine-okur eslik eden ozeti” notu
 
 blocker
@@ -253,7 +253,7 @@ bundan sonra davranis degistiren guncelleme once md tarafinda yapilsin
 assistant: Bunu dosyalara net olarak isliyorum.
 assistant: done
 - `HEARTBEAT.md` ve `TOOLS.md` icine “karar kaynagi” notu eklendi.
-- `HEARTBEAT.json` ve `TOOLS.yaml` icine bunlarin eslik eden ozet oldugu ve davranis degistiren guncellemenin once md tarafinda yapilacagi notu eklendi.
+- `yan heartbeat JSON ozeti` ve `TOOLS.yaml` icine bunlarin eslik eden ozet oldugu ve davranis degistiren guncellemenin once md tarafinda yapilacagi notu eklendi.
 - Commit atildi: `ecbad09` (`Clarify markdown source of truth`)
 
 next

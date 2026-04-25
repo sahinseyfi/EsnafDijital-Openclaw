@@ -153,7 +153,7 @@ I should focus on the lines related to IDENTITY, TOOLS, and MEMORY within the wo
 
 Inspecting workspace file for IDENTITY/TOOLS/MEMORY lines
 Looking for overlaps and inspecting relevant repo files
-I need to inspect raw content like OPERATIONS and TOOLS.yaml, as well as HEARTBEAT.json, and other related files. We'll analyze seven files overall, ensuring we understand overlaps with runtime and other repository files. I'll download the repo zip to make this easier, checking for documents like README and MEMORY_SUMMARY.
+I need to inspect raw content like OPERATIONS and TOOLS.yaml, as well as yan heartbeat JSON ozeti, and other related files. We'll analyze seven files overall, ensuring we understand overlaps with runtime and other repository files. I'll download the repo zip to make this easier, checking for documents like README and MEMORY_SUMMARY.
 
 Analiz edildi
 Deciding how to download repo files
@@ -167,10 +167,10 @@ bash -lc git clone --depth 1 https://github.com/sahinseyfi/EsnafDijital-Openclaw
 Cloning into '/mnt/data/esnafdigital_repo'...
 fatal: unable to access 'https://github.com/sahinseyfi/EsnafDijital-Openclaw.git/': Could not resolve host: github.com
 Exploring alternatives for inspecting files
-Since I can't use the network in the container, I could rely on GitHub raw content. I can try directly opening raw URLs for files like TOOLS.yaml, HEARTBEAT.json, and OPERATIONS. I may also need to search the repository for consultation-center or AGENTS.md references to understand file usage.
+Since I can't use the network in the container, I could rely on GitHub raw content. I can try directly opening raw URLs for files like TOOLS.yaml, yan heartbeat JSON ozeti, and OPERATIONS. I may also need to search the repository for consultation-center or AGENTS.md references to understand file usage.
 
 Examining system grounding and file contents
-The user asked about whether runtime grounding or repo information is needed. The HEARTBEAT.json includes current phase info, which could be sufficient. I might inspect upstream docs about workspace injections and file roles. It's good to check for overlapping content in files like TOOLS.yaml and HEARTBEAT.json.
+The user asked about whether runtime grounding or repo information is needed. The yan heartbeat JSON ozeti includes current phase info, which could be sufficient. I might inspect upstream docs about workspace injections and file roles. It's good to check for overlapping content in files like TOOLS.yaml and yan heartbeat JSON ozeti.
 
 Inspecting files and paths for Consultation Center context
 Inspecting necessary files and parameters
@@ -220,10 +220,10 @@ Rewriting HEARTBEAT.md for simplicity
 I’d rewrite the HEARTBEAT.md to make it more minimal, focusing on the core details, like the phase, current goal, next actions, blockers, risks, and a clear update date. The provided content looks concise and serves as a good outline. The rewrite would be much more focused than the original version.
 
 Addressing file and process structure
-It looks like HEARTBEAT is more of a status report than an active control file, and MEMORY leans toward a master brief. Some runtime details are better suited for the OPERATIONS.md file, not TOOLS.md. We could reference that in TOOLS for clarity. Regarding the Consultation Center prompt, we need a strategy to avoid redundant lines or excessive token waste — perhaps trimming or rewriting certain sections. I should confirm the usage of HEARTBEAT.json by the app. I'll check for any unnecessary duplication in the repo.
+It looks like HEARTBEAT is more of a status report than an active control file, and MEMORY leans toward a master brief. Some runtime details are better suited for the OPERATIONS.md file, not TOOLS.md. We could reference that in TOOLS for clarity. Regarding the Consultation Center prompt, we need a strategy to avoid redundant lines or excessive token waste — perhaps trimming or rewriting certain sections. I should confirm the usage of yan heartbeat JSON ozeti by the app. I'll check for any unnecessary duplication in the repo.
 
-Considering HEARTBEAT.json and drift risk
-I wonder about the HEARTBEAT.json issue. While the user hasn’t asked to evaluate it, there might be drift between HEARTBEAT.md and HEARTBEAT.json. If the app uses JSON, it may only be needed for the UI; otherwise, deriving from the md file seems better. I'll acknowledge that without new systems, we should avoid proposing big changes but can note the drift risk. If HEARTBEAT.json is unused, it's extra, and if used, it could cause inconsistency. I'll double-check the files for evidence.
+Considering yan heartbeat JSON ozeti and drift risk
+I wonder about the yan heartbeat JSON ozeti issue. While the user hasn’t asked to evaluate it, there might be drift between HEARTBEAT.md and yan heartbeat JSON ozeti. If the app uses JSON, it may only be needed for the UI; otherwise, deriving from the md file seems better. I'll acknowledge that without new systems, we should avoid proposing big changes but can note the drift risk. If yan heartbeat JSON ozeti is unused, it's extra, and if used, it could cause inconsistency. I'll double-check the files for evidence.
 
 Considering bootstrap file size and injection load risk
 I’m wondering if the current files (like HEARTBEAT) are too large, especially since OpenClaw truncates if a file exceeds 12,000 characters. While it's under 12k now, repeated large files could increase token use or truncate context. This might not be critical yet, but it's worth noting in the overall assessment. Repeated lines in IDENTITY and HEARTBEAT could cause issues, and MEMORY and TOOLS might be too broad. I’ll also check the expected file lengths and project file usage for consultation exactly.
@@ -259,7 +259,7 @@ Citing key analysis and recommendations
 I plan to sprinkle citations across sections like "coreProblem," "why," and "crossFileIssues," especially since they’re based on analysis. Here’s the list of citations I could include: workspace doc for AGENTS/SOUL/USER, heartbeat doc, PROJECT for prompt generation, README for trust order/structure, and repo root for current file contents.
 
 Considering citation strategies and content organization
-I could cite file URLs like TOOLS vs. OPERATIONS paths, and HEARTBEAT content, referencing relevant docs like HEARTBEAT.md and HEARTBEAT.json for drift. Also, the mismatch between IDENTITY templates and current files might need citations from the workspace map. For raw content, line numbers should suffice, and using web tools might be unnecessary for now.
+I could cite file URLs like TOOLS vs. OPERATIONS paths, and HEARTBEAT content, referencing relevant docs like HEARTBEAT.md and yan heartbeat JSON ozeti for drift. Also, the mismatch between IDENTITY templates and current files might need citations from the workspace map. For raw content, line numbers should suffice, and using web tools might be unnecessary for now.
 
 Deciding what to keep and mention in documentation
 I’m thinking of keeping the key elements in the file, like entry path prioritization, SOUL/USER output style, and metadata handling. It's possible I should add a note about AGENTS controlling operations and clarify MEMORY's privacy features, but it seems okay as is. I'll leave references to redundancy, while deciding just how to manage removal or trimming.
@@ -283,16 +283,16 @@ Focusing on essential technical decisions and principles
 The core system for this project is built on VPS with Next.js, Postgres, and Prisma as the default stack. AI, RAG, and vector DB are not included in the MVP, and the internal system is structured around three key components: Project OS, Context Center, and Consultation Center. Keeping decisions clear and written is emphasized, with simplicity prioritized over automation.
 
 Considering file structure and simplification
-The structure between TOOLS.md, MEMORY.md, PROJECT.md, and OPERATIONS.md is a bit fragmented, and runtime details end up mainly in OPERATIONS.md. HEARTBEAT.md acts more like a changelog, creating inconsistencies with HEARTBEAT.json. The file sizes are small but make maintenance difficult, with some documents not having clear distinctions between canonical and summary content. So, perhaps the approach should be to keep AGENTS, SOUL, and USER; trim TOOLS and MEMORY; and rewrite IDENTITY and HEARTBEAT for better clarity.
+The structure between TOOLS.md, MEMORY.md, PROJECT.md, and OPERATIONS.md is a bit fragmented, and runtime details end up mainly in OPERATIONS.md. HEARTBEAT.md acts more like a changelog, creating inconsistencies with yan heartbeat JSON ozeti. The file sizes are small but make maintenance difficult, with some documents not having clear distinctions between canonical and summary content. So, perhaps the approach should be to keep AGENTS, SOUL, and USER; trim TOOLS and MEMORY; and rewrite IDENTITY and HEARTBEAT for better clarity.
 
 Simplifying file structures and updates
-I’m thinking of updating HEARTBEAT.md to act as a short, active to-do list instead of a lengthy changelog. I’ll focus IDENTITY.md on shorter user identity records; update TOOLS.md with runtime and service details, removing placeholders. I'll trim MEMORY.md to just permanent decisions and verify the usage of HEARTBEAT.json, considering future use based on clear sources.
+I’m thinking of updating HEARTBEAT.md to act as a short, active to-do list instead of a lengthy changelog. I’ll focus IDENTITY.md on shorter user identity records; update TOOLS.md with runtime and service details, removing placeholders. I'll trim MEMORY.md to just permanent decisions and verify the usage of yan heartbeat JSON ozeti, considering future use based on clear sources.
 
 Updating file structure and document references
 I’m considering adding a note on OpenClaw injecting standard workspace files and truncating long content by default. That might help reduce prompt bloat issues. Files loaded each session carry token and truncation costs. It could be useful to mention periodic checks like a lightweight HEARTBEAT.md every 30 minutes and cite the relevant documentation.
 
 Evaluating file duplication and cross-file issues
-I'll check the root repo file list and references to HEARTBEAT.json, TOOLS.yaml, and other files. There seems to be some overlap between TOOLS.yaml and TOOLS.md, which could increase the risk of discrepancies. Also, HEARTBEAT.json appears to duplicate HEARTBEAT.md. I should mention these as potential cross-file issues.
+I'll check the root repo file list and references to yan heartbeat JSON ozeti, TOOLS.yaml, and other files. There seems to be some overlap between TOOLS.yaml and TOOLS.md, which could increase the risk of discrepancies. Also, yan heartbeat JSON ozeti appears to duplicate HEARTBEAT.md. I should mention these as potential cross-file issues.
 
 Assessing AGENTS.md and memory flow
 I think MEMORY_SUMMARY should remain a summary and not be split back into seven files, though the user didn't ask to evaluate it. Regarding AGENTS, it might be useful to mention OpenClaw-specific runtime since it wants session reads from memory and daily data. I’ll also note the overlap with README.
@@ -368,7 +368,7 @@ I’m considering mentioning that the file isn't for activating tools, just a co
 Also, regarding overlap, "Yer yer AGENTS'teki placeholder ilerleme cumleleri" seems redundant, so I might remove or trim it. Don't think it's critical to mention the GPT-5 prompt guide in USER, and AGENTS might just overlap with README, SOUL, USER, and TOOLS in some areas.
 
 Clarifying file risks and considerations
-There’s a potential risk regarding HEARTBEAT.json and TOOLS.yaml. We can’t directly confirm if the app checks them due to GitHub sign-in limitations. If they’re in use, they should sync with markdown updates. This could be added to the ‘risks’ or ‘crossFileIssues’ section.
+There’s a potential risk regarding yan heartbeat JSON ozeti and TOOLS.yaml. We can’t directly confirm if the app checks them due to GitHub sign-in limitations. If they’re in use, they should sync with markdown updates. This could be added to the ‘risks’ or ‘crossFileIssues’ section.
 
 As for the design principles, a “no new files” note could be worth including.
 
@@ -559,7 +559,7 @@ data = {
  "file": "HEARTBEAT.md",
  "role": "Aktif fazi, hemen simdiki hedefi, en yakin adimi ve blokajlari tutan canli durum dosyasi.",
  "decision": "rewrite",
- "why": "OpenClaw HEARTBEAT.md icin kucuk ve guvenli bir checklist bekliyor. Mevcut dosya ise faz, hedef ve blokajlara ek olarak cok uzun bir yapilanlar kronigi, heartbeat davranis kurallari ve durum gecmisi tasiyor; bu hem ROADMAP ve tarihlenmis kayitlarla cakisiyor hem de HEARTBEAT.json ile drift uretiyor. Burada rol kaymasi yapisal; yalniz kucultmek yetmez, dosya amacina geri yazilmali. citeturn166813view1turn638419view0turn813983view0turn976733view3",
+ "why": "OpenClaw HEARTBEAT.md icin kucuk ve guvenli bir checklist bekliyor. Mevcut dosya ise faz, hedef ve blokajlara ek olarak cok uzun bir yapilanlar kronigi, heartbeat davranis kurallari ve durum gecmisi tasiyor; bu hem ROADMAP ve tarihlenmis kayitlarla cakisiyor hem de yan heartbeat JSON ozeti ile drift uretiyor. Burada rol kaymasi yapisal; yalniz kucultmek yetmez, dosya amacina geri yazilmali. citeturn166813view1turn638419view0turn813983view0turn976733view3",
  "keep": [
  "Mevcut faz",
  "Su anki ana hedef",
@@ -580,7 +580,7 @@ data = {
  "overlapWith": [
  "ROADMAP.md",
  "memory/YYYY-MM-DD*.md",
- "HEARTBEAT.json",
+ "yan heartbeat JSON ozeti",
  "eski-danisma-logu"
  ],
  "finalContent": "# HEARTBEAT.md\n\n## Mevcut faz\nFaz 1 - ic operasyon ve baglam omurgasini kurma\n\n## Su anki ana hedef\nTeklif omurgasi, veri temeli ve admin operasyon ekranlarini ayni sade sistemde toplamak.\n\n## Bu hafta odak\n- ilk teklif omurgasini keskinlestir\n- Project OS / Context Center / Consultation Center akislarini gercek veriyle bagla\n- gercek DATABASE_URL ile Postgres + Prisma bootstrap hattini calistir\n\n## Siradaki tek somut adim\n- gercek DATABASE_URL ile npm run prisma:bootstrap:local calistir ve DB baglantisini dogrula\n\n## Blokajlar\n- ilk teklif paketinin detaylari tam keskin degil\n- prod dogrulama icin normal oturum yetkisi gerekiyor\n- operasyonel kayitlar tam veritabanina tasinmadi\n\n## Riskler\n- CRM omurgasinin yatay/herkese satilan urune savrulmasi\n- teklif netlesmeden ekran cogaltmak\n- baglam dosyalarinin tekrar ve cop ile buyumesi\n\n## Son guncelleme\n2026-04-22"
@@ -589,7 +589,7 @@ data = {
  "crossFileIssues": [
  "PROJECT, MEMORY, MEMORY_SUMMARY ve kismen HEARTBEAT ayni proje briefini tekrar ediyor; Consultation Center secili baglamla prompt uretirken bu tekrar verimi dusurur. citeturn813983view3turn662410view1turn638419view1turn638419view0",
  "Ton ve davranis kurallari SOUL, USER, IDENTITY ve AGENTS arasinda dagiliyor; en sorunlu kopya IDENTITY.md tarafinda. citeturn399277view0turn399277view1turn399277view2turn399277view3turn129492view0turn129492view1",
- "TOOLS.md ile TOOLS.yaml benzer arac politikasini, HEARTBEAT.md ile HEARTBEAT.json ise benzer durum bilgisini tutuyor; ikincil formatlarin kullanim yeri bu incelemede dogrudan dogrulanamadi ve heartbeat tarafinda tarih drift'i zaten gorunuyor. Acik bosluk. citeturn662410view0turn813983view1turn638419view0turn813983view0",
+ "TOOLS.md ile TOOLS.yaml benzer arac politikasini, HEARTBEAT.md ile yan heartbeat JSON ozeti ise benzer durum bilgisini tutuyor; ikincil formatlarin kullanim yeri bu incelemede dogrudan dogrulanamadi ve heartbeat tarafinda tarih drift'i zaten gorunuyor. Acik bosluk. citeturn662410view0turn813983view1turn638419view0turn813983view0",
  "Birden fazla dosya basliklari cok az satira sikistirdigi icin hizli tarama ve diff bakimi zorlasiyor; mantik guclu olsa da operasyonel okunurluk dusuyor. citeturn399277view0turn399277view1turn399277view2turn399277view3turn662410view0turn662410view1",
  "HEARTBEAT.md aktif pano olmaktan cikmis, uzun changelog'a donmus; ROADMAP ve tarihlenmis memory kayitlariyla sinirlar bulanmis. citeturn166813view1turn638419view0turn976733view3turn724302view0"
  ],
@@ -602,13 +602,13 @@ data = {
  "IDENTITY.md'yi Name, Creature, Vibe, Emoji ve Avatar merkezli kisa kimlik kaydina indir.",
  "TOOLS.md'yi VPS ve OpenClaw runtime gercegi, kod yolları ve kritik komutlarla netlestir.",
  "MEMORY.md'den PROJECT, USER ve TOOLS ile tekrar eden brief katmanlarini cikar; yalniz kalici kararlar kalsin.",
- "Acik bosluk olarak HEARTBEAT.json ve TOOLS.yaml'in gercek kullanim yerini kontrol et; kullanim varsa md degisiklikleriyle drift olusturma."
+ "Acik bosluk olarak yan heartbeat JSON ozeti ve TOOLS.yaml'in gercek kullanim yerini kontrol et; kullanim varsa md degisiklikleriyle drift olusturma."
  ],
  "risks": [
  "HEARTBEAT sadeleştirilmezse heartbeat ve consultation promptlarinda gereksiz token yakimi surer.",
  "IDENTITY rewrite edilmezse ajan kimligi ile operasyon kurallari karismaya devam eder.",
  "MEMORY ve TOOLS trim edilmezse Consultation Center ayni bilgiyi birden fazla dosyadan toplayip uzun ama zayif prompt uretir.",
- "Acik bosluk: HEARTBEAT.json ve TOOLS.yaml runtime veya UI tarafinda okunuyorsa, sadece md dosyalarini degistirmek gorunmez drift yaratabilir."
+ "Acik bosluk: yan heartbeat JSON ozeti ve TOOLS.yaml runtime veya UI tarafinda okunuyorsa, sadece md dosyalarini degistirmek gorunmez drift yaratabilir."
  ]
 }
 s = json.dumps(data, ensure_ascii=False, indent=2)
@@ -718,13 +718,13 @@ print("valid")
  "IDENTITY.md'yi Name, Creature, Vibe, Emoji ve Avatar merkezli kisa kimlik kaydina indir.",
  "TOOLS.md'yi VPS ve OpenClaw runtime gercegi, kod yolları ve kritik komutlarla netlestir.",
  "MEMORY.md'den PROJECT, USER ve TOOLS ile tekrar eden brief katmanlarini cikar; yalniz kalici kararlar kalsin.",
- "Acik bosluk olarak HEARTBEAT.json ve TOOLS.yaml'in gercek kullanim yerini kontrol et; kullanim varsa md degisiklikleriyle drift olusturma."
+ "Acik bosluk olarak yan heartbeat JSON ozeti ve TOOLS.yaml'in gercek kullanim yerini kontrol et; kullanim varsa md degisiklikleriyle drift olusturma."
  ],
  "risks": [
  "HEARTBEAT sadeleştirilmezse heartbeat ve consultation promptlarinda gereksiz token yakimi surer.",
  "IDENTITY rewrite edilmezse ajan kimligi ile operasyon kurallari karismaya devam eder.",
  "MEMORY ve TOOLS trim edilmezse Consultation Center ayni bilgiyi birden fazla dosyadan toplayip uzun ama zayif prompt uretir.",
- "Acik bosluk: HEARTBEAT.json ve TOOLS.yaml runtime veya UI tarafinda okunuyorsa, sadece md dosyalarini degistirmek gorunmez drift yaratabilir."
+ "Acik bosluk: yan heartbeat JSON ozeti ve TOOLS.yaml runtime veya UI tarafinda okunuyorsa, sadece md dosyalarini degistirmek gorunmez drift yaratabilir."
  ]
 }
 valid
