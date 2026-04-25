@@ -8286,10 +8286,164 @@ Kisa formda:
 Bu model hem sahadaki gercek temas kosuluna uyuyor,
 hem de `ilk acilis` mantigini script bankasina cevirmeden kontrol altinda tutuyor.
 
+## Elli besinci okuma - `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa listede hizli tek satir giris varyanti da degerli mi?
+Bu soru dogrudan panel omurgasina bagli.
+Cunku `temas sonucu`nu nereye koydugun,
+- Project OS'un hizli operasyon merkezi mi kalacagini
+- yoksa mini CRM not duvarina mi kayacagini
+belirler.
+
+Elimizdeki referanslar su cizgiyi beraber kuruyor:
+- `Project OS` = kuyruk, sicak is, hizli status ilerletme, aksiyon merkezi
+- `Business Detail` = tek isletme karar yuzeyi ve canonical okuma alani
+- CRM arastirma notlari = mesaj gecmisi ve serbest not habitatini disarida tut diyor
+
+Yani soru yalniz UX sorusu degil.
+Ayni zamanda scope sorusu.
+
+### 1) Uc model
+
+#### TSO1) `Temas sonucu` sadece detail icinde yasasin
+Mantik:
+- iletisim sonucu tek isletme gercegidir
+- o yuzden yalniz Business Detail icinde girilsin
+
+Artisi:
+- canonical cizgi temiz kalir
+- Project OS'a mini CRM formu sizmaz
+- daha fazla baglam ve kisa not detail'de tutulabilir
+
+Eksisi:
+- operator kuyrukta hizli ilerlerken surtunme artar
+- `aradim, acmadi` gibi mikro sonuclar icin detail'e gir-cik yorucu olur
+- sicak gunluk operasyon akisi yavaslayabilir
+
+#### TSO2) `Temas sonucu` listeden hizli tek satir girilebilsin
+Mantik:
+- Project OS zaten sicak is ekraniysa,
+  mikro temas sonuclari da oradan islenebilsin
+
+Artisi:
+- hiz yuksek olur
+- kuyruk icinde hareket etmek kolaylasir
+- operator gercek saha ritmine daha yakin calisir
+
+Eksisi:
+- cok hizli sekilde mini CRM'e doner
+- not, sonuc, follow-up, kisiler, kanal ve serbest metin istemeye baslar
+- Business Detail ile sinir bulanir
+
+#### TSO3) Hibrit model: listede yalniz yapisal mikro sonuc, detail'de tam baglam
+Mantik:
+- Project OS'ta sadece kuyrugu ileri tasiyan minimum sonuc girilir
+- detay, gerekirse Business Detail'de acilir
+
+Artisi:
+- hiz korunur
+- scope dagilmaz
+- Project OS `aksiyon merkezi`, Business Detail `karar ve kayit yuzeyi` olmaya devam eder
+
+Eksisi:
+- iyi sinir cizilmezse iki yerde ayni sey varmis gibi algilanabilir
+- `hangi sonucu listeden islerim, hangisi detail ister` kurali net olmalidir
+
+Ara yorum:
+- su an en saglikli yol `TSO3`
+
+### 2) Neden detail-only tek basina biraz eksik?
+Cunku repo cizgisi Project OS'u pasif rapor paneli degil,
+aktif operasyon merkezi olarak kuruyor:
+- sicak isler
+- hizli status ilerletme
+- kayit + aksiyon + durum
+
+Bu dogruysa,
+`aradim ulasilmadi`, `gorusme uygun degil`, `yarin tekrar dene` gibi mikro sonuclar icin her seferinde detail'e inmek fazla surtunme yaratir.
+Bu da gercek hayatta operatoru suya iter:
+- ya hic kayit girmemeye
+- ya da disarida daginik not tutmaya
+
+Ikisi de kotu.
+
+### 3) Neden listeden tam serbest giris daha da riskli?
+Cunku o yol cok hizli su talepleri dogurur:
+- hangi kisiyle konusuldu?
+- tam ne dendi?
+- ne zaman tekrar aranacak?
+- serbest not nereye yazilsin?
+- kanal secimi burada da olsun mu?
+
+Bu da daha once acikca kacindigimiz sahaya girer:
+- message history
+- note habitat
+- task creep
+- CRM savrulmasi
+
+Yani `listeden hizli giris` ancak cok sert daraltmayla faydali olabilir.
+
+### 4) O zaman en saglikli V1 siniri ne?
+Bence su sert ayrim iyi calisir:
+- `Project OS / liste` = yalniz queue'yu ilerleten yapisal mikro sonuc
+- `Business Detail` = sonucu aciklayan baglam, istisna ve gerekiyorsa kisa not
+
+Yani listede su tarz seyler olabilir:
+- `ulasilamadi`
+- `geri donus bekleniyor`
+- `uygun zaman degil`
+- `ziyaret planlanacak`
+- `detail'de netlestir`
+
+Ama listede sunlar olmamali:
+- uzun serbest metin
+- tam gorusme transkripti
+- cok alanli contact log
+- ayrik follow-up formu
+
+### 5) Peki `Businesses` listesi de ayni hizli girise acilmali mi?
+Burada daha dikkatli olmak gerekiyor.
+`Businesses` sayfasi kaynaklara gore sade liste ve detaya inis yuzeyi.
+`Project OS` ise aktif sicak is ekrani.
+Bu ayrim korunacaksa,
+hizli mikro sonuc girisi once `Project OS` tarafina daha cok yakisir.
+Genel `Businesses` listesine ayni yetkiyi vermek,
+listeleri gereksizce ayni hale getirebilir.
+
+Bu yuzden bugun icin daha guvenli cizgi su gorunuyor:
+- hizli temas sonucu varsa once `Project OS` / sicak kuyruk tarafinda dusun
+- `Businesses` listesi bunu varsayilan davranis olarak tasimasin
+- `Business Detail` zaten tam baglam icin ana yer olarak kalsin
+
+### 6) Bu hibrit modelin riskleri neler?
+Iki ana risk var:
+1. Project OS'taki mikro sonuc alaninin yavas yavas buyumesi
+2. Business Detail'de ayni sonucun tekrar elle yazilmasi
+
+Bunu onlemek icin kural sert olmali:
+- listede yalniz secimli/structural sonuc
+- detail'de yalniz gerekirse aciklama
+- ayni bilgi iki yerde farkli serbest metinle yasamaz
+
+### 7) Gecici net kanaat
+Su an en mantikli cizgi su:
+- `temas sonucu` tamamen detail'e kapatilmasin, cunku gunluk operasyon akisi icin fazla surtunmeli olur
+- ama listeden serbest not/gorusme logu acilmasin, cunku panel mini CRM'e kayar
+- en saglikli V1 model `Project OS'ta minimum yapisal mikro sonuc + Business Detail'de tam baglam` gorunuyor
+- `Businesses` genel listesi ise bu davranisi varsayilan olarak tasimamali; once Project OS ve detail ayrimi korunmali
+
+Kisa formda:
+- queue micro outcome = Project OS
+- canonical reasoning/context = Business Detail
+- plain browse list = Businesses
+
+Bu model admin paneline girince isletme secimi ve ilerletme mantigini da daha temiz kuruyor:
+- secim = Project OS sicak kayit veya Businesses detaya inis
+- mikro ilerletme = Project OS
+- tek kayit karari = Business Detail
+
 ## Sonraki arastirma basliklari
 - `ilk acilis` ton modulatoru segment disinda muhatap tipi veya temas kanali bilgisinden de hafifce etkilenmeli mi?
-- `temas sonucu` mikro alanlari yalniz detail icinde mi yasamali, yoksa Businesses listesinde hizli tek satir giris varyanti da degerli mi?
 - detail icindeki istisna override icin kisa sebep tipleri serbest metin mi olmali, yoksa 3-4 sabit etiket daha guvenli mi?
 - audit summary placeholder icin en guvenli nihai kisa metin hangisi: `Ana eksik, uygun cozum yonu ve beklenen sonucu kisaca yazin.` benzeri tek satir mi, yoksa daha da kisa bir varyant mi?
 - `ilk acilis` ton modulatoru icin segment ile muhatap tipi catisirsa hangi kaynak birincil sayilmali?
 - `temas sonucu` icin detail disinda hizli giris acilacaksa, en guvenli minimum alan seti ne olmali?
+- `Project OS` kuyrugunda mikro temas sonucu islemenin en guvenli tetikleme deseni ne olmali: inline secim mi, compact drawer mi, yoksa tek butonlu presetler mi?
