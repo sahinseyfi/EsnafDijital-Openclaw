@@ -17,6 +17,15 @@ Ilk fazda burada ozellikle isletme, on degerlendirme, teklif, teslimat ve bakim 
 - `prisma/` -> veri modeli
 - `deploy/` ve `bin/` -> uygulama-ozel operasyon/script alanlari
 
+## Admin panel dosya haritasi
+- `app/page.tsx` -> admin ana sayfa / Project OS
+- `components/admin/AdminShell.tsx` -> admin panel genel kabugu
+- `app/businesses/page.tsx` -> Businesses liste ve filtreleme yuzeyi
+- `app/businesses/[slugAndId]/page.tsx` -> tek isletme detay / karar yuzeyi
+- `app/discovery/page.tsx` -> Discovery intake yuzeyi
+- `lib/project-os/service.ts` -> Project OS veri okuma/yazma katmani
+- `lib/project-os/types.ts` -> Project OS tipleri
+
 ## Yazma kurallari
 - yeni ekran veya route mantigi once ilgili mevcut akis icinde aranir
 - ortak mantik `lib/` altinda tutulur, sayfa icine dagitilmaz
