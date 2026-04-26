@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; kurucu onayi icin hazir.
+> Durum: MVP kabul standardiyla hizalandi; paketleme taslak/kurulum/bakim/ek modul siniriyla netlestirildi. Segment ve fiyat dili daha sonra GPT Pro ile degerlendirilecek.
 
 ---
 
@@ -7,26 +7,28 @@
 
 Paket yapısı, özellikleri yan yana dizen klasik ajans menüsü gibi olmamalıdır. EsnafDigital 360 paketleri, işletmenin dijital operasyonunu ajanla kurma ve canlı tutma mantığına göre düşünülmelidir.
 
-İlk aşamada fiyat değil, kapsam mantığı netleştirilir.
+İlk aşamada fiyat değil, kapsam mantığı netleştirilir. Segment, fiyatlandırma ve paket isimleri ayrıca değerlendirilecektir.
 
 ## 18.1 Ajan Kurulum Paketi
 
 Bu paket, işletmenin dijital operasyonunu başlatan temel kurulum paketidir.
 
-İçerik:
+İlk MVP'de içerik şu çekirdeğe dayanır:
 
 - işletmeye özel OpenClaw İşletme Ajanı,
-- ayrı agent workspace'i,
+- ayrı workspace,
+- ayrı agentDir / session,
 - İşletme Ajanı Kaydı,
 - işletme dijital profili,
 - pilot mesajlaşma bağlantısı,
+- kanal allowlist / explicit binding,
+- sınırlı EsnafDigital API tool'ları,
+- audit / onay / kill switch,
 - bilgi toplama akışı,
 - eksik bilgi ve görev takibi,
 - web vitrini taslağı,
 - arama / mesajlaşma / yol tarifi bağlantıları,
-- dinamik QR / kısa link altyapısı,
-- NFC için aynı dinamik kısa link mantığı,
-- Google / Maps görünürlük kontrolü,
+- dinamik kısa link / QR hedef taslağı,
 - menü / katalog / hizmet listesi için temel yapı,
 - fotoğraf ve içerik toplama akışı,
 - basit kurulum özeti veya durum raporu.
@@ -76,10 +78,13 @@ Bunlar ileride üst paket veya ayrı modül olarak sunulabilir:
 - gelişmiş müşteri paneli,
 - self-service içerik yönetimi,
 - düzenli sosyal medya içerik desteği,
+- ödeme, randevu veya rezervasyon modülleri,
 - gelir / gider,
 - stok / tahsilat / muhasebe,
 - gelişmiş entegrasyonlar,
 - satış temsilcisi veya yönlendirme modeli.
+
+Bu parçalar MVP kabul standardı geçmeden ana pakete taşınmamalıdır.
 
 ## 18.5 Paketleme Prensibi
 
@@ -91,8 +96,13 @@ Ana mantık:
 2. **Bakım:** bu yapı canlı tutulur.
 3. **Ekler:** fiziksel, görsel veya ileri modüller ihtiyaca göre eklenir.
 
+Satış dilinde dikkat edilecek sınır:
+
+- “Her şeyi otomatik yapan yapay zeka” denmez.
+- “Sadece web sitesi paketi” gibi anlatılmaz.
+- Canlı yayın, QR hedef aktivasyonu ve dış hesap değişikliği onaylı/operasyonel iş olarak anlatılır.
+- Web vitrini, hizmet listesi ve QR/kısa link ilk aşamada agent'ın topladığı bilginin görünür çıktılarıdır.
+
 Ana prensip:
 
 > EsnafDigital 360 paketleri, tek tek hizmet satmak yerine işletmenin dijital operasyonunu ajanla kurma ve sürdürme değerini taşımalıdır.
-
----
