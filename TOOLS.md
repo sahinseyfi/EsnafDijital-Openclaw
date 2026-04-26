@@ -1,56 +1,31 @@
 # TOOLS.md
 
-Bu dosya karar kaynagidir.
-`TOOLS.yaml` bu dosyanin eslik eden ozetidir.
-Davranis degistiren guncelleme once burada yapilir.
+Bu dosya teknik ortam ve aktif uygulama referansini kisa tutar.
 
-Bu dosya teknik ortami ve operasyon sinirini tutar.
+## Ana Ortam
+- Ana calisma alani: VPS uzerindeki bu repo
+- Admin uygulamasi: `agent-workspace/`
+- Aktif oncelikli sayfa: `https://admin.esnafdijital.com.tr/hesap-merkezi`
+- Hesap Merkezi route: `agent-workspace/app/hesap-merkezi/page.tsx`
+- Hesap Merkezi ana component: `agent-workspace/components/account-center/AccountCenter.tsx`
+- Hesap Merkezi servis: `agent-workspace/lib/account-center/service.ts`
 
-## Calisma Ortami
-- **Ana ortam:** VPS
-- **Ana yuzeyler:** tanitim sitesi + admin / ic operasyon alani
-- **Yaklasim:** tek repo icinde sade ve yonetilebilir yapi
+## Varsayilan Teknik Yigin
+- Web / admin: Next.js
+- Veritabani: Postgres / Prisma kullanimi varsa mevcut uygulama yapisina gore ilerle
+- Baglam: Markdown
+- Kucuk otomasyon: sadece gercek ihtiyac varsa basit script/job
 
-## Varsayilan Yigin
-- **Web / admin:** Next.js
-- **Veritabani:** Postgres
-- **ORM:** Prisma
-- **Sabit baglam:** Markdown / YAML / JSON
-- **Kucuk otomasyonlar:** cron / basit jobs
-
-## Veri Siniri
-### Veritabani
-- businesses
-- inceleme_kayitlari
-- offers
-- delivery_projects
-- durum ve tarihcesi olan operasyonel is nesneleri
-
-### Dosya tabanli baglam
-- proje tanimi
-- roadmap
-- heartbeat
-- memory
-- decisions
-- checklists
-- playbooks
-- sabit prompt baglami
-
-## Otomasyon Esigi
-- ayni is tekrar etmeye basladiysa
-- elle takip hata doguruyorsa
-- kucuk ve anlasilir otomasyon yeterliyse
+## Aktif Teknik Ilke
+- Once mevcut kod ve mevcut stack icinde cozum ara.
+- Yeni servis veya agir mimari ekleme.
+- Hesap Merkezi veya hizmet omurgasi disindaki eski referanslari aktif karar gibi kullanma.
+- Kod degisikliginde en kucuk anlamli test/build/lint veya dogrudan dosya kontrolu yap.
 
 ## Gizli Bilgi Kurali
-- parola, token, raw callback linki ve benzeri hassas degerleri workspace'e yazma
-- gerekiyorsa sadece yol, konum veya referans bilgisi tut
-- gercek gizli degerler env dosyasi, sistem state'i veya parola yoneticisinde kalsin
+- Parola, token, OAuth callback, raw account id, signed URL veya hassas kimlik workspace'e yazilmaz.
+- Gerekiyorsa sadece dosya yolu, route veya kavramsal referans yazilir.
+- Gercek gizli degerler env, sistem state'i veya parola yoneticisinde kalir.
 
-## Secim Cizgisi
-- once mevcut stack icinde cozum ara
-- sirf ileride lazim olabilir diye yeni servis ekleme
-- MVP'de agir altyapi degil, gorunur sonuc onceliklidir
-
-## Operasyon Referansi
-- servis, port, systemd, swap ve canli yayin notlari `OPERATIONS.md` icindedir
-- isletme kesfi ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir
+## Operasyon Notu
+Servis, port, systemd, deploy ve canli yayin detaylari gerekiyorsa `OPERATIONS.md` veya `agent-workspace/README.md` kontrol edilir.

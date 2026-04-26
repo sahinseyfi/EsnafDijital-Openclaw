@@ -1,111 +1,66 @@
 # MEMORY.md
 
-Bu dosya, EsnafDigital icin kalici gercekleri, korunacak karar cizgisini ve kolay degismemesi gereken yonelimleri tutar.
+Bu dosya sadece kolay degismeyecek aktif cizgiyi tutar.
 
-## 1) Proje Omurgasi
-- EsnafDigital, kucuk isletmelerin dijitalde daha gorunur, daha guvenilir, daha kolay ulasilabilir ve islerini adim adim dijitale tasiyabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
-- Esas odak yalnizca site yapmak degil, isletmeyi teknik karmasa ile bogmadan guven veren dijital kimlik, gorunurluk ve temel dijital duzen kurmaktir.
-- Uzun vadede amac, kucuk isletmelerin teknik araclarla bogusmadan, OpenClaw tabanli ajan destegi sayesinde dijital islerini ve isletme kararlarini sohbet ederek yonetebilecegi sade bir isletme altyapisi kurmaktir.
-- EsnafDigital 360'in ana urun yonu `web sitesi yapan ajan` degil; isletme sahibinin CEO kaldigi, ajanin finans, satis/pazarlama, operasyon, satin alma, musteri hizmetleri ve dijital gorunurluk bakis acilariyla karar destegi verdigi `sanal isletme ekibi / isletme yonetim ajani` cizgisidir.
-- Web vitrini, QR, katalog, sosyal medya ve gorunurluk isleri ana urun degil; sanal isletme ekibinin dijital cikti modulleridir.
-- Ajan departmanlarin hukuki/fiili yetkisini devralmaz; satin alma, para transferi, sozlesme, vergi, resmi basvuru, hukuki/finansal kesin taahhut ve dis dunya etkili islemler onay/uzman kontrolu olmadan yapilmaz.
-- Ilk is akis omurgasi sudur:
-  `Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
-- Bu cizgi onemli bir referanstir, ama sistemin kilitli kalacagi tek akis degildir.
+## 1) Aktif proje niyeti
+- Kurucunun bir proje yapma amaci var; proje basladi ama fikir halen gelisiyor.
+- Ajanin ana rolu, bu gelisen fikri netlestirmede ve uygulanabilir hale getirmede kurucuya destek olmaktir.
+- Eski kararlar yeni yonu kilitlemez. Son kullanici yonu esas alinir.
+- Gereksiz eski baglam, 360/roadmap/dreaming/arastirma kalabaligi aktif karar kaynagi degildir.
 
-## 2) Ilk Pazar ve Ilk Segmentler
-- Ilk saha ve erisim avantaji bolgesi: Istanbul Arnavutkoy ve cevresi
-- Bu secim, pazarin kesin en dogru bolgesi oldugu varsayimindan degil; kurucunun hizli temas kurabilmesi ve sahada kolay hareket edebilmesi nedeniyle yapildi.
-- Ilk saha ve teklif denemesi icin uygun gorulen segmentler:
-  - berber
-  - guzellik salonu
-  - kafe / restoran
+## 2) Bilinmesi gereken aktif urun yuzeyi
+- Oncelikli admin sayfasi: `https://admin.esnafdijital.com.tr/hesap-merkezi`
+- Kod yolu: `agent-workspace/app/hesap-merkezi/page.tsx`
+- Ana component: `agent-workspace/components/account-center/AccountCenter.tsx`
+- Servis: `agent-workspace/lib/account-center/service.ts`
+- Sayfanin amaci: kimlik dogrulama/profil sisteminin sade baslangic ekrani; gercek hesap kaydi, gorunen operator adi, aktif profil, kullanim limitleri, profil ekleme/silme/degistirme ve kisa not/meta iliskisini yonetir.
 
-## 3) Hizmet Omurgasi
-### Ana hizmet
-- isletme sahibinin kararlarini, dijital operasyonunu ve gorunurlugunu sistemli hale getiren ozel isletme yonetim ajani / sanal isletme ekibi kurulumu
-- web vitrini, QR, katalog/hizmet listesi ve gorunurluk ciktilari bu ana hizmetin dijital cikti modulleridir
+## 3) Onceki isletmelere verilmek istenen hizmetler
+Kanonik ozet `OFFERS.md` icindedir. Kisa omurga:
 
-### Devam hizmeti
-- Bakim / Canlilik / Kucuk Guncelleme
+### Paket 0 - Dijital Gorunurluk Kontrolu
+- Google Maps/profil gorunumu
+- temel bilgi tutarliligi
+- yorum/puan gorunumu
+- website ve Instagram ilk guven kontrolu
+- kritik eksik listesi ve uygun paket yonlendirmesi
 
-### Ic CRM omurgasi
-- EsnafDigital'in kendi paneli operasyonel CRM olarak dusunulur; isletme, kisi, gorusme, teklif, teslimat, bakim, not ve sonraki adim takibini tek yerde toplar.
-- Bu CRM omurgasi EsnafDigital'in hizmet teslimini, satis takibini ve bakim surecini yonetmek icindir.
-- Hizmet verilen isletmelere satilan ana urun CRM yazilimi degil; guven veren dijital kimlik, gorunurluk, kurulum/toparlama ve devam bakim hizmetidir.
-- Sinir, EsnafDigital'in kendi operasyon CRM'i ile hizmet verilen isletmelere satilan yatay/genel CRM urununu net ayirmaktir.
+### Paket 1 - Temel Dijital Varlik
+- Google isletme profili duzeni
+- `isletmeadi.esnafdijital.com.tr` temel web vitrini
+- gerekiyorsa destekleyici temel logo/kartvizit dokunusu
 
-Amac, kucuk isletmeler icin sade ama esnek bir hizmet yapisi kurmaktir.
-Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
+### Paket 2 - Gorunurluk Plus
+- Paket 1 kapsami
+- Yandex ve Apple Maps kaydi
+- temel QR yorum isteme akisi
 
-## 4) Is Akis Omurgasi
-`Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
+### Paket 3 - Guclu Dijital Kimlik
+- Paket 2 kapsami
+- Instagram profil duzeni
+- NFC yorum isteme akisi
 
-- Bu akis satis ve operasyon omurgasidir, dogrudan satilan hizmet listesi degildir.
-- Aday isletme bulma ve veri toplama, satis oncesi hazirligin ilk adimlaridir.
-- On degerlendirme, satilan ana hizmet degil; toplanan veriyi okuyup isletmeyi onceliklendirmek ve teklif hazirligini netlestirmek icin kullanilan ic adimdir.
-- Ziyaret hazirligi ve gorusme, sahadaki temasin daha hazirlikli ve guven veren sekilde yapilmasini saglar.
-- Teklif, satilan sey degil; kapsami ve teslimatin nasil yapilacagini netlestiren ara asamadir.
-- Teslimat gorunur ve hizli olmalidir.
-- Sonrasinda bakim / guncelleme geliriyle devam edilir.
+### Paket 4 - Duzenli Icerik
+- haftalik Instagram icerik paylasimi
+- temel icerik duzeni
+- sosyal yuzeyin bos kalmamasi
 
-### Satis Destek Araclari
-- ornek site hazirligi
-- ornek ekran / ornek calisma
-- hizli taslak / on gosterim
-- ajan destegiyle isletme verilerini okuyup satis, teklif ve konumlandirma konusunda destek almak
-- Bunlar ana ve kalici olarak garanti edilen hizmetler degil, gerektiginde satis surecini destekleyen araclardir.
+### Bakim - Guncel Tutma / Canlilik
+- harita bilgileri, telefon/saat/adres duzeltmeleri
+- site uzerindeki kucuk guncellemeler
+- temel gorsel/bilgi yenilemeleri
+- gorunurluk ve yorum akisina kisa kontrol
 
-## 5) Teknik Cizgi
-- Teknik omurga VPS uzerinde kurulur.
-- Varsayilan yigin: Next.js + Postgres + Prisma
-- Sabit baglam dosya tabanli tutulur: Markdown / YAML / JSON
-- Kucuk tekrar eden isler icin zamanlayicilar ve basit gorevler kullanilabilir.
-- MVP asamasinda agir yapay zeka / RAG / vektor veritabani / mikroservis katmanlari kurulmaz.
-- EsnafDigital 360 OpenClaw ajan destegi ana urun fikrinin parcasi olarak ele alinir; MVP mimari karari her isletme icin tek OpenClaw Gateway/runtime altinda ayri OpenClaw agent, ayri workspace, ayri oturum/hafiza ve ayri izin profili uretmektir.
-- Ilk MVP sadece web/QR taslagi degil; en az bir gercek isletme karari icin departman bazli karar destek notu, acik karar/gorev/eksik takibi ve ilk dijital ciktilari birlikte kanitlamalidir.
-- Isletme ajani icin kullaniciya gorunen kayit adi `Isletme Ajani Kaydi` olacak; teknik ASCII ad gerekirse `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` kullanilir. Bu kayit agent degil; EsnafDigital tarafinda gercek isletme agent'ini, workspace yolunu, sablon surumunu, izin profilini, oturumlarini, kanal baglarini, acik kararlari, karar notlarini ve gorev durumunu izler.
-- Bu karmasa manuel yonetimle degil; iyi baslangic sablonu, otomatik agent kurulumu, sablon surumu takibi ve siki tool/yetki siniri ile kontrol altina alinacaktir.
-- WhatsApp ticari hedef kanal olarak kalir; teknik dogrulama Telegram/test kanali veya EsnafDigital pilot hatti ile baslayabilir. Isletmenin kendi WhatsApp hattini ajana baglama ve randevu karsilama ek kanal/modul paketi olarak ele alinir.
+### Opsiyonel ekler
+- ozel domain baglama
+- ek kartvizit varyasyonu
+- ek yorum materyali
+- kucuk sosyal medya duzenlemesi
 
-## 6) Ic Sistem Karari
-- Ic sistemin zorunlu cekirdegi EsnafDigital'in kendi operasyon CRM'i ile baglam sistemi ve dokumanlardir.
-- Operasyon CRM'i, hizmet verilen isletmeleri satis oncesinden teklif, teslimat ve bakima kadar izlemek icindir; musteriye satilan ayri bir CRM urunu olarak konumlanmaz.
-- On degerlendirme, teklif, teslimat ve bakim kayitlari ilk guclu is tipleridir, ama sistem bunlarla sinirli degildir.
-- Istem uretimi, satis destek araclari ve ajan destekli akislar bu cekirdegin ustune eklenen yardimci katmanlardir.
-- Istem uretimi ve benzeri yardimci katmanlarda surekli arka plan ajanlari yerine istege bagli, tek-seferlik ve deterministik akislar tercih edilir.
-- EsnafDigital ajan davranis rehberi skill ile, gercek sistem islemleri ise EsnafDigital API uzerinden sinirli OpenClaw tool/plugin'lari ile yurutulur.
-
-## 7) Korunacak Calisma Ilkeleri
-- once netlik, sonra arac
-- kurucunun verdigi yeni fikirleri once yapilabilirlik, risk ve MVP etkisi acisindan degerlendir; sonra 2-3 uygulanabilir yol ve onerilen yolu kisa sekilde sun
-- once calisan basit cozum
-- gereksiz karmasiklik kurma
-- teklif netlesmeden ekran cogaltma
-- dosya, kapsam, MVP veya yon degisikliginde kurucu onayi almadan ilerleme
-- bir mesajda dosya degistirildiyse, mesajin sonunda degistirilen her dosyayi listele
-- baglami gereksiz yere buyutme
-- kalici kararlari yazili hale getir
-- bitmis saymak icin gercek cikti ve kisa dogrulama gerekir
-
-## 8) Marka ve Tasarim Sistemi Karari
-- EsnafDigital'in gorsel dili sade, guven veren ve esnaf dostu olacaktir.
-- Arayuz ve icerik dilinde dogal Turkce kullanilir; Ingilizce terimler yerine mumkun olan en yakin Turkce karsiliklar tercih edilir.
-- Turkce metinlerde mumkun oldukca Turkce karakterler korunur.
-- Tanitim sitesi ve yonetim paneli icin detayli tasarim sistemi referansi: `DECISIONS/2026-04-19-brand-design-system.md`
-- Bolumlenmis referans klasoru: `REFERENCES/design-system/`
-- Bu referanslar nihai kabul olarak gorulmez; UX/UI tarafinda memnuniyetsizlik varsa yeniden ele alinip degistirilebilir.
-
-## 9) Guvenlik ve Baglam Hijyeni
-- Gizli bilgi kurali icin `TOOLS.md` cizgisi gecerlidir; parola, anahtar, ham baglanti ve benzeri hassas bilgiler calisma alanina yazilmaz.
-- `HEARTBEAT.md` sadece aktif durumu, blokaji ve siradaki somut adimi tasir.
-- Tekrar eden otomatik wake, follow-through heartbeat ve token tuketen surekli cron mantigi varsayilan calisma bicimi degildir; yalniz net fayda varsa kullanilir.
-- `MEMORY.md` yalnizca kalici cizgiyi tasir; gunluk not, gecici durum ve bitmis is burada tutulmaz.
-- `memory/YYYY-MM-DD.md` ve konu dosyalari tarihlenmis gelismeleri tasir; kalici kararin yeri degildir.
-- `DECISIONS/` tekil ve kalici kararlar icindir; gunluk ilerleme oraya yazilmaz.
-- Ayrintili baglam hijyeni ve yonlendirme kurallari `AGENTS.md` ile ilgili checklist/playbook cizgisinde tutulur.
-
-## 10) Mevcut Operasyonel Gercekler
-- Ana alan adi: `esnafdijital.com.tr`
-- Yonetim paneli alan adi: `admin.esnafdijital.com.tr`
-- DNS yonetimi: Natro
+## 4) Calisma ilkeleri
+- Kisa, net, uygulanabilir cevap ver.
+- Fikir gelisiyorsa once netlestir, sonra somut adima indir.
+- Eski dosyalari yeni karardan daha onemli sayma.
+- Kod veya dosya degistirince hafif dogrulama yap.
+- Dosya degistirildiyse cevap sonunda degisen dosyalari listele.
+- Gizli bilgi workspace'e yazilmaz.

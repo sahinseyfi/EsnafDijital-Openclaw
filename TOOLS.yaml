@@ -1,61 +1,22 @@
 meta:
   derived_from: "TOOLS.md"
-  role: "eslik eden ozet"
+  role: "kisa teknik ozet"
   update_rule: "Davranis degistiren guncelleme once TOOLS.md tarafinda yapilir"
 
-tools:
-  work_environment:
-    primary_environment: "VPS"
-    primary_surfaces:
-      - "tanitim sitesi"
-      - "admin / ic operasyon alani"
-    approach: "tek repo icinde sade ve yonetilebilir yapi"
+active:
+  primary_page:
+    name: "Hesap Merkezi"
+    url: "https://admin.esnafdijital.com.tr/hesap-merkezi"
+    route: "agent-workspace/app/hesap-merkezi/page.tsx"
+    component: "agent-workspace/components/account-center/AccountCenter.tsx"
+    service: "agent-workspace/lib/account-center/service.ts"
 
-  default_stack:
-    web_admin:
-      - "Next.js"
-    database:
-      - "Postgres"
-      - "Prisma"
-    static_context:
-      - "Markdown"
-      - "YAML"
-      - "JSON"
-    small_automation:
-      - "cron"
-      - "basit jobs"
-
-  data_scope:
-    database:
-      - "businesses"
-      - "inceleme_kayitlari"
-      - "offers"
-      - "delivery_projects"
-      - "durum ve tarihcesi olan operasyonel is nesneleri"
-    file_context:
-      - "proje tanimi"
-      - "roadmap"
-      - "heartbeat"
-      - "memory"
-      - "decisions"
-      - "checklists"
-      - "playbooks"
-      - "sabit prompt baglami"
-
-  automation_threshold:
-    - "ayni is tekrar etmeye basladiysa"
-    - "elle takip hata doguruyorsa"
-    - "kucuk ve anlasilir otomasyon yeterliyse"
+stack:
+  admin: "Next.js"
+  context: "Markdown"
 
 rules:
-  secrecy:
-    - "Parola, token, raw callback linki ve benzeri hassas degerleri workspace'e yazma"
-    - "Gerekiyorsa sadece yol, konum veya referans bilgisi tut"
-    - "Gercek gizli degerler env dosyasi, sistem state'i veya parola yoneticisinde kalsin"
-  selection:
-    - "Once mevcut stack icinde cozum ara"
-    - "Sirf ileride lazim olabilir diye yeni servis ekleme"
-    - "MVP'de agir altyapi degil, gorunur sonuc onceliklidir"
-  operations:
-    - "Servis, port, systemd, swap ve canli yayin notlari OPERATIONS.md icindedir"
-    - "Isletme kesfi ve veri toplama tarafinda tek araca baglanilmaz; ihtiyaca gore uygun servis secilir"
+  - "Once mevcut kod ve stack icinde cozum ara"
+  - "Yeni servis veya agir mimari ekleme"
+  - "Eski 360/roadmap/arastirma dosyalarini aktif karar gibi kullanma"
+  - "Parola, token, raw callback linki ve hassas kimlikleri workspace'e yazma"

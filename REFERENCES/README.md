@@ -1,24 +1,9 @@
 # REFERENCES
 
-Bu klasor, kaynak materyal ve referanslari tutar.
-Buradaki icerik karar kaydi degil, karar verirken veya uygulama yaparken bakilan destektir.
+Bu klasor artik aktif karar kaynagi degildir.
 
-## Ne zaman okunur?
-- tasarim, icerik veya domain referansi gerekiyorsa
-- ham kaynak veya dayanak metin aranıyorsa
-- karar dosyasina baglanacak destek materyal lazimsa
+Kullanici baglam sadeleştirmesi istedi. Aktif odak:
+- Hesap Merkezi sayfasi
+- onceki hizmet omurgasi (`OFFERS.md`)
 
-## Ilk bakilacak yerler
-- `esnafdigital-360/README.md` -> EsnafDigital 360 urun/mimari bolumlu calismasinin aktif baslangic dokumani
-- kokteki tarihli kaynak dosyalari
-- `Derin-arastirma/README.md` -> EsnafDigital icin derin arastirma indexi, kullanim cizgisi ve ilgili rapor girisleri
-- `design-system/` altindaki parcali referanslar
-
-## Yazma kurallari
-- kalici karar burada tutulmaz, o `DECISIONS/` altina gider
-- gunluk not burada tutulmaz, o `memory/` tarafina gider
-- ham kaynak, referans metni ve uygulama dayanaklari burada tutulur
-- karar alindiysa ilgili karar dosyasindan bu klasore link verilir
-
-## Not
-Bu klasorun amaci tek dogruyu ilan etmek degil, karar ve uygulama icin dayanak saglamaktir.
+Bu klasordeki kalan referanslar ancak kullanici ozellikle isterse veya somut bir gorev icin gerekirse okunur.

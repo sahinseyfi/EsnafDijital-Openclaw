@@ -1,83 +1,31 @@
 # EsnafDigital Workspace
 
-Bu repo, EsnafDigital'in tek GitHub deposudur.
-Ayni yerde iki sey tutulur:
-1. urun kodu
-2. operasyon ve baglam omurgasi
+Bu workspace, kurucunun gelisen proje fikrini netlestirmek ve uygulanabilir hale getirmek icin kullanilir.
 
-Amac su: hafizasiz bir oturum bile kisa surede yon bulsun, dogru dosyayi okusun ve gereksiz dagilmasin.
+## Aktif odak
+Su an aktif bilinmesi gereken cekirdek:
 
-## Ilk giris rotasi
-Yeni bir oturumda varsayilan okuma sirasi:
-1. `README.md`
-2. `HEARTBEAT.md`
-3. `MEMORY.md`
-4. goreve gore ilgili dosya veya klasor README'si
+1. **Hesap Merkezi**
+   - URL: `https://admin.esnafdijital.com.tr/hesap-merkezi`
+   - route: `agent-workspace/app/hesap-merkezi/page.tsx`
+   - component: `agent-workspace/components/account-center/AccountCenter.tsx`
 
-## Guvenilir kaynak sirasi
-- `HEARTBEAT.md` -> aktif durum, blokaj, siradaki adim
-- `MEMORY.md` -> ana kalici cizgi ve kolay degismeyen gercekler
-- `PROJECT.md` -> proje tanimi ve kapsam
-- `ROADMAP.md` -> orta vadeli yon
-- `AGENTS.md` -> calisma kontrati, okuma sirasi ve repo-ozel kurallar
-- `DECISIONS/` -> tekil karar kayitlari
-- `memory/` -> tarihlenmis gunluk notlar, konu, incident ve danisma kayitlari
-- `TOOLS.md` ve `OPERATIONS.md` -> operasyon ve teknik ortam referansi
+2. **Onceki hizmet omurgasi**
+   - kanonik dosya: `OFFERS.md`
 
-## Dis referans
-Bu repo ana calisma alani ve onboarding yuzeyidir. Eger gorev OpenClaw ajan davranisini, workspace injection yapisini, `AGENTS.md` / `SOUL.md` / `TOOLS.md` gibi injected dosyalari, skill formatini veya runtime kabiliyetlerini etkiliyorsa dis referans olarak `https://github.com/openclaw/openclaw` incelenebilir.
+Eski 360, genis CRM, roadmap, dreaming ve arastirma dosyalari aktif karar kaynagi degildir.
 
-## Repo yapisi
+## Ilk okuma sirasi
+1. `HEARTBEAT.md`
+2. `MEMORY.md`
+3. hizmet/paket sorusu varsa `OFFERS.md`
+4. Hesap Merkezi gorevi varsa `agent-workspace/ACCOUNT_CENTER_V2.md` veya ilgili kod dosyalari
 
-### Uygulama klasorleri
-- `website/` -> public-facing web vitrini
-- `agent-workspace/` -> ana Next.js uygulamasi ve admin/ic operasyon alani
+## Ana klasorler
+- `agent-workspace/` -> admin uygulamasi ve Hesap Merkezi kodu
+- `memory/` -> sadece yeni tarihli notlar; eski gunluk kalabalik temizlendi
+- `CHECKLISTS/` -> kisa kontrol listeleri
+- `skills/` -> gorev bazli calisma rehberleri
 
-### Baglam ve operasyon klasorleri
-- `CHECKLISTS/` -> kisa uygulama listeleri
-- `PLAYBOOKS/` -> uctan uca is akis rehberleri
-- `DECISIONS/` -> tarihli karar kayitlari
-- `memory/` -> tarihlenmis gelismeler, session ve incident notlari
-- `REFERENCES/` -> kaynak materyaller ve referanslar
-- `skills/` -> gorev odakli workspace skill'leri
-- `deploy/` -> repo kokundeki operasyon/deploy referanslari, servis veya canliya alim detayina bakarken
-- `bin/` -> repo kokundeki yardimci scriptler, bir isi elle degil mevcut script ile yapmak gerekirken
-- `ARCHIVE/` -> aktif kullanilmayan ama saklanan materyaller
-- `state/` -> gecici ama takip edilmesi gereken uretim artefaktlari, uygulama oncesi/sonrasi uretilen ara durum kayitlarini incelerken
-
-## Goreve gore nereye gidilir?
-- Kod veya admin ekran gorevi -> `agent-workspace/README.md`
-- Web vitrini gorevi -> `website/README.md`
-- Aktif durum / oncelik -> `HEARTBEAT.md`
-- Proje kapsam ve yon -> `PROJECT.md`, sonra `ROADMAP.md`
-- OpenClaw ajanli genis is/fikir vizyonu -> `OPENCLAW_AGENT_PROJECT.md`
-- Karar gecmisi -> `DECISIONS/README.md`, sonra ilgili karar dosyasi
-- Gecmis oturum veya gunluk not -> `memory/README.md`, sonra ilgili tarihli dosya
-- Operasyon, servis, komut, yol -> `TOOLS.md`, `OPERATIONS.md`, sonra gerekiyorsa `deploy/README.md` veya `bin/README.md`
-- EsnafDigital 360 urun/mimari calismasi -> `REFERENCES/esnafdigital-360/README.md`
-- Kaynak materyal veya referans arama -> `REFERENCES/README.md`, sonra gerekiyorsa ilgili alt klasor README'si
-- Tekrarlayan is akisi -> `CHECKLISTS/README.md` veya `PLAYBOOKS/README.md`
-- Gorev-ozel calisma rehberi -> `skills/README.md`
-- Eski veya superseded icerik takibi -> `ARCHIVE/README.md`
-
-## Bu bilgi nereye yazilir?
-| Bilgi tipi | Kanonik yer | Kisa kural |
-| --- | --- | --- |
-| Su an ne yapiliyor? | `HEARTBEAT.md` | Sadece aktif durum ve siradaki adim |
-| Kalici cizgi ve zor degisen gercekler | `MEMORY.md` | Gunluk detay yazilmaz |
-| Proje tanimi ve kapsam | `PROJECT.md` | Gecici durum eklenmez |
-| OpenClaw ajanli genis fikir ve uygulama vizyonu | `OPENCLAW_AGENT_PROJECT.md` | Cekirdek teklifi sisirmeden ajanla yaptirilabilecek fikirleri toplar |
-| Orta vadeli yon | `ROADMAP.md` | Gunluk todo tutulmaz |
-| Tekil kalici karar | `DECISIONS/YYYY-MM-DD-slug.md` | Her dosya bir karar |
-| Gunluk not veya tarihli konu kaydi | `memory/` | Gunluk ozet `YYYY-MM-DD.md`, tekil konu `YYYY-MM-DD-topic-slug.md`, incident ve danisma icin ilgili adlandirma kullanilir |
-| Operasyon ve teknik ortam | `TOOLS.md`, `OPERATIONS.md` | Canli referans burada |
-| EsnafDigital 360 bolumlu calisma | `REFERENCES/esnafdigital-360/README.md` | 360 icin aktif baslangic dokumani; kararlar gerekirse kanonik dosyalara tasinir |
-| Teklif, segment, referans materyal | `OFFERS.md`, `SEGMENTS.md`, `REFERENCES/` | Karar kaydi gibi davranma |
-| Eski veya superseded icerik | `ARCHIVE/` | Ilk okuma paketi degil |
-
-## Kisa kurallar
-- Ayni bilgi iki kanonik dosyada yasamasin.
-- Once kokteki giris dosyalarini oku, sonra ilgili klasore dallan.
-- Kisa omurlu durum ile kalici hafizayi karistirma.
-- Yeni dosya acmadan once mevcut kanonik yeri kontrol et.
-- Detayli adlandirma ve klasor kurallari ilgili klasor README'lerinde tutulur.
+## Kisa kural
+Eski dosyalar yeni yonu kilitlemez. Kullanici fikri gelistirdikce ajan netlestirir, sade karar onerir ve uygulanabilir adimi yapar.

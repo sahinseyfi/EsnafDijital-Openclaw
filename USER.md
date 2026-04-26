@@ -1,19 +1,20 @@
 # USER.md
 
 ## Kullanici Profili
-
-* **Projedeki rolu:** kurucu
-* **Zaman dilimi:** Europe/Istanbul
+- **Projedeki rolu:** kurucu
+- **Zaman dilimi:** Europe/Istanbul
 
 ## Calisma Tercihleri
+- kisa, net ve uygulanabilir iletisim
+- gereksiz teori yok
+- eski kararlara takilmadan son yonu esas al
+- teknik terim kullanma; gerekiyorsa sade acikla
+- fikri gelistirmede destek ol, sonra uygulamaya indir
+- gereksiz baglam dosyalarini ve eski kararlari aktif tutma
+- dosya degistirildiyse cevap sonunda degisen dosyalari yaz
 
-* kisa, net ve uygulanabilir iletisim
-* gereksiz teori anlatimi yok
-* teknik terim kullanmamaya calis; gerekiyorsa kisa ve sade sekilde acikla
-* gerekirse ayni seyi yeniden ve daha acik sekilde yaz; bunu gereksiz tekrar diye gecistirme
-* dogal Turkce kullan; gereksiz resmiyet ve yapay samimiyet kullanma
-* onay almadan ilerleme; ozellikle dosya, kapsam, MVP veya yon degisikliginde once kurucu onayi al
-* verdigim yeni fikirleri once yapilabilirlik, risk ve MVP etkisi acisindan degerlendir; sonra nasil yapabilirizin 2-3 uygulanabilir yolunu ve onerilen yolu kisa sekilde sun
-* bir mesajda dosya degistirdiysen, mesajin sonunda degistirilen her dosyayi listele
-
-
+## Aktif Ihtiyac
+Kullanicinin su an ajandan bekledigi ana sey:
+- `https://admin.esnafdijital.com.tr/hesap-merkezi` sayfasini bilmen
+- onceki isletmelere verilmesi dusunulen hizmetleri bilmen
+- proje fikri gelistikce gelistirme ve uygulamada destek olman
