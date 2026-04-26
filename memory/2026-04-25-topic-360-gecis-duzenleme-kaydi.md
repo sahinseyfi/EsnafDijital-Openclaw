@@ -66,6 +66,14 @@ Bu dosya, EsnafDigital 360 bilgi metnine gecis sirasinda hangi dosyada neyin deg
 - Dosyanin notunda, asil calisma ve karar kaynaginin ayri numarali bolum dosyalari olarak kalacagi belirtildi.
 - `19-gelistirme-sirasi-gpt-pro-kontrol-notu.md` de tek dosyaya dahil edildi.
 
+### 2026-04-26 MVP kabul standardi hizalama turu
+- `REFERENCES/esnafdigital-360/` icindeki aktif numarali bolum dosyalari MVP kabul standardina gore hizalandi.
+- Korunan ana karar: MVP, teknik + operasyonel + guvenlik + musteri degeri kanitlari birlikte alinmadan tamamlanmis sayilmaz; P0 bloklayici hata sifir olmadan yeni pilota gecilmez.
+- Netlestirilen sinirlar: workspace tek basina guvenlik siniri degildir; guvenlik kanal allowlist/binding, sandbox/tool policy, API tenant kontrolu, audit/onay ve kill switch ile kurulur.
+- Kapsam disi/ileri modul siniri korundu: canli publish, QR hedef aktivasyonu, dis hesap degisikligi, isletmenin kendi WhatsApp hattini baglama, tam katalog/siparis/odeme/randevu ve musteri paneli MVP cekirdegi degildir.
+- Segment, paketleme dili ve modul onceligi kesinlestirilmedi; siradaki GPT Pro turuna birakildi.
+- `README.md` indeks durumu guncellendi ve `esnafdigital-360-tek-dosya.md` numarali dosyalardan yeniden uretildi.
+
 ## Su anki pratik kural
 Bundan sonra 360 projesine gecis su sekilde yurur:
 1. Bolum okunur.
