@@ -83,3 +83,13 @@ Bundan sonra 360 projesine gecis su sekilde yurur:
 
 ## Kod / panel degisikligi
 Bu kayit kapsaminda admin kodunda veya canli sistemde bilincli bir degisiklik yapilmadi.
+
+### 2026-04-26 Sanal isletme ekibi yon duzeltmesi
+- Kurucu, 360 ajanin sadece web sitesi yapmaya yardimci asistan gibi kaldigini; asil hedefin isletme hakkinda her detayi bilen ve her konuda danisman gibi yonlendirici bir ajan oldugunu belirtti.
+- GPT Pro ciktisiyla yon `isletme sahibi CEO / ajan sanal isletme ekibi` seklinde netlesti ve kurucu onayiyla aktif 360 dosyalarina islendi.
+- Ana urun cizgisi: EsnafDigital 360, web yapan ajan degil; finans, satis/pazarlama, operasyon, satin alma, musteri hizmetleri ve dijital gorunurluk bakis acilariyla karar destek veren isletme yonetim ajani / sanal isletme ekibidir.
+- Web vitrini, QR, katalog, sosyal medya ve gorunurluk isleri ana urun degil; bu ana urunun dijital cikti modulleridir.
+- Yeni karar dosyasi eklendi: `REFERENCES/esnafdigital-360/23-sanal-isletme-ekibi-ve-karar-destek.md`.
+- MVP kabul standardina `karar destek kaniti` eklendi: agent en az bir gercek isletme kararini departman bakisiyla ele alip karar notu, risk, onay/uzman kontrolu ve siradaki gorevleri uretebilmelidir.
+- Guvenlik siniri korundu: ajan departmanlarin hukuki/fiili yetkisini devralmaz; satin alma, para transferi, sozlesme, vergi, resmi basvuru, hukuki/finansal kesin taahhut ve dis dunya etkili islemler onay/uzman kontrolu olmadan yapilmaz.
+- `README.md`, ana bolum dosyalari, `MEMORY.md`, `HEARTBEAT.md` ve tek dosya aktarim kopyasi bu yonle hizalandi.

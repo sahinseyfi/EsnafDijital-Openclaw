@@ -5,7 +5,10 @@ Bu dosya, EsnafDigital icin kalici gercekleri, korunacak karar cizgisini ve kola
 ## 1) Proje Omurgasi
 - EsnafDigital, kucuk isletmelerin dijitalde daha gorunur, daha guvenilir, daha kolay ulasilabilir ve islerini adim adim dijitale tasiyabilir hale gelmesini hedefleyen hizmet ve operasyon modelidir.
 - Esas odak yalnizca site yapmak degil, isletmeyi teknik karmasa ile bogmadan guven veren dijital kimlik, gorunurluk ve temel dijital duzen kurmaktir.
-- Uzun vadede amac, kucuk isletmelerin teknik araclarla bogusmadan, OpenClaw tabanli ajan destegi sayesinde dijital islerini sohbet ederek yonetebilecegi sade bir isletme altyapisi kurmaktir.
+- Uzun vadede amac, kucuk isletmelerin teknik araclarla bogusmadan, OpenClaw tabanli ajan destegi sayesinde dijital islerini ve isletme kararlarini sohbet ederek yonetebilecegi sade bir isletme altyapisi kurmaktir.
+- EsnafDigital 360'in ana urun yonu `web sitesi yapan ajan` degil; isletme sahibinin CEO kaldigi, ajanin finans, satis/pazarlama, operasyon, satin alma, musteri hizmetleri ve dijital gorunurluk bakis acilariyla karar destegi verdigi `sanal isletme ekibi / isletme yonetim ajani` cizgisidir.
+- Web vitrini, QR, katalog, sosyal medya ve gorunurluk isleri ana urun degil; sanal isletme ekibinin dijital cikti modulleridir.
+- Ajan departmanlarin hukuki/fiili yetkisini devralmaz; satin alma, para transferi, sozlesme, vergi, resmi basvuru, hukuki/finansal kesin taahhut ve dis dunya etkili islemler onay/uzman kontrolu olmadan yapilmaz.
 - Ilk is akis omurgasi sudur:
   `Aday isletme bulma -> Veri toplama -> On degerlendirme -> Ziyaret hazirligi -> Gorusme -> Teklif -> Teslimat -> Bakim`
 - Bu cizgi onemli bir referanstir, ama sistemin kilitli kalacagi tek akis degildir.
@@ -20,7 +23,8 @@ Bu dosya, EsnafDigital icin kalici gercekleri, korunacak karar cizgisini ve kola
 
 ## 3) Hizmet Omurgasi
 ### Ana hizmet
-- isletmenin dijitalde guven veren, duzenli ve ulasilabilir hale gelmesini saglayan kurulum ve toparlama isi
+- isletme sahibinin kararlarini, dijital operasyonunu ve gorunurlugunu sistemli hale getiren ozel isletme yonetim ajani / sanal isletme ekibi kurulumu
+- web vitrini, QR, katalog/hizmet listesi ve gorunurluk ciktilari bu ana hizmetin dijital cikti modulleridir
 
 ### Devam hizmeti
 - Bakim / Canlilik / Kucuk Guncelleme
@@ -59,7 +63,8 @@ Secenekler anlasilir kalir, kapsam ihtiyaca gore degisir.
 - Kucuk tekrar eden isler icin zamanlayicilar ve basit gorevler kullanilabilir.
 - MVP asamasinda agir yapay zeka / RAG / vektor veritabani / mikroservis katmanlari kurulmaz.
 - EsnafDigital 360 OpenClaw ajan destegi ana urun fikrinin parcasi olarak ele alinir; MVP mimari karari her isletme icin tek OpenClaw Gateway/runtime altinda ayri OpenClaw agent, ayri workspace, ayri oturum/hafiza ve ayri izin profili uretmektir.
-- Isletme ajani icin kullaniciya gorunen kayit adi `Isletme Ajani Kaydi` olacak; teknik ASCII ad gerekirse `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` kullanilir. Bu kayit agent degil; EsnafDigital tarafinda gercek isletme agent'ini, workspace yolunu, sablon surumunu, izin profilini, oturumlarini, kanal baglarini ve gorev durumunu izler.
+- Ilk MVP sadece web/QR taslagi degil; en az bir gercek isletme karari icin departman bazli karar destek notu, acik karar/gorev/eksik takibi ve ilk dijital ciktilari birlikte kanitlamalidir.
+- Isletme ajani icin kullaniciya gorunen kayit adi `Isletme Ajani Kaydi` olacak; teknik ASCII ad gerekirse `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` kullanilir. Bu kayit agent degil; EsnafDigital tarafinda gercek isletme agent'ini, workspace yolunu, sablon surumunu, izin profilini, oturumlarini, kanal baglarini, acik kararlari, karar notlarini ve gorev durumunu izler.
 - Bu karmasa manuel yonetimle degil; iyi baslangic sablonu, otomatik agent kurulumu, sablon surumu takibi ve siki tool/yetki siniri ile kontrol altina alinacaktir.
 - WhatsApp ticari hedef kanal olarak kalir; teknik dogrulama Telegram/test kanali veya EsnafDigital pilot hatti ile baslayabilir. Isletmenin kendi WhatsApp hattini ajana baglama ve randevu karsilama ek kanal/modul paketi olarak ele alinir.
 

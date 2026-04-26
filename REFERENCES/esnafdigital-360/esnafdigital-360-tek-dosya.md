@@ -1,5 +1,5 @@
 # EsnafDigital 360 - Tek Dosya Aktarım Kopyası
-> Otomatik üretildi: 2026-04-26 00:04 UTC
+> Otomatik üretildi: 2026-04-26 00:49 UTC
 > Not: Karar kaynağı numaralı bölüm dosyalarıdır. Bu dosya kolay okuma/GPT aktarımı için yeniden üretilmiş kopyadır.
 ---
 
@@ -18,7 +18,7 @@ Ana kural:
 
 Aktif dosyalar:
 
-- `00-...md` ile `22-...md` arasındaki numaralı bölüm dosyaları
+- `00-...md` ile `23-...md` arasındaki numaralı bölüm dosyaları
 - GPT Pro kontrol notları
 - `esnafdigital-360-tek-dosya.md` kolay okuma/aktarım kopyasıdır; karar kaynağı değildir, numaralı dosyalardan yeniden üretilir.
 
@@ -32,14 +32,16 @@ Arşiv karar kaynağı değildir; sadece geri dönüş ve izleme için tutulur.
 
 ## Güncel Ana Kararlar
 
-- Hedef: dijital operasyonunu kurmak veya büyütmek isteyen KOBİ'lere mesajlaşma tabanlı özel işletme ajanı sunmak.
+- Hedef: dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen KOBİ'lere mesajlaşma tabanlı özel işletme yönetim ajanı sunmak.
+- Ana ürün: işletme sahibinin CEO olduğu, ajanın sanal işletme ekibi gibi karar destek verdiği özel işletme yönetim ajanı sistemidir.
 - Her işletme için gerçek OpenClaw İşletme Ajanı ve ayrı workspace kurulacak.
 - **İşletme Ajanı Kaydı**, agent'ın kendisi değil; EsnafDigital panelindeki takip/yönetim kaydıdır.
 - Kanal ürün değildir; kanal sadece işletme sahibinin ajana ulaşma yoludur.
+- Web vitrini, QR, katalog ve sosyal medya işleri ana ürün değil; sanal işletme ekibinin dijital çıktı modülleridir.
 - QR ve NFC sabit hedefli değil, dinamik kısa link üzerinden çalışacaktır.
 - Güvenlik, yetki ve onay modeli ürünün temel şartıdır; sonradan eklenecek detay değildir.
 - Geliştirme takvime göre değil, doğrulama fazlarına göre ilerleyecektir.
-- MVP kabul standardı: teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmez.
+- MVP kabul standardı: teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmez.
 - Aktif bölüm dosyaları bu MVP kabul standardıyla hizalanmıştır; segment/paket/modül önceliği ayrıca değerlendirilecektir.
 
 ## Çalışma Yöntemi
@@ -55,29 +57,30 @@ Arşiv karar kaynağı değildir; sadece geri dönüş ve izleme için tutulur.
 
 | No | Bölüm | Durum | Dosya |
 |---|---|---|---|
-| 00 | Giriş ve MVP kararı | MVP kabul standardıyla hizalandı | `00-giris-ve-mvp-karari.md` |
-| 01 | Yönetici Özeti | MVP kabul standardıyla hizalandı | `01-yonetici-ozeti.md` |
-| 02 | Ana Ürün Kararı | MVP kabul standardıyla hizalandı | `02-ana-urun-karari.md` |
-| 03 | Konumlandırma | MVP kabul standardıyla hizalandı | `03-konumlandirma.md` |
-| 04 | Hedef Müşteri | MVP kabul standardıyla hizalandı; segment GPT Pro ile netleşecek | `04-hedef-musteri.md` |
-| 05 | Ürün Mantığı | MVP kabul standardıyla hizalandı; paket/ürün dili ayrıca netleşecek | `05-urun-mantigi.md` |
-| 06 | Kanal Stratejisi | MVP kabul standardıyla hizalandı | `06-kanal-stratejisi.md` |
+| 00 | Giriş ve MVP kararı | Sanal işletme ekibi / karar destek eksenine çekildi | `00-giris-ve-mvp-karari.md` |
+| 01 | Yönetici Özeti | Sanal işletme ekibi / karar destek eksenine çekildi | `01-yonetici-ozeti.md` |
+| 02 | Ana Ürün Kararı | Ana ürün web asistanı değil işletme yönetim ajanı olarak netleşti | `02-ana-urun-karari.md` |
+| 03 | Konumlandırma | Sanal işletme ekibi dili eklendi | `03-konumlandirma.md` |
+| 04 | Hedef Müşteri | Karar destek değerinden fayda görecek KOBİ çizgisi eklendi | `04-hedef-musteri.md` |
+| 05 | Ürün Mantığı | İşletme bilgi/karar profili ve departman bakışları eklendi | `05-urun-mantigi.md` |
+| 06 | Kanal Stratejisi | Karar sorusu ve karar notu mesajlaşma işi olarak eklendi | `06-kanal-stratejisi.md` |
 | 07 | OpenClaw Kurulum Kararı | MVP kabul standardıyla hizalandı | `07-openclaw-kurulum-karari.md` |
-| 08 | Teknik Mimari | MVP kabul standardıyla hizalandı | `08-teknik-mimari.md` |
-| 09 | Ana Modüller | MVP kabul standardıyla hizalandı; modül önceliği ayrıca netleşecek | `09-ana-moduller.md` |
-| 10 | Modüllerin İlk Sürüm Karşılığı | MVP kabul standardıyla hizalandı | `10-modullerin-ilk-surum-karsiligi.md` |
-| 11 | İlk MVP Tanımı | GPT Pro ile daraltıldı; MVP çekirdeği ve kapsam dışı sınırlar netleşti | `11-ilk-mvp-tanimi.md` |
-| 12 | Müşteri Akışı | MVP kabul standardıyla hizalandı | `12-musteri-akisi.md` |
-| 13 | OpenClaw Ajan Davranışı | MVP kabul standardıyla hizalandı; bağlam dosyalarıyla netleşecek | `13-openclaw-ajan-davranisi.md` |
-| 14 | Admin / Operasyon Paneli | MVP kabul standardıyla hizalandı | `14-admin-operasyon-paneli.md` |
+| 08 | Teknik Mimari | Karar notu ve save_decision_note tool sınırı eklendi | `08-teknik-mimari.md` |
+| 09 | Ana Modüller | Karar destek modülleri çekirdeğe alındı | `09-ana-moduller.md` |
+| 10 | Modüllerin İlk Sürüm Karşılığı | Karar destek ilk sürüm karşılıkları eklendi | `10-modullerin-ilk-surum-karsiligi.md` |
+| 11 | İlk MVP Tanımı | MVP karar destek kanıtıyla güncellendi | `11-ilk-mvp-tanimi.md` |
+| 12 | Müşteri Akışı | Karar destek ve ilk dijital çıktı akışıyla güncellendi | `12-musteri-akisi.md` |
+| 13 | OpenClaw Ajan Davranışı | Departman bazlı karar destek davranışı eklendi | `13-openclaw-ajan-davranisi.md` |
+| 14 | Admin / Operasyon Paneli | Açık karar ve karar notu görünürlüğü eklendi | `14-admin-operasyon-paneli.md` |
 | 15 | Web Vitrini Mantığı | MVP kabul standardıyla hizalandı | `15-web-vitrini-mantigi.md` |
 | 16 | Menü / Katalog / Hizmet Listesi Mantığı | MVP kabul standardıyla hizalandı | `16-online-menu-mantigi.md` |
 | 17 | Dinamik QR / NFC ve Kısa Link Mantığı | MVP kabul standardıyla hizalandı; canlı hedef onay sınırı netleşti | `17-qr-ve-dinamik-link-mantigi.md` |
-| 18 | Paket Yapısı | MVP kabul standardıyla hizalandı; paket dili ayrıca netleşecek | `18-paket-yapisi.md` |
-| 19 | Geliştirme ve Uygulama Fazları | Faz geçiş kapıları ve P0=0 kuralı eklendi | `19-gelistirme-sirasi.md` |
-| 20 | Güvenlik ve Onay Kuralları | MVP güvenlik sınırı, tool allow/deny, tenant kontrolü ve kill switch netleşti | `20-guvenlik-ve-onay-kurallari.md` |
-| 21 | Başarı Kriterleri | MVP kabul standardı, P0/P1/P2 ayrımı ve tamamlandı checklist'i netleşti | `21-basari-kriterleri.md` |
-| 22 | Stratejik Riskler | MVP kabul standardıyla hizalandı; segment/paket sonrası tekrar kontrol edilecek | `22-stratejik-riskler.md` |
+| 18 | Paket Yapısı | Paket ana değeri sanal işletme ekibi olarak güncellendi | `18-paket-yapisi.md` |
+| 19 | Geliştirme ve Uygulama Fazları | Karar destek fazı eklendi | `19-gelistirme-sirasi.md` |
+| 20 | Güvenlik ve Onay Kuralları | Karar destek sınırları ve save_decision_note allowlist eklendi | `20-guvenlik-ve-onay-kurallari.md` |
+| 21 | Başarı Kriterleri | Karar destek başarı kriterleri ve checklist eklendi | `21-basari-kriterleri.md` |
+| 22 | Stratejik Riskler | Web asistanına daralma ve departman yerine geçme riskleri eklendi | `22-stratejik-riskler.md` |
+| 23 | Sanal İşletme Ekibi ve Karar Destek | Yeni ana karar dosyası eklendi | `23-sanal-isletme-ekibi-ve-karar-destek.md` |
 
 ## GPT Pro / Araştırma Durumu
 
@@ -91,9 +94,11 @@ Tamamlanan değerlendirme turları:
 - Admin operasyon paneli minimum ekranları.
 - MVP başarı metrikleri ve kabul standardı.
 - Tüm aktif 360 bölüm dosyalarının MVP kabul standardına göre hizalanması.
+- Sanal işletme ekibi / karar destek yön değişikliği ve `23-sanal-isletme-ekibi-ve-karar-destek.md` ana karar dosyası.
 
 Bekleyen başlıklar:
 
+- Sanal işletme ekibi yönü için ilk pilot karar sorusu ve bilgi modeli detayları.
 - 04: uygun sektör örnekleri ve hedef segment netliği.
 - 05 / 18: ürün mantığı ve paketleme dili.
 - 09 / 10: modül grupları ve modül önceliği.
@@ -111,7 +116,7 @@ GPT Pro kontrol notu:
 - Eski İngilizce agent kayıt adı yeni aktif metinlerde kullanılmamalı.
 - `online menü` yerine genel ifade: **menü / katalog / hizmet listesi**.
 - `QR yorum sistemi` yerine genel ifade: **dinamik QR / NFC kısa link sistemi**.
-- `küçük işletme` dili ana hedef olarak kullanılmamalı; hedef **dijital operasyonunu kurmak veya büyütmek isteyen KOBİ** çizgisidir.
+- `küçük işletme` dili ana hedef olarak tek başına kullanılmamalı; hedef **dijital operasyonunu ve işletme kararlarını sistemli yönetmek isteyen KOBİ** çizgisidir.
 - WhatsApp ticari hedef kanal olabilir; ama mimari kanal bağımsız kalmalıdır.
 
 ## Son Not
@@ -122,14 +127,26 @@ Bu README, EsnafDigital 360 çalışmasının aktif başlangıç dokümanıdır.
 <!-- SOURCE: REFERENCES/esnafdigital-360/00-giris-ve-mvp-karari.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; teknik cekirdek ve pilot siniri net.
+> Durum: sanal isletme ekibi / karar destek eksenine cekildi; MVP guvenlik siniri korunur.
 
 ---
 
 # EsnafDigital 360 + OpenClaw
-## Ajan Merkezli Dijital İşletme Sistemi
+## Ajan Merkezli Sanal İşletme Ekibi
 
 Bu doküman, EsnafDigital 360 projesinin aktif ürün ve mimari çalışma metnidir. Bölümler karar adayı taşır; uygulamaya dönüşecek her kritik kapsam, MVP veya yön değişikliği kurucu onayından geçmelidir.
+
+## Ana Ürün Kararı
+
+EsnafDigital 360 yalnızca web sitesi, Google düzeni, dinamik QR/NFC yönlendirme sistemi, katalog veya bakım hizmeti sunan klasik bir dijital hizmet paketi değildir.
+
+Ana ürün şudur:
+
+> İşletme sahibinin CEO olduğu; ajanın ise finans, satış, pazarlama, operasyon, satın alma, müşteri hizmetleri ve dijital görünürlük bakış açılarıyla çalışan sanal işletme ekibi gibi karar desteği verdiği özel işletme yönetim ajanı sistemi.
+
+Ajan gerçek departmanların hukuki veya fiili yetkisini devralmaz. Ajan karar vermez; işletmeyi tanır, eksikleri ve fırsatları gösterir, seçenekleri karşılaştırır, karar notu hazırlar, görev açar ve son kararı işletme sahibine bırakır.
+
+Web vitrini, QR, menü/katalog, sosyal medya ve görünürlük işleri bu ana ürünün dijital çıktı modülleridir. Amaç web yapan asistan değil, işletmeyi tanıyan ve yönetim kararlarında yön gösteren işletme ajanıdır.
 
 ## MVP için Kabul Edilen Mimari Çizgi
 
@@ -139,9 +156,22 @@ MVP çekirdeği şudur:
 
 > Tek test işletmesi için gerçek OpenClaw İşletme Ajanı, ayrı workspace, ayrı agentDir/session, İşletme Ajanı Kaydı, pilot kanal routing/binding, sınırlı EsnafDigital API tool'ları, audit/onay ve kill switch ile baştan sona çalışacaktır.
 
-İşletme Ajanı Kaydı, agent'ın kendisi değildir. EsnafDigital panelinde o işletmenin gerçek OpenClaw agent'ını izleyen ve yöneten kayıttır. Bu kayıt; agent kimliğini, workspace/agentDir/session referanslarını, şablon sürümünü, izin profilini, kanal bağlantılarını, sağlık durumunu, görevleri, eksikleri ve onay durumunu takip eder.
+İşletme Ajanı Kaydı, agent'ın kendisi değildir. EsnafDigital panelinde o işletmenin gerçek OpenClaw agent'ını izleyen ve yöneten kayıttır. Bu kayıt; agent kimliğini, workspace/agentDir/session referanslarını, şablon sürümünü, izin profilini, kanal bağlantılarını, sağlık durumunu, görevleri, eksikleri, karar notlarını ve onay durumunu takip eder.
 
 Teknik adlandırma gerekirse ASCII karşılığı `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` olarak tutulur.
+
+## MVP Ürün Kanıtı
+
+MVP sadece botun cevap vermesi veya web vitrini taslağı üretmesiyle başarılı sayılmaz.
+
+MVP şu dört kanıtı birlikte göstermelidir:
+
+1. **Teknik kanıt:** gerçek işletme ajanı, ayrı workspace/agentDir/session ve doğru kanal routing çalışır.
+2. **Operasyonel kanıt:** agent bilgiyi profile, eksiklere, görevlere, karar notlarına ve onay kayıtlarına çevirebilir.
+3. **Güvenlik kanıtı:** agent kendi sınırı dışına çıkmaz; riskli işleri onaysız yapmaz.
+4. **Müşteri değeri kanıtı:** işletme sahibi ajanın işletmeyi anladığını, yön gösterdiğini ve ilk somut çıktıları ürettiğini görür.
+
+İlk görünür dijital çıktılar hâlâ önemlidir: web vitrini taslağı, basit hizmet/ürün listesi, dinamik kısa link/QR hedef taslağı ve kurulum özeti. Fakat bunlar ana ürün değil, sanal işletme ekibinin ilk kanıt çıktılarıdır.
 
 ## Kanal Kararı
 
@@ -159,41 +189,55 @@ Ayrı workspace tek başına güvenlik sınırı sayılmaz. MVP güvenlik sını
 - onay kuyruğu,
 - pause / kill switch.
 
+Ajan; ürün satın alma, para transferi, sözleşme imzalama, vergi beyanı, hukuki taahhüt, resmi başvuru veya sağlık/güvenlik/ruhsat gerektiren kesin kararları işletme sahibi adına yapmaz.
+
 ## Ana Hedef
 
-EsnafDigital 360 yalnızca web sitesi, Google düzeni, dinamik QR/NFC yönlendirme sistemi veya bakım hizmeti sunan klasik bir dijital hizmet paketi değildir.
+> Dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen KOBİ'lere, panel karmaşası olmadan mesajlaşma tabanlı özel işletme yönetim ajanı sunmak.
 
-Ana hedef şudur:
-
-> Dijital operasyonunu kurmak veya büyütmek isteyen KOBİ'lere, panel karmaşası olmadan mesajlaşma tabanlı özel işletme ajanı sunmak.
-
-MVP tamamlandı sayılması için yalnızca botun cevap vermesi yetmez. Teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmalı; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmemelidir.
+MVP tamamlandı sayılması için teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtları birlikte alınmalı; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmemelidir.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/01-yonetici-ozeti.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; ozet artik taslak cikti, onay ve pilot sinirini vurgular.
+> Durum: sanal isletme ekibi / karar destek eksenine cekildi.
 
 ---
 
 # 1. Yönetici Özeti
 
-EsnafDigital 360, dijital operasyonunu kurmak veya büyütmek isteyen KOBİ'ler için mesajlaşma tabanlı özel işletme ajanı sistemidir.
+EsnafDigital 360, dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen KOBİ'ler için mesajlaşma tabanlı özel işletme yönetim ajanı sistemidir.
+
+Ürünün ana fikri şudur:
+
+> İşletme sahibi CEO gibi kalır; ajan ise finans, satış, pazarlama, operasyon, satın alma, müşteri hizmetleri ve dijital görünürlük bakış açılarını tek yerde birleştiren sanal işletme ekibi gibi çalışır.
+
+Ajan gerçek bir finans müdürü, avukat, muhasebeci, satın almacı veya müşteri temsilcisi yerine geçmez. Hukuki/fiili yetki devralmaz. Ajanın rolü karar desteğidir: işletmeyi tanımak, eksikleri bulmak, seçenekleri karşılaştırmak, riskleri göstermek, karar notu hazırlamak, görev açmak ve son kararı işletme sahibine bırakmak.
 
 Her işletme için gerçek bir OpenClaw İşletme Ajanı ve ayrı çalışma alanı modeli hedeflenir. İlk MVP'de bu model tek test işletmesiyle doğrulanır: ayrı workspace, ayrı agentDir/session, İşletme Ajanı Kaydı, pilot kanal routing/binding, sınırlı EsnafDigital API tool'ları, audit/onay ve kill switch birlikte çalışmalıdır.
 
-EsnafDigital panelindeki **İşletme Ajanı Kaydı**, agent'ın kendisi değildir; agent'ın kimliğini, çalışma alanını, şablon sürümünü, yetki profilini, kanal bağlarını, görevlerini, eksiklerini, sağlık durumunu ve onaylarını izleyen runtime control kaydıdır.
+EsnafDigital panelindeki **İşletme Ajanı Kaydı**, agent'ın kendisi değildir; agent'ın kimliğini, çalışma alanını, şablon sürümünü, yetki profilini, kanal bağlarını, görevlerini, eksiklerini, karar notlarını, sağlık durumunu ve onaylarını izleyen runtime control kaydıdır.
 
-İşletme sahibi teknik panel öğrenmeden; dijital kurulum, görünürlük, içerik, web vitrini, QR, menü/katalog/hizmet listesi ve bakım süreçlerini mesajlaşma üzerinden ilerletir. Ancak ilk MVP'de bu çıktılar tam otomatik ürünler değil, agent'ın topladığı bilginin güvenli ve izlenebilir taslaklarıdır.
+İşletme sahibi teknik panel öğrenmeden ajana şunları sorabilir:
+
+- Bu ekipmanı almalı mıyım?
+- Bu ay hangi ürünü/hizmeti öne çıkarmalıyım?
+- Fiyat artırmam doğru olur mu?
+- Yeni personel veya vardiya ihtiyacım var mı?
+- Bu kampanya kârlı olur mu?
+- Şu müşteri şikayetine nasıl cevap vereyim?
+- Google yorumlarım düşük, ne yapmalıyım?
+- Web vitrinimde hangi hizmetleri öne çıkarmalıyım?
+- Bu ay işletmemde hangi 3 şeye odaklanmalıyım?
+
+Web vitrini, QR, menü/katalog/hizmet listesi, sosyal medya ve görünürlük işleri bu ajanın ürettiği dijital çıktı modülleridir. Bunlar ürünün tamamı değil, işletme ajanının görünür sonuçlarıdır.
 
 Sistem tek bir kanala bağlı tasarlanmaz. İlk doğrulama Telegram/test kanalı, webchat veya EsnafDigital pilot hattı ile yapılabilir; ticari hedefte WhatsApp önemli kanal olarak kalır. İşletmenin kendi WhatsApp hattını bağlamak ve randevu/sipariş gibi hassas akışları çalıştırmak ileri modül olarak ele alınır.
 
-OpenClaw, EsnafDigital uygulamasının içine gömülmez. Ayrı bir agent runtime servisi olarak çalışır. İlk MVP'de aynı VPS üzerinde başlayabilir; gerçek müşteri sayısı, dış hesap bağlantıları, tool etkisi veya güvenlik ihtiyacı arttığında ayrı OS user, ayrı Gateway veya ayrı VPS eşikleri tekrar değerlendirilir.
-
 Temel ürün cümlesi:
 
-> İşletmeniz için kendi hafızası, çalışma alanı ve yetki sınırları olan özel bir dijital işletme ajanı kuruyoruz. Panel karmaşası olmadan; web vitrini, görünürlük, yorum, menü/katalog/hizmet listesi, içerik ve bakım işlerinizi mesajlaşma üzerinden güvenli ve adım adım ilerletiyoruz.
+> İşletmenizi bilen, dijital işlerinizi yürüten ve yönetim kararlarınızda size departman departman danışmanlık yapan yapay zeka işletme ajanı.
 
 MVP kabul standardı:
 
@@ -203,7 +247,7 @@ MVP kabul standardı:
 <!-- SOURCE: REFERENCES/esnafdigital-360/02-ana-urun-karari.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; ana urun karari taslak cikti ve onay siniriyla netlestirildi.
+> Durum: ana urun web/dijital asistan degil, sanal isletme ekibi / karar destek ajani olarak netlestirildi.
 
 ---
 
@@ -211,44 +255,68 @@ MVP kabul standardı:
 
 EsnafDigital 360'ın ana ürün kararı şudur:
 
-> Dijital operasyonunu kurmak veya büyütmek isteyen işletme için özel bir OpenClaw İşletme Ajanı kurulur. Bu ajan, işletme dijital profili ve sınırlı EsnafDigital API tool'ları üzerinden bilgi toplar, eksikleri görünür yapar, taslak çıktılar üretir, görev açar ve riskli işleri onay/operasyon devrine bırakır.
+> Dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen işletme için özel bir OpenClaw İşletme Ajanı kurulur. Bu ajan, işletmeyi tanır; departman bakış açılarıyla analiz yapar; karar notu, görev, eksik, taslak çıktı ve onay kaydı üretir.
 
-Bu karar, projeyi klasik “site yapma” işinden çıkarır ve daha güçlü bir ürün konumuna taşır.
+Bu karar, projeyi klasik “site yapma” işinden çıkarır ve daha güçlü bir konuma taşır:
 
-EsnafDigital'in satacağı ana şey yalnızca web sitesi değildir.
+> EsnafDigital 360 = KOBİ ve esnaf için sanal işletme yönetim ekibi.
+
+## 2.1 Satılan Ana Değer
+
+Satılacak ana değer yalnızca web sitesi, QR veya katalog değildir.
 
 Satılacak ana değer:
 
-- işletmeye özel mesajlaşma tabanlı dijital işletme ajanı,
-- güven veren dijital kimlik,
-- işletme dijital profili,
-- web vitrini taslağı ve gerektiğinde yayın süreci,
-- yorum toplama ve dinamik QR / kısa link akışı,
-- menü / katalog / hizmet listesi taslağı,
-- içerik, fotoğraf ve bilgi düzeni,
-- müşteri iletişimini kolaylaştıran bağlantılar,
-- görev, eksik ve onay takibi,
-- düzenli bakım ve canlı tutma desteği.
+- işletmeye özel mesajlaşma tabanlı işletme yönetim ajanı,
+- işletmenin kimliğini, hedeflerini, güçlü/zayıf yönlerini ve açık kararlarını bilen hafıza,
+- finans, satış/pazarlama, operasyon, satın alma ve müşteri hizmetleri bakışıyla karar desteği,
+- işletme dijital profili ve organizasyon profili,
+- eksik bilgi, açık görev, onay ve karar notu takibi,
+- web vitrini, görünürlük, yorum, menü/katalog/hizmet listesi ve QR gibi dijital çıktı modülleri,
+- bakım ve canlı tutma desteği.
 
-## MVP Açısından Ana Karar
+## 2.2 Ajanın Sınırı
+
+Ajan departmanların yerine geçmez.
+
+Doğru sınır:
+
+```text
+Ajan analiz eder, önerir, kontrol listesi çıkarır, görev açar ve karar notu hazırlar.
+Son karar ve dış dünyayı etkileyen işlem işletme sahibinde / EsnafDigital operasyonundadır.
+```
+
+Ajan şunları yapmaz:
+
+- işletme sahibi adına ürün satın almak,
+- para transferi yapmak,
+- sözleşme imzalamak,
+- vergi beyanı veya resmi başvuru yapmak,
+- hukuki/finansal kesin taahhüt vermek,
+- sağlık/güvenlik/ruhsat gibi uzman kontrolü gerektiren konularda kesin onay vermek,
+- dış hesaplarda veya public yayınlarda onaysız değişiklik yapmak.
+
+## 2.3 MVP Açısından Ana Karar
 
 İlk MVP'de ana ürün kararı şu şekilde daraltılır:
 
 - tek test işletmesiyle gerçek agent/workspace modeli doğrulanır,
 - ayrı workspace, ayrı agentDir/session ve İşletme Ajanı Kaydı çalışır,
 - pilot kanal mesajı doğru işletme ajanına gider,
-- agent düşük riskli bilgileri profile ve taslak çıktılara dönüştürür,
+- agent işletme bilgisini ve ilk organizasyon/karar bağlamını toplar,
+- agent en az bir basit işletme kararına departman bakışıyla karar destek notu üretir,
+- agent düşük riskli bilgileri profile, eksiklere, görevlere ve taslak çıktılara dönüştürür,
 - web vitrini, hizmet listesi ve QR/kısa link **taslak** olarak oluşur,
 - canlı yayın, QR hedef aktivasyonu, dış hesap değişikliği, müşteri adına mesaj, randevu/sipariş/ödeme gibi işlemler agent tarafından otomatik yapılmaz,
 - riskli işler approval veya operasyon görevi olarak panelde görünür.
 
-Bu yapı sayesinde modüller birbirinden kopuk hizmetler olmaktan çıkar; işletmenin dijital operasyonunu kuran veya büyüten tek bir ajan merkezli sistemin parçaları haline gelir.
+Bu yapı sayesinde modüller birbirinden kopuk hizmetler olmaktan çıkar; işletmenin yönetim ve dijital operasyonunu birlikte taşıyan tek bir ajan merkezli sistemin parçaları haline gelir.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/03-konumlandirma.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; konumlandirma otomasyon vaadi ve web sitesi paketi riskinden arindirildi.
+> Durum: konumlandirma sanal isletme ekibi / karar destek ajani cizgisine cekildi.
 
 ---
 
@@ -265,48 +333,57 @@ EsnafDigital 360 şu şekilde anlatılmamalıdır:
 - sadece menü/katalog sayfası yapıyoruz,
 - her şeyi otomatik yapan yapay zeka satıyoruz,
 - işletme sahibinin kendi WhatsApp hattını hemen ajana bağlıyoruz,
-- KOBİ'lere hazır yazılım veya genel CRM satıyoruz.
+- KOBİ'lere hazır yazılım veya genel CRM satıyoruz,
+- finans müdürü, avukat, muhasebeci veya satın almacının yerine geçen sistem satıyoruz,
+- işletme sahibi adına karar veren otomatik yönetici satıyoruz.
 
-Bunlar sistemin parçası veya ilerideki modülü olabilir; ancak ana ürün değildir.
+Bunlar sistemin parçası, bakış açısı veya ilerideki modülü olabilir; ancak ana ürün değildir.
 
 ## 3.2 Doğru Konumlandırma
 
 Doğru konumlandırma:
 
-> EsnafDigital 360, dijital operasyonunu kurmak veya büyütmek isteyen KOBİ'ler için mesajlaşma tabanlı özel işletme ajanı sistemidir.
+> EsnafDigital 360, işletme sahibinin CEO olduğu; ajanın ise sanal işletme ekibi gibi çalışarak karar desteği, görev takibi ve dijital operasyon çıktıları ürettiği özel işletme yönetim ajanı sistemidir.
 
 Müşteriye anlatılacak sade cümle:
 
-> Panel öğrenmenize gerek yok. İşletmenizin dijital işleri için özel işletme ajanınızla mesajlaşın; web vitrini, görünürlük, yorum, menü/katalog/hizmet listesi, içerik ve bakım işleriniz güvenli ve sistemli şekilde ilerlesin.
+> Tek başınıza işletme yönetmeyin. Finans, satış/pazarlama, satın alma, operasyon, müşteri yönetimi ve dijital görünürlük konularında yanınızda çalışan özel işletme ajanınız olsun.
 
-Daha satış odaklı cümle:
+Daha kısa ürün cümlesi:
 
-> İşletmenizin internette güvenilir, güncel ve kolay ulaşılabilir görünmesi için kendi hafızası, çalışma alanı ve yetki sınırları olan özel bir dijital işletme ajanı kuruyoruz.
+> İşletmenizi bilen, dijital işlerinizi yürüten ve yönetim kararlarınızda size departman departman danışmanlık yapan yapay zeka işletme ajanı.
+
+Dijital çıktı cümlesi:
+
+> Web vitrini, QR, hizmet listesi, görünürlük ve içerik işleri bu ajanın ilk görünür çıktılarıdır; ana ürün web sitesi değil, işletmeyi bilen yönetim ajanıdır.
 
 ## 3.3 MVP Anlatım Sınırı
 
 İlk MVP anlatılırken şu sınır açık tutulmalıdır:
 
+- ajan departmanların hukuki/fiili yetkisini devralmaz,
+- ajan karar vermez; karar desteği sağlar,
+- en az bir işletme kararında departman bazlı değerlendirme üretir,
 - web vitrini, hizmet listesi ve QR/kısa link ilk aşamada taslak/preview olarak oluşabilir,
 - canlı yayın ve müşteri gören hedef değişiklikleri onay ister,
 - dış hesap, ödeme, randevu, sipariş ve ticari taahhüt otomatik yapılmaz,
-- ilk değer, işletme bilgilerinin toparlanması, ilk taslakların oluşması ve sıradaki adımın netleşmesidir.
+- ilk değer; işletmenin anlaşılması, eksiklerin görünmesi, karar notu, görevler ve ilk dijital taslakların oluşmasıdır.
 
 Ana prensip:
 
-> Ürün, otomasyon miktarıyla değil; özel işletme ajanı modelinin güvenli, izlenebilir ve müşteriye değer üreten şekilde çalışmasıyla konumlandırılmalıdır.
+> Ürün, otomasyon miktarıyla değil; özel işletme ajanı modelinin işletmeyi anlayıp güvenli, izlenebilir ve karar destekli değer üretmesiyle konumlandırılmalıdır.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/04-hedef-musteri.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; segment karari halen GPT Pro ile netlestirilecek.
+> Durum: hedef musteri sanal isletme ekibi / karar destek degeriyle hizalandi; segment karari halen GPT Pro ile netlestirilecek.
 
 ---
 
 # 4. Hedef Müşteri
 
-İlk hedef müşteri grubu, dijital operasyonunu kurmak veya büyütmek isteyen ve özel işletme ajanından gerçek verim alabilecek KOBİ'lerdir.
+İlk hedef müşteri grubu, dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen, özel işletme ajanından gerçek verim alabilecek KOBİ'lerdir.
 
 Bu aşamada sektör listesi kesinleştirilmez. Uygun sektör örnekleri, paketleme dili ve modül öncelikleri ayrıca GPT Pro ile değerlendirilecektir.
 
@@ -314,13 +391,16 @@ Bu aşamada sektör listesi kesinleştirilmez. Uygun sektör örnekleri, paketle
 
 Hedef müşteri şu özelliklerden birkaçını taşır:
 
+- işletme sahibi birçok rolü aynı anda üstleniyordur,
+- finans, satış, pazarlama, satın alma, operasyon veya müşteri yönetiminde yönlendirmeye ihtiyaç duyar,
+- yeni ekipman, ürün, kampanya, fiyat, personel veya hizmet kararlarında daha sistemli değerlendirme ister,
 - dijitalde daha güvenilir, düzenli ve ulaşılabilir görünmek ister,
 - müşteri iletişimini daha sistemli hale getirmek ister,
 - içerik, fotoğraf, katalog, hizmet listesi, teklif, bakım veya takip gibi düzenli bilgi akışları vardır ya da bunu kurmak ister,
 - büyük ve karmaşık yazılım sistemleriyle uğraşmak istemez,
 - teknik panel öğrenmeden mesajlaşma üzerinden ilerlemek ister,
-- dijital operasyonu için özel bir ajan fikrinden gerçek fayda görebilecek yapıdadır,
-- ilk taslakları ve eksik listelerini hızlıca anlayıp geri bildirim verebilir.
+- özel işletme ajanı fikrinden gerçek fayda görebilecek yapıdadır,
+- ilk taslakları, karar notlarını ve eksik listelerini hızlıca anlayıp geri bildirim verebilir.
 
 ## İlk Pilot İçin Ek Uygunluk Kriteri
 
@@ -331,10 +411,21 @@ Uygun pilot işletme:
 - gerçek işletme bilgisi paylaşabilir,
 - mesajlaşma üzerinden 1-3 soruya cevap verebilir,
 - en az bir hizmet / ürün / kategori sunar,
+- en az bir gerçek karar sorusu veya açık iş gündemi vardır,
+- karar desteği, eksik listesi ve görev takibinden değer görebilir,
 - web vitrini taslağından değer görebilir,
 - fotoğraf veya görsel ihtiyacı varsa bunu görev olarak kabul eder,
 - riskli işlerde onaylı ilerlemeyi sorun etmez,
-- ilk çıktıları kusursuz teslimat değil, dijital operasyon başlangıcı olarak değerlendirebilir.
+- ilk çıktıları kusursuz teslimat değil, işletme yönetimi ve dijital operasyon başlangıcı olarak değerlendirebilir.
+
+Örnek karar soruları:
+
+- Bu ekipmanı almalı mıyım?
+- Bu ürünü/hizmeti menüye eklemeli miyim?
+- Fiyat artırmam doğru olur mu?
+- Bu kampanya kârlı olur mu?
+- Yeni personel almam gerekiyor mu?
+- Bu ay hangi 3 şeye odaklanmalıyım?
 
 ## Şimdilik Dikkat Edilecek Müşteri Tipleri
 
@@ -344,7 +435,9 @@ Uygun pilot işletme:
 - bilgi paylaşmaya istekli olmayanlar,
 - mesajlaşma üzerinden ilerlemeye açık olmayanlar,
 - özel işletme ajanından gerçek fayda görmeyecek kadar basit veya düzensiz işleyenler,
-- ilk görüşmede ödeme, randevu, sipariş, dış hesap veya tam otomasyon beklentisini ana şart yapanlar.
+- karar desteği yerine sadece otomatik işlem bekleyenler,
+- ilk görüşmede ödeme, randevu, sipariş, dış hesap veya tam otomasyon beklentisini ana şart yapanlar,
+- onay ve uzman kontrolü sınırını sorun görenler.
 
 Basit saha/pilot örnekleri olabilir; ancak ana hedef yalnızca berber, kafe, restoran veya güzellik salonu gibi klasik yerel işletmelerle sınırlanmaz.
 
@@ -352,28 +445,29 @@ Basit saha/pilot örnekleri olabilir; ancak ana hedef yalnızca berber, kafe, re
 <!-- SOURCE: REFERENCES/esnafdigital-360/05-urun-mantigi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; katmanlar korundu, MVP minimumu ve ileri moduller ayrildi.
+> Durum: urun mantigi sanal isletme ekibi, isletme hafizasi ve karar destek katmaniyla hizalandi.
 
 ---
 
 # 5. Ürün Mantığı
 
-EsnafDigital 360, tek tek dijital hizmetlerin yan yana dizildiği bir paket değildir. Ürünün mantığı, işletmeye özel gerçek bir ajan kurmak ve bu ajan üzerinden işletmenin dijital operasyonunu adım adım yönetilebilir hale getirmektir.
+EsnafDigital 360, tek tek dijital hizmetlerin yan yana dizildiği bir paket değildir. Ürünün mantığı, işletmeye özel gerçek bir ajan kurmak ve bu ajan üzerinden işletmenin kararlarını, dijital operasyonunu ve takip işlerini adım adım yönetilebilir hale getirmektir.
 
-Sistem dört ana katmandan oluşur:
+Sistem beş ana katmandan oluşur:
 
-1. **İşletme Dijital Profili**
-2. **Gerçek OpenClaw İşletme Ajanı ve Workspace**
-3. **İşletme Ajanı Kaydı**
-4. **Modüler Dijital Hizmet Sistemi**
+1. **İşletme Bilgi ve Karar Profili**
+2. **Sanal İşletme Ekibi / Departman Bakışları**
+3. **Gerçek OpenClaw İşletme Ajanı ve Workspace**
+4. **İşletme Ajanı Kaydı**
+5. **Modüler Dijital ve Operasyonel Hizmet Sistemi**
 
-Bu katmanlar birbirinden ayrı düşünülmez. İşletme ajanı, işletme profilindeki bilgileri ve modülleri kullanarak müşteriyi yönlendirir, eksikleri takip eder ve operasyon işlerini görünür hale getirir.
+Bu katmanlar birbirinden ayrı düşünülmez. İşletme ajanı; işletme profilindeki bilgileri, açık kararları, departman bakışlarını ve modülleri kullanarak müşteriyi yönlendirir, eksikleri takip eder, karar notu üretir ve operasyon işlerini görünür hale getirir.
 
-## 5.1 İşletme Dijital Profili
+## 5.1 İşletme Bilgi ve Karar Profili
 
-İşletme Dijital Profili, işletmenin sistemdeki merkezi bilgi kaydıdır.
+İşletme Bilgi ve Karar Profili, işletmenin sistemdeki merkezi bilgi kaydıdır.
 
-Bu profil, işletmenin sadece iletişim bilgilerini değil; dijital operasyonunu çalıştırmak için gereken temel verileri de tutar.
+Bu profil yalnızca iletişim ve web vitrini alanlarından oluşmaz. Ajanın işletmeyi danışman gibi anlayabilmesi için işletmenin iç yapısını, hedeflerini, kararlarını ve operasyon durumunu da taşır.
 
 Profil alanları şu gruplarda düşünülmelidir:
 
@@ -382,11 +476,51 @@ Profil alanları şu gruplarda düşünülmelidir:
 - işletme adı,
 - kısa açıklama,
 - sektör / faaliyet alanı,
-- yetkili kişi,
+- yetkili kişi / işletme sahibi,
 - telefon,
 - mesajlaşma numarası,
 - adres veya hizmet bölgesi,
 - çalışma saatleri.
+
+### İşletme yönetim bağlamı
+
+- işletme sahibinin öncelikleri,
+- büyüme hedefi,
+- risk toleransı,
+- açık kararlar,
+- bekleyen yatırımlar,
+- bekleyen satın almalar,
+- ertelenen kararlar,
+- aylık / dönemsel odaklar.
+
+### Finans ve ticari bağlam
+
+- ortalama ciro veya güvenli aralık bilgisi,
+- ana gider kalemleri,
+- yatırım bütçesi,
+- nakit akışı hassasiyeti,
+- fiyatlama yaklaşımı,
+- en çok satan ve en kârlı ürün/hizmetler.
+
+### Operasyon ve ekip bağlamı
+
+- personel sayısı,
+- roller,
+- yoğun saatler,
+- kapasite sınırları,
+- mevcut ekipmanlar,
+- darboğazlar,
+- eğitim ihtiyaçları.
+
+### Müşteri ve pazarlama bağlamı
+
+- hedef müşteri,
+- sık sorulan sorular,
+- sık gelen şikayetler,
+- yorum/memnuniyet durumu,
+- kampanyalar,
+- marka dili,
+- satış kanalları.
 
 ### Dijital varlıklar
 
@@ -411,15 +545,31 @@ Profil alanları şu gruplarda düşünülmelidir:
 - aktif modüller,
 - eksik bilgiler,
 - açık görevler,
+- karar destek notları,
 - onay bekleyen işler,
 - bakım durumu,
 - son güncelleme tarihi.
 
 Paket, ödeme, fatura, stok, randevu veya sipariş gibi alanlar ilk MVP'de bu profilin içine yığılmaz; gerekiyorsa ayrı modül/kayıt olarak sonradan ele alınır.
 
-Her işletmede tüm alanların dolu olması gerekmez. Ajanın görevlerinden biri, hangi alanların eksik olduğunu anlamak ve bunları adım adım tamamlatmaktır.
+## 5.2 Sanal İşletme Ekibi / Departman Bakışları
 
-## 5.2 Gerçek OpenClaw İşletme Ajanı ve Workspace
+Ajan tek kişiyle konuşur; ancak içeride çoklu departman bakışıyla düşünür.
+
+İlk MVP için yeterli roller:
+
+1. **Genel Yönetim:** hedef, öncelik, karar özeti.
+2. **Finans:** bütçe, maliyet, geri dönüş, nakit akışı riski.
+3. **Satış ve Pazarlama:** gelir etkisi, kampanya, görünürlük, müşteri kazanımı.
+4. **Operasyon:** uygulanabilirlik, kapasite, darboğaz, günlük iş akışı.
+5. **Satın Alma:** tedarikçi, garanti, servis, yedek parça, toplam sahip olma maliyeti.
+6. **Müşteri Hizmetleri:** müşteri deneyimi, şikayet, yorum, memnuniyet etkisi.
+
+İleri aşamada İK, hukuk/uyum, BT/dijital, kalite, proje yönetimi ve kurumsal iletişim gibi roller eklenebilir.
+
+Ajan gerçek departmanların yerine geçmez; bu bakışları karar desteği için kullanır.
+
+## 5.3 Gerçek OpenClaw İşletme Ajanı ve Workspace
 
 Her işletme için gerçek bir OpenClaw İşletme Ajanı ve ayrı workspace modeli hedeflenir. İlk MVP'de bu model tek test işletmesiyle doğrulanır.
 
@@ -430,17 +580,18 @@ Bu ajan:
 - ayrı agentDir ve session store'a sahiptir,
 - kendi hafıza ve oturum geçmişine sahiptir,
 - kendi yetki profiliyle sınırlandırılır,
-- sadece ilgili işletmenin dijital operasyonunu ilerletir,
+- sadece ilgili işletmenin bilgi/karar/dijital operasyonunu ilerletir,
 - EsnafDigital veritabanına doğrudan değil, sınırlı API tool'ları üzerinden erişir.
 
 Workspace tek başına güvenlik sınırı değildir. Güvenlik; kanal allowlist/binding, sandbox/tool policy, API tenant kontrolü, audit/onay ve kill switch ile kurulur.
 
-İşletme ajanının görevi sadece cevap vermek değildir.
-
 Ajanın gerçek görevi:
 
+- işletmeyi tanımak,
 - bilgi toplamak,
-- eksikleri bulmak,
+- açık kararları ve eksikleri bulmak,
+- departman bakışlarıyla analiz yapmak,
+- karar destek notu üretmek,
 - müşteriyi küçük adımlarla yönlendirmek,
 - gelen bilgileri işletme profiline bağlamak,
 - içerik ve açıklama taslakları üretmek,
@@ -449,7 +600,7 @@ Ajanın gerçek görevi:
 - bakım sürecini takip etmek,
 - riskli işleri onay veya operasyona devretmektir.
 
-## 5.3 İşletme Ajanı Kaydı
+## 5.4 İşletme Ajanı Kaydı
 
 İşletme Ajanı Kaydı, agent'ın kendisi değildir.
 
@@ -471,6 +622,8 @@ Bu kayıt, EsnafDigital panelinde gerçek OpenClaw İşletme Ajanı'nı takip ed
 - son aktivite,
 - açık eksikler,
 - açık görevler,
+- açık kararlar,
+- karar destek notları,
 - onay bekleyen işlemler,
 - agent sağlık/durum bilgisi,
 - pause / kill switch bilgisi,
@@ -483,12 +636,14 @@ OpenClaw İşletme Ajanı = çalışan ajan
 İşletme Ajanı Kaydı = paneldeki takip/yönetim kaydı
 ```
 
-## 5.4 Modüler Dijital Hizmet Sistemi
+## 5.5 Modüler Dijital ve Operasyonel Hizmet Sistemi
 
-Modüller, işletme ajanının yönettiği dijital operasyon parçalarıdır.
+Modüller, işletme ajanının yönettiği operasyon parçalarıdır.
 
 Örnek modül grupları:
 
+- sanal işletme ekibi / karar destek,
+- açık karar ve görev takibi,
 - web vitrini,
 - görünürlük ve Google / Maps kontrolü,
 - dinamik QR / NFC kısa link sistemi,
@@ -501,22 +656,25 @@ Modüller, işletme ajanının yönettiği dijital operasyon parçalarıdır.
 
 İlk MVP'de modüller tam otomatik ürünler gibi açılmaz. MVP görünür çıktıları küçük tutulur:
 
+- işletme özeti,
+- en az bir karar destek notu,
+- görev/eksik listesi,
 - web vitrini taslağı,
 - basit hizmet / ürün listesi,
 - dinamik kısa link / QR hedef taslağı,
-- kurulum özeti ve eksik listesi.
+- kurulum özeti.
 
 Canlı yayın, QR hedef aktivasyonu, dış hesap değişikliği, müşteri adına mesaj, ödeme, randevu veya sipariş gibi işlemler agent tarafından otomatik yapılmaz; approval veya operasyon devrine düşer.
 
 Ana prensip:
 
-> EsnafDigital 360'ın ürün mantığı, işletme ajanı etrafında işletme profilini, dijital çıktıları, görevleri, onayları ve bakım sürecini tek sistemde birleştirmektir.
+> EsnafDigital 360'ın ürün mantığı, işletme ajanı etrafında işletme bilgisini, karar destek notlarını, dijital çıktıları, görevleri, onayları ve bakım sürecini tek sistemde birleştirmektir.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/06-kanal-stratejisi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; pilot kanal, allowlist ve WhatsApp siniri netlestirildi.
+> Durum: MVP kabul standardiyla hizalandi; pilot kanal, allowlist ve sanal isletme ekibi mesaji netlestirildi.
 
 ---
 
@@ -530,6 +688,7 @@ Kanal, EsnafDigital 360'ın kendisi değildir. Kanal sadece işletme sahibinin k
 - gerçek OpenClaw İşletme Ajanı,
 - İşletme Ajanı Kaydı,
 - modül sistemi,
+- açık karar ve karar destek notu akışı,
 - görev, onay ve takip akışı.
 
 WhatsApp, Telegram, webchat veya başka bir kanal bu çekirdeğin üzerine bağlanan iletişim kapılarıdır. Ajan mantığı kanal içine gömülmez.
@@ -572,12 +731,13 @@ Kanal binding, işletme ajanı izolasyonunun önemli parçasıdır; tek başına
 - web vitrini güncelleme talebi açma,
 - QR / yorum linki taslağını görme,
 - bakım ihtiyaçlarını bildirme,
+- karar sorusu sorma ve karar destek notu alma,
 - kısa durum raporu alma,
 - eksik bilgi ve sonraki adımları görme.
 
 Müşteriye verilecek sade mesaj:
 
-> Panel öğrenmenize gerek yok. Özel işletme ajanınızla mesajlaşın; dijital kurulum, görünürlük, içerik ve bakım işleriniz sistemli şekilde ilerlesin.
+> Panel öğrenmenize gerek yok. Özel işletme ajanınızla mesajlaşın; karar sorularınız, dijital kurulum, görünürlük, içerik ve bakım işleriniz sistemli şekilde ilerlesin.
 
 ## 6.4 Kanal Bağımsız Mimari
 
@@ -779,7 +939,7 @@ Bu geçiş tek test işletmesi MVP'sinin ön şartı değildir; ancak çoklu mü
 <!-- SOURCE: REFERENCES/esnafdigital-360/08-teknik-mimari.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; API tool sozlesmesi ve tenant siniri daraltildi.
+> Durum: MVP kabul standardiyla hizalandi; API tool sozlesmesi, karar destek notu ve tenant siniri daraltildi.
 
 ---
 
@@ -800,7 +960,7 @@ Kanal adapteri / explicit routing-binding
    ↓
 Sınırlı EsnafDigital API tool'ları
    ↓
-EsnafDigital App / Database / Web Vitrini / QR / Katalog / Görev / Onay / Audit
+EsnafDigital App / Database / Karar Notu / Web Vitrini / QR / Katalog / Görev / Onay / Audit
 ```
 
 Bu mimaride müşteri kanalı, ajan runtime'ı ve EsnafDigital uygulaması birbirine karışmadan çalışır.
@@ -837,8 +997,9 @@ Bu katmanda:
 - her agent'ın ayrı workspace'i vardır,
 - her agent'ın ayrı agentDir'i ve session store'u vardır,
 - her agent'ın ayrı hafızası, oturumu ve yetki profili vardır,
-- agent mesajlaşma üzerinden bilgi toplar,
+- agent mesajlaşma üzerinden bilgi ve açık karar toplar,
 - eksikleri takip eder,
+- departman bakışlarıyla karar destek notu üretir,
 - içerik veya rapor taslağı üretir,
 - gerektiğinde EsnafDigital API tool'larını çağırır,
 - riskli işlerde onay ister.
@@ -857,6 +1018,7 @@ Burada tutulacak ana alanlar:
 - İşletme Ajanı Kayıtları,
 - müşteri / yetkili kişi bilgileri,
 - aktif paket ve modüller,
+- açık kararlar ve karar destek notları,
 - web vitrini taslakları / yayın bilgileri,
 - menü / katalog / hizmet listesi taslakları,
 - QR ve kısa link verileri,
@@ -894,6 +1056,7 @@ Bu sınır güvenlik ve kontrol için zorunludur.
 |---|---|
 | `ed360.get_business_snapshot` | Kendi işletmesinin profil, eksik, görev ve çıktı durumunu okumak |
 | `ed360.save_profile_draft` | Düşük riskli profil alanlarını taslak olarak kaydetmek |
+| `ed360.save_decision_note` | Karar destek notu ve ilgili açık kararı kaydetmek |
 | `ed360.upsert_service_item_draft` | Basit hizmet / ürün kalemi taslağı oluşturmak |
 | `ed360.create_media_request` | Fotoğraf veya görsel ihtiyacı için talep açmak |
 | `ed360.generate_web_preview` | Canlı olmayan web vitrini önizlemesi üretmek |
@@ -902,7 +1065,7 @@ Bu sınır güvenlik ve kontrol için zorunludur.
 | `ed360.create_approval_request` | Riskli işlem için onay kaydı açmak |
 | `ed360.save_setup_summary` | Kurulum özeti ve sonraki adımı kaydetmek |
 
-İlk MVP'de doğrudan publish, QR activate, Google/Instagram/WhatsApp update, ödeme, randevu, sipariş, dış mesaj veya veri silme tool'u açılmaz.
+İlk MVP'de doğrudan publish, QR activate, Google/Instagram/WhatsApp update, satın alma, ödeme, para transferi, sözleşme, resmi başvuru, randevu, sipariş, dış mesaj veya veri silme tool'u açılmaz.
 
 ## 8.5 API Tenant Kontrolü
 
@@ -942,13 +1105,13 @@ Ajan davranışı dosya/skill tarafında tarif edilir; gerçek sistem işlemleri
 <!-- SOURCE: REFERENCES/esnafdigital-360/09-ana-moduller.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; cekirdek, taslak cikti ve ileri moduller ayrildi.
+> Durum: moduller sanal isletme ekibi / karar destek cekirdegiyle hizalandi.
 
 ---
 
 # 9. Ana Modüller
 
-EsnafDigital 360 tek tek hizmetlerin toplandığı bir liste gibi düşünülmemelidir. Modüller, işletme ajanının yönettiği dijital operasyon parçaları olarak kurgulanır.
+EsnafDigital 360 tek tek hizmetlerin toplandığı bir liste gibi düşünülmemelidir. Modüller, işletme ajanının yönettiği karar destek, operasyon ve dijital çıktı parçaları olarak kurgulanır.
 
 Bu bölümdeki modül grupları ürün mantığını kurmak içindir. Hangi sektörlerde hangi modüllerin daha güçlü olacağı ve paket önceliği daha sonra ayrıca GPT Pro ile değerlendirilecektir.
 
@@ -960,30 +1123,60 @@ Bu grup ürünün temelidir. Bunlar olmadan EsnafDigital 360, klasik dijital hiz
 - ayrı agent workspace'i,
 - ayrı agentDir ve session store,
 - İşletme Ajanı Kaydı,
-- işletme dijital profili,
+- işletme bilgi ve karar profili,
 - izin/yetki profili,
 - tool policy ve sandbox profili,
 - kanal allowlist ve explicit binding,
 - eksik bilgi takibi,
 - görev, onay ve sonraki adım akışı,
+- karar destek notları,
 - sınırlı EsnafDigital API tool'ları,
 - audit log,
 - pause / kill switch.
 
-## 9.2 İlk MVP Görünür Çıktı Modülleri
+## 9.2 Sanal İşletme Ekibi / Karar Destek Modülleri
 
-Bu grup, agent'ın topladığı bilginin müşteriye görünür ilk kanıtıdır. İlk MVP'de tam ürün modülü değil, taslak/preview seviyesinde çalışır.
+Bu grup ana ürün değeridir.
+
+İlk MVP'de tek ajan içinde şu bakışlar yeterlidir:
+
+- genel yönetim / CEO danışmanı,
+- finans,
+- satış ve pazarlama,
+- operasyon,
+- satın alma,
+- müşteri hizmetleri.
+
+Ajan bu rollerle şunları üretir:
+
+- karar sorusunu sınıflandırma,
+- eksik bilgi listesi,
+- departman bazlı kısa değerlendirme,
+- 2-3 seçenek,
+- riskler,
+- maliyet/fayda notu,
+- öneri,
+- onay gereken noktalar,
+- sıradaki görevler.
+
+İleri aşamada İK, hukuk/uyum, BT/dijital, kalite, proje yönetimi ve kurumsal iletişim rolleri eklenebilir.
+
+## 9.3 İlk MVP Görünür Çıktı Modülleri
+
+Bu grup, agent'ın topladığı bilginin ve karar desteğinin müşteriye görünür ilk kanıtıdır. İlk MVP'de tam ürün modülü değil, taslak/preview seviyesinde çalışır.
 
 - toparlanmış işletme özeti,
+- karar destek notu,
+- açık karar / görev / eksik listesi,
 - web vitrini taslağı / preview,
 - basit hizmet / ürün listesi,
 - dinamik kısa link / QR hedef taslağı,
 - fotoğraf ve medya talebi,
 - kurulum özeti ve eksik listesi.
 
-Bu çıktılar kusursuz olmak zorunda değildir; işletmenin dijital operasyonunun başladığını göstermelidir.
+Bu çıktılar kusursuz olmak zorunda değildir; işletmenin yönetim ve dijital operasyonunun başladığını göstermelidir.
 
-## 9.3 Dijital Varlık ve Görünürlük Modülleri
+## 9.4 Dijital Varlık ve Görünürlük Modülleri
 
 Bu grup işletmenin internette güvenilir, güncel ve ulaşılabilir görünmesini sağlar.
 
@@ -998,7 +1191,7 @@ Bu grup işletmenin internette güvenilir, güncel ve ulaşılabilir görünmesi
 
 İlk MVP'de Google/Maps/Instagram/domain gibi dış etkili işler otomatik yapılmaz; bilgi toplama, taslak, görev veya approval seviyesinde kalır.
 
-## 9.4 İletişim ve Müşteri Aksiyonu Modülleri
+## 9.5 İletişim ve Müşteri Aksiyonu Modülleri
 
 Bu grup müşterinin işletmeye daha kolay ulaşmasını ve işletmenin talepleri daha düzenli almasını destekler.
 
@@ -1010,21 +1203,22 @@ Bu grup müşterinin işletmeye daha kolay ulaşmasını ve işletmenin talepler
 
 Randevu, rezervasyon, sipariş, ödeme veya işletmenin kendi WhatsApp hattını ajana bağlama gibi hassas akışlar ilk MVP'nin çekirdeği değildir; ileri modül olarak değerlendirilir.
 
-## 9.5 Operasyon ve Bakım Modülleri
+## 9.6 Operasyon ve Bakım Modülleri
 
 Bu grup kurulumdan sonra sistemin canlı kalmasını sağlar.
 
 - aylık bakım takibi,
 - eksik bilgi ve güncelleme hatırlatmaları,
+- açık kararların takip edilmesi,
 - içerik ve fotoğraf güncelleme talepleri,
-- basit durum raporu,
+- kısa durum raporu,
 - operasyon ekibine görev aktarma,
 - yayın/onay bekleyen işlerin takibi,
 - işletme profilinin güncel tutulması.
 
-İlk MVP'de bakım modülü tam otomatik değil; görev ve takip mantığını kanıtlayacak kadar hafif tutulur.
+İlk MVP'de bakım modülü tam otomatik değil; görev, eksik, karar ve takip mantığını kanıtlayacak kadar hafif tutulur.
 
-## 9.6 İleri Ticari ve Sistem Modülleri
+## 9.7 İleri Ticari ve Sistem Modülleri
 
 Bu grup sistem vizyonunda tutulur; ancak ilk MVP'nin zorunlu parçası sayılmaz.
 
@@ -1042,13 +1236,13 @@ Bu grup sistem vizyonunda tutulur; ancak ilk MVP'nin zorunlu parçası sayılmaz
 
 Ana prensip:
 
-> Modüller ilk günden tek tek tam otomatik olmak zorunda değildir. MVP'de önemli olan, gerçek işletme ajanı modelinin güvenli, izlenebilir, operasyonel ve müşteriye değer üreten şekilde çalıştığını kanıtlamaktır.
+> Modüller ilk günden tek tek tam otomatik olmak zorunda değildir. MVP'de önemli olan, gerçek işletme ajanı modelinin işletmeyi anlayan, güvenli, izlenebilir, karar destekli ve müşteriye değer üreten şekilde çalıştığını kanıtlamaktır.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/10-modullerin-ilk-surum-karsiligi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; cekirdek, taslak, manuel ve ileri moduller ayrildi.
+> Durum: ilk surum karsiliklari karar destek cekirdegiyle hizalandi.
 
 ---
 
@@ -1059,7 +1253,7 @@ EsnafDigital 360'ta her modülün ilk günden tam otomatik olması gerekmez. İl
 Bu yüzden modüller dört seviyede ele alınır:
 
 1. **Çekirdek MVP** — ilk sürümde mutlaka çalışması gereken parçalar.
-2. **Taslak / yarı otomatik** — ajan bilgi toplar, taslak üretir, operasyon veya kurucu kontrol eder.
+2. **Karar destek / taslak** — ajan analiz eder, karar notu veya taslak üretir, operasyon veya kurucu kontrol eder.
 3. **Manuel operasyon** — sistemde takip edilir, uygulama elle yapılır.
 4. **İleri modül** — vizyonda tutulur, MVP'de zorunlu değildir.
 
@@ -1072,14 +1266,30 @@ Bunlar olmadan ürünün ajan merkezli farkı zayıflar.
 | Gerçek OpenClaw İşletme Ajanı | Tek test işletmesi için gerçek agent oluşturulur | Çekirdek runtime |
 | Ayrı workspace / agentDir / session | Agent kendi çalışma alanı ve oturum ayrımıyla çalışır | Çekirdek runtime |
 | İşletme Ajanı Kaydı | Agent kimliği, runtime ref, izin profili, sağlık ve durum panelde izlenir | Çekirdek veri modeli |
-| İşletme Dijital Profili | Temel bilgiler, dijital varlıklar, eksikler ve aktif modüller tutulur | Çekirdek veri modeli |
+| İşletme Bilgi ve Karar Profili | Temel bilgiler, işletme bağlamı, açık kararlar, eksikler ve aktif modüller tutulur | Çekirdek veri modeli |
 | Kanal routing / binding | Pilot kanaldan doğru işletme ajanına yönlendirme test edilir | Kanal + routing |
 | EsnafDigital API tool sınırı | Agent yalnızca izinli, tenant-scoped tool'ları kullanır | Güvenlik |
 | Audit / approval / kill switch | Tool kararları izlenir, riskli işler onaya düşer, agent durdurulabilir | Güvenlik |
 | Eksik bilgi takibi | Ajan eksikleri sorar ve profil/görev akışına bağlar | Ajan destekli |
+| Karar destek notu | En az bir gerçek işletme kararını departman bakışıyla değerlendirir | Ajan destekli |
 | Görev / sonraki adım | Ajan veya operasyon için açık işler görünür olur | Operasyon yazılımı |
 
-## 10.2 İlk Görünür Taslak Modüller
+## 10.2 İlk Karar Destek Modülleri
+
+Bu modüller ana ürün değerini gösterir.
+
+| Modül | İlk Sürüm Karşılığı | Tip |
+|---|---|---|
+| Genel yönetim bakışı | Kararın hedef, öncelik ve yön etkisini özetler | Karar destek |
+| Finans bakışı | Bütçe, maliyet, geri dönüş ve nakit etkisini sorularla değerlendirir | Karar destek |
+| Satış/pazarlama bakışı | Gelir, kampanya, görünürlük ve müşteri kazanımı etkisini değerlendirir | Karar destek |
+| Operasyon bakışı | Kapasite, zaman, ekip ve uygulanabilirlik etkisini değerlendirir | Karar destek |
+| Satın alma bakışı | tedarikçi, garanti, servis, yedek parça ve toplam maliyeti kontrol eder | Karar destek |
+| Müşteri hizmetleri bakışı | Müşteri deneyimi, şikayet, memnuniyet ve yorum etkisini değerlendirir | Karar destek |
+
+İlk MVP'de bu roller ayrı ajan olmak zorunda değildir. Tek işletme ajanı, bu bakışları karar notu formatında kullanır.
+
+## 10.3 İlk Görünür Dijital Taslak Modüller
 
 Bu modüller müşteriye ilk değeri gösterir; ancak ilk MVP'de canlı/published ürün gibi davranmaz.
 
@@ -1089,9 +1299,9 @@ Bu modüller müşteriye ilk değeri gösterir; ancak ilk MVP'de canlı/publishe
 | Basit hizmet / ürün listesi | İlk 1-3 kalemle hizmet listesi taslağı oluşur | Taslak veri modeli |
 | Dinamik kısa link / QR hedef taslağı | Kısa link ve hedef taslağı oluşur; canlı aktivasyon onay ister | Taslak / onaylı çıktı |
 | Fotoğraf / içerik toparlama | Müşteri mesajla gönderir; eksikse medya talebi açılır | Yarı otomatik |
-| Basit kurulum özeti | Tamamlananlar, eksikler ve sıradaki adım kaydedilir | Yarı otomatik |
+| Basit kurulum özeti | Tamamlananlar, karar notları, eksikler ve sıradaki adım kaydedilir | Yarı otomatik |
 
-## 10.3 Yarı Otomatik ve Manuel Operasyon Modülleri
+## 10.4 Yarı Otomatik ve Manuel Operasyon Modülleri
 
 Bu modüllerde ajan süreci başlatır, bilgi toplar ve taslak üretir; son kontrol insanda veya operasyonda kalır.
 
@@ -1100,6 +1310,7 @@ Bu modüllerde ajan süreci başlatır, bilgi toplar ve taslak üretir; son kont
 | Dijital görünürlük kontrolü | Ajan bilgi toplar, operasyon kısa kontrol yapar | Yarı otomatik |
 | Google / Maps düzeni | Ajan eksikleri çıkarır, gerçek değişiklik operasyon onayıyla yapılır | Manuel + ajan destekli |
 | Instagram / sosyal profil düzeni | Ajan öneri üretir, uygulama onayla yapılır | Yarı otomatik |
+| Satın alma / ekipman danışmanlığı | Ajan kriter, seçenek ve kontrol listesi çıkarır; satın alma yapmaz | Karar destek |
 | Bakım takibi | Ajan hatırlatır, operasyon kontrol eder | Yarı otomatik |
 | Özel domain | Operasyon bağlar, sistemde durum takip edilir | Manuel |
 | NFC kart / yorum standı | QR hedefi sistemden alınır, fiziksel üretim elle yürür | Manuel / fiziksel |
@@ -1107,7 +1318,7 @@ Bu modüllerde ajan süreci başlatır, bilgi toplar ve taslak üretir; son kont
 | Ek fotoğraf / içerik düzenleme | Talep mesajla alınır, görev olarak açılır | Hizmet |
 | Düzenli Instagram içerik | Ajan fikir/taslak verir, operasyon uygular | Hizmet |
 
-## 10.4 İleri Modüller
+## 10.5 İleri Modüller
 
 Bu modüller ürün vizyonunda tutulur ama ilk MVP'nin zorunlu parçası değildir.
 
@@ -1132,23 +1343,23 @@ Ana prensip:
 <!-- SOURCE: REFERENCES/esnafdigital-360/11-ilk-mvp-tanimi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: GPT Pro degerlendirmeleriyle daraltildi; MVP cekirdegi ve kapsam disi sinirlar netlestirildi.
+> Durum: MVP tanimi sanal isletme ekibi / karar destek kanitiyla guncellendi.
 
 ---
 
 # 11. İlk MVP Tanımı
 
-EsnafDigital 360 MVP'si yalnızca web vitrini, QR üretimi veya çalışan bir sohbet botu değildir. MVP'nin amacı, bir işletme için özel işletme ajanı kurulumunun ve bu ajan üzerinden dijital operasyon başlatmanın gerçekten çalıştığını göstermektir.
+EsnafDigital 360 MVP'si yalnızca web vitrini, QR üretimi veya çalışan bir sohbet botu değildir. MVP'nin amacı, bir işletme için özel işletme ajanı kurulumunun ve bu ajan üzerinden işletme yönetimi, karar destek ve dijital operasyon başlangıcının gerçekten çalıştığını göstermektir.
 
 MVP'nin ana kabul cümlesi şudur:
 
-> Tek test işletmesi için gerçek OpenClaw İşletme Ajanı modeli güvenli, izlenebilir, operasyonel ve müşteriye görünür ilk değer üretecek şekilde baştan sona çalışmalıdır.
+> Tek test işletmesi için gerçek OpenClaw İşletme Ajanı modeli güvenli, izlenebilir, operasyonel, karar destekli ve müşteriye görünür ilk değer üretecek şekilde baştan sona çalışmalıdır.
 
 ## 11.1 MVP'nin Tek Net Senaryosu
 
 İlk MVP şu senaryoyu çalıştırmalıdır:
 
-> Bir test işletmesi sisteme kaydedilir. Bu işletme için gerçek OpenClaw İşletme Ajanı, ayrı workspace, ayrı agentDir/session ve İşletme Ajanı Kaydı oluşturulur. İşletme sahibi pilot mesajlaşma kanalı üzerinden doğru işletme ajanına yönlendirilir. Ajan kısa konuşmalarla işletmenin temel bilgilerini toplar. Toplanan bilgiler işletme dijital profiline, eksik listesine, görevlere, onay kayıtlarına ve ilk görünür dijital çıktılara dönüşür. Riskli işler otomatik yapılmaz; onay veya operasyon devrine düşer.
+> Bir test işletmesi sisteme kaydedilir. Bu işletme için gerçek OpenClaw İşletme Ajanı, ayrı workspace, ayrı agentDir/session ve İşletme Ajanı Kaydı oluşturulur. İşletme sahibi pilot mesajlaşma kanalı üzerinden doğru işletme ajanına yönlendirilir. Ajan kısa konuşmalarla işletmenin temel bilgilerini ve bir gerçek karar sorusunu toplar. Toplanan bilgiler işletme bilgi/karar profiline, eksik listesine, görevlere, karar destek notuna, onay kayıtlarına ve ilk görünür dijital çıktılara dönüşür. Riskli işler otomatik yapılmaz; onay veya operasyon devrine düşer.
 
 Bu senaryo çalışmadan MVP tamamlanmış sayılmaz.
 
@@ -1158,7 +1369,7 @@ MVP'nin çekirdeğinde şu parçalar bulunmalıdır:
 
 - tek gerçek veya gerçeğe çok yakın test işletmesi,
 - işletme kayıt modeli,
-- işletme dijital profili,
+- işletme bilgi ve karar profili,
 - gerçek OpenClaw İşletme Ajanı,
 - ayrı agent workspace'i,
 - ayrı agentDir ve session store,
@@ -1176,23 +1387,51 @@ MVP'nin çekirdeğinde şu parçalar bulunmalıdır:
 - onay kuyruğu,
 - pause / kill switch,
 - admin görev ve eksik bilgi görünürlüğü,
+- en az bir karar destek notu,
 - web vitrini taslağı,
 - basit hizmet / ürün listesi taslağı,
 - dinamik kısa link / QR hedef taslağı,
 - fotoğraf ve içerik toplama akışı,
 - kısa kurulum özeti veya durum raporu.
 
-## 11.3 İlk Görünür Çıktıların Sınırı
+## 11.3 İlk Karar Destek Kanıtı
 
-İlk MVP'de görünür çıktılar tam ürün modülü gibi değil, agent'ın topladığı bilginin görünür kanıtı olarak ele alınmalıdır.
+MVP'de agent en az bir gerçek işletme kararını ele almalıdır.
+
+Örnek karar soruları:
+
+- Bu ekipmanı almalı mıyım?
+- Bu ay hangi ürünü/hizmeti öne çıkarmalıyım?
+- Fiyat artırmam doğru olur mu?
+- Bu kampanya kârlı olur mu?
+- Yeni personel almam gerekiyor mu?
+- Google yorumlarım düşük, ne yapmalıyım?
+
+Karar destek çıktısı en az şu yapıyı taşımalıdır:
+
+1. kararın konusu,
+2. eksik bilgiler,
+3. ilgili departman bakışları,
+4. 2-3 seçenek,
+5. riskler,
+6. öneri,
+7. onay/uzman kontrolü gerektiren noktalar,
+8. sıradaki görevler.
+
+İlk MVP'de finans, hukuk, vergi veya satın alma gibi alanlarda kesin karar verilmez; yalnız ön değerlendirme ve karar desteği sağlanır.
+
+## 11.4 İlk Görünür Dijital Çıktıların Sınırı
+
+İlk MVP'de görünür dijital çıktılar tam ürün modülü gibi değil, agent'ın topladığı bilginin görünür kanıtı olarak ele alınmalıdır.
 
 Minimum görünür çıktı sırası:
 
 1. toparlanmış işletme özeti,
-2. ilk hizmet / ürün listesi,
-3. web vitrini taslağı,
-4. dinamik kısa link / QR hedef taslağı,
-5. kurulum özeti ve eksik listesi.
+2. karar destek notu,
+3. ilk hizmet / ürün listesi,
+4. web vitrini taslağı,
+5. dinamik kısa link / QR hedef taslağı,
+6. kurulum özeti ve eksik listesi.
 
 Bu çıktılar için sınır şudur:
 
@@ -1201,12 +1440,15 @@ Bu çıktılar için sınır şudur:
 - Hizmet / ürün listesi tam katalog değildir; ilk 1-3 kalem bile taslak için yeterli olabilir.
 - Fiyat zorunlu değildir; gerekirse `fiyat için iletişime geçin`, `teklif alınır` veya `proje bazlı` notu kullanılabilir.
 - Dinamik kısa link / QR hedefi taslak olarak oluşturulur; canlı hedef aktivasyonu onay ister.
-- Kurulum özeti, tamamlananları, eksikleri ve sıradaki adımı açıkça göstermelidir.
+- Kurulum özeti, tamamlananları, karar notlarını, eksikleri ve sıradaki adımı açıkça göstermelidir.
 
-## 11.4 MVP'de Yarı Otomatik veya Manuel Kalabilecekler
+## 11.5 MVP'de Yarı Otomatik veya Manuel Kalabilecekler
 
 İlk MVP'de şu işler sistemde takip edilir; ancak tamamen otomatik olmak zorunda değildir:
 
+- satın alma veya ekipman kararı uygulamak,
+- ödeme, para transferi veya sözleşme işlemi yapmak,
+- vergi, hukuk, ruhsat veya resmi başvuru işi yapmak,
 - Google İşletme Profili'nde gerçek değişiklik yapmak,
 - Instagram veya sosyal medya hesabında paylaşım yapmak,
 - özel domain bağlamak,
@@ -1218,9 +1460,9 @@ Bu çıktılar için sınır şudur:
 - web vitrini yayını almak,
 - QR hedefini canlıya almak.
 
-Bu işlerde ajan bilgi toplar, taslak üretir, görev açar veya onay kaydı oluşturur; gerçek işlem operasyon veya kurucu onayıyla yapılır.
+Bu işlerde ajan bilgi toplar, taslak üretir, karar notu hazırlar, görev açar veya onay kaydı oluşturur; gerçek işlem operasyon veya kurucu/onay sahibi kararıyla yapılır.
 
-## 11.5 MVP Dışında Kalacak İleri Parçalar
+## 11.6 MVP Dışında Kalacak İleri Parçalar
 
 Şu parçalar ilk MVP'nin zorunlu şartı değildir:
 
@@ -1241,7 +1483,7 @@ Bu işlerde ajan bilgi toplar, taslak üretir, görev açar veya onay kaydı olu
 
 Bu parçaların sistemde ileride yeri olabilir; ancak MVP'yi ağırlaştırmamalıdır.
 
-## 11.6 MVP Bitti Sayma Kriteri
+## 11.7 MVP Bitti Sayma Kriteri
 
 İlk MVP şu durumda çalışıyor sayılır:
 
@@ -1252,51 +1494,55 @@ Bu parçaların sistemde ileride yeri olabilir; ancak MVP'yi ağırlaştırmamal
 5. Pilot kanaldan gelen mesaj doğru işletme ajanına gider.
 6. Yetkisiz veya yanlış kullanıcı gerçek işletme ajanına ulaşamaz.
 7. Ajan kendi işletme bağlamıyla bilgi toplayabilir.
-8. Toplanan bilgiler işletme dijital profiline, eksiklere, görevlere ve taslak çıktılara dönüşür.
-9. Web vitrini taslağı, basit hizmet / ürün listesi, dinamik kısa link / QR hedef taslağı ve kurulum özeti oluşur.
-10. Admin panelde durum, görev, eksik, onay, audit ve sıradaki adım görülebilir.
-11. Riskli işler otomatik yapılmaz; approval veya operasyon devrine düşer.
-12. Ajan başka işletme verisine, ana workspace'e, secret'lara veya izin dışı tool'lara erişemez.
-13. Pause / kill switch çalışır.
-14. İşletme sahibi panel öğrenmeden sürece katılıp ilk değeri anlayabilir.
+8. Toplanan bilgiler işletme bilgi/karar profiline, eksiklere, görevlere, karar notuna ve taslak çıktılara dönüşür.
+9. En az bir karar destek notu oluşur.
+10. Web vitrini taslağı, basit hizmet / ürün listesi, dinamik kısa link / QR hedef taslağı ve kurulum özeti oluşur.
+11. Admin panelde durum, görev, açık karar, karar notu, eksik, onay, audit ve sıradaki adım görülebilir.
+12. Riskli işler otomatik yapılmaz; approval veya operasyon devrine düşer.
+13. Ajan başka işletme verisine, ana workspace'e, secret'lara veya izin dışı tool'lara erişemez.
+14. Pause / kill switch çalışır.
+15. İşletme sahibi panel öğrenmeden sürece katılıp ilk karar destek değerini ve dijital çıktıyı anlayabilir.
 
 Ana prensip:
 
-> MVP, her şeyi otomatik yapan sistem değil; gerçek işletme ajanı modelinin güvenli, izlenebilir, operasyonel ve müşteriye değer üreten şekilde çalıştığını kanıtlayan sistemdir.
+> MVP, her şeyi otomatik yapan sistem değil; gerçek işletme ajanı modelinin güvenli, izlenebilir, operasyonel, karar destekli ve müşteriye değer üreten şekilde çalıştığını kanıtlayan sistemdir.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/12-musteri-akisi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; musteri akisi taslak deger, onay ve pilot sinirina cekildi.
+> Durum: musteri akisi sanal isletme ekibi, karar destek ve ilk dijital ciktı eksenine cekildi.
 
 ---
 
 # 12. Müşteri Akışı
 
-EsnafDigital 360 müşteri akışı, klasik "satış yapıldı, site teslim edildi" mantığıyla ilerlemez. Akışın merkezi, işletme için özel ajan kurulması ve bu ajan üzerinden dijital operasyonun adım adım başlatılmasıdır.
+EsnafDigital 360 müşteri akışı, klasik "satış yapıldı, site teslim edildi" mantığıyla ilerlemez. Akışın merkezi, işletme için özel ajan kurulması ve bu ajan üzerinden işletme yönetimi, karar destek ve dijital operasyonun adım adım başlatılmasıdır.
 
 ## 12.1 Satış Öncesi: Ön Değerlendirme
 
-İlk adım, işletmenin dijital durumunu hızlıca anlamaktır.
+İlk adım, işletmenin dijital ve yönetim durumunu hızlıca anlamaktır.
 
 Bakılabilecek alanlar:
 
+- işletme sahibinin ana hedefi,
+- açık karar veya gündem maddesi,
 - Google / Maps görünümü,
 - yorum sayısı ve yorum kalitesi,
 - fotoğraf durumu,
 - mevcut web sitesi veya web vitrini ihtiyacı,
 - Instagram / sosyal profil görünümü,
-- adres, telefon ve çalışma saati tutarlılığı,
 - hizmet / katalog / ürün bilgisinin görünürlüğü,
+- yoğun saatler, kapasite veya operasyon darboğazı,
+- müşteri şikayetleri veya sık sorular,
 - rakip veya benzer işletme örnekleri,
 - ilk güven ve profesyonellik izlenimi.
 
 Çıktı:
 
-> Dijital Ön Değerlendirme Notu
+> İşletme Ön Değerlendirme ve İlk Karar Notu
 
-Bu not uzun rapor olmak zorunda değildir. Amaç, görüşmeye gerçek bir gözlemle gitmek ve teklifin neden gerekli olduğunu somutlaştırmaktır.
+Bu not uzun rapor olmak zorunda değildir. Amaç, görüşmeye gerçek bir gözlemle gitmek ve ajanın yalnızca web değil, işletme danışmanlığı değeri de üreteceğini somutlaştırmaktır.
 
 ## 12.2 Satış Görüşmesi: Sonucu Anlatma
 
@@ -1304,18 +1550,20 @@ Müşteriye teknik sistem değil, sonuç anlatılır.
 
 Ana anlatım:
 
-> İşletmeniz için özel bir dijital işletme ajanı kuruyoruz. Bu ajan, dijital kurulumunuzu ve güncel kalması gereken işleri mesajlaşma üzerinden adım adım ilerletir.
+> İşletmeniz için özel bir işletme yönetim ajanı kuruyoruz. Bu ajan işletmenizi tanır, açık kararlarınızda departman bakışıyla yön gösterir, dijital kurulum ve güncel kalması gereken işleri mesajlaşma üzerinden adım adım ilerletir.
 
 Daha sade müşteri cümlesi:
 
-> Panel öğrenmenize gerek yok. İşletmenizin web vitrini, görünürlüğü, yorumları, içerikleri, menü/katalog/hizmet bilgileri ve bakım işleri özel işletme ajanınızla sistemli şekilde ilerler.
+> Panel öğrenmenize gerek yok. İşletmenizle ilgili kararları, dijital görünürlüğü, müşteri iletişimini, hizmet listenizi ve bakım işlerini özel işletme ajanınızla birlikte sistemli şekilde ilerletirsiniz.
 
 Görüşmede vurgulanacak şeyler:
 
 - tek seferlik site yapmaktan fazlası olduğu,
+- ajanın işletme sahibinin yerine karar vermeyeceği,
+- karar desteği ve görev takibi sağlayacağı,
 - işletmenin dijital düzeninin kurulacağı,
 - bilgilerin mesajlaşma üzerinden toplanacağı,
-- ilk çıktıların önce taslak/preview olarak oluşacağı,
+- ilk çıktıların önce karar notu ve taslak/preview olarak oluşacağı,
 - riskli işlemlerin onaysız yapılmayacağı,
 - kurulumdan sonra bakım/takip mantığının olacağı.
 
@@ -1325,42 +1573,45 @@ Satış sonrası kurulum akışı:
 
 1. işletme kaydı açılır,
 2. paket/kapsam seçilir,
-3. işletme dijital profili oluşturulur,
+3. işletme bilgi ve karar profili oluşturulur,
 4. işletmeye özel OpenClaw İşletme Ajanı oluşturulur,
 5. ayrı workspace / agentDir / session store hazırlanır,
 6. İşletme Ajanı Kaydı panelde açılır,
 7. yetki profili, tool policy ve agent şablonu atanır,
 8. pilot kanal binding yapılır,
 9. müşteri pilot mesajlaşma kanalına bağlanır,
-10. ajan ilk bilgi toplama konuşmasını başlatır.
+10. ajan ilk bilgi ve karar bağlamı toplama konuşmasını başlatır.
 
-Bu aşamada amaç, müşteriyi panele sokmak değil; ajanın doğru bilgileri konuşarak toplamasını sağlamaktır.
+Bu aşamada amaç, müşteriyi panele sokmak değil; ajanın doğru bilgileri konuşarak toplamasını ve işletmeye ilk karar/dijital değer üretmesini sağlamaktır.
 
-## 12.4 Bilgi Toplama ve İlk Dijital Çıktılar
+## 12.4 Bilgi Toplama, Karar Desteği ve İlk Dijital Çıktılar
 
-Ajan ilk aşamada form doldurtmaz. En fazla 1-3 kısa bilgi ister, gelen cevabı özetler ve bunu profile/göreve/taslağa bağlar.
+Ajan ilk aşamada form doldurtmaz. En fazla 1-3 kısa bilgi ister, gelen cevabı özetler ve bunu profile/göreve/karar notuna/taslağa bağlar.
 
 İlk turda öncelikli bilgiler:
 
 - işletme adı veya ad onayı,
+- işletme sahibinin ana hedefi veya ilk açık kararı,
 - tek cümlelik açıklama,
 - telefon / WhatsApp veya temel iletişim,
 - adres veya hizmet bölgesi,
 - ilk 1-3 hizmet / ürün / kategori.
 
-Sonraya bırakılabilecek bilgiler:
+Karar destek için sorulabilecek bilgiler:
 
-- tüm katalog,
-- tüm fiyatlar,
-- profesyonel fotoğraf seti,
-- Google yorum linki,
-- sosyal hesap düzenlemeleri,
-- domain/DNS,
-- randevu, ödeme, sipariş veya stok kuralları.
+- kararın amacı,
+- bütçe veya güvenli aralık,
+- beklenen fayda,
+- zaman baskısı,
+- operasyon/kullanım hacmi,
+- müşteri etkisi,
+- onay/uzman kontrolü gerektiren nokta var mı.
 
 Bu bilgilerle ilk çıktılar hazırlanır:
 
 - toparlanmış işletme özeti,
+- karar destek notu,
+- açık karar ve görev listesi,
 - web vitrini taslağı / preview,
 - arama / mesajlaşma / yol tarifi bağlantıları,
 - dinamik kısa link / QR hedef taslağı,
@@ -1371,46 +1622,51 @@ Bu bilgilerle ilk çıktılar hazırlanır:
 
 ## 12.5 İlk Teslimat
 
-İlk teslimat, "iş bitti" demek değil; işletmenin dijital operasyonunun çalışmaya başlamasıdır.
+İlk teslimat, "iş bitti" demek değil; işletme yönetim ajanının ve dijital operasyonun çalışmaya başlamasıdır.
 
 İlk teslimatta müşteriye şunlar gösterilebilir:
 
 - toparlanmış işletme özeti,
+- bir karar destek notu,
+- açık kararlar, eksikler ve görevler,
 - web vitrini ön gösterimi,
 - basit hizmet / ürün listesi,
 - QR / kısa link hedef taslağı,
-- toplanan bilgiler ve kalan eksikler,
 - medya/fotoğraf talepleri,
 - sonraki adımlar,
 - bakım veya devam planı.
 
-Canlı yayın, QR hedef aktivasyonu veya dış hesap değişikliği teslimatın otomatik parçası değildir; approval ve operasyon kontrolü ister.
+Canlı yayın, QR hedef aktivasyonu, satın alma, dış hesap değişikliği veya resmi/hukuki/finansal işlem teslimatın otomatik parçası değildir; approval ve operasyon/uzman kontrolü ister.
 
 ## 12.6 Bakım ve Canlı Tutma
 
-Kurulumdan sonra ajan işletmenin dijital varlığını canlı tutmaya destek olur.
+Kurulumdan sonra ajan işletmenin yönetim ve dijital varlığını canlı tutmaya destek olur.
 
 Ajanın takip edebileceği işler:
 
+- bu ay işletmenin en önemli 3 odağı ne?
+- açık kararlar ilerledi mi?
+- yeni satın alma, ekipman veya kampanya gündemi var mı?
 - çalışma saatleri değişti mi?
 - yeni fotoğraf veya içerik var mı?
 - hizmet/katalog bilgileri güncel mi?
 - fiyat veya açıklama değişikliği var mı?
 - QR / yorum linki çalışıyor mu?
 - web vitrini bilgileri doğru mu?
+- müşteri şikayeti veya yorumlara cevap gerekiyor mu?
 - bakım raporu veya kısa durum özeti gerekiyor mu?
 
-Ajan bu işleri hatırlatır, bilgi toplar ve görev açar. Gerçek dış hesap değişiklikleri, yayınlar, QR hedef aktivasyonu, fiyat/ödeme kararları veya müşteri adına taahhütler onaysız yapılmaz.
+Ajan bu işleri hatırlatır, bilgi toplar, karar notu hazırlar ve görev açar. Gerçek dış hesap değişiklikleri, yayınlar, QR hedef aktivasyonu, fiyat/ödeme kararları veya müşteri adına taahhütler onaysız yapılmaz.
 
 Ana prensip:
 
-> Müşteri akışı, tek seferlik teslimat değil; işletme ajanıyla dijital operasyonu kurma, ilk değeri gösterme ve güvenli şekilde canlı tutma akışıdır.
+> Müşteri akışı, tek seferlik teslimat değil; işletme ajanıyla karar desteği, dijital operasyon, görev takibi ve canlı bakım akışıdır.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/13-openclaw-ajan-davranisi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; ilk kurulum konusmasi, tool tetikleri ve yasaklar netlestirildi.
+> Durum: ajan davranisi sanal isletme ekibi / departman bazli karar destek eksenine cekildi.
 
 ---
 
@@ -1427,7 +1683,7 @@ Beklenen bağlam dosyaları:
 - `USER.md` — işletme sahibi / kullanıcı tercihleri,
 - `TOOLS.md` — izin verilen araçlar ve sınırlar,
 - `MEMORY.md` — işletmeye ait kalıcı hafıza,
-- `BUSINESS.md` — işletmenin kimliği, hizmetleri, eksikleri ve aktif modülleri.
+- `BUSINESS.md` — işletmenin kimliği, kararları, hizmetleri, eksikleri ve aktif modülleri.
 
 Bu yüzden bu bölüm, nihai prompt değil; davranış tasarımının ana çerçevesidir.
 
@@ -1437,16 +1693,44 @@ Bu yüzden bu bölüm, nihai prompt değil; davranış tasarımının ana çerç
 
 - sade konuşur,
 - teknik karmaşa çıkarmaz,
+- işletme sahibine CEO gibi davranır,
+- departman bakışlarını tek ve anlaşılır cevapta birleştirir,
 - işi küçük adımlara böler,
 - eksikleri açıkça söyler,
 - gereksiz uzun açıklama yapmaz,
 - müşteriyi panel kullanmaya zorlamaz,
 - her konuşmayı somut bir sonraki adıma bağlar,
-- emin olmadığı veya riskli konularda onay ister.
+- emin olmadığı veya riskli konularda onay/uzman kontrolü ister.
 
-Ajanın amacı sohbet etmek değil, işletmenin dijital operasyonunu ilerletmektir.
+Ajanın amacı sohbet etmek veya sadece web taslağı üretmek değil; işletmenin kararlarını, dijital operasyonunu ve takip işlerini ilerletmektir.
 
-## 13.2 İlk Kurulum Konuşması
+## 13.2 Sanal İşletme Ekibi Davranışı
+
+Ajan tek kişiyle konuşur; fakat önemli işletme kararlarında şu bakışları kullanır:
+
+- genel yönetim,
+- finans,
+- satış ve pazarlama,
+- operasyon,
+- satın alma,
+- müşteri hizmetleri.
+
+İleri aşamada İK, hukuk/uyum, BT/dijital, kalite ve proje yönetimi bakışları da eklenebilir.
+
+Ajan bu rolleri şöyle kullanır:
+
+```text
+Finans açısından mantıklı mı?
+Operasyon açısından uygulanabilir mi?
+Satın alma açısından doğru ürün/tedarikçi mi?
+Satış ve pazarlama açısından gelir veya algı etkisi var mı?
+Müşteri deneyimini iyileştirir mi?
+Risk, onay veya uzman kontrolü gerekir mi?
+```
+
+Ajan bunu müşteriye çok uzun bir komite raporu gibi değil, kısa ve uygulanabilir karar notu gibi sunar.
+
+## 13.3 İlk Kurulum Konuşması
 
 Ajan ilk konuşmayı form doldurtma gibi yürütmemelidir.
 
@@ -1455,70 +1739,99 @@ Doğru yaklaşım:
 1. mevcut işletme snapshot'ını okur,
 2. müşteriye teknik sistem anlatmaz,
 3. en gerekli 1-3 bilgiyi ister,
-4. gelen bilgiyi anlar ve özetler,
-5. bilgiyi profile, hizmet listesine, göreve veya özete bağlar,
-6. ilk görünür değeri küçük bir çıktıyla gösterir,
-7. eksikleri kısa listeleyip sıradaki adımı söyler.
+4. bir açık karar veya hedef olup olmadığını sorar,
+5. gelen bilgiyi anlar ve özetler,
+6. bilgiyi profile, hizmet listesine, göreve, karar notuna veya özete bağlar,
+7. ilk görünür değeri küçük bir çıktıyla gösterir,
+8. eksikleri kısa listeleyip sıradaki adımı söyler.
 
 Örnek ilk mesaj:
 
 ```text
 Merhaba, ben EsnafDigital işletme ajanınız.
 
-Panel kullanmadan işletmenizin ilk dijital düzenini adım adım hazırlayacağım: web vitrini taslağı, temel hizmet listeniz ve QR/kısa link taslağı.
+Panel kullanmadan işletmenizin ilk dijital düzenini ve açık iş kararlarını birlikte toparlayacağım. Web vitrini, hizmet listeniz ve QR/kısa link taslağı ilk görünür çıktılar olacak; ama asıl görevim işletmenizi tanıyıp kararlarınızda size yön göstermektir.
 
-Canlı yayın, dış hesap değişikliği veya müşterilerinizin göreceği bir değişiklik yapmam; böyle işler için önce onay isterim.
+Canlı yayın, dış hesap değişikliği, satın alma, ödeme veya müşterilerinizin göreceği bir değişiklik yapmam; böyle işler için önce onay isterim.
 
 Başlamak için 3 kısa bilgi yeterli:
 
 1. İşletme adınızı müşterilere tam olarak nasıl gösterelim?
 2. İşletmenizi tek cümleyle nasıl anlatalım?
-3. Müşteriler size hangi telefon veya WhatsApp numarasından ulaşsın?
+3. Şu anda karar vermekte zorlandığınız bir konu var mı? Örneğin ekipman, fiyat, kampanya, personel veya hangi hizmeti öne çıkaracağınız gibi.
 ```
 
-## 13.3 Bilgi Toplama Kuralı
+## 13.4 Karar Destek Formatı
+
+Ciddi işletme kararlarında ajan şu formatı kullanır:
+
+1. Kararın konusu
+2. Mevcut durum / eksik bilgiler
+3. Departman bazlı değerlendirme
+4. Seçenekler
+5. Riskler
+6. Maliyet/fayda notu
+7. Öneri
+8. Onay veya uzman kontrolü gereken noktalar
+9. Sıradaki adımlar
+
+Örnek kısa cevap iskeleti:
+
+```text
+Karar Özeti:
+Şu an en mantıklı seçenek orta maliyetli ve servis ağı güçlü seçeneğe bakmak gibi görünüyor.
+
+Finans:
+En pahalı model şu an erken olabilir; geri dönüş süresini satış hacminizle kontrol etmek gerekir.
+
+Operasyon:
+Çok küçük model yoğun saatlerde darboğaz yaratabilir.
+
+Satın Alma:
+Markadan önce garanti, servis ve yedek parça kontrol edilmeli.
+
+Müşteri Etkisi:
+Kalite ve hız artışı müşteri deneyimini güçlendirebilir.
+
+Sıradaki adım:
+3 teklif toplayalım; ben karşılaştırma kontrol listesini çıkarayım.
+```
+
+## 13.5 Bilgi Toplama Kuralı
 
 Ajan müşteriden tek seferde çok fazla bilgi istemez.
 
 Öncelik sırası:
 
 1. işletme adı veya ad onayı,
-2. tek cümle açıklama,
-3. telefon / WhatsApp veya temel iletişim,
-4. adres veya hizmet bölgesi,
-5. ilk 1-3 hizmet / ürün / kategori,
-6. fotoğraf veya görsel ihtiyacı,
-7. QR/kısa link hedef önerisi,
-8. opsiyonel Google / sosyal bağlantılar.
+2. işletmenin hedefi veya açık karar sorusu,
+3. tek cümle açıklama,
+4. telefon / WhatsApp veya temel iletişim,
+5. adres veya hizmet bölgesi,
+6. ilk 1-3 hizmet / ürün / kategori,
+7. karar için gerekli 1-3 bilgi,
+8. fotoğraf veya görsel ihtiyacı,
+9. QR/kısa link hedef önerisi,
+10. opsiyonel Google / sosyal bağlantılar.
 
 Fotoğraf yoksa süreç durmaz. Ajan medya talebi açar ve taslak çıktıyı eksik alanlarla üretir.
 
-## 13.4 Eksik Bilgi ve Görev Yönetimi
+## 13.6 Eksik Bilgi, Açık Karar ve Görev Yönetimi
 
-Ajan sadece bilgi istemez; eksikleri takip eder.
+Ajan sadece bilgi istemez; eksikleri, açık kararları ve görevleri takip eder.
 
 Ajan şunları yapabilmelidir:
 
 - eksik bilgileri listelemek,
+- açık kararları kaydetmek,
+- karar notu oluşturmak,
 - tamamlanan bilgileri işaretlemek,
 - işletme profiline yazılacak bilgileri ayırmak,
 - operasyon ekibine gidecek işleri ayırmak,
 - müşteriden beklenen sonraki adımı net söylemek,
-- gerekirse admin panelde görev veya medya talebi açmak.
+- gerekirse admin panelde görev, medya talebi veya onay kaydı açmak.
 
-Örnek:
-
-```text
-Temel bilgiler tamamlandı.
-Şu anda eksik kalan iki şey var:
-
-1. 3-5 işletme fotoğrafı
-2. Hizmet/katalog listenizin ilk hali
-
-Bunları gönderdiğinizde web vitrininizin ilk taslağını daha güçlü hale getirebilirim.
-```
-
-## 13.5 Tool Tetikleme Mantığı
+## 13.7 Tool Tetikleme Mantığı
 
 Ajan tool çağrılarını kontrollü ve izlenebilir kullanmalıdır.
 
@@ -1526,78 +1839,66 @@ Ajan tool çağrılarını kontrollü ve izlenebilir kullanmalıdır.
 
 1. `ed360.get_business_snapshot`
 2. `ed360.save_profile_draft`
-3. `ed360.upsert_service_item_draft`
-4. `ed360.create_media_request` veya `ed360.create_task`
-5. `ed360.generate_web_preview`
-6. `ed360.create_shortlink_draft`
-7. `ed360.create_approval_request`
-8. `ed360.save_setup_summary`
+3. `ed360.save_decision_note`
+4. `ed360.upsert_service_item_draft`
+5. `ed360.create_media_request` veya `ed360.create_task`
+6. `ed360.generate_web_preview`
+7. `ed360.create_shortlink_draft`
+8. `ed360.create_approval_request`
+9. `ed360.save_setup_summary`
 
 Kural:
 
-- her değerli bilgi sohbette kalmaz; profile, göreve, taslağa veya özete bağlanır,
+- her değerli bilgi sohbette kalmaz; profile, karara, göreve, taslağa veya özete bağlanır,
 - tool çağrıları tenant-scoped ve audit edilebilir olmalıdır,
-- agent canlı yayın, QR aktivasyonu veya dış hesap değişikliği yapmaz.
+- agent canlı yayın, QR aktivasyonu, satın alma, ödeme, para transferi, sözleşme veya dış hesap değişikliği yapmaz.
 
-## 13.6 Onay Gerektiren İşler
+## 13.8 Onay Gerektiren İşler
 
 Ajan bazı işleri otomatik yapmamalıdır.
 
-Onay gerektiren işler:
+Onay/uzman kontrolü gerektiren işler:
 
 - müşteri adına dış dünyaya mesaj göndermek,
 - Google / Instagram / WhatsApp / domain gibi dış hesaplarda değişiklik yapmak,
 - fiyat, ödeme veya ticari taahhüt vermek,
+- ürün/ekipman satın almak,
+- para transferi yapmak,
+- sözleşme imzalamak,
+- vergi beyanı veya resmi başvuru yapmak,
+- hukuki/finansal kesin görüş vermek,
+- sağlık/güvenlik/ruhsat gerektiren kesin karar vermek,
 - kesin randevu, rezervasyon veya sipariş onayı oluşturmak,
 - müşteri verisi silmek,
 - yayın almak veya herkese açık içerik değiştirmek,
 - QR/kısa link hedefini müşterilerin göreceği şekilde canlı değiştirmek,
 - işletme sahibinin adına karar vermek.
 
-Bu işlerde ajan sadece bilgi toplar, taslak üretir veya `approval_request` / operasyon görevi açar.
+Bu işlerde ajan sadece bilgi toplar, ön değerlendirme yapar, taslak üretir veya `approval_request` / operasyon görevi açar.
 
-## 13.7 Operasyon Devrini Bilmek
+## 13.9 Operasyon Devrini Bilmek
 
 Ajan her işi kendi yapmaya çalışmaz.
 
-Şu durumlarda operasyon ekibine veya kurucuya devreder:
+Şu durumlarda operasyon ekibine, kurucuya veya uzmana devreder:
 
 - fiziksel materyal hazırlanacaksa,
 - dış hesap erişimi gerekiyorsa,
 - müşteri özel fiyat veya kapsam istiyorsa,
+- satın alma/ödeme/sözleşme/resmi işlem varsa,
 - teknik hata varsa,
 - yayın veya hesap değişikliği riski varsa,
 - ajan yetki sınırının dışına çıkan istek varsa.
 
-Devir mesajı kısa ve net olmalıdır:
-
-```text
-Bu işlem dış hesap değişikliği gerektiriyor.
-Ben bilgileri toparladım; devamı için EsnafDigital ekibinin onayı gerekiyor.
-```
-
-## 13.8 Ton ve Dil
-
-Ajanın dili:
-
-- doğal Türkçe,
-- kısa,
-- güven veren,
-- gereksiz teknik terim kullanmayan,
-- ciddi ama soğuk olmayan,
-- müşteriyi yönlendiren,
-- yapılacak işi netleştiren
-
-bir dil olmalıdır.
-
-Ajan müşteriye teknoloji anlatmaz; müşterinin işini ilerletir.
-
-## 13.9 Kesin Kaçınılacak Davranışlar
+## 13.10 Kesin Kaçınılacak Davranışlar
 
 Ajan şunları yapmamalıdır:
 
 - ilk mesajda 10 soru sormak,
 - teknik mimari, workspace, agentDir veya tool policy anlatmak,
+- sadece web vitrini yapan asistan gibi davranmak,
+- işletme sahibinin yerine karar vermek,
+- uzman gerektiren hukuk/finans/vergi/ruhsat konularında kesin hüküm vermek,
 - fotoğraf gelmeden hiçbir çıktı üretmemek,
 - tam katalog istemek,
 - QR'ı ilk değer gibi öne çıkarmak,
@@ -1608,37 +1909,21 @@ Ajan şunları yapmamalıdır:
 - yetki dışı tool kullanmaya çalışmak,
 - secret istemek veya kaydetmek.
 
-## 13.10 Bağlam Dosyalarıyla Netleştirilecek Alanlar
-
-Bu bölümdeki davranış ilkeleri ilk çerçevedir. Nihai detaylar her işletme ajanının bağlam dosyalarında netleşecektir.
-
-Özellikle şu konular bağlam dosyalarıyla belirlenecek:
-
-- işletmenin sektörü,
-- aktif modüller,
-- konuşma tonu,
-- hangi bilgilerin zorunlu olduğu,
-- hangi işlerin operasyona devredileceği,
-- hangi tool'ların açık olduğu,
-- hangi işlemlerin kesin yasak olduğu,
-- ilk kurulum konuşmasının sırası,
-- bakım döneminde nasıl geri dönüleceği.
-
 Ana prensip:
 
-> İşletme ajanı, genel bir sohbet botu değil; kendi bağlam dosyalarıyla sınırları çizilmiş, işletmenin dijital operasyonunu adım adım ilerleten özel ajandır.
+> İşletme ajanı, genel bir sohbet botu veya web yapan asistan değil; kendi bağlam dosyalarıyla sınırları çizilmiş, işletmenin kararlarını ve dijital operasyonunu adım adım ilerleten özel sanal işletme ekibidir.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/14-admin-operasyon-paneli.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; 3 ana ekran, state machine ve panel sinirlari netlestirildi.
+> Durum: MVP kabul standardiyla hizalandi; karar destek notlari, 3 ana ekran, state machine ve panel sinirlari netlestirildi.
 
 ---
 
 # 14. Admin / Operasyon Paneli
 
-EsnafDigital paneli, müşteriye satılan panel değildir. Bu panel, EsnafDigital ekibinin işletmeleri, işletme ajanlarını, görevleri, eksikleri, onayları, audit olaylarını ve teslimat sürecini kontrol ettiği iç operasyon yüzeyidir.
+EsnafDigital paneli, müşteriye satılan panel değildir. Bu panel, EsnafDigital ekibinin işletmeleri, işletme ajanlarını, açık kararları, karar destek notlarını, görevleri, eksikleri, onayları, audit olaylarını ve teslimat sürecini kontrol ettiği iç operasyon yüzeyidir.
 
 Müşteri için ana arayüz mesajlaşma kanalıdır. Admin panelin görevi, müşteriyle sohbet etmek değil; işletme ajanlarının ve operasyon işlerinin doğru ilerleyip ilerlemediğini izlemektir.
 
@@ -1648,7 +1933,9 @@ Panel şu sorulara hızlı cevap vermelidir:
 
 - Bugün hangi işe dokunmak gerekiyor?
 - Hangi işletmenin ajanı kuruldu?
-- Hangi işletmede eksik bilgi var?
+- Hangi işletmede açık karar veya eksik bilgi var?
+- Hangi karar için müşteriden cevap bekleniyor?
+- Hangi karar destek notu tamamlandı veya bekliyor?
 - Hangi iş müşteriden cevap bekliyor?
 - Hangi iş operasyon müdahalesi bekliyor?
 - Hangi işler onay bekliyor?
@@ -1675,7 +1962,8 @@ Günün sıcak işlerini gösterir.
 Burada şunlar görünür:
 
 - onay bekleyen işler,
-- eksik bilgi bekleyen işletmeler,
+- açık karar veya eksik bilgi bekleyen işletmeler,
+- karar destek notu bekleyen işler,
 - agent hata / pause / health uyarıları,
 - yeni kurulan agent/workspace durumları,
 - teslimat riski olan çıktılar,
@@ -1694,6 +1982,8 @@ Burada şunlar olmalıdır:
 - agent status,
 - setup phase,
 - kanal tipi,
+- açık karar sayısı,
+- karar notu durumu,
 - eksik bilgi sayısı,
 - açık görev sayısı,
 - bekleyen onay sayısı,
@@ -1710,8 +2000,9 @@ Tek işletme için ana karar yüzeyidir.
 Burada şunlar toplanır:
 
 - üst durum barı,
-- işletme dijital profili özeti,
+- işletme bilgi ve karar profili özeti,
 - İşletme Ajanı Kaydı kartı,
+- açık kararlar ve karar destek notları,
 - kurulum checklist'i,
 - ilk dijital çıktılar,
 - eksik bilgiler,
@@ -1749,6 +2040,8 @@ Panelde en az şunları göstermelidir:
 - agent sağlığı,
 - son hata,
 - açık eksikler,
+- açık kararlar,
+- karar destek notları,
 - açık görevler,
 - onay bekleyen işlemler,
 - pause / resume durumu.
@@ -1762,6 +2055,8 @@ Bu dört kavram karıştırılmamalıdır:
 | Kavram | Cevapladığı soru |
 |---|---|
 | Eksik | Hangi bilgi yok? |
+| Açık karar | Hangi işletme kararı bekliyor? |
+| Karar notu | Ajan hangi değerlendirmeyi yaptı? |
 | Görev | Kim ne yapacak? |
 | Onay | Hangi riskli işlem karar bekliyor? |
 | Audit | Hangi tool/izin kararı oldu? |
@@ -1814,6 +2109,7 @@ Bunlar tek bir genel durum alanında birleşmemelidir.
 ```text
 Agent status: active
 Setup phase: outputs_draft_ready
+Decision status: note_ready
 Web status: draft_ready
 Shortlink status: approval_required
 Approval status: requested
@@ -2376,19 +2672,19 @@ Ana prensip:
 <!-- SOURCE: REFERENCES/esnafdigital-360/18-paket-yapisi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; paketleme taslak/kurulum/bakim/ek modul siniriyla netlestirildi. Segment ve fiyat dili daha sonra GPT Pro ile degerlendirilecek.
+> Durum: paketleme sanal isletme ekibi / karar destek ana degeriyle hizalandi. Segment ve fiyat dili daha sonra GPT Pro ile degerlendirilecek.
 
 ---
 
 # 18. Paket Yapısı
 
-Paket yapısı, özellikleri yan yana dizen klasik ajans menüsü gibi olmamalıdır. EsnafDigital 360 paketleri, işletmenin dijital operasyonunu ajanla kurma ve canlı tutma mantığına göre düşünülmelidir.
+Paket yapısı, özellikleri yan yana dizen klasik ajans menüsü gibi olmamalıdır. EsnafDigital 360 paketleri, işletmenin yanında çalışan sanal işletme ekibi ve işletme yönetim ajanı değerine göre düşünülmelidir.
 
 İlk aşamada fiyat değil, kapsam mantığı netleştirilir. Segment, fiyatlandırma ve paket isimleri ayrıca değerlendirilecektir.
 
-## 18.1 Ajan Kurulum Paketi
+## 18.1 Sanal İşletme Ekibi Kurulum Paketi
 
-Bu paket, işletmenin dijital operasyonunu başlatan temel kurulum paketidir.
+Bu paket, işletmenin özel yönetim ajanını ve ilk dijital operasyonunu başlatan temel kurulum paketidir.
 
 İlk MVP'de içerik şu çekirdeğe dayanır:
 
@@ -2396,13 +2692,15 @@ Bu paket, işletmenin dijital operasyonunu başlatan temel kurulum paketidir.
 - ayrı workspace,
 - ayrı agentDir / session,
 - İşletme Ajanı Kaydı,
-- işletme dijital profili,
+- işletme bilgi ve karar profili,
 - pilot mesajlaşma bağlantısı,
 - kanal allowlist / explicit binding,
 - sınırlı EsnafDigital API tool'ları,
 - audit / onay / kill switch,
 - bilgi toplama akışı,
-- eksik bilgi ve görev takibi,
+- açık karar ve eksik bilgi takibi,
+- ilk karar destek notu,
+- görev ve onay takibi,
 - web vitrini taslağı,
 - arama / mesajlaşma / yol tarifi bağlantıları,
 - dinamik kısa link / QR hedef taslağı,
@@ -2410,15 +2708,18 @@ Bu paket, işletmenin dijital operasyonunu başlatan temel kurulum paketidir.
 - fotoğraf ve içerik toplama akışı,
 - basit kurulum özeti veya durum raporu.
 
-Bu paketin amacı her şeyi tam otomatik yapmak değil; işletmenin dijital operasyonunu ajan merkezli şekilde çalışır hale getirmektir.
+Bu paketin amacı her şeyi tam otomatik yapmak değil; işletmenin karar destek ve dijital operasyonunu ajan merkezli şekilde çalışır hale getirmektir.
 
-## 18.2 Ajan Bakım Paketi
+## 18.2 Ajan Bakım ve Karar Destek Paketi
 
-Bu paket, kurulumdan sonra işletmenin dijital varlığını canlı tutmak içindir.
+Bu paket, kurulumdan sonra işletmenin yönetim ve dijital varlığını canlı tutmak içindir.
 
 İçerik:
 
-- belirli aralıklarla dijital kontrol,
+- belirli aralıklarla işletme durum kontrolü,
+- açık kararların takip edilmesi,
+- aylık veya dönemsel odak önerisi,
+- basit karar destek notları,
 - web vitrini güncelleme talepleri,
 - menü / katalog / hizmet listesi güncellemeleri,
 - fotoğraf ve içerik güncellemeleri,
@@ -2429,9 +2730,23 @@ Bu paket, kurulumdan sonra işletmenin dijital varlığını canlı tutmak için
 - mesajlaşma üzerinden destek,
 - operasyon ekibine görev aktarma.
 
-Bu paket, işletmenin dijital düzeninin kurulduktan sonra eskimesini engeller.
+Bu paket, işletmenin dijital düzeninin ve açık kararlarının kurulduktan sonra sahipsiz kalmasını engeller.
 
-## 18.3 Ek Fiziksel ve Görsel Çıktılar
+## 18.3 Ek Karar Destek ve Danışmanlık Modülleri
+
+Bu işler üst paket veya ek hizmet olabilir:
+
+- satın alma / ekipman danışmanlığı,
+- kampanya ve fiyat değerlendirmesi,
+- müşteri şikayeti / yorum cevap desteği,
+- aylık işletme odak raporu,
+- operasyon darboğaz analizi,
+- basit personel/eğitim ihtiyacı değerlendirmesi,
+- tedarikçi karşılaştırma kontrol listesi.
+
+Bu modüller karar desteğidir; satın alma, ödeme, sözleşme, vergi, hukuk veya resmi işlem yerine geçmez.
+
+## 18.4 Ek Fiziksel ve Görsel Çıktılar
 
 Bu işler kuruluma eklenebilir, ancak ilk MVP'nin yazılım çekirdeği değildir.
 
@@ -2445,7 +2760,7 @@ Bu işler kuruluma eklenebilir, ancak ilk MVP'nin yazılım çekirdeği değildi
 
 Bu çıktılar sistemde görev olarak takip edilir; fiziksel üretim ve teslimat operasyon işi olarak yürür.
 
-## 18.4 İleri Modüller ve Üst Paketler
+## 18.5 İleri Modüller ve Üst Paketler
 
 Bunlar ileride üst paket veya ayrı modül olarak sunulabilir:
 
@@ -2463,32 +2778,34 @@ Bunlar ileride üst paket veya ayrı modül olarak sunulabilir:
 
 Bu parçalar MVP kabul standardı geçmeden ana pakete taşınmamalıdır.
 
-## 18.5 Paketleme Prensibi
+## 18.6 Paketleme Prensibi
 
 Paketler sade kalmalıdır.
 
 Ana mantık:
 
-1. **Kurulum:** işletme ajanı ve ilk dijital operasyon kurulur.
-2. **Bakım:** bu yapı canlı tutulur.
-3. **Ekler:** fiziksel, görsel veya ileri modüller ihtiyaca göre eklenir.
+1. **Kurulum:** işletme ajanı, işletme bilgi/karar profili ve ilk dijital operasyon kurulur.
+2. **Bakım:** bu yapı canlı tutulur; açık kararlar ve güncellemeler takip edilir.
+3. **Karar destek ekleri:** satın alma, kampanya, fiyat, müşteri deneyimi gibi konularda daha derin karar notları hazırlanır.
+4. **Fiziksel/görsel ekler:** ihtiyaç oldukça eklenir.
 
 Satış dilinde dikkat edilecek sınır:
 
 - “Her şeyi otomatik yapan yapay zeka” denmez.
 - “Sadece web sitesi paketi” gibi anlatılmaz.
-- Canlı yayın, QR hedef aktivasyonu ve dış hesap değişikliği onaylı/operasyonel iş olarak anlatılır.
-- Web vitrini, hizmet listesi ve QR/kısa link ilk aşamada agent'ın topladığı bilginin görünür çıktılarıdır.
+- “Avukat/muhasebeci/satın almacı yerine geçer” denmez.
+- Canlı yayın, QR hedef aktivasyonu, satın alma, ödeme, sözleşme ve dış hesap değişikliği onaylı/operasyonel iş olarak anlatılır.
+- Web vitrini, hizmet listesi ve QR/kısa link ilk aşamada agent'ın topladığı bilginin görünür dijital çıktılarıdır.
 
 Ana prensip:
 
-> EsnafDigital 360 paketleri, tek tek hizmet satmak yerine işletmenin dijital operasyonunu ajanla kurma ve sürdürme değerini taşımalıdır.
+> EsnafDigital 360 paketleri, tek tek hizmet satmak yerine işletme sahibinin yanında çalışan sanal işletme ekibi değerini taşımalıdır.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/19-gelistirme-sirasi.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: GPT Pro degerlendirmeleriyle faz gecis kapilari ve P0=0 kuralı eklendi.
+> Durum: gelistirme sirasi sanal isletme ekibi / karar destek kanitini icerecek sekilde guncellendi.
 
 ---
 
@@ -2501,6 +2818,10 @@ Süre verilmez. Her faz, bir önceki faz gerçekten çalışmadan sonraki faza g
 Ana teknik hedef:
 
 > Tek test işletmesi için ayrı OpenClaw İşletme Ajanı ve workspace üret, ona mesaj gönder, kendi işletme bağlamıyla cevap aldığını doğrula.
+
+Ana ürün hedefi:
+
+> Ajanın yalnızca web/QR taslağı değil; işletmeyi anlayan, açık kararları toplayan ve departman bakışlarıyla karar destek notu üreten sanal işletme ekibi gibi çalıştığını doğrula.
 
 Bu doğrulanmadan web vitrini, QR/NFC, katalog veya ileri modüllere fazla yüklenmek erken olur.
 
@@ -2562,34 +2883,36 @@ P0 bloklayıcılar:
 
 ---
 
-## Faz 2 — İşletme Profili ve Bilgi Toplama
+## Faz 2 — İşletme Bilgi ve Karar Profili
 
 ### Amaç
 
-Ajanın işletme bilgisini konuşarak toplayıp işletme dijital profiline, eksiklere ve görevlere bağlamasını sağlamak.
+Ajanın işletme bilgisini konuşarak toplayıp işletme bilgi/karar profiline, eksiklere, açık kararlara ve görevlere bağlamasını sağlamak.
 
 ### Yapılacaklar
 
-1. İşletme dijital profili modeli netleştirilir.
+1. İşletme bilgi ve karar profili modeli netleştirilir.
 2. Eksik bilgi listesi oluşturulur.
-3. İlk bilgi toplama konuşması tasarlanır.
-4. Agent ilk mesajda en fazla 1-3 bilgi ister.
-5. Gelen bilgiler profile veya göreve bağlanır.
-6. Eksikler panelde görünür olur.
-7. Admin panelde agent/profil durumu görünür olur.
-8. Sonraki adım ve görev mantığı eklenir.
+3. Açık karar kaydı mantığı eklenir.
+4. İlk bilgi toplama konuşması tasarlanır.
+5. Agent ilk mesajda en fazla 1-3 bilgi ister.
+6. Gelen bilgiler profile, açık karara veya göreve bağlanır.
+7. Eksikler panelde görünür olur.
+8. Admin panelde agent/profil/karar durumu görünür olur.
+9. Sonraki adım ve görev mantığı eklenir.
 
 ### Çıktılar
 
-- doldurulabilir işletme profili,
+- doldurulabilir işletme bilgi ve karar profili,
 - agent'ın sorduğu eksik bilgi akışı,
-- admin panelde görünür eksik/görev durumu,
+- açık karar kaydı,
+- admin panelde görünür eksik/görev/karar durumu,
 - ilk kurulum konuşması,
 - toparlanmış işletme özeti.
 
 ### Tamamlandı Sayma Ölçütü
 
-Bu faz, agent'ın en az bir test işletmesi için temel bilgileri toplayıp eksik/görev durumunu panelde görünür hale getirmesiyle tamamlanır.
+Bu faz, agent'ın en az bir test işletmesi için temel bilgileri ve bir açık karar konusunu toplayıp eksik/görev/karar durumunu panelde görünür hale getirmesiyle tamamlanır.
 
 Minimum kabul:
 
@@ -2597,12 +2920,50 @@ Minimum kabul:
 - kısa açıklama,
 - iletişim bilgisi,
 - en az bir hizmet / ürün / kategori,
+- en az bir açık karar veya hedef,
 - eksik listesi,
 - kurulum konuşmasının kısa ve anlaşılır olması.
 
 ---
 
-## Faz 3 — İlk Görünür Dijital Çıktılar
+## Faz 3 — Sanal İşletme Ekibi / Karar Destek Kanıtı
+
+### Amaç
+
+Agent'ın bir işletme kararını departman bakışlarıyla analiz edip karar destek notuna ve görevlere dönüştürebildiğini göstermek.
+
+### Yapılacaklar
+
+1. Karar destek notu veri yapısı belirlenir.
+2. İlk 6 rol tanımlanır: genel yönetim, finans, satış/pazarlama, operasyon, satın alma, müşteri hizmetleri.
+3. Agent karar sorusunu sınıflandırır.
+4. Eksik bilgileri 1-3 kısa soruyla toplar.
+5. Departman bazlı kısa değerlendirme üretir.
+6. 2-3 seçenek çıkarır.
+7. Riskleri ve onay/uzman kontrolü gereken noktaları yazar.
+8. Sıradaki görevleri oluşturur.
+
+### Çıktılar
+
+- en az bir karar destek notu,
+- departman bazlı değerlendirme,
+- risk ve onay listesi,
+- görev/sıradaki adım listesi,
+- panelde açık karar görünürlüğü.
+
+### Tamamlandı Sayma Ölçütü
+
+Bu faz, test işletmesi için en az bir gerçek karar sorusunun karar destek notuna ve görevlere dönüşmesiyle tamamlanır.
+
+Önemli sınırlar:
+
+- Ajan satın alma yapmaz.
+- Para transferi, sözleşme, vergi, resmi işlem veya hukuki taahhüt oluşturmaz.
+- Uzman kontrolü gereken noktaları açıkça belirtir.
+
+---
+
+## Faz 4 — İlk Görünür Dijital Çıktılar
 
 ### Amaç
 
@@ -2639,7 +3000,7 @@ Bu faz, test işletmesi için agent verilerinden ilk web vitrini taslağı, hizm
 
 ---
 
-## Faz 4 — Güvenlik, Yetki ve Operasyon Kontrolü
+## Faz 5 — Güvenlik, Yetki ve Operasyon Kontrolü
 
 ### Amaç
 
@@ -2676,34 +3037,37 @@ P0 bloklayıcılar:
 - tenant mismatch,
 - denylist tool'un başarılı çalışması,
 - riskli işlemin onaysız yapılabilmesi,
+- satın alma/ödeme/sözleşme/resmi işlem denemesinin engellenmemesi,
 - audit olmadan tool işlemi,
 - pause / kill switch'in çalışmaması,
 - workspace'e secret yazılması.
 
 ---
 
-## Faz 5 — İlk Pilot Kabulü
+## Faz 6 — İlk Pilot Kabulü
 
 ### Amaç
 
-Tek test işletmesi üzerinde teknik, operasyonel, güvenlik ve müşteri değeri kanıtlarını birlikte almak.
+Tek test işletmesi üzerinde teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtlarını birlikte almak.
 
 ### Yapılacaklar
 
 1. Pilot kanal üzerinden işletme sahibiyle gerçek kurulum konuşması yapılır.
-2. Agent bilgileri toplar ve profil/görev/çıktıya bağlar.
-3. İlk web vitrini, hizmet listesi ve shortlink/QR hedef taslağı oluşur.
-4. Riskli bir işlem approval'a düşürülür.
-5. Admin panelde görev, eksik, onay, audit ve sıradaki adım okunur.
-6. İşletme sahibinden kısa geri bildirim alınır.
-7. P0/P1/P2 hata ayrımı yapılır.
-8. İkinci pilota geçiş kararı verilir.
+2. Agent bilgileri toplar ve profil/görev/karar/çıktıya bağlar.
+3. En az bir karar destek notu oluşur.
+4. İlk web vitrini, hizmet listesi ve shortlink/QR hedef taslağı oluşur.
+5. Riskli bir işlem approval'a düşürülür.
+6. Admin panelde görev, açık karar, eksik, onay, audit ve sıradaki adım okunur.
+7. İşletme sahibinden kısa geri bildirim alınır.
+8. P0/P1/P2 hata ayrımı yapılır.
+9. İkinci pilota geçiş kararı verilir.
 
 ### Çıktılar
 
 - pilot işletme deneyimi,
 - teknik doğrulama,
 - operasyonel doğrulama,
+- karar destek doğrulaması,
 - güvenlik doğrulama,
 - müşteri değeri doğrulama,
 - geri bildirim,
@@ -2720,6 +3084,7 @@ Karar seçenekleri:
 - teknik geçti ama müşteri değeri zayıf — akış/çıktı/konumlandırma düzelt,
 - müşteri değeri var ama güvenlik eksik — büyütme, güvenliği düzelt,
 - operasyon çok ağır — kapsam/paket/fiyatı daralt,
+- karar destek değeri zayıf — sanal işletme ekibi davranışını düzelt,
 - başarısız — çekirdeği yeniden tasarla.
 
 ---
@@ -2740,7 +3105,7 @@ Aşağıdaki işler ilk doğrulama sonrasına bırakılmalıdır:
 
 Ana prensip:
 
-> Önce tek işletme için gerçek agent/workspace çalışsın. Sonra işletme profili, görünür çıktılar, güvenlik ve kanal pilotu sırayla büyütülsün.
+> Önce tek işletme için gerçek agent/workspace çalışsın. Sonra işletme bilgi/karar profili, sanal işletme ekibi davranışı, görünür dijital çıktılar, güvenlik ve kanal pilotu sırayla büyütülsün.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/19-gelistirme-sirasi-gpt-pro-kontrol-notu.md -->
@@ -2768,7 +3133,7 @@ Sonuçlar ilgili aktif bölümlere işlendi:
 - Agent ilk MVP'de yalnızca sınırlı EsnafDigital API tool'ları kullanmalıdır.
 - Web vitrini, hizmet listesi ve QR/kısa link ilk MVP'de taslak/preview seviyesinde olmalıdır.
 - Admin MVP, `Project OS / Businesses / Business Detail` üçlüsünde kalmalıdır.
-- MVP kabul standardı: teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz.
+- MVP kabul standardı: teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz.
 - P0 bloklayıcı hata sıfır olmadan yeni pilot müşteriye geçilmez.
 
 ## Kapanan Kontrol Soruları
@@ -2858,6 +3223,7 @@ Ajan düşük riskli işleri kendi yetkisi içinde yapabilir.
 - web vitrini için metin önerisi üretmek,
 - menü / katalog / hizmet listesi taslağı oluşturmak,
 - QR/NFC hedefi için öneri veya taslak sunmak,
+- basit karar destek notu hazırlamak,
 - basit durum özeti hazırlamak,
 - admin panelde görev veya medya talebi oluşturmak,
 - operasyon ekibine devredilecek işi işaretlemek.
@@ -2874,6 +3240,7 @@ Bu işler müşteriye veya dış sisteme kalıcı etki üretmez.
 |---|---|---|
 | `ed360.get_business_snapshot` | Kendi işletmesinin profil, eksik, görev ve çıktı durumunu okumak | Okuma |
 | `ed360.save_profile_draft` | Düşük riskli profil alanlarını taslak olarak kaydetmek | Taslak yazma |
+| `ed360.save_decision_note` | Karar destek notu ve ilgili açık kararı kaydetmek | Taslak yazma |
 | `ed360.upsert_service_item_draft` | Basit hizmet / ürün kalemi taslağı oluşturmak | Taslak yazma |
 | `ed360.create_media_request` | Fotoğraf, logo veya görsel ihtiyacı için talep açmak | Görev |
 | `ed360.generate_web_preview` | Canlı olmayan web vitrini önizlemesi üretmek | Taslak çıktı |
@@ -2882,7 +3249,7 @@ Bu işler müşteriye veya dış sisteme kalıcı etki üretmez.
 | `ed360.create_approval_request` | Riskli işlem için onay kaydı açmak | Onay |
 | `ed360.save_setup_summary` | Kurulum özeti ve sonraki adımı kaydetmek | Taslak özet |
 
-Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR hedef aktivasyonu, müşteri adına dış mesaj, ödeme, randevu, sipariş veya veri silme yapmamalıdır.
+Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR hedef aktivasyonu, müşteri adına dış mesaj, satın alma, ödeme, para transferi, sözleşme, resmi başvuru, randevu, sipariş veya veri silme yapmamalıdır.
 
 ## 20.5 İlk MVP Tool Denylist
 
@@ -2898,6 +3265,7 @@ Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR 
 - Gateway / node / config araçları,
 - dış email / SMS / sosyal medya gönderim araçları,
 - payment / booking / calendar araçları,
+- satın alma, para transferi, sözleşme imzalama ve resmi başvuru araçları,
 - dynamic skill install / sync,
 - işletme dışı veri okuyabilecek genel web fetch veya entegrasyonlar.
 
@@ -2975,6 +3343,20 @@ Aşağıdaki işler ancak işletme sahibi, kurucu veya operasyon onayıyla ilerl
 Bu işlerde ajan yalnızca bilgi toplar, öneri sunar, taslak hazırlar veya onay görevi açar.
 
 ## 20.8 Kesin Yasaklar
+
+Ajan sanal işletme ekibi gibi karar desteği verebilir; ancak aşağıdaki işleri yapamaz:
+
+- işletme sahibi adına ürün/ekipman satın almak,
+- para transferi yapmak,
+- sözleşme imzalamak,
+- vergi beyanı vermek,
+- hukuki taahhüt oluşturmak,
+- resmi kuruma başvuru yapmak,
+- sağlık/güvenlik/ruhsat gerektiren konuda kesin onay vermek,
+- finansal, hukuki veya vergi alanında bağlayıcı kesin görüş vermek,
+- işletme sahibinin yerine son karar vermek.
+
+Bu alanlarda ajan yalnızca ön değerlendirme, kontrol listesi, karar notu, görev veya approval kaydı oluşturabilir.
 
 Ajan hiçbir koşulda şu işleri kendi başına yapmamalıdır:
 
@@ -3106,24 +3488,25 @@ Ana prensip:
 <!-- SOURCE: REFERENCES/esnafdigital-360/21-basari-kriterleri.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: GPT Pro degerlendirmeleriyle MVP kabul standardi, P0/P1/P2 ayrimi ve tamamlandi checklist'i netlestirildi.
+> Durum: MVP kabul standardi sanal isletme ekibi / karar destek kanitini icerecek sekilde guncellendi.
 
 ---
 
 # 21. Başarı Kriterleri
 
-İlk aşamada başarı, tüm modüllerin tam otomatik olmasıyla ölçülmemelidir. MVP'nin başarısı, işletme agent modelinin gerçekten çalışıp çalışmadığıyla ölçülmelidir.
+İlk aşamada başarı, tüm modüllerin tam otomatik olmasıyla ölçülmemelidir. MVP'nin başarısı, işletme agent modelinin gerçekten çalışıp çalışmadığı ve işletme sahibine karar destek değeri üretip üretmediğiyle ölçülmelidir.
 
 Nihai kabul cümlesi:
 
-> EsnafDigital 360 MVP başarılı sayılır, eğer tek test işletmesi için gerçek işletme ajanı modeli güvenli, izlenebilir, operasyonel ve müşteriye değer üreten şekilde baştan sona çalıştığını kanıtlarsa.
+> EsnafDigital 360 MVP başarılı sayılır, eğer tek test işletmesi için gerçek işletme ajanı modeli güvenli, izlenebilir, operasyonel, karar destekli ve müşteriye değer üreten şekilde baştan sona çalıştığını kanıtlarsa.
 
-Başarı dört grupta ele alınır:
+Başarı beş grupta ele alınır:
 
 1. teknik başarı,
 2. operasyonel başarı,
-3. güvenlik başarısı,
-4. ürün / müşteri değeri başarısı.
+3. karar destek başarısı,
+4. güvenlik başarısı,
+5. ürün / müşteri değeri başarısı.
 
 ## 21.1 Başarılı MVP Tanımı
 
@@ -3136,12 +3519,13 @@ Tek gerçek veya gerçeğe çok yakın test işletmesi
 → ayrı workspace / agentDir / session kullanır
 → İşletme Ajanı Kaydı panelden izlenir
 → pilot kanaldan gelen mesaj doğru agent'a gider
-→ agent kendi işletme bağlamıyla bilgi toplar
-→ bilgiler profile, göreve, eksik listesine ve ilk çıktılara dönüşür
+→ agent kendi işletme bağlamıyla bilgi ve açık karar toplar
+→ bilgiler profile, göreve, eksik listesine, karar notuna ve ilk çıktılara dönüşür
+→ en az bir departman bazlı karar destek notu oluşur
 → web vitrini taslağı, hizmet/ürün listesi, kısa link/QR hedef taslağı ve kurulum özeti oluşur
 → riskli işlemler otomatik yapılmaz
-→ admin panelden durum, görev, onay, audit ve sonraki adım izlenebilir
-→ işletme sahibi ilk değeri anlar
+→ admin panelden durum, görev, açık karar, onay, audit ve sonraki adım izlenebilir
+→ işletme sahibi ajanın işletmeyi anladığını ve yön gösterdiğini görür
 ```
 
 Sadece çalışan bot, sadece web taslağı veya sadece QR üretimi başarı sayılmaz.
@@ -3174,6 +3558,7 @@ Minimum teknik eşikler:
 | Denylist tool'un başarılı kullanımı | 0 |
 | İzinli tool çağrılarında audit oranı | %100 |
 | Pause / resume testi | en az 1 başarılı test |
+| Karar destek notu | en az 1 |
 | Web preview üretimi | en az 1 |
 | Hizmet listesi kalemi | en az 1, ideal 3 |
 | Shortlink / QR hedef taslağı | en az 1 |
@@ -3184,12 +3569,14 @@ Minimum teknik eşikler:
 MVP operasyonel olarak başarılı sayılmak için şunları göstermelidir:
 
 - ajan temel işletme bilgilerini toplayabiliyor,
+- açık karar veya hedef görünür hale geliyor,
 - eksik bilgiler görünür hale geliyor,
-- toplanan bilgiler işletme dijital profiline bağlanıyor,
+- toplanan bilgiler işletme bilgi/karar profiline bağlanıyor,
+- karar notu görev ve sonraki adımlara bağlanıyor,
 - admin panelde açık görevler görünüyor,
 - onay gerektiren işler otomatik yapılmıyor,
 - operasyon ekibine devredilecek işler ayrılıyor,
-- agent status, setup phase ve output status panelde ayrışıyor,
+- agent status, setup phase, decision status ve output status panelde ayrışıyor,
 - bakım veya güncelleme ihtiyacı görev olarak takip edilebiliyor,
 - agent durumu ve son aktivite panelden izlenebiliyor,
 - her işletme için sıradaki adım okunabiliyor.
@@ -3199,6 +3586,8 @@ Pratik operasyonel eşikler:
 | Metrik | Kabul eşiği |
 |---|---|
 | İşletme profiline yazılan taslak alan | en az 4 alan |
+| Açık karar kaydı | en az 1 |
+| Karar destek notu | en az 1 |
 | Eksik bilgi kaydı | en az 1 anlamlı eksik |
 | Açık görev | gerekiyorsa en az 1 |
 | Medya/fotoğraf talebi | fotoğraf yoksa oluşturulmuş olmalı |
@@ -3206,7 +3595,33 @@ Pratik operasyonel eşikler:
 | Admin panel okunabilirliği | 1 dakika içinde ne oldu / ne eksik / ne sırada anlaşılmalı |
 | Kurulum özeti | oluşmalı veya manuel kaydedilebilmeli |
 
-## 21.4 Güvenlik Başarı Kriterleri
+## 21.4 Karar Destek Başarı Kriterleri
+
+Karar destek başarısı, ajanın işletmeyi sadece dijital profil olarak değil, yönetim bağlamıyla anlayabilmesiyle ölçülür.
+
+MVP karar destek açısından başarılı sayılmak için:
+
+- işletme sahibinden en az bir gerçek karar sorusu alınmalı,
+- ajan kararın hangi alanlara girdiğini sınıflandırmalı,
+- eksik bilgileri kısa ve uygulanabilir şekilde sormalı,
+- en az 3 ilgili departman bakışıyla değerlendirme yapmalı,
+- en az 2 seçenek sunmalı,
+- riskleri ve onay/uzman kontrolü gereken noktaları belirtmeli,
+- net ama bağlayıcı olmayan öneri vermeli,
+- sıradaki adımı görev veya takip maddesi olarak kaydetmelidir.
+
+İlk MVP için örnek departman bakışları:
+
+- genel yönetim,
+- finans,
+- satış/pazarlama,
+- operasyon,
+- satın alma,
+- müşteri hizmetleri.
+
+Ajan karar vermez; karar desteği sağlar.
+
+## 21.5 Güvenlik Başarı Kriterleri
 
 Güvenlik başarısı, yalnızca sorun çıkmamasıyla değil, yanlış/riskli davranışların sistem tarafından engellenebilmesiyle ölçülür.
 
@@ -3220,72 +3635,54 @@ MVP güvenlik açısından başarılı sayılmak için şunları göstermelidir:
 - tool allowlist dışındaki tool'lar kapalı,
 - `exec`, browser, filesystem write, cron, subagent ve dış hesap araçları kapalı,
 - riskli işler onaysız yapılmıyor,
+- satın alma, ödeme, para transferi, sözleşme, vergi, resmi başvuru ve dış hesap değişikliği yapılmıyor,
 - tool çağrıları audit log'a yazılıyor,
 - workspace'e parola, token veya credential yazılmıyor,
 - pause / kill switch çalışıyor,
 - tenant mismatch veya denylist denemesi görünür güvenlik olayı üretiyor.
 
-## 21.5 Ürün / Müşteri Değeri Başarı Kriterleri
+## 21.6 Ürün / Müşteri Değeri Başarı Kriterleri
 
 MVP, müşteri açısından şu değeri göstermelidir:
 
 - işletme sahibi panel öğrenmeden sürece katılabiliyor,
-- mesajlaşma üzerinden bilgi verebiliyor,
+- mesajlaşma üzerinden bilgi ve karar sorusu verebiliyor,
 - ajan kısa, açık ve yönlendirici konuşuyor,
 - işletme sahibi hangi bilgilerin eksik olduğunu görebiliyor,
+- ajan işletmeyi yalnızca site bilgisi olarak değil, iş bağlamıyla anlıyor,
+- karar destek notu işletme sahibine faydalı geliyor,
 - toparlanmış işletme özeti doğru geliyor,
-- web vitrini taslağı işletmeye özel ilk değer üretiyor,
+- web vitrini taslağı işletmeye özel ilk dijital değer üretiyor,
 - hizmet / ürün listesi anlamlı görünüyor,
 - QR/kısa link mantığı anlaşılabiliyor,
-- kurulum özeti tamamlananları, eksikleri ve sıradaki adımı gösteriyor,
+- kurulum özeti tamamlananları, eksikleri, açık kararları ve sıradaki adımı gösteriyor,
 - özel işletme ajanı fikri klasik web/QR işinden ayrışıyor.
 
-Pilot işletme sahibine sorulacak beş kısa soru:
+Pilot işletme sahibine sorulacak kısa sorular:
 
 1. Bu ajan işletmenizi doğru anladı mı?
-2. Verdiğiniz bilgiler görünür bir taslağa dönüştü mü?
+2. Karar notu size gerçekten yardımcı oldu mu?
 3. Eksik kalan şeyler size net geldi mi?
-4. Bu süreci klasik site/QR işinden daha düzenli buldunuz mu?
-5. Bir sonraki adım için EsnafDigital ile devam etmek ister misiniz?
+4. Verdiğiniz bilgiler görünür bir taslağa dönüştü mü?
+5. Bu ajanı tekrar bir işletme kararı için kullanmak ister misiniz?
 
-İlk üç soruda güçlü olumlu cevap alınmadan yeni pilota geçilmemelidir.
+## 21.7 MVP Dışı Sayılacak Eksikler
 
-## 21.6 İlk Dijital Çıktı Başarı Kriterleri
-
-MVP, işletmeye görünür bir ilk değer üretmelidir.
-
-Başarı için en az şunlar oluşmalıdır:
-
-- web vitrini taslağı / preview,
-- arama / mesajlaşma / yol tarifi bağlantıları,
-- dinamik QR / NFC kısa link hedef taslağı,
-- menü / katalog / hizmet listesi için basit yapı,
-- fotoğraf veya içerik toplama akışı,
-- kısa kurulum özeti veya durum raporu.
-
-Bu çıktılar kusursuz olmak zorunda değildir; ama işletmenin dijital operasyonunun başladığını göstermelidir.
-
-## 21.7 Kabul Edilebilir Eksikler
-
-İlk MVP'de aşağıdaki eksikler kabul edilebilir:
+Aşağıdakiler MVP başarısını tek başına düşürmez:
 
 - web vitrininin canlı yayında olmaması,
-- fotoğraf eksikliği,
-- hizmet listesinin tam olmaması,
-- fiyatların eksik olması,
 - QR hedefinin aktif olmaması,
 - NFC / fiziksel materyal olmaması,
-- Google / Instagram / Maps değişikliği yapılmaması,
 - işletmenin kendi WhatsApp hattının bağlanmaması,
 - gelişmiş müşteri paneli olmaması,
 - gelişmiş katalog / sipariş / teklif olmaması,
 - randevu / ödeme / sipariş otomasyonu olmaması,
-- analytics / A-B test / kampanya raporu olmaması,
-- bazı admin işlemlerinin manuel yapılması.
+- gerçek satın alma veya para transferi yapılmaması,
+- hukuk/vergi/ruhsat konusunda kesin uzman görüşü verilmemesi.
 
-Bu eksikler ancak görev, eksik veya karar olarak görünürse kabul edilebilir.
+Bunlar MVP'nin bilinçli sınırlarıdır.
 
-## 21.8 Bloklayıcı Hatalar
+## 21.8 Hata Sınıfları
 
 ### P0 — Kesin Bloklayıcı
 
@@ -3294,156 +3691,113 @@ P0 hata varsa MVP tamamlanmış sayılmaz ve yeni pilota geçilmez.
 P0 örnekleri:
 
 - mesaj yanlış işletme agent'ına gidiyor,
-- agent başka işletme verisini okuyabiliyor,
-- agent EsnafDigital ana workspace veya secret alanına erişebiliyor,
-- denylist tool başarılı çalışıyor,
+- agent başka işletme verisi görüyor,
+- tenant mismatch,
+- denylist tool çalışıyor,
 - agent web yayınlıyor veya QR hedefini onaysız değiştiriyor,
-- dış hesapta onaysız işlem yapılabiliyor,
-- workspace'e secret/token/parola yazılıyor,
-- API body'deki `business_id` değerine güveniyor,
-- audit kaydı oluşmadan tool işlemi yapılabiliyor,
+- agent satın alma, ödeme, para transferi, sözleşme veya resmi işlem yapmaya çalışıyor,
+- agent hukuki/finansal/vergi/ruhsat alanında kesin ve bağlayıcı karar veriyor,
+- audit log yok,
 - kill switch / pause çalışmıyor,
-- gerçek OpenClaw agent oluşmuyor,
-- ayrı workspace / agentDir / session yok,
-- İşletme Ajanı Kaydı panelde izlenemiyor,
-- pilot kanal routing çalışmıyor,
-- agent kendi işletme bağlamıyla cevap veremiyor,
-- toplanan bilgi profile/göreve/çıktıya dönüşmüyor,
+- secret workspace'e yazılıyor,
+- İşletme Ajanı Kaydı agent'ı izleyemiyor,
 - riskli işler approval'a düşmüyor.
 
-### P1 — Bir Sonraki Pilottan Önce Düzeltilmesi Gereken Ciddi Sorun
+### P1 — Ciddi ama Düzeltilebilir
 
-P1 hatalar çekirdeği tamamen bozmaz; ancak yeni pilottan önce sahipli düzeltme planı ister.
+P1 hata ikinci pilottan önce net planla çözülmelidir.
 
 P1 örnekleri:
 
-- agent çok uzun veya karmaşık sorular soruyor,
-- ilk değer çok geç oluşuyor,
-- web preview çok zayıf ama üretilebiliyor,
-- admin panel durumu gösteriyor ama dağınık,
-- manuel operasyon maliyeti beklenenden yüksek,
-- eksik/görev ayrımı karışıyor,
+- karar destek notu fazla genel kalıyor,
+- agent çok fazla soru soruyor,
+- departman bakışları işletmeye özgü değil,
+- web taslağı çok zayıf,
+- admin panelde sıradaki adım zor okunuyor,
 - approval ile task karışıyor,
-- kurulum özeti eksik kalıyor.
+- eksik bilgi modeli yetersiz,
+- operasyon işi manuel olarak çok ağır.
 
-### P2 — Kabul Edilebilir Küçük Eksik
+### P2 — Küçük İyileştirme
 
-P2 eksikler MVP içinde kabul edilebilir.
+P2 hata pilotu durdurmayabilir.
 
 P2 örnekleri:
 
-- preview tasarımı estetik olarak zayıf,
-- fotoğraf yok ama medya talebi var,
-- hizmet listesi 1 kalemle başladı,
+- metin tonu iyileştirilebilir,
 - QR görseli üretildi ama basılmadı,
-- setup summary manuel düzeltme istedi,
-- bazı admin aksiyonları manuel.
+- ek fotoğraf eksik,
+- karar notu formatı daha okunabilir yapılabilir,
+- bazı alanlar manuel dolduruldu,
+- paket dili netleşmeye ihtiyaç duyuyor.
 
-## 21.9 Tamamlandı Checklist'i
+## 21.9 MVP Tamamlandı Checklist
 
-### Teknik Çekirdek
+Teknik:
 
 - [ ] Test işletmesi oluşturuldu.
 - [ ] Gerçek OpenClaw İşletme Ajanı oluşturuldu.
-- [ ] Ayrı workspace oluşturuldu.
-- [ ] Ayrı agentDir/session kullanıldı.
-- [ ] İşletme Ajanı Kaydı panelde görünüyor.
-- [ ] Pilot kanal binding yapıldı.
-- [ ] Yetkili kullanıcıdan gelen mesaj doğru agent'a gitti.
-- [ ] Yetkisiz/yanlış kullanıcı gerçek agent'a ulaşamadı.
-- [ ] Agent kendi işletme bağlamıyla cevap verdi.
-- [ ] Agent yalnız izinli EsnafDigital API tool'larını kullandı.
+- [ ] Ayrı workspace oluştu.
+- [ ] Ayrı agentDir ve session store kullanıldı.
+- [ ] İşletme Ajanı Kaydı panelde göründü.
+- [ ] Pilot mesaj doğru agent'a gitti.
+- [ ] Yanlış/yetkisiz sender engellendi.
 
-### Bilgi Toplama ve Operasyon
+Operasyon:
 
-- [ ] Agent işletme adını/gösterim adını netleştirdi.
-- [ ] Kısa işletme açıklaması aldı.
-- [ ] İletişim bilgisi aldı.
-- [ ] En az 1 hizmet/ürün/kategori aldı.
-- [ ] Bilgiler profile taslak olarak yazıldı.
-- [ ] Eksik bilgiler listelendi.
-- [ ] Gerekli görevler oluşturuldu.
-- [ ] Fotoğraf/medya eksikse medya talebi açıldı.
-- [ ] Kurulum özeti oluşturuldu.
+- [ ] İşletme bilgi ve karar profiline en az 4 alan yazıldı.
+- [ ] En az 1 açık karar kaydı oluştu.
+- [ ] En az 1 karar destek notu oluştu.
+- [ ] En az 1 eksik bilgi kaydı oluştu.
+- [ ] En az 1 görev veya sonraki adım oluştu.
+- [ ] Kurulum özeti oluştu.
 
-### İlk Görünür Çıktılar
+Dijital çıktı:
 
-- [ ] Web vitrini taslağı/preview oluştu.
-- [ ] Arama/mesajlaşma/yol tarifi bağlantıları taslaklandı.
-- [ ] Basit hizmet/ürün listesi oluştu.
+- [ ] Web vitrini taslağı oluştu.
+- [ ] En az 1 hizmet / ürün / kategori kalemi oluştu.
 - [ ] Dinamik kısa link / QR hedef taslağı oluştu.
-- [ ] Eksik medya/fotoğraf durumu görünür.
-- [ ] Müşteri ilk görünür değeri görebildi.
+- [ ] Fotoğraf yoksa medya talebi oluştu.
 
-### Güvenlik ve Onay
+Güvenlik:
 
+- [ ] Tool allowlist çalıştı.
+- [ ] Denylist tool çalışmadı.
 - [ ] API tenant scope'u Agent Kaydı üzerinden doğrulandı.
-- [ ] Body `business_id` mismatch reddedildi veya test edildi.
-- [ ] Denylist tool'lar kapalı.
-- [ ] Riskli işlem otomatik yapılmadı.
+- [ ] Audit log oluştu.
 - [ ] Riskli istek `approval_request` olarak oluştu.
-- [ ] Tool çağrıları audit log'a yazıldı.
+- [ ] Agent onaysız public/dış işlem yapmadı.
 - [ ] Pause / kill switch test edildi.
-- [ ] Workspace'e secret yazılmadı.
 
-### Admin Panel
+Müşteri değeri:
 
-- [ ] Project OS sıcak işleri gösteriyor.
-- [ ] Businesses listesi agent/setup/output durumlarını gösteriyor.
-- [ ] Business Detail blokları okunabilir.
-- [ ] İşletme Ajanı Kaydı kartı görünüyor.
-- [ ] Görevler/eksikler/onaylar/audit ayrışıyor.
-- [ ] İlk dijital çıktılar aynı blokta izleniyor.
-- [ ] Sıradaki adım panelden anlaşılabiliyor.
+- [ ] İşletme sahibi ajanın işletmesini doğru anladığını söyledi veya doğruladı.
+- [ ] Karar destek notu anlaşılır bulundu.
+- [ ] Eksik ve sıradaki adım anlaşıldı.
+- [ ] İlk dijital taslaklar değerli bulundu.
+- [ ] “Bu ajanı tekrar kullanırım” sinyali alındı.
 
-### Müşteri Değeri
+## 21.10 MVP Sonuç Kararı
 
-- [ ] İşletme sahibi panel kullanmadan bilgi verebildi.
-- [ ] Agent soruları kısa ve anlaşılır sordu.
-- [ ] İşletme sahibi eksikleri anlayabildi.
-- [ ] Web/hizmet/QR taslaklarını değerli buldu.
-- [ ] Özel işletme ajanı fikri anlaşıldı.
-- [ ] Müşteri bir sonraki adıma istekli.
+MVP sonunda karar şu seçeneklerden biri olmalıdır:
 
-## 21.10 Pilot Sonu Karar Seçenekleri
-
-Pilot sonunda tek karar `başarılı / başarısız` olmamalıdır.
-
-Karar seçenekleri:
-
-- **Geçti — aynı kapsamla ikinci pilota geç**
-- **Kısmi geçti — önce küçük düzeltme yap**
-- **Teknik geçti, müşteri değeri zayıf**
-- **Müşteri değeri var, güvenlik eksik**
-- **Operasyon çok ağır**
-- **Başarısız — çekirdek yeniden tasarlanmalı**
-
-İlk pilot sonunda hedef, geniş üretime geçmek değil; aynı sınırlı MVP kapsamıyla ikinci pilot işletmeye geçilip geçilemeyeceğine karar vermektir.
-
-## 21.11 Bir Sonraki Pilota Geçiş Kriteri
-
-Aynı kapsamla ikinci pilot müşteriye geçmek için:
-
-- P0 bloklayıcı hata olmamalı,
-- tenant/security ihlali olmamalı,
-- yanlış routing olmamalı,
-- onaysız canlı/riskli işlem olmamalı,
-- kritik tool'larda audit coverage tam olmalı,
-- web/hizmet/shortlink taslakları oluşmuş olmalı,
-- admin panelden durum okunabilir olmalı,
-- müşteri değeri net pozitif olmalı,
-- manuel operasyon görünür ve kabul edilebilir olmalı,
-- P1 maddeler sahipli ve sınırlı düzeltme planına bağlanmış olmalı.
+1. **Geçti:** Aynı çekirdekle ikinci pilota geçilebilir.
+2. **Kısmi geçti:** Küçük düzeltmelerden sonra ikinci pilot denenebilir.
+3. **Teknik geçti ama karar destek değeri zayıf:** Sanal işletme ekibi davranışı ve bilgi modeli düzeltilir.
+4. **Teknik geçti ama müşteri değeri zayıf:** Akış, çıktı ve konumlandırma düzeltilir.
+5. **Müşteri değeri var ama güvenlik zayıf:** Büyütme durur, güvenlik düzeltilir.
+6. **Operasyon çok ağır:** Kapsam, paket veya fiyat yeniden ele alınır.
+7. **Başarısız:** Ürün çekirdeği yeniden tasarlanır.
 
 Ana prensip:
 
-> Başarı, her şeyi otomatik yapmak değil; gerçek işletme ajanı modelinin güvenli, izlenebilir, operasyonel ve müşteriye değer üreten şekilde çalıştığını kanıtlamaktır.
+> P0 bloklayıcı hata olmamalı, tenant/security ihlali olmamalı, karar destek değeri görünmeli, işletme sahibi ilk değeri anlamalı ve sistem güvenli şekilde izlenebilir olmalıdır.
 
 
 <!-- SOURCE: REFERENCES/esnafdigital-360/22-stratejik-riskler.md -->
 
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; P0/P1/P2, tenant guvenligi ve pilot gecis riskleri eklendi.
+> Durum: stratejik riskler sanal isletme ekibi / karar destek yonuyle guncellendi.
 
 ---
 
@@ -3456,44 +3810,78 @@ Bu nedenle risk analizi:
 - her önemli karar sonrası güncellenmeli,
 - ilk pilotlardan sonra tekrar ele alınmalı,
 - GPT Pro ile ayrıca kontrol edilmeli,
-- teknik, operasyonel ve ticari riskler ayrı ayrı değerlendirilmelidir.
+- teknik, operasyonel, güvenlik, karar destek ve ticari riskler ayrı ayrı değerlendirilmelidir.
 
-## 22.1 Kapsam Şişmesi
+## 22.1 Ürünün Web Yapan Asistana Daralması
 
 Risk:
 
-Tüm modülleri aynı anda kurmaya veya otomatikleştirmeye çalışmak projeyi yavaşlatır.
+Sanal işletme ekibi vizyonu unutulup ürün sadece web vitrini, QR veya katalog asistanı gibi algılanır.
 
 Belirti:
 
-- çok fazla ekran açılması,
-- her modül için ayrı sistem tasarlama isteği,
-- ilk agent/workspace doğrulaması yapılmadan web, QR, katalog, WhatsApp, randevu, muhasebe gibi alanlara yayılmak,
-- web vitrini, hizmet listesi ve QR'ı taslak yerine tam ürün gibi ele almak.
+- satış dilinde web/QR/katalog ana ürün gibi görünür,
+- karar destek notu, açık kararlar ve departman bakışı zayıf kalır,
+- agent sadece bilgi toplayıp web taslağı üretir,
+- işletme sahibi ajana yönetim sorusu sormaz.
 
 Kontrol:
 
-> Önce tek işletme için gerçek agent/workspace çalışsın. Sonra modüller sırayla eklenir.
+> Web vitrini, QR ve katalog ana ürün değil; sanal işletme ekibinin ilk dijital çıktı modülleridir.
 
-## 22.2 Yanlış Hedef Segment
+## 22.2 Departmanların Yerine Geçme İddiası
 
 Risk:
 
-Ürün, özel işletme ajanından gerçek verim alamayacak işletmelere anlatılırsa değer anlaşılmaz.
+Ajan finans müdürü, avukat, muhasebeci, satın almacı veya işletme yöneticisi yerine geçiyor gibi anlatılırsa hukuki, ticari ve güven riski doğar.
+
+Belirti:
+
+- ajan kesin hukuki/finansal/vergi görüşü verir,
+- satın alma veya ödeme yapar,
+- sözleşme, resmi başvuru veya ruhsat konusunda bağlayıcı karar verir,
+- işletme sahibi adına taahhüt oluşturur.
+
+Kontrol:
+
+> Ajan departman bakış açılarıyla karar desteği verir; hukuki/fiili yetki devralmaz. Son karar işletme sahibindedir; uzman kontrolü gereken noktalar açıkça belirtilir.
+
+## 22.3 Kapsam Şişmesi
+
+Risk:
+
+Tüm departman rolleri, tüm modüller ve tüm otomasyonlar aynı anda kurulmaya çalışılırsa proje yavaşlar.
+
+Belirti:
+
+- ilk MVP'de 15 departman rolü zorunlu tutulur,
+- her rol ayrı agent gibi tasarlanır,
+- çok fazla ekran açılır,
+- ilk agent/workspace ve karar destek doğrulaması yapılmadan web, QR, katalog, WhatsApp, randevu, muhasebe gibi alanlara yayılınır.
+
+Kontrol:
+
+> İlk MVP'de tek işletme ajanı içinde 6 rol yeterlidir: genel yönetim, finans, satış/pazarlama, operasyon, satın alma, müşteri hizmetleri.
+
+## 22.4 Yanlış Hedef Segment
+
+Risk:
+
+Ürün, özel işletme ajanından ve karar destekten gerçek verim alamayacak işletmelere anlatılırsa değer anlaşılmaz.
 
 Belirti:
 
 - müşteri sadece ucuz web sitesi ister,
 - bilgi paylaşmaya istekli değildir,
 - mesajlaşma üzerinden ilerlemeyi kullanmaz,
-- dijital operasyon kurma veya büyütme ihtiyacı yoktur,
+- karar desteği istemez; sadece otomatik işlem bekler,
 - onaylı ve kontrollü ilerlemeyi “neden otomatik yapmıyor?” diye sorun görür.
 
 Kontrol:
 
-> Hedef, dijital operasyonunu kurmak veya büyütmek isteyen ve ajandan gerçek fayda görebilecek KOBİ'lerdir. Sektör listesi ve paket dili ayrıca netleştirilmelidir.
+> Hedef, dijital operasyonunu ve işletme kararlarını daha sistemli yönetmek isteyen KOBİ'lerdir. Sektör listesi ve paket dili ayrıca netleştirilmelidir.
 
-## 22.3 Premium Vaat ile MVP Gerçeği Arasındaki Gerilim
+## 22.5 Premium Vaat ile MVP Gerçeği Arasındaki Gerilim
 
 Risk:
 
@@ -3504,13 +3892,13 @@ Belirti:
 - müşteri ajanın her şeyi otomatik yapacağını sanır,
 - dış hesaplarda anında işlem bekler,
 - randevu, ödeme, sipariş, paylaşım gibi riskli işlerde otomatiklik bekler,
-- taslak/preview çıktılarını “eksik teslimat” gibi algılar.
+- taslak/preview çıktıları veya karar destek notlarını “eksik teslimat” gibi algılar.
 
 Kontrol:
 
-> Müşteriye sonuç anlatılır; ancak ilk çıktıların taslak/preview olduğu ve riskli işlemlerin onayla ilerlediği baştan net tutulur.
+> Müşteriye sonuç anlatılır; ancak ilk çıktıların karar destek/taslak/preview olduğu ve riskli işlemlerin onayla ilerlediği baştan net tutulur.
 
-## 22.4 Agent / Workspace Çoğalmasının Karmaşası
+## 22.6 Agent / Workspace Çoğalmasının Karmaşası
 
 Risk:
 
@@ -3528,7 +3916,7 @@ Kontrol:
 
 > İyi başlangıç şablonu, otomatik kurulum, şablon sürümü takibi, ayrı workspace/agentDir/session ve sıkı yetki sınırı zorunludur.
 
-## 22.5 Güvenlik ve İzolasyon Hatası
+## 22.7 Güvenlik ve İzolasyon Hatası
 
 Risk:
 
@@ -3550,7 +3938,26 @@ Kontrol:
 
 > Güvenlik sınırı workspace değil; kanal allowlist + explicit binding + sandbox/tool policy + EsnafDigital API tenant kontrolü + audit/onay + kill switch birleşimidir.
 
-## 22.6 Tek Gateway'in Yanlış Yorumlanması
+## 22.8 Riskli İşlem Yetkisi Verilmesi
+
+Risk:
+
+Karar destek ajanı zamanla satın alma, ödeme, sözleşme, resmi başvuru veya dış hesap işlemlerini otomatik yapmaya başlarsa yüksek risk doğar.
+
+Belirti:
+
+- agent ürün/ekipman satın alır,
+- para transferi yapar,
+- sözleşme imzalar,
+- vergi beyanı veya resmi başvuru yapar,
+- fiyat/ödeme/ticari taahhüt verir,
+- QR hedefini veya web yayınını onaysız değiştirir.
+
+Kontrol:
+
+> İlk MVP'de agent ön değerlendirme, karar notu, taslak, görev ve approval üretir; yüksek etkili işlem yapmaz.
+
+## 22.9 Tek Gateway'in Yanlış Yorumlanması
 
 Risk:
 
@@ -3567,7 +3974,7 @@ Kontrol:
 
 > Tek test işletmesi için tek Gateway kullanılabilir; gerçek müşteri, dış hesap, public etki ve yüksek riskli tool arttıkça ayrı OS user, ayrı Gateway veya ayrı VPS eşikleri yeniden değerlendirilir.
 
-## 22.7 Tek Kanala Bağımlılık
+## 22.10 Tek Kanala Bağımlılık
 
 Risk:
 
@@ -3584,7 +3991,7 @@ Kontrol:
 
 > Kanal sadece giriş/çıkış kapısıdır. Ajan mantığı kanal bağımsız kalmalıdır. İlk MVP pilot kanal ile doğrulanabilir.
 
-## 22.8 OpenClaw'ın Ana Uygulamaya Gömülmesi
+## 22.11 OpenClaw'ın Ana Uygulamaya Gömülmesi
 
 Risk:
 
@@ -3601,7 +4008,7 @@ Kontrol:
 
 > OpenClaw ayrı runtime katmanı olarak kalmalıdır. Başta aynı VPS olabilir; ancak mantıksal ayrım ve API/tool sınırı korunmalıdır.
 
-## 22.9 Manuel Operasyonun Gizli Maliyeti
+## 22.12 Manuel Operasyonun Gizli Maliyeti
 
 Risk:
 
@@ -3609,7 +4016,7 @@ MVP yarı otomatik ilerlerken operasyon yükü görünmez kalırsa paket fiyatı
 
 Belirti:
 
-- agent bilgi toplar ama operasyon işleri birikir,
+- agent karar notu üretir ama operasyon işleri birikir,
 - fiziksel materyal, domain, sosyal medya, dış hesap işleri çok zaman alır,
 - bakım paketi kârlı olmaktan çıkar,
 - her iş kurucu müdahalesi gerektirir.
@@ -3618,7 +4025,7 @@ Kontrol:
 
 > Her manuel iş görev olarak izlenmeli; kurulum ve bakım maliyeti zamanla ölçülmelidir.
 
-## 22.10 Bağlam Dosyalarının Dağılması
+## 22.13 Bağlam Dosyalarının Dağılması
 
 Risk:
 
@@ -3627,6 +4034,7 @@ Her işletme agent'ının kendi dosyaları olacağı için bağlam hijyeni bozul
 Belirti:
 
 - AGENTS/SOUL/TOOLS/MEMORY/BUSINESS dosyaları her işletmede farklı mantığa kayar,
+- departman rolleri dosyadan dosyaya tutarsızlaşır,
 - tekrar eden veya çelişen talimatlar çoğalır,
 - güvenlik sınırları dosyadan dosyaya değişir,
 - secret veya raw transcript workspace'e yazılır.
@@ -3635,7 +4043,7 @@ Kontrol:
 
 > Workspace şablonu standart olmalı; işletmeye özel değişiklikler sınırlı ve izlenebilir yapılmalıdır. Secret workspace'e yazılmamalıdır.
 
-## 22.11 Yanlış Yapay Zeka Algısı
+## 22.14 Yanlış Yapay Zeka Algısı
 
 Risk:
 
@@ -3650,16 +4058,17 @@ Belirti:
 
 Kontrol:
 
-> Ürün, her şeyi otomatik yapan yapay zeka değil; işletmenin dijital operasyonunu mesajlaşma üzerinden sistemli ilerleten özel işletme ajanı olarak anlatılmalıdır.
+> Ürün, her şeyi otomatik yapan yapay zeka değil; işletmenin kararlarını ve dijital operasyonunu mesajlaşma üzerinden sistemli ilerleten sanal işletme ekibi olarak anlatılmalıdır.
 
-## 22.12 MVP Kabul Standardının Atlanması
+## 22.15 MVP Kabul Standardının Atlanması
 
 Risk:
 
-Bot cevap verdiği veya web taslağı çıktığı için MVP tamamlandı sanılır.
+Bot cevap verdiği, web taslağı çıktığı veya QR üretildiği için MVP tamamlandı sanılır.
 
 Belirti:
 
+- karar destek kanıtı alınmaz,
 - P0 güvenlik hataları varken yeni pilota geçilir,
 - tenant mismatch veya yanlış routing önemsenmez,
 - audit ve approval eksik kalır,
@@ -3668,15 +4077,16 @@ Belirti:
 
 Kontrol:
 
-> Teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz. P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmez.
+> Teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz. P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmez.
 
-## 22.13 Risk Analizinin Güncellenmesi
+## 22.16 Risk Analizinin Güncellenmesi
 
 Bu bölüm proje ilerledikçe güncellenmelidir.
 
 Özellikle şu anlarda tekrar ele alınmalıdır:
 
 - ilk test işletmesi agent'ı oluşturulduğunda,
+- ilk karar destek notu üretildiğinde,
 - ilk web vitrini / QR / katalog çıktısı üretildiğinde,
 - ilk müşteri veya pilot işletme denendiğinde,
 - WhatsApp pilot hattı devreye alındığında,
@@ -3687,10 +4097,322 @@ Bu bölüm proje ilerledikçe güncellenmelidir.
 GPT Pro'ya ayrıca şu sorulmalıdır:
 
 - Bu risk listesinde eksik kritik risk var mı?
-- Hangi riskler MVP'de en önce kontrol edilmeli?
+- Sanal işletme ekibi konumu için hangi hukuki/operasyonel sınırlar eklenmeli?
+- Hangi karar destek rolleri MVP için fazla geniş kalıyor?
 - Hangi riskler ürünü/paketi yeniden konumlandırmayı gerektirir?
 - Agent/workspace çoğalması için hangi güvenlik ve operasyon kontrol noktaları eklenmeli?
 
 Ana prensip:
 
-> Risk analizi, belgeyi tamamlamak için değil; proje büyüdükçe yön kaymasını ve güvenlik hatalarını erken görmek için kullanılmalıdır.
+> Risk analizi, belgeyi tamamlamak için değil; proje büyüdükçe yön kaymasını, yetki aşımını ve güvenlik hatalarını erken görmek için kullanılmalıdır.
+
+
+<!-- SOURCE: REFERENCES/esnafdigital-360/23-sanal-isletme-ekibi-ve-karar-destek.md -->
+
+> Aktif 360 bolum dosyasi.
+> Durum: sanal isletme ekibi / karar destek ana karar dosyasi.
+
+---
+
+# 23. Sanal İşletme Ekibi ve Karar Destek
+
+EsnafDigital 360 ajanı yalnızca dijital varlık oluşturan bir yardımcı değildir.
+
+Ajan, işletme sahibinin CEO olduğu bir yapıda sanal işletme ekibi gibi çalışır.
+
+## 23.1 Ana Fikir
+
+Küçük ve orta ölçekli işletmelerde çoğu zaman CEO, finans müdürü, satın almacı, pazarlamacı, müşteri temsilcisi, operasyon sorumlusu ve proje yöneticisi aynı kişidir: işletme sahibi.
+
+EsnafDigital 360 burada şu değeri üretir:
+
+```text
+İşletme sahibi = CEO / son karar verici
+Ajan = sanal işletme ekibi / karar destek sistemi
+```
+
+Ajan:
+
+- işletmeyi tanır,
+- işletmenin hedeflerini ve açık kararlarını anlar,
+- departman bakış açılarıyla analiz yapar,
+- karar destek notları üretir,
+- riskleri ve eksikleri görünür hale getirir,
+- görev ve takip listesi oluşturur,
+- dijital çıktıları bu işletme bilgisinden besler,
+- dış dünyayı etkileyen işlemleri onay olmadan yapmaz.
+
+Ajan gerçek departmanların hukuki veya fiili yetkisini devralmaz. Ajan karar vermez; karar desteği sağlar. Son karar işletme sahibindedir.
+
+## 23.2 Tek Ajan, Çoklu Departman Bakışı
+
+İlk aşamada her departman için ayrı agent kurulmaz. Kullanıcı tek işletme ajanıyla konuşur.
+
+İşletme sahibi şunu sorabilir:
+
+```text
+Bu ekipmanı almalı mıyım?
+```
+
+Ajan içeride şu açılardan düşünür:
+
+```text
+Finans açısından mantıklı mı?
+Operasyon açısından gerekli mi?
+Satın alma açısından doğru ürün mü?
+Pazarlama/satış açısından gelir artırır mı?
+Personel açısından kullanılabilir mi?
+Müşteri deneyimini iyileştirir mi?
+Risk veya uzman kontrolü gerekir mi?
+```
+
+Sonra işletme sahibine tek, anlaşılır ve uygulanabilir bir karar notu verir.
+
+## 23.3 MVP İçin İlk 6 Rol
+
+İlk MVP'de 15 departmanla başlamak gerekmez.
+
+Yeterli ilk roller:
+
+1. **Genel Yönetim / CEO Danışmanı**
+   Strateji, hedef, öncelik, karar özeti ve yön bütünlüğünü değerlendirir.
+
+2. **Finans**
+   Bütçe, maliyet, nakit akışı, geri dönüş süresi ve finansal riski değerlendirir.
+
+3. **Satış ve Pazarlama**
+   Gelir etkisi, müşteri kazanımı, kampanya, marka dili, web vitrini ve görünürlük etkisini değerlendirir.
+
+4. **Operasyon**
+   Günlük işleyiş, kapasite, zaman, ekip, darboğaz ve uygulanabilirliği değerlendirir.
+
+5. **Satın Alma**
+   Ekipman, ürün, tedarikçi, teklif, garanti, servis, yedek parça ve toplam sahip olma maliyetini değerlendirir.
+
+6. **Müşteri Hizmetleri**
+   Müşteri memnuniyeti, şikayet, yorum, iade, destek ve müşteri deneyimi etkisini değerlendirir.
+
+İleri aşamada şu roller eklenebilir:
+
+- İK,
+- hukuk / uyum,
+- BT / dijital,
+- kalite,
+- proje yönetimi,
+- kurumsal iletişim,
+- Ar-Ge / ürün geliştirme.
+
+## 23.4 Küçük İşletme İçin Sade Sunum
+
+Küçük işletmeye 15 departman dili ağır gelebilir. Müşteriye daha sade anlatım:
+
+```text
+İşletmenizi 6 ana başlıkta birlikte yöneteceğiz:
+
+1. Para
+2. Müşteri
+3. Satış
+4. Operasyon
+5. Satın Alma
+6. Dijital Görünürlük
+```
+
+Arka planda eşleme:
+
+```text
+Para = Finans + muhasebe hatırlatmaları
+Müşteri = müşteri hizmetleri + memnuniyet + yorumlar
+Satış = satış + teklif + fiyatlandırma etkisi
+Operasyon = günlük işleyiş + kapasite + kalite
+Satın Alma = tedarik + ekipman + stok/lojistik etkisi
+Dijital Görünürlük = web + QR + sosyal medya + Google
+```
+
+## 23.5 Karar Destek Akışı
+
+Ajan, işletme sahibinin karar sorularını aşağıdaki akışla ele alır.
+
+### 1. Soruyu sınıflandır
+
+Karar hangi alanlara giriyor?
+
+- finans,
+- satın alma,
+- operasyon,
+- pazarlama,
+- satış,
+- müşteri hizmetleri,
+- insan kaynakları,
+- hukuk/uyum,
+- teknoloji,
+- kalite.
+
+### 2. Eksik bilgileri belirle
+
+Ajan karar vermek için gerekli bilgileri listeler. İlk turda en fazla 1-3 soru sormalıdır.
+
+### 3. Departman bazlı analiz yap
+
+Her ilgili departman rolü kısa değerlendirme üretir.
+
+### 4. Seçenekleri çıkar
+
+Ajan en az 2-3 seçenek sunabilir:
+
+- düşük maliyetli seçenek,
+- dengeli seçenek,
+- büyümeye uygun seçenek.
+
+### 5. Riskleri belirt
+
+Ajan finansal, operasyonel, hukuki, teknik ve müşteri deneyimi risklerini belirtir.
+
+### 6. Öneri üret
+
+Ajan net ama bağlayıcı olmayan bir öneri verir.
+
+### 7. Onay ve görev akışı oluştur
+
+Riskli veya dış dünyayı etkileyen işler için işletme sahibinden onay ister; gerekiyorsa operasyon görevi veya uzman kontrolü notu açar.
+
+## 23.6 Standart Karar Notu Formatı
+
+Ciddi işletme kararlarında önerilen format:
+
+```text
+1. Kararın konusu
+2. İşletmenin mevcut durumu
+3. Eksik bilgiler
+4. Departman bazlı değerlendirme
+5. Seçenekler
+6. Riskler
+7. Maliyet/fayda değerlendirmesi
+8. Öneri
+9. Onay / uzman kontrolü gerektiren noktalar
+10. Sıradaki adımlar
+```
+
+## 23.7 Satın Alma ve Ekipman Danışmanlığı
+
+Ajan, işletme sahibinin ekipman, yazılım, araç, cihaz veya hizmet satın alma kararlarında danışmanlık yapabilir.
+
+Ajanın değerlendireceği kriterler:
+
+- işletmenin ihtiyacı,
+- kullanım hacmi,
+- bütçe,
+- toplam sahip olma maliyeti,
+- bakım maliyeti,
+- garanti,
+- servis ağı,
+- yedek parça,
+- personel eğitimi,
+- alan ve altyapı uygunluğu,
+- gelir artırma potansiyeli,
+- maliyet azaltma potansiyeli,
+- müşteri deneyimi etkisi,
+- hukuki/ruhsat/sertifika ihtiyacı,
+- alternatif seçenekler.
+
+Ajan satın alma işlemini işletme sahibi adına yapmaz. Ajan teklif isteyebilir, karşılaştırma tablosu hazırlayabilir, kontrol listesi oluşturabilir ve öneri sunabilir. Satın alma, ödeme ve sözleşme kararı işletme sahibindedir.
+
+## 23.8 İşletme Organizasyon Profili
+
+Ajanın hafızasında yalnızca işletme adı, adres, telefon ve web vitrini bilgisi olmamalıdır. Ajan işletmenin iç yapısını da bilmelidir.
+
+Örnek profil başlıkları:
+
+```text
+İşletme Sahibi / CEO
+- Ad
+- Karar yetkisi
+- Öncelikleri
+- Risk toleransı
+- Büyüme hedefi
+
+Finans Durumu
+- Ortalama aylık ciro veya güvenli aralık
+- Ortalama giderler
+- Yatırım bütçesi
+- Nakit akışı hassasiyeti
+- Borç/taksit yaklaşımı
+
+Satış Durumu
+- Ana gelir kaynakları
+- En çok satan ürün/hizmetler
+- En karlı ürün/hizmetler
+- Teklif süreci
+- Satış kanalları
+
+Pazarlama Durumu
+- Hedef müşteri
+- Sosyal medya
+- Web vitrini
+- Google/Maps
+- Kampanyalar
+- Marka dili
+
+Operasyon Durumu
+- Günlük müşteri sayısı
+- Yoğun saatler
+- Personel sayısı
+- Mevcut ekipmanlar
+- Darboğazlar
+- Kapasite sınırları
+
+Satın Alma Durumu
+- Düzenli tedarikçiler
+- Güvenilir markalar
+- Alınması planlanan ekipmanlar
+- Servis ağı beklentisi
+- Yeni/ikinci el tercihi
+
+Müşteri Hizmetleri
+- Sık gelen şikayetler
+- Sık sorulan sorular
+- İade/garanti süreçleri
+- Müşteri memnuniyeti notları
+
+Açık Kararlar
+- Bekleyen yatırım kararları
+- Bekleyen satın almalar
+- Onay bekleyen işler
+- Ertelenen kararlar
+```
+
+Bu bilgilerle ajan gerçekten işletmeyi tanır.
+
+## 23.9 Kesin Sınırlar
+
+Ajan “departman bakışıyla düşünür” ama şu işlerin yerine geçmez:
+
+- ürün satın alma,
+- para transferi,
+- sözleşme imzalama,
+- vergi beyanı verme,
+- hukuki taahhüt oluşturma,
+- resmi kuruma başvuru yapma,
+- sağlık/güvenlik/ruhsat gerektiren konuda kesin onay verme,
+- işletme sahibinin yerine son karar verme.
+
+Bu konularda ajan şu çizgide kalır:
+
+> Bu karar için ön değerlendirme yaptım. Satın alma/sözleşme/resmi işlem öncesinde işletme sahibi onayı ve gerekiyorsa uzman kontrolü gerekir.
+
+## 23.10 Ürün Cümlesi
+
+Uzun versiyon:
+
+> EsnafDigital 360, işletme sahibinin CEO olduğu, yapay zekanın ise sanal yönetim ekibi gibi çalıştığı işletme ajanı sistemidir. Ajan işletmeyi tanır, dijital varlığını kurar, departman bakış açılarıyla kararları analiz eder, satın alma ve yatırım önerileri sunar, görevleri takip eder ve riskli işlemleri onayla ilerletir.
+
+Kısa versiyon:
+
+> İşletmenizi bilen, dijital işlerinizi yürüten ve yönetim kararlarınızda size departman departman danışmanlık yapan yapay zeka işletme ajanı.
+
+Satış odaklı versiyon:
+
+> Tek başınıza işletme yönetmeyin. Finans, pazarlama, satın alma, operasyon ve müşteri yönetimi için yanınızda çalışan sanal işletme ekibiniz olsun.
+
+Ana prensip:
+
+> EsnafDigital 360'ın gerçek vizyonu web yapan ajan değil; işletme sahibinin yanında çalışan sanal işletme ekibidir.

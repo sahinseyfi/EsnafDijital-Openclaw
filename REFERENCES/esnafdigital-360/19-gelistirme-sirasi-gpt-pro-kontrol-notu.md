@@ -21,7 +21,7 @@ Sonuçlar ilgili aktif bölümlere işlendi:
 - Agent ilk MVP'de yalnızca sınırlı EsnafDigital API tool'ları kullanmalıdır.
 - Web vitrini, hizmet listesi ve QR/kısa link ilk MVP'de taslak/preview seviyesinde olmalıdır.
 - Admin MVP, `Project OS / Businesses / Business Detail` üçlüsünde kalmalıdır.
-- MVP kabul standardı: teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz.
+- MVP kabul standardı: teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtları birlikte alınmadan MVP tamamlanmış sayılmaz.
 - P0 bloklayıcı hata sıfır olmadan yeni pilot müşteriye geçilmez.
 
 ## Kapanan Kontrol Soruları

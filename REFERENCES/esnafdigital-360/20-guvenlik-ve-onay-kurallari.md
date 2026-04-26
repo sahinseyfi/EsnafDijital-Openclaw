@@ -65,6 +65,7 @@ Ajan düşük riskli işleri kendi yetkisi içinde yapabilir.
 - web vitrini için metin önerisi üretmek,
 - menü / katalog / hizmet listesi taslağı oluşturmak,
 - QR/NFC hedefi için öneri veya taslak sunmak,
+- basit karar destek notu hazırlamak,
 - basit durum özeti hazırlamak,
 - admin panelde görev veya medya talebi oluşturmak,
 - operasyon ekibine devredilecek işi işaretlemek.
@@ -81,6 +82,7 @@ Bu işler müşteriye veya dış sisteme kalıcı etki üretmez.
 |---|---|---|
 | `ed360.get_business_snapshot` | Kendi işletmesinin profil, eksik, görev ve çıktı durumunu okumak | Okuma |
 | `ed360.save_profile_draft` | Düşük riskli profil alanlarını taslak olarak kaydetmek | Taslak yazma |
+| `ed360.save_decision_note` | Karar destek notu ve ilgili açık kararı kaydetmek | Taslak yazma |
 | `ed360.upsert_service_item_draft` | Basit hizmet / ürün kalemi taslağı oluşturmak | Taslak yazma |
 | `ed360.create_media_request` | Fotoğraf, logo veya görsel ihtiyacı için talep açmak | Görev |
 | `ed360.generate_web_preview` | Canlı olmayan web vitrini önizlemesi üretmek | Taslak çıktı |
@@ -89,7 +91,7 @@ Bu işler müşteriye veya dış sisteme kalıcı etki üretmez.
 | `ed360.create_approval_request` | Riskli işlem için onay kaydı açmak | Onay |
 | `ed360.save_setup_summary` | Kurulum özeti ve sonraki adımı kaydetmek | Taslak özet |
 
-Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR hedef aktivasyonu, müşteri adına dış mesaj, ödeme, randevu, sipariş veya veri silme yapmamalıdır.
+Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR hedef aktivasyonu, müşteri adına dış mesaj, satın alma, ödeme, para transferi, sözleşme, resmi başvuru, randevu, sipariş veya veri silme yapmamalıdır.
 
 ## 20.5 İlk MVP Tool Denylist
 
@@ -105,6 +107,7 @@ Bu tool'ların hiçbiri doğrudan public yayın, dış hesap değişikliği, QR 
 - Gateway / node / config araçları,
 - dış email / SMS / sosyal medya gönderim araçları,
 - payment / booking / calendar araçları,
+- satın alma, para transferi, sözleşme imzalama ve resmi başvuru araçları,
 - dynamic skill install / sync,
 - işletme dışı veri okuyabilecek genel web fetch veya entegrasyonlar.
 
@@ -182,6 +185,20 @@ Aşağıdaki işler ancak işletme sahibi, kurucu veya operasyon onayıyla ilerl
 Bu işlerde ajan yalnızca bilgi toplar, öneri sunar, taslak hazırlar veya onay görevi açar.
 
 ## 20.8 Kesin Yasaklar
+
+Ajan sanal işletme ekibi gibi karar desteği verebilir; ancak aşağıdaki işleri yapamaz:
+
+- işletme sahibi adına ürün/ekipman satın almak,
+- para transferi yapmak,
+- sözleşme imzalamak,
+- vergi beyanı vermek,
+- hukuki taahhüt oluşturmak,
+- resmi kuruma başvuru yapmak,
+- sağlık/güvenlik/ruhsat gerektiren konuda kesin onay vermek,
+- finansal, hukuki veya vergi alanında bağlayıcı kesin görüş vermek,
+- işletme sahibinin yerine son karar vermek.
+
+Bu alanlarda ajan yalnızca ön değerlendirme, kontrol listesi, karar notu, görev veya approval kaydı oluşturabilir.
 
 Ajan hiçbir koşulda şu işleri kendi başına yapmamalıdır:
 

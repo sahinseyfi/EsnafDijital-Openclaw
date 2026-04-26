@@ -1,11 +1,11 @@
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; 3 ana ekran, state machine ve panel sinirlari netlestirildi.
+> Durum: MVP kabul standardiyla hizalandi; karar destek notlari, 3 ana ekran, state machine ve panel sinirlari netlestirildi.
 
 ---
 
 # 14. Admin / Operasyon Paneli
 
-EsnafDigital paneli, müşteriye satılan panel değildir. Bu panel, EsnafDigital ekibinin işletmeleri, işletme ajanlarını, görevleri, eksikleri, onayları, audit olaylarını ve teslimat sürecini kontrol ettiği iç operasyon yüzeyidir.
+EsnafDigital paneli, müşteriye satılan panel değildir. Bu panel, EsnafDigital ekibinin işletmeleri, işletme ajanlarını, açık kararları, karar destek notlarını, görevleri, eksikleri, onayları, audit olaylarını ve teslimat sürecini kontrol ettiği iç operasyon yüzeyidir.
 
 Müşteri için ana arayüz mesajlaşma kanalıdır. Admin panelin görevi, müşteriyle sohbet etmek değil; işletme ajanlarının ve operasyon işlerinin doğru ilerleyip ilerlemediğini izlemektir.
 
@@ -15,7 +15,9 @@ Panel şu sorulara hızlı cevap vermelidir:
 
 - Bugün hangi işe dokunmak gerekiyor?
 - Hangi işletmenin ajanı kuruldu?
-- Hangi işletmede eksik bilgi var?
+- Hangi işletmede açık karar veya eksik bilgi var?
+- Hangi karar için müşteriden cevap bekleniyor?
+- Hangi karar destek notu tamamlandı veya bekliyor?
 - Hangi iş müşteriden cevap bekliyor?
 - Hangi iş operasyon müdahalesi bekliyor?
 - Hangi işler onay bekliyor?
@@ -42,7 +44,8 @@ Günün sıcak işlerini gösterir.
 Burada şunlar görünür:
 
 - onay bekleyen işler,
-- eksik bilgi bekleyen işletmeler,
+- açık karar veya eksik bilgi bekleyen işletmeler,
+- karar destek notu bekleyen işler,
 - agent hata / pause / health uyarıları,
 - yeni kurulan agent/workspace durumları,
 - teslimat riski olan çıktılar,
@@ -61,6 +64,8 @@ Burada şunlar olmalıdır:
 - agent status,
 - setup phase,
 - kanal tipi,
+- açık karar sayısı,
+- karar notu durumu,
 - eksik bilgi sayısı,
 - açık görev sayısı,
 - bekleyen onay sayısı,
@@ -77,8 +82,9 @@ Tek işletme için ana karar yüzeyidir.
 Burada şunlar toplanır:
 
 - üst durum barı,
-- işletme dijital profili özeti,
+- işletme bilgi ve karar profili özeti,
 - İşletme Ajanı Kaydı kartı,
+- açık kararlar ve karar destek notları,
 - kurulum checklist'i,
 - ilk dijital çıktılar,
 - eksik bilgiler,
@@ -116,6 +122,8 @@ Panelde en az şunları göstermelidir:
 - agent sağlığı,
 - son hata,
 - açık eksikler,
+- açık kararlar,
+- karar destek notları,
 - açık görevler,
 - onay bekleyen işlemler,
 - pause / resume durumu.
@@ -129,6 +137,8 @@ Bu dört kavram karıştırılmamalıdır:
 | Kavram | Cevapladığı soru |
 |---|---|
 | Eksik | Hangi bilgi yok? |
+| Açık karar | Hangi işletme kararı bekliyor? |
+| Karar notu | Ajan hangi değerlendirmeyi yaptı? |
 | Görev | Kim ne yapacak? |
 | Onay | Hangi riskli işlem karar bekliyor? |
 | Audit | Hangi tool/izin kararı oldu? |
@@ -181,6 +191,7 @@ Bunlar tek bir genel durum alanında birleşmemelidir.
 ```text
 Agent status: active
 Setup phase: outputs_draft_ready
+Decision status: note_ready
 Web status: draft_ready
 Shortlink status: approval_required
 Approval status: requested

@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: GPT Pro degerlendirmeleriyle faz gecis kapilari ve P0=0 kuralı eklendi.
+> Durum: gelistirme sirasi sanal isletme ekibi / karar destek kanitini icerecek sekilde guncellendi.
 
 ---
 
@@ -12,6 +12,10 @@ Süre verilmez. Her faz, bir önceki faz gerçekten çalışmadan sonraki faza g
 Ana teknik hedef:
 
 > Tek test işletmesi için ayrı OpenClaw İşletme Ajanı ve workspace üret, ona mesaj gönder, kendi işletme bağlamıyla cevap aldığını doğrula.
+
+Ana ürün hedefi:
+
+> Ajanın yalnızca web/QR taslağı değil; işletmeyi anlayan, açık kararları toplayan ve departman bakışlarıyla karar destek notu üreten sanal işletme ekibi gibi çalıştığını doğrula.
 
 Bu doğrulanmadan web vitrini, QR/NFC, katalog veya ileri modüllere fazla yüklenmek erken olur.
 
@@ -73,34 +77,36 @@ P0 bloklayıcılar:
 
 ---
 
-## Faz 2 — İşletme Profili ve Bilgi Toplama
+## Faz 2 — İşletme Bilgi ve Karar Profili
 
 ### Amaç
 
-Ajanın işletme bilgisini konuşarak toplayıp işletme dijital profiline, eksiklere ve görevlere bağlamasını sağlamak.
+Ajanın işletme bilgisini konuşarak toplayıp işletme bilgi/karar profiline, eksiklere, açık kararlara ve görevlere bağlamasını sağlamak.
 
 ### Yapılacaklar
 
-1. İşletme dijital profili modeli netleştirilir.
+1. İşletme bilgi ve karar profili modeli netleştirilir.
 2. Eksik bilgi listesi oluşturulur.
-3. İlk bilgi toplama konuşması tasarlanır.
-4. Agent ilk mesajda en fazla 1-3 bilgi ister.
-5. Gelen bilgiler profile veya göreve bağlanır.
-6. Eksikler panelde görünür olur.
-7. Admin panelde agent/profil durumu görünür olur.
-8. Sonraki adım ve görev mantığı eklenir.
+3. Açık karar kaydı mantığı eklenir.
+4. İlk bilgi toplama konuşması tasarlanır.
+5. Agent ilk mesajda en fazla 1-3 bilgi ister.
+6. Gelen bilgiler profile, açık karara veya göreve bağlanır.
+7. Eksikler panelde görünür olur.
+8. Admin panelde agent/profil/karar durumu görünür olur.
+9. Sonraki adım ve görev mantığı eklenir.
 
 ### Çıktılar
 
-- doldurulabilir işletme profili,
+- doldurulabilir işletme bilgi ve karar profili,
 - agent'ın sorduğu eksik bilgi akışı,
-- admin panelde görünür eksik/görev durumu,
+- açık karar kaydı,
+- admin panelde görünür eksik/görev/karar durumu,
 - ilk kurulum konuşması,
 - toparlanmış işletme özeti.
 
 ### Tamamlandı Sayma Ölçütü
 
-Bu faz, agent'ın en az bir test işletmesi için temel bilgileri toplayıp eksik/görev durumunu panelde görünür hale getirmesiyle tamamlanır.
+Bu faz, agent'ın en az bir test işletmesi için temel bilgileri ve bir açık karar konusunu toplayıp eksik/görev/karar durumunu panelde görünür hale getirmesiyle tamamlanır.
 
 Minimum kabul:
 
@@ -108,12 +114,50 @@ Minimum kabul:
 - kısa açıklama,
 - iletişim bilgisi,
 - en az bir hizmet / ürün / kategori,
+- en az bir açık karar veya hedef,
 - eksik listesi,
 - kurulum konuşmasının kısa ve anlaşılır olması.
 
 ---
 
-## Faz 3 — İlk Görünür Dijital Çıktılar
+## Faz 3 — Sanal İşletme Ekibi / Karar Destek Kanıtı
+
+### Amaç
+
+Agent'ın bir işletme kararını departman bakışlarıyla analiz edip karar destek notuna ve görevlere dönüştürebildiğini göstermek.
+
+### Yapılacaklar
+
+1. Karar destek notu veri yapısı belirlenir.
+2. İlk 6 rol tanımlanır: genel yönetim, finans, satış/pazarlama, operasyon, satın alma, müşteri hizmetleri.
+3. Agent karar sorusunu sınıflandırır.
+4. Eksik bilgileri 1-3 kısa soruyla toplar.
+5. Departman bazlı kısa değerlendirme üretir.
+6. 2-3 seçenek çıkarır.
+7. Riskleri ve onay/uzman kontrolü gereken noktaları yazar.
+8. Sıradaki görevleri oluşturur.
+
+### Çıktılar
+
+- en az bir karar destek notu,
+- departman bazlı değerlendirme,
+- risk ve onay listesi,
+- görev/sıradaki adım listesi,
+- panelde açık karar görünürlüğü.
+
+### Tamamlandı Sayma Ölçütü
+
+Bu faz, test işletmesi için en az bir gerçek karar sorusunun karar destek notuna ve görevlere dönüşmesiyle tamamlanır.
+
+Önemli sınırlar:
+
+- Ajan satın alma yapmaz.
+- Para transferi, sözleşme, vergi, resmi işlem veya hukuki taahhüt oluşturmaz.
+- Uzman kontrolü gereken noktaları açıkça belirtir.
+
+---
+
+## Faz 4 — İlk Görünür Dijital Çıktılar
 
 ### Amaç
 
@@ -150,7 +194,7 @@ Bu faz, test işletmesi için agent verilerinden ilk web vitrini taslağı, hizm
 
 ---
 
-## Faz 4 — Güvenlik, Yetki ve Operasyon Kontrolü
+## Faz 5 — Güvenlik, Yetki ve Operasyon Kontrolü
 
 ### Amaç
 
@@ -187,34 +231,37 @@ P0 bloklayıcılar:
 - tenant mismatch,
 - denylist tool'un başarılı çalışması,
 - riskli işlemin onaysız yapılabilmesi,
+- satın alma/ödeme/sözleşme/resmi işlem denemesinin engellenmemesi,
 - audit olmadan tool işlemi,
 - pause / kill switch'in çalışmaması,
 - workspace'e secret yazılması.
 
 ---
 
-## Faz 5 — İlk Pilot Kabulü
+## Faz 6 — İlk Pilot Kabulü
 
 ### Amaç
 
-Tek test işletmesi üzerinde teknik, operasyonel, güvenlik ve müşteri değeri kanıtlarını birlikte almak.
+Tek test işletmesi üzerinde teknik, operasyonel, karar destek, güvenlik ve müşteri değeri kanıtlarını birlikte almak.
 
 ### Yapılacaklar
 
 1. Pilot kanal üzerinden işletme sahibiyle gerçek kurulum konuşması yapılır.
-2. Agent bilgileri toplar ve profil/görev/çıktıya bağlar.
-3. İlk web vitrini, hizmet listesi ve shortlink/QR hedef taslağı oluşur.
-4. Riskli bir işlem approval'a düşürülür.
-5. Admin panelde görev, eksik, onay, audit ve sıradaki adım okunur.
-6. İşletme sahibinden kısa geri bildirim alınır.
-7. P0/P1/P2 hata ayrımı yapılır.
-8. İkinci pilota geçiş kararı verilir.
+2. Agent bilgileri toplar ve profil/görev/karar/çıktıya bağlar.
+3. En az bir karar destek notu oluşur.
+4. İlk web vitrini, hizmet listesi ve shortlink/QR hedef taslağı oluşur.
+5. Riskli bir işlem approval'a düşürülür.
+6. Admin panelde görev, açık karar, eksik, onay, audit ve sıradaki adım okunur.
+7. İşletme sahibinden kısa geri bildirim alınır.
+8. P0/P1/P2 hata ayrımı yapılır.
+9. İkinci pilota geçiş kararı verilir.
 
 ### Çıktılar
 
 - pilot işletme deneyimi,
 - teknik doğrulama,
 - operasyonel doğrulama,
+- karar destek doğrulaması,
 - güvenlik doğrulama,
 - müşteri değeri doğrulama,
 - geri bildirim,
@@ -231,6 +278,7 @@ Karar seçenekleri:
 - teknik geçti ama müşteri değeri zayıf — akış/çıktı/konumlandırma düzelt,
 - müşteri değeri var ama güvenlik eksik — büyütme, güvenliği düzelt,
 - operasyon çok ağır — kapsam/paket/fiyatı daralt,
+- karar destek değeri zayıf — sanal işletme ekibi davranışını düzelt,
 - başarısız — çekirdeği yeniden tasarla.
 
 ---
@@ -251,4 +299,4 @@ Aşağıdaki işler ilk doğrulama sonrasına bırakılmalıdır:
 
 Ana prensip:
 
-> Önce tek işletme için gerçek agent/workspace çalışsın. Sonra işletme profili, görünür çıktılar, güvenlik ve kanal pilotu sırayla büyütülsün.
+> Önce tek işletme için gerçek agent/workspace çalışsın. Sonra işletme bilgi/karar profili, sanal işletme ekibi davranışı, görünür dijital çıktılar, güvenlik ve kanal pilotu sırayla büyütülsün.

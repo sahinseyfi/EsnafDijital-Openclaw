@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; pilot kanal, allowlist ve WhatsApp siniri netlestirildi.
+> Durum: MVP kabul standardiyla hizalandi; pilot kanal, allowlist ve sanal isletme ekibi mesaji netlestirildi.
 
 ---
 
@@ -13,6 +13,7 @@ Kanal, EsnafDigital 360'ın kendisi değildir. Kanal sadece işletme sahibinin k
 - gerçek OpenClaw İşletme Ajanı,
 - İşletme Ajanı Kaydı,
 - modül sistemi,
+- açık karar ve karar destek notu akışı,
 - görev, onay ve takip akışı.
 
 WhatsApp, Telegram, webchat veya başka bir kanal bu çekirdeğin üzerine bağlanan iletişim kapılarıdır. Ajan mantığı kanal içine gömülmez.
@@ -55,12 +56,13 @@ Kanal binding, işletme ajanı izolasyonunun önemli parçasıdır; tek başına
 - web vitrini güncelleme talebi açma,
 - QR / yorum linki taslağını görme,
 - bakım ihtiyaçlarını bildirme,
+- karar sorusu sorma ve karar destek notu alma,
 - kısa durum raporu alma,
 - eksik bilgi ve sonraki adımları görme.
 
 Müşteriye verilecek sade mesaj:
 
-> Panel öğrenmenize gerek yok. Özel işletme ajanınızla mesajlaşın; dijital kurulum, görünürlük, içerik ve bakım işleriniz sistemli şekilde ilerlesin.
+> Panel öğrenmenize gerek yok. Özel işletme ajanınızla mesajlaşın; karar sorularınız, dijital kurulum, görünürlük, içerik ve bakım işleriniz sistemli şekilde ilerlesin.
 
 ## 6.4 Kanal Bağımsız Mimari
 

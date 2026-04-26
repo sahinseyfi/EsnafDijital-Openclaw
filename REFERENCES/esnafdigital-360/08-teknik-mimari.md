@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: MVP kabul standardiyla hizalandi; API tool sozlesmesi ve tenant siniri daraltildi.
+> Durum: MVP kabul standardiyla hizalandi; API tool sozlesmesi, karar destek notu ve tenant siniri daraltildi.
 
 ---
 
@@ -20,7 +20,7 @@ Kanal adapteri / explicit routing-binding
    ↓
 Sınırlı EsnafDigital API tool'ları
    ↓
-EsnafDigital App / Database / Web Vitrini / QR / Katalog / Görev / Onay / Audit
+EsnafDigital App / Database / Karar Notu / Web Vitrini / QR / Katalog / Görev / Onay / Audit
 ```
 
 Bu mimaride müşteri kanalı, ajan runtime'ı ve EsnafDigital uygulaması birbirine karışmadan çalışır.
@@ -57,8 +57,9 @@ Bu katmanda:
 - her agent'ın ayrı workspace'i vardır,
 - her agent'ın ayrı agentDir'i ve session store'u vardır,
 - her agent'ın ayrı hafızası, oturumu ve yetki profili vardır,
-- agent mesajlaşma üzerinden bilgi toplar,
+- agent mesajlaşma üzerinden bilgi ve açık karar toplar,
 - eksikleri takip eder,
+- departman bakışlarıyla karar destek notu üretir,
 - içerik veya rapor taslağı üretir,
 - gerektiğinde EsnafDigital API tool'larını çağırır,
 - riskli işlerde onay ister.
@@ -77,6 +78,7 @@ Burada tutulacak ana alanlar:
 - İşletme Ajanı Kayıtları,
 - müşteri / yetkili kişi bilgileri,
 - aktif paket ve modüller,
+- açık kararlar ve karar destek notları,
 - web vitrini taslakları / yayın bilgileri,
 - menü / katalog / hizmet listesi taslakları,
 - QR ve kısa link verileri,
@@ -114,6 +116,7 @@ Bu sınır güvenlik ve kontrol için zorunludur.
 |---|---|
 | `ed360.get_business_snapshot` | Kendi işletmesinin profil, eksik, görev ve çıktı durumunu okumak |
 | `ed360.save_profile_draft` | Düşük riskli profil alanlarını taslak olarak kaydetmek |
+| `ed360.save_decision_note` | Karar destek notu ve ilgili açık kararı kaydetmek |
 | `ed360.upsert_service_item_draft` | Basit hizmet / ürün kalemi taslağı oluşturmak |
 | `ed360.create_media_request` | Fotoğraf veya görsel ihtiyacı için talep açmak |
 | `ed360.generate_web_preview` | Canlı olmayan web vitrini önizlemesi üretmek |
@@ -122,7 +125,7 @@ Bu sınır güvenlik ve kontrol için zorunludur.
 | `ed360.create_approval_request` | Riskli işlem için onay kaydı açmak |
 | `ed360.save_setup_summary` | Kurulum özeti ve sonraki adımı kaydetmek |
 
-İlk MVP'de doğrudan publish, QR activate, Google/Instagram/WhatsApp update, ödeme, randevu, sipariş, dış mesaj veya veri silme tool'u açılmaz.
+İlk MVP'de doğrudan publish, QR activate, Google/Instagram/WhatsApp update, satın alma, ödeme, para transferi, sözleşme, resmi başvuru, randevu, sipariş, dış mesaj veya veri silme tool'u açılmaz.
 
 ## 8.5 API Tenant Kontrolü
 
