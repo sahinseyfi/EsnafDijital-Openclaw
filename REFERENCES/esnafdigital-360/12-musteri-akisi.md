@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; kurucu onayi icin hazir.
+> Durum: MVP kabul standardiyla hizalandi; musteri akisi taslak deger, onay ve pilot sinirina cekildi.
 
 ---
 
@@ -46,6 +46,7 @@ Görüşmede vurgulanacak şeyler:
 - tek seferlik site yapmaktan fazlası olduğu,
 - işletmenin dijital düzeninin kurulacağı,
 - bilgilerin mesajlaşma üzerinden toplanacağı,
+- ilk çıktıların önce taslak/preview olarak oluşacağı,
 - riskli işlemlerin onaysız yapılmayacağı,
 - kurulumdan sonra bakım/takip mantığının olacağı.
 
@@ -56,32 +57,44 @@ Satış sonrası kurulum akışı:
 1. işletme kaydı açılır,
 2. paket/kapsam seçilir,
 3. işletme dijital profili oluşturulur,
-4. işletmeye özel OpenClaw İşletme Ajanı ve workspace oluşturulur,
-5. İşletme Ajanı Kaydı panelde açılır,
-6. yetki profili ve agent şablonu atanır,
-7. müşteri pilot mesajlaşma kanalına bağlanır,
-8. ajan ilk bilgi toplama konuşmasını başlatır.
+4. işletmeye özel OpenClaw İşletme Ajanı oluşturulur,
+5. ayrı workspace / agentDir / session store hazırlanır,
+6. İşletme Ajanı Kaydı panelde açılır,
+7. yetki profili, tool policy ve agent şablonu atanır,
+8. pilot kanal binding yapılır,
+9. müşteri pilot mesajlaşma kanalına bağlanır,
+10. ajan ilk bilgi toplama konuşmasını başlatır.
 
 Bu aşamada amaç, müşteriyi panele sokmak değil; ajanın doğru bilgileri konuşarak toplamasını sağlamaktır.
 
 ## 12.4 Bilgi Toplama ve İlk Dijital Çıktılar
 
-Ajan ilk aşamada şu bilgileri toplar:
+Ajan ilk aşamada form doldurtmaz. En fazla 1-3 kısa bilgi ister, gelen cevabı özetler ve bunu profile/göreve/taslağa bağlar.
 
-- işletme adı ve kısa tanımı,
-- iletişim ve konum bilgileri,
-- çalışma saatleri,
-- hizmet / ürün / katalog bilgileri,
-- fotoğraflar ve görseller,
-- Google yorum veya görünürlük bilgileri,
-- sosyal profil bilgileri,
-- eksik veya güncellenmesi gereken alanlar.
+İlk turda öncelikli bilgiler:
+
+- işletme adı veya ad onayı,
+- tek cümlelik açıklama,
+- telefon / WhatsApp veya temel iletişim,
+- adres veya hizmet bölgesi,
+- ilk 1-3 hizmet / ürün / kategori.
+
+Sonraya bırakılabilecek bilgiler:
+
+- tüm katalog,
+- tüm fiyatlar,
+- profesyonel fotoğraf seti,
+- Google yorum linki,
+- sosyal hesap düzenlemeleri,
+- domain/DNS,
+- randevu, ödeme, sipariş veya stok kuralları.
 
 Bu bilgilerle ilk çıktılar hazırlanır:
 
-- web vitrini taslağı,
+- toparlanmış işletme özeti,
+- web vitrini taslağı / preview,
 - arama / mesajlaşma / yol tarifi bağlantıları,
-- QR veya yorum linki,
+- dinamik kısa link / QR hedef taslağı,
 - menü / katalog / hizmet listesi taslağı,
 - eksik bilgi listesi,
 - admin görevleri,
@@ -93,12 +106,16 @@ Bu bilgilerle ilk çıktılar hazırlanır:
 
 İlk teslimatta müşteriye şunlar gösterilebilir:
 
-- web vitrini veya ön gösterim,
-- QR / yorum bağlantısı,
-- temel görünürlük düzeni,
+- toparlanmış işletme özeti,
+- web vitrini ön gösterimi,
+- basit hizmet / ürün listesi,
+- QR / kısa link hedef taslağı,
 - toplanan bilgiler ve kalan eksikler,
+- medya/fotoğraf talepleri,
 - sonraki adımlar,
 - bakım veya devam planı.
+
+Canlı yayın, QR hedef aktivasyonu veya dış hesap değişikliği teslimatın otomatik parçası değildir; approval ve operasyon kontrolü ister.
 
 ## 12.6 Bakım ve Canlı Tutma
 
@@ -114,10 +131,8 @@ Ajanın takip edebileceği işler:
 - web vitrini bilgileri doğru mu?
 - bakım raporu veya kısa durum özeti gerekiyor mu?
 
-Ajan bu işleri hatırlatır, bilgi toplar ve görev açar. Gerçek dış hesap değişiklikleri, yayınlar, fiyat/ödeme kararları veya müşteri adına taahhütler onaysız yapılmaz.
+Ajan bu işleri hatırlatır, bilgi toplar ve görev açar. Gerçek dış hesap değişiklikleri, yayınlar, QR hedef aktivasyonu, fiyat/ödeme kararları veya müşteri adına taahhütler onaysız yapılmaz.
 
 Ana prensip:
 
-> Müşteri akışı, tek seferlik teslimat değil; işletme ajanıyla dijital operasyonu kurma ve canlı tutma akışıdır.
-
----
+> Müşteri akışı, tek seferlik teslimat değil; işletme ajanıyla dijital operasyonu kurma, ilk değeri gösterme ve güvenli şekilde canlı tutma akışıdır.

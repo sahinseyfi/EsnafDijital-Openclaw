@@ -1,80 +1,102 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; gelistirilebilecek fikirler daha sonra GPT Pro'ya sorulacak.
+> Durum: MVP kabul standardiyla hizalandi; cekirdek, taslak cikti ve ileri moduller ayrildi.
 
 ---
 
 # 9. Ana Modüller
 
-EsnafDigital 360 tek tek hizmetlerin toplandigi bir liste gibi dusunulmemelidir. Moduller, isletme ajaninin yonettigi dijital operasyon parcalari olarak kurgulanir.
+EsnafDigital 360 tek tek hizmetlerin toplandığı bir liste gibi düşünülmemelidir. Modüller, işletme ajanının yönettiği dijital operasyon parçaları olarak kurgulanır.
 
-Bu bolumdeki modul gruplari ilk urun mantigini kurmak icindir. Hangi sektorlerde hangi modullerin daha guclu olacagi ve gelistirilebilecek yeni fikirler, plan netlestikten sonra GPT Pro'ya ayrica sorulacaktir.
+Bu bölümdeki modül grupları ürün mantığını kurmak içindir. Hangi sektörlerde hangi modüllerin daha güçlü olacağı ve paket önceliği daha sonra ayrıca GPT Pro ile değerlendirilecektir.
 
-## 9.1 Cekirdek Agent Altyapisi
+## 9.1 Çekirdek Agent Altyapısı
 
-Bu grup urunun temelidir. Bunlar olmadan EsnafDigital 360, klasik dijital hizmet paketine doner.
+Bu grup ürünün temelidir. Bunlar olmadan EsnafDigital 360, klasik dijital hizmet paketine döner.
 
-- gercek OpenClaw Isletme Ajani,
-- ayri agent workspace'i,
-- Isletme Ajani Kaydi,
-- isletme dijital profili,
+- gerçek OpenClaw İşletme Ajanı,
+- ayrı agent workspace'i,
+- ayrı agentDir ve session store,
+- İşletme Ajanı Kaydı,
+- işletme dijital profili,
 - izin/yetki profili,
+- tool policy ve sandbox profili,
+- kanal allowlist ve explicit binding,
 - eksik bilgi takibi,
-- gorev ve sonraki adim akisi,
-- sinirli EsnafDigital API tool'lari.
+- görev, onay ve sonraki adım akışı,
+- sınırlı EsnafDigital API tool'ları,
+- audit log,
+- pause / kill switch.
 
-## 9.2 Dijital Varlik ve Gorunurluk Modulleri
+## 9.2 İlk MVP Görünür Çıktı Modülleri
 
-Bu grup isletmenin internette guvenilir, guncel ve ulasilabilir gorunmesini saglar.
+Bu grup, agent'ın topladığı bilginin müşteriye görünür ilk kanıtıdır. İlk MVP'de tam ürün modülü değil, taslak/preview seviyesinde çalışır.
+
+- toparlanmış işletme özeti,
+- web vitrini taslağı / preview,
+- basit hizmet / ürün listesi,
+- dinamik kısa link / QR hedef taslağı,
+- fotoğraf ve medya talebi,
+- kurulum özeti ve eksik listesi.
+
+Bu çıktılar kusursuz olmak zorunda değildir; işletmenin dijital operasyonunun başladığını göstermelidir.
+
+## 9.3 Dijital Varlık ve Görünürlük Modülleri
+
+Bu grup işletmenin internette güvenilir, güncel ve ulaşılabilir görünmesini sağlar.
 
 - web vitrini,
-- Google / Maps gorunurluk kontrolu,
-- temel isletme bilgileri duzeni,
-- yorum linki ve QR akisi,
-- Instagram / sosyal profil duzeni,
-- fotograf ve medya toparlama,
-- menu / katalog / hizmet listesi,
-- ozel domain veya alt alan adi.
+- Google / Maps görünürlük kontrolü,
+- temel işletme bilgileri düzeni,
+- yorum linki ve QR akışı,
+- Instagram / sosyal profil düzeni,
+- fotoğraf ve medya toparlama,
+- menü / katalog / hizmet listesi,
+- özel domain veya alt alan adı.
 
-## 9.3 Iletisim ve Musteri Aksiyonu Modulleri
+İlk MVP'de Google/Maps/Instagram/domain gibi dış etkili işler otomatik yapılmaz; bilgi toplama, taslak, görev veya approval seviyesinde kalır.
 
-Bu grup musterinin isletmeye daha kolay ulasmasini ve isletmenin talepleri daha duzenli almasini destekler.
+## 9.4 İletişim ve Müşteri Aksiyonu Modülleri
 
-- arama / WhatsApp / yol tarifi baglantilari,
-- randevu veya rezervasyon linki,
-- talep toplama akisi,
-- kisa link / dinamik QR,
+Bu grup müşterinin işletmeye daha kolay ulaşmasını ve işletmenin talepleri daha düzenli almasını destekler.
+
+- arama / WhatsApp / yol tarifi bağlantıları,
+- talep toplama akışı,
+- kısa link / dinamik QR,
 - yorum isteme materyalleri,
-- NFC yorum karti veya standi,
-- musteriye gonderilecek kisa bilgilendirme/rapor linkleri.
+- müşteriye gönderilecek kısa bilgilendirme/rapor linkleri.
 
-## 9.4 Operasyon ve Bakim Modulleri
+Randevu, rezervasyon, sipariş, ödeme veya işletmenin kendi WhatsApp hattını ajana bağlama gibi hassas akışlar ilk MVP'nin çekirdeği değildir; ileri modül olarak değerlendirilir.
 
-Bu grup kurulumdan sonra sistemin canli kalmasini saglar.
+## 9.5 Operasyon ve Bakım Modülleri
 
-- aylik bakim takibi,
-- eksik bilgi ve guncelleme hatirlatmalari,
-- icerik ve fotograf guncelleme talepleri,
+Bu grup kurulumdan sonra sistemin canlı kalmasını sağlar.
+
+- aylık bakım takibi,
+- eksik bilgi ve güncelleme hatırlatmaları,
+- içerik ve fotoğraf güncelleme talepleri,
 - basit durum raporu,
-- operasyon ekibine gorev aktarma,
-- yayin/onay bekleyen islerin takibi,
-- isletme profilinin guncel tutulmasi.
+- operasyon ekibine görev aktarma,
+- yayın/onay bekleyen işlerin takibi,
+- işletme profilinin güncel tutulması.
 
-## 9.5 Ileri Ticari ve Sistem Modulleri
+İlk MVP'de bakım modülü tam otomatik değil; görev ve takip mantığını kanıtlayacak kadar hafif tutulur.
 
-Bu grup baslangicta sistem vizyonunda tutulur; ancak ilk MVP'nin zorunlu parcasi sayilmaz.
+## 9.6 İleri Ticari ve Sistem Modülleri
 
-- gelismis musteri paneli,
-- self-service icerik yonetimi,
-- WhatsApp Randevu Asistani,
-- gelismis menu/katalog sistemi,
-- siparis veya teklif akisi,
-- gelir / gider ekrani,
-- stok / tahsilat / muhasebe modulleri,
-- gelismis entegrasyonlar,
-- satis temsilcisi veya yonlendirme modeli.
+Bu grup sistem vizyonunda tutulur; ancak ilk MVP'nin zorunlu parçası sayılmaz.
+
+- gelişmiş müşteri paneli,
+- self-service içerik yönetimi,
+- işletmenin kendi WhatsApp hattını ajana bağlama,
+- WhatsApp Randevu Asistanı,
+- gelişmiş menü/katalog sistemi,
+- sipariş veya teklif akışı,
+- ödeme, sepet veya stok akışı,
+- gelir / gider ekranı,
+- tahsilat / muhasebe modülleri,
+- gelişmiş entegrasyonlar,
+- satış temsilcisi veya yönlendirme modeli.
 
 Ana prensip:
 
-> Moduller ilk gunden tek tek tam otomatik olmak zorunda degildir. Onemli olan, her modulun agent merkezli sistemde nereye oturdugunun net olmasidir.
-
----
+> Modüller ilk günden tek tek tam otomatik olmak zorunda değildir. MVP'de önemli olan, gerçek işletme ajanı modelinin güvenli, izlenebilir, operasyonel ve müşteriye değer üreten şekilde çalıştığını kanıtlamaktır.

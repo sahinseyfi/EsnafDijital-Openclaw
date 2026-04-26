@@ -1,35 +1,47 @@
 > Aktif 360 bolum dosyasi.
-> Durum: duzeltildi; kurucu onayi icin hazir.
+> Durum: MVP kabul standardiyla hizalandi; teknik cekirdek ve pilot siniri net.
 
 ---
 
 # EsnafDigital 360 + OpenClaw
 ## Ajan Merkezli Dijital İşletme Sistemi
 
-> Not: Bu doküman ilk bilgi metnidir. İçindeki bölümler kurucu onayından geçmeden nihai ürün, MVP veya teknik uygulama kararı sayılmaz. Her bölüm ayrı ayrı `kabul / düzelt / ertele` süzgecinden geçirilecektir.
+Bu doküman, EsnafDigital 360 projesinin aktif ürün ve mimari çalışma metnidir. Bölümler karar adayı taşır; uygulamaya dönüşecek her kritik kapsam, MVP veya yön değişikliği kurucu onayından geçmelidir.
 
-## MVP için kabul edilen mimari karar
+## MVP için Kabul Edilen Mimari Çizgi
 
-Bu dokümanda geçen "işletmeye özel ajan" ifadesi EsnafDigital 360 MVP için gerçek OpenClaw işletme agent'ı ve ayrı workspace anlamına gelir.
+Bu dokümanda geçen **işletmeye özel ajan**, EsnafDigital 360 MVP için gerçek OpenClaw İşletme Ajanı ve ayrı çalışma alanı anlamına gelir.
 
-MVP kararı şudur:
+MVP çekirdeği şudur:
 
-> Her işletme için tek OpenClaw Gateway/runtime altında ayrı OpenClaw agent, ayrı workspace, ayrı oturum/hafıza ve ayrı izin profili üretilecek. Bu karmaşa manuel yönetimle değil; iyi başlangıç şablonu, otomatik kurulum ve sıkı tool/yetki sınırıyla kontrol altında tutulacak.
+> Tek test işletmesi için gerçek OpenClaw İşletme Ajanı, ayrı workspace, ayrı agentDir/session, İşletme Ajanı Kaydı, pilot kanal routing/binding, sınırlı EsnafDigital API tool'ları, audit/onay ve kill switch ile baştan sona çalışacaktır.
 
-`İşletme Ajanı Kaydı`, EsnafDigital panelinde o işletmenin gerçek OpenClaw agent'ını yöneten takip kaydıdır. Bu kayıt; agent kimliğini, workspace yolunu, şablon sürümünü, izin profilini, oturumlarını, kanal bağlantılarını ve görev durumunu tutar.
+İşletme Ajanı Kaydı, agent'ın kendisi değildir. EsnafDigital panelinde o işletmenin gerçek OpenClaw agent'ını izleyen ve yöneten kayıttır. Bu kayıt; agent kimliğini, workspace/agentDir/session referanslarını, şablon sürümünü, izin profilini, kanal bağlantılarını, sağlık durumunu, görevleri, eksikleri ve onay durumunu takip eder.
 
-> Teknik adlandırma gerekirse ASCII karşılığı `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` olarak tutulur.
+Teknik adlandırma gerekirse ASCII karşılığı `IsletmeAjaniKaydi` / `isletme_ajani_kaydi` olarak tutulur.
 
-Kanal kararı ayrı tutulur: İlk doğrulama Telegram/test kanalıyla yapılabilir; WhatsApp ticari hedef kanaldır. İşletmenin kendi WhatsApp hattını bağlama veya randevu karşılama ek kanal/modül paketi olabilir; ancak ajan mimarisi işletme başına ayrı agent/workspace kararına göre kurulacaktır.
+## Kanal Kararı
 
-Bu doküman, EsnafDigital 360 projesi için önerilen ürün kararlarını, teknik mimariyi, satış konumlandırmasını, modül yapısını ve ilk uygulama planını taslak olarak toplar.
+Kanal ürün değildir. İlk doğrulama Telegram/test kanalı, webchat veya EsnafDigital pilot hattı ile yapılabilir. WhatsApp ticari hedef kanal olarak kalır; ancak işletmenin kendi WhatsApp hattını bağlamak, randevu/sipariş karşılamak veya dış hesapları yönetmek MVP çekirdeği değildir.
 
-EsnafDigital 360 artık yalnızca web sitesi, Google düzeni, dinamik QR/NFC yönlendirme sistemi veya bakım hizmeti sunan klasik bir dijital hizmet paketi olarak düşünülmemelidir. Bu metindeki öneriye göre projenin ana omurgası, her işletmeye özel oluşturulan **gerçek OpenClaw işletme agent'ı/workspace'i ve bunu yöneten İşletme Ajanı Kaydı** etrafında kurulmalıdır.
+## Güvenlik Sınırı
 
-Bu ajan; işletme sahibinden bilgileri toplar, web vitrini üretimini başlatır, Google / Maps / Instagram / yorum / menü / fotoğraf / bakım süreçlerini takip eder, eksikleri hatırlatır, görevleri oluşturur ve gerektiğinde EsnafDigital operasyon ekibine aktarır.
+Ayrı workspace tek başına güvenlik sınırı sayılmaz. MVP güvenlik sınırı şu birleşimle kurulur:
+
+- kanal allowlist / pairing,
+- explicit binding,
+- sandbox/tool policy,
+- EsnafDigital API tarafında tenant/business yetki kontrolü,
+- audit log,
+- onay kuyruğu,
+- pause / kill switch.
+
+## Ana Hedef
+
+EsnafDigital 360 yalnızca web sitesi, Google düzeni, dinamik QR/NFC yönlendirme sistemi veya bakım hizmeti sunan klasik bir dijital hizmet paketi değildir.
 
 Ana hedef şudur:
 
-> Dijital operasyonunu kurmak veya büyütmek isteyen KOBİ’lere, panel karmaşası olmadan mesajlaşma tabanlı özel işletme ajanı sunmak.
+> Dijital operasyonunu kurmak veya büyütmek isteyen KOBİ'lere, panel karmaşası olmadan mesajlaşma tabanlı özel işletme ajanı sunmak.
 
----
+MVP tamamlandı sayılması için yalnızca botun cevap vermesi yetmez. Teknik, operasyonel, güvenlik ve müşteri değeri kanıtları birlikte alınmalı; P0 bloklayıcı hata sıfır olmadan yeni pilota geçilmemelidir.

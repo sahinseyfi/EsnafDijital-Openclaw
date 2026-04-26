@@ -1,85 +1,94 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; kurucu onayi icin hazir.
+> Durum: MVP kabul standardiyla hizalandi; pilot kanal, allowlist ve WhatsApp siniri netlestirildi.
 
 ---
 
 # 6. Kanal Stratejisi
 
-Kanal, EsnafDigital 360'in kendisi degildir. Kanal sadece isletme sahibinin kendi ozel isletme ajanina ulasma yoludur.
+Kanal, EsnafDigital 360'ın kendisi değildir. Kanal sadece işletme sahibinin kendi özel işletme ajanına ulaşma yoludur.
 
-Urunun kalbi su parcalardir:
+Ürünün kalbi şu parçalardır:
 
-- Isletme Dijital Profili,
-- gercek OpenClaw Isletme Ajani,
-- Isletme Ajani Kaydi,
-- modul sistemi,
-- gorev ve takip akisi.
+- İşletme Dijital Profili,
+- gerçek OpenClaw İşletme Ajanı,
+- İşletme Ajanı Kaydı,
+- modül sistemi,
+- görev, onay ve takip akışı.
 
-WhatsApp, Telegram, web panel veya baska bir kanal bu cekirdegin uzerine baglanan iletisim kapilaridir. Ajan mantigi kanal icine gomulmez.
+WhatsApp, Telegram, webchat veya başka bir kanal bu çekirdeğin üzerine bağlanan iletişim kapılarıdır. Ajan mantığı kanal içine gömülmez.
 
 ## 6.1 Ticari Hedef Kanal
 
-Ticari anlatimda en dogal hedef kanal WhatsApp'tir. Cunku Turkiye'de isletme sahipleri ve ekipleri icin en dusuk surtunmeli iletisim kanali genelde WhatsApp'tir.
+Ticari anlatımda en doğal hedef kanal WhatsApp'tır. Çünkü Türkiye'de işletme sahipleri ve ekipleri için en düşük sürtünmeli iletişim kanalı genelde WhatsApp'tır.
 
-Ancak bu, MVP'de her isletmeye hemen ayri WhatsApp hatti acilacagi anlamina gelmez.
+Ancak bu, MVP'de her işletmeye hemen ayrı WhatsApp hattı açılacağı veya işletmenin kendi WhatsApp hattının ajana bağlanacağı anlamına gelmez.
 
-Ilk dogrulama su kanallardan biriyle yapilabilir:
+İlk doğrulama şu kanallardan biriyle yapılabilir:
 
-- Telegram/test kanali,
-- EsnafDigital'e ait pilot WhatsApp hatti,
-- webchat veya ic test kanali.
+- Telegram/test kanalı,
+- webchat veya iç test kanalı,
+- EsnafDigital'e ait pilot WhatsApp hattı.
 
-Onemli olan kanal degil, mesajin dogru isletme ajanina yonlenmesi ve ajanin isletme baglamiyla dogru isi ilerletmesidir.
+Önemli olan kanal değil, mesajın doğru işletme ajanına yönlenmesi ve ajanın işletme bağlamıyla doğru işi ilerletmesidir.
 
-## 6.2 Mesajlasma Uzerinden Yapilacak Isler
+## 6.2 Kanal Güvenliği
 
-Isletme sahibi, panel ogrenmeden mesajlasma uzerinden su isleri ilerletebilmelidir:
+İlk MVP'de kanal güvenliği basit ama sert olmalıdır:
+
+- yetkili gönderici allowlist veya pairing ile sınırlandırılır,
+- explicit binding kullanılır,
+- yanlış veya yetkisiz gönderici gerçek işletme ajanına düşmez,
+- fallback varsa no-tool / quarantine mantığında çalışır,
+- kanal routing hatası P0 bloklayıcı sayılır.
+
+Kanal binding, işletme ajanı izolasyonunun önemli parçasıdır; tek başına güvenlik sınırı değildir ama yanlış kurgulanırsa veri karışması riski doğurur.
+
+## 6.3 Mesajlaşma Üzerinden Yapılacak İşler
+
+İşletme sahibi, panel öğrenmeden mesajlaşma üzerinden şu işleri ilerletebilmelidir:
 
 - ilk kurulum bilgilerini verme,
-- isletme bilgilerini guncelleme,
-- fotograf ve icerik gonderme,
-- menu / katalog / hizmet bilgisi verme,
-- calisma saati veya iletisim bilgisi guncelleme,
-- web vitrini guncelleme talebi acma,
-- QR / yorum linki alma,
-- bakim ihtiyaclarini bildirme,
-- kisa durum raporu alma,
-- eksik bilgi ve sonraki adimlari gorme.
+- işletme bilgilerini güncelleme talebi açma,
+- fotoğraf ve içerik gönderme,
+- menü / katalog / hizmet bilgisi verme,
+- çalışma saati veya iletişim bilgisi güncelleme,
+- web vitrini güncelleme talebi açma,
+- QR / yorum linki taslağını görme,
+- bakım ihtiyaçlarını bildirme,
+- kısa durum raporu alma,
+- eksik bilgi ve sonraki adımları görme.
 
-Musteriye verilecek sade mesaj:
+Müşteriye verilecek sade mesaj:
 
-> Panel ogrenmenize gerek yok. Ozel isletme ajaninizla mesajlasin; dijital kurulum, gorunurluk, icerik ve bakim isleriniz sistemli sekilde ilerlesin.
+> Panel öğrenmenize gerek yok. Özel işletme ajanınızla mesajlaşın; dijital kurulum, görünürlük, içerik ve bakım işleriniz sistemli şekilde ilerlesin.
 
-## 6.3 Kanal Bagimsiz Mimari
+## 6.4 Kanal Bağımsız Mimari
 
-Sistem WhatsApp'a, Telegram'a veya tek bir kanala bagimli kurulmaz.
+Sistem WhatsApp'a, Telegram'a veya tek bir kanala bağımlı kurulmaz.
 
-Kanalin gorevi sadece sudur:
+Kanalın görevi sadece şudur:
 
-1. mesaji almak,
-2. dogru isletme ajanina yonlendirmek,
-3. ajanin cevabini veya istedigi bilgiyi isletme sahibine geri iletmek.
-
-Bu nedenle kanal adaptoru ile ajan mantigi ayridir.
+1. mesajı almak,
+2. göndereni ve bağlı işletmeyi anlamak,
+3. doğru işletme ajanına yönlendirmek,
+4. ajanın cevabını veya istediği bilgiyi işletme sahibine geri iletmek.
 
 Desteklenebilecek kanallar:
 
 - Telegram,
 - WhatsApp,
-- web panel / webchat,
+- webchat,
 - e-posta,
 - ileride mobil uygulama.
 
-## 6.4 Ilk MVP Kanal Karari
+## 6.5 İlk MVP Kanal Kararı
 
-Ilk MVP'de kanal karari, agent mimarisinden ayri ele alinir.
+İlk MVP'de kanal kararı, agent mimarisinden ayrı ele alınır.
 
-Cekirdek karar:
+Çekirdek karar:
 
-> Her isletme icin gercek OpenClaw Isletme Ajani ve ayri workspace olusturulur. Mesaj hangi kanaldan gelirse gelsin, routing/binding ile dogru isletme ajanina gider.
+> Tek test işletmesi için gerçek OpenClaw İşletme Ajanı, ayrı workspace/agentDir/session ve explicit routing/binding çalışacaktır. Mesaj hangi kanaldan gelirse gelsin, doğru işletme ajanına gider.
 
-Ilk teknik dogrulama Telegram/test kanaliyla yapilabilir. Ticari hedefte WhatsApp onemli kanal olarak kalir.
+İlk teknik doğrulama Telegram/test kanalı veya webchat ile yapılabilir. Ticari hedefte WhatsApp önemli kanal olarak kalır.
 
-Isletmenin kendi WhatsApp hattini ajana baglamak, musteri karsilama veya randevu/siparis akisi gibi daha hassas senaryolar ayri ek kanal/modul paketi olarak ele alinir.
-
----
+İşletmenin kendi WhatsApp hattını ajana bağlamak, müşteri karşılama, randevu veya sipariş akışı gibi daha hassas senaryolar ayrı ek kanal/modül paketi olarak ele alınır.

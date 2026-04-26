@@ -1,5 +1,5 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; ana katman fikri korundu, gelistirilebilecek yerler daha sonra GPT Pro'ya sorulacak.
+> Durum: MVP kabul standardiyla hizalandi; katmanlar korundu, MVP minimumu ve ileri moduller ayrildi.
 
 ---
 
@@ -32,12 +32,12 @@ Profil alanları şu gruplarda düşünülmelidir:
 - yetkili kişi,
 - telefon,
 - mesajlaşma numarası,
-- adres,
+- adres veya hizmet bölgesi,
 - çalışma saatleri.
 
 ### Dijital varlıklar
 
-- web vitrini linki,
+- web vitrini taslağı veya yayın linki,
 - Google / Maps linki,
 - sosyal profil bağlantıları,
 - dinamik QR / NFC kısa linkleri,
@@ -60,22 +60,27 @@ Profil alanları şu gruplarda düşünülmelidir:
 - açık görevler,
 - onay bekleyen işler,
 - bakım durumu,
-- son güncelleme tarihi,
-- ödeme / paket durumu.
+- son güncelleme tarihi.
+
+Paket, ödeme, fatura, stok, randevu veya sipariş gibi alanlar ilk MVP'de bu profilin içine yığılmaz; gerekiyorsa ayrı modül/kayıt olarak sonradan ele alınır.
 
 Her işletmede tüm alanların dolu olması gerekmez. Ajanın görevlerinden biri, hangi alanların eksik olduğunu anlamak ve bunları adım adım tamamlatmaktır.
 
 ## 5.2 Gerçek OpenClaw İşletme Ajanı ve Workspace
 
-Her işletme için gerçek bir OpenClaw İşletme Ajanı ve ayrı workspace oluşturulur.
+Her işletme için gerçek bir OpenClaw İşletme Ajanı ve ayrı workspace modeli hedeflenir. İlk MVP'de bu model tek test işletmesiyle doğrulanır.
 
 Bu ajan:
 
 - kendi işletme bağlamıyla çalışır,
 - kendi workspace dosyalarını kullanır,
+- ayrı agentDir ve session store'a sahiptir,
 - kendi hafıza ve oturum geçmişine sahiptir,
 - kendi yetki profiliyle sınırlandırılır,
-- sadece ilgili işletmenin dijital operasyonunu ilerletir.
+- sadece ilgili işletmenin dijital operasyonunu ilerletir,
+- EsnafDigital veritabanına doğrudan değil, sınırlı API tool'ları üzerinden erişir.
+
+Workspace tek başına güvenlik sınırı değildir. Güvenlik; kanal allowlist/binding, sandbox/tool policy, API tenant kontrolü, audit/onay ve kill switch ile kurulur.
 
 İşletme ajanının görevi sadece cevap vermek değildir.
 
@@ -86,7 +91,7 @@ Ajanın gerçek görevi:
 - müşteriyi küçük adımlarla yönlendirmek,
 - gelen bilgileri işletme profiline bağlamak,
 - içerik ve açıklama taslakları üretmek,
-- web vitrini ve katalog verilerini beslemek,
+- web vitrini ve hizmet listesi taslaklarını beslemek,
 - görev ve sonraki adım oluşturmak,
 - bakım sürecini takip etmek,
 - riskli işleri onay veya operasyona devretmektir.
@@ -95,23 +100,30 @@ Ajanın gerçek görevi:
 
 İşletme Ajanı Kaydı, agent'ın kendisi değildir.
 
-Bu kayıt, EsnafDigital panelinde gerçek OpenClaw İşletme Ajanı'nı takip eden yönetim kaydıdır.
+Bu kayıt, EsnafDigital panelinde gerçek OpenClaw İşletme Ajanı'nı takip eden yönetim kaydıdır. Başka bir ifadeyle runtime control record'dur.
 
-Bu kayıt şunları tutar:
+İlk MVP'de bu kayıt en az şunları tutmalıdır:
 
 - agent kimliği,
-- workspace yolu,
+- işletme kimliği,
+- workspace referansı,
+- agentDir referansı,
+- session store referansı,
 - şablon sürümü,
 - izin / yetki profili,
+- tool policy ve sandbox profili,
 - bağlı kanal veya test kanalı,
+- binding bilgisi,
 - oturum durumu,
 - son aktivite,
 - açık eksikler,
 - açık görevler,
 - onay bekleyen işlemler,
-- agent sağlık/durum bilgisi.
+- agent sağlık/durum bilgisi,
+- pause / kill switch bilgisi,
+- son audit veya approval referansı.
 
-Bu ayrım önemlidir:
+Bu kayıt agent hafızası, transcript, secret, profil verisinin tamamı veya CRM geçmişi deposu değildir.
 
 ```text
 OpenClaw İşletme Ajanı = çalışan ajan
@@ -134,10 +146,15 @@ Modüller, işletme ajanının yönettiği dijital operasyon parçalarıdır.
 - kısa rapor ve durum özeti,
 - ileri aşamada randevu, teklif, sipariş veya entegrasyon modülleri.
 
-Modüllerin hepsi ilk günden tam otomatik olmak zorunda değildir. Bazı modüller yazılımla, bazıları yarı otomatik, bazıları operasyon desteğiyle ilerler.
+İlk MVP'de modüller tam otomatik ürünler gibi açılmaz. MVP görünür çıktıları küçük tutulur:
+
+- web vitrini taslağı,
+- basit hizmet / ürün listesi,
+- dinamik kısa link / QR hedef taslağı,
+- kurulum özeti ve eksik listesi.
+
+Canlı yayın, QR hedef aktivasyonu, dış hesap değişikliği, müşteri adına mesaj, ödeme, randevu veya sipariş gibi işlemler agent tarafından otomatik yapılmaz; approval veya operasyon devrine düşer.
 
 Ana prensip:
 
-> EsnafDigital 360'ın ürün mantığı, işletme ajanı etrafında işletme profilini, dijital çıktıları, görevleri ve bakım sürecini tek sistemde birleştirmektir.
-
----
+> EsnafDigital 360'ın ürün mantığı, işletme ajanı etrafında işletme profilini, dijital çıktıları, görevleri, onayları ve bakım sürecini tek sistemde birleştirmektir.

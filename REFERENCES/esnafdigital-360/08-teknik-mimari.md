@@ -1,131 +1,159 @@
 > Aktif 360 bolum dosyasi.
-> Durum: bastan yazildi; kurucu onayi icin hazir.
+> Durum: MVP kabul standardiyla hizalandi; API tool sozlesmesi ve tenant siniri daraltildi.
 
 ---
 
 # 8. Teknik Mimari
 
-EsnafDigital 360, tek parca bir uygulama gibi degil; gorevi ayrilmis katmanlar halinde kurulmalıdır.
+EsnafDigital 360, tek parça bir uygulama gibi değil; görevi ayrılmış katmanlar halinde kurulmalıdır.
 
-Temel akis:
+Temel akış:
 
 ```text
-Isletme sahibi
+İşletme sahibi
    ↓
-Mesajlasma kanali
+Mesajlaşma kanalı
    ↓
-Kanal adapteri / routing
+Kanal adapteri / explicit routing-binding
    ↓
-Ilgili OpenClaw Isletme Ajani
+İlgili OpenClaw İşletme Ajanı
    ↓
-Sinirli EsnafDigital API tool'lari
+Sınırlı EsnafDigital API tool'ları
    ↓
-EsnafDigital App / Database / Web Vitrini / QR / Katalog / Gorevler / Raporlar
+EsnafDigital App / Database / Web Vitrini / QR / Katalog / Görev / Onay / Audit
 ```
 
-Bu mimaride musteri kanali, ajan runtime'i ve EsnafDigital uygulamasi birbirine karismadan calisir.
+Bu mimaride müşteri kanalı, ajan runtime'ı ve EsnafDigital uygulaması birbirine karışmadan çalışır.
 
-## 8.1 Kanal Katmani
+## 8.1 Kanal Katmanı
 
-Kanal katmani, isletme sahibinin ajana ulasma yoludur.
+Kanal katmanı, işletme sahibinin ajana ulaşma yoludur.
 
-Ornek kanallar:
+Örnek kanallar:
 
 - Telegram,
 - WhatsApp,
-- webchat / web panel,
+- webchat,
 - e-posta,
 - ileride mobil uygulama.
 
-Kanal katmaninin gorevi sadece sudur:
+Kanal katmanının görevi sadece şudur:
 
-1. mesaji almak,
-2. gondereni ve bagli isletmeyi anlamak,
-3. mesaji dogru OpenClaw Isletme Ajani'na yonlendirmek,
-4. ajanin cevabini ayni kanaldan geri iletmek.
+1. mesajı almak,
+2. göndereni ve bağlı işletmeyi anlamak,
+3. allowlist / pairing ve binding kontrolünü uygulamak,
+4. mesajı doğru OpenClaw İşletme Ajanı'na yönlendirmek,
+5. ajanın cevabını aynı kanaldan geri iletmek.
 
-Kanal katmani is kurallarini tasimaz. Ajan mantigi WhatsApp veya Telegram icine yazilmaz.
+Kanal katmanı iş kurallarını taşımaz. Ajan mantığı WhatsApp veya Telegram içine yazılmaz.
 
 ## 8.2 OpenClaw Runtime
 
-OpenClaw Runtime, isletme ajanlarinin calistigi katmandir.
+OpenClaw Runtime, işletme ajanlarının çalıştığı katmandır.
 
 Bu katmanda:
 
-- her isletmenin ayri OpenClaw Isletme Ajani vardir,
-- her agent'in ayri workspace'i vardir,
-- her agent'in ayri hafizasi, oturumu ve yetki profili vardir,
-- agent mesajlasma uzerinden bilgi toplar,
+- her işletmenin ayrı OpenClaw İşletme Ajanı vardır,
+- her agent'ın ayrı workspace'i vardır,
+- her agent'ın ayrı agentDir'i ve session store'u vardır,
+- her agent'ın ayrı hafızası, oturumu ve yetki profili vardır,
+- agent mesajlaşma üzerinden bilgi toplar,
 - eksikleri takip eder,
-- icerik veya rapor taslagi uretir,
-- gerekiyorsa EsnafDigital API tool'larini cagirir,
-- riskli islerde onay ister.
+- içerik veya rapor taslağı üretir,
+- gerektiğinde EsnafDigital API tool'larını çağırır,
+- riskli işlerde onay ister.
 
-OpenClaw Runtime, EsnafDigital veritabanina dogrudan erismez.
+OpenClaw Runtime, EsnafDigital veritabanına doğrudan erişmez.
+
+Workspace yalnızca çalışma alanıdır; tek başına güvenlik sınırı değildir. Güvenlik; tool policy, sandbox, API tenant kontrolü, audit, onay ve kill switch ile sağlanır.
 
 ## 8.3 EsnafDigital App
 
-EsnafDigital App, urunun veri ve operasyon merkezidir.
+EsnafDigital App, ürünün veri ve operasyon merkezidir.
 
 Burada tutulacak ana alanlar:
 
-- isletme kayitlari,
-- Isletme Ajani Kayitlari,
-- musteri / yetkili kisi bilgileri,
-- aktif paket ve moduller,
-- web vitrini verileri,
-- menu / katalog / hizmet listesi verileri,
-- QR ve kisa link verileri,
-- fotograf ve medya varliklari,
-- gorevler,
-- bakim takipleri,
-- raporlar,
-- odeme ve paket durumu,
+- işletme kayıtları,
+- İşletme Ajanı Kayıtları,
+- müşteri / yetkili kişi bilgileri,
+- aktif paket ve modüller,
+- web vitrini taslakları / yayın bilgileri,
+- menü / katalog / hizmet listesi taslakları,
+- QR ve kısa link verileri,
+- fotoğraf ve medya talepleri,
+- görevler,
+- onay kayıtları,
+- audit log,
+- bakım takipleri,
+- kurulum özetleri,
 - admin panel.
 
-Musteri paneli ilk MVP'nin zorunlu parcasi degildir. Ilk asamada musteri arayuzu mesajlasma kanali olabilir.
+Müşteri paneli ilk MVP'nin zorunlu parçası değildir. İlk aşamada müşteri arayüzü mesajlaşma kanalıdır.
 
-## 8.4 EsnafDigital API ve Tool Siniri
+## 8.4 EsnafDigital API ve Tool Sınırı
 
-OpenClaw isletme ajanlari veritabanina direkt baglanmaz.
+OpenClaw işletme ajanları veritabanına direkt bağlanmaz.
 
-Dogru baglanti:
+Doğru bağlantı:
 
 ```text
-OpenClaw Isletme Ajani
+OpenClaw İşletme Ajanı
    ↓
-Sinirli tool/plugin
+Sınırlı tool/plugin
    ↓
 EsnafDigital API
    ↓
-Database / operasyon kayitlari
+Database / operasyon kayıtları
 ```
 
-Bu sinir guvenlik ve kontrol icin zorunludur.
+Bu sınır güvenlik ve kontrol için zorunludur.
 
-Ilk tool/API islemleri sunlar olabilir:
+İlk MVP'de agent'a açılabilecek minimum tool listesi:
 
-- isletme profilini getir,
-- eksik bilgi listesini getir,
-- isletme bilgisi guncelle,
-- fotograf veya dosya ekleme talebi olustur,
-- menu / katalog / hizmet bilgisi ekle,
-- QR veya yorum linki olustur,
-- gorev ac,
-- bakim notu ekle,
-- musteri talebi kaydet,
-- kisa rapor taslagi olustur.
+| Tool | Amaç |
+|---|---|
+| `ed360.get_business_snapshot` | Kendi işletmesinin profil, eksik, görev ve çıktı durumunu okumak |
+| `ed360.save_profile_draft` | Düşük riskli profil alanlarını taslak olarak kaydetmek |
+| `ed360.upsert_service_item_draft` | Basit hizmet / ürün kalemi taslağı oluşturmak |
+| `ed360.create_media_request` | Fotoğraf veya görsel ihtiyacı için talep açmak |
+| `ed360.generate_web_preview` | Canlı olmayan web vitrini önizlemesi üretmek |
+| `ed360.create_shortlink_draft` | QR/kısa link hedef taslağı oluşturmak |
+| `ed360.create_task` | Operasyon veya müşteri işi açmak |
+| `ed360.create_approval_request` | Riskli işlem için onay kaydı açmak |
+| `ed360.save_setup_summary` | Kurulum özeti ve sonraki adımı kaydetmek |
 
-Riskli islemler dogrudan calismaz; onay veya operasyon devri ister.
+İlk MVP'de doğrudan publish, QR activate, Google/Instagram/WhatsApp update, ödeme, randevu, sipariş, dış mesaj veya veri silme tool'u açılmaz.
 
-## 8.5 Skill, Workspace ve Tool Ayrimi
+## 8.5 API Tenant Kontrolü
 
-Bu sistemde uc farkli parca karistirilmamalidir:
+API, agent'ın body içinde gönderdiği `business_id` değerini yetki kanıtı saymamalıdır.
 
-- **Workspace dosyalari:** isletme agent'inin kim oldugunu, hangi isletme icin calistigini ve hangi sinirlara sahip oldugunu anlatir.
-- **Skill / davranis rehberi:** ajanin nasil dusunecegini, nasil soru soracagini ve hangi akisi izleyecegini tarif eder.
-- **Tool / plugin:** ajanin EsnafDigital API uzerinde gercek islem yapmasini saglar.
+Yetki şu zincirle çözülür:
 
-Ajan davranisi dosya/skill tarafinda tarif edilir; gercek sistem islemleri ise yalniz sinirli tool/API katmani uzerinden yapilir.
+```text
+per-agent token / service identity
+↓
+openclaw_agent_id veya agent_record_id
+↓
+İşletme Ajanı Kaydı
+↓
+server-side business_id
+↓
+permission profile / tool policy
+↓
+field-level izin ve risk kontrolü
+```
 
----
+Her tool çağrısı audit log'a bağlanmalıdır. Tenant mismatch veya denylist tool denemesi P0 güvenlik olayıdır.
+
+## 8.6 Skill, Workspace ve Tool Ayrımı
+
+Bu sistemde üç farklı parça karıştırılmamalıdır:
+
+- **Workspace dosyaları:** işletme agent'ının kim olduğunu, hangi işletme için çalıştığını ve hangi sınırlara sahip olduğunu anlatır.
+- **Skill / davranış rehberi:** ajanın nasıl düşüneceğini, nasıl soru soracağını ve hangi akışı izleyeceğini tarif eder.
+- **Tool / plugin:** ajanın EsnafDigital API üzerinde gerçek işlem yapmasını sağlar.
+
+Ajan davranışı dosya/skill tarafında tarif edilir; gerçek sistem işlemleri ise yalnız sınırlı tool/API katmanı üzerinden yapılır.
+
+İlk MVP'de skill yüzeyi genişletilmemeli; gerekirse yalnızca audited EsnafDigital intake davranışı kullanılmalıdır.
